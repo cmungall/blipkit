@@ -12,7 +12,6 @@ One of the goals is to make the individual modules more independent
 
 * Rename all .pro files to .pl
 * simplify directory structure, package/blip/X/ --> X/
-* move from svn to github
 * merge phylo/ and homol/
 * merge curation/ and ontol/
 ** separate project for each package? use git submodules
