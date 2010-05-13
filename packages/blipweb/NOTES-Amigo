@@ -1,0 +1,53 @@
+This is an AmiGO-nextgen prototype
+
+The code may be ported to SQL+Another language before going into
+production; the intent here is to experiment with new ideas such as
+complex cross-product annotations and new ontology models. This is
+hard to do with the existing Amigo architecture
+
+This code uses the serval web-application framework
+
+The Amigo code is split into building blocks:
+
+amigo_core : viewing and querying ontologies; generic instances
+amigo_mutant : for phenotypic and mutant allele instances
+amigo_feature : for generic bio feature data such as genes and gene products
+
+Each building block is split into 4 sections
+
+ config
+ model
+ view
+ controller
+
+See the serval docs for a discussion of writing web applications using
+the MVC architecture
+
+amigo is run using different conf files. A conf defines a
+sub-application; eg a plant GO association browser, or a zebrafish
+phenotype viewer. The conf file defines both the data and building
+blocks used
+
+INSTALLATION
+
+install bioprolog
+
+SETUP
+
+Make sure the logical paths amigo_src and amigo-conf are in your .plrc
+or somewhere loaded at startup time
+
+[TODO: this may eventually go somewhere like ~/.amigoplrc]
+
+user:file_search_path(amigo_src,'/users/cjm/cvs/bioprolog/apps/amigo/src').
+user:file_search_path(amigo_conf,'/users/cjm/cvs/bioprolog/apps/amigo/conf').
+
+In addition, make sure any bioresource in the amigo subapplication
+conf file is refered to in your .plrc file
+
+RUNNING
+
+  export PATH="$HOME/cvs/bioprolog/apps/amigo/src:$PATH"
+  run-amigod -p 8080 -c conf_obd
+
+

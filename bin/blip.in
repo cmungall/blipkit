@@ -1,0 +1,45 @@
+#!@SWIPL@ -L0 -G0 -T0 -q -g main -t halt -s
+
+user:file_search_path(blipkit,'@PLLIBDIR@/blip').
+system:program_info(package('@PACKAGE_TARNAME@','@PACKAGE_VERSION@')).
+
+user:file_search_path(bio, blipkit(attic)).
+user:file_search_path(bio, blipkit(biblio)).
+user:file_search_path(bio, blipkit(bionlp)).
+user:file_search_path(bio, blipkit(blipcore)).
+user:file_search_path(bio, blipkit(curation)).
+user:file_search_path(bio, blipkit(genomic)).
+user:file_search_path(bio, blipkit(homol)).
+user:file_search_path(bio, blipkit(metadata)).
+user:file_search_path(bio, blipkit(obolog)).
+user:file_search_path(bio, blipkit(omim)).
+user:file_search_path(bio, blipkit(graph)).
+user:file_search_path(bio, blipkit(ontol)).
+user:file_search_path(bio, blipkit(geo)).
+user:file_search_path(bio, blipkit(pheno)).
+user:file_search_path(bio, blipkit(phylo)).
+user:file_search_path(bio, blipkit(rdft)).
+user:file_search_path(bio, blipkit(sb)).
+user:file_search_path(bio, blipkit(serval)).
+user:file_search_path(bio, blipkit(sql)).
+user:file_search_path(bio, blipkit(stats)).
+user:file_search_path(bio, blipkit(structure)).
+user:file_search_path(bio, blipkit(variation)).
+user:file_search_path(bio, blipkit(web)).
+user:file_search_path(bio, blipkit(xml)).
+
+/*
+
+  blip: main command line interface
+  
+*/
+
+:- use_module(bio(blipkit)).
+:- use_module(bio(blipkit_ontol)).
+:- use_module(bio(blipkit_phylo)).
+:- use_module(bio(blipkit_fasta)).
+:- use_module(bio(blipkit_sb)).
+:- use_module(bio(blipkit_pathway)).
+:- use_module(bio(blipkit_web)).
+
+

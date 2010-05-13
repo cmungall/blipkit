@@ -1,0 +1,659 @@
+<?xml version="1.0"?>
+
+<phenoset xmlns="http://www.bioontologies.org/obd/schema/pheno">
+  <genotype id="FlyBase:FBal0145168" organism="taxon:7227">
+    <name>Bsb&lt;sup&gt;2&lt;/sup&gt;</name>
+    <genotype_feature_link feature="FlyBase:Bsb"></genotype_feature_link></genotype>
+  <genotype id="FlyBase:FBal0033484" organism="taxon:7227">
+    <name>Ca-&amp;alpha;1D&lt;sup&gt;AR66&lt;/sup&gt;</name>
+    <genotype_feature_link feature="FlyBase:Ca-&amp;alpha;1D"></genotype_feature_link></genotype>
+  <genotype id="FlyBase:FBal0066052" organism="taxon:7227">
+    <name>Ca-&amp;alpha;1D&lt;sup&gt;AR66&lt;/sup&gt;</name>
+    <genotype_feature_link feature="FlyBase:Ca-&amp;alpha;1D"></genotype_feature_link></genotype>
+  <genotype id="FlyBase:FBal0063160" organism="taxon:7227">
+    <name>Ca-&amp;alpha;1D&lt;sup&gt;AR66&lt;/sup&gt;</name>
+    <genotype_feature_link feature="FlyBase:Ca-&amp;alpha;1D"></genotype_feature_link></genotype>
+  <genotype id="FlyBase:FBal0030521" organism="taxon:7227">
+    <name>asl&lt;sup&gt;1&lt;/sup&gt;</name>
+    <genotype_feature_link feature="FlyBase:asl"></genotype_feature_link></genotype>
+  <genotype id="FlyBase:FBal0039229" organism="taxon:7227">
+    <name>dac&lt;sup&gt;3&lt;/sup&gt;</name>
+    <genotype_feature_link feature="FlyBase:dac"></genotype_feature_link></genotype>
+  <genotype id="FlyBase:FBal0006856" organism="taxon:7227">
+    <name>egh&lt;sup&gt;27&lt;/sup&gt;</name>
+    <genotype_feature_link feature="FlyBase:egh"></genotype_feature_link></genotype>
+  <genotype id="FlyBase:FBal0005580" organism="taxon:7227">
+    <name>if&lt;sup&gt;3&lt;/sup&gt;</name>
+    <genotype_feature_link feature="FlyBase:if"></genotype_feature_link></genotype>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0145168"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="FBbt:00004519"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000460"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0145168"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="FBbt:00005913"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000402"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0145168"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="FBbt:00005913"></typeref></bearer></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0145168"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="FBbt:00005913"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000940"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0145168"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="GO:"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000716"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0145168"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="GO:"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000297"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0145168"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="FBbt:00005913"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000591"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0145168"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="FBbt:00005913"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000940"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0145168"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="GO:0007469"></typeref></bearer></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0145168"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="GO:0005884"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000940"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0145168"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="GO:0005884"></typeref></bearer></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0145168"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="GO:0005874"></typeref></bearer></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0033484"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="FBdv:00005369"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000718"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0033484"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="GO:0007562"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000297"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0033484"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="GO:0007562"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000297"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0033484"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="GO:0007562"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000461"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0033484"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="GO:0007275"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000716"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0033484"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="GO:0007476"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000297"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0033484"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="GO:0030534"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000770"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0033484"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="FBbt:00001103"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000297"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0033484"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="CL:0000098"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000297"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0033484"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="FBbt:00002450"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000297"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0033484"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="CL:0000100"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000297"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0033484"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="FBbt:00002450"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000297"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0033484"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="FBbt:00005123"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000297"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0066052"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="FBbt:00004751"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000621"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0066052"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="FBbt:00004751"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000621"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0066052"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="GO:0007474"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000621"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0066052"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="GO:0007474"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000621"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0066052"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="FBbt:00004760"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000402"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0063160"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="FBbt:00000052"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000718"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0063160"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="FBbt:00000052"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000718"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0063160"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="FBbt:00000052"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000718"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0063160"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="FBbt:00000155"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000460"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0063160"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="FBbt:00000155"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000460"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0063160"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="FBbt:00000155"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000460"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0063160"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="GO:0016331"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000460"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0063160"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="GO:0016331"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000460"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0063160"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="GO:0016331"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000460"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0063160"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="FBbt:00005744"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000460"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0063160"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="FBbt:00005744"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000460"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0063160"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="FBbt:00005744"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000460"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0063160"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="FBbt:00000434"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000461"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0063160"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="FBbt:00000434"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000461"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0063160"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="FBbt:00000434"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000461"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0030521"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="FBbt:00003004"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000719"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0030521"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="FBbt:00003004"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000719"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0030521"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="FBbt:00003004"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000177"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0030521"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="GO:0000003"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000177"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0030521"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="FBbt:00003004"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000174"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0030521"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="GO:0000003"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000174"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0030521"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="FBbt:00004945"></typeref></bearer></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0030521"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="FBbt:00004945"></typeref></bearer></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0030521"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="FBbt:00004936"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000462"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0030521"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="FBbt:00004936"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000462"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0030521"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="GO:0005814"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000461"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0030521"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="GO:0007100"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000460"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0030521"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="GO:0007132"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000716"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0030521"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="GO:0007133"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000716"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0039229"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="FBbt:00004640"></typeref></bearer></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0039229"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="GO:0016348"></typeref></bearer></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0039229"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="GO:0007480"></typeref></bearer></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0039229"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="FBbt:00004640"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000460"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0039229"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="FBbt:00004644"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000460"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0039229"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="FBbt:00004642"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000460"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0039229"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="FBbt:00004646"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000460"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0039229"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="FBbt:00004645"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000460"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0039229"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="FBbt:00001780"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000719"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0006856"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="FBbt:00000046"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000642"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0006856"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="FBbt:00001056"></typeref></bearer></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0006856"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="GO:0018991"></typeref></bearer></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0006856"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="GO:0009993"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000297"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0006856"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="FBbt:00004894"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000460"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0006856"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="FBbt:00004886"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000650"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0006856"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="FBbt:00004860"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000460"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0006856"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="FBbt:00004904"></typeref></bearer></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0006856"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="FBbt:00004904"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000460"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0006856"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="FBbt:00004910"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000330"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0006856"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="GO:0030154"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000297"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0005580"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="FBbt:00003004"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000719"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0005580"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="FBbt:00004729"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000643"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="FlyBase:FBal0005580"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="FBbt:00004729"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000643"></typeref></quality></phenotype_character></phenotype></phenotype_manifestation></phenoset>

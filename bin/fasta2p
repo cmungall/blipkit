@@ -1,0 +1,39 @@
+#!/usr/bin/perl
+use strict;
+my $eol = "";
+foreach my $fn (@ARGV) {
+    open(F, $fn) || die $fn;
+    while(<F>) {
+        chomp;
+        if (/^\>(.*)/) {
+            my $hdr = $1;
+            my ($id,$desc) = ('','');
+            if ($hdr =~ /^\s*(\S+)\s+(.*)/) {
+                ($id,$desc) = ($1,$2);
+            }
+            else {
+                $id = $hdr;
+            }
+            printf "%sfastaseq(%s,%s,'",
+              $eol,pquote($id),pquote($desc);
+            $eol = "').\n";
+        }
+        else {
+            print $_;
+        }
+    }
+    print $eol;
+    close(F);
+}
+
+sub pquote {
+    my $s = shift;
+    $s='' unless defined $s;
+    if ($s =~ /^\-?[0-9]+$/) {
+	return $s;
+    }
+    return "''" unless $s;
+    $s =~ s/\'/\'\'/g;
+    "'$s'";
+}
+

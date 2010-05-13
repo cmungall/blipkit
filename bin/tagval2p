@@ -1,0 +1,120 @@
+#!/usr/bin/perl
+
+use strict;
+use Getopt::Long;
+
+my $fields = '';
+my $delimiter = "\t";
+my $newrecord = "\n\n";
+my $idtag = 'id';
+my $pred;
+my $cols;
+my $prefixcolh = {};
+my @pre = ();
+my $use_hdr;
+my $ns;
+my $reify;
+@ARGV = map {if (/^\-f(\d+)/) {("-f", $1)}else{$_}} @ARGV;
+GetOptions("fields|f=s"=>\$fields,
+	   "delimiter|d=s"=>\$delimiter,
+	   "newrecord=s"=>\$newrecord,
+           "predicate|p=s"=>\$pred,
+	   "module|m=s"=>\$ns,
+           "reify"=>\$reify,
+           "idtag=s"=>\$idtag,
+           "cols|c=s"=>\$cols,
+           "prefix=s%"=>$prefixcolh,
+           "pre=s@"=>\@pre,
+           "use_hdr"=>\$use_hdr,
+	  );
+
+if ($newrecord) {
+    $/ = $newrecord;
+}
+else {
+    $newrecord = "\n";
+}
+
+my $line_no=0;
+my %warn_h = ();
+while(<>) {
+    $line_no++;
+    chomp;
+    my @tagvals = split(/\n/);
+    my $id;
+    foreach (@tagvals) {
+        #my @fields = split(/$delimiter/, $_, -1); # preserve trailing blank
+        if (/^(\S+)$delimiter(.*)/) {
+            my $tag = $1;
+            my $val = $2;
+            if ($tag eq $idtag) {
+                $id = $val;
+            }
+            else {
+                if (!$id) {
+                    print STDERR "uh-oh! No ID for $_\n";
+                }
+                else {
+                    if ($reify) {
+                        print fact('ontol_db:inst_sv',$id,$tag,$val,'xsd:string');
+                    }
+                    else {
+                        print fact($tag,$id,$val);
+                    }
+                }
+            }
+        }
+        else {
+            print STDERR "uh-oh! $_\n";
+        }
+    }
+}
+exit 0;
+
+sub fact {
+    my ($p,@args) = @_;
+    if ($ns) {
+	$p = "$ns:$p";
+    }
+    return
+        sprintf("$p(%s).\n",
+                join(', ', map {pquote($_)} @args));
+}
+
+sub pquote {
+    my $s = shift;
+    $s='' unless defined $s;
+    if ($s =~ /^\-?[0-9]+$/) {
+	return $s;
+    }
+    $s =~ s@\\@\\\\@g;
+    $s =~ s/\'/\'\'/g;
+    "'$s'";
+}
+
+__END__
+
+=head1 NAME
+
+=head1 SYNOPSIS
+
+
+=head1 DESCRIPTION
+
+=head2 ARGUMENTS
+
+=over
+
+
+=item d|delimiter
+
+tab is the default
+
+=item newrecord
+
+\n is the default
+
+=back
+
+=cut
+

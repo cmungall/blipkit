@@ -1,0 +1,672 @@
+id	po_anatomy_xp-obol
+type	logical_definitions
+title	automated cross products for plant anatomy (internal)
+namespace	po_anatomy_xp-obol
+extends	po_anatomy
+uses	relationship
+foundry	no
+status	Draft
+download	po_anatomy_xp.obo|http://obo.cvs.sourceforge.net/*checkout*/obo/obo/ontology/anatomy/anatomy_xp/po_anatomy_xp.obo
+source	
+home	
+documentation	http://www.berkeleybop.org/obol
+contact	Chris Mungall|cjm@berkeleybop.org
+format	obo
+description	Automated cross-products for plant anatomy (internal). All internal - no other OBO ontologies used. These logical definitions / cross products have been automatically generated - use with caution!
+
+id	po_anatomy_xp_cell-obol
+type	logical_definitions
+title	promoted cross products for plant anatomy to OBO cell ontology
+namespace	po_anatomy_cell_xp-obol
+extends	po_anatomy
+uses	relationship
+uses	cell
+foundry	no
+status	Draft
+download	plant_anatomy_xp_cell.obo|http://obo.cvs.sourceforge.net/*checkout*/obo/obo/ontology/anatomy/anatomy_xp/plant_anatomy_xp_cell.obo
+source	
+home	
+documentation	http://www.berkeleybop.org/obol
+contact	Chris Mungall|cjm@berkeleybop.org
+format	obo
+description	Promoted xrefs; any PO term with an xref to a CL ID is treated as the plant-specific subtype of that cell. We use taxid 33090 Viridiplantae. Examples: PO:egg_cell is_a CL:egg_cell that part_of some plant. See http://www.bioontology.org/wiki/index.php/CL:Aligning_species-specific_anatomy_ontologies_with_CL
+
+
+id	zebrafish_anatomy_xp-obol
+type	logical_definitions
+title	automated cross products for zebrafish anatomy (internal)
+namespace	zebrafish_anatomy_xp-obol
+extends	zebrafish_anatomy
+uses	relationship
+foundry	no
+status	Draft
+download	zebrafish_anatomy_xp.obo|http://obo.cvs.sourceforge.net/*checkout*/obo/obo/ontology/anatomy/anatomy_xp/zebrafish_anatomy_xp.obo
+source	
+home	
+documentation	http://www.berkeleybop.org/obol
+contact	Chris Mungall|cjm@berkeleybop.org
+format	obo
+description	Automated cross-products for plant anatomy. All internal - no other OBO ontologies used. These logical definitions / cross products have been automatically generated - use with caution!
+
+id	zebrafish_anatomy_xp_cell-obol
+type	logical_definitions
+title	promoted cross products for zebrafish anatomy to OBO cell ontology
+namespace	zebrafish_anatomy_xp_cell-obol
+extends	zebrafish_anatomy
+uses	relationship
+uses	cell
+foundry	no
+status	Draft
+download	zebrafish_anatomy_xp_cell.obo|http://obo.cvs.sourceforge.net/*checkout*/obo/obo/ontology/anatomy/anatomy_xp/zebrafish_anatomy_xp_cell.obo
+source	
+home	
+documentation	http://www.berkeleybop.org/obol
+contact	Chris Mungall|cjm@berkeleybop.org
+format	obo
+description	Promoted xrefs; any ZFA term with an xref to a CL ID is treated as the fish-specific subtype of that cell. We use taxid 7955 (D rerio), but it could be more general (teleost? Cypriniforme?). Examples: ZF:erythrocyte is_a CL:nucleate_erythrocyte that part_of some teleost organism. See http://www.bioontology.org/wiki/index.php/CL:Aligning_species-specific_anatomy_ontologies_with_CL
+
+id	fly_anatomy_xp-obol
+type	logical_definitions
+title	automated cross products for fly anatomy (mostly internal)
+namespace	fly_anatomy_xp-obol
+extends	fly_anatomy
+uses	relationship
+uses	caro
+foundry	no
+status	Draft
+download	fly_anatomy_xp.obo|http://obo.cvs.sourceforge.net/*checkout*/obo/obo/ontology/anatomy/anatomy_xp/fly_anatomy_xp.obo
+source	
+home	
+documentation	http://www.berkeleybop.org/obol
+contact	Chris Mungall|cjm@berkeleybop.org
+format	obo
+description	Automated cross-products for fly anatomy. All internal - no other OBO ontologies used. These logical definitions / cross products have been automatically generated - use with caution!
+
+id	fly_anatomy_xp_cell-obol
+type	logical_definitions
+title	promoted cross products for fly anatomy to OBO cell ontology
+namespace	fly_anatomy_xp_cell-obol
+extends	fly_anatomy
+uses	relationship
+uses	cell
+foundry	no
+status	Draft
+download	fly_anatomy_xp_cell.obo|http://obo.cvs.sourceforge.net/*checkout*/obo/obo/ontology/anatomy/anatomy_xp/fly_anatomy_xp_cell.obo
+source	
+home	
+documentation	http://www.berkeleybop.org/obol
+contact	Chris Mungall|cjm@berkeleybop.org
+format	obo
+description	Promoted xrefs; any FB term with an xref to a CL ID is treated as the fly-specific subtype of that cell. We use taxid 7277 (D mel).
+
+id	worm_anatomy_xp-obol
+type	logical_definitions
+title	automated cross products for worm anatomy (internal)
+namespace	worm_anatomy_xp-obol
+extends	worm_anatomy
+uses	relationship
+uses	ro_proposed
+foundry	no
+status	Draft
+download	worm_anatomy_xp.obo|http://obo.cvs.sourceforge.net/*checkout*/obo/obo/ontology/anatomy/anatomy_xp/worm_anatomy_xp.obo
+source	
+home	
+documentation	http://www.berkeleybop.org/obol
+contact	Chris Mungall|cjm@berkeleybop.org
+format	obo
+description	Automated cross-products for worm anatomy. All internal - no other OBO ontologies used. These logical definitions / cross products have been automatically generated - use with caution!
+
+id	tick_anatomy_xp-obol
+type	logical_definitions
+title	automated cross products for tick anatomy (internal)
+namespace	tick_anatomy_xp-obol
+extends	tick_anatomy
+uses	relationship
+uses	ro_proposed
+foundry	no
+status	Draft
+download	tick_anatomy_xp.obo|http://obo.cvs.sourceforge.net/*checkout*/obo/obo/ontology/anatomy/anatomy_xp/tick_anatomy_xp.obo
+source	
+home	
+documentation	http://www.berkeleybop.org/obol
+contact	Chris Mungall|cjm@berkeleybop.org
+format	obo
+description	Automated cross-products for tick anatomy. All internal - no other OBO ontologies used. These logical definitions / cross products have been automatically generated - use with caution! Example: Adult midgut lumen = anatomical space that surrounded_by adult midgut
+
+id	dictyostelium_anatomy_xp-obol
+type	logical_definitions
+title	automated cross products for dictyostelium anatomy (internal)
+namespace	dictyostelium_anatomy_xp-obol
+extends	dictyostelium_discoideum_anatomy
+uses	relationship
+foundry	no
+status	Draft
+download	dictyostelium_anatomy_xp.obo|http://obo.cvs.sourceforge.net/*checkout*/obo/obo/ontology/anatomy/anatomy_xp/dictyostelium_anatomy_xp.obo
+source	
+home	
+documentation	http://www.berkeleybop.org/obol
+contact	Chris Mungall|cjm@berkeleybop.org
+format	obo
+description	Automated cross-products for dictyostelium discoideum anatomy. All internal - no other OBO ontologies used. These logical definitions / cross products have been automatically generated - use with caution! Obol creates terms on-the-fly (anonymous classes) such as "surface sheath" and "mound" in order to create defs for "surface sheath of the mound"
+
+id	fma_xp-obol
+type	logical_definitions
+title	automated cross products for FMA-lite
+namespace	fma_xp-obol
+extends	fma_lite
+uses	relationship
+foundry	no
+status	Draft
+download	fma_xp.obo|http://obo.cvs.sourceforge.net/*checkout*/obo/obo/ontology/anatomy/anatomy_xp/fma_xp.obo
+source	
+home	
+documentation	http://www.berkeleybop.org/obol
+contact	Chris Mungall|cjm@berkeleybop.org
+format	obo
+description	Automated cross-products for Foundational Model of Anatomy (lite version). All internal - no other OBO ontologies used. These logical definitions / cross products have been automatically generated - use with caution! Examples of generated xp defs: parotid duct = duct that part_of parotid gland
+
+id	adult_mouse_anatomy_xp-obol
+type	logical_definitions
+title	automated cross products for adult mouse anatomy (internal) (MA)
+namespace	adult_mouse_anatomy_xp-obol
+extends	adult_mouse_anatomy
+uses	relationship
+foundry	no
+status	Draft
+download	adult_mouse_anatomy_xp.obo|http://obo.cvs.sourceforge.net/*checkout*/obo/obo/ontology/anatomy/anatomy_xp/adult_mouse_anatomy_xp.obo
+source	
+home	
+documentation	http://www.berkeleybop.org/obol
+contact	Chris Mungall|cjm@berkeleybop.org
+format	obo
+description	Automated cross-products for Adult Mouse Anatomy (JAX). All internal - no other OBO ontologies used. These logical definitions / cross products have been automatically generated - use with caution!
+
+id	cell_xp-obol
+type	logical_definitions
+title	Cell cross products to GO, PATO and CHEBI
+namespace	cell_xp-obol
+extends	cell
+uses	relationship
+uses	ro_proposed
+uses	cellular_component
+uses	quality
+uses	chebi
+foundry	no
+status	Draft
+download	cell_xp.obo|http://obo.cvs.sourceforge.net/*checkout*/obo/obo/ontology/anatomy/anatomy_xp/cell_xp.obo
+source	
+home	
+documentation	http://www.berkeleybop.org/obol
+contact	Chris Mungall|cjm@berkeleybop.org
+format	obo
+description	Automated cross-products for OBO Cell ontology, referencing GO and PATO. Examples: estradiol secreting cell = cell that outputs estradiol; anucleate cell = cell that lacks_part nucleus Some of these are a little dodgy. Eg: contractile cell = cell that has_quality contractile - this is not a good definition
+
+id	mammalian_phenotype_xp-obol
+type	logical_definitions
+title	MP cross products, additions
+namespace	mammalian_phenotype_xp-obol
+extends	mammalian_phenotype
+extends	mammalian_phenotype_xp
+uses	relationship
+uses	ro_proposed
+uses	cellular_component
+uses	biological_process
+uses	molecular_function
+uses	adult_mouse_anatomy
+uses	quality
+uses	cell
+uses	chebi
+foundry	no
+status	Draft
+download	mammalian_phenotype_xp-obol.obo|http://obo.cvs.sourceforge.net/*checkout*/obo/obo/ontology/phenotype/phenotype_xp/mammalian_phenotype_xp-obol.obo
+source	
+home	
+documentation	http://www.berkeleybop.org/obol
+contact	Chris Mungall|cjm@berkeleybop.org
+format	obo
+description	Additional cross-products for MP, generated automatically by Obol. Extends the curated set, mammalian_phenotype_xp. This automated export is occasionally vetted and imported into the curated set
+
+id	plant_trait_xp-obol
+type	logical_definitions
+title	plant_trait cross products, additions
+namespace	plant_trait_xp-obol
+extends	plant_trait
+extends	plant_trait_xp
+uses	relationship
+uses	ro_proposed
+uses	cellular_component
+uses	biological_process
+uses	molecular_function
+uses	po_anatomy
+uses	plant_environment
+uses	quality
+foundry	no
+status	Draft
+download	plant_trait_xp-obol.obo|http://obo.cvs.sourceforge.net/*checkout*/obo/obo/ontology/phenotype/phenotype_xp/plant_trait_xp-obol.obo
+source	
+home	
+documentation	http://www.berkeleybop.org/obol
+contact	Chris Mungall|cjm@berkeleybop.org
+format	obo
+description	Additional cross-products for TO, generated automatically by Obol. Extends the curated set, plant_trait_xp.
+
+id	worm_phenotype_xp-obol
+type	logical_definitions
+title	MP cross products, additions
+namespace	worm_phenotype_xp-obol
+extends	worm_phenotype
+uses	relationship
+uses	ro_proposed
+uses	cellular_component
+uses	biological_process
+uses	molecular_function
+uses	worm_anatomy
+uses	quality
+uses	cell
+uses	chebi
+foundry	no
+status	Draft
+download	worm_phenotype_xp-obol.obo|http://obo.cvs.sourceforge.net/*checkout*/obo/obo/ontology/phenotype/phenotype_xp/worm_phenotype_xp-obol.obo
+source	
+home	
+documentation	http://www.berkeleybop.org/obol
+contact	Chris Mungall|cjm@berkeleybop.org
+format	obo
+description	Cross-products for worm_phenotype, generated automatically by Obol. As a result of the automatic generation process, suggestions are made for new GO terms to help complete the definitions. E.g. for "necrotic cell death increased" obol creates an on-the-fly process term "necrotic cell death", and attempts to create ab xp def for this term. Most of these should be ignored.
+
+id	biological_process_xp_regulation_of_function-obol
+type	logical_definitions
+title	GO biological process cross products to molecular function regulation terms
+namespace	biological_process_xp_regulation_of_function-obol
+extends	biological_process
+uses	ro_proposed
+uses	molecular_function
+uses	relationship
+foundry	no
+status	Draft
+download	biological_process_xp_regulation_of_function-obol.obo|ftp://ftp.geneontology.org/pub/go/scratch/obol_results/biological_process_xp_regulation_of_function-obol.obo
+source	
+home	
+documentation	http://www.berkeleybop.org/obol
+contact	Chris Mungall|cjm@berkeleybop.org
+format	obo
+description	Cross-products for GO biological process terms that are kinds of regulation of molecular function. See also regulation_of_biological_process and regulation_of_quality
+
+id	biological_process_xp_regulation_of_process-obol
+type	logical_definitions
+title	GO biological process cross products to molecular process regulation terms
+namespace	biological_process_xp_regulation_of_process-obol
+extends	biological_process
+uses	ro_proposed
+uses	relationship
+foundry	no
+status	Draft
+download	biological_process_xp_regulation_of_process-obol.obo|ftp://ftp.geneontology.org/pub/go/scratch/obol_results/biological_process_xp_regulation_of_process-obol.obo
+source	
+home	
+documentation	http://www.berkeleybop.org/obol
+contact	Chris Mungall|cjm@berkeleybop.org
+format	obo
+description	Cross-products for GO biological process terms that are kinds of regulation of biological process. This is exactly the same as the "vetted" file available from the main OBO Downloads page (http://www.berkeleybop.org/ontologies#go_xp_regulation) but is included here for completeness, to mirror the other regulation xps
+
+id	biological_process_xp_quality-obol
+type	logical_definitions
+title	GO biological process cross products to PATO (using CL and CHEBI)
+namespace	biological_process_xp_quality-obol
+extends	biological_process
+uses	ro_proposed
+uses	cellular_component
+uses	quality
+uses	cell
+uses	chebi
+uses	relationship
+foundry	no
+status	Draft
+download	biological_process_xp_quality-obol.obo|ftp://ftp.geneontology.org/pub/go/scratch/obol_results/biological_process_xp_quality-obol.obo
+source	
+home	
+documentation	http://www.berkeleybop.org/obol
+contact	Chris Mungall|cjm@berkeleybop.org
+format	obo
+description	Cross-products for GO process terms to PATO. This is primarily for "regulation of biological quality" terms. At present, this list of xps is rather limited. It includes xp defs that refer to cellular component types, cell types or chemical entity types (for example: *regulation of autophagic vacuole size*,  *reduction of cytosolic calcium ion concentration*). However, qualities of gross anatomical entities (eg *regulation of /blood/ pressure*) are found in the biological_process_xp_*TAXON*_anatomy xp files, not here.
+
+id	biological_process_xp_cellular_component-obol
+type	logical_definitions
+title	GO biological process cross products to GO cellular_component (internal xps)
+namespace	biological_process_xp_cellular_component-obol
+extends	biological_process
+uses	ro_proposed
+uses	cellular_component
+uses	relationship
+foundry	no
+status	Draft
+download	biological_process_xp_cellular_component-obol.obo|ftp://ftp.geneontology.org/pub/go/scratch/obol_results/biological_process_xp_cellular_component-obol.obo
+source	
+home	
+documentation	http://www.berkeleybop.org/obol
+contact	Chris Mungall|cjm@berkeleybop.org
+format	obo
+description	Cross-products for GO process terms to GO cellular component terms. Examples: spore wall assembly. These xps are internal to GO - no external OBO ontologies are used. May contain numerous syetmatic errors: eg plasma membrane acetate transport = transport of plasma membrane; to be fixed.
+
+id	biological_process_xp_self-obol
+type	logical_definitions
+title	GO biological process cross products to BP (internal xps)
+namespace	biological_process_xp_self-obol
+extends	biological_process
+uses	ro_proposed
+uses	relationship
+foundry	no
+status	Draft
+download	biological_process_xp_self-obol.obo|ftp://ftp.geneontology.org/pub/go/scratch/obol_results/biological_process_xp_self-obol.obo
+source	
+home	
+documentation	http://www.berkeleybop.org/obol
+contact	Chris Mungall|cjm@berkeleybop.org
+format	obo
+description	Cross-products for GO biological process terms to other GO biological process terms, excluding those found in biological_process_xp_regulation_of_process. Examples: tolerance induction dependent upon immune response.. These xps are internal to GO - no external OBO ontologies are used. 
+
+id	biological_process_xp_cell-obol
+type	logical_definitions
+title	GO biological process cross products to cell
+namespace	biological_process_xp_cell-obol
+extends	biological_process
+uses	ro_proposed
+uses	cell
+uses	relationship
+uses	cellular_component
+foundry	no
+status	Draft
+download	biological_process_xp_cell-obol.obo|ftp://ftp.geneontology.org/pub/go/scratch/obol_results/biological_process_xp_cell-obol.obo
+source	
+home	
+documentation	http://www.berkeleybop.org/obol
+contact	Chris Mungall|cjm@berkeleybop.org
+format	obo
+description	Cross-products for GO process terms to OBO Cell ontology. Automatically generated. Note: currently redundant with go_xp_cell; the two sets will be merged. Examples: neuron differentiation = cell differentiation that results_in_acquisition_of_features_of a neuron. These xps make use of a number of new relations, currently in the ro_proposed holding area. These auto-generated xps are of a reasonably high quality (but have still not been vetted manually). 
+
+id	biological_process_xp_sequence-obol
+type	logical_definitions
+title	GO biological process cross products to sequence bearing molecules (SO)
+namespace	biological_process_xp_sequence-obol
+extends	biological_process
+uses	ro_proposed
+uses	sequence
+uses	chebi
+uses	relationship
+foundry	no
+status	Draft
+download	biological_process_xp_sequence-obol.obo|ftp://ftp.geneontology.org/pub/go/scratch/obol_results/biological_process_xp_sequence-obol.obo
+source	
+home	
+documentation	http://www.berkeleybop.org/obol
+contact	Chris Mungall|cjm@berkeleybop.org
+format	obo
+description	EXPERIMENTAL. Cross-products for GO process terms to SO. This involves treating SO terms as if they represented molecular entities, rather than the sequences of these entities. This results in some definition clashes with existing xp files (for example, "chromosome localization" is already defined in biological_process_xp_cellular_component); these are mostly excluded. 
+
+id	biological_process_xp_chebi-obol
+type	logical_definitions
+title	GO biological process cross products to chebi, additions
+namespace	biological_process_xp_chebi-obol
+extends	biological_process
+extends	go_xp_chebi
+uses	ro_proposed
+uses	ro_ucdhsc
+uses	chebi
+uses	relationship
+foundry	no
+status	Draft
+download	biological_process_xp_chebi-obol.obo|ftp://ftp.geneontology.org/pub/go/scratch/obol_results/biological_process_xp_chebi-obol.obo
+source	
+home	
+documentation	http://www.berkeleybop.org/obol
+contact	Chris Mungall|cjm@berkeleybop.org
+format	obo
+description	Additional Cross-products for GO process terms to ChEBI. Automatically generated as an addition to go_xp_chebi
+
+id	molecular_function_xp_chebi-obol
+type	logical_definitions
+title	GO molecular function cross products to chebi
+namespace	molecular_function_xp_chebi-obol
+extends	molecular_function
+uses	ro_proposed
+uses	ro_ucdhsc
+uses	chebi
+uses	relationship
+uses	biological_process
+foundry	no
+status	Draft
+download	molecular_function_xp_chebi-obol.obo|ftp://ftp.geneontology.org/pub/go/scratch/obol_results/molecular_function_xp_chebi-obol.obo
+source	
+home	
+documentation	http://www.berkeleybop.org/obol
+contact	Chris Mungall|cjm@berkeleybop.org
+format	obo
+description	Cross-products for GO function terms to ChEBI. Highly incomplete
+
+id	molecular_function_xp_go-obol
+type	logical_definitions
+title	GO molecular function cross products to the rest of GO
+namespace	molecular_function_xp_go-obol
+extends	molecular_function
+uses	ro_proposed
+uses	cellular_component
+uses	relationship
+uses	biological_process
+foundry	no
+status	Draft
+download	molecular_function_xp_go-obol.obo|ftp://ftp.geneontology.org/pub/go/scratch/obol_results/molecular_function_xp_go-obol.obo
+source	
+home	
+documentation	http://www.berkeleybop.org/obol
+contact	Chris Mungall|cjm@berkeleybop.org
+format	obo
+description	Cross-products for GO function terms to rest of GO. Current just structural constituent terms, eg "structural constituent of cell wall". Also a few like "microtubule motor activity"
+
+id	biological_process_xp_anatomy-obol
+type	logical_definitions
+title	GO biological process cross products to various anatomy ontologies
+namespace	biological_process_xp_anatomy-obol
+extends	biological_process
+uses	ro_proposed
+uses	cell
+uses	molecular_function
+uses	cellular_component
+uses	zebrafish_anatomy
+uses	fly_anatomy
+uses	plant_anatomy
+uses	adult_mouse_anatomy
+uses	relationship
+foundry	no
+status	Draft
+download	biological_process_xp_anatomy.obo|ftp://ftp.geneontology.org/pub/go/scratch/obol_results/biological_process_xp_anatomy-obol.obo
+source	
+home	
+documentation	http://www.berkeleybop.org/obol
+contact	Chris Mungall|cjm@berkeleybop.org
+format	obo
+description	Definitions of GO biological processes (development, morphogenesis) involving anatomical entity terms taken from a mixture of taxon AOs. EXPERIMENTAL!! There is no one single shared AO with deep coverage. Certain entities such as "antenna" are only represented in a single OBO AO. Others, like "gut" are represented in many. In the latter case we just pick one arbitrarily. This makes this file very problematic! Contrast this approach with the de-novo approach (biological_process_xp_development), and with the taxon-specific contextual approaches (biological_process_xp_fly_anatomy, ...) below
+
+id	biological_process_xp_development-obol
+type	logical_definitions
+title	GO biological process cross products to de-novo anatomy ontology
+namespace	biological_process_xp_development-obol
+extends	biological_process
+uses	ro_proposed
+uses	cell
+uses	cellular_component
+uses	relationship
+foundry	no
+status	Draft
+download	biological_process_xp_development.obo|ftp://ftp.geneontology.org/pub/go/scratch/obol_results/biological_process_xp_development-obol.obo
+source	
+home	
+documentation	http://www.berkeleybop.org/obol
+contact	Chris Mungall|cjm@berkeleybop.org
+format	obo
+description	The approach taken here is to realize the implicit multi-species anatomical ontology embedded in GO. Highly experimental. For example, the term "brain development" will be used to extract a new term "brain", also used in the definition. These terms are available as "anonymous terms" at the bottom of the file (some of them are further decomposed and defined). This could be the basis of a de-novo multi-species anatomy. It could also be mapped to existing taxon-centric anatomy ontologies. This file provides ALTERNATE xp definitions for those found in the other taxon-centric xp_anatomy files (eg biological_process_xp_zebrafish_anatomy)
+
+id	biological_process_xp_zebrafish_anatomy-obol
+type	logical_definitions
+title	GO biological process cross products to zebrafish anatomy
+namespace	biological_process_xp_zebrafish_anatomy-obol
+extends	biological_process
+uses	ro_proposed
+uses	zebrafish_anatomy
+uses	relationship
+uses	quality
+uses	cell
+uses	cellular_component
+foundry	no
+status	Draft
+download	biological_process_xp_zebrafish_anatomy-obol.obo|ftp://ftp.geneontology.org/pub/go/scratch/obol_results/biological_process_xp_zebrafish_anatomy-obol.obo
+source	
+home	
+documentation	http://www.berkeleybop.org/obol
+contact	Chris Mungall|cjm@berkeleybop.org
+format	obo
+description	Cross-products for GO process terms to ZFA. We "contextualize" the GO terms to ZFA
+
+id	biological_process_xp_xenopus_anatomy-obol
+type	logical_definitions
+title	GO biological process cross products to xenopus anatomy
+namespace	biological_process_xp_xenopus_anatomy-obol
+extends	biological_process
+uses	ro_proposed
+uses	xenopus_anatomy
+uses	relationship
+uses	quality
+uses	cell
+uses	cellular_component
+foundry	no
+status	Draft
+download	biological_process_xp_xenopus_anatomy-obol.obo|ftp://ftp.geneontology.org/pub/go/scratch/obol_results/biological_process_xp_xenopus_anatomy-obol.obo
+source	
+home	
+documentation	http://www.berkeleybop.org/obol
+contact	Chris Mungall|cjm@berkeleybop.org
+format	obo
+description	Cross-products for GO process terms to the Xenopus (frog) anatomy ontology. We "contextualize" the GO terms to frogs.
+
+id	biological_process_xp_human_anatomy-obol
+type	logical_definitions
+title	GO biological process cross products to FMA
+namespace	biological_process_xp_human_anatomy-obol
+extends	biological_process
+uses	ro_proposed
+uses	fma_lite
+uses	relationship
+uses	quality
+uses	cell
+uses	cellular_component
+foundry	no
+status	Draft
+download	biological_process_xp_human_anatomy-obol.obo|ftp://ftp.geneontology.org/pub/go/scratch/obol_results/biological_process_xp_human_anatomy-obol.obo
+source	
+home	
+documentation	http://www.berkeleybop.org/obol
+contact	Chris Mungall|cjm@berkeleybop.org
+format	obo
+description	Cross-products for GO process terms to the Foundational Model of Anatomy (FMA) ontology, which contains classes representing adult anatomical entities. We "contextualize" the GO terms to humans.
+
+id	biological_process_xp_fly_anatomy-obol
+type	logical_definitions
+title	GO biological process cross products to fly anatomy
+namespace	biological_process_xp_fly_anatomy-obol
+extends	biological_process
+uses	ro_proposed
+uses	fly_anatomy
+uses	relationship
+uses	quality
+uses	cell
+uses	cellular_component
+foundry	no
+status	Draft
+download	biological_process_xp_fly_anatomy-obol.obo|ftp://ftp.geneontology.org/pub/go/scratch/obol_results/biological_process_xp_fly_anatomy-obol.obo
+source	
+home	
+documentation	http://www.berkeleybop.org/obol
+contact	Chris Mungall|cjm@berkeleybop.org
+format	obo
+description	Cross-products for GO process terms to fly_anatomy. We "contextualize" the GO terms to insects.  As this is automated there will obviously be some mistakes (particularly w.r.t "eye development" and other non-homologous anatomical entities)
+
+id	biological_process_xp_plant_anatomy-obol
+type	logical_definitions
+title	GO biological process cross products to plant anatomy
+namespace	biological_process_xp_plant_anatomy-obol
+extends	biological_process
+uses	ro_proposed
+uses	po_anatomy
+uses	relationship
+uses	quality
+uses	cell
+uses	cellular_component
+foundry	no
+status	Draft
+download	biological_process_xp_plant_anatomy-obol.obo|ftp://ftp.geneontology.org/pub/go/scratch/obol_results/biological_process_xp_plant_anatomy-obol.obo
+source	
+home	
+documentation	http://www.berkeleybop.org/obol
+contact	Chris Mungall|cjm@berkeleybop.org
+format	obo
+description	Cross-products for GO process terms to PO. We "contextualize" the GO terms to plants
+
+id	biological_process_xp_mouse_anatomy-obol
+type	logical_definitions
+title	GO biological process cross products to PATO
+namespace	biological_process_xp_mouse_anatomy-obol
+extends	biological_process
+uses	ro_proposed
+uses	adult_mouse_anatomy
+uses	relationship
+uses	quality
+uses	cell
+uses	cellular_component
+foundry	no
+status	Draft
+download	biological_process_xp_mouse_anatomy-obol.obo|ftp://ftp.geneontology.org/pub/go/scratch/obol_results/biological_process_xp_mouse_anatomy-obol.obo
+source	
+home	
+documentation	http://www.berkeleybop.org/obol
+contact	Chris Mungall|cjm@berkeleybop.org
+format	obo
+description	Cross-products for GO process terms to MA. We "contextualize" the GO terms to mouse.
+
+id	cellular_component_xp_go-obol
+type	logical_definitions
+title	GO cellular component cross products within GO
+namespace	cellular_component_xp_go-obol
+extends	cellular_component
+uses	ro_proposed
+uses	cell
+uses	relationship
+uses	molecular_function
+uses	biological_process
+foundry	no
+status	Draft
+download	cellular_component_xp_go-obol.obo|ftp://ftp.geneontology.org/pub/go/scratch/obol_results/cellular_component_xp_go-obol.obo
+source	
+home	
+documentation	http://www.berkeleybop.org/obol
+contact	Chris Mungall|cjm@berkeleybop.org
+format	obo
+description	Cross-products for GO cellular component terms to other GO terms. Examples: Golgi membrane = membrane that is part_of Golgi apparatus; voltage-gated sodium channel complex
+
+id	envo_xp-obol
+type	logical_definitions
+title	Environment ontology cross-products
+namespace	envo_xp-obol
+extends	envo
+uses	quality
+uses	chebi
+uses	ro_proposed
+uses	relationship
+foundry	no
+status	Draft
+download	envo_xp-obol.obo|http://obo.cvs.sourceforge.net/*checkout*/obo/obo/ontology/phenotype/phenotype_xp/envo_xp-obol.obo
+source	
+home	
+documentation	http://www.berkeleybop.org/obol
+contact	Chris Mungall|cjm@berkeleybop.org
+format	obo
+description	Cross-products for Environment Ontology. Examples: arsenic-rich mud
+

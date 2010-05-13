@@ -1,0 +1,352 @@
+
+
+
+(section "Relations from GO/OBO" "These declarations and
+definitions are imported from the OBO Relation Ontology. We only use
+the is_a and part_of relations here, and only show a subset of the
+axioms of relevance for phylogenetic functional inference.")
+
+(relation is_a)
+(text_definition is_a "Formal definition from the RO: For continuants:
+C is_a C' if and only if: given any c that instantiates C at a time t,
+c instantiates C' at t. For processes: P is_a P' if and only if: that
+given any p that instantiates P, then p instantiates P'.")
+
+(comment is_a "Gene annotations propagate over is_a")
+
+;; @Axiom: the is_a relation is transitive
+(transitive is_a)
+;(anti_symmetric is_a)
+;(reflexive is_a)
+(relation part_of)
+(text_definition part_of "For continuants, we have C part_of C1 if and only if any instance of C at any time is an instance-level part of some instance of C1 at that time, as for example in: cell nucleus part_ of cell.")
+(comment part_of "Formal definition from the RO: Gene annotations propagate over part_of")
+;; @Axiom: the part_of relation is transitive
+(transitive part_of)
+
+(section "Phylogenetic Tree Relations and Axioms" "Axioms for
+Phylogenetic Trees. A tree consists of nodes connected in
+directly_descended_from relationships. We infer descended_from
+relationships from these. Here we assume that no gene can be a node in
+more than one phylogenetic tree, so we conflate gene and node
+together. In particular, intermediate nodes correspond to ancestral
+genes.")
+
+(relation directly_descended_from)
+(text_definition directly_descended_from "X is directly_descended_from
+Y if and only X has an immediate parent Y in a phylogenetic
+tree.")
+(comment directly_descended_from "These relationships are not inferred
+within this framework. It is assumed we already have a single unified
+tree with directly_descended_from relationships.")
+
+(relation descended_from)
+(transitive descended_from)
+(irreflexive descended_from)
+(text_definition descended_from "X is descended_from Y if and only 
+X has an immediate parent Y in a phylogenetic tree. The notion of
+'direct' descendant is artificial here as it depends on how many
+sequences were aligned.")
+;; @Axiom: x is descended from y if x is directly descended from y. This is the base case for the recursive axiom below.
+(=> (directly_descended_from ?x ?y)
+    (descended_from ?x ?y))
+
+;; @Axiom: x is descended from y if x is directly descended from z and z is descended_from z. This is the recursive form of descended_from.
+(=> 
+    (and (directly_descended_from ?x ?z)
+         (descended_from ?z ?y))
+    (descended_from ?x ?y))
+
+(relation common_ancestor)
+(=> 
+ (and (descended_from ?x ?a)
+      (descended_from ?y ?a))
+ (common_ancestor ?x ?y ?a))
+
+(relation least_common_ancestor)
+(=> 
+ (and (common_ancestor ?x ?y ?a)
+      (not (exists (?b)
+                   (and (common_ancestor ?x ?y ?b)
+                        (descended_from ?b ?a)))))
+ (least_common_ancestor ?x ?y ?a))
+
+(unary leaf_node)
+(text_definition leaf_node "a node without descendants in the phylogenetic tree.")
+;; @Axiom: x is a leaf_node if and only if x has no descendants.
+(<=> (leaf_node ?x)
+     (not (exists (?y)
+                  (descended_from ?x ?y))))
+
+(unary root_node)
+(text_definition root_node "x is a root_node if and only if x is not descended from anything")
+;; @Axiom: x is a root_node if and only if x has no ancestors.
+(<=> (root_node ?x)
+     (not (exists (?y)
+                  (descended_from ?y ?x))))
+
+(relation nad)
+(text_definition nad "x nad y if and only if x and y do not stand in a descended_from relationship to the other. i.e. they are neither ancestors nor descendants of each other")
+(exact_synonym nad "not-ancestor-or-descendant")
+;; @Axiom: every node stands in a nad relation to itself (because nothing descends from itself)
+(reflexive nad)
+;; @Axiom: x nad y if and only if x is not descended from y and y is not descended from x
+(=> 
+    (and (not (descended_from ?x ?y))
+         (not (descended_from ?y ?x)))
+    (nad ?x ?y))
+
+(section "Basic Functional Inference Axioms" "Axioms for inferring
+function for genes based on the ontology. These are independent of
+phylogenetic trees. We divide these into axioms for POSITIVE
+annotation statements (has_function) and NEGATIVE annotations
+statements (lacks_function). Note that here when we talk of function,
+we are talking broadly of the functional role within a larger
+biological_process, and the subcellular site at which the function is
+realized.")
+
+(subsection "Positive Inference" "Relationships stating POSITIVE
+annotations, and axioms for inferences upon them.")
+
+(relation asserted_has_function)
+(text_definition asserted_has_function "G asserted_has_function if and
+only if G has function F, and a statement asserting this fact has been
+made by a curator with supporting evidence. This could come from Gene
+Association Files, excluding NOT annotations")
+(comment_has_function "note that here function is used in a general
+sense covering GO annotations to molecular_function,
+biological_process and cellular_component. Saying G has_function
+Peroxisome is shorthand for saying G encodes a gene product that
+realizes its function within the Peroxisome")
+(example asserted_has_function (asserted_has_function HSA:P53 GO:DNA_Repair))
+
+(relation has_function)
+;; @Axiom: G has_function F if a curator says so (with evidence). This forms the base case in recursive inference
+(=> 
+    (asserted_has_function ?g ?f)
+    (has_function ?g ?f))
+
+(example has_function (=> (asserted_has_function HSA:P53 GO:DNA_Repair)
+                          (has_function HSA:P53 GO:DNA_Repair)))
+
+;; @Axiom: G has_function F if G has_function F' and F' is a kind of F. Note this is a recursive rule.
+(=> 
+    (and (has_function ?g ?f_2)
+         (is_a ?f_2 ?f))
+    (has_function ?g ?f))
+
+(example has_function (=> (and (has_function HSA:P53 GO:DNA_Repair)
+                               (is_a GO:DNA_Repair GO:DNA_Metabolism))
+                          (has_function HSA:P53 GO:DNA_Metabolism)))
+
+(example has_function (=> (and (has_function HSA:P53 GO:DNA_Metabolism)
+                               (is_a GO:DNA_Repair GO:Metabolism))
+                          (has_function HSA:P53 GO:Metabolism)))
+
+
+;; @Axiom: G has_function F if G has_function F' and F' is part of F. Note this is a recursive rule.
+(=> 
+    (and (has_function ?g ?f_2)
+         (part_of ?f_2 ?f))
+    (has_function ?g ?f))
+
+(example has_function (=> (and (has_function MGI:Pex1 GO:Peroxisome)
+                               (part_of GO:Peroxisome GO:Cytoplasm))
+                          (has_function MGI:Pex1 GO:Cytoplasm)))
+
+
+
+(subsection "Negative Inference" "Axioms for making inferences based
+on negative annotations. Note that annotations here propagate DOWN
+the GO graph")
+
+
+(relation asserted_lacks_function)
+(text_definition asserted_lacks_function "G asserted_lacks_function if
+and only if G lacks function F, and a statement asserting this fact
+has been made by a curator with supporting evidence. This would come
+from lines with operator NOT in Gene Association Files")
+
+(relation lacks_function)
+(text_definition lacks_function "A relation between a gene F and a function F, such that G does not have function F")
+;; @Axiom: G lacks_function F if and only if not( G has_function F )
+(<=> 
+     (lacks_function ?g ?f)
+     (not (has_function ?g ?f)))
+
+;; @Axiom: G lacks_function F if a curator says so
+(=> 
+    (asserted_lacks_function ?g ?f)
+    (lacks_function ?g ?f))
+
+;; @Axiom: downward propagation of negated annotations over is_a
+(=> 
+    (and (lacks_function ?g ?f_2)
+         (is_a ?f ?f_2))
+    (lacks_function ?g ?f))
+
+
+;; @Axiom: downward propagation of negated annotations over part_of
+(=> 
+    (and (lacks_function ?g ?f_2)
+         (part_of ?f ?f_2))
+    (lacks_function ?g ?f))
+
+(example lacks_function (=> (and (lacks_function P35431 GO:Mammary_gland_development)
+                                 (part_of GO:Lactation GO:Mammary_gland_development))
+                            (lacks_function P35431 GO:Lactation)))
+
+
+;; @Axiom: G does not have function F if G is in an organism lacking that function
+(=> 
+    (and (in_organism_type ?g ?o)
+         (organism_lacks_function ?o ?f))
+    (not (has_function ?g ?f)))
+(example lacks_function (=> (and (in_organism_type P35431 Chicken)
+                                 (organism_lacks_function Chicken Lactation))
+                            (not (has_function P35431 Lactation))))
+
+(section "Phylogenetic Functional Inference Axioms" "Axioms for
+inferring function for genes based on the ontology and the
+phylogenetic tree. These are broken into two sub-sections: propagation
+DOWN the phylogenetic tree, and propagation UP the phylogenetic
+tree. From an operational point of view the first step would be to
+propagate up to ancestral genes based on experimental evidence in
+extant organisms, followed by propagation down to fill in the gaps in
+extant genes.")
+
+(subsection "Down-propagation" "Inference of function of leaf node
+genes. Inference DOWN the phylogenetic tree. We inherit genes from our
+descendants, and also the function of those genes. Note that in order
+to make any inferences, we first have to assign function to ancestral
+genes.")
+
+;; @Axiom: down-propagation: functions propagate down the phylogenetic
+;; tree UNLESS there was an ancestral loss.  The results of this
+;; inference can be used to populate species-specific GAFs. 
+(=> 
+    (and (descended_from ?g ?g_p)
+         (has_function ?g_p ?f)
+         (not (lacks_function ?g ?f)))
+    (has_function ?g ?f))
+
+;; @Axiom: down-propagation: functions propagate down the phylogenetic
+;; tree UNLESS there was an ancestral gain
+(=> 
+    (and (descended_from ?g ?g_p)
+         (lacks_function ?g_p ?f)
+         (not (has_function ?g ?f)))
+    (has_function ?g ?f))
+
+(comment "Thus far we have dealt with inferences that are all by
+definition true. For the final ")
+
+(subsection "Up-propgatation" "Inference of function of intermediate
+node genes. Inference UP the phylogenetic tree. The assumption is that
+if the descendant genes of an ancestral gene share the same function,
+then either (a) the ancestor gene had that function or (b) the gene
+evolved that function independently. The latter is more likely in the
+case of gene duplications. We cannot reconstruct with 100%
+accuracy. Ideally we would use a probabilistic model (eg Sifter)
+combined with curator knowledge. The goal here with these logical
+axioms is to present possibe candidate solutions.")
+
+(comment "first we define two relations concerning the evolution and
+loss of function")
+
+(relation descendents_independently_evolved)
+(text_definition descendents_independently_evolved "G
+descendents_independently_evolved F if there exists at least two
+descendants of G that have function F, but F is not present in G.")
+;; @Axiom: G has descendants that indepedently evolved F if and only if G
+;; lacks F and G is the LCA of two genes that have F
+(<=> (and
+      (has_function ?d_1 ?f)
+      (has_function ?d_2 ?f)
+      (least_common_ancestor ?d_1 ?d_2 ?g)
+      (not (has_function ?g ?f)))
+     (descendents_independently_evolved ?g ?f))
+
+
+(relation descendents_independently_lost)
+(text_definition descendents_independently_lost "G
+descendents_independently_lost F if there exists at least two
+descendants of G that lack function F, and F is present in G.")
+;; @Axiom: G has descendants that indepedently lost F if and only if G
+;; lacks F and G is the LCA of two genes that have F
+(<=> (and
+      (lacks_function ?d_1 ?f)
+      (lacks_function ?d_2 ?f)
+      (least_common_ancestor ?d_1 ?d_2 ?g)
+      (has_function ?g ?f))
+     (descendents_independently_lost ?g ?f))
+
+(relation plausibly_has_function)
+(text_definition plausibly_has_function "G plausibly_has_function F if
+there is reasonable grounds to believe that G has_function F, based on
+the descendants of G having function F")
+;; @Axiom: when we say G plausibly_has_function F it means we are
+;; guaranteed that either (a) it is indeed the case that G
+;; has_function F or (b) an orthologous pair descended from G have F,
+;; and that they each evolved F independently. In practical terms, we
+;; can present these inferences to a curator who can use judgement in
+;; selecting the most likely scenario; or the results could be passed
+;; to a probabilistic model
+(=>
+ (plausibly_has_function ?g ?f)
+ (or
+  (has_function ?g ?f)
+  (and (not (duplication ?g))
+       (descendents_independently_evolved ?g ?f))))
+
+;; @Axiom: when we say G plausibly_lacks_function F it means we are
+;; guaranteed that either (a) it is indeed the case that G
+;; lacks_function F or (b) the descendants of G lack F, and that they
+;; lost it independently. In practical terms, this can be used
+;; to make NOT annotations to ancestral nodes, with care
+(=>
+ (plausibly_lacks_function ?g ?f)
+ (or
+  (lacks_function ?g ?f)
+  (descendents_independently_lost ?g ?f)))
+
+
+;; @Axiom: propagation UP the phylogenetic tree:
+;; here we would ideally have a probabilistic model. This
+;; just gives *candidates* for realizing as curator-vetted
+;; annotations
+(=> (and
+     (has_function ?d_1 ?f)
+     (has_function ?d_2 ?f)
+     (least_common_ancestor ?d_1 ?d_2 ?g))
+    (plausibly_has_function ?g ?f))
+
+;; @Axiom: propagation of negative annotations UP the phylogenetic
+;; tree but DOWN the GO.
+(=> (and
+     (lacks_function ?d_1 ?f)
+     (lacks_function ?d_2 ?f)
+     (least_common_ancestor ?d_1 ?d_2 ?g))
+    (plausibly_lacks_function ?g ?f))
+
+(section "pseudogenes" "")
+
+;; @Axiom: if g is a pseudogene then g has no function. Also, if g is
+;; a gene and g has no function then g is a pseudogene
+(=> (pseudogene ?g)
+    (and (gene ?g)
+         (lacks_function ?g GO:Molecular_Function)))
+
+;; @Axiom: if g is a pseudogene then g does not function in a
+;; process. Also, if g is a gene and g does not function in a
+;; process then g is a pseudogene
+(=> (pseudogene ?g)
+    (and (gene ?g)
+         (lacks_function ?g GO:Biological_Process)))
+
+;; @Axiom: if g is a pseudogene then g does not function in a
+;; component. Also, if g is a gene and g does not function in a
+;; component then g is a pseudogene
+(=> (pseudogene ?g)
+    (and (gene ?g)
+         (lacks_function ?g GO:Cellular_Component)))

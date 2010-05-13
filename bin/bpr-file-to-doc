@@ -1,0 +1,15 @@
+#!/usr/local/bin/swipl -q -g main -t halt -s
+
+:- use_module(bio(pdoc_grammar)).
+:- use_module(bio(bioprolog_util)).
+
+main:-
+        getopt([],FileL),
+        writeln(files=FileL),
+        findall(File,(
+                      member(File,FileL),
+                      file_to_pdoc_terms(File,PDocL),
+                      writeln(PDocL),nl,nl),
+                _),
+        writeln(done),
+        halt.

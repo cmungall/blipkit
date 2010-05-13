@@ -1,0 +1,149 @@
+[Term]
+id: GO:0060600 ! dichotomous subdivision of an epithelial terminal unit
+exact_synonym: "dichotomous subdivision of terminal units" []
+
+[Term]
+id: GO:0060601 ! lateral sprouting from an epithelium
+exact_synonym: "lateral sprouting" []
+
+[Term]
+id: GO:0060602 ! branch elongation of an epithelium
+exact_synonym: "epithelial cord elongation" []
+
+[Term]
+id: GO:0008305 ! integrin complex
+exact_synonym: "integrin" []
+
+[Term]
+id: GO:0008045
+exact_synonym: "motor neuron axon guidance" []
+
+[Term]
+id: GO:0007160 ! cell-matrix adhesion
+exact_synonym: "cell-extracellular matrix adhesion" []
+
+[Term]
+id: GO:0043046 ! DNA methylation during gametogenesis
+exact_synonym: "DNA methylation during gamete generation" []
+
+[Term]
+id: GO:0015934 ! large ribosomal subunit
+exact_synonym: "ribosomal large subunit" []
+
+[Term]
+id: GO:0005575 ! cellular_component
+exact_synonym: "cellular component" []
+
+[Term]
+id: GO:0009950 ! dorsal/ventral axis specification
+exact_synonym: "dorsal/ventral axis determination" []
+
+[Term]
+id: GO:0030154 ! cell differentiation
+exact_synonym: "differentiation" []
+! needed because of ' during differentiation' terms
+
+[Term]
+id: GO:0001831 ! trophectodermal cellular morphogenesis
+exact_synonym: "trophectodermal cell morphogenesis" []
+
+[Term]
+id: GO:0005794 ! Golgi apparatus
+exact_synonym: "Golgi"
+
+[Term]
+id: CHEBI:29108 ! calcium(2+)
+exact_synonym: "calcium ion" []
+exact_synonym: "calcium ions" []
+namespace: chebi_ontology
+
+[Term]
+id: CHEBI:24431 ! molecular structure
+exact_synonym: "chemical substance" []
+namespace: chebi_ontology
+
+[Term]
+id: FBbt:00004508 ! eye
+exact_synonym: "compound eye" []
+
+[Term]
+id: ZFA:0000107 ! eye
+exact_synonym: "camera-type eye" []
+
+[Term]
+id: XAO:0000179 ! eyes
+exact_synonym: "eye" []
+exact_synonym: "camera-type eye" []
+
+[Term]
+id: MA:0000261 ! eye
+exact_synonym: "camera-type eye" []
+
+[Term]
+id: FMA:12513 ! Eyeball
+exact_synonym: "camera-type eye" []
+
+[Term]
+id: bfo:Role
+
+! this is a hack for: culmination during fruiting body development
+[Term]
+id: obol:culmination
+name: culmination
+is_a: GO:0008150 ! biological_process
+
+[Term]
+id: obol:symbiont
+name: symbiont
+is_a: bfo:Role
+
+[Term]
+id: obol:other_organism
+name: other organism
+is_a: bfo:Role
+
+[Term]
+id: obol:organism
+name: organism
+is_a: bfo:Role
+
+[Term]
+id: obol:host
+name: host
+is_a: bfo:Role
+
+[Term]
+id: obol:parasite
+name: parasite
+is_a: bfo:Role
+
+[Term]
+id: obol:antigen
+name: antigen
+is_a: bfo:Role
+
+[Term]
+id: obol:superantigen
+name: superantigen
+is_a: bfo:Role
+
+[Term]
+id: obol:self_antigen
+name: self antigen
+is_a: bfo:Role
+
+[Term]
+id: obol:electron_donor
+name: electron donor
+is_a: bfo:Role
+
+[Term]
+id: obol:solute
+name: solute
+is_a: bfo:Role
+
+[Term]
+id: obol:solvent
+name: solvent
+is_a: bfo:Role
+

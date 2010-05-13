@@ -1,0 +1,20 @@
+#!/usr/bin/swipl -L0 -G0 -A0 -T0 -q -g main -t halt -s
+
+user:file_search_path(blipkit,'/opt/local/lib/swipl-5.6.34/library/blip').
+user:program_info(package('blip','0.01-pre6')).
+
+/*
+
+  blip: main command line interface
+  
+*/
+
+:- use_module(bio(blipkit)).
+:- use_module(bio(blipkit_ontol)).
+:- use_module(bio(blipkit_phylo)).
+:- use_module(bio(blipkit_fasta)).
+:- use_module(bio(blipkit_sb)).
+:- use_module(bio(blipkit_goa)).
+:- use_module(bio(blipkit_web)).
+
+

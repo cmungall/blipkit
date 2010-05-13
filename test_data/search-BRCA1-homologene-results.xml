@@ -1,0 +1,22 @@
+<!DOCTYPE eSearchResult PUBLIC "-//NLM//DTD eSearchResult, 11 May 2002//EN" "http://www.ncbi.nlm.nih.gov/entrez/query/DTD/eSearch_020511.dtd">
+<html><head></head><body><esearchresult>
+	<count>1</count>
+	<retmax>1</retmax>
+	<retstart>0</retstart>
+	<idlist>
+		<id>5276</id>
+	</idlist>
+	<translationset>
+	</translationset>
+	<translationstack>
+		<termset>
+			<term>373983[gene id]</term>
+			<field>gene id</field>
+			<count>1</count>
+			<explode>Y</explode>
+		</termset>
+		<op>GROUP</op>
+	</translationstack>
+	<querytranslation>373983[gene id]</querytranslation>
+</esearchresult>
+</body></html>

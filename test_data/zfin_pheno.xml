@@ -1,0 +1,504 @@
+<?xml version="1.0"?>
+
+<phenoset xmlns="http://www.bioontologies.org/obd/schema/pheno">
+  <genotype id="ZFIN:tm84" organism="taxon:7955">
+    <name>ZFIN:tm84</name>
+    <genotype_feature_link feature="ZFIN:dino"></genotype_feature_link></genotype>
+  <genotype id="ZFIN:tm305" organism="taxon:7955">
+    <name>ZFIN:tm305</name>
+    <genotype_feature_link feature="ZFIN:mes"></genotype_feature_link></genotype>
+  <genotype id="ZFIN:r210" organism="taxon:7955">
+    <name>ZFIN:r210</name>
+    <genotype_feature_link feature="ZFIN:pac"></genotype_feature_link></genotype>
+  <genotype id="ZFIN:sb55" organism="taxon:7955">
+    <name>ZFIN:sb55</name>
+    <genotype_feature_link feature="ZFIN:ache"></genotype_feature_link></genotype>
+  <genotype id="ZFIN:sb55/b101" organism="taxon:7955">
+    <name>ZFIN:sb55/b101</name>
+    <genotype_feature_link feature="ZFIN:ache/nic"></genotype_feature_link></genotype>
+  <genotype id="ZFIN:npo" organism="taxon:7955">
+    <name>ZFIN:npo</name>
+    <genotype_feature_link feature="ZFIN:fw07"></genotype_feature_link></genotype>
+  <phenotype_manifestation>
+    <manifest_in genotype="ZFIN:tm84"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="ZDB-ANAT-010921-528"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000636"></typeref>
+        <temporal_qualifier>
+          <time_range>
+            <typeref about="ZDB-STAGE-010723-12"></typeref></time_range></temporal_qualifier></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="ZFIN:tm84"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="ZDB-ANAT-010921-532"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000587"></typeref>
+        <temporal_qualifier>
+          <time_range>
+            <typeref about="ZDB-STAGE-010723-10"></typeref></time_range></temporal_qualifier></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="ZFIN:tm84"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="ZDB-ANAT-050221-28"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000592"></typeref>
+        <temporal_qualifier>
+          <time_range>
+            <typeref about="ZDB-STAGE-010723-12"></typeref></time_range></temporal_qualifier></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="ZFIN:tm84"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="ZDB-ANAT-050221-28"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000587"></typeref>
+        <temporal_qualifier>
+          <time_range>
+            <typeref about="ZDB-STAGE-010723-10"></typeref></time_range></temporal_qualifier></quality>
+      <quality>
+        <typeref about="PATO:0000461"></typeref>
+        <temporal_qualifier>
+          <time_range>
+            <typeref about="ZDB-STAGE-010723-10"></typeref></time_range></temporal_qualifier></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="ZFIN:tm305"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="ZDB-ANAT-010921-528"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000636"></typeref>
+        <temporal_qualifier>
+          <time_range>
+            <typeref about="ZDB-STAGE-010723-12"></typeref></time_range></temporal_qualifier></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="ZFIN:tm305"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="ZDB-ANAT-010921-564"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000461"></typeref>
+        <temporal_qualifier>
+          <time_range>
+            <typeref about="ZDB-STAGE-010723-10"></typeref></time_range></temporal_qualifier></quality>
+      <quality>
+        <typeref about="PATO:0000461"></typeref>
+        <temporal_qualifier>
+          <time_range>
+            <typeref about="ZDB-STAGE-010723-10"></typeref></time_range></temporal_qualifier></quality>
+      <quality>
+        <typeref about="PATO:0000461"></typeref>
+        <temporal_qualifier>
+          <time_range>
+            <typeref about="ZDB-STAGE-010723-10"></typeref></time_range></temporal_qualifier></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="ZFIN:tm305"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="ZDB-ANAT-010921-591"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000460"></typeref>
+        <temporal_qualifier>
+          <time_range>
+            <typeref about="ZDB-STAGE-010723-10"></typeref></time_range></temporal_qualifier></quality>
+      <quality>
+        <typeref about="PATO:0000587"></typeref>
+        <temporal_qualifier>
+          <time_range>
+            <typeref about="ZDB-STAGE-010723-10"></typeref></time_range></temporal_qualifier></quality>
+      <quality>
+        <typeref about="PATO:0000461"></typeref>
+        <temporal_qualifier>
+          <time_range>
+            <typeref about="ZDB-STAGE-010723-10"></typeref></time_range></temporal_qualifier></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="ZFIN:tm305"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="ZDB-ANAT-050221-28"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000587"></typeref>
+        <temporal_qualifier>
+          <time_range>
+            <typeref about="ZDB-STAGE-010723-10"></typeref></time_range></temporal_qualifier></quality>
+      <quality>
+        <typeref about="PATO:0000461"></typeref>
+        <temporal_qualifier>
+          <time_range>
+            <typeref about="ZDB-STAGE-010723-10"></typeref></time_range></temporal_qualifier></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="ZFIN:r210"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="ZDB-ANAT-010921-587"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000613"></typeref>
+        <temporal_qualifier>
+          <time_range>
+            <typeref about="ZDB-STAGE-010723-9"></typeref></time_range></temporal_qualifier></quality>
+      <quality>
+        <typeref about="PATO:0000330"></typeref>
+        <temporal_qualifier>
+          <time_range>
+            <typeref about="ZDB-STAGE-010723-9"></typeref></time_range></temporal_qualifier></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="ZFIN:r210"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="ZDB-ANAT-010921-415"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000642"></typeref>
+        <temporal_qualifier>
+          <time_range>
+            <typeref about="ZDB-STAGE-010723-8"></typeref></time_range></temporal_qualifier></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="ZFIN:r210"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="ZDB-ANAT-010921-415"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000613"></typeref>
+        <temporal_qualifier>
+          <time_range>
+            <typeref about="ZDB-STAGE-010723-9"></typeref></time_range></temporal_qualifier></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="ZFIN:r210"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="ZDB-ANAT-010921-587"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000330"></typeref>
+        <temporal_qualifier>
+          <time_range>
+            <typeref about="ZDB-STAGE-010723-10"></typeref></time_range></temporal_qualifier></quality>
+      <quality>
+        <typeref about="PATO:0000613"></typeref>
+        <temporal_qualifier>
+          <time_range>
+            <typeref about="ZDB-STAGE-010723-10"></typeref></time_range></temporal_qualifier></quality>
+      <quality>
+        <typeref about="PATO:0000460"></typeref>
+        <temporal_qualifier>
+          <time_range>
+            <typeref about="ZDB-STAGE-010723-10"></typeref></time_range></temporal_qualifier></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="ZFIN:r210"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="ZDB-ANAT-011113-122"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000330"></typeref>
+        <temporal_qualifier>
+          <time_range>
+            <typeref about="ZDB-STAGE-010723-10"></typeref></time_range></temporal_qualifier></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="ZFIN:r210"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="ZDB-ANAT-010921-447"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000460"></typeref>
+        <temporal_qualifier>
+          <time_range>
+            <typeref about="ZDB-STAGE-010723-10"></typeref></time_range></temporal_qualifier></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="ZFIN:r210"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="GO:0045202"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000461"></typeref>
+        <temporal_qualifier>
+          <time_range>
+            <typeref about="ZDB-STAGE-010723-10"></typeref></time_range></temporal_qualifier></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="ZFIN:sb55"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="ZDB-ANAT-010921-591"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000460"></typeref>
+        <temporal_qualifier>
+          <time_range>
+            <typeref about="ZDB-STAGE-010723-10"></typeref></time_range></temporal_qualifier></quality>
+      <quality>
+        <typeref about="PATO:0000587"></typeref>
+        <temporal_qualifier>
+          <time_range>
+            <typeref about="ZDB-STAGE-010723-10"></typeref></time_range></temporal_qualifier></quality>
+      <quality>
+        <typeref about="PATO:0000461"></typeref>
+        <temporal_qualifier>
+          <time_range>
+            <typeref about="ZDB-STAGE-010723-10"></typeref></time_range></temporal_qualifier></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="ZFIN:sb55"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="ZDB-ANAT-011113-154"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000718"></typeref>
+        <temporal_qualifier>
+          <time_range>
+            <typeref about="PATO:0001185"></typeref></time_range></temporal_qualifier></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="ZFIN:sb55"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="GO:0016528"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000460"></typeref>
+        <temporal_qualifier>
+          <time_range>
+            <typeref about="ZDB-STAGE-010723-9"></typeref></time_range></temporal_qualifier></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="ZFIN:sb55"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="GO:0030016"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000574"></typeref>
+        <temporal_qualifier>
+          <time_range>
+            <typeref about="ZDB-STAGE-010723-9"></typeref></time_range></temporal_qualifier></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="ZFIN:sb55"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="GO:0030424"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000587"></typeref>
+        <temporal_qualifier>
+          <time_range>
+            <typeref about="ZDB-STAGE-010723-10"></typeref></time_range></temporal_qualifier></quality>
+      <quality>
+        <typeref about="PATO:0000592"></typeref>
+        <temporal_qualifier>
+          <time_range>
+            <typeref about="ZDB-STAGE-010723-10"></typeref></time_range></temporal_qualifier></quality>
+      <quality>
+        <typeref about="PATO:0000461"></typeref>
+        <temporal_qualifier>
+          <time_range>
+            <typeref about="ZDB-STAGE-010723-10"></typeref></time_range></temporal_qualifier></quality>
+      <quality>
+        <typeref about="PATO:0000461"></typeref>
+        <temporal_qualifier>
+          <time_range>
+            <typeref about="ZDB-STAGE-010723-10"></typeref></time_range></temporal_qualifier></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="ZFIN:sb55"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="GO:0030425"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000419"></typeref>
+        <temporal_qualifier>
+          <time_range>
+            <typeref about="ZDB-STAGE-010723-10"></typeref></time_range></temporal_qualifier></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="ZFIN:sb55/b101"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="GO:0030016"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000461"></typeref>
+        <temporal_qualifier>
+          <time_range>
+            <typeref about="ZDB-STAGE-010723-10"></typeref></time_range></temporal_qualifier></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="ZFIN:sb55/b101"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="GO:0030424"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000587"></typeref>
+        <temporal_qualifier>
+          <time_range>
+            <typeref about="ZDB-STAGE-010723-10"></typeref></time_range></temporal_qualifier></quality>
+      <quality>
+        <typeref about="PATO:0000592"></typeref>
+        <temporal_qualifier>
+          <time_range>
+            <typeref about="ZDB-STAGE-010723-10"></typeref></time_range></temporal_qualifier></quality>
+      <quality>
+        <typeref about="PATO:0000461"></typeref>
+        <temporal_qualifier>
+          <time_range>
+            <typeref about="ZDB-STAGE-010723-10"></typeref></time_range></temporal_qualifier></quality>
+      <quality>
+        <typeref about="PATO:0000461"></typeref>
+        <temporal_qualifier>
+          <time_range>
+            <typeref about="ZDB-STAGE-010723-10"></typeref></time_range></temporal_qualifier></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="ZFIN:npo"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="ZDB-ANAT-010921-537"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000640"></typeref>
+        <temporal_qualifier>
+          <time_range>
+            <typeref about="ZDB-STAGE-010723-26"></typeref></time_range></temporal_qualifier></quality>
+      <quality>
+        <typeref about="PATO:0000460"></typeref>
+        <temporal_qualifier>
+          <time_range>
+            <typeref about="ZDB-STAGE-010723-26"></typeref></time_range></temporal_qualifier></quality>
+      <quality>
+        <typeref about="PATO:0000419"></typeref>
+        <temporal_qualifier>
+          <time_range>
+            <typeref about="ZDB-STAGE-010723-26"></typeref></time_range></temporal_qualifier></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="ZFIN:npo"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="ZDB-ANAT-010921-549"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000640"></typeref>
+        <temporal_qualifier>
+          <time_range>
+            <typeref about="ZDB-STAGE-010723-26"></typeref></time_range></temporal_qualifier></quality>
+      <quality>
+        <typeref about="PATO:0000460"></typeref>
+        <temporal_qualifier>
+          <time_range>
+            <typeref about="ZDB-STAGE-010723-26"></typeref></time_range></temporal_qualifier></quality>
+      <quality>
+        <typeref about="PATO:0000419"></typeref>
+        <temporal_qualifier>
+          <time_range>
+            <typeref about="ZDB-STAGE-010723-26"></typeref></time_range></temporal_qualifier></quality>
+      <quality>
+        <typeref about="PATO:0000297"></typeref>
+        <temporal_qualifier>
+          <time_range>
+            <typeref about="ZDB-STAGE-010723-26"></typeref></time_range></temporal_qualifier></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="ZFIN:npo"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="ZDB-ANAT-010921-537"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000587"></typeref>
+        <temporal_qualifier>
+          <time_range>
+            <typeref about="ZDB-STAGE-010723-8"></typeref></time_range></temporal_qualifier></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="ZFIN:npo"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="ZDB-ANAT-010921-549"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000587"></typeref>
+        <temporal_qualifier>
+          <time_range>
+            <typeref about="ZDB-STAGE-010723-8"></typeref></time_range></temporal_qualifier></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="ZFIN:npo"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="ZDB-ANAT-010921-539"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000461"></typeref>
+        <temporal_qualifier>
+          <time_range>
+            <typeref about="ZDB-STAGE-010723-26"></typeref></time_range></temporal_qualifier></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="ZFIN:npo"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="ZDB-ANAT-010921-564"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000461"></typeref>
+        <temporal_qualifier>
+          <time_range>
+            <typeref about="ZDB-STAGE-010723-26"></typeref></time_range></temporal_qualifier></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="ZFIN:npo"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="ZDB-ANAT-010921-591"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000461"></typeref>
+        <temporal_qualifier>
+          <time_range>
+            <typeref about="ZDB-STAGE-010723-26"></typeref></time_range></temporal_qualifier></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="ZFIN:npo"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="ZDB-ANAT-011113-451"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000461"></typeref>
+        <temporal_qualifier>
+          <time_range>
+            <typeref about="ZDB-STAGE-010723-26"></typeref></time_range></temporal_qualifier></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="ZFIN:npo"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="ZDB-ANAT-010921-570"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000460"></typeref>
+        <temporal_qualifier>
+          <time_range>
+            <typeref about="ZDB-STAGE-010723-26"></typeref></time_range></temporal_qualifier></quality>
+      <quality>
+        <typeref about="PATO:0000419"></typeref>
+        <temporal_qualifier>
+          <time_range>
+            <typeref about="ZDB-STAGE-010723-26"></typeref></time_range></temporal_qualifier></quality></phenotype_character></phenotype></phenotype_manifestation>
+  <phenotype_manifestation>
+    <manifest_in genotype="ZFIN:npo"/>
+    <phenotype>
+    <phenotype_character>
+      <bearer>
+        <typeref about="GO:0005902"></typeref></bearer>
+      <quality>
+        <typeref about="PATO:0000419"></typeref>
+        <temporal_qualifier>
+          <time_range>
+            <typeref about="ZDB-STAGE-010723-8"></typeref></time_range></temporal_qualifier></quality>
+      <quality>
+        <typeref about="PATO:0000646"></typeref>
+        <temporal_qualifier>
+          <time_range>
+            <typeref about="ZDB-STAGE-010723-8"></typeref></time_range></temporal_qualifier></quality></phenotype_character></phenotype></phenotype_manifestation></phenoset>

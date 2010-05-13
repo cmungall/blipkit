@@ -1,0 +1,146 @@
+#!/usr/bin/perl -w
+
+=head1 NAME
+
+search2p - turn SearchIO parseable reports into prolog
+
+=head1 SYNOPSIS
+
+  search2p -f fasta -i file.FASTA -o output.table
+
+=head1 DESCRIPTION 
+
+=cut
+
+use strict;
+use Bio::SearchIO;
+use Getopt::Long;
+
+my ($format, $file,$output) = ('blast');
+
+GetOptions(
+	   'f|format:s'   => \$format,
+	   'i|input:s'    => \$file,
+	   'o|output:s'   => \$output);
+
+if( @ARGV ) { 
+    $file = shift;
+}
+    
+my $in = Bio::SearchIO->new(-format => $format,
+			    -file   => $file);
+my $out;
+if( $output ) { 
+    open($out,">$output") || die "cannot open $output for writing";
+} else { 
+    $out = \*STDOUT;
+}
+
+while( my $r = $in->next_result ) {
+
+    my $name = $r->query_name();
+    my $algo = $r->algorithm();
+    my $desc = $r->query_description();
+    my $dbname = $r->database_name();
+    my $size = $r->database_letters();
+    my $num_entries = $r->database_entries();
+    my $gap_ext = $r->get_parameter('gapext');
+    my @params = $r->available_parameters;
+    my @statnames = $r->available_statistics;
+    my $kappa = $r->get_statistic('kappa');
+
+    my $id = "$algo-$name-$dbname";
+
+    pred(result=>[$id, $name, $algo, $desc]);
+    foreach my $param (@params) {
+        my $v = $r->get_parameter($param);
+        pred(result_param=>[$id,$param,$v]);
+    }
+    foreach my $stat (@statnames) {
+        my $v = $r->get_statistic($stat);
+        pred(result_statistic=>[$id,$stat,$v]);
+    }
+    pred(result_entries=>[$id,$num_entries]);
+    pred(result_size=>[$id,$size]);
+    while( my $hit = $r->next_hit ) {
+        my $hit_name = $hit->name;
+        my $hit_id = "$id-$hit_name";
+        pred(hit=>[$hit_id,$id,$hit_name,$hit->accession,$hit->description]);
+        my $hsp_num = 0;
+	while( my $hsp = $hit->next_hsp ) {
+            my $hsp_id = "$hit_id-$hsp_num";
+            my ($qframe,$hframe) = $hsp->frame;
+            $hsp_num++;
+	    my $mismatchcount = $hsp->length('total') - 
+              ($hsp->num_conserved + $hsp->gaps('total'));
+            pred(hsp=>[
+                       $hsp_id,
+                       $hit_id,
+                       sprintf("%.2f",$hsp->percent_identity),
+                       $hsp->length('total'),
+                       $mismatchcount,
+                       $hsp->gaps('total'),
+                       $hsp->query->strand < 0 ?
+                       ( $hsp->query->end,
+                         $hsp->query->start -1) :
+                       ( $hsp->query->start -1,
+                         $hsp->query->end ),
+                       $qframe || 0,
+                       $hsp->hit->strand < 0 ?
+                       ( $hsp->hit->end,
+                         $hsp->hit->start -1) :
+                       ( $hsp->hit->start -1,
+                         $hsp->hit->end ),
+                       $hframe || 0,
+                       $hsp->evalue,
+                       # chance this to $hsp->sw_score 
+                       # if you would rather have that
+                       # it will only work for FASTA parsing though!
+                       $hsp->bits
+                      ]);
+#            foreach (qw(query hit)) {
+#                my $hspf = $hsp->$_();
+#                my $pred = "hsp_$_";
+#                pred($pred=>[
+#                             $hsp_id,
+#                             # flip start/end on rev strand
+#                             $hspf->strand < 0 ?
+#                              ( $hspf->end,
+#                                $hspf->start -1 ) :
+#                              ( $hspf->start -1,
+#                                $hspf->end )
+#                             ]);
+#            }
+#            foreach (qw(query hit homology)) {
+#                my $m = $_."_string";
+#                pred(hsp_seq=>[
+#                               $hsp_id,
+#                               $_,
+#                               $hsp->$m()
+#                              ]);
+#            }
+
+            # use CIGARs rather than alignment strings - more compact
+            pred(hsp_cigar=>[$hsp_id,$hsp->cigar_string]);
+	}
+    }
+}
+
+sub pred {
+    my $pred = shift;
+    my $args = shift;
+    printf $out "$pred(%s).\n",
+      join(', ', map {pquote($_)} @$args);
+    0;
+}
+
+sub pquote {
+    my $s = shift;
+    $s='' unless defined $s;
+    if ($s =~ /^\-?([0-9]*\.)?[0-9]+(e\-?\d+)?$/) {
+	return $s;
+    }
+    $s =~ s@\\@\\\\@g;
+    $s =~ s/\'/\'\'/g;
+    "'$s'";
+}

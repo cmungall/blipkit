@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xlink:httpQuery xmlns:xlink="http://www.w3.org/1999/xlink">
+  <queryRequest>
+    <query>
+      <queryString>query=Gene&amp;Gene[@symbol=brca*]</queryString>
+      <class>gov.nih.nci.cabio.domain.Gene</class>
+    </query>
+    <criteria>Gene[@symbol=brca*]</criteria>
+  </queryRequest>
+  <queryResponse>
+    <recordCounter>4</recordCounter>
+    <class name="gov.nih.nci.cabio.domain.Gene" recordNumber="1">
+      <field name="bigid">hdl://2500.1.PMEUQUCCL5/DXZ7ZIOFOE</field>
+      <field name="clusterId">194143</field>
+      <field name="fullName">Breast cancer 1, early onset</field>
+      <field name="id">9288</field>
+      <field name="symbol">BRCA1</field>
+      <field name="taxon" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=Taxon&amp;Gene[@id=9288]">getTaxon</field>
+      <field name="pathwayCollection" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=Pathway&amp;Gene[@id=9288]">getPathwayCollection</field>
+      <field name="nucleicAcidSequenceCollection" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=NucleicAcidSequence&amp;Gene[@id=9288]">getNucleicAcidSequenceCollection</field>
+      <field name="locationCollection" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=Location&amp;Gene[@id=9288]">getLocationCollection</field>
+      <field name="geneRelativeLocationCollection" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=GeneRelativeLocation&amp;Gene[@id=9288]">getGeneRelativeLocationCollection</field>
+      <field name="homologousAssociationCollection" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=HomologousAssociation&amp;Gene[@id=9288]">getHomologousAssociationCollection</field>
+      <field name="genericReporterCollection" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=GenericReporter&amp;Gene[@id=9288]">getGenericReporterCollection</field>
+      <field name="databaseCrossReferenceCollection" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=gov.nih.nci.common.domain.DatabaseCrossReference&amp;gov.nih.nci.cabio.domain.Gene[@id=9288]">getDatabaseCrossReferenceCollection</field>
+      <field name="libraryCollection" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=Library&amp;Gene[@id=9288]">getLibraryCollection</field>
+      <field name="chromosome" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=Chromosome&amp;Gene[@id=9288]">getChromosome</field>
+      <field name="histopathologyCollection" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=Histopathology&amp;Gene[@id=9288]">getHistopathologyCollection</field>
+      <field name="geneAliasCollection" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=GeneAlias&amp;Gene[@id=9288]">getGeneAliasCollection</field>
+      <field name="organOntologyCollection" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=OrganOntology&amp;Gene[@id=9288]">getOrganOntologyCollection</field>
+      <field name="proteinCollection" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=Protein&amp;Gene[@id=9288]">getProteinCollection</field>
+      <field name="geneOntologyCollection" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=GeneOntology&amp;Gene[@id=9288]">getGeneOntologyCollection</field>
+      <field name="targetCollection" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=Target&amp;Gene[@id=9288]">getTargetCollection</field>
+    </class>
+    <class name="gov.nih.nci.cabio.domain.Gene" recordNumber="2">
+      <field name="bigid">hdl://2500.1.PMEUQUCCL5/N2FHSZLIRB</field>
+      <field name="clusterId">236256</field>
+      <field name="fullName">Breast cancer 2</field>
+      <field name="id">99580</field>
+      <field name="symbol">Brca2</field>
+      <field name="taxon" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=Taxon&amp;Gene[@id=99580]">getTaxon</field>
+      <field name="pathwayCollection" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=Pathway&amp;Gene[@id=99580]">getPathwayCollection</field>
+      <field name="nucleicAcidSequenceCollection" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=NucleicAcidSequence&amp;Gene[@id=99580]">getNucleicAcidSequenceCollection</field>
+      <field name="locationCollection" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=Location&amp;Gene[@id=99580]">getLocationCollection</field>
+      <field name="geneRelativeLocationCollection" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=GeneRelativeLocation&amp;Gene[@id=99580]">getGeneRelativeLocationCollection</field>
+      <field name="homologousAssociationCollection" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=HomologousAssociation&amp;Gene[@id=99580]">getHomologousAssociationCollection</field>
+      <field name="genericReporterCollection" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=GenericReporter&amp;Gene[@id=99580]">getGenericReporterCollection</field>
+      <field name="databaseCrossReferenceCollection" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=gov.nih.nci.common.domain.DatabaseCrossReference&amp;gov.nih.nci.cabio.domain.Gene[@id=99580]">getDatabaseCrossReferenceCollection</field>
+      <field name="libraryCollection" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=Library&amp;Gene[@id=99580]">getLibraryCollection</field>
+      <field name="chromosome" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=Chromosome&amp;Gene[@id=99580]">getChromosome</field>
+      <field name="histopathologyCollection" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=Histopathology&amp;Gene[@id=99580]">getHistopathologyCollection</field>
+      <field name="geneAliasCollection" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=GeneAlias&amp;Gene[@id=99580]">getGeneAliasCollection</field>
+      <field name="organOntologyCollection" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=OrganOntology&amp;Gene[@id=99580]">getOrganOntologyCollection</field>
+      <field name="proteinCollection" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=Protein&amp;Gene[@id=99580]">getProteinCollection</field>
+      <field name="geneOntologyCollection" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=GeneOntology&amp;Gene[@id=99580]">getGeneOntologyCollection</field>
+      <field name="targetCollection" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=Target&amp;Gene[@id=99580]">getTargetCollection</field>
+    </class>
+    <class name="gov.nih.nci.cabio.domain.Gene" recordNumber="3">
+      <field name="bigid">hdl://2500.1.PMEUQUCCL5/ONSXKL4KEL</field>
+      <field name="clusterId">244975</field>
+      <field name="fullName">Breast cancer 1</field>
+      <field name="id">100161</field>
+      <field name="symbol">Brca1</field>
+      <field name="taxon" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=Taxon&amp;Gene[@id=100161]">getTaxon</field>
+      <field name="pathwayCollection" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=Pathway&amp;Gene[@id=100161]">getPathwayCollection</field>
+      <field name="nucleicAcidSequenceCollection" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=NucleicAcidSequence&amp;Gene[@id=100161]">getNucleicAcidSequenceCollection</field>
+      <field name="locationCollection" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=Location&amp;Gene[@id=100161]">getLocationCollection</field>
+      <field name="geneRelativeLocationCollection" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=GeneRelativeLocation&amp;Gene[@id=100161]">getGeneRelativeLocationCollection</field>
+      <field name="homologousAssociationCollection" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=HomologousAssociation&amp;Gene[@id=100161]">getHomologousAssociationCollection</field>
+      <field name="genericReporterCollection" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=GenericReporter&amp;Gene[@id=100161]">getGenericReporterCollection</field>
+      <field name="databaseCrossReferenceCollection" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=gov.nih.nci.common.domain.DatabaseCrossReference&amp;gov.nih.nci.cabio.domain.Gene[@id=100161]">getDatabaseCrossReferenceCollection</field>
+      <field name="libraryCollection" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=Library&amp;Gene[@id=100161]">getLibraryCollection</field>
+      <field name="chromosome" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=Chromosome&amp;Gene[@id=100161]">getChromosome</field>
+      <field name="histopathologyCollection" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=Histopathology&amp;Gene[@id=100161]">getHistopathologyCollection</field>
+      <field name="geneAliasCollection" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=GeneAlias&amp;Gene[@id=100161]">getGeneAliasCollection</field>
+      <field name="organOntologyCollection" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=OrganOntology&amp;Gene[@id=100161]">getOrganOntologyCollection</field>
+      <field name="proteinCollection" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=Protein&amp;Gene[@id=100161]">getProteinCollection</field>
+      <field name="geneOntologyCollection" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=GeneOntology&amp;Gene[@id=100161]">getGeneOntologyCollection</field>
+      <field name="targetCollection" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=Target&amp;Gene[@id=100161]">getTargetCollection</field>
+    </class>
+    <class name="gov.nih.nci.cabio.domain.Gene" recordNumber="4">
+      <field name="bigid">hdl://2500.1.PMEUQUCCL5/QGSYEORJAM</field>
+      <field name="clusterId">34012</field>
+      <field name="fullName">Breast cancer 2, early onset</field>
+      <field name="id">1706</field>
+      <field name="symbol">BRCA2</field>
+      <field name="taxon" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=Taxon&amp;Gene[@id=1706]">getTaxon</field>
+      <field name="pathwayCollection" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=Pathway&amp;Gene[@id=1706]">getPathwayCollection</field>
+      <field name="nucleicAcidSequenceCollection" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=NucleicAcidSequence&amp;Gene[@id=1706]">getNucleicAcidSequenceCollection</field>
+      <field name="locationCollection" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=Location&amp;Gene[@id=1706]">getLocationCollection</field>
+      <field name="geneRelativeLocationCollection" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=GeneRelativeLocation&amp;Gene[@id=1706]">getGeneRelativeLocationCollection</field>
+      <field name="homologousAssociationCollection" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=HomologousAssociation&amp;Gene[@id=1706]">getHomologousAssociationCollection</field>
+      <field name="genericReporterCollection" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=GenericReporter&amp;Gene[@id=1706]">getGenericReporterCollection</field>
+      <field name="databaseCrossReferenceCollection" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=gov.nih.nci.common.domain.DatabaseCrossReference&amp;gov.nih.nci.cabio.domain.Gene[@id=1706]">getDatabaseCrossReferenceCollection</field>
+      <field name="libraryCollection" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=Library&amp;Gene[@id=1706]">getLibraryCollection</field>
+      <field name="chromosome" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=Chromosome&amp;Gene[@id=1706]">getChromosome</field>
+      <field name="histopathologyCollection" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=Histopathology&amp;Gene[@id=1706]">getHistopathologyCollection</field>
+      <field name="geneAliasCollection" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=GeneAlias&amp;Gene[@id=1706]">getGeneAliasCollection</field>
+      <field name="organOntologyCollection" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=OrganOntology&amp;Gene[@id=1706]">getOrganOntologyCollection</field>
+      <field name="proteinCollection" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=Protein&amp;Gene[@id=1706]">getProteinCollection</field>
+      <field name="geneOntologyCollection" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=GeneOntology&amp;Gene[@id=1706]">getGeneOntologyCollection</field>
+      <field name="targetCollection" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=Target&amp;Gene[@id=1706]">getTargetCollection</field>
+    </class>
+    <pages count="1">
+      <page number="1" xlink:type="simple" xlink:href="http://cabio.nci.nih.gov/cacore32/GetXML?query=Gene&amp;Gene[@symbol=brca*]&amp;pageNumber=1&amp;resultCounter=1000&amp;startIndex=0"> 1 </page>
+    </pages>
+    <recordCounter>4</recordCounter>
+    <start>1</start>
+    <end>4</end>
+  </queryResponse>
+</xlink:httpQuery>

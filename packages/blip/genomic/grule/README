@@ -1,0 +1,5 @@
+Must be used like this:
+
+==
+blip -u genome_bridge_from_seqfeature  -u genome_db -u grule/exon_transcript_order -u grule/intron -r so -i test_data/dmel4alltypes.gff3
+==

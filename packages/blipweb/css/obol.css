@@ -1,0 +1,27 @@
+.first {
+	margin : 0;
+	padding-left : 2px;
+}
+
+ul .first {
+	margin : 0;
+}
+
+li {
+	margin-left: 10px;
+	padding-left : 0px;
+	list-style : none;
+	white-space: nowrap; 
+}
+
+ul {
+	margin-left : 0px;
+	padding-left : 0px;
+	list-style : none;
+	white-space: nowrap; 
+}
+
+pre {
+	margin : 0;
+	padding: 0;
+}

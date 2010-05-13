@@ -1,0 +1,3 @@
+#!/bin/sh
+blip -u blipkit_serval $@
+

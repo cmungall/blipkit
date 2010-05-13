@@ -1,0 +1,9 @@
+#!/usr/local/bin/swipl -q -g main -t halt -s
+
+:- use_module(bio(seqfeature)).
+:- use_module(bio(bioprolog_util)).
+
+main:-
+        getopt([],FileL),
+        load_factfiles(FileL),
+        prolog.

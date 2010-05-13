@@ -1,0 +1,46 @@
+#!/usr/local/bin/swipl -q -g main -t halt -s
+
+:- use_module(bio(ontol)).
+:- use_module(bio(bioprolog_util)).
+:- use_module(bio(io)).
+:- use_module(library(lists)).
+
+main:-
+        getopt([id/ID,n/N,r/Res,
+                direct/bool(Direct),
+                down/bool(Down),
+                summary/bool(Summary)],FileL),
+        (var(Res) -> true ; load_bioresource(Res)),
+        load_factfiles(FileL),
+        (class(ID,N) ; die(no_such_class(ID,N))),
+        writeln(class(ID,N)),
+        (Summary=1
+        ->  setof(IDp/P,parentTmin(ID,P,IDp),PL),
+            findall(P,
+                    (
+                      member(IDp/P,PL),
+                      class(IDp,Np),
+                      writeln(to(P,IDp,Np))
+                    ),_)
+        ;  (Direct=1
+           -> setof(IDp/Rel,
+                    (
+                      p(parent,ID,Rel,IDp,Down),
+                      class(IDp,Np),
+                      writeln(parent(Rel,IDp,Np))
+                    ),
+                    _)
+           ;   setof(IDp,Rel^p(parentT,ID,Rel,IDp,Down),IDpL),
+               setof(IDp,
+                     (
+                       member(IDp,IDpL),
+                       class(IDp,Np),
+                       writeln(parentT(IDp,Np))
+                     ),_)
+           )),
+        halt.
+
+p(N,X,R,Y,Down):-
+        (Down=1 -> F =.. [N,Y,R,X] ; F =.. [N,X,R,Y]),
+        F.
+

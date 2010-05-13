@@ -1,0 +1,270 @@
+---+ Blipkit
+
+This document is designed to be viewed via pldoc at this URL:
+
+http://www.berkeleybop.org/blipdoc/
+
+This code should be considered pre-alpha. Much of the code itself is
+in use and appears robust. However, I may be making major
+organisational changes (ie module and predicate naming). You have been
+warned!
+
+The majority of this library is focused around ontologies. There are
+some modules for sequence and feature data, but these are currently
+being developed on an as-needed basis.
+
+Currently the focus is on data and querying. I may include parsers at
+a later date. SWI has decent XML and tabular parsing mechanisms, but
+for the most part data is pre-converted to prolog factfiles using the
+scripts in the bin directory.
+
+---+ Prerequisites
+
+SWI-Prolog; tested on 5.7.x
+
+http://www.swi-prolog.org/
+
+You are recommended to use the the latest version, in the 5.7.x
+series. 5.6.x may suffice for most purposes though.
+
+If you are installing from source you should build all packages. In
+particular:
+
+* odbc - if you want to connect to relational databases
+* semweb - if you want to use OWL/RDF
+* sgml - for any XML formats
+
+Building prolog with GMP support is recommended, and required for some
+modules, such as simmatrix.pro
+
+---++ Dependencies (optional)
+
+* go-perl (for obo files)
+* graphviz (for drawing network and ontology graphs)
+* Thea2 (for OWL2), available from http://github.com/vangelisv/thea
+
+Some of the support scripts require perl. If you want to convert
+ontology files (OBO,OWL,etc) to prolog fact files you will need
+go-perl (0.02) from CPAN
+
+---+ Download
+
+For now it is recommended you get the latest version from svn
+
+Anonymous checkout:
+
+==
+svn co svn://code.open-bio.org/blipkit/trunk blipkit
+==
+
+Developer checkout:
+
+==
+svn co svn+ssh://dev.open-bio.org/home/svn-repositories/blipkit/trunk/ blipkit
+==
+
+---+ Installation
+
+---++ Standard Installation Procedure
+
+Standard unix/linux install:
+
+==
+./configure
+make bin/blip
+sudo make install
+==
+
+By default, the library will go in your swi prolog lib directory, and
+scripts will go somewhere like /usr/bin. You can override this using
+standard configure parameters, for example:
+
+==
+./configure --with-pllibdir=/users/me/bio --bindir=/users/me/bio/bin
+sudo make install
+==
+
+Once installed you should use the command line program =|blip|= to
+access blipkit functionality via the prolog shell. This sets up your
+prolog file_search_path to fetch the blip libraries from the installed
+location.
+
+---++ Developers Installation Procedure
+
+If you wish to use this lib in development-mode, change your ~/.plrc to
+something like:
+
+==
+user:file_search_path(blipkit, '/users/me/cvs/blipkit/packages/blip').
+user:prolog_file_type(pro,prolog).
+user:trusted_user(true).
+==
+
+changing the first line to where you have blip checked out.
+
+The second line is necessary because the blip source files use the
+.pro suffix, but if you do a full install, they will get the .pl
+suffix. If you are working from the source files you need to tell
+prolog you're using the non-standard .pro suffix
+
+Once you have have created or edited your .plrc file, you can set up
+your own configuration file, using the standard one as default.
+
+==
+mkdir ~/.blip
+cp blipkit/etc/bioconf.pro ~/.blip/
+==
+
+Now edit your local bioconf.pro file
+
+This file allows you to use abbreviations for bioinformatics resources
+- e.g. "go" for the gene ontology OBO file
+
+You will also want to set up the blip script to point to your
+swi-prolog location:
+
+==
+./configure
+make bin/blip
+==
+
+You can add this to your PATH in your .profile or .bashrc; for example:
+
+==
+if [ -d $HOME/blipkit ]; then
+. $HOME/blipkit/etc/blipkit-profile.sh
+fi
+==
+
+
+---+ Troubleshooting
+
+See notes above for doing the full install
+
+---+ Interacting via prolog shell
+
+Typing =|blip|= in a unix shell should get you started, placing you in a prolog shell:
+
+==
+% blip
+Starting blip shell
+==
+
+Use load_biofile/2 to download a resource into the in-memory prolog database:
+
+==
+?- load_biofile(obo,url('http://purl.org/obo/obo-all/cell/cell.obo')).
+Correct to: "io:load_biofile(obo, url(http://purl.org/obo/obo-all/cell/cell.obo))"? yes
+true.
+==
+
+Note: for this to work you will need to install go-perl from CPAN. Fetch this from http://search.cpan.org/~cmungall/go-perl/
+
+Alternatively you can download the pre-made prolog database like this:
+
+==
+?- load_biofile(ontol_db:pro,url('http://purl.org/obo/obo-all/cell/cell.pro)).
+==
+
+Or if you have setup bioconf.pro, like this:
+
+==
+?- load_bioresource(obop(cell)).
+==
+
+
+A simple query using class/2 to find the ID of the class named "astrocyte"
+
+==
+?- class(X,astrocyte).
+Correct to: "ontol_db:class(X, astrocyte)"? yes
+X = 'CL:0000127' .
+==
+
+Using subclassT/2 to find the closure of subclass/2 for astrocyte:
+
+==
+?- class(X,astrocyte),subclassT(X,Y),class(Y,YN).
+Correct to: "ontol_db:class(X, astrocyte)"? yes
+Correct to: "ontol_db:subclassT(X, Y)"? yes
+Correct to: "ontol_db:class(Y, YN)"? yes
+X = 'CL:0000127',
+Y = 'CL:0000126',
+YN = 'macroglial cell' ;
+X = 'CL:0000127',
+Y = 'CL:0000243',
+YN = 'glial cell (sensu Vertebrata)' ;
+X = 'CL:0000127',
+Y = 'CL:0000125',
+YN = 'glial cell' ;
+false.
+==
+
+---+ Bioresources
+
+If you are working with a lot of datafiles, you can set up a bioconf
+file that will map logical names to the full physical path of the
+resource
+
+For example, if you are working with GO a lot, you want to avoid
+having to type the full path to wherever your gene_ontology.obo file
+is. The bioconf file allows you to set up such a mapping.
+
+First, Edit the existing etc/bioconf.pro file; Edit the search path
+where the GO dir is found. Ignore all lines pertaining to resources
+you do not wish to use.
+
+Now add this line to your ~/.plrc file:
+
+==
+:- ['/users/me/bioprolog/etc/bioconf'].
+==
+
+(modifying it to where you have this software checked out)
+
+At some point in the future, it will be possible to fetch these
+resources over the web
+
+---+ Applications
+
+There are some scripts in the bin directory. They will be installed in
+/usr/local/bin by default (can be overridden with configure options)
+
+Some of the scripts are little hacks that I'm using for a particular
+project that happen to live with this package for convenience -
+they'll probably go shortly
+
+You can pass in an ontology fact file as an argument, or you can
+specify a logical resource name; see examples/example-plrc for setting
+up logical resource mappings
+
+the resource can be specified on the command line; eg:
+
+==
+blip ontol-subset -r go -n 'cysteine biosynthesis'
+==
+
+---+ Serval
+
+(*Serv*er-*A*pplication-*L*ogic)
+ 
+Serval is a lightweight web application framework for developing www
+interfaces. See lib/serval.pro
+
+Currently serval is bundled with bioprolog, due to shared dependencies
+on bioprolog_util. They may be separated in the future (OPEN-Q: should
+the shared utils be duplicated or moved into a 3rd library?)
+
+Currently the prototype new amigo app is bundled together with
+bioprolog and serval - in future it may be separated
+
+See examples/serval for an example server
+
+Run the script "serval" to start a server (default port 8080)
+
+Serval has no dependencies other than SWI Prolog
+
+---+ Documentation
+
+http://www.berkeleybop.org/blipdoc/
+

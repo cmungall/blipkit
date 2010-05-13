@@ -1,0 +1,4 @@
+#!/bin/sh
+
+. bin/jblip_env.sh
+cd $(dirname $0)/../src && run_preloaded JBlip ButtonListener

@@ -1,0 +1,5 @@
+#!/bin/sh
+# eg
+# blip-obd -r rdb/obd
+blip  -u curation_bridge_to_ontol  -u ontol_sqlmap_obd ontol-subset -to obo $@
+

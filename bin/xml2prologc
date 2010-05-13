@@ -1,0 +1,20 @@
+#!/usr/bin/swipl -L0 -G0 -T0 -A0 -q -g main -t halt -s
+
+:- use_module(bio(bioprolog_util)).
+:- use_module(bio(xml_transform)).
+:- use_module(library(sgml)).
+:- use_module(library(sgml_write)).
+
+main:-
+        getopt([atom(dialect,Dialect,xmlns),
+                bool(roundtrip,Roundtrip)],
+               FileL),
+        Opts = [dialect(Dialect),space(remove)],
+        forall(member(File,FileL),
+               xml2p(File,Opts,Roundtrip)).
+
+xml2p(File,Opts,_Roundtrip):-
+        load_structure(File,XML,Opts),
+        maplist(xml_full_to_compact,XML,Terms),
+        maplist(writeq,Terms).
+

@@ -1,0 +1,82 @@
+BLASTX 2.2.2 [Jan-08-2002]
+
+
+Reference: Altschul, Stephen F., Thomas L. Madden, Alejandro A. Schaffer, 
+Jinghui Zhang, Zheng Zhang, Webb Miller, and David J. Lipman (1997), 
+"Gapped BLAST and PSI-BLAST: a new generation of protein database search
+programs",  Nucleic Acids Res. 25:3389-3402.
+
+Query= na2 cp-of-na1-w-50bp-missing
+         (459 letters)
+
+Database: aa1.fa 
+           1 sequences; 78 total letters
+
+Searching.done
+
+                                                                   Score     E
+Sequences producing significant alignments:                        (bits)  Value
+
+aa1                                                                   106  1e-28
+
+>aa1
+          Length = 78
+
+ Score =  106 bits (264), Expect = 1e-28
+ Identities = 61/80 (76%), Positives = 61/80 (76%), Gaps = 15/80 (18%)
+ Frame = +2
+
+Query: 2   RPTDRDFVCVKMTRISFWANNIVHVL-----*NRYTVKL----------*PVVLLSVCSW 136
+           RPTDRDFVCVKMTRISFWANNIVHVL      NRYTVKL           PVVLLSVCSW
+Sbjct: 1   RPTDRDFVCVKMTRISFWANNIVHVLQQQQQQNRYTVKLQQQQQQQQQQQPVVLLSVCSW 60
+
+Query: 137 LTRLFHLFSFKATM*RTVRA 196
+           LTRLFHLFSFKAT  RTVRA
+Sbjct: 61  LTRLFHLFSFKAT--RTVRA 78
+
+
+
+ Score = 13.5 bits (23), Expect = 0.91
+ Identities = 6/16 (37%), Positives = 11/16 (68%)
+ Frame = +3
+
+Query: 162 HLKQRCEEQCGRYSSK 209
+           H+ Q+ ++Q  RY+ K
+Sbjct: 24  HVLQQQQQQ-NRYTVK 38
+
+
+  Database: aa1.fa
+    Posted date:  May 16, 2005  4:22 PM
+  Number of letters in database: 78
+  Number of sequences in database:  1
+  
+Lambda     K      H
+   0.318    0.135    0.401 
+
+Gapped
+Lambda     K      H
+   0.267   0.0410    0.140 
+
+
+Matrix: BLOSUM62
+Gap Penalties: Existence: 11, Extension: 1
+Number of Hits to DB: 119
+Number of Sequences: 1
+Number of extensions: 4
+Number of successful extensions: 4
+Number of sequences better than 10.0: 2
+Number of HSP's better than 10.0 without gapping: 1
+Number of HSP's successfully gapped in prelim test: 0
+Number of HSP's that attempted gapping in prelim test: 0
+Number of HSP's gapped (non-prelim): 2
+length of database: 78
+effective HSP length: 12
+effective length of database: 66
+effective search space used:     9240
+frameshift window, decay const: 50,  0.1
+T: 12
+A: 40
+X1: 14 ( 6.4 bits)
+X2: 38 (14.6 bits)
+X3: 64 (24.7 bits)
+S1: 14 ( 9.3 bits)

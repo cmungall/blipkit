@@ -1,0 +1,38 @@
+#!/usr/local/bin/swipl -q -g main -t halt -s
+
+:- use_module(bioprolog(io)).
+:- use_module(bioprolog(ontol)).
+:- use_module(bioprolog(bioprolog_util)).
+:- use_module(library(lists)).
+
+main:-
+        getopt([atom([id,i],ID),
+                atom([name,n],N),
+                atom([res,r],Res),
+                atom([to,t],ToID),
+                bool([count,c],Count),
+                bool([shownames,s,names],WithNames)],
+               FileL),
+        (var(Res) -> true ; load_bioresource(Res)),
+        load_factfiles(FileL),
+        findall(ID,
+                (
+                  class(ID,N),
+                  swritef(Str,'%w %w ',[ID,N]),
+                  setof(TL,ToID^showpath(Str,ID,TL,WithNames,Count,ToID),TLL),
+                  length(TLL,Pc),
+                  write(Str),writeln(Pc)
+                ),L),
+        (L=[] -> die(no_class(ID,N)) ; true),
+        halt.
+
+showpath(Str,ID,TL,WithNames,Count,ToID):-
+        (var(ToID)
+        ->  topclass(Top)
+        ;   ToID=Top),
+        parent_path(ID,TL,Top),
+        (WithNames=1
+        ->  findall(link(T,IDp,Np),
+                    (member(link(T,IDp),TL),class(IDp,Np)),TL2)
+        ;   TL2=TL),
+        (Count=1 -> true ; write(Str), writeq(path:TL2),nl).

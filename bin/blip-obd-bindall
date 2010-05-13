@@ -1,0 +1,4 @@
+#!/bin/sh
+# HACK! make sure first arguments are -r DBNAME
+blip -u curation_db -u ontol_db -u blipkit_sql -u ontol_sqlmap_obd -sqlbind ontol_db:all-$2 -sqlbind curation_db:all-$2 $@
+

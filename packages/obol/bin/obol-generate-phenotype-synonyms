@@ -1,0 +1,2 @@
+#!/bin/sh
+obol -u obol_phenotype_xp obol-generate-synonyms $*

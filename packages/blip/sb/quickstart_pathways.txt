@@ -1,0 +1,24 @@
+---+ Quickstart guide for pathways
+
+Load Reactome into a database:
+
+==
+blip -i http://blipkit.org/reactome/Homo_sapiens-pathway_db.pro -u pathway_db
+==
+
+---++ Command-line
+
+
+==
+blip -r go -u blipkit_pathway -r reactome/Homo_sapiens pathway-viz -n "Mitotic Prometaphase"  -to display
+==
+
+Simpler view (this time querying by GO process ID, which is linked to the pathway via entity_xref/2):
+
+==
+blip -r go -u blipkit_pathway -r reactome/Homo_sapiens pathway-viz -id GO:0050796 -show participants -show xrefs -show subevents
+==
+
+---++ Queries
+
+

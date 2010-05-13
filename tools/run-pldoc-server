@@ -1,0 +1,3 @@
+#!/bin/sh
+
+tools/pldoc-server packages/*/*/*pro  packages/*/*/*/*pro 

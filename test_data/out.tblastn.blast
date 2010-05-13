@@ -1,0 +1,76 @@
+TBLASTN 2.2.2 [Jan-08-2002]
+
+
+Reference: Altschul, Stephen F., Thomas L. Madden, Alejandro A. Schaffer, 
+Jinghui Zhang, Zheng Zhang, Webb Miller, and David J. Lipman (1997), 
+"Gapped BLAST and PSI-BLAST: a new generation of protein database search
+programs",  Nucleic Acids Res. 25:3389-3402.
+
+Query= aa1
+         (78 letters)
+
+Database: na2.fa 
+           1 sequences; 459 total letters
+
+Searching.done
+
+                                                                   Score     E
+Sequences producing significant alignments:                        (bits)  Value
+
+na2 cp-of-na1-w-50bp-missing                                          106  1e-28
+
+>na2 cp-of-na1-w-50bp-missing
+          Length = 459
+
+ Score =  106 bits (264), Expect = 1e-28
+ Identities = 61/80 (76%), Positives = 61/80 (76%), Gaps = 2/80 (2%)
+ Frame = +2
+
+Query: 1  RPTDRDFVCVKMTRISFWANNIVHVLXXXXXXNRYTVKLXXXXXXXXXXXPVVLLSVCSW 60
+          RPTDRDFVCVKMTRISFWANNIVHVL      NRYTVKL           PVVLLSVCSW
+Sbjct: 2  RPTDRDFVCVKMTRISFWANNIVHVL-----*NRYTVKL----------*PVVLLSVCSW 136
+
+Query: 61 LTRLFHLFSFKAT--RTVRA 78
+          LTRLFHLFSFKAT  RTVRA
+Sbjct: 137LTRLFHLFSFKATM*RTVRA 196
+
+
+  Database: na2.fa
+    Posted date:  May 16, 2005  4:19 PM
+  Number of letters in database: 459
+  Number of sequences in database:  1
+  
+Lambda     K      H
+   0.335    0.140    0.462 
+
+Gapped
+Lambda     K      H
+   0.267   0.0410    0.140 
+
+
+Matrix: BLOSUM62
+Gap Penalties: Existence: 11, Extension: 1
+Number of Hits to DB: 87
+Number of Sequences: 1
+Number of extensions: 3
+Number of successful extensions: 3
+Number of sequences better than 10.0: 2
+Number of HSP's better than 10.0 without gapping: 1
+Number of HSP's successfully gapped in prelim test: 0
+Number of HSP's that attempted gapping in prelim test: 0
+Number of HSP's gapped (non-prelim): 1
+length of query: 78
+length of database: 153
+effective HSP length: 12
+effective length of query: 66
+effective length of database: 141
+effective search space:     9306
+effective search space used:     9306
+frameshift window, decay const: 50,  0.1
+T: 13
+A: 40
+X1: 14 ( 6.8 bits)
+X2: 38 (14.6 bits)
+X3: 64 (24.7 bits)
+S1: 14 ( 9.6 bits)
+S2: 14 (10.0 bits)

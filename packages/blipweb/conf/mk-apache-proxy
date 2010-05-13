@@ -1,0 +1,21 @@
+#!/usr/bin/perl -w
+
+print "# This is the default setup I use; if you want to replicate it,\n";
+print "# add this to your httpd.conf:\n";
+print "#     Include /Users/cjm/cvs/bioprolog/apps/amigo/conf/apache-proxy.conf\n\n";
+
+my $default = "http://127.0.0.1";
+while (<>) {
+    chomp;
+    my ($n,$port,$box) = split;
+    $box = $default unless $box;
+    print "    ProxyPass /$n $box:$port/\n";
+    print "    ProxyPassReverse /$n $box:$port/\n\n";
+
+}
+exit 0;
+
+# location on yuri - /etc/apache2/default-server.conf
+#LoadModule rewrite_module /usr/lib64/apache2-prefork/mod_rewrite.so
+#LoadModule proxy_module /usr/lib64/apache2-prefork/mod_proxy.so
+#LoadModule proxy_http_module /usr/lib64/apache2-prefork/mod_proxy_http.so

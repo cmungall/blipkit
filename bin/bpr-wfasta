@@ -1,0 +1,10 @@
+#!/usr/local/bin/swipl -q -t main -s
+
+:- use_module(bioprolog(parser_fasta)).
+:- use_module(bioprolog(bioprolog_util)).
+
+main:-
+        getopt([],[F]),
+        init_parse(fasta(H),F),
+        parse_all(fasta(H)),
+        halt.

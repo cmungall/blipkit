@@ -1,0 +1,109 @@
+<page>
+  <title>Blip: Getting started</title>
+  <section id="Getting Started">
+      <p>
+        NOTE: this section has been superseded by the tutorial section in <url to='blipdoc'/>.
+      </p>
+    </section>
+    <section id="Download SWI-Prolog">
+      <p>
+        Blip uses <url to="SWI-Prolog"/> - this is easy to install on
+        a variety of platforms. In future Blip will be available as a
+        binary compiled on certain platforms - for now you have to
+        download the source
+      </p>
+    </section>
+
+    <section id="Download Blip">
+      <p>
+        Go to the <pageref page="download"/> page and fetch the source
+        of the latest stable release. Download, and install as
+        follows:
+          <pre>
+cd blip-RELEASE
+./configure
+make
+make install
+          </pre>
+        OS X users may have to type <pre>sudo make install</pre>
+      </p>
+    </section>
+
+  <section id="Optional components">
+      <p>
+        The following components are not required for most tasks. In
+        time, even these optional dependencies may be removed</p>
+    <ul>
+      <li>
+          <url to="BioPerl"/> required for parsing some file formats
+      </li>
+        <li>
+          <url to="go-perl"/> required for parsing obo file format
+        </li>
+        <li>
+        <b><url to="ODBC"/></b> for database connectivity. You will need an ODBC
+          driver for your particular DBMS, and you will need to
+          download the <url to="SWI-Prolog"/> source and install the
+          optional odbc package
+        </li>
+      </ul>
+    </section>
+
+    <section id="Setting up">
+      <p>
+        Your life will be easier if you set up some <pageref
+          page="bioresources"/>. This is a configuration file
+        telling blip where to go to find common data sources - for
+        example, the Gene Ontology, Reactome, the GO MySQL database,
+        your favourite genome, etc.
+      </p>
+    </section>
+
+    <section id="Developer options">
+      <p>This step is required for developers only. If you do not wish
+      to make changes to the blip source, you can ignore this section.
+      </p>
+      <p>
+        Otherwise, add the following two lines to your
+        <pre>~/.plrc</pre> file:
+        <code>
+          <pre>
+% uninstalled modules use .pro suffix to avoid confusion with .pl
+user:prolog_file_type(pro,prolog).
+% location of blip prolog source
+user:file_search_path(bio, HOME) :-
+	(   getenv('BLIP_SRC', HOME)	->  true
+        	;        
+            HOME = '/users/me/cvs/blip/src'
+	).
+          </pre>
+        </code>
+        (modifying the path to the blip source directory as necessary)
+      </p>
+    </section>
+
+    <section id="Using Blip">
+    <p>
+      You're now ready to get started: you can proceed to the
+      <pageref page="tutorial"/> section, or if you are feeling
+        confident, why not just go straight for the <pageref
+        page="modules"/> documentation?
+      </p>
+    </section>
+
+    <section id="Blip Scripts">
+      <p>
+        Much of the blip functionality can be used via the <i>blip</i>
+        script. See <a href="applications.html#blip%20kit">blipkit</a>
+        for details.
+      </p>
+    </section>
+
+    <lastmod>
+      <!-- Created: Mon May  2 09:02:21 PDT 2005 -->
+<!-- hhmts start -->
+Last modified: Thu Aug 25 14:56:50 PDT 2005
+<!-- hhmts end -->
+    </lastmod>
+
+  </page>

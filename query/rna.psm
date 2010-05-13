@@ -1,0 +1,69 @@
+/*
+  viterbi(obs(gnra,[b(c,cww/1),b(u,-),b(c,-),b(c,-),b(g,-),b(g,cww/1)])).
+  viterbi(obs(gnra,[b(c,cww/1),b(u,-),b(c,-),b(a,-),b(c,-),b(g,-),b(g,cww/1)])).
+
+
+  */
+
+target(obs/2).
+
+% motif consists of two potentially paired bases with a loop between them
+tl(T)--> bs(X),loop(T),bs(Y),
+        {match(T,stem,X,Y)}.
+loop(T)--> bs(X),innerloop(T),bs(Y),
+        {match(T,loop,X,Y)}.
+innerloop(T)-->
+        {msw(looplen(T),Len)},
+        innerloop(T,Len).
+innerloop(T,2) --> bs(X),bs(Y),
+        {msw(base(T,l1base),X),msw(base(T,l2base),Y)}.
+innerloop(T,3) --> bs(X),bs(Z),bs(Y),
+        {msw(base(T,l1base),X),msw(base(T,l1Xbase),Z),msw(base(T,l2base),Y)}.
+bs(X) --> [X].
+
+sk --> l,s(X),l,s(Y),l,sR(X),l,sR(Y),l.
+
+l --> base,{msw(ends,E)},(E=no->l).
+s([X|T]) --> base(X),s(T).
+sR([X|T]) --> [Y],{match(X,Y)}.
+
+
+
+match(T,Pos,b(X,N),b(Y,N)):-
+        msw(pair(T,Pos),bp(Rel,X,Y)),
+        (   Rel=unpaired
+        ->  N='-'
+        ;   N=Rel/_).
+
+
+base(a).
+base(u).
+base(g).
+base(c).
+
+compl(a,u).
+compl(u,a).
+compl(c,g).
+compl(g,c).
+
+pair(cww,X,Y):- compl(X,Y).
+pair(ths,g,a).
+pair(unpaired,X,Y):- base(X),base(Y).
+
+% all treated as independent for now
+values(type,[gnra,foo]).
+values(looplen(_),[2,3]).
+values(base(_,_),Bases):- findall(b(B,-),base(B),Bases).
+values(pair(_,_),Pairs):- findall(bp(Rel,X,Y),pair(Rel,X,Y),Pairs).
+
+obs(T,X):-
+        msw(type,T),
+        tl(T,X,[]).
+
+set_params:-
+        set_sw(looplen(gnra),[0.99,0.01]).
+
+
+%test_learn:-
+%        learn([count(obs([b(c,cww/1),b(u,-),b(c,-),b(c,-),b(g,-),b(g,cww/1)]),5),
+%               count(obs([b(c,cww/1),b(g,ths/2),b(c,-),b(a,-),b(a,ths/2),b(g,cww/1)]),50),

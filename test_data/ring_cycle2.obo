@@ -1,0 +1,87 @@
+[Instance]
+id: c1
+instance_of: C
+relationship: connected_to c2
+
+[Instance]
+id: c2
+instance_of: C
+relationship: connected_to c3
+
+[Instance]
+id: c3
+instance_of: C
+relationship: connected_to c4
+
+[Instance]
+id: c4
+instance_of: C
+relationship: connected_to c5
+
+[Instance]
+id: c5
+instance_of: C
+relationship: connected_to c6
+
+[Instance]
+id: c6
+instance_of: C
+relationship: connected_to c1
+
+[Instance]
+id: foo7
+instance_of: C
+relationship: connected_to c1
+comment: hangs off of ring
+
+[Instance]
+id: x1
+instance_of: C
+relationship: connected_to x2
+
+[Instance]
+id: x2
+instance_of: C
+relationship: connected_to x3
+
+[Instance]
+id: x3
+instance_of: C
+relationship: connected_to x4
+
+[Typedef]
+id: connected_to
+is_symmetric: true
+
+[Typedef]
+id: connected_in_cycle_with
+is_symmetric: true
+is_a: connected_to
+cyclic_over: connected_to
+!intersection_of: connected_to
+!intersection_of: transitive
+
+[Typedef]
+id: has_path_to
+is_a: connected_to
+directed_simple_path_over: connected_to
+
+[Term]
+id: atom
+
+[Term]
+id: C
+is_a: atom
+
+[Term]
+id: ring_atom
+intersection_of: atom
+intersection_of: connected_in_cycle_with atom
+
+[Term]
+id: six_ring_atom
+intersection_of: atom
+intersection_of: connected_in_cycle_with atom {cardinality=6}
+
+
+

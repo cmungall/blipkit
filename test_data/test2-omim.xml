@@ -1,0 +1,3137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<omim_disease_set>
+  <OMIM-disease>
+    <OMIM-no>100050</OMIM-no>
+    <OMIM-ti>AARSKOG SYNDROME</OMIM-ti>
+    <OMIM-tx>Grier et al. (1983) reported father and 2 sons with typical Aarskog
+syndrome, including short stature, hypertelorism, and shawl scrotum.
+They tabulated the findings in 82 previous cases. X-linked recessive
+inheritance has been repeatedly suggested (see 305400). The family
+reported by Welch (1974) had affected males in 3 consecutive
+generations. Thus, there is either genetic heterogeneity or this is an
+autosomal dominant with strong sex-influence and possibly ascertainment
+bias resulting from use of the shawl scrotum as a main criterion.
+Stretchable skin was present in the cases of Grier et al. (1983). Teebi
+et al. (1993) reported the case of an affected mother and 4 sons
+(including a pair of monozygotic twins) by 2 different husbands. They
+suggested that the manifestations were as severe in the mother as in the
+sons and that this suggested autosomal dominant inheritance. Actually,
+the mother seemed less severely affected, compatible with X-linked
+inheritance.</OMIM-tx>
+    <OMIM-rf>1. Grier, R. E.; Farrington, F. H.; Kendig, R.; Mamunes, P.: Autosomal
+dominant inheritance of the Aarskog syndrome. Am. J. Med. Genet. 15:
+39-46, 1983.
+
+2. Teebi, A. S.; Rucquoi, J. K.; Meyn, M. S.: Aarskog syndrome: report
+of a family with review and discussion of nosology. Am. J. Med. Genet. 46:
+501-509, 1993.
+
+3. Welch, J. P.: Elucidation of a 'new' pleiotropic connective tissue
+disorder. Birth Defects Orig. Art. Ser. X(10): 138-146, 1974.</OMIM-rf>
+    <OMIM-cs>Growth:
+   Mild to moderate short stature
+
+Head:
+   Normocephaly
+
+Hair:
+   Widow's peak
+
+Facies:
+   Maxillary hypoplasia;
+   Broad nasal bridge;
+   Anteverted nostrils;
+   Long philtrum;
+   Broad upper lip;
+   Curved linear dimple below the lower lip
+
+Eyes:
+   Hypertelorism;
+   Ptosis;
+   Down-slanted palpebral fissures;
+   Ophthalmoplegia;
+   Strabismus;
+   Hyperopic astigmatism;
+   Large cornea
+
+Ears:
+   Floppy ears;
+   Lop-ears
+
+Mouth:
+   Cleft lip/palate
+
+GU:
+   Shawl scrotum;
+   Saddle-bag scrotum;
+   Cryptorchidism
+
+Limbs:
+   Brachydactyly;
+   Digital contractures;
+   Clinodactyly;
+   Mild syndactyly;
+   Transverse palmar crease;
+   Lymphedema of the feet
+
+Joints:
+   Ligamentous laxity;
+   Osteochondritis dissecans;
+   Proximal finger joint hyperextensibility;
+   Flexed distal finger joints;
+   Genu recurvatum;
+   Flat feet
+
+Skin:
+   Stretchable skin
+
+Spine:
+   Cervical spine hypermobility;
+   Odontoid anomaly
+
+Heme:
+   Macrocytic anemia;
+   Hemochromatosis
+
+GI:
+   Hepatomegaly;
+   Portal cirrhosis;
+   Imperforate anus;
+   Rectoperineal fistula
+
+Pulmonary:
+   Interstitial pulmonary disease
+
+Thorax:
+   Sternal deformity
+
+Inheritance:
+   Sex-influenced autosomal dominant form;
+   also X-linked form</OMIM-cs>
+    <OMIM-phenotype>
+      <phenotype_class>Growth</phenotype_class>
+      <phenotype_desc>Mild to moderate short stature</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Head</phenotype_class>
+      <phenotype_desc>Normocephaly</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Hair</phenotype_class>
+      <phenotype_desc>Widow's peak</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Facies</phenotype_class>
+      <phenotype_desc>Maxillary hypoplasia</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Facies</phenotype_class>
+      <phenotype_desc>Broad nasal bridge</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Facies</phenotype_class>
+      <phenotype_desc>Anteverted nostrils</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Facies</phenotype_class>
+      <phenotype_desc>Long philtrum</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Facies</phenotype_class>
+      <phenotype_desc>Broad upper lip</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Facies</phenotype_class>
+      <phenotype_desc>Curved linear dimple below the lower lip</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Eyes</phenotype_class>
+      <phenotype_desc>Hypertelorism</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Eyes</phenotype_class>
+      <phenotype_desc>Ptosis</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Eyes</phenotype_class>
+      <phenotype_desc>Down-slanted palpebral fissures</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Eyes</phenotype_class>
+      <phenotype_desc>Ophthalmoplegia</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Eyes</phenotype_class>
+      <phenotype_desc>Strabismus</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Eyes</phenotype_class>
+      <phenotype_desc>Hyperopic astigmatism</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Eyes</phenotype_class>
+      <phenotype_desc>Large cornea</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Ears</phenotype_class>
+      <phenotype_desc>Floppy ears</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Ears</phenotype_class>
+      <phenotype_desc>Lop-ears</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Mouth</phenotype_class>
+      <phenotype_desc>Cleft lip/palate</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>GU</phenotype_class>
+      <phenotype_desc>Shawl scrotum</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>GU</phenotype_class>
+      <phenotype_desc>Saddle-bag scrotum</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>GU</phenotype_class>
+      <phenotype_desc>Cryptorchidism</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Limbs</phenotype_class>
+      <phenotype_desc>Brachydactyly</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Limbs</phenotype_class>
+      <phenotype_desc>Digital contractures</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Limbs</phenotype_class>
+      <phenotype_desc>Clinodactyly</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Limbs</phenotype_class>
+      <phenotype_desc>Mild syndactyly</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Limbs</phenotype_class>
+      <phenotype_desc>Transverse palmar crease</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Limbs</phenotype_class>
+      <phenotype_desc>Lymphedema of the feet</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Joints</phenotype_class>
+      <phenotype_desc>Ligamentous laxity</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Joints</phenotype_class>
+      <phenotype_desc>Osteochondritis dissecans</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Joints</phenotype_class>
+      <phenotype_desc>Proximal finger joint hyperextensibility</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Joints</phenotype_class>
+      <phenotype_desc>Flexed distal finger joints</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Joints</phenotype_class>
+      <phenotype_desc>Genu recurvatum</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Joints</phenotype_class>
+      <phenotype_desc>Flat feet</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Skin</phenotype_class>
+      <phenotype_desc>Stretchable skin</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Spine</phenotype_class>
+      <phenotype_desc>Cervical spine hypermobility</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Spine</phenotype_class>
+      <phenotype_desc>Odontoid anomaly</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Heme</phenotype_class>
+      <phenotype_desc>Macrocytic anemia</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Heme</phenotype_class>
+      <phenotype_desc>Hemochromatosis</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>GI</phenotype_class>
+      <phenotype_desc>Hepatomegaly</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>GI</phenotype_class>
+      <phenotype_desc>Portal cirrhosis</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>GI</phenotype_class>
+      <phenotype_desc>Imperforate anus</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>GI</phenotype_class>
+      <phenotype_desc>Rectoperineal fistula</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Pulmonary</phenotype_class>
+      <phenotype_desc>Interstitial pulmonary disease</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Thorax</phenotype_class>
+      <phenotype_desc>Sternal deformity</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Inheritance</phenotype_class>
+      <phenotype_desc>Sex-influenced autosomal dominant form</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Inheritance</phenotype_class>
+      <phenotype_desc>also X-linked form</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-cd>
+      <OMIM-cd-value>Victor A. McKusick: 6/4/1986</OMIM-cd-value>
+    </OMIM-cd>
+    <OMIM-ed>
+      <OMIM-ed-value>alopez: 06/03/1997
+mimadm: 3/11/1994
+carol: 7/7/1993
+supermim: 3/16/1992
+supermim: 3/20/1990
+ddp: 10/26/1989
+marie: 3/25/1988</OMIM-ed-value>
+    </OMIM-ed>
+  </OMIM-disease>
+  <OMIM-disease>
+    <OMIM-no>100070</OMIM-no>
+    <OMIM-ti>ANEURYSMS, PERIPHERAL, INCLUDED</OMIM-ti>
+    <OMIM-syn>AORTIC ANEURYSM, ABDOMINAL </OMIM-syn>
+    <OMIM-syn>AAA</OMIM-syn>
+    <OMIM-syn>AAA1</OMIM-syn>
+    <OMIM-syn>ANEURYSM, ABDOMINAL AORTIC</OMIM-syn>
+    <OMIM-syn>ABDOMINAL AORTIC ANEURYSM ARTERIOMEGALY, INCLUDED</OMIM-syn>
+    <OMIM-code>more_than_one_gene</OMIM-code>
+    <OMIM-tx>A number sign (#) is used with this entry because abdominal aortic
+aneurysm is a multifactorial disorder with multiple genetic and
+environmental risk factors. The disorder may occur as part of a
+heritable syndrome or in isolation. Loci for isolated abdominal aortic
+aneurysm have been mapped to 19q13 (AAA1; 609781) and 4q31 (AAA2;
+609782).
+
+CLINICAL FEATURES
+
+Loosemore et al. (1988) described 2 brothers with abdominal aortic
+aneurysm at ages 58 and 62 years, whose father died of ruptured
+abdominal aortic aneurysm at the age of 72 years. Four other sibs died
+of myocardial infarction at ages 47 to 61 years. Loosemore et al. (1988)
+suggested that a deficiency of type III collagen (see 120180) might be
+the basis for the aneurysm formation. The proportion of type III
+collagen in forearm skin biopsies was cited as accurately reflective of
+the proportion in the aorta and was said to have been low in the
+brothers.
+
+Ward (1992) looked for association of dilated peripheral arteries with
+aortic aneurysmal disease by measuring the diameters of the common
+femoral, popliteal, brachial, common carotid, internal carotid, and
+external carotid arteries by color-flow duplex scan in 30 control
+subjects and 36 patients with aortic aneurysm matched for age, sex,
+smoking habits, and hypertension. Mean peripheral artery diameter was
+significantly greater in patients with aortic aneurysms than in controls
+at all measurement sites. Peripheral artery dilatation was identified at
+sites that are seldom, if ever, involved in atherosclerosis. Ward (1992)
+concluded that there is a generalized dilating diathesis in aortic
+aneurysmal disease that may be unrelated to atherosclerosis.
+
+In the study of Verloes et al. (1995), familial male cases showed a
+significantly earlier age at rupture and a greater rupture rate as
+compared with sporadic male cases, as well as a tendency (p less than
+0.05) towards earlier age of diagnosis.
+
+AAA occurs among approximately 1.5% of the male population older than 50
+years of age. Several studies have indicated an increased frequency
+among first-degree relatives of patients with AAA. Aneurysms of the
+peripheral arteries (femoral, popliteal, and isolated iliac) are less
+common than aortic aneurysms (Lawrence et al., 1995), and arteriomegaly
+(diffuse aneurysmal disease) is even less common (Hollier et al., 1983).
+Peripheral aneurysms and arteriomegaly carry a high risk for
+complications such as rupture, embolism, or thrombosis.
+
+INHERITANCE
+
+Tilson and Seashore (1984) reported 50 families in which abdominal
+aortic aneurysm had occurred in 2 or more first-degree relatives, mainly
+males. In 29 families, multiple sibs (up to 4) were affected; in 2
+families, 3 generations were affected; and in 15 families, persons in 2
+generations were affected. Three complex pedigrees were observed: one in
+which both parents and 3 sons were affected; one in which a man and his
+paternal uncle were affected; and one in which a man and his father and
+maternal great-uncle were affected. In the 'one-generation' families,
+there were 3 with only females affected, including a set of identical
+twins. The authors concluded that if a single gene is responsible, it is
+likely to be autosomal but that a multigenic mechanism cannot be
+excluded.
+
+Clifton (1977) reported 3 affected brothers.
+
+In North Carolina, Johnson et al. (1985) found that white males have a
+frequency of abdominal aortic aneurysm about 3 times that in black
+males, black females, or white females; all 3 of the latter groups had
+about comparable frequencies. Frequency was ascertained by a survey of
+autopsies and a survey of abdominal computed tomographic scans in
+subjects over the age of 50 years.
+
+Johansen and Koepsell (1986) compared the family histories of 250
+patients with abdominal aortic aneurysm with those of 250 control
+subjects. Among the control subjects, 2.4% reported a first-degree
+relative with an aneurysm, compared with 19.2% of the patients with
+abdominal aortic aneurysm. This was taken to represent an estimated
+11.6-fold increase in abdominal aortic aneurysm risk among persons with
+an affected first-degree relative. The authors suggested that
+noninvasive screening to detect early abdominal aortic aneurysm may be
+warranted in the relatives of affected persons.
+
+Borkett-Jones et al. (1988) brought to 4 the number of reported sets of
+identical twins concordant for abdominal aortic aneurysm. In a 9-year
+prospective study of 542 consecutive patients undergoing operation for
+abdominal aortic aneurysm, Darling et al. (1989) found that 82 (15.1%)
+had a first-degree relative with an aneurysm as compared to 9 (1.8%) of
+the control group of 500 patients of similar age and sex without
+aneurysmal disease. Patients with familial abdominal aortic aneurysm
+were more likely to be women (35% vs 14%), and men with familial
+abdominal aortic aneurysm tended to be about 5 years younger than the
+women. No significant difference was found between the patients with
+nonfamilial and familial abdominal aortic aneurysms in anatomic extent,
+multiplicity, associated occlusive disease, or blood type. The risk of
+rupture was strongly correlated with familial disease and the presence
+of a female member with aneurysm (63% vs 37%). Darling et al. (1989)
+suggested the term 'black widow syndrome' because of the grim
+significance of the presence of an affected female in the family.
+
+On the basis of a study of first-degree relatives of 91 probands,
+Majumder et al. (1991) rejected the nongenetic model and concluded that
+the most parsimonious genetic model was that susceptibility to abdominal
+aortic aneurysm is determined by a recessive gene at an autosomal
+diallelic major locus.
+
+Fitzgerald et al. (1995) assessed the incidence of abdominal aortic
+aneurysm (AAA) in the sibs of 120 patients known to have AAA. Twelve
+percent of the sibs were found to have an aneurysm, including 22% of
+male sibs but only 3% of female sibs. Male sibs with hypertension were
+more likely to have AAA.
+
+In the study of Verloes et al. (1995), relative risk for male sibs of a
+male patient was 18. Segregation analysis with the mixed model gave
+single gene effect with dominant inheritance as the most likely
+explanation for the familial occurrence. The frequency of the morbid
+allele was 1:250, and its age-related penetrance was not higher than
+0.4.
+
+As part of a review of abdominal aortic aneurysm as a multifactorial
+process, Henney (1993) reviewed family studies and the molecular
+genetics. In a review focused on surgical aspects, Ernst (1993)
+commented that 'there is little support for atherosclerosis as the
+unitary cause...several factors appear to have an important role,
+including familial clustering...'
+
+Through questionnaire and telephone inquiries, Verloes et al. (1995)
+collected family data on 324 probands with abdominal aortic aneurysm and
+determined multigenerational pedigrees on 313 families, including 39
+with multiple affected patients. There were 276 sporadic cases (264 men;
+12 women); 81 cases belonged to multiplex pedigrees (76 men; 5 women).
+
+Baird et al. (1995) collected information from 126 probands with
+abdominal aortic aneurysm and 100 controls (cataract surgery patients)
+concerning AAA. Of 427 sibs of probands, 19 (4.4%) had probable or
+definite AAA, compared with 5 (1.1%) of 451 sibs of controls. The
+lifetime cumulative risks of AAA at age 83 were 11.7% and 7.5%,
+respectively. The risk of AAA began at an earlier age and increased more
+rapidly for probands' sibs than for controls' sibs. The risk comparison,
+based on the results of ultrasound screening of 54 geographically
+accessible sibs probands and the 100 controls, showed a similar pattern.
+AAA was found on ultrasound in 10 sibs of probands, or 19%, compared to
+8% of controls.
+
+Lawrence et al. (1998) constructed pedigrees for first-degree relatives
+of 140 patients who received the diagnosis of peripheral arterial
+aneurysm, arteriomegaly, or AAA from 1988 through 1996 in Salt Lake
+City, Utah. Patients with peripheral arterial aneurysm (n = 40) had a
+10% (4 of 40) familial incidence rate of an aneurysm, patients with AAA
+(n = 86) had a 22% (19 of 86) familial incidence rate, and patients with
+arteriomegaly (n = 14) had a 36% (5 of 14) familial incidence rate. AAA
+was the aneurysm diagnosed most commonly among first-degree relatives
+(86%; 24 of 28). Most aneurysms (85%) occurred among men. Lawrence et
+al. (1998) suggested that relatives of patients with AAA, peripheral
+arterial aneurysm, or arteriomegaly may be screened by means of a
+physical examination for peripheral aneurysmal disease. Screening by
+means of ultrasound examination of the aorta should be limited to
+first-degree relatives of patients with aortic aneurysms or
+arteriomegaly.
+
+Rossaak et al. (2000) cited a familial incidence of 11 to 20% for AAA.
+
+Kuivaniemi et al. (2003) identified 233 families with at least 2
+individuals diagnosed with abdominal aortic aneurysms. The families
+originated from 9 different nationalities, but all were white. There
+were 653 aneurysm patients in these families, with an average of 2.8
+cases per family. Most of the families were small, with only 2 affected
+individuals. There were, however, 6 families with 6, 3 with 7, and 1
+with 8 affected individuals. Most of the probands (82%) and the affected
+relatives (77%) were male, and the most common relationship to the
+proband was brother. Most of the families (72%) appeared to show an
+autosomal recessive inheritance pattern, whereas in 58 families (25%),
+abdominal aortic aneurysms were inherited in an autosomal dominant
+manner, and in 8 families, the familial aggregation could be explained
+by autosomal dominant inheritance with incomplete penetrance. In the 66
+families where abdominal aortic aneurysms were inherited in a dominant
+manner, 141 transmissions of the disease from 1 generation to another
+were identified, and male-to-male, male-to-female, female-to-male, and
+female-to-female transmissions occurred in 46%, 11%, 32%, and 11%,
+respectively. Kuivaniemi et al. (2003) concluded that abdominal aortic
+aneurysms are a multifactorial disorder with multiple genetic and
+environmental risk factors.
+
+PATHOGENESIS
+
+Newman et al. (1994) and others have pointed to a role of matrix
+metalloproteinases (MMPs) in end-stage AAA. MMP activity is closely
+controlled by the balance of its activators, such as plasmin, and its
+inhibitors. A mutation that reduces the transcription of plasminogen
+activator inhibitor (PAI1; 173360) would result in an increase in the
+activity of tissue plasminogen activator (PLAT; 173370). This in turn
+would increase the conversion of inactive plasminogen (173350) to its
+active form, plasmin, and increase the zymogen activation of MMPs.
+Jean-Claude et al. (1994) observed increased levels of plasmin in AAAs.
+
+It is possible that aneurysms develop due to structural alterations in
+extracellular matrix (ECM) proteins such as elastin (130160), collagens,
+and proteoglycans. Such alterations in type III collagen (see 120180),
+however, have been shown to be rare causes of both abdominal aortic
+aneurysms and intracranial aneurysms (see 105800). Another alternative
+is that the enzymes degrading the structural molecules contribute to
+aneurysm formation. Matrix metalloproteinases (MMPs) are connective
+tissue-degrading enzymes that could play a role in structural
+alterations of the arterial wall through the degradation of collagens
+and other extracellular matrix molecules. MMP3 (185250), MMP9 (120361),
+and PAI1 are present at increased levels in abdominal aortic aneurysms
+(Yoon et al., 1999). Promoters of these genes contain polymorphisms with
+alleles that exhibit different transcriptional activities in vitro.
+
+Tromp et al. (2004) determined the relative expression of MMP13 (600108)
+in aortic tissue samples from 36 patients who underwent abdominal aortic
+aneurysm repair operations and from 20 nonaneurysmal autopsy samples.
+MMP13 was expressed in all parts of the aorta, and its expression was
+elevated in the aneurysmal sac. In further studies using MMP13-specific
+antibody, Tromp et al. (2004) demonstrated that MMP13 protein was
+present in the aneurysmal wall.
+
+Yoshimura et al. (2005) observed a high level of phosphorylated JNK
+(MAPK8; 601158) in human AAA tissue. By DNA microarray analysis of rat
+aortic vascular smooth muscle cells, they demonstrated that Jnk programs
+a gene expression pattern that cooperatively enhances degradation of the
+extracellular matrix, while suppressing biosynthetic enzymes of the ECM,
+such as Lox (153455) and Plod1 (153454). In human monocyte-macrophage
+cells and AAA tissue, JNK played a role in MMP9 secretion. Selective
+inhibition of Jnk in vivo not only prevented the development of AAA but
+also caused regression of established AAA in 2 mouse models. Yoshimura
+et al. (2005) concluded that JNK is a proximal signaling molecule in the
+pathogenesis of AAA that acts by promoting abnormal ECM metabolism.
+
+MOLECULAR GENETICS
+
+Kontusaari et al. (1989) and Kontusaari et al. (1990) reported a
+mutation in the COL3A1 gene (120180.0004) that may be the cause of
+familial aortic aneurysms. See review of Kuivaniemi et al. (1991). Tromp
+et al. (1993) carried out detailed DNA sequencing of the triple-helical
+domain of type III procollagen on cDNA prepared from 54 patients with
+aortic aneurysms. In the case of 43 patients, at least 1 additional
+blood relative had aneurysms. The 43 males and 11 females originated
+from 50 different families and 5 different nationalities. Only one amino
+acid substitution likely to have functional significance, a
+gly136-to-arg mutation, was found (see 120180.0018). Results indicated
+that mutations in type III procollagen are the cause of only about 2% of
+aortic aneurysms.
+
+A 4G/5G single nucleotide insertion/deletion polymorphism -675 bp
+upstream from the initiation of transcription in the PAI1 gene
+(173360.0002) has been described (Dawson et al., 1993). The 4G allele
+binds only an activator, whereas the 5G allele binds an activator and a
+repressor and is associated with a relatively reduced transcription of
+PAI1. The 5G variant is associated with less inhibition of the
+plasminogen activators and, consequently, increased conversion of
+plasminogen to plasmin and increased activation of MMPs. Thus, patients
+with this variant may be more at risk of the development of AAA. Rossaak
+et al. (2000) studied the ratios of the 4G:5G genotypes in 190 patients
+with AAA, including 39 patients with strong family histories, and 163
+controls. The frequency of the 4G:5G alleles in the AAA population and
+in the control population was 0.6:0.4. However, 26% of patients with
+familial AAA were homozygous 5G compared with 13% of the control
+population. The 4G allele frequency was 0.47 in the familial AAAs,
+compared with 0.62 in the nonfamilial patients (P = 0.02) and 0.61 in
+the control population (P = 0.03). There are suggestions from several
+sources that AAA and atherosclerosis may be different diseases. In their
+AAA population, Rossaak et al. (2000) found an incidence of diabetes
+mellitus of 6%. They suggested that this relatively low incidence in
+patients with AAA contrasted with that in atherosclerotic disease and
+lent support to the notion that these 2 disorders are indeed distinct.
+The association of the 5G homozygous genotype with familial AAA was
+another observation that questioned the idea that atherosclerosis causes
+AAAs. Whereas the 4G variant of PAI1 shows a protective role in AAA, it
+is undesirable in the context of coronary artery disease and
+atherosclerosis (Harris, 2001).
+
+Yoon et al. (1999) performed association studies using polymorphisms in
+the MMP3 (185250), MMP9 (120361), and PAI1 (173360) genes and DNA
+isolated from 47 AAA patients, 57 intracranial aneurysm (IA) patients,
+and 174 controls, all from Finland. PAI1 and MMP9 genotypes did not
+associate with aneurysms. The frequency of the 5A MMP3 allele
+(185250.0001) was somewhat higher in the AAA than in the control group,
+whereas the MMP3 allele frequencies in the IA group did not differ from
+those of the controls. These findings suggested that the
+transcriptionally more active 5A MMP3 allele might be a genetic risk
+factor for AAA among Finns. The findings were in agreement with previous
+studies demonstrating higher levels of MMP3 expression in AAA than in
+control tissues.
+
+Histologically, AAAs are characterized by signs of chronic inflammation,
+destructive remodeling of the extracellular matrix, and depletion of
+vascular smooth muscle cells (Steinmetz et al., 2003). Ogata et al.
+(2005) hypothesized that genes involved in these events could harbor
+changes and make individuals more susceptible to aneurysms. They
+reported studies that identified significant genetic associations
+between DNA sequence changes in the tissue inhibitor of
+metalloproteinase-1 (TIMP1; 305370), TIMP3 (188826), matrix
+metalloproteinase-10 (MMP10; 185260) and elastin (ELN; 130160) and AAA.
+
+POPULATION GENETICS
+
+Abdominal aortic aneurysm is, of course, a common disorder; by
+ultrasound screening, Collin et al. (1988) found an abdominal aortic
+aneurysm in 5.4% of men aged 65 to 74, and in 2.3% of men in this age
+group the aneurysm was 4 cm or more in diameter.</OMIM-tx>
+    <OMIM-sa>Gatalica et al. (1992); Norrgard et al. (1985); Norrgard et al. (1984)</OMIM-sa>
+    <OMIM-rf>1. Baird, P. A.; Sadovnick, A. D.; Yee, I. M. L.; Cole, C. W.; Cole,
+L.: Sibling risks of abdominal aortic aneurysm. Lancet 346: 601-604,
+1995.
+
+2. Borkett-Jones, H. J.; Stewart, G.; Chilvers, A. S.: Abdominal
+aortic aneurysms in identical twins. J. Roy. Soc. Med. 81: 471-472,
+1988.
+
+3. Clifton, M. A.: Familial abdominal aortic aneurysms. Brit. J.
+Surg. 64: 765-766, 1977.
+
+4. Collin, J.; Araujo, L.; Walton, J.; Lindsell, D.: Oxford screening
+programme for abdominal aortic aneurysm in men aged 65 to 74 years. Lancet II:
+613-615, 1988.
+
+5. Darling, R. C., III; Brewster, D. C.; Darling, R. C.; LaMuraglia,
+G. M.; Moncure, A. C.; Cambria, R. P.; Abbott, W. M.: Are familial
+abdominal aortic aneurysms different? J. Vasc. Surg. 10: 39-43,
+1989.
+
+6. Dawson, S. J.; Wiman, B.; Hamsten, A.; Green, F.; Humphries, S.;
+Henney, A. M.: The two allele sequences of a common polymorphism
+in the promoter of the plasminogen activator inhibitor-1 (PAI-1) gene
+respond differently to interleukin-1 in HepG2 cells. J. Biol. Chem. 268:
+10739-10745, 1993.
+
+7. Ernst, C. B.: Abdominal aortic aneurysm. New Eng. J. Med. 328:
+1167-1172, 1993.
+
+8. Fitzgerald, P.; Ramsbottom, D.; Burke, P.; Grace, P.; McAnen, O.;
+Croke, D. T.; Collins, P.; Johnson, A.; Bouchier-Hayes, D.: Abdominal
+aortic aneurysm in the Irish population. Brit. J. Surg. 82: 483-486,
+1995.
+
+9. Gatalica, Z.; Gibas, Z.; Martinez-Hernandez, A.: Dissecting aortic
+aneurysm as a complication of generalized fibromuscular dysplasia. Hum.
+Path. 23: 586-588, 1992.
+
+10. Harris, E. L.: Personal Communication. Dunedin, New Zealand
+11/27/2001.
+
+11. Henney, A. M.: Abdominal aortic aneurysm: molecular genetics. Lancet 341:
+216-217, 1993.
+
+12. Hollier, L. H.; Stanson, A. W.; Gloviczki, P.; Pairolero, P. C.;
+Joyce, J. W.; Bernatz, P. E.; Cherry, K. J.: Arteriomegaly: classification
+and morbid implications of diffuse aneurysmal disease. Surgery 93:
+700-708, 1983.
+
+13. Jean-Claude, J.; Newman, K. M.; Li, H.; Gregory, A. K.; Tilson,
+M. D.: Possible key role for plasmin in the pathogenesis of abdominal
+aortic aneurysms. Surgery 116: 472-478, 1994.
+
+14. Johansen, K.; Koepsell, T.: Familial tendency for abdominal aortic
+aneurysms. J.A.M.A. 256: 1934-1936, 1986.
+
+15. Johnson, G., Jr.; Avery, A.; McDougal, E. G.; Burnham, S. J.;
+Keagy, B. A.: Aneurysms of the abdominal aorta: incidence in blacks
+and whites in North Carolina. Arch. Surg. 120: 1138-1140, 1985.
+
+16. Kontusaari, S.; Kuivaniemi, H.; Tromp, G.; Grimwood, R.; Prockop,
+D. J.: A single base mutation in the type III procollagen gene (COL3A1)
+on chromosome 2q that causes familial aneurysms. (Abstract) Cytogenet.
+Cell Genet. 51: 1024-1025, 1989.
+
+17. Kontusaari, S.; Tromp, G.; Kuivaniemi, H.; Romanic, A. M.; Prockop,
+D. J.: A mutation in the gene for type III procollagen (COL3A1) in
+a family with aortic aneurysms. J. Clin. Invest. 86: 1465-1473,
+1990.
+
+18. Kuivaniemi, H.; Shibamura, H.; Arthur, C.; Berguer, R.; Cole,
+C. W.; Juvonen, T.; Kline, R. A.; Limet, R.; MacKean, G.; Norrgard,
+O.; Pals, G.; Powell, J. T.; Rainio, P.; Sakalihasan, N.; van Vlijmen-van
+Keulen, C.; Verloes, A.; Tromp, G.: Familial abdominal aortic aneurysms:
+collection of 233 multiplex families. J. Vasc. Surg. 37: 340-345,
+2003.
+
+19. Kuivaniemi, H.; Tromp, G.; Prockop, D. J.: Genetic causes of
+aortic aneurysms: unlearning at least part of what the textbooks say. J.
+Clin. Invest. 88: 1441-1444, 1991.
+
+20. Lawrence, P. F.; Lorenzo-Rivero, S.; Lyon, J. L.: The incidence
+of iliac, femoral, and popliteal artery aneurysms in hospitalized
+patients. J.  Vasc. Surg. 22: 409-415, 1995.
+
+21. Lawrence, P. F.; Wallis, C.; Dobrin, P. B.; Bhirangi, K.; Gugliuzza,
+N.; Galt, S.; Kraiss, L.: Peripheral aneurysms and arteriomegaly:
+is there a familial pattern? J. Vasc. Surg. 28: 599-605, 1998.
+
+22. Loosemore, T. M.; Child, A. H.; Dormandy, J. A.: Familial abdominal
+aortic aneurysms. J. Roy. Soc. Med. 81: 472-473, 1988.
+
+23. Majumder, P. P.; St. Jean, P. L.; Ferrell, R. E.; Webster, M.
+W.; Steed, D. L.: On the inheritance of abdominal aortic aneurysm. Am.
+J. Hum. Genet. 48: 164-170, 1991.
+
+24. Newman, K. M.; Malon, A. M.; Shin, R. D.; Scholes, J. V.; Ramey,
+W. G.; Tilson, M. D.: Matrix metalloproteinases in abdominal aortic
+aneurysm: characterization, purification, and their possible sources. Connect.
+Tissue Res. 30: 265-276, 1994.
+
+25. Norrgard, O.; Angquist, K.-A.; Johnson, O.: Familial aortic aneurysms:
+serum concentrations of triglyceride, cholesterol, HDL-cholesterol
+and (VLDL + LDL)-cholesterol. Brit. J. Surg. 72: 113-116, 1985.
+
+26. Norrgard, O.; Rais, O.; Angquist, K. A.: Familial occurrence
+of abdominal aortic aneurysms. Surgery 95: 650-656, 1984.
+
+27. Ogata, T.; Shibamura, H.; Tromp, G.; Sinha, M.; Goddard, K. A.
+B.; Sakalihasan, N.; Limet, R.; MacKean, G. L.; Arthur, C.; Sueda,
+T.; Land, S.; Kuivaniemi, H.: Genetic analysis of polymorphisms in
+biologically relevant candidate genes in patients with abdominal aortic
+aneurysms. J. Vasc. Surg. 41: 1036-1042, 2005.
+
+28. Rossaak, J. I.; van Rij, A. M.; Jones, G. T.; Harris, E. L.:
+Association of the 4G/5G polymorphism in the promoter region of plasminogen
+activator inhibitor-1 with abdominal aortic aneurysms. J. Vasc. Surg. 31:
+1026-1032, 2000.
+
+29. Steinmetz, E. F.; Buckley, C.; Thompson, R. W.: Prospects for
+the medical management of abdominal aortic aneurysms. Vasc. Endovasc.
+Surg. 37: 151-163, 2003.
+
+30. Tilson, M. D.; Seashore, M. R.: Fifty families with abdominal
+aortic aneurysms in two or more first-order relatives. Am. J. Surg. 147:
+551-553, 1984.
+
+31. Tromp, G.; Gatalica, Z.; Skunca, M.; Berguer, R.; Siegel, T.;
+Kline, R. A.; Kuivaniemi, H.: Elevated expression of matrix metalloproteinase-13
+in abdominal aortic aneurysms. Ann. Vasc. Surg. 18: 414-420, 2004.
+
+32. Tromp, G.; Wu, Y.; Prockop, D. J.; Madhatheri, S. L.; Kleinert,
+C.; Earley, J. J.; Zhuang, J.; Norrgard, O.; Darling, R. C.; Abbott,
+W. M.; Cole, C. W.; Jaakkola, P.; Ryynanen, M.; Pearce, W. H.; Yao,
+J. S. T.; Majamaa, K.; Smullens, S. N.; Gatalica, Z.; Ferrell, R.
+E.; Jimenez, S. A.; Jackson, C. E.; Michels, V. V.; Kaye, M.; Kuivaniemi,
+H.: Sequencing of cDNA from 50 unrelated patients reveals that mutations
+in the triple-helical domain of type III procollagen are an infrequent
+cause of aortic aneurysms. J. Clin. Invest. 91: 2539-2545, 1993.
+
+33. Verloes, A.; Sakalihasan, N.; Koulischer, L.; Limet, R.: Aneurysms
+of the abdominal aorta: familial and genetic aspects in three hundred
+thirteen pedigrees. J. Vas. Surg. 21: 646-655, 1995.
+
+34. Ward, A. S.: Aortic aneurysmal disease: a generalized dilating
+diathesis? Arch. Surg. 127: 990-991, 1992.
+
+35. Yoon, S.; Tromp, G.; Vongpunsawad, S.; Ronkainen, A.; Juvonen,
+T.; Kuivaniemi, H.: Genetic analysis of MMP3, and PAI-1 in Finnish
+patients with abdominal aortic or intracranial aneurysms. Biochem.
+Biophys. Res. Commun. 265: 563-568, 1999.
+
+36. Yoshimura, K.; Aoki, H.; Ikeda, Y.; Fujii, K.; Akiyama, N.; Furutani,
+A.; Hoshii, Y.; Tanaka, N.; Ricci, R.; Ishihara, T.; Esato, K.; Hamano,
+K.; Matsuzaki, M.: Regression of abdominal aortic aneurysm by inhibition
+of c-Jun N-terminal kinase. Nature Med. 11: 1330-1338, 2005.</OMIM-rf>
+    <OMIM-cs>Vascular:
+   Abdominal aortic aneurysm;
+   Generalized dilating diathesis
+
+Misc:
+   Estimated 11.6-fold increase among persons with an affected first-degree
+   relative
+
+Inheritance:
+   Autosomal dominant vs. recessive at an autosomal major locus or multifactorial;
+   COL3A1 gene (120180.0004) mutations cause about 2%</OMIM-cs>
+    <OMIM-phenotype>
+      <phenotype_class>Vascular</phenotype_class>
+      <phenotype_desc>Abdominal aortic aneurysm</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Vascular</phenotype_class>
+      <phenotype_desc>Generalized dilating diathesis</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Misc</phenotype_class>
+      <phenotype_desc>Estimated 11.6-fold increase among persons with an affected first-degree</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Misc</phenotype_class>
+      <phenotype_desc>relative</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Inheritance</phenotype_class>
+      <phenotype_desc>Autosomal dominant vs. recessive at an autosomal major locus or multifactorial</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Inheritance</phenotype_class>
+      <phenotype_desc>COL3A1 gene (120180.0004) mutations cause about 2%</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-cn>
+      <OMIM-cn-value>Marla J. F. O'Neill - updated: 3/20/2006
+Victor A. McKusick - updated: 12/2/2005
+Victor A. McKusick - updated: 12/14/2001
+Victor A. McKusick - updated: 1/20/1999
+Clair A. Francomano - updated: 5/12/1995</OMIM-cn-value>
+    </OMIM-cn>
+    <OMIM-cd>
+      <OMIM-cd-value>Victor A. McKusick: 6/4/1986</OMIM-cd-value>
+    </OMIM-cd>
+    <OMIM-ed>
+      <OMIM-ed-value>wwang: 03/21/2006
+terry: 3/20/2006
+carol: 12/13/2005
+alopez: 12/13/2005
+alopez: 12/12/2005
+terry: 12/2/2005
+terry: 6/27/2002
+terry: 4/4/2002
+alopez: 1/8/2002
+alopez: 1/7/2002
+terry: 12/14/2001
+carol: 3/28/2000
+mgross: 3/16/1999
+carol: 1/29/1999
+terry: 1/20/1999
+carol: 12/28/1998
+carol: 12/15/1998
+terry: 11/11/1997
+terry: 11/10/1997
+alopez: 7/9/1997
+mark: 10/2/1996
+terry: 10/24/1995
+mark: 7/11/1995
+warfield: 4/6/1994
+mimadm: 3/11/1994
+carol: 7/13/1993</OMIM-ed-value>
+    </OMIM-ed>
+  </OMIM-disease>
+  <OMIM-disease>
+    <OMIM-no>100100</OMIM-no>
+    <OMIM-ti>PRUNE BELLY SYNDROME</OMIM-ti>
+    <OMIM-syn>ABDOMINAL MUSCLES, ABSENCE OF, WITH URINARY TRACT ABNORMALITY AND CRYPTORCHIDISM </OMIM-syn>
+    <OMIM-tx>This condition was first described by Frolich (1839). The appellation
+'prune belly syndrome' is descriptive because the intestinal pattern is
+evident through the thin, lax, protruding abdominal wall in the infant
+(Osler, 1901). (Osler did not use the term 'prune belly.' His article on
+this subject and one 'on a family form of recurring epistaxis,
+associated with multiple telangiectases of the skin and mucous
+membranes'--see 187300--appeared successively in the November 1901 issue
+of the Johns Hopkins Hospital Bulletin. Osler wrote: 'In the summer of
+1897 a case of remarkable distension of the abdomen was admitted to the
+wards, with greatly distended bladder, and on my return in September,
+Dr. Futcher, knowing that I would be interested in it, sent for the
+child.') The full syndrome probably occurs only in males (Williams and
+Burkholder, 1967). Multiple cases (of the full syndrome) in families
+have rarely been reported, and the mode of inheritance, indeed whether
+this is a mendelian condition, is still unclear. Autosomal recessive
+inheritance is suggested by some reports. In Lebanon, where the rate of
+consanguinity is high, Afifi et al. (1972) described an affected
+offspring of first-cousin parents. Garlinger and Ott (1974) described 2
+affected brothers in 1 family and 2 affected male cousins in a second,
+and found 3 other reports of affected sibs, 2 of affected cousins and 1
+of concordant male twins. In the first family the parents were
+nonconsanguineous. In the second family the affected boys' mothers were
+half sisters; they had different maternal grandmothers. If this is an
+X-linked recessive, multiple affected brothers should be observed. If
+the disorder is due to fresh dominant mutation in each case, the
+male-limitation would be unexpected but not impossible. In British
+Columbia, Baird and MacDonald (1981) found a frequency of 1 in 29,231
+live births. This malformation syndrome is similar to Poland syndrome
+(173800) in being rather consistently reproduced in many cases but
+having no clearly demonstrable mendelian basis. A possibly related
+syndrome was described in a single patient by Texter and Murphy (1968).
+The triad consisted of absence of the right testis, kidney, and rectus
+abdominis muscle. King and Prescott (1978) presented evidence to support
+the suggestion that the maldevelopment of the abdominal musculature and
+abdominal laxity are secondary phenomena, the primary event being marked
+distention of the abdomen in the fetal period because of obstruction of
+the urinary tract. Likewise, Pagon et al. (1979) suggested that the
+abdominal muscle deficiency is secondary to fetal abdominal distention
+of various causes, most often perhaps, urethral obstruction with
+enlarged bladder. 'Prune belly' occurs, in the main, as a consequence of
+posterior urethral valves; thus the predominance as a male-limited
+multifactorial trait. Gaboardi et al. (1982) reported 2 brothers and a
+sister with prune belly syndrome with bilateral hydronephrosis,
+megaureter and megabladder, but no urethral stenosis. A better prognosis
+than is usually thought to obtain was suggested by the series of 19
+patients reported by Burke et al. (1969). Greskovich and Nyberg (1988)
+gave a review in which they stated incorrectly that the term prune belly
+syndrome was coined by Osler.</OMIM-tx>
+    <OMIM-sa>Burton and Dillard (1984); Harley et al. (1972); Lee  (1977); Monie
+and Monie (1979); Riccardi and Grum (1977); Roberts  (1956); Welch
+and Kearney (1974); Woodhouse et al. (1982)</OMIM-sa>
+    <OMIM-rf>1. Afifi, A. K.; Rebeiz, J.; Mire, J.; Andonian, S. J.; Der Kaloustian,
+V. M.: The myopathology of the prune belly syndrome. J. Neurol.
+Sci. 15: 153-166, 1972.
+
+2. Baird, P. A.; MacDonald, E. C.: An epidemiologic study of congenital
+malformations of the anterior abdominal wall in more than half a million
+consecutive live births. Am. J. Hum. Genet. 33: 470-478, 1981.
+
+3. Burke, E. C.; Shin, M. H.; Kelalis, P. P.: Prune belly syndrome:
+clinical findings and survival. Am. J. Dis. Child. 117: 668-671,
+1969.
+
+4. Burton, B. K.; Dillard, R. G.: Prune belly syndrome: observations
+supporting the hypothesis of abdominal overdistention. Am. J. Med.
+Genet. 17: 669-672, 1984.
+
+5. Frolich, F.: Der Mangel der Muskeln, insbesondere der Seitenbauchmuskeln.
+Dissertation: Wurzburg (pub.)  1839.
+
+6. Gaboardi, F.; Sterpa, A.; Thiebat, E.; Cornali, R.; Manfredi, M.;
+Bianchi, C.; Giacomoni, M. A.; Bertagnoli, L.: Prune-belly syndrome:
+report of three siblings. Helv. Paediat. Acta 37: 283-288, 1982.
+
+7. Garlinger, P.; Ott, J.: Prune belly syndrome: possible genetic
+implications. Birth Defects Orig. Art. Ser. X(8): 173-180, 1974.
+
+8. Greskovich, F. J., III; Nyberg, L. M., Jr.: The prune belly syndrome:
+a review of its etiology, defects, treatment and prognosis. J. Urol. 140:
+707-712, 1988.
+
+9. Harley, L. M.; Chen, Y.; Rattner, W. H.: Prune belly syndrome. J.
+Urol. 108: 174-176, 1972.
+
+10. King, C. R.; Prescott, G.: Pathogenesis of the prune-belly anomaly. J.
+Pediat. 93: 273-274, 1978.
+
+11. Lee, S. M.: Prune-belly syndrome in a 54-year-old man. J.A.M.A. 237:
+2216-2217, 1977.
+
+12. Monie, I. W.; Monie, B. J.: Prune-belly syndrome and fetal ascites. Teratology 19:
+111-117, 1979.
+
+13. Osler, W.: Congenital absence of the abdominal muscles with distended
+and hypertrophied urinary bladder. Bull. Johns Hopkins Hosp. 12:
+331-333, 1901.
+
+14. Pagon, R. A.; Smith, D. W.; Shepard, T. H.: Urethral obstruction
+malformation complex: a cause of abdominal deficiency and the 'prune
+belly.'. J. Pediat. 94: 900-906, 1979.
+
+15. Riccardi, V. M.; Grum, C. M.: The prune belly anomaly: heterogeneity
+and superficial X-linkage mimicry. J. Med. Genet. 14: 266-270, 1977.
+
+16. Roberts, P.: Congenital absence of the abdominal muscles with
+associated abnormalities of the genito-urinary tract. Arch. Dis.
+Child. 31: 236-239, 1956.
+
+17. Texter, J. H.; Murphy, G. P.: The right-sided syndrome: congenital
+absence of the right testis, kidney and rectus: urologic diagnosis
+and treatment. Johns Hopkins Med. J. 122: 224-228, 1968.
+
+18. Welch, K. J.; Kearney, G. P.: Abdominal musculature deficiency
+syndrome: prune belly. J. Urol. 111: 693-700, 1974.
+
+19. Williams, D. I.; Burkholder, G. V.: The prune belly syndrome. J.
+Urol. 98: 244-251, 1967.
+
+20. Woodhouse, C. R. J.; Ransley, P. G.; Innes-Williams, D.: Prune
+belly syndrome--report of 47 cases. Arch. Dis. Child. 57: 856-859,
+1982.</OMIM-rf>
+    <OMIM-cs>Abdomen:
+   Absent abdominal musculature;
+   Visible intestinal pattern;
+   Thin, lax, protruding abdominal wall
+
+Skin:
+   Wrinkled abdominal skin
+
+GU:
+   Distended bladder;
+   Fetal urinary tract obstruction;
+   Posterior urethral valves;
+   Hydronephrosis;
+   Hydroureter;
+   Cryptorchidism
+
+GI:
+   Imperforate anus
+
+Thorax:
+   Flared ribs;
+   Pectus excavatum/carinatum
+
+Limbs:
+   Club foot
+
+Joints:
+   Congenital hip dislocation
+
+Misc:
+   Oligohydramnios
+
+Cardiac:
+   Congenital heart defect;
+   Patent ductus arteriosus
+
+Inheritance:
+   ? Autosomal dominant;
+   Autosomal recessive suggested by some reports</OMIM-cs>
+    <OMIM-phenotype>
+      <phenotype_class>Abdomen</phenotype_class>
+      <phenotype_desc>Absent abdominal musculature</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Abdomen</phenotype_class>
+      <phenotype_desc>Visible intestinal pattern</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Abdomen</phenotype_class>
+      <phenotype_desc>Thin, lax, protruding abdominal wall</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Skin</phenotype_class>
+      <phenotype_desc>Wrinkled abdominal skin</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>GU</phenotype_class>
+      <phenotype_desc>Distended bladder</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>GU</phenotype_class>
+      <phenotype_desc>Fetal urinary tract obstruction</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>GU</phenotype_class>
+      <phenotype_desc>Posterior urethral valves</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>GU</phenotype_class>
+      <phenotype_desc>Hydronephrosis</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>GU</phenotype_class>
+      <phenotype_desc>Hydroureter</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>GU</phenotype_class>
+      <phenotype_desc>Cryptorchidism</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>GI</phenotype_class>
+      <phenotype_desc>Imperforate anus</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Thorax</phenotype_class>
+      <phenotype_desc>Flared ribs</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Thorax</phenotype_class>
+      <phenotype_desc>Pectus excavatum/carinatum</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Limbs</phenotype_class>
+      <phenotype_desc>Club foot</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Joints</phenotype_class>
+      <phenotype_desc>Congenital hip dislocation</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Misc</phenotype_class>
+      <phenotype_desc>Oligohydramnios</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Cardiac</phenotype_class>
+      <phenotype_desc>Congenital heart defect</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Cardiac</phenotype_class>
+      <phenotype_desc>Patent ductus arteriosus</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Inheritance</phenotype_class>
+      <phenotype_desc>? Autosomal dominant</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Inheritance</phenotype_class>
+      <phenotype_desc>Autosomal recessive suggested by some reports</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-cd>
+      <OMIM-cd-value>Victor A. McKusick: 6/4/1986</OMIM-cd-value>
+    </OMIM-cd>
+    <OMIM-ed>
+      <OMIM-ed-value>carol: 11/18/2004
+terry: 6/2/2004
+dholmes: 10/6/1997
+terry: 2/13/1997
+carol: 7/12/1996
+mimadm: 4/18/1994
+carol: 2/13/1994
+carol: 8/25/1992
+supermim: 3/16/1992
+carol: 9/4/1990</OMIM-ed-value>
+    </OMIM-ed>
+  </OMIM-disease>
+  <OMIM-disease>
+    <OMIM-no>100200</OMIM-no>
+    <OMIM-ti>ABDUCENS PALSY</OMIM-ti>
+    <OMIM-tx>This is a form of hereditary strabismus. Affected persons in 2 or more
+generations have been reported (Chavasse, 1938; Francois, 1961). Nuclear
+aplasia has been found in some cases (Phillips et al., 1932). Abducens
+palsy also occurs as part of the Moebius syndrome (157900).</OMIM-tx>
+    <OMIM-rf>1. Chavasse, F. B.: The ocular palsies. Trans. Ophthal. Soc. U.K. 58:
+493 only, 1938.
+
+2. Francois, J.: Heredity in Ophthalmology.  St. Louis: C. V. Mosby
+(pub.)  1961. Pp. 280 only.
+
+3. Phillips, W. H.; Dirion, J. K.; Graves, G. O.: Congenital bilateral
+palsy of abducens. Arch. Ophthal. 8: 355-364, 1932.</OMIM-rf>
+    <OMIM-cs>Eyes:
+   Abducens palsy;
+   Strabismus
+
+Neuro:
+   Abducens nucleus aplasia
+
+Inheritance:
+   Autosomal dominant</OMIM-cs>
+    <OMIM-phenotype>
+      <phenotype_class>Eyes</phenotype_class>
+      <phenotype_desc>Abducens palsy</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Eyes</phenotype_class>
+      <phenotype_desc>Strabismus</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Neuro</phenotype_class>
+      <phenotype_desc>Abducens nucleus aplasia</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Inheritance</phenotype_class>
+      <phenotype_desc>Autosomal dominant</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-cd>
+      <OMIM-cd-value>Victor A. McKusick: 6/4/1986</OMIM-cd-value>
+    </OMIM-cd>
+    <OMIM-ed>
+      <OMIM-ed-value>davew: 8/15/1994
+mimadm: 3/11/1994
+supermim: 3/16/1992
+supermim: 3/20/1990
+ddp: 10/26/1989
+marie: 3/25/1988</OMIM-ed-value>
+    </OMIM-ed>
+  </OMIM-disease>
+  <OMIM-disease>
+    <OMIM-no>100300</OMIM-no>
+    <OMIM-ti>CONGENITAL SCALP DEFECTS WITH DISTAL LIMB REDUCTION ANOMALIES</OMIM-ti>
+    <OMIM-syn>ABSENCE DEFECT OF LIMBS, SCALP, AND SKULL </OMIM-syn>
+    <OMIM-syn>ADAMS-OLIVER SYNDROME</OMIM-syn>
+    <OMIM-syn>AOS</OMIM-syn>
+    <OMIM-tx>The proband described by Adams and Oliver (1945) had absence of the
+lower extremities below the mid-calf region and absence of all digits
+and some of the metacarpals of the right hand; a denuded ulcerated area
+on the vertex of the scalp present at birth; and a bony defect of the
+skull underlying the scalp defect. The skin and skull lesions were
+similar to those of aplasia cutis congenita (107600, 207700). The
+proband had 4 unaffected brothers and a sister and brother with
+identical defects of limb, scalp and skull. The father was born with
+absence of toes 2-5 on the left foot, with short terminal phalanges of
+all fingers, and with a scalp defect. The father was 1 of 10 children of
+whom 3 others had defects of the extremities. The father's father was
+said to have had short fingers. The proband's parents were not related.
+In a family described by Scribanu and Temtamy (1975), variable
+expressivity and reduced penetrance were evident; cutis marmorata was
+striking in the proband, a 3-year-old male. Toriello et al. (1988) also
+described cutis marmorata telangiectatica congenita (CMTC; 219250) in a
+child with the Adams-Oliver syndrome. The mother also had CMTC without
+the other features of the Adams-Oliver syndrome. These vascular changes
+in the skin may indicate that the features of Adams-Oliver syndrome are
+'vascular disruption sequences.' The family reported by Bonafede and
+Beighton (1979) added substantial support to dominant inheritance, with
+one instance of male-to-male transmission. Kuster et al. (1988)
+described 10 cases, 7 of them in 2 families and 3 sporadic cases. They
+found 11 families and 19 sporadic cases reported in the literature. They
+suggested that the important differential diagnoses are the syndrome of
+scalp defect and postaxial polydactyly (181250), the amniotic band
+sequence (which is usually nonmendelian), and the Bart type of
+epidermolysis bullosa dystrophica (132000).
+
+Koiffmann et al. (1988) recorded an experience which suggested autosomal
+recessive inheritance of a disorder identical to the autosomal dominant
+form. Their patient had the congenital scalp defect with hypoplastic
+fingers and toes. The parents were unaffected first cousins. Among 7
+sibs, 3 sisters and 2 brothers were normal, whereas 2 brothers born with
+the same scalp defect died as a consequence of bleeding from this
+abnormal area.
+
+Sybert (1989) concluded that 'most, if not all, instances of isolated
+ACC of the scalp are the result of an autosomal dominant gene, that ACC
+of the body wall + limb defects is an extremely heterogeneous group
+among which there may be inherited disorders of all Mendelian types as
+well as sporadic and nongenetic causes, and that ACC limited to the
+scalp in association with limb defects is most often inherited as an
+autosomal dominant.' Sybert (1985) and Frieden (1986) gave comprehensive
+reviews. Jaeggi et al. (1990) reported an affected mother and child as
+well as a third sporadic case. They discussed the probable pathogenesis
+of the disorder by vascular disruption as suggested by Toriello et al.
+(1988). Cutis marmorata and dilated scalp veins further point to a
+vascular disorder. Jaeggi et al. (1990) stated that among the 31
+reported patients with the full syndrome, major hemorrhage from the
+scalp defect occurred in 10, with 2 fatalities. Local infection was
+noted in 7 babies, with 1 case of fatal meningitis. Only 30% of the
+patients had surgical treatment of their scalp defects by skin grafting.
+Der Kaloustian et al. (1991) described 2 families having members
+affected with the Poland anomalad and the Adams-Oliver syndrome. They
+hypothesized that the Poland anomalad and the Adams-Oliver syndrome
+result from the interruption of early embryonic blood supply in the
+subclavian arteries, and that the gene predisposing to this interruption
+follows an autosomal dominant pattern of inheritance. Hoyme et al.
+(1992) reported that 2 additional individuals in family 2 of Der
+Kaloustian et al. (1991) had the Poland sequence with no findings
+suggesting Adams-Oliver syndrome. Whitley and Gorlin (1991) provided a
+follow-up on the family studied by Adams and Oliver (1945); the gene had
+been transmitted to a member of a fourth generation. They found reports
+of 81 cases in 32 families with approximately equal distribution between
+males and females. Vertical transmission in at least 8 families was
+consistent with autosomal dominant inheritance. Despite large defects of
+the cranium, central nervous system abnormalities have not been found in
+this disorder and intellectual development appears to be normal. On the
+basis of a sporadic case in a 10-year-old male, Chitayat et al. (1992)
+suggested that acrania is a severe form of aplasia cutis congenita and
+is within the spectrum of Adams-Oliver syndrome. In acrania, the flat
+bones of the cranial vault are absent, whereas the bones at the base of
+the skull are normal. Bamforth et al. (1994) found this syndrome in a
+mother and her 3 children with variable scalp defects and limb defects.
+Other anomalies included congenital heart disease, microcephaly,
+epilepsy, mental retardation, arhinencephaly, hydrocephaly, anatomic
+bronchial anomalies, and renal anomalies. The 3 children were by 2
+different fathers.
+
+Zapata et al. (1995) reported 2 patients with Adams-Oliver syndrome and
+congenital cardiac malformations. A literature review demonstrated that
+13.4% of individuals with this syndrome have congenital heart anomalies.
+
+Farrell et al. (1993) described a sporadic case of this syndrome in a
+male infant. In addition to typical manifestations, he had atrial septal
+defect, chylothorax, and chronic juvenile myelogenous leukemia which was
+diagnosed at 9 months. Review of the literature (102 cases) showed that
+78% of patients had defects of lower limbs and 59% had defects of upper
+limbs. To avoid ascertainment bias, Farrell et al. (1993) excluded
+propositi for calculations of scalp and skull defects. After this
+exclusion, 56% of patients had scalp defects and 21% had skull defects.
+
+Pousti and Bartlett (1997) described cutis aplasia congenita in twin
+boys born to a mother with a history of cutis aplasia. One of the
+infants had associated distal limb anomalies, and the other had cardiac
+anomalies.
+
+Klinger and Merlob (1998) suggested autosomal recessive inheritance for
+the disorder in a brother and sister born of nonconsanguineous parents.
+Other explanations are, of course, possible, and perhaps more likely.
+The brother had scalp aplasia cutis congenita and cutis marmorata; his
+sister had these features associated with terminal lower limb defects.
+She showed short upper limbs, short feet, and brachydactyly of toes 2 to
+4. Oligohydramnios had been a feature of both pregnancies. The family
+reported by Kahn and Olmedo (1950) was pointed to as another example of
+recessive inheritance. Tekin et al. (1999) reported a Turkish family
+with 2 affected sibs and unaffected consanguineous parents as further
+evidence of recessive inheritance in at least some families.
+
+Swartz et al. (1999) described the case of a young girl with
+Adams-Oliver syndrome who also had double-outlet right ventricle, portal
+hypertension, and pulmonary hypertension. They hypothesized that a
+congenital vascular abnormality is the underlying pathogenesis and that
+the cutaneous defects characteristically seen in AOS represent the most
+common manifestations. They suggested that AOS should be considered not
+merely a syndrome consisting of aplasia cutis congenita and terminal
+transverse limb defects but rather a constellation of clinical findings
+resulting from an early embryonic vascular abnormality. No cases of
+double-outlet right ventricle had been reported in AOS. Toriello et al.
+(1988) described pulmonary hypertension in association with pulmonary
+vein stenosis. Portal hypertension caused by hepatoportal sclerosis had
+also not been reported in AOS. Pulmonary hypertension developed in the
+patient described by Swartz et al. (1999) before the age of 4 years.
+
+As further evidence that the Adams-Oliver syndrome is a vascular
+disruption sequence, Keymolen et al. (1999) reported the case of a girl
+with congenital scalp and acral reduction limb defects, consistent with
+the diagnosis of Adams-Oliver syndrome, who also showed constriction
+rings, making the limb anomalies similar to those seen in the amniotic
+band disruption sequence (217100).
+
+Savarirayan et al. (1999) described a boy with AOS whose sister was also
+mildly affected. Their mother had hypoplastic fifth toenails, thought to
+represent very mild expression of the syndrome. Computed tomography of
+the brain to investigate mild left hemiparesis in the boy demonstrated
+severe cortical dysplasia of central, occipital, and anterior regions of
+the right cerebral hemisphere. The boy and his sister had apparent
+constriction rings present on the toes, an uncommon finding in AOS.
+
+Pereira-da-Silva et al. (2000) described 2 patients with AOS, one of
+whom had necrotic lesions of the fingertips, generalized cutis marmorata
+telangiectatica, and localized ulceration of the abdominal skin,
+indicative of a vascular abnormality.
+
+Amor et al. (2000) reported 2 sibs, born of consanguineous parents, with
+cortical malformations and scalp and limb defects consistent with
+Adams-Oliver syndrome. Both sibs showed global developmental delay, and
+brain imaging showed polymicrogyria and dilatation of the cerebral
+ventricles. One child developed lymphedema of 1 leg. Amor et al. (2000)
+suggested that the sibs had a rare variant of AOS with autosomal
+recessive inheritance.
+
+Patel et al. (2004) described 2 children with AOS and additional
+features, including intrauterine growth retardation (IUGR), CMTC,
+pulmonary hypertension, intracranial densities (shown in 1 patient to be
+sites of active bleeding), and osteopenia. Autopsy in 1 patient showed
+defective vascular smooth muscle cell/pericyte coverage of the
+vasculature associated with 2 blood vessel abnormalities. Pericyte
+absence correlated with vessel dilatation whereas hyperproliferation of
+pericytes correlated with vessel stenosis. These findings suggested a
+unifying pathogenic mechanism for the abnormalities seen in AOS. Patel
+et al. (2004) concluded that the 2 patients they described, in addition
+to those reported by Toriello et al. (1988) and Swartz et al. (1999),
+established that a subset of AOS patients is at high risk for pulmonary
+hypertension.
+
+Maniscalco et al. (2005) reported a father and son with AOS and
+pulmonary arteriovenous malformations (PAVMs). Manifestations of AOS in
+this 3-generation family included scalp defect, digital hypoplasia
+and/or syndactyly, and cutis marmorata telangiectasia. The authors
+suggested that the occurrence of PAVM in AOS supports the hypothesis
+that endothelial-specific abnormalities could be the pathophysiologic
+mechanism for the development of AOS.
+
+Verdyck et al. (2006) presented a Belgian family in which 10 individuals
+over 4 generations had Adams-Oliver syndrome, 6 of whom were available
+for study. Clinical symptoms were variable as reported in other families
+and included large areas of alopecia on the vertex of the skull and
+serious limb reduction defects with agenesis of all toes of 1 foot. In a
+search for the disease-causing gene, they sequenced the following 5
+genes in this family and in 9 previously reported families, finding no
+disease-causing mutations: MSX1 (142983), CART1 (601527), P63 (603273),
+RUNX2 (600211), and HOXD13 (142989).</OMIM-tx>
+    <OMIM-sa>Burton et al. (1976); Fryns  (1987); McMurray et al. (1977)</OMIM-sa>
+    <OMIM-rf>1. Adams, F. H.; Oliver, C. P.: Hereditary deformities in man due
+to arrested development. J. Hered. 36: 3-7, 1945.
+
+2. Amor, D. J.; Leventer, R. J.; Hayllar, S.; Bankier, A.: Polymicrogyria
+associated with scalp and limb defects: variant of Adams-Oliver syndrome. Am.
+J. Med. Genet. 93: 328-334, 2000.
+
+3. Bamforth, J. S.; Kaurah, P.; Byrne, J.; Ferreira, P.: Adams Oliver
+syndrome: a family with extreme variability in clinical expression. Am.
+J. Med. Genet. 49: 393-396, 1994.
+
+4. Bonafede, R. P.; Beighton, P.: Autosomal dominant inheritance
+of scalp defects with ectrodactyly. Am. J. Med. Genet. 3: 35-41,
+1979.
+
+5. Burton, B. K.; Hauser, L.; Nadler, H. L.: Congenital scalp defects
+with distal limb anomalies: report of a family. J. Med. Genet. 13:
+466-468, 1976.
+
+6. Chitayat, D.; Meunier, C.; Hodgkinson, K. A.; Robb, L.; Azouz,
+M.: Acrania: a manifestation of the Adams-Oliver syndrome. Am. J.
+Med. Genet. 44: 562-566, 1992.
+
+7. Der Kaloustian, V. M.; Hoyme, H. E.; Hogg, H.; Entin, M. A.; Guttmacher,
+A. E.: Possible common pathogenetic mechanisms for Poland sequence
+and Adams-Oliver syndrome. Am. J. Med. Genet. 38: 69-73, 1991.
+
+8. Farrell, S. A.; Warda, L. J.; LaFlair, P.; Szymonowicz, W.: Adams-Oliver
+syndrome: a case with juvenile chronic myelogenous leukemia and chylothorax. Am.
+J. Med. Genet. 47: 1175-1179, 1993.
+
+9. Frieden, I.: Aplasia cutis congenita: a clinical review and proposal
+for classification. J. Am. Acad. Derm. 14: 646-660, 1986.
+
+10. Fryns, J. P.: Congenital scalp defects with distal limb reduction
+anomalies. J. Med. Genet. 24: 493-496, 1987.
+
+11. Hoyme, H. E.; Entin, M. A.; Der Kaloustian, V. M.; Hogg, H.; Guttmacher,
+A. E.: Possible common pathogenetic mechanisms for Poland sequence
+and Adams-Oliver syndrome: an additional clinical observation. (Letter) Am.
+J. Med. Genet. 42: 398-399, 1992.
+
+12. Jaeggi, E.; Kind, C.; Morger, R.: Congenital scalp and skull
+defects with terminal transverse limb anomalies (Adams-Oliver syndrome):
+report of three additional cases. Europ. J. Pediat. 149: 565-566,
+1990.
+
+13. Kahn, E. A.; Olmedo, L.: Congenital defect of the scalp: with
+a note on the closure of the scalp defects in general. Plast. Reconstr.
+Surg. 6: 435-440, 1950.
+
+14. Keymolen, K.; De Smet, L.; Bracke, P., Fryns, J. P.: The concurrence
+of ring constrictions in Adams-Oliver syndrome: additional evidence
+for vascular disruption as common pathogenetic mechanism. Genet.
+Counsel. 10: 295-300, 1999.
+
+15. Klinger, G.; Merlob, P.: Adams-Oliver syndrome: autosomal recessive
+inheritance and new phenotypic-anthropometric findings. Am. J. Med.
+Genet. 79: 197-199, 1998.
+
+16. Koiffmann, C. P.; Wajntal, A.; Huyke, B. J.; Castro, R. M.: Congenital
+scalp skull defects with distal limb anomalies (Adams-Oliver syndrome--McKusick
+10030): further suggestion of autosomal recessive inheritance. Am.
+J. Med. Genet. 29: 263-268, 1988.
+
+17. Kuster, W.; Lenz, W.; Kaariainen, H.; Majewski, F.: Congenital
+scalp defects with distal limb anomalies (Adams-Oliver syndrome):
+report of ten cases and review of the literature. Am. J. Med. Genet. 31:
+99-115, 1988.
+
+18. Maniscalco, M.; Zedda, A.; Faraone, S.; de Laurentiis, G.; Verde,
+R.; Molese, V.; Lapiccirella, G.; Sofia, M.: Association of Adams-Oliver
+syndrome with pulmonary arterio-venous malformation in the same family:
+a further support to the vascular hypothesis. Am. J. Med. Genet. 136A:
+269-274, 2005.
+
+19. McMurray, B. R.; Martin, L. W.; Dignan, P. S. J.; Fogelson, M.
+H.: Hereditary aplasia cutis congenita and associated defects: three
+instances in one family and a survey of reported cases. Clin. Pediat. 16:
+610-614, 1977.
+
+20. Patel, M. S.; Taylor, G. P.; Bharya, S.; Al-Sanna'a, N.; Adatia,
+I.; Chitayat, D.; Lewis, M. E. S.; Human, D. G.: Abnormal pericyte
+recruitment as a cause for pulmonary hypertension in Adams-Oliver
+syndrome. Am. J. Med. Genet. 129A: 294-299, 2004.
+
+21. Pereira-da-Silva, L.; Leal, F.; Santos, G. C.; Amaral, J. M. V.;
+Feijoo, M. J.: Clinical evidence of vascular abnormalities at birth
+in Adams-Oliver syndrome: report of two further cases. (Letter) Am.
+J. Med. Genet. 94: 75-76, 2000.
+
+22. Pousti, T. J.; Bartlett, R. A.: Adams-Oliver syndrome: genetics
+and associated anomalies of cutis aplasia. Plast. Reconstr. Surg. 100:
+1491-1496, 1997.
+
+23. Savarirayan, R.; Thompson, E. M.; Abbott, K. J.; Moore, M. H.
+: Cerebral cortical dysplasia and digital constriction rings in Adams-Oliver
+syndrome. Am. J. Med. Genet. 86: 15-19, 1999.
+
+24. Scribanu, N.; Temtamy, S. A.: Syndrome of aplasia cutis congenita
+with terminal transverse defects of limbs. J. Pediat. 87: 79-82,
+1975.
+
+25. Swartz, E. N.; Sanatani, S.; Sandor, G. G. S.; Schreiber, R. A.
+: Vascular abnormalities in Adams-Oliver syndrome: cause or effect? Am.
+J. Med. Genet. 82: 49-52, 1999.
+
+26. Sybert, V. P.: Aplasia cutis congenita: a report of 12 new families
+and review of the literature. Pediat. Derm. 3: 1-14, 1985.
+
+27. Sybert, V. P.: Congenital scalp defects with distal limb anomalies
+(Adams-Oliver Syndrome--McKusick 10030): further suggestion of autosomal
+recessive inheritance. (Letter) Am. J. Med. Genet. 32: 266-267,
+1989.
+
+28. Tekin, M.; Bodurtha, J.; Ciftci, E.; Arsan, S.: Further family
+with possible autosomal recessive inheritance of Adams-Oliver syndrome.
+(Letter) Am. J. Med. Genet. 86: 90-91, 1999.
+
+29. Toriello, H. V.; Graff, R. G.; Florentine, M. F.; Lacina, S.;
+Moore, W. D.: Scalp and limb defects with cutis marmorata telangiectatica
+congenita: Adams-Oliver syndrome? Am. J. Med. Genet. 29: 269-276,
+1988.
+
+30. Verdyck, P.; Blaumeiser, B.; Holder-Espinasse, M.; Van Hul, W.;
+Wuyts, W.: Adams-Oliver syndrome: clinical description of a four-generation
+family and exclusion of five candidate genes. Clin. Genet. 69: 86-92,
+2006.
+
+31. Whitley, C. B.; Gorlin, R. J.: Adams-Oliver syndrome revisited. Am.
+J. Med. Genet. 40: 319-326, 1991.
+
+32. Zapata, H. H.; Sletten, L. J.; Pierpont, M. E. M.: Congenital
+cardiac malformations in Adams-Oliver syndrome. Clin. Genet. 47:
+80-84, 1995.</OMIM-rf>
+    <OMIM-cs>INHERITANCE:
+   Autosomal dominant
+
+HEAD AND NECK:
+   [Head];
+   Microcephaly;
+   Aplasia cutis congenita over parietal area;
+   [Eyes];
+   Esotropia;
+   Microphthalmia;
+   [Mouth];
+   Cleft lip;
+   Cleft palate
+
+CHEST:
+   [External features];
+   Poland sequence;
+   [Breasts];
+   Accessory nipples
+
+GENITOURINARY:
+   [Internal genitalia, female];
+   Imperforate vaginal hymen
+
+SKELETAL:
+   [Skull];
+   Acrania;
+   Skull defect at vertex;
+   [Limbs];
+   Variable terminal transverse defects (minimal to absence of a limb);
+   [Hands];
+   Short fingers;
+   Syndactyly;
+   [Feet];
+   Small toenails;
+   Talipes equinovarus
+
+SKIN, NAILS, HAIR:
+   [Skin];
+   Aplasia cutis congenita over posterior parietal area;
+   Aplasia cutis congenita on trunk or limbs;
+   Cutis marmorata;
+   Thin, hyperpigmented skin;
+   Dilated scalp veins radiating from periphery of scalp defect;
+   [Nails];
+   Small toe nails;
+   [Hair];
+   Single-multiple round-oval areas of alopecia in parietal area
+
+NEUROLOGIC:
+   [Central nervous system];
+   Encephalocele;
+   Arrhinencephaly;
+   Mental retardation</OMIM-cs>
+    <OMIM-phenotype>
+      <phenotype_class>INHERITANCE</phenotype_class>
+      <phenotype_desc>Autosomal dominant</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>HEAD AND NECK</phenotype_class>
+      <phenotype_desc>Head</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>HEAD AND NECK</phenotype_class>
+      <phenotype_desc>Microcephaly</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>HEAD AND NECK</phenotype_class>
+      <phenotype_desc>Aplasia cutis congenita over parietal area</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>HEAD AND NECK</phenotype_class>
+      <phenotype_desc>Eyes</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>HEAD AND NECK</phenotype_class>
+      <phenotype_desc>Esotropia</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>HEAD AND NECK</phenotype_class>
+      <phenotype_desc>Microphthalmia</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>HEAD AND NECK</phenotype_class>
+      <phenotype_desc>Mouth</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>HEAD AND NECK</phenotype_class>
+      <phenotype_desc>Cleft lip</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>HEAD AND NECK</phenotype_class>
+      <phenotype_desc>Cleft palate</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>CHEST</phenotype_class>
+      <phenotype_desc>External features</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>CHEST</phenotype_class>
+      <phenotype_desc>Poland sequence</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>CHEST</phenotype_class>
+      <phenotype_desc>Breasts</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>CHEST</phenotype_class>
+      <phenotype_desc>Accessory nipples</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>GENITOURINARY</phenotype_class>
+      <phenotype_desc>Internal genitalia, female</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>GENITOURINARY</phenotype_class>
+      <phenotype_desc>Imperforate vaginal hymen</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>SKELETAL</phenotype_class>
+      <phenotype_desc>Skull</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>SKELETAL</phenotype_class>
+      <phenotype_desc>Acrania</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>SKELETAL</phenotype_class>
+      <phenotype_desc>Skull defect at vertex</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>SKELETAL</phenotype_class>
+      <phenotype_desc>Limbs</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>SKELETAL</phenotype_class>
+      <phenotype_desc>Variable terminal transverse defects (minimal to absence of a limb)</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>SKELETAL</phenotype_class>
+      <phenotype_desc>Hands</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>SKELETAL</phenotype_class>
+      <phenotype_desc>Short fingers</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>SKELETAL</phenotype_class>
+      <phenotype_desc>Syndactyly</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>SKELETAL</phenotype_class>
+      <phenotype_desc>Feet</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>SKELETAL</phenotype_class>
+      <phenotype_desc>Small toenails</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>SKELETAL</phenotype_class>
+      <phenotype_desc>Talipes equinovarus</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>SKIN, NAILS, HAIR</phenotype_class>
+      <phenotype_desc>Skin</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>SKIN, NAILS, HAIR</phenotype_class>
+      <phenotype_desc>Aplasia cutis congenita over posterior parietal area</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>SKIN, NAILS, HAIR</phenotype_class>
+      <phenotype_desc>Aplasia cutis congenita on trunk or limbs</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>SKIN, NAILS, HAIR</phenotype_class>
+      <phenotype_desc>Cutis marmorata</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>SKIN, NAILS, HAIR</phenotype_class>
+      <phenotype_desc>Thin, hyperpigmented skin</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>SKIN, NAILS, HAIR</phenotype_class>
+      <phenotype_desc>Dilated scalp veins radiating from periphery of scalp defect</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>SKIN, NAILS, HAIR</phenotype_class>
+      <phenotype_desc>Nails</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>SKIN, NAILS, HAIR</phenotype_class>
+      <phenotype_desc>Small toe nails</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>SKIN, NAILS, HAIR</phenotype_class>
+      <phenotype_desc>Hair</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>SKIN, NAILS, HAIR</phenotype_class>
+      <phenotype_desc>Single-multiple round-oval areas of alopecia in parietal area</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>NEUROLOGIC</phenotype_class>
+      <phenotype_desc>Central nervous system</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>NEUROLOGIC</phenotype_class>
+      <phenotype_desc>Encephalocele</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>NEUROLOGIC</phenotype_class>
+      <phenotype_desc>Arrhinencephaly</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>NEUROLOGIC</phenotype_class>
+      <phenotype_desc>Mental retardation</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-cn>
+      <OMIM-cn-value>Kelly A. Przylepa - revised: 03/18/2002</OMIM-cn-value>
+    </OMIM-cn>
+    <OMIM-cd>
+      <OMIM-cd-value>John F. Jackson: 6/15/1995</OMIM-cd-value>
+    </OMIM-cd>
+    <OMIM-ed>
+      <OMIM-ed-value>joanna: 03/18/2002</OMIM-ed-value>
+    </OMIM-ed>
+    <OMIM-cn>
+      <OMIM-cn-value>Victor A. McKusick - updated: 3/7/2006
+Cassandra L. Kniffin - updated: 10/12/2005
+Victor A. McKusick - updated: 9/21/2005
+Victor A. McKusick - updated: 9/22/2004
+Victor A. McKusick - updated: 9/18/2000
+Victor A. McKusick - updated: 1/14/2000
+Victor A. McKusick - updated: 9/1/1999
+Victor A. McKusick - updated: 1/12/1999
+Victor A. McKusick - updated: 12/21/1998
+Victor A. McKusick - updated: 2/26/1998
+Iosif W. Lurie - updated: 8/12/1996</OMIM-cn-value>
+    </OMIM-cn>
+    <OMIM-cd>
+      <OMIM-cd-value>Victor A. McKusick: 6/4/1986</OMIM-cd-value>
+    </OMIM-cd>
+    <OMIM-ed>
+      <OMIM-ed-value>alopez: 03/14/2006
+terry: 3/7/2006
+wwang: 10/25/2005
+wwang: 10/21/2005
+ckniffin: 10/12/2005
+wwang: 10/11/2005
+terry: 9/21/2005
+tkritzer: 9/24/2004
+terry: 9/22/2004
+mgross: 3/17/2004
+carol: 9/18/2000
+mcapotos: 2/1/2000
+mcapotos: 1/31/2000
+terry: 1/14/2000
+terry: 11/24/1999
+jlewis: 9/23/1999
+terry: 9/1/1999
+terry: 4/29/1999
+carol: 1/19/1999
+terry: 1/12/1999
+carol: 12/30/1998
+terry: 12/21/1998
+mark: 2/26/1998
+terry: 2/26/1998
+carol: 6/3/1997
+carol: 8/12/1996
+mark: 6/8/1995
+mimadm: 3/11/1994
+carol: 3/7/1994
+carol: 12/18/1992
+supermim: 3/16/1992
+carol: 2/27/1992</OMIM-ed-value>
+    </OMIM-ed>
+  </OMIM-disease>
+  <OMIM-disease>
+    <OMIM-no>100500</OMIM-no>
+    <OMIM-ti>MOVED TO 200150</OMIM-ti>
+    <OMIM-tx>This entry was incorporated into 200150 on March 2, 2004.</OMIM-tx>
+    <OMIM-cn>
+      <OMIM-cn-value>Cassandra L. Kniffin - reorganized: 2/25/2004
+Cassandra L. Kniffin - updated: 1/28/2004
+Victor A. McKusick - updated: 6/4/2002
+Orest Hurko - updated: 4/6/1998
+Orest Hurko - updated: 4/1/1996</OMIM-cn-value>
+    </OMIM-cn>
+    <OMIM-cd>
+      <OMIM-cd-value>Victor A. McKusick: 6/4/1986</OMIM-cd-value>
+    </OMIM-cd>
+    <OMIM-ed>
+      <OMIM-ed-value>carol: 03/02/2004
+ckniffin: 3/2/2004
+carol: 2/25/2004
+ckniffin: 2/25/2004
+ckniffin: 1/28/2004
+alopez: 6/12/2002
+terry: 6/4/2002
+terry: 6/1/1998
+terry: 4/6/1998
+terry: 4/15/1996
+mark: 4/1/1996
+terry: 4/1/1996
+terry: 2/15/1996
+carol: 12/12/1994
+warfield: 4/7/1994
+mimadm: 3/11/1994
+carol: 3/10/1993
+supermim: 3/16/1992
+carol: 8/23/1990</OMIM-ed-value>
+    </OMIM-ed>
+  </OMIM-disease>
+  <OMIM-disease>
+    <OMIM-no>100600</OMIM-no>
+    <OMIM-ti>ACANTHOSIS NIGRICANS</OMIM-ti>
+    <OMIM-tx>Acanthosis nigricans consists of thickening and hyperpigmentation of the
+skin of the entire body but especially in flexural areas. In 26 patients
+with malignant acanthosis nigricans (secondary to visceral carcinoma),
+Curth and Aschner (1959) found no other affected persons in the family.
+On the other hand, benign acanthosis nigricans may be inherited as a
+mendelian dominant. Curth and Aschner (1959) had families with
+acanthosis nigricans in successive generations, 3 in 1 family and 2 in 2
+others, including instances of male-to-male transmission. Jung et al.
+(1965) observed affected mother and daughter. Lawrence et al. (1971)
+described a patient with acanthosis nigricans inherited from the father
+and telangiectasia (187300) inherited from the mother. Tasjian and
+Jarratt (1984) observed affected mother and daughter. Skin lesions were
+first noted in infancy. In addition to the association with insulin
+resistance (147670), Seip syndrome (269700), and malignancy, acanthosis
+nigricans can be drug-induced; nicotinic acid, diethylstilbestrol, oral
+contraceptives, and exogenous glucocorticoids have been incriminated.
+Clear mendelian inheritance is seen when acanthosis nigricans is part of
+syndromes, e.g., Seip syndrome. Autosomal dominant acanthosis nigricans
+should be studied for insulin resistance. Schwenk et al. (1986) studied
+a white family in which acanthosis nigricans occurred in a mother and 3
+daughters; insulin binding was normal but insulin response was reduced,
+consistent with a postbinding defect (see 147670). Perhaps one should
+speak of types A1 and A2 of acanthosis nigricans, A1 being the form with
+a defect in the insulin receptor and A2 representing a postbinding
+defect. Seemanova et al. (1992) investigated a family in which at least
+4 men in 3 generations had a syndrome of obesity, mild mental
+retardation, delayed puberty, macroorchidism, acanthosis nigricans,
+hyperinsulinemia, and, later, overt insulin-resistant diabetes mellitus
+(noninsulin-dependent diabetes mellitus or type 2 diabetes; see NIDDM,
+125853). The patients had markedly curly scalp hair and deficient hair
+of the face and body. Teeth were normal. There was normal insulin
+binding to fibroblasts; however, insulin-stimulated RNA synthesis was
+decreased as compared to that of normal control individuals, suggesting
+a postbinding defect in insulin action. The pedigree showed an autosomal
+dominant pattern of inheritance.
+
+Acanthosis nigricans in association with insulin resistance behaves as
+either a dominant (e.g., 147670.0001) or a recessive (e.g.,
+147670.0004). The polycystic ovary syndrome is sometimes reported. The
+autosomal dominant mutations in the insulin receptor gene are 'dominant
+negatives'; the mutant receptor protein interferes with the function of
+the normal receptor.
+
+Chuang et al. (1995) reported familial acanthosis nigricans affecting a
+35-year-old woman, her 7-year-old son, and 5-year-old daughter. Absence
+of the eyebrows and eyelashes was also present in the affected members
+of this family. The mother had no axillary hair and her pubic hair was
+sparse. The boy also suffered from congenital heart disease and a
+congenital cataract in the left eye. Chuang et al. (1995) suggested that
+the combination of acanthosis nigricans and ectodermal defects in this
+family may represent a distinct nosologic entity. They referred to the
+hair problem as madarosis (loss of the eyebrows or of the eyelashes).
+
+Using data from 397 participants from 2 Mexican-American family studies,
+Burke et al. (2000) investigated the heritability of acanthosis
+nigricans and its genetic correlation with other diabetes risk factors.
+They examined acanthosis nigricans as both a continuous trait and a
+dichotomous trait by means of a previously described validated scale.
+The results indicated that the heritability for the condition, when
+examined as a continuous trait, was high (0.58 +/- 0.10) and
+statistically significant (P less than 0.001). The heritability as a
+dichotomous trait was estimated to be moderate (0.23 +/- 0.05) and was
+also significant (P = 0.018). The additive genetic correlations between
+acanthosis nigricans and type 2 diabetes and its risk factors, including
+body mass index and fasting insulin, were high or moderately high and
+statistically significant. The random environmental correlations, by
+contrast, were low and statistically insignificant. These data suggested
+that genes that influence acanthosis nigricans have pleiotropic effects
+on diabetes and its risk factors.</OMIM-tx>
+    <OMIM-sa>Hermann  (1955)</OMIM-sa>
+    <OMIM-rf>1. Burke, J. P.; Duggirala, R.; Hale, D. E.; Blangero, J.; Stern,
+M. P.: Genetic basis of acanthosis nigricans in Mexican Americans
+and its association with phenotypes related to type 2 diabetes. Hum.
+Genet. 106: 467-472, 2000.
+
+2. Chuang, S.-D.; Jee, S.-H.; Chiu, H.-C.; Chen, J.-S.; Lin, J.-T.
+: Familial acanthosis nigricans with madarosis. Brit. J. Derm. 133:
+104-108, 1995.
+
+3. Curth, H. O.; Aschner, B. M.: Genetic studies on acanthosis nigricans. Arch.
+Derm. 79: 55-66, 1959.
+
+4. Hermann, H.: Zur Erbpathologie der Acanthosis nigricans. Z. Menschl.
+Vererb. Konstitutionsl. 33: 193-202, 1955.
+
+5. Jung, H. D.; Bruns, W.; Wulfert, P.; Mieler, W.: Ein Beitrag zum
+Krankheitsbild der Acanthosis nigricans benigna familiaris. Dtsch.
+Med. Wschr. 90: 1669-1673, 1965.
+
+6. Lawrence, G.; Thurston, C.; Shultz, K.; Mengel, M. C.: Acanthosis
+nigricans, telangiectasia and diabetes mellitus. Birth Defects Orig.
+Art. Ser. VII(8): 322-323, 1971.
+
+7. Schwenk, W. F.; Rizza, R. A.; Mandarino, L. J.; Gerich, J. E.;
+Hayles, A. B.; Haymond, M. W.: Familial insulin resistance and acanthosis
+nigricans: presence of a postbinding defect. Diabetes 35: 33-37,
+1986.
+
+8. Seemanova, E.; Rudiger, H. W.; Dreyer, M.: Autosomal dominant
+insulin resistance syndrome due to a postbinding defect. Am. J. Med.
+Genet. 44: 705-712, 1992.
+
+9. Tasjian, D.; Jarratt, M.: Familial acanthosis nigricans. Arch.
+Derm. 120: 1351-1354, 1984.</OMIM-rf>
+    <OMIM-cs>Skin:
+   Benign acanthosis nigricans;
+   Thick hyperpigmented flexural area skin
+
+Inheritance:
+   Autosomal dominant</OMIM-cs>
+    <OMIM-phenotype>
+      <phenotype_class>Skin</phenotype_class>
+      <phenotype_desc>Benign acanthosis nigricans</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Skin</phenotype_class>
+      <phenotype_desc>Thick hyperpigmented flexural area skin</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Inheritance</phenotype_class>
+      <phenotype_desc>Autosomal dominant</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-cn>
+      <OMIM-cn-value>Victor A. McKusick - updated: 6/12/2000
+Victor A. McKusick - updated: 1/13/1998</OMIM-cn-value>
+    </OMIM-cn>
+    <OMIM-cd>
+      <OMIM-cd-value>Victor A. McKusick: 6/4/1986</OMIM-cd-value>
+    </OMIM-cd>
+    <OMIM-ed>
+      <OMIM-ed-value>alopez: 03/18/2004
+mcapotos: 7/20/2000
+mcapotos: 6/27/2000
+terry: 6/12/2000
+alopez: 1/13/1998
+dholmes: 12/24/1997
+mark: 4/3/1997
+mark: 10/13/1995
+mimadm: 6/26/1994
+carol: 3/12/1994
+supermim: 3/16/1992
+carol: 2/29/1992
+supermim: 3/20/1990</OMIM-ed-value>
+    </OMIM-ed>
+  </OMIM-disease>
+  <OMIM-disease>
+    <OMIM-no>100640</OMIM-no>
+    <OMIM-ti>RALDH1</OMIM-ti>
+    <OMIM-syn>ALDEHYDE DEHYDROGENASE 1 FAMILY, MEMBER A1</OMIM-syn>
+    <OMIM-syn>ALDH1A1 </OMIM-syn>
+    <OMIM-syn>ALDEHYDE DEHYDROGENASE 1</OMIM-syn>
+    <OMIM-syn>ALDH1</OMIM-syn>
+    <OMIM-syn>ACETALDEHYDE DEHYDROGENASE 1</OMIM-syn>
+    <OMIM-syn>ALDH, LIVER CYTOSOLIC</OMIM-syn>
+    <OMIM-syn>RETINAL DEHYDROGENASE 1</OMIM-syn>
+    <OMIM-code>is_separate</OMIM-code>
+    <OMIM-tx>Acetaldehyde dehydrogenase (EC 1.2.1.3) is the next enzyme after alcohol
+dehydrogenase (103700) in the major pathway of alcohol metabolism. On
+the basis of population studies of isozyme patterns, Harada et al.
+(1978) proposed that there are 3 loci determining acetaldehyde
+dehydrogenase. They suggested that the rarer of the alleles at the
+postulated ALDH1, ALDH2 and ALDH3 loci have a frequency of 0.022, 0.029
+and 0.151, respectively. The sample numbered only 68 specimens, however.
+
+Harada et al. (1980) presented evidence that aldehyde dehydrogenase is
+polymorphic in Japanese. As in previous studies in Europeans, they found
+2 isozymes of ALDH in liver specimens of Japanese, but unlike the study
+of specimens of Europeans, they found that 52% of Japanese specimens
+showed absence of the faster migrating isozyme (which has a low Km for
+acetaldehyde). The authors suggested that the intoxicating symptoms
+after alcohol drinking in many Japanese may be due to delayed oxidation
+of acetaldehyde. The lack of ALDH isozyme I with a low Km for aldehyde
+is apparently responsible for the higher blood acetaldehyde levels in
+mongoloid peoples, leading to facial flushing and other vasomotor
+symptoms after alcohol intake. Agarwal et al. (1981) performed a
+population genetic study in Orientals of several different extractions.
+They investigated ALDH isozymes in hair root lysates with a sensitive
+isoelectric focusing method. Between 40 and 80% of the several Oriental
+groups were found to be deficient in isozyme I of ALDH, whereas not a
+single European individual was deficient. Deficiency was invariably
+associated with sensitivity to alcohol. Family studies suggested
+autosomal recessive inheritance of the deficiency. Harada et al. (1981)
+found the deficiency in 43% of Japanese; all deficient persons had
+flushing symptoms and, after alcohol drinking, showed a mean
+concentration of acetaldehyde of 37.3 micromoles as compared with 2.1
+micromoles in nondeficient persons.
+
+Thomas et al. (1982) found low cytosolic acetaldehyde dehydrogenase in
+the liver of alcoholic patients with fatty liver; mitochondrial ALDH was
+normal. Abstaining alcoholics showed persistently low cytosolic ALDH.
+Isoelectric focusing showed that the cytosolic and mitochondrial ALDHs
+are distinct isozymes. Impraim et al. (1982) investigated the basis of
+the lack in about 50% of Orientals of 1 of the 2 major liver ALDH
+isozymes. Consistent with a convention of nomenclature adopted by the
+HGM workshops, ALDH1 is cytosolic and ALDH2 is mitochondrial. It is the
+latter that is missing in Orientals. Inoue et al. (1979) purified and
+partially characterized aldehyde dehydrogenase from human erythrocytes.
+This is the cytosolic form, present in only low concentration in red
+cells. Goedde et al. (1979) proposed that the high frequency of acute
+alcoholic intoxication in Orientals is related to the high frequency of
+persons with absence of ALDH2 liver isozyme. On the other hand,
+Stamatoyannopoulos et al. (1975) suggested that the racial difference in
+alcohol intoxication is due to rapid acetaldehyde formation as a result
+of the highly active atypical alcohol dehydrogenase isozyme found in
+high frequency in Orientals. ALDH1 and ALDH2 have molecular weights of
+245,000 and 225,000, respectively, and both are tetramers. Structural
+and genetic interrelationships are unknown; e.g., does each consist of a
+single type subunit or do they share a common subunit? Impraim et al.
+(1982) found that the ALDH2 in an 'atypical' Japanese liver was
+enzymatically inactive but immunologically cross-reactive. Thus, a
+structural mutation at the ALDH2 locus is presumably the genetic basis.
+
+Goedde et al. (1983) pointed to the existence of 4 isozymes of
+NAD-dependent aldehyde dehydrogenase, designated ALDH I, II, III, or IV
+according to their decreasing electrophoretic mobility and increasing
+isoelectric point. The frequency of absent ALDH I isozyme varied from
+69% in Indians of the Ecuador Highlands to 44% in Japanese and 35% in
+Chinese to 0% in Egyptians, Liberians, Kenyans, and Europeans. They
+suggested that deficiency is related to flushing and a slower metabolism
+of acetaldehyde, and in turn a lower frequency of alcoholism and
+alcohol-related problems.
+
+Yoshida et al. (1989) demonstrated that among Caucasians alcohol
+flushing can be related to abnormalities of ALDH1. In 9 unrelated
+Caucasian alcohol flushers, they found 1 who exhibited low activity
+(10-20% of normal) and another who exhibited moderately low activity
+(60%) and altered kinetic properties. The electrophoretic mobilities of
+these 2 samples were not altered. Immunologic quantitation indicated
+that the amount of protein in the 2 samples was not reduced in parallel
+with the enzyme deficiency. In the first case, the daughter of the
+proposita also had very low enzyme activity and alcohol flushing.
+
+ALDH1 is cytosolic, is associated with a low Km for NAD and a high Km
+for acetaldehyde, and is strongly inactivated by disulfiram. ALDH2
+(100650) is mitochondrial, has a high Km for NAD and a low Km for
+acetaldehyde, and is insensitive to disulfiram. About 50% of Orientals
+lack ALDH2 activity but have defective enzyme immunologically related to
+ALDH2 (Yoshida et al., 1984). In some Orientals absence of ALDH1
+activity and the presence of an enzymatically inactive protein is
+demonstrable (Yoshida et al., 1983). Yoshida (1984) concluded that one
+can substitute hair roots for liver biopsy specimens if sample size for
+isoelectric focusing is adjusted using MDH or IDH as an internal
+reference. The liver of humans and other mammals contains 2 major and
+several minor aldehyde dehydrogenase isozymes. The major isozymes are
+ALDH1 of cytosolic origin and ALDH2 of mitochondrial origin. (The
+confusion in the numbering of the aldehyde dehydrogenases is evident.
+ALDH I and ALDH II of Goedde and colleagues is ALDH2 and ALDH1 of other
+workers.) In contrast to the wide prevalence of deficiency of ALDH2
+(called ALDH I by Goedde), variants of ALDH1 (called ALDH II by Goedde)
+are rare; Eckey et al. (1986) described one such variant.
+
+With cDNA probes for Southern blot analysis of somatic cell hybrids, Hsu
+et al. (1985, 1986) assigned the ALDH1 locus to 9q and the ALDH2 locus
+to chromosome 12. Hsu et al. (1989) found that the ALDH1 gene is about
+53 kb long and is divided into 13 exons which encode 501 amino acid
+residues. A similar intron-exon organization is found in ALDH2 which
+also has 13 exons with 9 of the 12 introns interrupting the coding
+sequence at positions homologous to those in ALDH1. Thus, the 2 isozymes
+appear to have evolved after duplication of a common ancestral gene.</OMIM-tx>
+    <OMIM-sa>Harada et al. (1981); Hsu et al. (1985)</OMIM-sa>
+    <OMIM-rf>1. Agarwal, D. P.; Meier-Tackmann, D.; Harada, S.; Goedde, H. W.;
+Du, R.: Mechanism of biological sensitivity to alcohol: inherited
+deficiency of aldehyde dehydrogenase isoenzyme I in Mongoloids. (Abstract) Sixth
+Int. Cong. Hum. Genet., Jerusalem 102 only, 1981.
+
+2. Eckey, R.; Agarwal, D. P.; Saha, N.; Goedde, H. W.: Detection
+and partial characterization of a variant form of cytosolic aldehyde
+dehydrogenase isozyme. Hum. Genet. 72: 95-97, 1986.
+
+3. Goedde, H. W.; Agarwal, D. P.; Harada, S.; Meier-Tackmann, D.;
+Ruofu, D.; Bienzle, U.; Kroeger, A.; Hussein, L.: Population genetic
+studies on aldehyde dehydrogenase isozyme deficiency and alcohol sensitivity. Am.
+J. Hum. Genet. 35: 769-772, 1983.
+
+4. Goedde, H. W.; Harada, S.; Agarwal, D. P.: Racial differences
+in alcohol sensitivity: a new hypothesis. Hum. Genet. 51: 331-334,
+1979.
+
+5. Harada, S.; Agarwal, D. P.; Goedde, H. W.: Aldehyde dehydrogenase
+deficiency as cause of facial flushing reaction to alcohol in Japanese.
+(Letter) Lancet II: 982 only, 1981.
+
+6. Harada, S.; Agarwal, D. P.; Goedde, H. W.: Aldehyde metabolism
+and polymorphism of aldehyde dehydrogenase in Japanese. (Abstract) Sixth
+Int. Cong. Hum. Genet., Jerusalem 103 only, 1981.
+
+7. Harada, S.; Agarwal, D. P.; Goedde, H. W.: Isozyme variations
+in acetaldehyde dehydrogenase (E.C. 1.2.1.3) in human tissues. Hum.
+Genet. 44: 181-185, 1978.
+
+8. Harada, S.; Misawa, S.; Agarwal, D. P.; Goedde, H. W.: Liver alcohol
+dehydrogenase and aldehyde dehydrogenase in the Japanese: isozyme
+variation and its possible role in alcohol intoxication. Am. J. Hum.
+Genet. 32: 8-15, 1980.
+
+9. Hsu, L. C.; Chang, W.-C.; Yoshida, A.: Genomic structure of the
+human cytosolic aldehyde dehydrogenase gene. Genomics 5: 857-865,
+1989.
+
+10. Hsu, L. C.; Tani, K.; Fujiyoshi, T.; Kurachi, K.; Yoshida, A.
+: Cloning of cDNAs for human aldehyde dehydrogenases 1 and 2. Proc.
+Nat. Acad. Sci. 82: 3771-3775, 1985.
+
+11. Hsu, L. C.; Yoshida, A.; Mohandas, T.: Chromosomal assignment
+of the genes for human aldehyde dehydrogenase 1 (ALDH1) and aldehyde
+dehydrogenase 2 (ALDH2). (Abstract) Cytogenet. Cell Genet. 40: 656-657,
+1985.
+
+12. Hsu, L. C.; Yoshida, A.; Mohandas, T.: Chromosomal assignment
+of the genes for human aldehyde dehydrogenase-1 and aldehyde dehydrogenase-2. Am.
+J. Hum. Genet. 38: 641-648, 1986.
+
+13. Impraim, C.; Wang, G.; Yoshida, A.: Structural mutation in a
+major human aldehyde dehydrogenase gene results in loss of enzyme
+activity. Am. J. Hum. Genet. 34: 837-841, 1982.
+
+14. Inoue, K.; Nishimukai, H.; Yamasawa, K.: Purification and partial
+characterization of aldehyde dehydrogenase from human erythrocytes. Biochim.
+Biophys. Acta 569: 117-123, 1979.
+
+15. Stamatoyannopoulos, G.; Chen, S.-H.; Fukui, M.: Liver alcohol
+dehydrogenase in Japanese: high population frequency of atypical form
+and its possible role in alcohol sensitivity. Am. J. Hum. Genet. 27:
+789-796, 1975.
+
+16. Thomas, M.; Halsall, S.; Peters, T. J.: Role of hepatic acetaldehyde
+dehydrogenase in alcoholism: demonstration of persistent reduction
+of cytosolic activity in abstaining patients. Lancet II: 1057-1059,
+1982.
+
+17. Yoshida, A.: Determination of aldehyde dehydrogenase phenotypes
+using hair roots: re-examination. Hum. Genet. 66: 296-299, 1984.
+
+18. Yoshida, A.; Dave, V.; Ward, R. J.; Peters, T. J.: Cytosolic
+aldehyde dehydrogenase (ALDH1) variants found in alcohol flushers. Ann.
+Hum. Genet. 53: 1-7, 1989.
+
+19. Yoshida, A.; Huang, I.-Y.; Ikawa, M.: Molecular abnormality of
+an inactive aldehyde dehydrogenase variant commonly found in Orientals. Proc.
+Nat. Acad. Sci. 81: 258-261, 1984.
+
+20. Yoshida, A.; Wang, G.; Dave, V.: Determination of genotypes of
+human aldehyde dehydrogenase ALDH2 locus. Am. J. Hum. Genet. 35:
+1107-1116, 1983.</OMIM-rf>
+    <OMIM-cs>Metabolic:
+   Increased intoxicating symptoms after alcohol drinking
+
+Skin:
+   Facial flushing after alcohol intake
+
+Misc:
+   Caucasian type alcohol flushing with abnormal ALDH1
+
+Lab:
+   Cytosolic acetaldehyde dehydrogenase;
+   Delayed oxidation of acetaldehyde;
+   Low Km for NAD;
+   High Km for acetaldehyde;
+   Disulfiram sensitive
+
+Inheritance:
+   Autosomal dominant</OMIM-cs>
+    <OMIM-phenotype>
+      <phenotype_class>Metabolic</phenotype_class>
+      <phenotype_desc>Increased intoxicating symptoms after alcohol drinking</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Skin</phenotype_class>
+      <phenotype_desc>Facial flushing after alcohol intake</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Misc</phenotype_class>
+      <phenotype_desc>Caucasian type alcohol flushing with abnormal ALDH1</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Lab</phenotype_class>
+      <phenotype_desc>Cytosolic acetaldehyde dehydrogenase</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Lab</phenotype_class>
+      <phenotype_desc>Delayed oxidation of acetaldehyde</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Lab</phenotype_class>
+      <phenotype_desc>Low Km for NAD</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Lab</phenotype_class>
+      <phenotype_desc>High Km for acetaldehyde</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Lab</phenotype_class>
+      <phenotype_desc>Disulfiram sensitive</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Inheritance</phenotype_class>
+      <phenotype_desc>Autosomal dominant</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-cd>
+      <OMIM-cd-value>Victor A. McKusick: 6/4/1986</OMIM-cd-value>
+    </OMIM-cd>
+    <OMIM-ed>
+      <OMIM-ed-value>alopez: 02/03/2006
+mgross: 11/19/2001
+carol: 4/3/2001
+dkim: 7/17/1998
+dkim: 6/26/1998
+jenny: 7/2/1997
+jenny: 7/1/1997
+mimadm: 3/11/1994
+supermim: 3/16/1992
+carol: 2/29/1992
+supermim: 3/20/1990
+carol: 12/14/1989
+carol: 11/2/1989</OMIM-ed-value>
+    </OMIM-ed>
+  </OMIM-disease>
+  <OMIM-disease>
+    <OMIM-no>100650</OMIM-no>
+    <OMIM-ti>ALDH2/HMGIC FUSION GENE, INCLUDED</OMIM-ti>
+    <OMIM-syn>ALDEHYDE DEHYDROGENASE 2 FAMILY</OMIM-syn>
+    <OMIM-syn>ALDH2 </OMIM-syn>
+    <OMIM-syn>ALDEHYDE DEHYDROGENASE 2</OMIM-syn>
+    <OMIM-syn>ALDH, LIVER MITOCHONDRIAL</OMIM-syn>
+    <OMIM-syn>ACETALDEHYDE DEHYDROGENASE 2 ALCOHOL SENSITIVITY, INCLUDED</OMIM-syn>
+    <OMIM-tx>See 100640. Almost all Caucasians have 2 major ALDH isozymes in the
+liver: a cytosolic ALDH1 and a mitochondrial ALDH2 (EC 1.2.1.3). On the
+other hand, about 50% of Orientals are missing the ALDH2 isozyme.
+Impraim et al. (1982) showed that the livers of such persons show an
+enzymatically inactive but immunologically cross-reactive material (CRM)
+corresponding to the ALDH2 isozyme. The remarkable difference in
+Orientals of 2 alcohol-metabolizing enzymes, ADH2 (103720) and ALDH2,
+cannot have been coincidence. Ikuta et al. (1986) suggested that the
+explanation is coadaptation to an environment, such as particular diet,
+to which Orientals were exposed, since ADH and ALDH are complementary in
+the metabolic pathway of various alcohols. Fenna et al. (1971) concluded
+that ethanol is metabolized significantly faster in whites than in
+Eskimos or American Indians, but Bennion and Li (1976) could find no
+evidence that this is the case. Wolff (1972) demonstrated that members
+of the Mongoloid race, after drinking amounts of alcohol that have no
+detectable effect on Caucasoids, respond with marked facial flushing and
+mild to moderate symptoms of intoxication. Wolff (1972) believed that
+group differences, which are present at birth, were attributable to
+differences in autonomic reactivity. Absence of the enzyme coded by
+ALDH2, frequent in Mongoloid persons, 'causes' alcohol intolerance
+(Goedde et al., 1979). Individuals lacking the enzyme suffer the
+alcohol-flush reaction when they drink alcoholic beverages. The reaction
+is the result of excessive acetaldehyde accumulation, and the unpleasant
+symptoms tend to reduce alcohol consumption. The lower incidence of
+alcoholism in certain Mongoloid groups may have its basis in these
+observations.
+
+Hsu et al. (1985) assigned the ALDH2 locus to chromosome 12 by means of
+a cDNA probe and Southern blot analysis of somatic cell hybrids. With a
+cDNA fragment corresponding to the 3-prime-coding part of human ALDH-1
+mRNA, Braun et al. (1986) studied human-rodent somatic cell hybrids to
+confirm the assignment to chromosome 12. (The cytosolic form is on
+chromosome 9; see 100640.) The mitochondrial and cytosolic forms of ALDH
+are coded by mouse chromosomes 4 and 19, respectively (Mather and
+Holmes, 1984). Comparative mapping in man, mouse, and bovine led Womack
+(1990) to suggest that ALDH2 is in the distal part of 12q, distal to
+IFNG (147570), a conclusion consistent with other information on the
+mapping of these 2 loci.
+
+The ALDH2 alleles encoding the active and inactive subunits are termed
+'ALDH2*1' and 'ALDH2*2,' respectively; see 100650.0001. It had been
+thought that the 2 alleles were expressed codominantly, and that only
+individuals homozygous for ALDH2*2 were ALDH2-deficient. However,
+studies of the inheritance of alcohol-induced flushing in families
+suggested that the trait is dominant (Schwitters et al., 1982). Crabb et
+al. (1989) did genotyping on the liver from 24 Japanese individuals,
+using the PCR technique for amplification of genomic DNA. In correlating
+genotype with phenotype, they found that both heterozygotes and
+homozygotes for ALDH2*2 are deficient in ALDH2 activity; that is, the
+ALDH2*2 allele is dominant. Since ALDH2 is a homotetrameric enzyme,
+random association of active and inactive subunits, equally expressed,
+should generate about 6% normal tetramers; the remainder would contain
+at least 1 mutant subunit. Thus, if all tetramers containing at least 1
+mutant subunit were inactive, there would be only 6% activity in
+heterozygotes. This low amount of activity is likely to be below the
+detection limit of activity staining of the gels. Hsu et al. (1987)
+developed a method for distinguishing the 2 main alleles by means of
+allele-specific 21-base synthetic oligonucleotides. Shibuya et al.
+(1988) studied 23 Japanese with alcoholic liver disease. No difference
+was found in the genotypes at the ADH2 locus. However, at the ALDH2
+locus, 20 of the 23 patients were homozygous for the Caucasian type,
+only 3 were heterozygous, and none of the patients was homozygous for
+the Oriental type. The results were interpreted as indicating that
+Japanese with the atypical allele are at a much lower risk for alcoholic
+liver disease, presumably due to their sensitivity to alcohol
+intoxication. By means of a pair of synthetic oligonucleotides, 1
+complementary to the usual ALDH2 allele and the other complementary to
+the atypical ALDH2 allele, Shibuya and Yoshida (1988) determined the
+genotypes of 49 unrelated Japanese persons and 12 Caucasians. The
+frequency of the atypical allele was found to be 0.35 in the Japanese
+samples examined. The atypical gene was not found in the Caucasians.
+Using allele-specific oligonucleotides for ALDH2*2, Singh et al. (1989)
+studied phenotypically deficient individuals in the Chinese, Japanese,
+and South Korean families to determine heterozygous or homozygous
+status. All individuals with a heterozygous genotype were found to be
+deficient, thus demonstrating that only the normal homotetrameric enzyme
+is catalytically active. As suggested by other workers, a random
+tetramerization of the 2 allele products will result in a residual
+enzyme activity of 6.25% of the normal value in heterozygotes if both
+normal and mutant subunits are produced in the same proportions. In
+these studies ALDH phenotype was determined in hair roots, and DNA was
+prepared from peripheral blood. Exon 12 of the gene was amplified by PCR
+for subsequent allele-specific hybridization.
+
+Crabb (1990) pointed out that the single base mutation in ALDH2,
+responsible for acute alcohol-flushing reaction in Asians, is the
+best-characterized genetic factor influencing alcohol drinking behavior.
+He raised the possibility that polymorphism in the several alcohol
+dehydrogenase genes might be related to risk of fetal alcohol syndrome
+(FAS). It is noteworthy that a genetic influence in fetal alcohol
+syndrome is suggested by twin studies: Streissguth and Dehaene (1993)
+established that the rate of concordance for the diagnosis of fetal
+alcohol syndrome was 5 out of 5 for monozygotic and 7 out of 11 for
+dizygotic twins. In 2 DZ pairs, one twin had FAS, while the other had
+fetal alcohol effects (FAE). In 2 other DZ pairs, one twin had no
+evident abnormality, while the other had FAE. IQ scores were most
+similar within pairs of MZ twins and least similar within pairs of DZ
+twins discordant for diagnosis. Johnson et al. (1996) documented the
+central nervous system anomalies of FAS by magnetic resonance imaging
+(MRI). CNS and craniofacial abnormalities were predominantly symmetric
+and central or midline. The authors stated that the association
+emphasized the concept of the midline as a special developmental field,
+vulnerable to adverse factors during embryogenesis and fetal growth and
+development.
+
+Thomasson et al. (1991) hypothesized that the polymorphisms of both of
+the liver enzymes responsible for the oxidative metabolism of ethanol
+may modify the predisposition to development of alcoholism. Using
+leukocyte DNA amplified by PCR and allele-specific oligonucleotides in a
+study of Chinese men living in Taiwan, they demonstrated that alcoholics
+had significantly lower frequencies not only of ALDH2*2 but also of
+ADH2*2 (103720.0001) and ADH3*1 (103730.0001). Goedde et al. (1992) gave
+extensive population frequency data on ALDH2 as well as on ADH2. They
+again showed that the atypical ALDH2 gene (ALDH2*2) is extremely rare in
+Caucasoids, Negroids, Papua New Guineans, Australian Aborigines, and
+Aurocanians (South Chile), but widely prevalent among Mongoloids. They
+cited evidence indicating that individuals possessing the ALDH2*2 allele
+show alcohol-related sensitivity responses such as facial flushing, are
+usually not habitual drinkers, and appear to suffer less from alcoholism
+and alcohol-related liver disease.
+
+Muramatsu et al. (1995) used the PCR/RFLP method to determine the
+genotypes of the ADH2 and ALDH2 loci of alcoholic and nonalcoholic
+Chinese living in Shanghai. They found that the alcoholics had
+significantly lower frequencies of the ADH2*2 and ALDH2*2 alleles than
+did the nonalcoholics, suggesting the inhibitory effects of these
+alleles for the development of alcoholism. In the nonalcoholic subjects,
+ADH2*2 had little, if any, effect, despite the significant effect of the
+ALDH2*2 allele in decreasing the alcohol consumption of the individual.
+Taken together, these results were considered consistent with the
+proposed hypothesis for the development of alcoholism, i.e., drinking
+behavior is greatly influenced by the individual's genotype of
+alcohol-metabolizing enzymes and the risk of becoming alcoholic is
+proportionate with the ethanol consumption of the individual.
+
+The ALDH2*2 allele is considered to be a genetic deterrent for
+alcoholism; however, Muramatsu et al. (1996) found that 80 of 655
+Japanese alcoholics had the mutant allele. The authors postulated that
+these alcoholics had some other factor that overcame the adverse effects
+of acetaldehydemia and that such a factor might reside in the brain's
+'reward system,' in which dopamine plays a crucial role. Muramatsu et
+al. (1996) studied variation at the DRD4 locus (126452) and found a
+higher frequency of a 5-repeat allele of the DRD4 receptor 48-bp repeat
+polymorphism in alcoholics with ALDH2*2 than in 100 other alcoholics and
+144 controls. They found that alcoholics with the 5-repeat allele also
+abused other drugs more often.
+
+The genes that encode the major enzymes of alcohol metabolism, i.e.,
+alcohol dehydrogenase and aldehyde dehydrogenase, exhibit functional
+polymorphism. The variant alleles ADH2*2 (103720.0001) and ADH3*1
+(103730.0001), which encode high-activity ADH isoforms, and the ALDH2*2
+allele (100650.0001), which encodes the low-activity form of ALDH2,
+protect against alcoholism in East Asians. To investigate possible
+interactions among these protective genes, Chen et al. (1999) genotyped
+340 alcoholic and 545 control Han Chinese living in Taiwan at the ADH2,
+ADH3, and ALDH2 loci. After the influence of ALDH2*2 was controlled for,
+multiple logistic regression analysis indicated that allelic variation
+at ADH3 exerts no significant effect on the risk of alcoholism. Any
+presumed affect could be accounted for by linkage disequilibrium between
+ADH3*1 and ADH2*2; the 2 genes are located on 4q22. ALDH2*2
+homozygosity, regardless of the ADH2 genotype, was fully protective
+against alcoholism; no individual showing such homozygosity was found
+among the alcoholics. Logistic regression analyses of the remaining 6
+combinatorial genotypes of the polymorphic ADH2 and ALDH2 loci indicated
+that individuals carrying 1 or 2 copies of ADH2*2 and a single copy of
+ALDH2*2 had the lowest risk (odds ratios = 0.04-0.05) for alcoholism, as
+compared with the ADH2*1/*1 and ALDH2*1/*1 genotypes. The disease risk
+associated with the ADH2*2/*2-ALDH2*1/*1 genotype appeared to be about
+half of that associated with the ADH2*1/*2-ALDH2*1/*1 genotype. These
+results suggested that protection afforded by the ADH2*2 allele may be
+independent of that afforded by ALDH2*2.
+
+Oota et al. (2004) used the ALDH2*2 allele, which is responsible for
+catalytic deficiency of ALDH2, and 4 noncoding SNPs to study ALDH2
+haplotype frequency and linkage disequilibrium in 37 worldwide
+populations. Only 4 major SNP-defined haplotypes were found to account
+for almost all chromosomes in all populations. A fifth haplotype
+harbored the functional variant and was found only in East Asians.
+
+Chai et al. (2005) examined ADH2, ADH3, and ALDH2 polymorphisms in 72
+alcoholic and 38 nonalcoholic healthy Korean men. Forty-eight of the
+alcoholic men had Cloninger type 1 and 24 had Cloninger type 2
+alcoholism. The frequency of ADH2*1 (103720.0001) and ADH3*2
+(103730.0002) alleles was significantly higher in men with type 2
+alcoholism than in men with type 1 alcoholism and in healthy men. The
+frequency of the ALDH2*1 allele was significantly higher in men with
+alcohol dependence than in healthy men. Chai et al. (2005) suggested
+that the genetic characteristics of alcohol metabolism in type 1
+alcoholism falls between nonalcoholism and type 2 alcoholism.
+
+Using an antisense oligonucleotide (ASO-9) containing the
+5-prime-TCCC-3-prime motif, which acts by greatly reducing mRNA levels,
+Garver et al. (2001) showed that rat hepatoma cells had reduced Aldh2
+mRNA levels and activity, resulting in more than 90% inhibition of Aldh2
+synthesis, probably mediated by RNase H hydrolysis. Mismatches in the
+TCCC motif, in particular, reduced the efficacy of ASO-9, which
+specifically reduced mRNA levels of Aldh2 but not of a control
+mitochondrial enzyme, glutamate dehydrogenase (GLUD1; 138130). Treatment
+of rats with ASO-9 specifically reduced Aldh2 activity by approximately
+40% and increased plasma acetaldehyde levels 4-fold after ethanol
+administration. Behavioral analysis indicated that ASO-9 treatment
+induced an aversion to ethanol. After initial consumption, a reduction
+of 61% in ethanol consumption was observed in treated rats, a level
+comparable to that achieved with disulfiram (Antabuse). Garver et al.
+(2001) concluded that the specificity and lack of side effects of an ASO
+that inhibits ALDH2 expression and mimics the Asian phenotype would be
+advantageous when compared with disulfiram.
+
+Kazmierczak et al. (1995) found that the ALDH2 gene was a translocation
+partner of the HMGIC gene (HMGA2; 600698) in a uterine leiomyoma. Fusion
+genes involving HMGIC are found in pleomorphic adenomas of salivary
+glands and in a variety of benign mesenchymal tumors.
+
+Data on gene frequencies of allelic variants were tabulated by
+Roychoudhury and Nei (1988).
+
+ANIMAL MODEL
+
+Nitroglycerine, or glyceryl trinitrate (GTN), elicits nitric oxide
+(NO)-based signaling to dilate blood vessels. Chen et al. (2005) found
+that mitochondrial bioconversion of GTN to NO was absent in mitochondria
+obtained from Aldh2-null mice. Vasoactivity from alternative
+nitro(so)vasodilators was unaffected. GTN bioactivity could still be
+generated in mutant mice and their isolated vascular tissue, but only at
+substantially higher concentrations of GTN. Chen et al. (2005) concluded
+that ALDH2 is necessary and sufficient for vasoactivity derived from
+therapeutic levels of GTN.</OMIM-tx>
+    <OMIM-av>.0001
+ALCOHOL SENSITIVITY, ACUTE
+ACETALDEHYDE DEHYDROGENASE 2, ALLELE 2, INCLUDED; ALDH2*2, INCLUDED
+ALDH2, GLU487LYS
+
+The ALDH2*2-encoded protein has a change from glutamic acid (glutamate)
+to lysine at residue 487 (Yoshida et al., 1984). Hempel et al. (1985)
+and Hsu et al. (1985) also showed that the catalytic deficiency in
+mitochondrial ALDH in Orientals can be traced to a structural point
+mutation at amino acid position 487 of the polypeptide. A substitution
+of lysine for glutamic acid results from a transition of G-C to A-T.
+
+To study the mechanism by which the ALDH2*2 allele exerts its dominant
+effect in decreasing ALDH2 activity in liver extracts and producing
+cutaneous flushing when the subject drinks alcohol, Xiao et al. (1995)
+cloned ALDH2*1 cDNA and generated the ALDH2*2 allele by site-directed
+mutagenesis. These cDNAs were transduced using retroviral vectors into
+HeLa and CV1 cells, which do not express ALDH2. The normal allele
+directed synthesis of immunoreactive ALDH2 protein with the expected
+isoelectric point and increased aldehyde dehydrogenase activity. The
+ALDH2*2 allele directed synthesis of mRNA and immunoreactive protein,
+but the protein lacked enzymatic activity. When ALDH2*1-expressing cells
+were transduced with ALDH2*2 vectors, both mRNAs were expressed and
+immunoreactive proteins with isoelectric points ranging between those of
+the 2 gene products were present, indicating that the subunits formed
+heteromers. ALDH2 activity in these cells was reduced below that of the
+parental ALDH2*1-expressing cells. Thus, the authors concluded that
+ALDH2*2 allele is sufficient to cause ALDH2 deficiency in vitro.
+
+Xiao et al. (1996) referred to the ALDH2 enzyme encoded by the ALDH2*1
+allele (the wildtype form) as ALDH2E and the enzyme subunit encoded by
+ALDH2*2 as ALDH2K. They found that the ALDH2E enzyme was very stable,
+with a half-life of at least 22 hours. ALDH2K, on the other hand, had an
+enzyme half-life of only 14 hours. In cells expressing both subunits,
+most of the subunits assemble as heterotetramers, and these enzymes had
+a half-life of 13 hours. Thus, the effect of ALDH2K on enzyme turnover
+is dominant. Their studies indicated that ALDH2*2 exerts its dominant
+effect both by interfering with the catalytic activity of the enzyme and
+by increasing its turnover.
+
+Because genetic epidemiologic studies have suggested a mechanism by
+which homozygosity for the ALDH2*2 allele inhibits the development of
+alcoholism in Asians, Peng et al. (1999) recruited 18 adult Han Chinese
+men, matched by age, body-mass index, nutritional state, and
+homozygosity at the ALDH2 gene loci from a population of 273 men. Six
+individuals were chosen for each of the 3 ALDH2 allotypes, i.e., 2
+homozygotes and 1 heterozygote. Following a low dose of ethanol,
+homozygous ALDH2*2 individuals were found to be strikingly responsive
+with pronounced cardiovascular hemodynamic effects as well as subjective
+perception of general discomfort for as long as 2 hours following
+ingestion.
+
+Among 71 Japanese nondrinkers and 268 drinkers of alcohol, Liu et al.
+(2005) found that drinkers had a significantly higher frequency of the
+487glu allele. Individuals with the 487lys allele had an increased risk
+of alcohol-induced flushing (odds ratio of 33.0).</OMIM-av>
+    <OMIM-mutation>
+      <OMIM-mutation-no>0001</OMIM-mutation-no>
+      <OMIM-mutation-desc>ALCOHOL SENSITIVITY, ACUTEACETALDEHYDE DEHYDROGENASE 2, ALLELE 2, INCLUDED; ALDH2*2, INCLUDED
+</OMIM-mutation-desc>
+      <OMIM-mutation-mol>ALDH2, GLU487LYS</OMIM-mutation-mol>
+      <OMIM-mutation-fxn>
+        <mut_gene>ALDH2</mut_gene>
+        <aa_wild3>GLU</aa_wild3>
+        <codon_no>487</codon_no>
+        <aa_mutant3>LYS</aa_mutant3>
+        <aa_wild>E</aa_wild>
+        <aa_mutant>K</aa_mutant>
+      </OMIM-mutation-fxn>
+      <OMIM-mutation-text>The ALDH2*2-encoded protein has a change from glutamic acid (glutamate)
+to lysine at residue 487 (Yoshida et al., 1984). Hempel et al. (1985)
+and Hsu et al. (1985) also showed that the catalytic deficiency in
+mitochondrial ALDH in Orientals can be traced to a structural point
+mutation at amino acid position 487 of the polypeptide. A substitution
+of lysine for glutamic acid results from a transition of G-C to A-T.
+
+To study the mechanism by which the ALDH2*2 allele exerts its dominant
+effect in decreasing ALDH2 activity in liver extracts and producing
+cutaneous flushing when the subject drinks alcohol, Xiao et al. (1995)
+cloned ALDH2*1 cDNA and generated the ALDH2*2 allele by site-directed
+mutagenesis. These cDNAs were transduced using retroviral vectors into
+HeLa and CV1 cells, which do not express ALDH2. The normal allele
+directed synthesis of immunoreactive ALDH2 protein with the expected
+isoelectric point and increased aldehyde dehydrogenase activity. The
+ALDH2*2 allele directed synthesis of mRNA and immunoreactive protein,
+but the protein lacked enzymatic activity. When ALDH2*1-expressing cells
+were transduced with ALDH2*2 vectors, both mRNAs were expressed and
+immunoreactive proteins with isoelectric points ranging between those of
+the 2 gene products were present, indicating that the subunits formed
+heteromers. ALDH2 activity in these cells was reduced below that of the
+parental ALDH2*1-expressing cells. Thus, the authors concluded that
+ALDH2*2 allele is sufficient to cause ALDH2 deficiency in vitro.
+
+Xiao et al. (1996) referred to the ALDH2 enzyme encoded by the ALDH2*1
+allele (the wildtype form) as ALDH2E and the enzyme subunit encoded by
+ALDH2*2 as ALDH2K. They found that the ALDH2E enzyme was very stable,
+with a half-life of at least 22 hours. ALDH2K, on the other hand, had an
+enzyme half-life of only 14 hours. In cells expressing both subunits,
+most of the subunits assemble as heterotetramers, and these enzymes had
+a half-life of 13 hours. Thus, the effect of ALDH2K on enzyme turnover
+is dominant. Their studies indicated that ALDH2*2 exerts its dominant
+effect both by interfering with the catalytic activity of the enzyme and
+by increasing its turnover.
+
+Because genetic epidemiologic studies have suggested a mechanism by
+which homozygosity for the ALDH2*2 allele inhibits the development of
+alcoholism in Asians, Peng et al. (1999) recruited 18 adult Han Chinese
+men, matched by age, body-mass index, nutritional state, and
+homozygosity at the ALDH2 gene loci from a population of 273 men. Six
+individuals were chosen for each of the 3 ALDH2 allotypes, i.e., 2
+homozygotes and 1 heterozygote. Following a low dose of ethanol,
+homozygous ALDH2*2 individuals were found to be strikingly responsive
+with pronounced cardiovascular hemodynamic effects as well as subjective
+perception of general discomfort for as long as 2 hours following
+ingestion.
+
+Among 71 Japanese nondrinkers and 268 drinkers of alcohol, Liu et al.
+(2005) found that drinkers had a significantly higher frequency of the
+487glu allele. Individuals with the 487lys allele had an increased risk
+of alcohol-induced flushing (odds ratio of 33.0).
+</OMIM-mutation-text>
+    </OMIM-mutation>
+    <OMIM-sa>Agarwal et al. (1981); Goedde et al. (1986); Hsu et al. (1985); Reed
+(1977); Wolff  (1973); Yoshida et al. (1983)</OMIM-sa>
+    <OMIM-rf>1. Agarwal, D. P.; Harada, S.; Goedde, H. W.: Racial differences
+in biological sensitivity to ethanol: the role of alcohol dehydrogenase
+and aldehyde dehydrogenase isozymes. Alcoholism 5: 12-16, 1981.
+
+2. Bennion, L. J.; Li, T.-K.: Alcohol metabolism in American Indians
+and whites: lack of racial differences in metabolic rate and liver
+alcohol dehydrogenase. New Eng. J. Med. 294: 9-13, 1976.
+
+3. Braun, T.; Grzeschik, K. H.; Bober, E.; Singh, S.; Agarwal, D.
+P.; Goedde, H. W.: The structural gene for the mitochondrial aldehyde
+dehydrogenase maps to human chromosome 12. Hum. Genet. 73: 365-367,
+1986.
+
+4. Chai, Y.-G.; Oh, D.-Y.; Chung, E. K.; Kim, G. S.; Kim, L.; Lee,
+Y.-S.; Choi, I.-G.: Alcohol and aldehyde dehydrogenase polymorphisms
+in men with type I and type II alcoholism. Am. J. Psychiat. 162:
+1003-1005, 2005.
+
+5. Chen, C.-C.; Lu, R.-B.; Chen, Y.-C.; Wang, M.-F.; Chang, Y.-C.;
+Li, T.-K.; Yin, S.-J.: Interaction between the functional polymorphisms
+of the alcohol-metabolism genes in protection against alcoholism. Am.
+J. Hum. Genet. 65: 795-807, 1999.
+
+6. Chen, Z.; Foster, M. W.; Zhang, J.; Mao, L.; Rockman, H. A.; Kawamoto,
+T.; Kitagawa, K.; Nakayama, K. I.; Hess, D. T.; Stamler, J. S.: An
+essential role for mitochondrial aldehyde dehydrogenase in nitroglycerin
+bioactivation. Proc. Nat. Acad. Sci. 102: 12159-12164, 2005.
+
+7. Crabb, D. W.: Biological markers for increased risk of alcoholism
+and for quantitation of alcohol consumption. J. Clin. Invest. 85:
+311-315, 1990.
+
+8. Crabb, D. W.; Edenberg, H. J.; Bosron, W. F.; Li, T.-K.: Genotypes
+for aldehyde dehydrogenase deficiency and alcohol sensitivity: the
+inactive ALDH2*2 allele is dominant. J. Clin. Invest. 83: 314-316,
+1989.
+
+9. Fenna, D.; Mix, L.; Schaefer, O.; Gilbert, J. A. L.: Ethanol metabolism
+in various racial groups. Canad. Med. Assoc. J. 105: 472-475, 1971.
+
+10. Garver, E.; Tu, G.; Cao, Q.-N.; Aini, M.; Zhou, F.; Israel, Y.
+: Eliciting the low-activity aldehyde dehydrogenase Asian phenotype
+by an antisense mechanism results in an aversion to ethanol. J. Exp.
+Med. 194: 571-580, 2001.
+
+11. Goedde, H. W.; Agarwal, D. P.; Fritze, G.; Meier-Tackmann, D.;
+Singh, S.; Beckmann, G.; Bhatia, K.; Chen, L. Z.; Fang, B.; Lisker,
+R.; Paik, Y. K.; Rothhammer, F.; Saha, N.; Segal, B.; Srivastava,
+L. M.; Czeizel, A.: Distribution of ADH-2 and ALDH2 genotypes in
+different populations. Hum. Genet. 88: 344-346, 1992.
+
+12. Goedde, H. W.; Agarwal, D. P.; Harada, S.; Rothhammer, F.; Whittaker,
+J. O.; Lisker, R.: Aldehyde dehydrogenase polymorphism in North American,
+South American, and Mexican Indian populations. Am. J. Hum. Genet. 38:
+395-399, 1986.
+
+13. Goedde, H. W.; Harada, S.; Agarwal, D. P.: Racial differences
+in alcohol sensitivity: a new hypothesis. Hum. Genet. 51: 331-334,
+1979.
+
+14. Hempel, J.; Kaiser, R.; Jornvall, H.: Mitochondrial aldehyde
+dehydrogenase from human liver: primary structure, differences in
+relation to the cytosolic enzyme and functional correlations. Europ.
+J. Biochem. 153: 13-28, 1985.
+
+15. Hsu, L. C.; Bendel, R. E.; Yoshida, A.: Direct detection of usual
+and atypical alleles on the human aldehyde dehydrogenase-2 (ALDH2)
+locus. Am. J. Hum. Genet. 41: 996-1001, 1987.
+
+16. Hsu, L. C.; Tani, K.; Fujiyoshi, T.; Kurachi, K.; Yoshida, A.
+: Cloning of cDNAs for human aldehyde dehydrogenases 1 and 2. Proc.
+Nat. Acad. Sci. 82: 3771-3775, 1985.
+
+17. Hsu, L. C.; Yoshida, A.; Mohandas, T.: Chromosomal assignment
+of the genes for human aldehyde dehydrogenase 1 (ALDH1) and aldehyde
+dehydrogenase 2 (ALDH2).(Abstract) Cytogenet. Cell Genet. 40: 656-657,
+1985.
+
+18. Ikuta, T.; Szeto, S.; Yoshida, A.: Three human alcohol dehydrogenase
+subunits: cDNA structure and molecular and evolutionary divergence. Proc.
+Nat. Acad. Sci. 83: 634-638, 1986.
+
+19. Impraim, C.; Wang, G.; Yoshida, A.: Structural mutation in a
+major human aldehyde dehydrogenase gene results in loss of enzyme
+activity. Am. J. Hum. Genet. 34: 837-841, 1982.
+
+20. Johnson, V. P.; Swayze, V. W., II; Sato, Y.; Andreasen, N. C.
+: Fetal alcohol syndrome: craniofacial and central nervous system
+manifestations. Am. J. Med. Genet. 61: 329-339, 1996.
+
+21. Kazmierczak, B.; Hennig, Y.; Wanschura, S.; Rogalla, P.; Bartnitzke,
+S.; van de Ven, W. J. M.; Bullerdiek, J.: Description of a novel
+fusion transcript between HMGI-C, a gene encoding for a member of
+the high mobility group proteins, and the mitochondrial aldehyde dehydrogenase
+gene. Cancer Res. 55: 6038-6039, 1995.
+
+22. Liu, Y.; Yoshimura, K.; Hanaoka, T.; Ohnami, S.; Ohnami, S.; Kohno,
+T.; Yoshida, T.; Sakamoto, H.; Sobue, T.; Tsugane, S.: Association
+of habitual smoking and drinking with single nucleotide polymorphism
+(SNP) in 40 candidate genes: data from random population-based Japanese
+samples. J. Hum. Genet. 50: 62-68, 2005.
+
+23. Mather, P. B.; Holmes, R. S.: Biochemical genetics of aldehyde
+dehydrogenase isoenzymes in the mouse: evidence for stomach and testis-specific
+isoenzymes. Biochem. Genet. 22: 981-995, 1984.
+
+24. Muramatsu, T.; Higuchi, S.; Murayama, M.; Matsushita, S.; Hayashida,
+M.: Association between alcoholism and the dopamine D4 receptor gene. J.
+Med. Genet. 33: 113-115, 1996.
+
+25. Muramatsu, T.; Zu-Cheng, W.; Yi-Ru, F.; Kou-Bao, H.; Heqin, Y.;
+Yamada, K.; Higuchi, S.; Harada, S.; Kono, H.: Alcohol and aldehyde
+dehydrogenase genotypes and drinking behavior of Chinese living in
+Shanghai. Hum. Genet. 96: 151-154, 1995.
+
+26. Oota, H.; Pakstis, A. J.; Bonne-Tamir, B.; Goldman, D.; Grigorenko,
+E.; Kajuna, S. L. B.; Karoma, N. J.; Kungulilo, S.; Lu, R.-B.; Odunsi,
+K.; Okonofua, F.; Zhukova, O. V.; Kidd, J. R.; Kidd, K. K.: The evolution
+and population genetics of the ALDH2 locus: random genetic drift,
+selection, and low levels of recombination. Ann. Hum. Genet. 68:
+93-109, 2004.
+
+27. Peng, G.-S.; Wang, M.-F.; Chen, C.-Y.; Luu, S.-U.; Chou, H.-C.;
+Li, T.-K.; Yin, S.-J.: Involvement of acetaldehyde for full protection
+against alcoholism by homozygosity of the variant allele of mitochondrial
+aldehyde dehydrogenase gene in Asians. Pharmacogenetics 9: 463-476,
+1999.
+
+28. Reed, T. E.: Three heritable responses to alcohol in a heterogeneous
+randomly mated mouse strain: inferences for humans. J. Studies Alcohol 38:
+618-632, 1977.
+
+29. Roychoudhury, A. K.; Nei, M.: Human Polymorphic Genes: World
+Distribution.  New York: Oxford Univ. Press (pub.)  1988.
+
+30. Schwitters, S. Y.; Johnson, R. C.; Johnson, S. B.; Ahern, F. M.
+: Familial resemblances in flushing following alcohol use. Behav.
+Genet. 12: 349-352, 1982.
+
+31. Shibuya, A.; Ikuta, T.; Hsu, L. C.; Yoshida, A.: Genotypes of
+alcohol metabolizing enzymes in Japanese with alcoholic liver diseases:
+a strong association of the usual Caucasian type aldehyde dehydrogenase
+allele (ALDH2) with the disease.(Abstract) Am. J. Hum. Genet. 43:
+A201, 1988.
+
+32. Shibuya, A.; Yoshida, A.: Frequency of the atypical aldehyde
+dehydrogenase-2 gene (ALDH2/2) in Japanese and Caucasians. Am. J.
+Hum. Genet. 43: 741-743, 1988.
+
+33. Singh, S.; Fritze, G.; Fang, B.; Harada, S.; Paik, Y. K.; Eckey,
+R.; Agarwal, D. P.; Goedde, H. W.: Inheritance of mitochondrial aldehyde
+dehydrogenase: genotyping in Chinese, Japanese and South Korean families
+reveals dominance of the mutant allele. Hum. Genet. 83: 119-121,
+1989.
+
+34. Streissguth, A. P.; Dehaene, P.: Fetal alcohol syndrome in twins
+of alcoholic mothers: concordance of diagnosis and IQ. Am. J. Med.
+Genet. 47: 857-861, 1993.
+
+35. Thomasson, H. R.; Edenberg, H. J.; Crabb, D. W.; Mai, X.-L.; Jerome,
+R. E.; Li, T.-K.; Wang, S.-P.; Lin, Y.-T.; Lu, R.-B.; Yin, S.-J.:
+Alcohol and aldehyde dehydrogenase genotypes and alcoholism in Chinese
+men. Am. J. Hum. Genet. 48: 677-681, 1991.
+
+36. Wolff, P. H.: Ethnic differences in alcohol sensitivity. Science 175:
+449-450, 1972.
+
+37. Wolff, P. H.: Vasomotor sensitivity to alcohol in diverse mongoloid
+populations. Am. J. Hum. Genet. 25: 193-199, 1973.
+
+38. Womack, J. E.: Personal Communication. College Station, Texas
+2/26/1990.
+
+39. Xiao, Q.; Weiner, H.; Crabb, D. W.: The mutation in the mitochondrial
+aldehyde dehydrogenase (ALDH2) gene responsible for alcohol-induced
+flushing increases turnover of the enzyme tetramers in a dominant
+fashion. J. Clin. Invest. 98: 2027-2032, 1996.
+
+40. Xiao, Q.; Weiner, H.; Johnston, T.; Crabb, D. W.: The aldehyde
+dehydrogenase ALDH2*2 allele exhibits dominance over ALDH2*1 in transduced
+HeLa cells. J. Clin. Invest. 96: 2180-2186, 1995.
+
+41. Yoshida, A.; Huang, I.-Y.; Ikawa, M.: Molecular abnormality of
+an inactive aldehyde dehydrogenase variant commonly found in Orientals. Proc.
+Nat. Acad. Sci. 81: 258-261, 1984.
+
+42. Yoshida, A.; Wang, G.; Dave, V.: Determination of genotypes of
+human aldehyde dehydrogenase ALDH-2 locus. Am. J. Hum. Genet. 35:
+1107-1116, 1983.</OMIM-rf>
+    <OMIM-cs>Metabolic:
+   Increased intoxicating symptoms after alcohol drinking
+
+Skin:
+   Facial flushing after alcohol intake
+
+Misc:
+   Oriental type alcohol flushing with abnormal ALDH2
+
+Lab:
+   Mitochondrial acetaldehyde dehydrogenase;
+   Delayed oxidation of acetaldehyde;
+   High Km for NAD;
+   Low Km foracetaldehyde;
+   Disulfiram insensitive</OMIM-cs>
+    <OMIM-phenotype>
+      <phenotype_class>Metabolic</phenotype_class>
+      <phenotype_desc>Increased intoxicating symptoms after alcohol drinking</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Skin</phenotype_class>
+      <phenotype_desc>Facial flushing after alcohol intake</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Misc</phenotype_class>
+      <phenotype_desc>Oriental type alcohol flushing with abnormal ALDH2</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Lab</phenotype_class>
+      <phenotype_desc>Mitochondrial acetaldehyde dehydrogenase</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Lab</phenotype_class>
+      <phenotype_desc>Delayed oxidation of acetaldehyde</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Lab</phenotype_class>
+      <phenotype_desc>High Km for NAD</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Lab</phenotype_class>
+      <phenotype_desc>Low Km foracetaldehyde</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Lab</phenotype_class>
+      <phenotype_desc>Disulfiram insensitive</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-cn>
+      <OMIM-cn-value>Patricia A. Hartz - updated: 9/28/2005
+Cassandra L. Kniffin - updated: 9/1/2005
+John Logan Black, III - updated: 8/8/2005
+Victor A. McKusick - updated: 6/2/2004
+Victor A. McKusick - updated: 1/16/2004
+Paul J. Converse - updated: 11/29/2001
+Victor A. McKusick - updated: 11/4/1999
+Victor A. McKusick - updated: 9/24/1999
+Victor A. McKusick - updated: 4/30/1998
+Mark H. Paalman - updated: 6/12/1996</OMIM-cn-value>
+    </OMIM-cn>
+    <OMIM-cd>
+      <OMIM-cd-value>Victor A. McKusick: 6/4/1986</OMIM-cd-value>
+    </OMIM-cd>
+    <OMIM-ed>
+      <OMIM-ed-value>carol: 04/04/2006
+carol: 4/4/2006
+mgross: 10/6/2005
+terry: 9/28/2005
+wwang: 9/1/2005
+ckniffin: 9/1/2005
+wwang: 8/10/2005
+terry: 8/8/2005
+tkritzer: 6/8/2004
+terry: 6/2/2004
+joanna: 3/17/2004
+cwells: 1/20/2004
+terry: 1/16/2004
+mgross: 12/5/2001
+terry: 11/29/2001
+carol: 4/3/2001
+carol: 11/8/1999
+terry: 11/4/1999
+alopez: 10/26/1999
+terry: 9/24/1999
+carol: 9/4/1998
+dkim: 7/17/1998
+dholmes: 5/12/1998
+carol: 5/5/1998
+terry: 4/30/1998
+terry: 12/6/1996
+mark: 6/12/1996
+mark: 2/26/1996
+terry: 2/20/1996
+mark: 2/2/1996
+terry: 1/26/1996
+mark: 10/15/1995
+warfield: 3/31/1994
+mimadm: 3/11/1994
+carol: 1/26/1994
+carol: 6/9/1992
+supermim: 3/16/1992</OMIM-ed-value>
+    </OMIM-ed>
+  </OMIM-disease>
+  <OMIM-disease>
+    <OMIM-no>100660</OMIM-no>
+    <OMIM-ti>ALDH, STOMACH TYPE</OMIM-ti>
+    <OMIM-syn>ALDEHYDE DEHYDROGENASE, FAMILY 3, SUBFAMILY A, MEMBER 1</OMIM-syn>
+    <OMIM-syn>ALDH3A1 </OMIM-syn>
+    <OMIM-syn>ALDEHYDE DEHYDROGENASE 3</OMIM-syn>
+    <OMIM-syn>ALDH3</OMIM-syn>
+    <OMIM-syn>ACETALDEHYDE DEHYDROGENASE 3</OMIM-syn>
+    <OMIM-code>is_separate</OMIM-code>
+    <OMIM-tx>See 100640. In stomach tissue, Teng (1981) described an isozymic form of
+aldehyde dehydrogenase (ALDH). It did not use formaldehyde,
+acetaldehyde, or pyruvic aldehyde. Furfuraldehyde and, to a lesser
+extent, propionaldehyde were readily oxidized. Teng (1981) found 1
+genetic variant among 71 Chinese stomach specimens and a second
+different variant among 33 Asiatic Indian specimens. Unlike liver ALDH,
+which appears to be a tetramer, the electrophoretic pattern in the
+heterozygotes suggested that stomach ALDH is a monomer. ALDH3 is also
+present in lung. By study of somatic cell hybrids, Santisteban et al.
+(1985) assigned the ALDH3 gene to chromosome 17.
+
+Using PCR with primers based on conserved regions of aldehyde
+dehydrogenases, Hsu et al. (1992) isolated ALDH3 clones from a human
+stomach cDNA library. The ALDH3 open reading frame encodes a protein of
+453 amino acids. The ALDH3 gene consists of 10 exons spanning
+approximately 8 kb. Human ALDH3 protein is 81% identical to that of
+ALDH3 from rat hepatocarcinoma cells. By analysis of Northern blots and
+PCR products, Hsu et al. (1992) found that ALDH3 is transcribed at high
+levels in human stomach and in hepatoma cells, but at very low levels in
+normal liver. ALDH3 protein expressed in E. coli exhibited kinetic
+properties similar to that of ALDH3 purified from human stomach and
+liver.
+
+Data on gene frequencies of allelic variants were tabulated by
+Roychoudhury and Nei (1988).
+
+By in situ hybridization, Hiraoka et al. (1995) mapped the ALDH3 gene to
+17p11.2. Rogers et al. (1997) found that ALDH3 is 50 to 85 kb from a
+closely related gene, ALDH10 (270200), and stated that the close
+linkage, sequence similarity (66% identity between the coding sequences,
+excluding the final 35 codons unique to ALDH10), and structural
+conservation indicate that the 2 genes share a common origin.
+
+Vasiliou et al. (1999) reviewed eukaryotic aldehyde dehydrogenase genes,
+tabulated allelic variants in the human, and recommended nomenclature
+based on divergent evolution and chromosomal mapping. They considered
+ALDH3 a 'trivial' designation and suggested ALDH3A1 as the official
+symbol.
+
+ALDH3 constitutes 20 to 40% of the total water-soluble proteins in
+mammalian cornea. Kays and Piatigorsky (1997) showed by Northern blot
+analysis that ALDH3 expression in the mouse is at least 500-fold higher
+in the cornea than in any other tissue examined, with very low levels of
+expression detected in stomach, urinary bladder, ocular lens, and lung.
+Histochemical localization showed that this exceptional level of
+expression in the mouse cornea occurs in the anterior epithelial cells,
+and that little ALDH3 is present in the keratocytes or corneal
+endothelial cells. As the anterior-most layer of the cornea, the
+epithelium is faced with continual impingement by environmental
+stressors, such as UV radiation, that can have deleterious effects on
+cellular function. The abundant expression of ALDH3 in the corneal
+epithelium is believed to play a role in protecting this vital tissue,
+as well as the rest of the eye, from damage generated by UV exposure.
+With a demonstrated substrate preference for the medium-length aliphatic
+aldehyde products of UV-induced lipid peroxidation, ALDH3 is thought to
+be responsible for preventing the accumulation of these toxic products
+in the cornea. In addition to its detoxification function, ALDH3 may
+protect the eye by the direct absorption of UV radiation. The high
+UV-absorbing capacity of ALDH3, which is attributed both to its high
+tryptophan content and to its ability to bind NAD, led some
+investigators to term this major corneal protein 'absorbin.'
+
+Kays and Piatigorsky (1997) showed that a promoter fragment derived from
+the mouse ALDH3 gene is capable of targeting expression of the
+chloramphenicol acetyltransferease (cat) reporter gene specifically to
+the epithelial layer of the cornea in transgenic mice, mimicking the
+expression pattern of the endogenous ALDH3 gene. Together with other
+results, the experiments indicated that tissue-specific expression of
+ALDH3 is determined by positive and negative elements in the 5-prime
+flanking region of the gene and suggested putative silencers located in
+intron 1.</OMIM-tx>
+    <OMIM-rf>1. Hiraoka, L. R.; Hsu, L.; Hsieh, C.-L.: Assignment of ALDH3 to
+human chromosome 17p11.2 and ALDH5 to human chromosome 9p13. Genomics 25:
+323-325, 1995.
+
+2. Hsu, L. C.; Chang, W.-C.; Shibuya, A.; Yoshida, A.: Human stomach
+aldehyde dehydrogenase cDNA and genomic cloning, primary structure,
+and expression in Escherichia coli. J. Biol. Chem. 267: 3030-3037,
+1992.
+
+3. Kays, W. T.; Piatigorsky, J.: Aldehyde dehydrogenase class 3 expression:
+identification of a cornea-preferred gene promoter in transgenic mice. Proc.
+Nat. Acad. Sci. 94: 13594-13599, 1997.
+
+4. Rogers, G. R.; Markova, N. G.; De Laurenzi, V.; Rizzo, W. B.; Compton,
+J. G.: Genomic organization and expression of the human fatty aldehyde
+dehydrogenase gene (FALDH). Genomics 39: 127-135, 1997.
+
+5. Roychoudhury, A. K.; Nei, M.: Human Polymorphic Genes: World Distribution.
+New York: Oxford Univ. Press (pub.)  1988.
+
+6. Santisteban, I.; Povey, S.; West, L. F.; Parrington, J. M.; Hopkinson,
+D. A.: Chromosome assignment, biochemical and immunological studies
+on a human aldehyde dehydrogenase, ALDH3. Ann. Hum. Genet. 49: 87-100,
+1985.
+
+7. Teng, Y.-S.: Stomach aldehyde dehydrogenase: report of a new locus. Hum.
+Hered. 31: 74-77, 1981.
+
+8. Vasiliou, V.; Bairoch, A.; Tipton, K. F.; Nebert, D. W.: Eukaryotic
+aldehyde dehydrogenase (ALDH) genes: human polymorphisms, and recommended
+nomenclature based on divergent evolution and chromosomal mapping. Pharmacogenetics 9:
+421-434, 1999.</OMIM-rf>
+    <OMIM-cn>
+      <OMIM-cn-value>Victor A. McKusick - updated: 6/12/2000
+Victor A. McKusick - updated: 11/4/1999
+Rebekah S. Rasooly - updated: 2/10/1998</OMIM-cn-value>
+    </OMIM-cn>
+    <OMIM-cd>
+      <OMIM-cd-value>Victor A. McKusick: 6/4/1986</OMIM-cd-value>
+    </OMIM-cd>
+    <OMIM-ed>
+      <OMIM-ed-value>carol: 04/03/2001
+terry: 6/12/2000
+carol: 11/9/1999
+terry: 11/4/1999
+dkim: 7/17/1998
+dkim: 6/30/1998
+carol: 6/16/1998
+alopez: 2/10/1998
+mimman: 9/24/1997
+jenny: 7/2/1997
+jenny: 7/1/1997
+alopez: 6/3/1997
+terry: 2/7/1995
+mimadm: 2/11/1994
+supermim: 3/16/1992
+carol: 12/6/1990
+supermim: 3/20/1990
+ddp: 10/26/1989</OMIM-ed-value>
+    </OMIM-ed>
+  </OMIM-disease>
+  <OMIM-disease>
+    <OMIM-no>100670</OMIM-no>
+    <OMIM-ti>ACETALDEHYDE DEHYDROGENASE 5</OMIM-ti>
+    <OMIM-syn>ALDEHYDE DEHYDROGENASE 1 FAMILY, MEMBER B1</OMIM-syn>
+    <OMIM-syn>ALDH1B1 </OMIM-syn>
+    <OMIM-syn>ALDEHYDE DEHYDROGENASE 5</OMIM-syn>
+    <OMIM-syn>ALDH5</OMIM-syn>
+    <OMIM-code>is_separate</OMIM-code>
+    <OMIM-tx>The 2 aldehyde dehydrogenase isozymes that play a major role in ethanol
+detoxification, ALDH1 (100640) and ALDH2 (100650), are cytosolic and
+mitochondrial forms, respectively. Their organization is basically
+similar; their sizes are 53 kb and 44 kb, respectively, and both contain
+13 coding exons interrupted by 12 introns of comparable lengths. Hsu et
+al. (1989) cloned a new ALDH gene from a cosmid human DNA library.
+Although it contains no introns, Northern blot hybridization of human
+liver RNA revealed a unique mRNA component that hybridized with this
+gene probe but with neither the ALDH1 probe or the ALDH2 probe. The new
+gene encoded 517 amino acid residues, suggesting that it is similar to
+ALDH2, and indeed its deduced sequence was 70.6% identical to that of
+ALDH2 and only 62.8% identical to that of ALDH1. Hsu et al. (1989)
+assigned the ALDH5 gene to chromosome 9 by Southern blot analysis of
+rodent-human hybrid cell DNAs. Hsu and Chang (1991) provided a full
+report on this gene which they referred to as ALDHx.
+
+By in situ hybridization, Hiraoka et al. (1995) mapped the ALDH5 gene to
+9p13.</OMIM-tx>
+    <OMIM-sa>Harada et al. (1980)</OMIM-sa>
+    <OMIM-rf>1. Harada, S.; Agarwal, D. P.; Goedde, H. W.: Electrophoretic and
+biochemical studies of human aldehyde dehydrogenase isozymes in various
+tissues. Life Sci. 26: 1773-1780, 1980.
+
+2. Hiraoka, L. R.; Hsu, L.; Hsieh, C.-L.: Assignment of ALDH3 to
+human chromosome 17p11.2 and ALDH5 to human chromosome 9p13. Genomics 25:
+323-325, 1995.
+
+3. Hsu, L. C.; Chang, W.-C.; Yoshida, A.: Cloning of a new human
+aldehyde dehydrogenase gene and comparison with liver cytosolic ALDH1
+and mitochondrial ALDH2 genes. (Abstract) Am. J. Hum. Genet. 45
+(suppl.): A196 only, 1989.
+
+4. Hsu, L. C.; Chang, W. C.: Cloning and characterization of a new
+functional human aldehyde dehydrogenase gene. J. Biol. Chem. 266:
+12257-12265, 1991.</OMIM-rf>
+    <OMIM-cd>
+      <OMIM-cd-value>Victor A. McKusick: 6/4/1986</OMIM-cd-value>
+    </OMIM-cd>
+    <OMIM-ed>
+      <OMIM-ed-value>carol: 04/03/2001
+dkim: 7/17/1998
+dkim: 6/30/1998
+jenny: 7/1/1997
+terry: 2/7/1995
+carol: 10/22/1992
+carol: 8/28/1992
+supermim: 3/16/1992
+supermim: 3/20/1990
+carol: 11/7/1989</OMIM-ed-value>
+    </OMIM-ed>
+  </OMIM-disease>
+  <OMIM-disease>
+    <OMIM-no>100675</OMIM-no>
+    <OMIM-ti>ACETAMINOPHEN METABOLISM</OMIM-ti>
+    <OMIM-tx>Acetaminophen (paracetamol) is extensively conjugated with glucuronic
+acid and sulfate before renal excretion. A minor metabolic route
+involves microsomal oxidation of acetaminophen to a hepatotoxic reactive
+intermediate, which subsequently undergoes glutathione (GSH)
+conjugation, yielding cysteine and mercapturate conjugates, both of
+which are excreted in the urine (Slattery et al., 1987). Evidence was
+presented by de Morais et al. (1989) that, in comparison with normal
+subjects, glucuronidation of acetaminophen is impaired in subjects with
+Gilbert syndrome (143500), a disorder in which glucuronidation of
+bilirubin is impaired. In studies of 125 Caucasian and 33 Oriental
+subjects, Patel et al. (1992) found no difference in the mean fraction
+of acetaminophen excreted as glucuronide: 51.5% in Caucasians versus
+51.8% in Orientals. However, bimodality was apparent in both groups,
+with 20% of Caucasians and 33% of Oriental subjects displaying
+relatively extensive glucuronidation. In addition, glucuronidation
+displayed a strong negative correlation with sulfation (r = -0.97),
+suggesting a compensatory or complementary relationship between the 2
+metabolic pathways. The mean fractional excretions of cysteine and
+mercapturate conjugates between Caucasians and Orientals did show
+significant differences (p = less than 0.005).</OMIM-tx>
+    <OMIM-rf>1. de Morais, S. M. F.; Uetrecht, J. P.; Wells, P. G.: Decreased
+glucuronidation and increased bioactivation of acetaminophen in Gilbert's
+disease. (Abstract) FASEB J. 3: A739 only, 1989.
+
+2. Patel, M.; Tang, B. K.; Kalow, W.: Variability of acetaminophen
+metabolism in Caucasians and Orientals. Pharmacogenetics 2: 38-45,
+1992.
+
+3. Slattery, J. T.; Wilson, J. M.; Kalhorn, T. F.; Nelson, S. D.:
+Dose-dependent pharmacokinetics of acetaminophen: evidence of glutathione
+depletion in humans. Clin. Pharm. Therap. 41: 413-418, 1987.</OMIM-rf>
+    <OMIM-cs>Skin:
+   Jaundice
+
+Lab:
+   Impaired acetaminophen glucuronidation in Gilbert syndrome (143500)
+
+Inheritance:
+   Autosomal dominant</OMIM-cs>
+    <OMIM-phenotype>
+      <phenotype_class>Skin</phenotype_class>
+      <phenotype_desc>Jaundice</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Lab</phenotype_class>
+      <phenotype_desc>Impaired acetaminophen glucuronidation in Gilbert syndrome (143500)</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Inheritance</phenotype_class>
+      <phenotype_desc>Autosomal dominant</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-cd>
+      <OMIM-cd-value>Victor A. McKusick: 7/21/1992</OMIM-cd-value>
+    </OMIM-cd>
+    <OMIM-ed>
+      <OMIM-ed-value>terry: 11/10/1997
+mimadm: 4/14/1994
+carol: 10/13/1992
+carol: 8/10/1992
+carol: 7/21/1992
+</OMIM-ed-value>
+    </OMIM-ed>
+  </OMIM-disease>
+</omim_disease_set>

@@ -1,0 +1,4 @@
+#!/usr/bin/sh
+
+blip ontol-query $0
+

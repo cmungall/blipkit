@@ -1,0 +1,36 @@
+#!/usr/local/bin/swipl -q -g main -t halt -s
+
+:- use_module(bioprolog(io)).
+:- use_module(bioprolog(ontol)).
+:- use_module(bioprolog(bioprolog_util)).
+:- use_module(bioprolog(go)).
+
+main:-
+        getopt([atom([id,i],ID),
+                atom([name,n],N),
+                bool([count,c],Count),
+                atom([res,r],Res)],
+               FileL),
+        (var(Res) -> true ; load_bioresource(Res)),
+        (class(ID,N) -> true ; die(no_such_class(ID,N))),
+        (Count=1->
+            forall(member(File,FileL),
+                   cnt(ID,File))
+        ;   forall(member(File,FileL),
+                   srch(ID,File))),
+        halt.
+
+srch(ID,F):-
+        read_assoctable(F,H),
+        findall(P,(lookup_assoc_by_termacc(H,ID,IDc,[prodacc(P)]),
+                   class(IDc,Nc),
+                   writeln(IDc/P/Nc)),
+                _),
+        nl.
+        
+cnt(ID,F):-
+        read_assoctable(F,H),
+        writeln(file(F)),
+        setof(P,IDc^lookup_assoc_by_termacc(H,ID,IDc,[prodacc(P)]),Ps),
+        length(Ps,Pnum),
+        writeln(count(F,Pnum)).

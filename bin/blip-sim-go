@@ -1,0 +1,4 @@
+#!/bin/sh
+# e.g. -r go_assoc_local/GeneDB_Tbrucei
+#blip -r implied/go  -u curation_db -u ontol_db -u simmatrix -goal "setup_index(G,T,(curation_statement(_,G,_,T1),parent(T1,T)))" -u tabling -table_pred simmatrix:attribute_information_content/2 -table_pred parentT/3 $*
+blip -r implied/go  -u curation_db -u ontol_db -u simmatrix -goal "setup_index(G,T,(curation_statement(_,G,_,T1),parent(T1,T)))" -u tabling -table_pred simmatrix:attribute_information_content/2 $*

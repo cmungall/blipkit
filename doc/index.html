@@ -1,0 +1,141 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Blipkit: Biomedical LogIc Programming Knowledge Integration Kit</title>
+<link rel="SHORTCUT ICON" href="favicon.ico">
+<link rel="stylesheet" href="pdoc/prologdoc.css" type="text/css">
+<link rel="stylesheet" href="css/blip.css" type="text/css">
+<script type="text/javascript">
+          var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+                          document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+        </script><script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-11782828-1");
+              pageTracker._trackPageview();
+            } catch(err) {}
+        </script>
+</head>
+<body>
+<div id="logo">Blip: Biomedical Logic Programming</div>
+<div class="navbar">
+<p class="title">Documentation</p>
+<p class="side"><a href="index.html">Home</a><br><a href="started.html">Getting started</a><br><a href="tutorial.html">Tutorial</a><br><a href="architecture.html">Architecture</a><br><a href="modules.html">Modules</a><br><a href="examples.html">Examples</a><br><a href="applications.html">Applications</a><br><a href="serval.html">Serval</a><br><a href="faq.html">FAQ</a><br><a href="http://berkeleybop.org/blipdoc">pldoc server</a><br></p>
+<p class="title">Download</p>
+<p class="side"><a href="svn.html">Subversion repository</a><br></p>
+<p class="title">Announcements</p>
+<p class="side"><a href="http://blipkit.wordpress.com">Blip Blog</a><br></p>
+<p class="title">Open-Bio</p>
+<p class="side"><a href="http://www.open-bio.org/">Open Bioinformatics Foundation</a><br><a href="http://www.biojava.org/">BioJava</a><br><a href="http://www.biopython.org/">Biopython</a><br><a href="http://www.bioperl.org/">Bioperl</a><br><a href="http://www.bioruby.org/">Bioruby</a><br><a href="http://obda.open-bio.org/">OBDA</a><br><a href="http://www.biodas.org/">DAS</a><br><a href="http://www.biomoby.org/">MOBY</a><br><a href="http://www.emboss.org/">EMBOSS</a><br></p>
+<p class="title">Related Sites</p>
+<p class="side"><a href="http://skam.sourceforge.net/">BioMake</a><br><a href="http://www.fruitfly.org/~cjm/obol/">Obol</a><br></p>
+</div>
+<div id="header_menu">[ &lt;<a href="#About%20Blip">About Blip</a>&gt;  &lt;<a href="#Features">Features</a>&gt;  &lt;<a href="#News">News</a>&gt; ]</div>
+<div class="content">
+<a name="About Blip"></a><h3 class="section">About Blip</h3>
+<p>
+        Blip is a collection of logic programming modules intended
+        primarily for bioinformatics and biomedical applications,
+        although it contains some modules which may be of more
+        general interest. Blip is intended to be both an application
+        library, and a deductive database/query system. Blip is
+        written in
+        <a href="http://www.swi-prolog.org">SWI-Prolog</a>, a
+          fast, robust and scalable implementation of ISO Prolog.
+      </p>
+<p>
+        Blip is <a href="http://www.fsf.org">Free Software</a>,
+        available, licensed under the <a href="http://www.gnu.org/copyleft/lesser.html">LGPL</a>. 
+      </p>
+<p>Blip, aka <i>blipkit</i> can be cited as...</p>
+<a name="Features"></a><h3 class="section">Features</h3>
+<p>Here are some distinguishing characteristics of Blip</p>
+<ul>
+        <li>
+          <b>Lightweight</b>. Bloat-free: Blip only has as many modules
+          as it needs to do its job.
+        </li>
+        <li>
+          <b>Fast</b>. 
+        </li>
+        <li>
+          <b>Declarative</b>. Say <i>what</i> you want to do, not
+          <i>how</i> you want to do it
+        </li>
+        <li>
+          Blip can be <b>Query-oriented</b>: specify your data
+          sources and ask your query
+        </li>
+        <li>
+          Blip can be <b>Application-oriented</b>: it is designed to be
+          used as an application library used by other bioinformatics tools
+        </li>
+        <li>
+         Mature and fully functional <b>ontology module</b> for
+         handling both <a href="http://obo.sourceforge.net">OBO</a>-style ontologies and <a href="http://www.w3.org/TR/owl-features">OWL</a> ontologies.
+        </li>
+        <li>
+          Modules for handling <b>biological sequences</b> and
+          <b>sequence features</b>. [currently limited functionality,
+          added as needed]
+        </li>
+        <li>
+          A <b>systems biology</b> module for querying pathway and
+          interaction data. [currently limited functionality, added as needed]
+        </li>
+        <li>
+          <b>Relational database integration</b>. SQL can be viewed as a
+          highly restricted dialect of Prolog. Although the SWI-Prolog
+          in-memory database is fast and scalable, sometimes it is nice
+          to be able to fetch data from an external database. Blip
+          contains a generic SQL utility module and predicate mappings
+          for the GO database, Ensembl and Chado
+        </li>
+        <li>
+          <b>Integration</b> with a variety of bioinformatics <b>file
+            formats</b>. SWI-Prolog has a variety of fast libraries for
+          dealing with XML, RDF and tabular data files. Blip provides
+          bridges from bio file formats encoded using these syntaxes
+          into its native models. For other syntaxes, Blip seamlessly
+          integrates other packages such as <a href="http://www.bioperl.org">BioPerl</a> and <a href="http://www.godatabase.org/dev">go-perl</a>. Although these dependencies require extra
+              installation, there is no point reinventing the wheel
+        </li>
+        <li>
+          <b>Rapid development of web applications</b>. Blip extends <a href="http://www.swi-prolog.org">SWI-Prolog</a>'s excellent http support with a simple and
+          powerful logical-functional-programming style application
+          server, <a href="serval.html">serval</a>. This has been used to
+          prototype a fully-featured next-generation replacement for
+          the GO project <a href="http://www.godatabase.org">amigo</a> browser.
+        </li>
+        <li>
+          <b>Scalable</b>. Blip is not intended to be a toy system on
+          toy data (although it is happy to be used as a toy if you
+          like!). It is intended to be used as an application component
+          and a tool operating on real-world biological and biomedical
+          data
+        </li>
+        <li>
+          It's <b>free!</b>
+        </li>
+        <li>
+          It's <b>fun!</b>
+        </li>
+      </ul>
+<a name="News"></a><h3 class="section">News</h3>
+<div class="news">
+<div class="date">2009-05-15</div>
+<newsitem date="2009-05-15">
+          <a href="http://blipkit.wordpress.com">Blip Blog</a> up
+        </newsitem>
+</div>
+</div>
+<div class="footer">
+<address><a href="mailto:cjm_AT_fruitfly_DOT_org">chris mungall</a></address>
+<div class="metadata"><p><lastmod>
+      
+
+Last modified: Fri Sep 30 18:23:46 PDT 2005
+
+    </lastmod></p></div>
+</div>
+</body>
+</html>

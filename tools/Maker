@@ -1,0 +1,26 @@
+ARGS=
+
+#%-m.pro: %.obo
+#	blip-ddb -i $< -u ontol_bridge_to_obolog -u obolog_db io-convert -to obolog_prolog -midgoal rewrite_identifiers > $@.tmp && mv $@.tmp $@
+
+%-obolog_db.pro: %.obo
+	blip -i $< -u ontol_bridge_to_obolog io-convert -to obolog_db:pro $(ARGS) > $@.tmp && mv $@.tmp $@
+.PRECIOUS: %-obolog_db.pro
+
+%-obologn_db.pro: %-obolog_db.pro
+	blip-ddb -i $< -f obolog_db:pro -u obolog_db -goal rewrite_identifiers io-convert -to obolog_db:pro $(ARGS) > $@.tmp && mv $@.tmp $@
+.PRECIOUS: %-obologn_db.pro
+
+%-u.pro: %-obolog_db.pro
+	blip -i $<  -f obolog_db:pro io-convert -to obolog_prolog $(ARGS) > $@.tmp && mv $@.tmp $@
+.PRECIOUS: %-m.pro
+
+%-nu.pro: %-obologn_db.pro
+	blip -i $<  -f obolog_db:pro io-convert -to obolog_prolog $(ARGS) > $@.tmp && mv $@.tmp $@
+.PRECIOUS: %-m.pro
+
+%-implied.obo: %.obo
+	obo2obo -o -saveimpliedlinks $@ $<
+
+%-newlinks.txt: %.obo
+	blip-reasoner -import_all -explain genus_differentia -i $< > $@.tmp && mv $@.tmp $@

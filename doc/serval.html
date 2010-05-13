@@ -1,0 +1,185 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Blip: Serval</title>
+<link rel="SHORTCUT ICON" href="favicon.ico">
+<link rel="stylesheet" href="pdoc/prologdoc.css" type="text/css">
+<link rel="stylesheet" href="css/blip.css" type="text/css">
+<script type="text/javascript">
+          var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+                          document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+        </script><script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-11782828-1");
+              pageTracker._trackPageview();
+            } catch(err) {}
+        </script>
+</head>
+<body>
+<div id="logo">Blip: Biomedical Logic Programming</div>
+<div class="navbar">
+<p class="title">Documentation</p>
+<p class="side"><a href="index.html">Home</a><br><a href="started.html">Getting started</a><br><a href="tutorial.html">Tutorial</a><br><a href="architecture.html">Architecture</a><br><a href="modules.html">Modules</a><br><a href="examples.html">Examples</a><br><a href="applications.html">Applications</a><br><a href="serval.html">Serval</a><br><a href="faq.html">FAQ</a><br><a href="http://berkeleybop.org/blipdoc">pldoc server</a><br></p>
+<p class="title">Download</p>
+<p class="side"><a href="svn.html">Subversion repository</a><br></p>
+<p class="title">Announcements</p>
+<p class="side"><a href="http://blipkit.wordpress.com">Blip Blog</a><br></p>
+<p class="title">Open-Bio</p>
+<p class="side"><a href="http://www.open-bio.org/">Open Bioinformatics Foundation</a><br><a href="http://www.biojava.org/">BioJava</a><br><a href="http://www.biopython.org/">Biopython</a><br><a href="http://www.bioperl.org/">Bioperl</a><br><a href="http://www.bioruby.org/">Bioruby</a><br><a href="http://obda.open-bio.org/">OBDA</a><br><a href="http://www.biodas.org/">DAS</a><br><a href="http://www.biomoby.org/">MOBY</a><br><a href="http://www.emboss.org/">EMBOSS</a><br></p>
+<p class="title">Related Sites</p>
+<p class="side"><a href="http://skam.sourceforge.net/">BioMake</a><br><a href="http://www.fruitfly.org/~cjm/obol/">Obol</a><br></p>
+</div>
+<div id="header_menu">[ &lt;<a href="#Serval">Serval</a>&gt;  &lt;<a href="#Overview">Overview</a>&gt;  &lt;<a href="#Prolog%20as%20a%20server%20application%20language">Prolog as a server application language</a>&gt;  &lt;<a href="#Transitions">Transitions</a>&gt;  &lt;<a href="#To%20find%20out%20more...">To find out more...</a>&gt; ]</div>
+<div class="content">
+<a name="Serval"></a><h3 class="section">Serval</h3>
+<p>
+        Serval is a logical-functional framework for developing web
+        applications. It is generic and largely independent of the
+        bio-specific modules. However, both serval and the
+        bio-specific modules depend upon the same utility module, so I
+        have decided just to bundle serval with blip for now. If you
+        are interested in a distribution that is independent on Blip,
+        contact the <a href="mailto:cjm_AT_fruitfly_DOT_org">developer</a>
+      </p>
+<a name="Overview"></a><h3 class="section">Overview</h3>
+<p>
+        Most web applications are an unholy mix of HTML and
+        application code. Templating systems (eg Template::Toolkit,
+        JSP, ASP, PHP) make some attempt to seperate the HTML from the
+        application code, but they invariably end up tainting each
+        other.
+      </p>
+<p>
+        Declarative languages such as lisp and prolog, which allow you
+        to mix code and data make natural choices for developing web
+        applications.
+      </p>
+<a name="Prolog as a server application language"></a><h3 class="section">Prolog as a server application language</h3>
+<p>
+        Prolog is a particularly good choice, because web applications
+        are naturally viewed as state machines, with rules governing
+        when transitions occur, and what changes to apply to the
+        web-user's state on each transition
+      </p>
+<p>
+        In addition, many web applications have a significant querying
+        component. Prolog is a natural choice for querying data
+      </p>
+<p>
+        However, Prolog's native I/O commands are a poor choice for
+        writing HTML. Less naive approaches to exporting HTML do not
+        suffer the same problems. Any XML document (and thus any well
+        formed HTML document) can be represented using nested prolog compound
+        terms (similar to lisp's S-Expressions). For example:
+        <div class="code"><pre>
+sdefun(hello_world,
+       html(head(title('hello world')),
+            body(h1('hello world')))).
+          </pre></div>
+        can be translated to HTML using a simple interpreter
+      </p>
+<p>
+        That intepreter can also be extended to have both standard
+        functional programming primitives and access to prolog. For
+        example:
+        <div class="code"><pre>
+% data predicates
+person(chaz).
+person(baz).
+person(gaz).
+
+sdefun(hello_everyone,
+       html(head(title('hello people)),
+            body(ul(findall(li(['hello to ',Person]),
+                            <b>person(Person)</b>))))).
+          </pre></div>
+        (prolog predicate in bold)
+      </p>
+<p>
+        This uses a serval builtin function "findall", which queries prolog
+        for all successful calls to person/1 unifying the variable
+        Person with the name, and constructing an HTML list with one
+        entry per person
+      </p>
+<p>
+        Combined with the ability for the application programmer to
+        define their own modular parameterized xml generating
+        functions, this makes for a simple and powerful way of rapidly
+        developing web applications
+      </p>
+<h4 class="subsection">Parameterized page functions</h4>
+<p>
+          Consider the following example: a function for showing an
+          html table containing a summary of a list of data entities
+          (eg genes). the function takes one argument, a (prolog) list
+          of IDs. the function makes use of a prolog predicate
+          gene_name/2 which is presumably defined in the model/logic
+          section.
+        </p>
+<div class="code"><pre>
+sdefun(gene_table(IDs),
+         table(border=1,
+               tr(th('ID'),th('Name')),
+               findall(tr(td(ID),td(Name)),
+                       <b>(member(ID,IDs),gene_name(ID,Name))</b>))).
+          </pre></div>
+<a name="Transitions"></a><h3 class="section">Transitions</h3>
+<p>
+        Transitions are specified as prolog rules using <a href="http://berkeleybop.org/blipdoc/doc_for?object=/serval:strans/4">strans/4</a> and <a href="http://berkeleybop.org/blipdoc/doc_for?object=/serval:strans/5">strans/5</a>. A transition has certain
+        preconditions which must be satisfied before the transition
+        can take place. The preconditions are the current page/state,
+        and a standard prolog list of predicates that must succeed.
+      </p>
+<p>
+        a transition also contains actions: these modify the current session
+        state. the session state cannot be modified in the views, only in the
+        controller.
+      </p>
+<div class="code"><pre>
+% transition to page 'gene_search_results' on user action
+strans(gene_search_results,StateIn,
+          
+       (  % PRECONDITIONS:
+          %  the 'submit' param must be 'search' and the
+          %  value of the param 'data_class' must be 'gene'
+          submit_param(StateIn,search),
+          getparam(S,data_class,gene)),
+
+       (  % ACTIONS:
+          %  the database is searched for genes and the
+          %  resulting ID set is added to the state
+          ngetparam(StateIn,search_text,Search),
+          % this predicate should be defined in the model/logic
+          % part of the application
+          gene_ids_by_search_text(Search,IDs)),
+
+       (  % CHANGES:
+          add([[gene_ids,IDs]]))).
+        </pre></div>
+<p>
+        
+      </p>
+<a name="To find out more..."></a><h3 class="section">To find out more...</h3>
+<p>
+        This is essentially what serval is. To find out more read the
+        <a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip//serval.pro">serval</a> module documentation, or even better,
+        <a href=".html"></a> the full blip distribution and have a
+        look at some of the example applications (in "examples/") and
+        the full-blown Amigo next generation ontology application (in
+        "apps"). There may be an instance of this running; try <a href="http://yuri.lbl.gov/amigo/obd">Phenotype Ontology and
+        Database</a>, <a href="http://yuri.lbl.gov/amigo/ubo">Open Bio
+        Ontologies</a> or, a demo running on a random fun/unusual
+        ontology I found: <a href="http://yuri.lbl.gov/amigo/bible">Semantic Bible</a>.
+      </p>
+</div>
+<div class="footer">
+<address><a href="mailto:cjm_AT_fruitfly_DOT_org">chris mungall</a></address>
+<div class="metadata"><p><lastmod>
+      
+
+Last modified: Fri Sep  9 14:53:25 PDT 2005
+
+    </lastmod></p></div>
+</div>
+</body>
+</html>

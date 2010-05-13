@@ -1,0 +1,156 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Blip: Bioresources</title>
+<link rel="SHORTCUT ICON" href="favicon.ico">
+<link rel="stylesheet" href="pdoc/prologdoc.css" type="text/css">
+<link rel="stylesheet" href="css/blip.css" type="text/css">
+<script type="text/javascript">
+          var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+                          document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+        </script><script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-11782828-1");
+              pageTracker._trackPageview();
+            } catch(err) {}
+        </script>
+</head>
+<body>
+<div id="logo">Blip: Biomedical Logic Programming</div>
+<div class="navbar">
+<p class="title">Documentation</p>
+<p class="side"><a href="index.html">Home</a><br><a href="started.html">Getting started</a><br><a href="tutorial.html">Tutorial</a><br><a href="architecture.html">Architecture</a><br><a href="modules.html">Modules</a><br><a href="examples.html">Examples</a><br><a href="applications.html">Applications</a><br><a href="serval.html">Serval</a><br><a href="faq.html">FAQ</a><br><a href="http://berkeleybop.org/blipdoc">pldoc server</a><br></p>
+<p class="title">Download</p>
+<p class="side"><a href="svn.html">Subversion repository</a><br></p>
+<p class="title">Announcements</p>
+<p class="side"><a href="http://blipkit.wordpress.com">Blip Blog</a><br></p>
+<p class="title">Open-Bio</p>
+<p class="side"><a href="http://www.open-bio.org/">Open Bioinformatics Foundation</a><br><a href="http://www.biojava.org/">BioJava</a><br><a href="http://www.biopython.org/">Biopython</a><br><a href="http://www.bioperl.org/">Bioperl</a><br><a href="http://www.bioruby.org/">Bioruby</a><br><a href="http://obda.open-bio.org/">OBDA</a><br><a href="http://www.biodas.org/">DAS</a><br><a href="http://www.biomoby.org/">MOBY</a><br><a href="http://www.emboss.org/">EMBOSS</a><br></p>
+<p class="title">Related Sites</p>
+<p class="side"><a href="http://skam.sourceforge.net/">BioMake</a><br><a href="http://www.fruitfly.org/~cjm/obol/">Obol</a><br></p>
+</div>
+<div id="header_menu">[ &lt;<a href="#About">About</a>&gt;  &lt;<a href="#Creating%20bioresources">Creating bioresources</a>&gt;  &lt;<a href="#The%20bioresource%20predicate">The bioresource predicate</a>&gt;  &lt;<a href="#Remote%20bioresources">Remote bioresources</a>&gt;  &lt;<a href="#Example%20bioconf">Example bioconf</a>&gt;  &lt;<a href="#Configuration">Configuration</a>&gt;  &lt;<a href="#More%20details">More details</a>&gt;  &lt;<a href="#TODO">TODO</a>&gt; ]</div>
+<div class="content">
+<a name="About"></a><h3 class="section">About</h3>
+<p>
+        A bioresource is any file, database or URL containing
+        biological data. Bioresources have some kind of access path,
+        and can be given logical names. This makes it easier to refer
+        to these resources - for example, if you wish to repeatedly
+        use the <b>gene_ontology.obo</b> bioresource, you can
+        associate a name (like <b>go</b>) to a path (the file path in
+        your filesystem, or a URL)
+      </p>
+<p>
+        Use of bioresources is optional, but they can make your life easier
+      </p>
+<a name="Creating bioresources"></a><h3 class="section">Creating bioresources</h3>
+<p>
+        When you install blip you will set up some standard
+        bioresources (these may not be appropriate for your setup -
+        when blip gets a final release the defaults will be
+        standardised URLs). You will probably want to override
+        these. You can do this by creating a bioconf file.
+      </p>
+<p>
+        Your bioconf file will consist of prolog facts in the 'user'
+        module. These facts use the predicate bioresource/2,
+        bioresource/3 and bioresource/4.
+      </p>
+<p>
+        Create a file <b>bioconf.pro</b> and place it somewhere
+        accessible by all the users sharing the same
+        configuration. We'll assume it's in your home dir for the
+        purposes of this introduction
+      </p>
+<a name="The bioresource predicate"></a><h3 class="section">The bioresource predicate</h3>
+<p>
+        The bioresource predicate names a bioresource, provides a
+        path and the format of the resource.
+      </p>
+<p>
+        Here is an example line from a bioconf.pro file:
+        <div class="code"><pre>
+user:bioresource(go,'/users/cjm/go/ontology/gene_ontology.obo'),obo).
+          </pre></div>
+        This specifies a resource named 'go' in 'obo' format
+      </p>
+<p>
+        To make full use of a bioconf file you should understand the
+        SWI-Prolog predicate expand_file_search_path/2 (use the
+        builtin SWI help system for more details). The blip
+        bioresources system makes full use of this. For example, we
+        can change the above to:
+        <div class="code"><pre>
+user:file_search_path(go, '/users/cjm/go/ontology').
+user:bioresource(go,go('gene_ontology.obo'),obo).
+          </pre></div>
+      </p>
+<p>
+        Files can be in any format understood by blip (see <modureref to="io"></modureref> for full list). Files can also be prolog
+          factfiles. In these cases, the schema module must also
+          be specified; for example:
+          <div class="code"><pre>
+user:bioresource(go,go('go.pro'),pro,ontol_db).
+user:bioresource(words,datadir('words.pro'),pro,user).
+            </pre></div>
+          There is no major advantage to explicitly specifying a
+          prolog fact file if the original format is available -
+          remember that the blip io system will take care of
+          converting the original format to prolog fact file (ensuring
+          the factfile is up to date with respect to the original file)
+      </p>
+<a name="Remote bioresources"></a><h3 class="section">Remote bioresources</h3>
+<p>
+        (experimental) - use the url term to specify a remote
+        resource; eg:
+          <div class="code"><pre>
+user:bioresource(go,url('ftp://www.geneontology.org/pub/go/ontology/gene_ontology.org),obo).
+            </pre></div>
+      </p>
+<a name="Example bioconf"></a><h3 class="section">Example bioconf</h3>
+<p>
+        For guidance, look at the configuration in etc/bioconf.pro in
+        the blip distribution.
+      </p>
+<a name="Configuration"></a><h3 class="section">Configuration</h3>
+<p>
+        Create a file <b>~/.plrc</b> (if you don't have one
+        already). Add a line:
+        <div class="code"><pre>
+:- ['/users/cjm/bioconf.pro'].
+          </pre></div>
+        (changing the path appropriately of course)
+      </p>
+<p>
+        If you wish to split your conf over multiple files, do this:
+        <div class="code"><pre>
+:- multifile bioresource/3,bioresource/4.
+:- ['/users/cjm/bioconf.pro'].
+:- ['/users/cjm/bioconf_extra.pro'].
+          </pre></div>
+      </p>
+<a name="More details"></a><h3 class="section">More details</h3>
+<p>
+        See the <a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip//io.pro">io</a> documentation
+      </p>
+<a name="TODO"></a><h3 class="section">TODO</h3>
+<p>
+        A later version of blip will have a set of standard
+        bioresources defined as standard URLs. The URL mechanism will
+        be improved so that local caches will be maintained on the
+        user's machine. For now, users wishing to use bioresources
+        should set them up themselves (which will entail downloading etc)
+      </p>
+</div>
+<div class="footer">
+<address><a href="mailto:cjm_AT_fruitfly_DOT_org">chris mungall</a></address>
+<div class="metadata"><p><lastmod>
+      
+
+Last modified: Sat Jan  7 21:03:38 GMT 2006
+
+    </lastmod></p></div>
+</div>
+</body>
+</html>

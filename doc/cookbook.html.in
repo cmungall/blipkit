@@ -1,0 +1,47 @@
+  <page>
+    <title>Blip: Cookbook</title>
+    <section id="Cookbook">
+      <p>
+        Come back later for lots of handy cooking tips!
+      </p>
+    </section>
+
+    <section id="Ontologies">
+      <p>
+      </p>
+    </section>
+
+    <section id="Pathways and SBML">
+      <p>
+      </p>
+    </section>
+
+    <section id="Relational Databases">
+      <p>
+      </p>
+    </section>
+
+    <section id="Chado and ChaosXML">
+      <p>
+      </p>
+    </section>
+
+    <section id="GFF">
+      <p>
+      </p>
+    </section>
+
+    <section id="Gene Ontology Associations">
+      <p>
+      </p>
+    </section>
+
+
+    <lastmod>
+      <!-- Created: Mon May  2 09:02:21 PDT 2005 -->
+      <!-- hhmts start -->
+Last modified: Fri May 13 16:07:09 PDT 2005
+<!-- hhmts end -->
+    </lastmod>
+
+  </page>

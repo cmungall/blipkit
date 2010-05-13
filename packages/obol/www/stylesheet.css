@@ -1,0 +1,328 @@
+body {
+	background-color: #ffffcc;
+	color: #444444;
+	font-family: 'Trebuchet MS', Verdana, 'Lucida Grande', 'Century Gothic', Futura, Arial, Lucida, Helvetica, sans-serif;
+	margin: 2em;
+	font-size: 1em;
+	/* background-image: url(images/page-bg.gif); */
+}
+
+a:hover, a:active {
+	color: #ffffff;
+	background-color: #444444;
+}
+
+a:link {
+	color: #660000;
+	text-decoration: none;
+}
+
+a:visited {
+	color: #888888;
+	text-decoration: none;
+}
+
+img {
+	border: 0;
+}
+
+ul
+{
+	
+}
+
+#navbar ul li {	
+	list-style-type: none;
+	display: block;
+	padding: 0;
+	text-align: right;
+}
+
+#navbar ul li a:link, #navbar ul li a:visited {	
+	background-color: #ffffcc;
+	color: #444444;
+	display: block;
+	padding: 0.3em 6px 0.3em 6px; 
+}
+
+#navbar ul li a:hover
+{	color: #ffffff;
+	background: #444444;
+	font-style: bold;
+}
+
+#navbar ul li a.current:link, #navbar ul li a.current:visited {
+	color: #990000;
+	background-color: #ffffcc;
+	font-style: bold;
+}
+
+#navbar ul li a.current:hover {
+	color: #990000;
+	background: #ffffcc;
+	font-style: bold;
+}
+
+h2 {
+	padding: 10px;
+}
+
+h3 {
+	color: #ffffff;
+	background: #660000;
+}
+
+h3 a {
+	padding: 2px 10px 2px 10px;
+	display: block;
+}
+
+h3 a:hover {
+	color: #ffffff;
+	background: #444444;
+}
+
+
+p {
+	font-size: .8em;
+}
+
+.main-text p
+{	margin: 0 10px 1em 10px;
+	font-size: .8em;
+	text-align: justify;
+	line-height: 1em;
+}
+
+.main-text ul
+{	margin: 0 10px 0 10px;
+	font-size: .8em;
+}
+
+#header {
+	color: #660000;
+	border-top: 4px #ffcc33 double;
+	border-bottom: 4px #ffcc33 double;
+	font-size: 1.4em;
+	font-weight: bold;
+	text-align: right;
+}
+
+#content
+{	margin: 0;
+	position: relative;
+	font-size: 1em;
+	text-align: justify;
+}
+
+.main-text {
+	position: relative;
+	margin-left: 120px;
+	border-left: 4px #ffcc33 double;
+}
+
+#navbar
+{
+	position: fixed;
+	margin-top: 4em;
+	top: 0px;
+	left: 0px;
+	width: 120px;
+	text-align: center;
+	font-size: .9em;
+	font-weight: bold;
+	letter-spacing: 2px;
+}
+
+#footer {
+	border-color: #990000;
+	margin-left: 6px;
+}
+
+#header h1 {
+	margin: 0;
+	padding: 10px;
+	font-size: 1.2em;
+	font-style: italic;
+	letter-spacing: 10px;
+}
+
+#about {
+	background-color: #ffffff;
+	color: #444444;
+	font-size: 1.2em;
+	font-weight: plain;
+	text-align: left;
+	padding: .4em;
+}
+
+#crit ol
+{	margin: 0px 30px;
+	padding: 0;
+}
+
+#crit li {
+	margin: 0;
+	padding: 5px;
+}
+
+#crit h4 {
+	font-size: 1.1em;
+	font-weight: normal;
+	margin: 0;
+}
+
+#crit h4 b {
+	/* color: #ff6633; */
+	color: #99cc33;
+	font-style: italic;
+}
+
+#crit li p {
+	font-size: 0.8em;
+	margin: 0.5em 20px 0.5em 20px;
+}
+
+p.description {
+	background: #ffffcc;
+	margin: 0.5em 10px 0.5em 10px;
+	border-style: double;
+	border-width: 0px 0px 4px 0px;
+	border-color: #ffcc33;
+}
+
+#footer p
+{	font-size: 0.8em;
+	text-align: left;
+	font-weight: bold;
+}
+
+.browser a.page {
+	font-weight: bold;
+	color: #444444;
+}
+
+.browser a:hover {
+	color: #ffffff;
+	background-color: #444444;
+}
+
+.browser ul
+{	margin: 2px 0 2px 15px;
+	list-style-type: none;
+	font-size: 1.0em;
+}
+
+.browser li
+{	margin: 0.2em 2px 0.2em 2px;
+}
+
+.main-text table
+{	width: 100%;
+	font-size: .8em;
+	line-height: 1em;
+	border: 0;
+	background: #ffffcc;
+}
+
+.main-text table a
+{
+}
+
+
+.grid table
+{
+  border: solid 1px;
+}
+
+.grid td
+{	font-size: .7em;
+	text-align: left;
+	padding: 1px;
+  border: solid 1px;
+}
+
+.grid th
+{	font-size: .8em;
+	text-align: left;
+}
+
+.outer th 
+{ 
+  background-color: #fff;
+}
+
+.tab td
+{	font-size: .9em;
+	text-align: left;
+	padding: 2px;
+}
+
+.tab th
+{	font-size: 1em;
+	text-align: center;
+	background: #ffffff;
+	border-width: 4px 0 4px 0;
+	border-style: double;
+	border-color: #ffcc33;
+}
+
+.tab th a {
+	display: block;
+	padding: 3px;
+}
+
+.tab th a:hover {
+	color: #ffffff;
+	background: #444444;
+}
+
+.tab th a:link, th a:visited {
+	color: #444444;
+}
+
+.tab td.tableOne {
+	background-color: #ffffcc;
+}
+
+.tab td.tableTwo {
+	background-color: #ffffff;
+}
+
+.tab td.tableOne a:hover {
+	color: #ffffff;
+	background: #444444;
+}
+
+.tab td.tableTwo a:hover {
+	color: #ffffff;
+	background: #444444;
+}
+
+.detail td {
+	padding: 5px 10px 5px 10px;
+	font-size: 1em;
+	text-align: right;
+}
+
+.detail td.data
+{	
+	text-align: left;
+	background-color: #cccccc;
+}
+
+.detail td.data a:hover {
+	color: #ffffff;
+	background: #444444;
+}
+
+@page {
+	margin: 5%;
+}
+
+@media print {
+	body {
+		background-color: white;
+	}
+}
+

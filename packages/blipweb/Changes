@@ -1,0 +1,7 @@
+20050331        - split into multiple components: core, feature, mutant
+
+   some parts still need to be separated; how do we decide which
+   data class to use when viewing a term? for GO terms, viewing
+   both features and mutants makes sense
+
+                  

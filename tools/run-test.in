@@ -1,0 +1,22 @@
+#!@SWIPL@ -q -t halt -g main -s
+
+user:file_search_path(bio,'lib').
+
+:- use_module(bio(bioprolog_util)).
+:- use_module(bio(io)).
+:- use_module(bio(plunit)).
+
+main:-
+        getopt([atom([dir,d],Dir,'lib/Test/data'),
+                atoms(debug,Debugs),
+                atom([test,t],Test)],
+               Mods),
+        (   Debugs=[]
+        ->  true
+        ;   set_prolog_flag(verbose,normal),
+            maplist(debug,Debugs)),
+        working_directory(_,Dir),
+        forall(member(Mod,Mods),
+               run_tests(bio(Mod),Test)),
+        test_summary.
+

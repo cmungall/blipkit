@@ -1,0 +1,24 @@
+span.comment {  
+  font-style: italic;
+  color: #9A1900;
+}
+span.type {  
+  font-style: italic;
+  color: #009900;
+}
+span.keyword {  
+  font-weight: bold;
+  color: #0000FF;
+}
+span.function {  
+  font-weight: bold;
+  color: #000000;
+}
+span.symbol {  
+  color: #990000;
+}
+span.number {  
+  color: #993399;
+}
+
+

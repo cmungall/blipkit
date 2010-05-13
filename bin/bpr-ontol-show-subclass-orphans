@@ -1,0 +1,18 @@
+#!/usr/local/bin/swipl -q -t main -s
+
+:- use_module(bioprolog(ontol)).
+:- use_module(bioprolog(bioprolog_util)).
+:- use_module(library(lists)).
+
+main:-
+        current_prolog_flag(argv, ArgvIn),
+        append(_,[--|Argv],ArgvIn),
+        Argv=FileL,
+        load_factfiles(FileL),
+        setof(ID,
+              (
+                class(ID,N),
+                not(subclass(ID,_)),
+                writeln(no_subclass(ID,N))
+              ),IDL),
+        halt.

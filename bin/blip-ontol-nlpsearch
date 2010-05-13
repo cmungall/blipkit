@@ -1,0 +1,3 @@
+#!/bin/sh
+
+blip-findall -u metadata_nlp -goal "index_labels(true)" $*

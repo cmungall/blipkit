@@ -1,0 +1,62 @@
+#!/usr/local/bin/swipl -q -g main -t halt -s
+
+:- use_module(bioprolog(ontol)).
+:- use_module(bioprolog(bioprolog_util)).
+:- use_module(bioprolog(io)).
+:- use_module(bioprolog(biotable)).
+:- use_module(bioprolog(go)).
+:- use_module(library(table)).
+
+main:-
+        getopt([atom([id,i],ID),
+                atom([name,n],N),
+                atoms([res,r],ResL)],
+               [InpFile,File]),
+        writeln(reading(InpFile)),
+        connect_biotable(InpFile,InpHandle),
+        writeln(reading(File)),
+        read_assoctable(File,Handle),
+        writeln(loading(ResL)),
+        load_bioresources(ResL),
+        writeln(finding),
+        forall(ortho(InpHandle,PID1,PID2),
+               cmp(Handle,PID1,PID2)),
+        halt.
+
+ortho(H,PID1,PID2):-
+        in_table(H,[id(ID),seq_id(PID1)],_),
+        in_table(H,[id(ID),seq_id(PID2)],_),
+        PID1 \= PID2.
+
+cmp(H,PID1,PID2):-
+        writeln(trying(PID1/PID2)),
+        setof(TermID,termacc_prodsymbol(H,TermID,PID1),TermIDs1),
+        setof(TermID,termacc_prodsymbol(H,TermID,PID2),TermIDs2),
+        writeln(ortho(PID1,PID2)),
+        writeln(PID1),
+        forall(member(TermID,TermIDs1),
+               dagcmp(TermID,TermIDs2)),
+        writeln(PID2),
+        forall(member(TermID,TermIDs2),
+               dagcmp(TermID,TermIDs1)).
+cmp(_,_,_).
+
+dagcmp(ID,IDs):-
+        dagcmp(ID,IDs,M),
+        writeln(M/ID).
+        
+dagcmp(ID,IDs,match):-
+        member(ID,IDs),
+        !.
+dagcmp(ID,IDs,anc):-
+        member(ID2,IDs),
+        parentRT(ID,ID2),
+        !.
+dagcmp(ID,IDs,desc):-
+        member(ID2,IDs),
+        parentRT(ID2,ID),
+        !.
+dagcmp(_,_,unmatched).
+
+termacc_prodsymbol(H,TID,PID):-
+        in_table(H,[termacc(TID),prodsymbol(PID)],_).

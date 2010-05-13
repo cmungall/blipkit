@@ -1,0 +1,4 @@
+#!/bin/sh
+
+blip io-convert -f thea2_owl -to obo $@
+

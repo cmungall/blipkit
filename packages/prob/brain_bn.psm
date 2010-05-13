@@ -1,0 +1,50 @@
+target(patient,12).
+data('patientdata.dat').
+
+values(cause1,[yes,no]).
+values(cause2,[yes,no]).
+values(c(_,_,_),[yes,no]).
+
+% patient/12 declaration (target)
+patient(Disease_1,Disease_2,Disease_3,Disease_4,Disease_5,Sick,Hipp,Amyg,Alveoli, Brain, Lung,Phenotype):- patient(_,_,Disease_1,Disease_2,Disease_3,Disease_4,Disease_5,Sick,Hipp,Amyg,Alveoli, Brain, Lung,Phenotype).
+
+% patient/14 declaration (graph)
+patient(Cause_1,Cause_2,Disease_1,Disease_2,Disease_3,Disease_4,Disease_5,Sick,Hipp,Amyg,Alveoli, Brain, Lung,Phenotype):-
+	msw(cause1,Cause_1),
+	msw(cause2,Cause_2),
+	msw(c(hipp,Cause_1,Cause_2),Hipp),
+	msw(c(amyg,Cause_1,Cause_2),Amyg),
+	msw(c(alv,Cause_1,Cause_2),Alveoli),
+	msw(c(d1,Cause_1,Cause_2),Disease_1),
+	msw(c(d2,Cause_1,Cause_2),Disease_2),
+	msw(c(d3,Cause_1,Cause_2),Disease_3),
+	msw(c(d4,Cause_1,Cause_2),Disease_4),
+	msw(c(d4,Cause_1,Cause_2),Disease_5),
+	% if a patient has any disease, then the patient is sick
+	(   (	Disease_1=yes
+	    ;	Disease_2=yes
+	    ;	Disease_3=yes
+	    ;	Disease_4=yes
+	    ;	Disease_5=yes)
+	->  Sick=yes
+	;   Sick=no),
+	% if a patient has a hippocampal or amygdala phenotype, they have a brain phenotype
+	% (is this fine with prism? do we need to enumerate all 4 possibilities..?)
+	(   (	Hipp=yes
+	    ;	Amyg=yes)
+	->  Brain=yes
+	;   Brain=no),
+	%msw(n(alveoli),Alveoli),
+	(   Alveoli=yes
+	->  Lung=yes
+	;   Lung=no),
+	% if a patient has something up with their brain or lung, they have a phenotype.
+	% we assume that brain and lung exhausts the range of phenotypes but this is of
+	% course nonsense.
+	(   (	Brain=yes
+	    ;	Lung=yes)
+	->  Phenotype=yes
+	;   Phenotype=no).
+
+	
+	

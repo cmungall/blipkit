@@ -1,0 +1,9 @@
+#!/usr/bin/perl
+
+warn("this script is deprecated: blip now has a native sbml-to-fact mapping");
+
+my $dir = `dirname $0`;
+chomp $dir;
+foreach (@ARGV) {
+    system("xsltproc $dir/../xsl/sbml-to-tbl.xsl $_ | tbl2p");
+}

@@ -1,0 +1,22 @@
+---+ General TODOs
+
+* change module_transparent to meta_predicate
+* change user: to system: (in progress)
+
+---+ Proposed Reorganization
+
+The organization and distribution of the code is due for an
+overhaul. See http://blipkit.wordpress.com for announcements
+
+One of the goals is to make the individual modules more independent
+
+* Rename all .pro files to .pl
+* simplify directory structure, package/blip/X/ --> X/
+* move from svn to github
+* merge phylo/ and homol/
+* merge curation/ and ontol/
+** separate project for each package? use git submodules
+* move sql/sql_schema/X to appropriate package; e.g. schema_enscompara to phylo/
+* test directory for each package
+* move test files to individual packages
+* separate distros for non-bio stuff

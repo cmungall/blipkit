@@ -1,0 +1,94 @@
+[Term]
+id: GO:0000016 ! lactase activity
+intersection_of: GO:0003674 ! molecular_function
+intersection_of: has_input CHEBI:17716 ! lactose
+intersection_of: has_input CHEBI:15377 ! water
+intersection_of: has_output CHEBI:17634 ! D-glucose
+intersection_of: has_output CHEBI:12936 ! D-galactose
+
+[Term]
+id: FORMULA:C12H22O11
+namespace: formula
+intersection_of: CHEBI:24431  ! molecular structure
+intersection_of: has_part CHEBI:25805 {cardinality=11} ! oxygen
+intersection_of: has_part CHEBI:27594 {cardinality=12} ! carbon
+intersection_of: has_part CHEBI:49637 {cardinality=22} ! hydrogen
+
+
+[Term]
+id: FORMULA:H2O
+namespace: formula
+intersection_of: CHEBI:24431  ! molecular structure
+intersection_of: has_part CHEBI:25805 {cardinality=1} ! oxygen
+intersection_of: has_part CHEBI:49637 {cardinality=2} ! hydrogen
+
+[Term]
+id: CHEBI:17634
+name: D-glucose
+namespace: chebi_ontology
+alt_id: CHEBI:12965
+alt_id: CHEBI:20999
+synonym: "C6H12O6" RELATED FORMULA [ChEBI:NULL]
+synonym: "D(+)-glucose" RELATED [ChemIDplus:NULL]
+synonym: "D-(+)-glucose" RELATED [NIST_Chemistry_WebBook:NULL]
+synonym: "D-gluco-hexose" EXACT IUPAC_NAME [IUPAC:NULL]
+synonym: "D-glucose" EXACT IUPAC_NAME [IUPAC:NULL, IntEnz:NULL]
+synonym: "Traubenzucker" RELATED [ChemIDplus:NULL]
+synonym: "dextrose" RELATED [NIST_Chemistry_WebBook:NULL]
+synonym: "grape sugar" RELATED [ChemIDplus:NULL]
+xref: ChemIDplus:50-99-7
+xref: NIST_Chemistry_WebBook:50-99-7
+is_a: CHEBI:17234  ! glucose
+is_a: CHEBI:17608  ! D-aldohexoses
+is_a: FORMULA:C6H12O6 
+
+
+[Term]
+id: CHEBI:12936
+name: D-galactose
+namespace: chebi_ontology
+synonym: "C6H12O6" RELATED FORMULA [ChEBI:NULL]
+synonym: "D-Gal" RELATED [JCBN:NULL]
+synonym: "D-galacto-hexose" EXACT IUPAC_NAME [IUPAC:NULL]
+synonym: "D-galactose" EXACT IUPAC_NAME [IUPAC:NULL, IntEnz:NULL]
+is_a: CHEBI:17608  ! D-aldohexoses
+is_a: CHEBI:28260  ! galactose
+is_a: FORMULA:C6H12O6 
+
+[Term]
+id: CHEBI:17716
+name: lactose
+is_a: FORMULA:C12H22O11 
+
+[Term]
+id: CHEBI:15377
+name: water
+is_a: FORMULA:H2O 
+
+[Term]
+id: FORMULA:C6H12O6
+namespace: formula
+intersection_of: CHEBI:24431  ! molecular structure
+intersection_of: has_part CHEBI:25805 {cardinality=6} ! oxygen
+intersection_of: has_part CHEBI:27594 {cardinality=6} ! carbon
+intersection_of: has_part CHEBI:49637 {cardinality=12} ! hydrogen
+
+[Typedef]
+id: has_part
+name: has_part
+is_transitive: true
+
+[Typedef]
+id: has_part
+name: has_part
+is_transitive: true
+
+[Typedef]
+id: has_input
+name: has_input
+holds_over_chain: has_input has_part
+
+[Typedef]
+id: has_output
+name: has_output
+holds_over_chain: has_input has_part

@@ -1,0 +1,136 @@
+#logo { 
+  font-family:verdana, arial, sans-serif;
+  color:#000;
+  font-size:large;
+  font-weight:normal;
+  border:1px dotted #00f;
+  background:#aaf;
+  padding:15px;
+  letter-spacing:.2em;
+}
+#sublogo { 
+  font-family:verdana, arial, sans-serif;
+  color:#00f;
+  font-size:small;
+  font-weight:bold;
+  background:#ccf;
+  padding:5px;
+  letter-spacing:.1em;
+}
+
+#header_menu { 
+  font-family:verdana, arial, sans-serif;
+  color:#000;
+  font-size:x-small;
+  background:#fff;
+  padding:5px;
+}
+
+h3.section { 
+  font-family:verdana, arial, sans-serif;
+  color:#000;
+  font-size:medium;
+}
+
+h4.subsection { 
+  font-family:verdana, arial, sans-serif;
+  color:#000;
+  font-size:medium;
+  margin: 16px;
+}
+
+.date { 
+  color:#f00;
+}
+
+.code pre  { 
+  color:#008;
+  margin-left:20px;
+  padding:8px;
+  background:#ccf;
+  border:1px dotted #00f;
+}
+
+.output pre  { 
+  color:#080;
+  margin-left:20px;
+  padding:8px;
+  background:#ccf;
+  border:1px dotted #00f;
+}
+
+.module { 
+  margin:16px;
+  padding:8px;
+  border:1px dotted #00f;
+}
+.module_name { 
+  margin:-4px;
+}
+.status { 
+  left-margin:18px;
+  color:#800;
+  padding:4px;
+}
+.desc { 
+  left-margin:10px;
+}
+
+.metadata { 
+  font-size:10px;
+}
+
+.content { 
+  font-family:verdana, arial, sans-serif;
+  color:#000;
+  font-size:small;
+}
+
+.navbar { 
+  float:right;
+  width:20%;
+  background:#FFF;
+  border:1px dotted #999;
+  padding:10px;
+  
+}
+	
+.footer {
+  width:100%;
+  background:#FFF;
+  border-width:1;
+  background:#ffffff;
+  padding:5px;
+  font-size:tiny;
+}
+.side {
+  font-family:verdana, arial, sans-serif;
+  color:#000;
+  font-size:x-small;
+  font-weight:normal;
+  background:#FFF;
+  line-height:140%;
+  padding:2px;
+}
+
+.sidetitle {
+  font-family:verdana, arial, sans-serif;
+  color:#999;
+  font-size:x-small;
+  font-weight:bold;
+  line-height:140%;
+  padding:2px;
+  margin-top:10px;
+  text-align:left;
+  text-transform:uppercase;
+  letter-spacing:.2em;
+}
+
+.title {
+  font-family:verdana, arial;
+  font-size:small;
+  color:#000;
+  text-transform:uppercase;
+  font-weight:bold;
+}
+

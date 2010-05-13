@@ -1,0 +1,12 @@
+(S
+  (NP
+    (NP (DT The) (NN permeability) (NN barrier))
+    (PP (IN of)
+      (NP
+        (NP (DT the) (NN gut))
+        (PP (IN of)
+          (NP (JJ homozygous) (NN larvae))))))
+  (VP (VBZ is)
+    (ADJP (JJ intact)))
+  (. .))
+

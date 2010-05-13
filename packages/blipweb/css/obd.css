@@ -1,0 +1,230 @@
+.classdef {
+  border: solid;
+  border-width: medium;
+  width: 100%;
+  font-size: small;
+  border-color: #884400;
+}
+
+.tree_glyph { 
+  
+}
+
+.about { 
+  border: 1px solid #000;
+  background-color: #ffa;
+  font-size: small;
+  margin: 30px;
+}
+
+.term_relationship_summary td { 
+  font-size:small;
+}
+
+.summary_table th { 
+  color: red;
+}
+.summary_table td { 
+  border: solid;
+  border-width: 1;
+  color: blue;
+}
+.summary_table {
+  border: solid;
+  font-size: small;
+  margin: 20px;
+  padding-bottom: 0;
+  padding-top: 0;
+}
+
+.xp_matrix table {
+  empty-cells: show;
+  border: solid 1px;
+  font-size: small;
+  margin: 20px;
+  padding-bottom: 0;
+  padding-top: 0;
+}
+
+.xp_matrix th { 
+  border: solid 1px;
+  font-size: small;
+}
+
+.xp_matrix td { 
+  empty-cells: show;
+  border: solid 1px;
+  font-size: small;
+}
+
+#xp_table th { 
+  text-align: left;
+}
+
+#xp_table td { 
+  text-align: left;
+}
+
+.xp_diff_rel {
+  border-top: solid 1px;
+  border-left: solid 1px;
+  border-bottom: solid 1px;
+  font-size: small;
+}
+
+.xp_diff_term  {
+  border-top: solid 1px;
+  border-right: solid 1px;
+  border-bottom: solid 1px;
+}
+
+.xp_term th { 
+  border: solid 1px;
+}
+
+th.xp_genus { 
+  background-color: #aaf;
+}
+
+td.xp_genus { 
+  background-color: #aaf;
+}
+
+.relation_small { 
+  font-size: 80%;
+}
+
+span.score { 
+  font-size: small;
+  color: #ccc;
+}
+
+span.smallnote { 
+  font-size: small;
+}
+
+div.info {
+  margin: 20px;
+}
+
+#center { 
+  margin: 5px;
+}
+
+/* class definition */
+div.cdef {
+  border: 1px dotted #00f;
+  background-color: #ffa;
+  padding: 5px;
+  margin: 2px;
+}
+
+div.leftpanel { 
+  float: left;
+  width: 40%;
+}
+
+div.rightpanel { 
+  float: right;
+  width: 40%;
+}
+
+/* filter/constraints tab stuff */
+
+ul.filter_tab {
+  font: bold 11px verdana, arial, sans-serif;
+  list-style-type: none;
+  padding-top: 18px;
+  padding-bottom: 24px;
+  border: 1px solid #66c;
+  border-bottom: 1px solid #66c;
+  margin-left: 5px;
+  margin-right: 5px;
+  background-color: #ccf;
+}
+
+
+li.inactive_filter_tab {
+  float: left;
+  height: 21px;
+  background-color: #cfc;
+  margin: 2px 2px 0 2px;
+  border: 1px solid #66c;
+}
+
+li.active_filter_tab { 
+  float: left;
+  height: 21px;
+  margin: 2px 2px 0 2px;
+  border: 1px solid #66c;
+  border-bottom: 1px solid #fff;
+  background-color: #fff;
+}
+
+.table_break { 
+  background-color: #88f;
+  color: #88f;
+}
+
+body#tab1 li.tab1 a, body#tab2 li.tab2 a, body#tab3 li.tab3 a, body#tab4 li.tab4 a {
+color: #000;
+}
+
+.filter_tab a {
+float: left;
+display: block;
+color: #666;
+text-decoration: none;
+padding: 4px;
+}
+
+.filter_tab a:hover {
+background: #fff;
+}
+
+.general-info dt { font-weight: bold; width: 14em; }
+
+.general-info dd { position: relative; left: 0; top: -1.2em; margin: 0 0 0 20em; }
+
+.general-info dd + dt { margin: -1em 0 0 0; }
+
+#dhtmltooltip
+{
+        font-size: 80%;
+            position: absolute;
+            width: 150px;
+            border: 2px solid black;
+            padding: 2px;
+            background-color: lightyellow;
+            visibility: hidden;
+            z-index: 100;
+            /*Remove below line to remove shadow. Below line should always appear last within this CSS*/
+            filter: progid:DXImageTransform.Microsoft.Shadow(color=gray,direction=135);
+}
+
+a.info{
+  position:relative; /*this is the key*/
+
+/*  left:100px;
+   top:100px;*/
+  z-index:24; 
+/*    color:#000; */
+  text-decoration:none
+}
+
+a.info:hover{z-index:50; background-color:#ff0}
+
+a.info span{display: none}
+
+a.info:hover span{ /*the span will display just on :hover state*/
+  position:fixed;
+  display:block;
+  top:2em; left:2em;
+  width:80%;
+  font-size: small;
+  border:1px solid #0cf;
+  background-color:#cff; color:#000;
+  text-align: left;
+}
+
+

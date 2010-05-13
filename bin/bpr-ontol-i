@@ -1,0 +1,19 @@
+#!/usr/local/bin/swipl -q -g main -t halt -s
+
+:- use_module(bio(ontol)).
+:- use_module(bio(ontol_util)).
+:- use_module(bio(qc_obo)).
+:- use_module(bio(bioprolog_util)).
+:- use_module(bio(io)).
+
+main:-
+        getopt([atom([format,from,f],Format),
+                atoms([res,r],ResL),
+                atoms([i,input],InputFileL)],
+               FileL),
+        findall(File,(member(File,InputFileL),
+                      load_biofile(Format,File)),_),
+        load_bioresources(ResL),
+        load_factfiles(FileL),
+        prolog.
+

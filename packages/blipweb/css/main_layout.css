@@ -1,0 +1,44 @@
+body {
+	background-image: url("http://toy.lbl.gov:8088/images/background.png");
+	background-repeat: no-repeat;
+	padding: 0;
+	margin: 0;
+	border: 0;
+}
+
+.header {
+	color: #000;
+	border: 0;
+	height: 45px;
+	padding:0;
+	margin:0;
+	}
+
+.sidebar {
+	float: left;
+	border: 0;
+	width: 160px;
+	left: 0;
+	margin: 0;
+	margin-top: -7px;
+	padding: 0;
+	background-color: #609BFF;
+}
+
+.contents {
+	margin: 0 0 0 10px;
+	padding: 10px;
+}
+
+.footer {
+	clear: both;
+	width: 95%;
+	text-align: center;
+	padding: 3px;
+	margin: 10px;
+	font-size: 80%;
+	}
+
+.form_inputs {
+	margin: 30px;
+}

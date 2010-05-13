@@ -1,0 +1,19 @@
+#!/usr/local/bin/swipl -q -t main -s
+
+:- use_module(bioprolog(bioseq)).
+
+main:-
+        current_prolog_flag(argv, Argv),
+        writeln(argv=Argv),
+        append(_, [--,ID,F], Argv),
+        read_seqtable(F,H),
+        writeln(lookup(ID)),
+        (in_table(H,[id(ID),desc(D),residues(S)],_)->
+            writeln(ID/D/S)
+        ;
+            writeln(no_such_id(ID)),
+            halt(1)
+        ),
+        halt.
+        
+

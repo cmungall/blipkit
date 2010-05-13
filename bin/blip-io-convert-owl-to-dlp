@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# TODO: switch to Thea2
+blip io-convert -f thea_owl -to thea_dlp -i $@
+

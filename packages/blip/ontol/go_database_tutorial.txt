@@ -1,0 +1,72 @@
+---+ Mapping Prolog Predicates to the GO Database
+
+---++ Background
+
+http://www.geneontology.org/GO.database.shtml
+
+---++ Running the examples
+
+These examples use the blip-godb script (in the blipkit/bin directory), which is just a convenience wrapper for
+
+=|blip -u ontol_db -u blipkit_sql -u ontol_sqlmap_go -u seqfeature_sqlmap_go -u homol_sqlmap_go -u curation_db|=
+
+This means it uses the following mappings 
+
+* ontol_sqlmap_go.pro -- mappings from GO database predicates ontol_db.pro and curation_db.pro
+* seqfeature_sqlmap_go.pro -- maps feature_label/2
+
+---++ Basic Examples
+
+How many genes are annotated to GO:0005575?
+
+=|blip-godb -r rdb/go sql-map -u ontol_sqlmap_go -u curation_db -proj C "class_annotated_entity_count('GO:0005575',C)"|=
+
+We can see the SQL like this:
+
+=|blip-godb -r rdb/go sql-map -debug sql -u ontol_sqlmap_go -u curation_db -proj C "class_annotated_entity_count('GO:0005575',C)"|=
+
+---++ Combining Database Queries and Prolog DB Queries
+
+---+++ fetching annotations from a SQL DB
+
+Here we use sqlbind/2 to tie prolog goals to SQL rewrites
+
+=|blip-godb -debug sql -r rdb/go -r go -sqlbind curation_db:curation_statement/4-go -sqlbind seqfeature_db:feature_label/2-go ontol-query -query "(feature_label(X,'Pdx1'),curation_statement(_,X,_,ID))"|=
+
+We can bind all exported predicates in a module to SQL rewrites (providing a view has been provided in an sqlmap module)
+
+=|-sqlbind curation_db:all-go|=
+
+---+++ 
+
+---++ Advanced Examples
+
+[[class_conditional_prob/3]]
+
+class_conditional_prob(A,B,ProbAGivenB)
+ProbAGivenB = p(A|B)
+
+* GO:0016310 ! phosphorylation
+* GO:0016301 ! kinase activity
+
+What is the probability of phosphorylation, given kinase activity?
+
+=|blip-godb -r rdb/go sql-map -debug sql -u ontol_sqlmap_go -u curation_db -proj P "class_conditional_prob('GO:0016310','GO:0016301',P)"|=
+
+0.3684-2230-6053
+
+and the converse:
+
+What is the probability of kinase activity, given phosphorylation?
+
+=|blip-godb -r rdb/go sql-map -debug sql -u ontol_sqlmap_go -u curation_db -proj P "class_conditional_prob('GO:0016301','GO:0016310',P)"|=
+
+0.6126-2230-3640
+
+
+or, to also get counts:
+
+=|blip-godb -r rdb/go sql-map -u ontol_sqlmap_go -u curation_db -proj P-A-B "class_conditional_prob('GO:0016301','GO:0016310',A,B,P)"|=
+
+This uses class_conditional_prob/5 -- class_conditional_prob(A,B,CountAandB,CountB,ProbAGivenB)
+

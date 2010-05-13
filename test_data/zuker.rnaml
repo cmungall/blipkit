@@ -1,0 +1,215 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE rnaml SYSTEM "http://www-lbit.iro.umontreal.ca/rnaml/current/rnaml.dtd">
+<rnaml comment="Example output file for mFold" version="1.1">
+  <!-- First sequence and its associated models ******************* --> 
+  <molecule id="seq1">
+    <sequence>
+      <seq-data>
+	  GCGGAUUUAG CUCAGUUGGG AGAGCGCCAG ACUGAAGAUC UGGAGGUCCU GUGUUCGAUC
+          CACAGAAUUC GCACCA
+	</seq-data>
+    </sequence>
+    <structure>
+      <!-- Start of model 1 for sequence 1 ********************** -->
+      <model analysis-ids="mFold" id="mod1.1">
+        <model-info>
+          <method>mFold</method>
+          <free-energy analysis-ids="refined">-19.400000</free-energy>
+          <free-energy analysis-ids="initial">-20.299999</free-energy>
+        </model-info>
+        <base>
+          <position>1</position>
+          <base-type>G</base-type>
+        </base>
+        <base>
+          <position>72</position>
+          <base-type>C</base-type>
+        </base>
+        <str-annotation>
+          <base-pair>
+            <base-id-5p>
+              <base-id>
+                <position>1</position>
+              </base-id>
+            </base-id-5p>
+            <base-id-3p>
+              <base-id>
+                <position>72</position>
+              </base-id>
+            </base-id-3p>
+          </base-pair>
+        </str-annotation>
+      </model>
+      <!-- End of model 1 for sequence 1 ************************ -->
+
+      <!-- Start of model 2 for sequence 1 ********************** -->
+      <model analysis-ids="mFold" id="mod1.2">
+        <model-info>
+          <method>mFold</method>
+          <free-energy>-19.400000</free-energy>
+        </model-info>
+        <base>
+          <position>1</position>
+          <base-type>G</base-type>
+        </base>
+        <base>
+          <position>2</position>
+          <base-type>C</base-type>
+        </base>
+        <str-annotation>
+          <base-pair>
+            <base-id-5p>
+              <base-id>
+                <position>1</position>
+              </base-id>
+            </base-id-5p>
+            <base-id-3p>
+              <base-id>
+                <position>72</position>
+              </base-id>
+            </base-id-3p>
+          </base-pair>
+        </str-annotation>
+      </model>
+      <!-- End of model 2 for sequence 1 ************************ -->
+    </structure>
+  </molecule>
+
+  <!-- Second sequence and its associated models ******************* --> 
+  <molecule id="seq2">
+    <sequence circular="true">
+      <seq-data>
+	  GCGGAUUUAG CUCAGUUGGG AGAGCGCCAG ACUGAAGAUC UGGAGGUCCU GUGUUCGAUC
+          CACAGAAUUC GCACCA
+	</seq-data>
+    </sequence>
+    <structure>
+      <!-- Start of model 2 for sequence 2 ********************** -->
+      <model analysis-ids="mFold" id="mod2.1">
+        <model-info>
+          <method>mFold</method>
+          <free-energy>-21.799999</free-energy>
+        </model-info>
+        <base>
+          <position>1</position>
+          <base-type>G</base-type>
+        </base>
+        <base>
+          <position>72</position>
+          <base-type>C</base-type>
+        </base>
+        <str-annotation>
+          <base-pair>
+            <base-id-5p>
+              <base-id>
+                <position>1</position>
+              </base-id>
+            </base-id-5p>
+            <base-id-3p>
+              <base-id>
+                <position>72</position>
+              </base-id>
+            </base-id-3p>
+          </base-pair>
+        </str-annotation>
+      </model>
+      <!-- End of model 1 for sequence 2 ************************ -->
+      
+      <!-- Start of model 2 for sequence 2 ********************** -->
+      <model analysis-ids="mFold" id="mod2.2">
+        <model-info>
+          <method>mFold</method>
+          <free-energy>-19.400000</free-energy>
+        </model-info>
+        <base>
+          <position>1</position>
+          <base-type>G</base-type>
+        </base>
+        <base>
+          <position>2</position>
+          <base-type>C</base-type>
+        </base>
+        <str-annotation>
+          <base-pair>
+            <base-id-5p>
+              <base-id>
+                <position>1</position>
+              </base-id>
+            </base-id-5p>
+            <base-id-3p>
+              <base-id>
+                <position>72</position>
+              </base-id>
+            </base-id-3p>
+          </base-pair>
+        </str-annotation>
+      </model>
+      <!-- End of model 2 for sequence 2 ************************ -->
+    </structure>
+  </molecule>
+  
+  <!-- Information about the analysis ***************************** -->
+  <analysis reference-ids="mathews1999" id="mFold">
+    <program>
+      <prog-name>mFold</prog-name>
+      <prog-version>3.0.1</prog-version>
+    </program>
+    <date>
+      <day>8</day>
+      <month>3</month>
+      <year>2002</year>
+    </date>
+    <author>
+      <person>
+        <first-name>Patrick</first-name>
+        <last-name>Gendron</last-name>
+      </person>
+    </author>
+  </analysis>
+  <analysis id="refined">
+    <program>
+      <prog-name>Name of the program</prog-name>
+    </program>
+  </analysis>
+  <analysis id="initial">
+    <program>
+      <prog-name>Name of the program</prog-name>
+    </program>
+  </analysis>
+  <reference id="mathews1999">
+    <author>
+      <person>
+        <first-name>D.H.</first-name>
+        <last-name>Mathews</last-name>
+      </person>
+    </author>
+    <author>
+      <person>
+        <first-name>J.</first-name>
+        <last-name>Sabina</last-name>
+      </person>
+    </author>
+    <author>
+      <person>
+        <first-name>M.</first-name>
+        <last-name>Zuker</last-name>
+      </person>
+    </author>
+    <author>
+      <person>
+        <first-name>D.H.</first-name>
+        <last-name>Turner</last-name>
+      </person>
+    </author>
+    <title>Expanded Sequence Dependence of Thermodynamic Parameters 
+    Improves Prediction of RNA Secondary Structure</title>
+    <journal>J. Mol. Biol.</journal>
+    <volume>288</volume>
+    <issue>5</issue>
+    <pages>911,994</pages>
+    <date>
+      <year>1999</year>
+    </date>
+  </reference>
+</rnaml>

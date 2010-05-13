@@ -1,0 +1,90 @@
+cell adhesion
+cell-matrix adhesion
+axon guidance
+defasciculation of motor neuron axon
+cell proliferation in the forebrain
+S phase of mitotic cell cycle
+antimicrobial peptide production
+oocyte axis determination
+trichome patterning
+generation of catalytic spliceosome for second transesterification step
+Golgi membrane priming complex assembly
+tangential migration from the subventricular zone to the olfactory bulb
+nuclear migration, microtubule-mediated
+hemocyte migration
+pronuclear migration
+germ cell programmed cell death
+defasciculation of motor neuron axon
+homeostasis of number of cells in a free-living population
+body fluid osmoregulation
+lysosomal lumen acidification
+corticospinal neuron axon neuron guidance through the cerebral cortex
+neural crest cell migration
+regulation of cell size
+imaginal disc-derived genitalia morphogenesis
+myeloid cell activation during immune response
+T cell activation via T cell receptor contact with antigen bound to MHC molecule on antigen presenting cell
+hemolysis by symbiont of host red blood cells
+cytoskeleton-dependent cytoplasmic transport, nurse cell to oocyte
+cell-cell adhesion involved in neuronal-glial interactions involved in cerebral cortex glial-mediated radial cell migration
+B cell mediated immunity
+B cell receptor complex
+detection of tumor cell
+myeloid progenitor cell differentiation
+reproduction
+activation of MAPKKK activity
+active evasion of immune response of other organism via regulation of complement system of other organism during symbiotic interaction
+ovarian follicle atresia
+response to hypoxia
+exogenous antibiotic catabolic process
+vasoconstriction of artery during chemoreceptor response to lowering of blood pressure
+T cell receptor V(D)J recombination
+B cell receptor editing
+somatic diversification of FREP-based immune receptors
+IgG immunoglobulin transcytosis in epithelial cells mediated by FcRn immunoglobulin receptor
+induction of apoptosis by hormones
+induction of conjugation upon carbon starvation
+ribosomal large subunit assembly and maintenance
+histone deacetylase complex
+tyrosine catabolic process to fumarate
+aerobic respiration, using carbon monoxide as electron donor
+induction of apoptosis in response to chemical stimulus
+protein targeting to Golgi
+cytoplasmic transport, nurse cell to oocyte
+growth of a germarium-derived egg chamber
+protein import into nucleus, translocation
+Purkinje cell-granule cell precursor cell signaling involved in regulation of granule cell precursor cell proliferation
+alpha-beta T cell activation by superantigen
+modification of morphology or physiology of other organism via protein secreted by type II secretion system during symbiotic interaction
+metabolism by symbiont of host cell wall cellulose
+positive regulation by symbiont of host phagocytosis
+regulation of blood pressure by hormones
+protein import into nucleus, translocation
+voltage-gated sodium channel complex
+phagocytosis, recognition
+zygotic determination of anterior/posterior axis, embryo
+autophagic vacuole formation
+autophagic vacuole fusion
+ribosome export from nucleus
+wing disc pattern formation
+central nervous system neuron axonogenesis
+retinoic acid receptor signaling pathway
+retinoic acid receptor binding
+neuronal-glial interaction involved in cerebral cortex glial-mediated radial cell migration
+oocyte microtubule cytoskeleton polarization
+establishment of T cell polarity
+cell wall chitin biosynthetic process
+sister chromatid biorientation
+protein to membrane docking
+follicular fluid formation in ovarian follicle antrum
+hemolysis by organism of red blood cells in other organism during symbiotic interaction
+occlusion by organism of xylem in other organism during symbiotic interaction
+occlusion by symbiont of host xylem
+regulation of skeletal muscle contraction by calcium ion signaling
+
+midbrain-hindbrain boundary
+follicle stimulating hormone secreting cell
+
+
+
+

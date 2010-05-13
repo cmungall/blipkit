@@ -1,0 +1,30 @@
+#!/usr/local/bin/swipl -q -t main -s
+
+:- use_module(bioprolog(bioseq)).
+:- use_module(library(table)).
+
+main:-
+        current_prolog_flag(argv, Argv),
+        append(_, [--,IDF,F], Argv),
+        new_table(IDF,
+             [ id(atom)
+             ],
+             [
+             ],
+             IDH),
+        read_seqtable(F,H),
+        atom_codes(Tab,[9]),
+        setof(ID,
+              (
+                in_table(IDH, [id(ID)], _),
+                (in_table(H,[id(ID),desc(D),residues(S)],_)->
+                    write(ID),write(Tab),write(D),
+                    write(Tab),writeln(S)
+                ;
+                    writeln(no_such_id(ID)),
+                    halt(1)
+                )
+              ),_),
+        halt.
+        
+

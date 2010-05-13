@@ -1,0 +1,2 @@
+#!/bin/sh
+blip -u ontol_db -u metadata_db findall $*

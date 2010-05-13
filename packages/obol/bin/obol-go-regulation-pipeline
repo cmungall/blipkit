@@ -1,0 +1,22 @@
+#!/bin/sh
+ONT=ontology/gene_ontology_edit.obo
+ONTXP=scratch/gene_ontology_xp.obo
+ONTXP_PLUS=scratch/gene_ontology_xp-with-implied-links-saved.obo
+OTHER=scratch/regulation-of-non-process.txt
+DISJ=scratch/disjointness-violations.txt
+
+( \
+cd $HOME/cvs/go/ && \
+cvs update $ONT  && \
+echo "running obol" && \
+obol  -i $ONT regmatch-onts -module regmatch_obo_regulation > $ONTXP.tmp 2> $OTHER.tmp && \
+grep intersection_of: $ONTXP.tmp && \
+mv $ONTXP.tmp $ONTXP && \
+obo-merge-tags.pl -t intersection_of $ONT $ONTXP > $ONTXP.tmp && cat $ONTXP.tmp scratch/regulates.obo scratch/disjoint.obo > $ONTXP.unfiltered && \
+obol-replace-partof-with-regulates.pl $ONTXP.unfiltered > $ONTXP && \
+sort -u $OTHER.tmp > $OTHER && \
+obo2obo $ONTXP -o -saveimpliedlinks -realizeimpliedlinks $ONTXP_PLUS && \
+blip -i $ONTXP -u query_obo findall disjointness_violation/5 | sort -u > $DISJ &&\
+cvs commit -m 'autocommit of xps' $ONTXP $ONTXP_PLUS $OTHER $DISJ && \
+echo "done" ) \
+|| echo "fail" && exit 1

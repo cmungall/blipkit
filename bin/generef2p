@@ -1,0 +1,127 @@
+#!/usr/bin/perl
+
+use strict;
+use Getopt::Long;
+
+my $fields = '';
+my $delimiter = "\t";
+my $newline;
+my $pred;
+my $cols;
+my $prefixcolh = {};
+my @pre = ();
+my $use_hdr;
+my $ignore_hdr;
+@ARGV = map {if (/^\-f(\d+)/) {("-f", $1)}else{$_}} @ARGV;
+GetOptions("fields|f=s"=>\$fields,
+	   "delimiter|d=s"=>\$delimiter,
+	   "newline=s"=>\$newline,
+           "predicate|p=s"=>\$pred,
+           "cols|c=s"=>\$cols,
+           "prefix=s%"=>\$prefixcolh,
+           "pre=s@"=>\@pre,
+           "use_hdr"=>\$use_hdr,
+           "ignore_hdr"=>\$ignore_hdr,
+           "help|h"=>sub {print usage();exit(0)},
+    );
+
+if ($newline) {
+    $/ = $newline;
+}
+else {
+    $newline = "\n";
+}
+
+my $line_no=0;
+my %warn_h = ();
+while(<>) {
+    $line_no++;
+    chomp;
+    my @fields = split(/$delimiter/, $_, -1); # preserve trailing blank
+    my $curr_pred = $pred ? $pred : shift @fields;
+    unshift(@fields, @pre);
+    if ($line_no==1 && $ignore_hdr) {
+        next;
+    }
+    if ($line_no==1 && $use_hdr) {
+        $curr_pred = 'column_order';
+    }
+    if ($cols) {
+        if (scalar @fields > $cols) {
+            $warn_h{"truncating extra cols"} = 1;
+            @fields = splice(@fields,0,$cols);
+        }
+        while (scalar @fields < $cols) {
+            push(@fields, undef);
+        }
+    }
+    if (keys %$prefixcolh) {
+        die;
+        foreach my $k (keys %$prefixcolh) {
+            my $prefix = $prefixcolh->{$k};
+            foreach my $pcol (split(/\,\s*/,$k)) {
+                $fields[$pcol-1] = $prefix."$fields[$pcol-1]";
+            }
+        }
+    }
+    printf "$curr_pred(%s).\n",
+      join(', ', map {pquote($_)} @fields)
+        if @fields > 0;
+}
+exit 0;
+
+sub pquote {
+    my $s = shift;
+    $s='' unless defined $s;
+    if ($s =~ /^\-?[0-9]+$/) {
+	return $s;
+    }
+    if ($s =~ /^\-?[0-9]+\.[0-9]+$/) {
+	return $s;
+    }
+    if ($s =~ /^\-?[0-9]+\.[0-9]+e[\+\-]\d+$/i) {
+	return $s;
+    }
+    $s =~ s@\\@\\\\@g;
+    $s =~ s/\'/\'\'/g;
+    "'$s'";
+}
+
+sub usage {
+    <<EOM;
+tbl2p [OPTS] file
+translates tabular data file to prolog unit clauses
+
+ -d|delimiter         character that delimits columns
+ -p                   predicate name for all data (defaults to col1)
+ -use_hdr             use the first line of the file as a header
+
+EOM
+}
+
+__END__
+
+=head1 NAME
+
+=head1 SYNOPSIS
+
+
+=head1 DESCRIPTION
+
+=head2 ARGUMENTS
+
+=over
+
+
+=item d|delimiter
+
+tab is the default
+
+=item newline
+
+\n is the default
+
+=back
+
+=cut
+

@@ -1,0 +1,658 @@
+<?xml version="1.0"?>
+<!DOCTYPE rnaml SYSTEM "http://www-lbit.iro.umontreal.ca/rnaml/current/rnaml.dtd">
+<rnaml version="1.1">
+  <molecule id="H_marismortui">
+    <identity>
+      <name>Haloarcula marismortui</name>
+    </identity>
+
+      <sequence length="4">
+  
+         <!-- Chain ids are not really necessary since a file with     -->
+         <!-- many chain ids will be split in many molecule. Alternate -->
+         <!-- location are also not necessary in the sequence section  -->
+         <!-- since an alt loc is conceptually relevant only in 3D.    -->
+         <numbering-system id="n1">
+           <numbering-table length="4">
+	      2630 2631 2632 2633
+	   </numbering-table>
+         </numbering-system>
+
+         <seq-data>
+	   GUGA
+	 </seq-data>
+	 
+	 <seq-annotation>
+	   <segment>
+	     <seg-name>GNRA loop</seg-name>
+	     <base-id-5p>
+	       <base-id>
+	          <position>2630</position>
+	       </base-id>
+	     </base-id-5p>
+	     <base-id-3p>
+	       <base-id>
+	         <position>2633</position>
+	       </base-id>
+	     </base-id-3p>
+	   </segment>
+	 </seq-annotation>
+      </sequence>
+
+      <structure>
+	<model id="m1">
+	  <model-info>
+	    <method>Crystallography</method>
+	    <resolution>2.4</resolution>
+	  </model-info>
+
+	  <base>
+	    <position>2630</position>
+	    <base-type>G</base-type>
+	    <atom serial="264">
+	      <atom-type>C1p</atom-type>
+	      <coordinates>5.252 85.218 132.679</coordinates>
+	    </atom>
+	    <atom serial="265">
+	      <atom-type>C2p</atom-type>
+	      <coordinates>6.225 85.132 133.855</coordinates>
+	    </atom>
+	    <atom serial="266">
+	      <atom-type>C3p</atom-type>
+	      <coordinates>5.916 83.750 134.413</coordinates>
+	    </atom>
+	    <atom serial="267">
+	      <atom-type>C4p</atom-type>
+	      <coordinates>5.619 82.959 133.153</coordinates>
+	    </atom>
+	    <atom serial="268">
+	      <atom-type>C5p</atom-type>
+	      <coordinates>4.859 81.668 133.305</coordinates>
+	    </atom>
+	    <atom serial="269">
+	      <atom-type>H1p</atom-type>
+	      <coordinates>5.716 85.700 131.819</coordinates>
+	    </atom>
+	    <atom serial="270">
+	      <atom-type>H2p</atom-type>
+	      <coordinates>6.121 85.916 134.605</coordinates>
+	    </atom>
+	    <atom serial="271">
+	      <atom-type>H3p</atom-type>
+	      <coordinates>5.092 83.722 135.125</coordinates>
+	    </atom>
+	    <atom serial="272">
+	      <atom-type>H4p</atom-type>
+	      <coordinates>6.560 82.608 132.728</coordinates>
+	    </atom>
+	    <atom serial="273">
+	      <atom-type>O1P</atom-type>
+	      <coordinates>3.487 79.483 134.760</coordinates>
+	    </atom>
+	    <atom serial="274">
+	      <atom-type>O2p</atom-type>
+	      <coordinates>7.554 85.257 133.392</coordinates>
+	    </atom>
+	    <atom serial="275">
+	      <atom-type>O2P</atom-type>
+	      <coordinates>1.663 81.176 135.337</coordinates>
+	    </atom>
+	    <atom serial="276">
+	      <atom-type>O3p</atom-type>
+	      <coordinates>7.006 83.242 135.148</coordinates>
+	    </atom>
+	    <atom serial="277">
+	      <atom-type>O4p</atom-type>
+	      <coordinates>4.863 83.895 132.345</coordinates>
+	    </atom>
+	    <atom serial="278">
+	      <atom-type>O5p</atom-type>
+	      <coordinates>3.703 81.865 134.123</coordinates>
+	    </atom>
+	    <atom serial="279">
+	      <atom-type>P</atom-type>
+	      <coordinates>2.695 80.670 134.403</coordinates>
+	    </atom>
+	    <atom serial="280">
+	      <atom-type>1H5p</atom-type>
+	      <coordinates>5.504 80.918 133.762</coordinates>
+	    </atom>
+	    <atom serial="281">
+	      <atom-type>2H5p</atom-type>
+	      <coordinates>4.553 81.308 132.323</coordinates>
+	    </atom>
+	    <atom serial="282">
+	      <atom-type>HO2p</atom-type>
+	      <coordinates>8.203 85.199 134.189</coordinates>
+	    </atom>
+	    <atom serial="283">
+	      <atom-type>C2</atom-type>
+	      <coordinates>4.609 89.470 132.699</coordinates>
+	    </atom>
+	    <atom serial="284">
+	      <atom-type>C4</atom-type>
+	      <coordinates>4.004 87.369 133.040</coordinates>
+	    </atom>
+	    <atom serial="285">
+	      <atom-type>C5</atom-type>
+	      <coordinates>2.823 87.681 133.668</coordinates>
+	    </atom>
+	    <atom serial="286">
+	      <atom-type>C6</atom-type>
+	      <coordinates>2.498 89.051 133.856</coordinates>
+	    </atom>
+	    <atom serial="287">
+	      <atom-type>C8</atom-type>
+	      <coordinates>2.916 85.555 133.646</coordinates>
+	    </atom>
+	    <atom serial="288">
+	      <atom-type>H1</atom-type>
+	      <coordinates>3.321 90.872 133.401</coordinates>
+	    </atom>
+	    <atom serial="289">
+	      <atom-type>H8</atom-type>
+	      <coordinates>2.667 84.510 133.760</coordinates>
+	    </atom>
+	    <atom serial="290">
+	      <atom-type>N1</atom-type>
+	      <coordinates>3.469 89.886 133.322</coordinates>
+	    </atom>
+	    <atom serial="291">
+	      <atom-type>N2</atom-type>
+	      <coordinates>5.416 90.439 132.249</coordinates>
+	    </atom>
+	    <atom serial="292">
+	      <atom-type>N3</atom-type>
+	      <coordinates>4.934 88.202 132.528</coordinates>
+	    </atom>
+	    <atom serial="293">
+	      <atom-type>N7</atom-type>
+	      <coordinates>2.137 86.528 134.031</coordinates>
+	    </atom>
+	    <atom serial="294">
+	      <atom-type>N9</atom-type>
+	      <coordinates>4.087 85.999 133.082</coordinates>
+	    </atom>
+	    <atom serial="295">
+	      <atom-type>O6</atom-type>
+	      <coordinates>1.521 89.541 134.414</coordinates>
+	    </atom>
+	    <atom serial="296">
+	      <atom-type>1H2</atom-type>
+	      <coordinates>6.269 90.203 131.782</coordinates>
+	    </atom>
+	    <atom serial="297">
+	      <atom-type>2H2</atom-type>
+	      <coordinates>5.167 91.399 132.380</coordinates>
+	    </atom>
+	  </base>
+	  <base>
+	    <position>2631</position>
+	    <base-type>U</base-type>
+	    <atom serial="298">
+	      <atom-type>C1p</atom-type>
+	      <coordinates>9.137 87.161 138.844</coordinates>
+	    </atom>
+	    <atom serial="299">
+	      <atom-type>C2p</atom-type>
+	      <coordinates>8.129 88.265 138.533</coordinates>
+	    </atom>
+	    <atom serial="300">
+	      <atom-type>C3p</atom-type>
+	      <coordinates>6.910 87.461 138.111</coordinates>
+	    </atom>
+	    <atom serial="301">
+	      <atom-type>C4p</atom-type>
+	      <coordinates>6.998 86.236 138.998</coordinates>
+	    </atom>
+	    <atom serial="302">
+	      <atom-type>C5p</atom-type>
+	      <coordinates>6.269 85.012 138.506</coordinates>
+	    </atom>
+	    <atom serial="303">
+	      <atom-type>H1p</atom-type>
+	      <coordinates>9.730 87.488 139.698</coordinates>
+	    </atom>
+	    <atom serial="304">
+	      <atom-type>H2p</atom-type>
+	      <coordinates>8.439 88.988 137.779</coordinates>
+	    </atom>
+	    <atom serial="305">
+	      <atom-type>H3p</atom-type>
+	      <coordinates>6.894 87.239 137.044</coordinates>
+	    </atom>
+	    <atom serial="306">
+	      <atom-type>H4p</atom-type>
+	      <coordinates>6.499 86.448 139.944</coordinates>
+	    </atom>
+	    <atom serial="307">
+	      <atom-type>O1P</atom-type>
+	      <coordinates>8.245 82.772 137.224</coordinates>
+	    </atom>
+	    <atom serial="308">
+	      <atom-type>O2p</atom-type>
+	      <coordinates>7.886 89.002 139.714</coordinates>
+	    </atom>
+	    <atom serial="309">
+	      <atom-type>O2P</atom-type>
+	      <coordinates>5.722 82.386 137.136</coordinates>
+	    </atom>
+	    <atom serial="310">
+	      <atom-type>O3p</atom-type>
+	      <coordinates>5.720 88.163 138.384</coordinates>
+	    </atom>
+	    <atom serial="311">
+	      <atom-type>O4p</atom-type>
+	      <coordinates>8.414 85.973 139.115</coordinates>
+	    </atom>
+	    <atom serial="312">
+	      <atom-type>O5p</atom-type>
+	      <coordinates>6.670 84.690 137.170</coordinates>
+	    </atom>
+	    <atom serial="313">
+	      <atom-type>P</atom-type>
+	      <coordinates>6.910 83.179 136.744</coordinates>
+	    </atom>
+	    <atom serial="314">
+	      <atom-type>1H5p</atom-type>
+	      <coordinates>5.195 85.196 138.529</coordinates>
+	    </atom>
+	    <atom serial="315">
+	      <atom-type>2H5p</atom-type>
+	      <coordinates>6.489 84.171 139.163</coordinates>
+	    </atom>
+	    <atom serial="316">
+	      <atom-type>HO2p</atom-type>
+	      <coordinates>7.206 89.751 139.518</coordinates>
+	    </atom>
+	    <atom serial="317">
+	      <atom-type>C2</atom-type>
+	      <coordinates>11.211 87.711 137.678</coordinates>
+	    </atom>
+	    <atom serial="318">
+	      <atom-type>C4</atom-type>
+	      <coordinates>11.944 86.409 135.729</coordinates>
+	    </atom>
+	    <atom serial="319">
+	      <atom-type>C5</atom-type>
+	      <coordinates>10.750 85.631 135.851</coordinates>
+	    </atom>
+	    <atom serial="320">
+	      <atom-type>C6</atom-type>
+	      <coordinates>9.884 85.896 136.833</coordinates>
+	    </atom>
+	    <atom serial="321">
+	      <atom-type>H3</atom-type>
+	      <coordinates>12.904 87.966 136.600</coordinates>
+	    </atom>
+	    <atom serial="322">
+	      <atom-type>H5</atom-type>
+	      <coordinates>10.550 84.832 135.153</coordinates>
+	    </atom>
+	    <atom serial="323">
+	      <atom-type>H6</atom-type>
+	      <coordinates>8.989 85.296 136.910</coordinates>
+	    </atom>
+	    <atom serial="324">
+	      <atom-type>N1</atom-type>
+	      <coordinates>10.088 86.904 137.750</coordinates>
+	    </atom>
+	    <atom serial="325">
+	      <atom-type>N3</atom-type>
+	      <coordinates>12.080 87.404 136.665</coordinates>
+	    </atom>
+	    <atom serial="326">
+	      <atom-type>O2</atom-type>
+	      <coordinates>11.417 88.630 138.445</coordinates>
+	    </atom>
+	    <atom serial="327">
+	      <atom-type>O4</atom-type>
+	      <coordinates>12.830 86.247 134.892</coordinates>
+	    </atom>
+	  </base>
+	  <base>
+	    <position>2632</position>
+	    <base-type>G</base-type>
+	    <atom serial="328">
+	      <atom-type>C1p</atom-type>
+	      <coordinates>9.151 91.090 135.194</coordinates>
+	    </atom>
+	    <atom serial="329">
+	      <atom-type>C2p</atom-type>
+	      <coordinates>8.437 92.229 134.466</coordinates>
+	    </atom>
+	    <atom serial="330">
+	      <atom-type>C3p</atom-type>
+	      <coordinates>7.037 92.161 135.078</coordinates>
+	    </atom>
+	    <atom serial="331">
+	      <atom-type>C4p</atom-type>
+	      <coordinates>7.322 91.734 136.508</coordinates>
+	    </atom>
+	    <atom serial="332">
+	      <atom-type>C5p</atom-type>
+	      <coordinates>6.212 91.008 137.233</coordinates>
+	    </atom>
+	    <atom serial="333">
+	      <atom-type>H1p</atom-type>
+	      <coordinates>10.188 91.407 135.302</coordinates>
+	    </atom>
+	    <atom serial="334">
+	      <atom-type>H2p</atom-type>
+	      <coordinates>8.403 92.174 133.378</coordinates>
+	    </atom>
+	    <atom serial="335">
+	      <atom-type>H3p</atom-type>
+	      <coordinates>6.380 91.497 134.517</coordinates>
+	    </atom>
+	    <atom serial="336">
+	      <atom-type>H4p</atom-type>
+	      <coordinates>7.459 92.638 137.101</coordinates>
+	    </atom>
+	    <atom serial="337">
+	      <atom-type>O1P</atom-type>
+	      <coordinates>3.740 89.456 137.821</coordinates>
+	    </atom>
+	    <atom serial="338">
+	      <atom-type>O2p</atom-type>
+	      <coordinates>9.123 93.426 134.787</coordinates>
+	    </atom>
+	    <atom serial="339">
+	      <atom-type>O2P</atom-type>
+	      <coordinates>4.577 87.670 136.213</coordinates>
+	    </atom>
+	    <atom serial="340">
+	      <atom-type>O3p</atom-type>
+	      <coordinates>6.382 93.425 135.089</coordinates>
+	    </atom>
+	    <atom serial="341">
+	      <atom-type>O4p</atom-type>
+	      <coordinates>8.480 90.875 136.421</coordinates>
+	    </atom>
+	    <atom serial="342">
+	      <atom-type>O5p</atom-type>
+	      <coordinates>5.818 89.821 136.511</coordinates>
+	    </atom>
+	    <atom serial="343">
+	      <atom-type>P</atom-type>
+	      <coordinates>4.856 88.746 137.181</coordinates>
+	    </atom>
+	    <atom serial="344">
+	      <atom-type>1H5p</atom-type>
+	      <coordinates>5.353 91.671 137.336</coordinates>
+	    </atom>
+	    <atom serial="345">
+	      <atom-type>2H5p</atom-type>
+	      <coordinates>6.553 90.729 138.230</coordinates>
+	    </atom>
+	    <atom serial="346">
+	      <atom-type>HO2p</atom-type>
+	      <coordinates>8.669 94.219 134.313</coordinates>
+	    </atom>
+	    <atom serial="347">
+	      <atom-type>C2</atom-type>
+	      <coordinates>12.159 89.238 132.674</coordinates>
+	    </atom>
+	    <atom serial="348">
+	      <atom-type>C4</atom-type>
+	      <coordinates>10.213 89.331 133.707</coordinates>
+	    </atom>
+	    <atom serial="349">
+	      <atom-type>C5</atom-type>
+	      <coordinates>9.819 88.069 133.327</coordinates>
+	    </atom>
+	    <atom serial="350">
+	      <atom-type>C6</atom-type>
+	      <coordinates>10.693 87.290 132.538</coordinates>
+	    </atom>
+	    <atom serial="351">
+	      <atom-type>C8</atom-type>
+	      <coordinates>8.223 88.840 134.494</coordinates>
+	    </atom>
+	    <atom serial="352">
+	      <atom-type>H1</atom-type>
+	      <coordinates>12.543 87.506 131.688</coordinates>
+	    </atom>
+	    <atom serial="353">
+	      <atom-type>H8</atom-type>
+	      <coordinates>7.278 88.946 135.006</coordinates>
+	    </atom>
+	    <atom serial="354">
+	      <atom-type>N1</atom-type>
+	      <coordinates>11.862 87.974 132.251</coordinates>
+	    </atom>
+	    <atom serial="355">
+	      <atom-type>N2</atom-type>
+	      <coordinates>13.341 89.722 132.290</coordinates>
+	    </atom>
+	    <atom serial="356">
+	      <atom-type>N3</atom-type>
+	      <coordinates>11.360 89.973 133.417</coordinates>
+	    </atom>
+	    <atom serial="357">
+	      <atom-type>N7</atom-type>
+	      <coordinates>8.561 87.776 133.826</coordinates>
+	    </atom>
+	    <atom serial="358">
+	      <atom-type>N9</atom-type>
+	      <coordinates>9.190 89.814 134.483</coordinates>
+	    </atom>
+	    <atom serial="359">
+	      <atom-type>O6</atom-type>
+	      <coordinates>10.535 86.145 132.120</coordinates>
+	    </atom>
+	    <atom serial="360">
+	      <atom-type>1H2</atom-type>
+	      <coordinates>13.619 90.642 132.567</coordinates>
+	    </atom>
+	    <atom serial="361">
+	      <atom-type>2H2</atom-type>
+	      <coordinates>13.950 89.166 131.725</coordinates>
+	    </atom>
+	  </base>
+	  <base>
+	    <position>2633</position>
+	    <base-type>A</base-type>
+	    <atom serial="362">
+	      <atom-type>C1p</atom-type>
+	      <coordinates>9.537 94.099 130.694</coordinates>
+	    </atom>
+	    <atom serial="363">
+	      <atom-type>C2p</atom-type>
+	      <coordinates>8.927 94.940 129.579</coordinates>
+	    </atom>
+	    <atom serial="364">
+	      <atom-type>C3p</atom-type>
+	      <coordinates>7.679 95.490 130.250</coordinates>
+	    </atom>
+	    <atom serial="365">
+	      <atom-type>C4p</atom-type>
+	      <coordinates>8.115 95.656 131.696</coordinates>
+	    </atom>
+	    <atom serial="366">
+	      <atom-type>C5p</atom-type>
+	      <coordinates>7.028 95.592 132.738</coordinates>
+	    </atom>
+	    <atom serial="367">
+	      <atom-type>H1p</atom-type>
+	      <coordinates>10.620 94.200 130.631</coordinates>
+	    </atom>
+	    <atom serial="368">
+	      <atom-type>H2p</atom-type>
+	      <coordinates>8.699 94.405 128.657</coordinates>
+	    </atom>
+	    <atom serial="369">
+	      <atom-type>H3p</atom-type>
+	      <coordinates>6.796 94.859 130.151</coordinates>
+	    </atom>
+	    <atom serial="370">
+	      <atom-type>H4p</atom-type>
+	      <coordinates>8.527 96.658 131.808</coordinates>
+	    </atom>
+	    <atom serial="371">
+	      <atom-type>O1P</atom-type>
+	      <coordinates>4.661 95.010 134.344</coordinates>
+	    </atom>
+	    <atom serial="372">
+	      <atom-type>O2p</atom-type>
+	      <coordinates>9.835 95.950 129.205</coordinates>
+	    </atom>
+	    <atom serial="373">
+	      <atom-type>O2P</atom-type>
+	      <coordinates>4.687 92.653 133.412</coordinates>
+	    </atom>
+	    <atom serial="374">
+	      <atom-type>O3p</atom-type>
+	      <coordinates>7.364 96.740 129.669</coordinates>
+	    </atom>
+	    <atom serial="375">
+	      <atom-type>O4p</atom-type>
+	      <coordinates>9.031 94.566 131.926</coordinates>
+	    </atom>
+	    <atom serial="376">
+	      <atom-type>O5p</atom-type>
+	      <coordinates>6.398 94.299 132.720</coordinates>
+	    </atom>
+	    <atom serial="377">
+	      <atom-type>P</atom-type>
+	      <coordinates>5.415 93.840 133.885</coordinates>
+	    </atom>
+	    <atom serial="378">
+	      <atom-type>1H5p</atom-type>
+	      <coordinates>6.284 96.363 132.537</coordinates>
+	    </atom>
+	    <atom serial="379">
+	      <atom-type>2H5p</atom-type>
+	      <coordinates>7.456 95.776 133.723</coordinates>
+	    </atom>
+	    <atom serial="380">
+	      <atom-type>HO2p</atom-type>
+	      <coordinates>9.425 96.520 128.452</coordinates>
+	    </atom>
+	    <atom serial="381">
+	      <atom-type>C2</atom-type>
+	      <coordinates>11.909 90.692 129.485</coordinates>
+	    </atom>
+	    <atom serial="382">
+	      <atom-type>C4</atom-type>
+	      <coordinates>10.093 91.703 130.168</coordinates>
+	    </atom>
+	    <atom serial="383">
+	      <atom-type>C5</atom-type>
+	      <coordinates>9.377 90.525 130.199</coordinates>
+	    </atom>
+	    <atom serial="384">
+	      <atom-type>C6</atom-type>
+	      <coordinates>10.056 89.364 129.820</coordinates>
+	    </atom>
+	    <atom serial="385">
+	      <atom-type>C8</atom-type>
+	      <coordinates>8.030 92.046 130.819</coordinates>
+	    </atom>
+	    <atom serial="386">
+	      <atom-type>H2</atom-type>
+	      <coordinates>12.947 90.724 129.188</coordinates>
+	    </atom>
+	    <atom serial="387">
+	      <atom-type>H8</atom-type>
+	      <coordinates>7.143 92.562 131.154</coordinates>
+	    </atom>
+	    <atom serial="388">
+	      <atom-type>N1</atom-type>
+	      <coordinates>11.349 89.486 129.468</coordinates>
+	    </atom>
+	    <atom serial="389">
+	      <atom-type>N3</atom-type>
+	      <coordinates>11.379 91.855 129.812</coordinates>
+	    </atom>
+	    <atom serial="390">
+	      <atom-type>N6</atom-type>
+	      <coordinates>9.495 88.154 129.783</coordinates>
+	    </atom>
+	    <atom serial="391">
+	      <atom-type>N7</atom-type>
+	      <coordinates>8.072 90.754 130.610</coordinates>
+	    </atom>
+	    <atom serial="392">
+	      <atom-type>N9</atom-type>
+	      <coordinates>9.220 92.682 130.571</coordinates>
+	    </atom>
+	    <atom serial="393">
+	      <atom-type>1H6</atom-type>
+	      <coordinates>10.034 87.361 129.500</coordinates>
+	    </atom>
+	    <atom serial="394">
+	      <atom-type>2H6</atom-type>
+	      <coordinates>8.534 88.040 130.038</coordinates>
+	    </atom>
+	  </base>				        				    
+
+	  <str-annotation>
+	    <base-conformation>
+	      <base-id>
+	        <position>2630</position>
+	      </base-id>
+	      <pucker>C3p_endo</pucker>
+	      <glycosyl>anti</glycosyl>
+	    </base-conformation>
+	    <base-conformation>
+	      <base-id>
+	        <position>2631</position>
+	      </base-id>
+	      <pucker>C3p_endo</pucker>
+	      <glycosyl>anti</glycosyl>
+	    </base-conformation>
+	    <base-conformation>
+	      <base-id>
+	        <position>2632</position>
+	      </base-id>
+	      <pucker>C3p_endo</pucker>
+	      <glycosyl>anti</glycosyl>
+	    </base-conformation>
+	    <base-conformation>
+	      <base-id>
+	        <position>2633</position>
+	      </base-id>
+	      <pucker>C3p_endo</pucker>
+	      <glycosyl>anti</glycosyl>
+	    </base-conformation>
+
+	    <base-pair comment="flow = 0.898">
+	      <base-id-5p>
+	        <base-id>
+		  <position>2630</position>
+		</base-id>
+	      </base-id-5p>
+	      <base-id-3p>
+	        <base-id>
+		  <position>2633</position>
+		</base-id>
+	      </base-id-3p>
+	      <edge-5p>Sw</edge-5p>
+	      <edge-3p>Hh</edge-3p>
+	      <bond-orientation>trans</bond-orientation>
+	    </base-pair>
+
+	    <base-stack>
+	      <base-id>
+		<position>2631</position>
+	      </base-id>
+	      <base-id>
+		<position>2632</position>
+	      </base-id>
+	    </base-stack>
+
+	    <base-stack>
+	      <base-id>
+		<position>2632</position>
+	      </base-id>
+	      <base-id>
+		<position>2633</position>
+	      </base-id>
+	    </base-stack>
+
+	  </str-annotation>	
+ 	</model>
+      </structure>		
+  </molecule>			
+</rnaml>

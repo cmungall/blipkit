@@ -1,0 +1,13 @@
+#!/usr/bin/perl
+
+foreach my $fn (@ARGV) {
+    open(F, $fn) || die $fn;
+    while(<F>) {
+        chomp;
+        my ($id, $desc, $seq) = split(/\t/);
+        $seq =~ s/(.{60})/$1\n/g;
+        chomp $seq;
+        print ">$id $desc\n$seq\n",
+    }
+    close(F);
+}

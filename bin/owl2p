@@ -1,0 +1,2 @@
+#!/bin/sh
+blip io-convert -use ontol_bridge_from_owl -r rdfs -r owl -to pro -f owl -i $1

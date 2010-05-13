@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# we want to manifest
+#   xrefs as links to use for containment (can't use subclass, need more specific)
+blip -u ontol_config_uberon -u ontol_config_hidexref -u ontol_manifest_reverse_relation_from_uberon_xref  -u ontol_manifest_relation_from_uberon_xref ontol-subset -r uberonp -rel xref -cr xrefed_by $*

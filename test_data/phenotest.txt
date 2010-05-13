@@ -1,0 +1,38 @@
+PUB= 123
+GT= abc
+E= GO:0012345 
+ Q= PATO:0000001
+
+PUB=9007244 GT=eya1[tc257e/tc257e] E=ZFA:0000431 /*semicircular
+canals*/ Q=PATO:0000937 /*disorganized*/ T=during(ZFS:0000036)  /*during(Larval:Day 4)*/ Tag=PATO:0000460 /*abnormal*/
+
+PUB=9007244 GT=eya1[tc257e/tc257e] E=ZFA:0000431 /*semicircular
+canals*/ Q=PATO:0000937 /*disorganized*/ T=during(ZFS:0000036)
+/*during(Larval:Day 4)*/ Tag=PATO:0000460 /*abnormal*/
+
+PUB=9007244 GT=eya1[tc257e/tc257e] E=ZFA:0000431 /*semicircular canals*/ Q=PATO:0000937 /*disorganized*/ T=during(ZFS:0000036) /*during(Larval:Day 4)*/ Tag=PATO:0000460 /*abnormal*/
+
+PUB=9007244 GT=eya1[tc257e/tc257e] E=ZFA:0000139 /*immature otoliths*/ Q=PATO:0000587 /*small size*/ T=during(ZFS:0000036) /*during(Larval:Day 4)*/ Tag=PATO:0000460 /*abnormal*/
+
+
+Desc= "foo"  /* desc */
+E= GO:0012345 /* go */
+ Q= PATO:0000001 /* pato */
+  E2= CHEBI:123
+ Q= PATO:0000002
+
+E= GO:0012345 
+ Q= PATO:0000001
+ Q= PATO:0000002
+
+E= GO:0012346^part_of(GO:9999)
+ Q= PATO:0000001
+  E2= CHEBI:123
+ Q= PATO:0000002
+
+
+PUB=PMID:998578 GT=OMIM601653 GC=PM:0000003 /*dominant*/ E=GO:0007275^has_participant(FMA:7203) /*development^has_participant(Kidney)*/ Q=PATO:0000396 /*severe*/
+
+PUB=FBrf0087444 GT=genotype(Ace[12]/Ace[-] ; {Ace[TM.T:Hsim\gC]}) E=GO:0030534 /*adult behavior*/ Q=PATO:0000759 /*bang sensitive*/
+
+PUB=FBrf0128419 GT="eya[1]/eya[E(P)10]" E=FBbt:00004508 /*eye*/ Q=PATO:0000462 /*absent*/

@@ -1,0 +1,387 @@
+  <page>
+    <title>A brief introduction to Prolog: querying ontologies</title>
+    <section id="About">
+      <p>
+        This tutorial describes how the Prolog language and database
+        can be used to perform exploratory queries on ontologies with
+        relative ease. If you are not already familiar with biological
+        ontologies, you may want to briefly look at the <url
+          href="obo"/> or <url to="go"/> websites. 
+      </p>
+      <p>
+        Familiarity with programming may be helpful, but may also be
+        something of a hindrance as Prolog is a very different kind of
+        language from perl, java, C, python and so on. Some knowledge
+        of relational databases would be helpful, although Prolog
+        queries are much more powerful than SQL queries. If you have
+        no knowledge of either, then you should still hopefully be
+        able to follow this tutorial.
+      </p>
+      <p>
+        The first part of the tutorial shows how to construct your own
+        prolog program for traversing the class-level relations in an
+        ontology. The second part introduce the <url href='blip'/>
+        knowledge integration kit which provides a library code for
+        doing exactly this kind of thing. You may wish to skip
+        straight to the final section on blip if you are impatient.
+      </p>
+    </section>
+    <section id="Installing Prolog">
+      <p>
+        The first part of this tutorial should work with any
+        ISO-compliant implementation of prolog. This tutorial assumes
+        you are using <url href='SWI-Prolog'/>. At the moment, the
+        blip kit runs out-the-box on SWI-Prolog. It is recommended
+        that you install SWI-Prolog - you can always play around with
+        other prologs later.
+      </p>
+      <tip ref='install-swi-prolog'/>
+    </section>
+
+    <section id="Downloading an ontology">
+      <p>
+        Next of all you will have to download an ontology - we will
+        use this as our data source. For now you should download an
+        ontology that is provided as a prolog fact database.  Later on
+        you will see how to use blip to query ontologies provided in a
+        number of formats, such as OBO and <url href='OWL'/>.
+      </p>
+      <p>
+        You can download most of the <url href='OBO'/> ontologies as
+        prolog databases from the <url href='obo-download'/> page. You
+        can try any of these, this tutorial assumes the <url
+        href='GO'/> cellular component ontology.
+      </p>
+      <tip ref='download-obo-pro' arg='cellular_component'></tip>
+      <p>
+        Place the downloaded file in your working directory. You can
+        examine it with an editor or a text viewer. You will see it
+        looks something like this:
+        <code>
+          <pre>
+class('GO:0000120', 'RNA polymerase I transcription factor complex').
+belongs('GO:0000120', 'cellular_component').
+subclass('GO:0000120', 'GO:0005667').
+restriction('GO:0000120', 'part_of', 'GO:0005730').
+def('GO:0000120', 'A transcription factor complex that acts at promoters of genes transcribed by RNA polymerase I.').                   
+          </pre>
+        </code>
+        Each line of this file is a <lookup ref='clause'/>. Each of
+        these clauses can be thought of as a database fact, or a
+        statement. Although it looks more like a function call in a
+        normal programming language, it is actually a piece of
+        data. The part before the brackets is the <lookup
+        ref='predicate'/> name. You may also think of this as a table
+        name in a conventional SQL database. Prolog has no built-in
+        knowledge of the predicates 'class', 'belongs', 'restriction' and
+        'def'. You can add whatever facts you like, it is up to you to
+            decide on the semantics.
+      </p>
+      <p>
+        The intended meaning of the first line is "there is a class in
+        the database with unique identifier <go acc='GO:0000120'/> and
+        the name <i>RNA polymerase I transcription factor
+        complex</i>. We say the class predicate has <lookup
+        ref='arity'/> of 2, and write this as class/2.
+      </p>
+      <p>
+        belongs/2 shows what ontology the ID belongs to; subclass/2
+        shows the is_a parent. All other class relations are stated
+        using restriction/3. Here we can see the class identified by
+        GO:0000120 is a part_of the class identifier by <go
+        acc='GO:0005730'/>. def/2 states the definition.
+      </p>
+      <p>
+        Now we have our database, we are ready to query it
+      </p>
+    </section>
+
+    <section id="Consulting and querying a database">
+      <subsection id="consulting">
+        <p>
+          Before we start querying the file, we need to make a slight
+          amendment to it. Using a text editor, add the following line
+          to the top of the downloaded 'cellular_component.pro' file:
+          <code>
+            <pre>
+:- style_check(-discontiguous)
+            </pre>
+          </code>
+          This is required to stop prolog spitting out warnings about
+          the ordering of predicates in the file. This is a little
+          tedious and we will see later easy ways to get around this.
+        </p>
+      </subsection>
+      <subsection id="starting up prolog">
+      <p>
+        Once you have installed SWI-Prolog you should be able to
+        access it from the command line or from an icon. I will assume
+        you're doing the former. Just type <b>swipl</b> (<b>pl</b> on
+        some systems), and you will start up the prolog
+        interpreter. You will see something like this:
+        <code>
+          <pre>
+swipl
+%  /users/cjm/cvs/bioprolog/etc/bioconf.pro compiled 0.00 sec, 24,824 bytes
+% /Users/cjm/.plrc compiled 0.01 sec, 31,208 bytes
+Welcome to SWI-Prolog (Multi-threaded, Version 5.5.30)
+Copyright (c) 1990-2005 University of Amsterdam.
+SWI-Prolog comes with ABSOLUTELY NO WARRANTY. This is free software,
+and you are welcome to redistribute it under certain conditions.
+Please visit http://www.swi-prolog.org for details.
+
+For help, use ?- help(Topic). or ?- apropos(Word).
+
+?-                                                                 
+          </pre>
+        </code>
+        SWI-Prolog has a nice builtin help system, with a user
+        interface (if you are running under X). 
+      </p>
+      </subsection>
+      <subsection id="consulting">
+        <p>
+          The first thing you want to do is consult the database
+          file. This will load the statements into the prolog
+          in-memory database. There is a useful piece of syntactic
+            sugar for doing this, using square brackets:
+          <code>
+            <pre>
+?- ['cellular_component.pro'].
+% cellular_component.pro compiled 0.31 sec, 1,146,612 bytes
+
+Yes
+            </pre>
+          </code>
+            In prolog, every command is really a query or
+            question. The system is saying 'Yes' to indicate success
+            here.
+          </p>
+          <p>
+            If you've made it this far, you are now interacting with a
+            prolog database containing statements about the GO CC
+            ontology. You're now ready to query the database.
+          </p>
+        </subsection>
+        <subsection id="First query: find ID by name">
+          <p>
+            Our first query will be to fetch the ID of the class with
+            the name 'nucleus'. Recall that we have defined class/2 to
+            be a predicate relating IDs to names of classes.
+          <code>
+            <pre>
+?- class(ID,nucleus).
+
+ID = 'GO:0005634' 
+            </pre>
+          </code>
+            Prolog shows you the first result of your query. You can
+            see if there are further results by typing the <b>;</b>
+            key. Prolog will keep showing you results until either you
+            simply hit return or there are no more results (in which
+            case it will say 'No').
+          </p>
+          <p>
+            Our query takes the form of a goal. The goal is a
+            predicate name (in this case 'class') and some
+            arguments. Arguments can be variables or 'ground'. In the
+            above example, ID is a variable, and can be bound to the
+            value of the first argument in any existing goal. Prolog
+            knows that ID is a variable because of the leading
+            upper-case character. <tip ref='prolog-syntax'/>
+          </p>
+        </subsection>
+        <subsection id="Second query: find is_a parents">
+          <p>
+            The is_a parents of a class are stated using
+            subclass/2. We can find the name of the is_a parent of
+            nucleus using 3 goals chained together:
+          <code>
+            <pre>
+?- class(ID,nucleus),subclass(ID,PID),class(PID,PN).
+
+ID = 'GO:0005634'
+PID = 'GO:0043231'
+PN = 'intracellular membrane-bound organelle' ;
+
+No                                                                              
+            </pre>
+          </code>
+            First of all prolog resolves the first goal, succeeding
+            with the variable ID bound to 'GO:0005634'. The second
+            goal is called; we have already bound ID to a value, so
+            only the second argument, PID is unbound. This succeeds
+            with PID bound to 'GO:0043231'. The final goal is called,
+            with PID bound, succeeding once with PN bound to the name
+            of the parent
+          </p>
+          <p>
+            Each goal is separated by the comma symbol. This is prolog
+            syntax for AND conjunction - we are making a single goal
+            from the logical conjunction of the 3 subgoals. This can
+            be thought of as a logical statement: <i>find all ID, PID and
+            PN such that the class with name 'nucleus' has id ID, ID
+              is a subclass of PID and the class with id PID has name PN</i>
+          </p>
+          
+        </subsection>
+        <subsection id="Non-determinism and backtracking">
+          <p>
+            One of the crucial things that marks prolog out from other
+            language is its <lookup ref='nondeterministic'/> nature. A
+            prolog goal can succeed multiple times, unifying with
+            different variables each time. Whenever a goal succeeds,
+            prolog backtracks to see if other solutions are
+            available. This can be illustrated in the following
+            example:
+          <code>
+            <pre>
+?- class(ID,nucleus),subclass(CID,ID),class(CID,CN).
+
+ID = 'GO:0005634'
+CID = 'GO:0031039'
+CN = macronucleus ;
+
+ID = 'GO:0005634'
+CID = 'GO:0031040'
+CN = micronucleus ;
+
+ID = 'GO:0005634'
+CID = 'GO:0043073'
+CN = 'germ cell nucleus' ;
+
+ID = 'GO:0005634'
+CID = 'GO:0043076'
+CN = 'megasporocyte nucleus' ;
+
+ID = 'GO:0005634'
+CID = 'GO:0045120'
+CN = pronucleus 
+
+Yes
+            </pre>
+          </code>
+              Remeber to hit <b>;</b> to see if further solutions are
+              available. Whenever prolog succeeds with variable
+              bindings for ID, CID and CN it backtracks to find other
+              solutions.
+        </subsection>
+    </section>
+    <section id="Prolog programs">
+      <p>
+        Programs can be written in prolog - these range from simple
+        views over our database to full-blown applications
+      </p>
+      <subsection id="Transitive queries">
+        <p>
+          One thing that is difficult to do with many SQL databases is
+          query recursively over data. This ability is particularly
+          useful when it comes to querying ontologies - often you want
+          to find the parents of a term and its parents.
+        </p>
+        <p>
+          Use a text editor to create and edit a file
+          <kw>ontol.pl</kw>. <tip ref="prolog-file-suffix"/>.
+            Enter the following text into the file:
+            <code>
+              <pre>
+subclassT(ID,PID):- subclass(ID,PID).
+subclassT(ID,PID):- subclass(ID,XID),subclassT(XID,PID).
+              </pre>
+            </code>
+        </p>
+        <p>
+          You have now defined a new predicate, subclassT/2. In
+          database terms, this is a view over the table subclass/2.
+        </p>
+        <p>
+          What does the above program say? We have introduced a new
+          piece of syntax here. The <kw>:-</kw> means that all the
+          goals on the right hand side must be satisfied before the
+          goal on the right hand side is satisfied. 
+        </p>
+        <p>
+          subclassT/2 is the transitive closure over subclass/T
+          (defined in our database). ID is a transitive subclass of PID under
+          either of the following two conditions:
+          <ul>
+            <li>ID is a direct subclass of PID</li>
+            <li>ID is a direct subclass of some id XID, and XID is a
+              transitive subclass of PID</li>
+          </ul>
+          These two rules correspond to the two rules in our
+          program. Notice that the second rule is recursive - we are
+          defining subclassT in terms of itself. This is fine, as we
+          are providing a base case. Even so, we have to be careful to
+          write prolog programs that do not go into infinite loops!
+        </p>
+      </subsection>
+      <subsection id="Consulting the program">
+        <p>
+          Make sure this file is in your working directory. Now, in
+          your swi-prolog interpreter window, type the following:
+          <code>
+            <pre>
+[ontol].
+% ontol compiled 0.00 sec, 820 bytes
+
+Yes
+            </pre>
+          </code>
+          You should also make sure you have consulted the cellular
+          component fact file (if you have started a new prolog
+          interpreter session). We can now use the new predicate to
+          find all the recursive is_a parents of <kw>nucleus</kw>
+          <code>
+            <pre>
+?- class(ID,nucleus),subclassT(ID,PID),class(PID,PN).
+
+ID = 'GO:0005634'
+PID = 'GO:0043231'
+PN = 'intracellular membrane-bound organelle' ;
+
+ID = 'GO:0005634'
+PID = 'GO:0043227'
+PN = 'membrane-bound organelle' ;
+
+ID = 'GO:0005634'
+PID = 'GO:0043229'
+PN = 'intracellular organelle' ;
+
+ID = 'GO:0005634'
+PID = 'GO:0043226'
+PN = organelle ;
+
+ID = 'GO:0005634'
+PID = 'GO:0005575'
+PN = cellular_component ;
+
+ID = 'GO:0005634'
+PID = 'GO:0043226'
+PN = organelle ;
+
+ID = 'GO:0005634'
+PID = 'GO:0005575'
+PN = cellular_component ;
+
+No
+            </pre>
+          </code>
+        </p>
+
+        <ul>
+          <li>
+            <a
+              href="http://www.coli.uni-saarland.de/~kris/learn-prolog-now/">Learn Prolog Now!</a>
+          </li>
+        </ul>
+      </subsection>
+    </section>
+
+    <lastmod>
+      <!-- Created: Mon May  2 09:02:21 PDT 2005 -->
+<!-- hhmts start -->
+Last modified: Wed Nov 23 10:19:30 PST 2005
+<!-- hhmts end -->
+    </lastmod>
+  </page>

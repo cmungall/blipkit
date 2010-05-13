@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# Usage:
+#  blip-godb -r rdb/go sql-map -proj X 'class(X)'
+#  blip-godb -debug sql -u ontol_db -r rdb/go sql-map -proj X,Y  '(class(X,apoptosis),subclassT(X,Y))'
+blip -r go -u ontol_db -u blipkit_sql -u ontol_sqlmap_go -u seqfeature_sqlmap_go -u homol_sqlmap_go -u curation_db -u seqfeature_db  -sqlbind curation_db:all-go -sqlbind seqfeature_db:feature_label/2-go $@
+#blip -u blipkit_sql -u ontol_sqlmap_go $@
+

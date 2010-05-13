@@ -1,0 +1,193 @@
+[Term]
+id: entity
+
+[Term]
+id: occurrent
+is_a: entity
+
+[Term]
+id: continuant
+is_a: entity
+
+[Term]
+id: ic
+is_a: continuant
+
+[Term]
+id: dc
+is_a: continuant
+
+[Term]
+id: biological_process
+is_a: occurrent
+
+[Term]
+id: gene_expression
+is_a: biological_process
+
+[Term]
+id: transport
+is_a: biological_process
+
+[Term]
+id: nuc_transport
+intersection_of: transport
+intersection_of: occurs_in nuc
+
+[Term]
+id: mt_transport
+intersection_of: transport
+intersection_of: occurs_in mt
+
+[Term]
+id: ct_transport
+intersection_of: transport
+intersection_of: occurs_in cytoplasm
+
+[Term]
+id: transcription
+is_a: gene_expression
+
+[Term]
+id: translation
+is_a: gene_expression
+
+[Term]
+id: elongation
+is_a: translation
+
+[Term]
+id: cc
+is_a: ic
+
+[Term]
+id: mt
+is_a: organelle
+relationship: occurs_in cytoplasm
+
+[Term]
+id: nuc
+is_a: organelle
+relationship: occurs_in cytoplasm
+
+[Term]
+id: nuc_mem
+is_a: cc
+relationship: part_of nuc
+
+[Term]
+id: mt_mem
+is_a: cc
+relationship: part_of mt
+
+[Term]
+id: organelle
+is_a: cc
+relationship: part_of cell
+
+[Term]
+id: cytoplasm
+is_a: cc
+relationship: part_of cell
+
+[Term]
+id: cell
+is_a: cc
+
+[Term]
+id: protein
+is_a: cc
+
+[Term]
+id: x_protein
+is_a: protein
+
+[Term]
+id: y_protein
+is_a: protein
+
+[Instance]
+id: p1
+instance_of: translation
+relationship: occurs_in p1loc
+
+[Instance]
+id: p1loc
+instance_of: mt
+
+[Instance]
+id: p2
+instance_of: transcription
+relationship: occurs_in p2loc
+
+[Instance]
+id: p2loc
+instance_of: mt
+
+[Instance]
+id: p3
+instance_of: elongation
+relationship: occurs_in p3loc
+
+[Instance]
+id: p3loc
+instance_of: nuc
+
+[Instance]
+id: p4
+instance_of: transcription
+relationship: occurs_in p4loc
+
+[Instance]
+id: p4loc
+instance_of: nuc
+
+[Instance]
+id: p5
+instance_of: transcription
+relationship: occurs_in p5loc
+
+[Instance]
+id: p5loc
+instance_of: nuc_mem
+
+[Instance]
+id: p6
+instance_of: transport
+relationship: occurs_in p6loc
+relationship: has_participant p6p
+
+[Instance]
+id: p6loc
+instance_of: cytoplasm
+
+[Instance]
+id: p6p
+instance_of: x_protein
+
+[Instance]
+id: p7
+instance_of: transport
+relationship: occurs_in p7loc
+relationship: has_participant p7p
+
+[Instance]
+id: p7loc
+instance_of: mt_mem
+
+[Instance]
+id: p7p
+instance_of: y_protein
+
+[Typedef]
+id: occurs_in
+transitive_over: part_of
+domain: occurrent
+range: ic
+
+[Typedef]
+id: part_of
+is_transitive: true
+
+[Typedef]
+id: has_participant

@@ -1,0 +1,5 @@
+#!/bin/sh
+# eg
+# blip-obd -r rdb/obd
+blip -u curation_db -u ontol_db -u blipkit_sql -u ontol_sqlmap_obd $@
+

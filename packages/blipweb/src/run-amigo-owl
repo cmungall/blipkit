@@ -1,0 +1,123 @@
+#!/usr/bin/swipl -L0 -G0 -T0 -A0 -q -g main -t halt -s
+
+:- use_module(bio(bioprolog_util)).
+:- use_module(bio(io)).
+:- use_module(bio(serval)).
+:- use_module(bio(serval_rdf)).
+
+:- consult_bioconf.
+
+:- multifile
+        bench_call/2,
+        amigo_component/1.
+
+:- multifile
+        use_bioresource/1,
+        use_bioresource/3,
+        amigo_port/1.
+
+amigo_port(p):- fail.
+bioresource(r):- fail.
+use_bioresource(r):- fail.
+use_bioresource(r,fmt,module):- fail.
+
+main:-
+        getopt([number([p,port],Port),
+                atom([u,baseurl],BaseURL,'http://127.0.0.1'),
+                atoms(debug,Debugs),
+                bool(profile,Profile),
+                bool([t,test],Test),
+                atom(trace,Trace,true),
+                bool(bench,Bench),
+                atom(db,DB,ontol_db),
+                bool([background,bg],Bg),
+                atom([format,from,f],Format),
+                atoms([i,input],InputFileL),
+                atoms([r,resource],ResourceL),
+                atoms([c,conf],ConfL)],
+               FileL),
+        (   Debugs=[]
+        ->  true
+        ;   set_prolog_flag(verbose,normal),
+            maplist(debug,Debugs)),
+        Trace,
+%        forall(member(Conf,ConfL),
+%               (   expand_file_search_path(amigo_conf(Conf),ConfPath),
+%                   consult(ConfPath))),
+        forall(member(Conf,ConfL),
+               consult(amigo_conf(Conf))),
+        % consult core first, it has multifile preds etc
+        consult(amigo_src(amigo_owl)),
+        load_bioresource(rdfs),
+        load_bioresource(owl),
+        forall(amigo_component(Src),
+               consult(amigo_src(Src))),
+        findall(Resource,(member(Resource,ResourceL),
+                          load_bioresource(Resource)),_),
+        findall(File,(member(File,InputFileL),
+                      load_biofile(Format,File)),_),
+        DB:load_factfiles(FileL),
+        % allow optional components to override
+        % deprecated; switch to use_bioresource
+        forall(bioresource(Resource),
+               writeln(deprecated(bioresource(Resource)))),
+        forall(bioresource(Resource),
+               load_bioresource(Resource)),
+        forall(use_bioresource(Resource),
+               load_bioresource(Resource)),
+        forall(use_bioresource(P,pro,Mod),
+               (   expand_file_search_path(P,Px),
+                   Mod:load_factfile(Px))),
+        bench(Bench),
+
+        % this is the URL of the main server (eg apache)
+        % which serves images, css, etc
+        assert(user:amigo_dynamic_param(base_url,BaseURL)),
+
+        % Port: command line overrides conf file overrides default
+        (var(Port)
+        ->  (amigo_port(Port)
+            ->  true
+            ;   Port=8080)
+        ;   true),
+
+        (   Profile=1
+        ->  profile(test_serval([])),
+            prolog
+        ;   true),
+        % test mode - opening page
+        (Test=1
+        ->  serval:test([])
+        ;   start_server(Port)),
+        (Bg=1
+        ->  background
+        ;   true),
+        prolog.
+
+background:-
+        repeat,
+        fail.
+
+% use profile(Goal)????
+%bench_call(lclass_query(search(trans),L),L).
+%bench_call(lfeature_query(search(a),L),L).
+%bench_call(lfeature_query(class('ZDB-ANAT-010921-564'),L),L).
+%bench_call(lfeature_query(class(''),L),L).
+%bench_call(lfeature_query(class('GO:0007610'),L),L).
+%bench_call(lfeature_query(class('GO:0007629'),L),L). % flight behavior
+bench(0).
+bench(1):-
+        writeln(benchmarking),
+        findall(X,
+                (
+                  bench_call(X,L),
+                  format(user_error,'~w~n',[X]),
+                  statistics(cputime,T1),
+                  writeln(calling:X/T1),
+                  profile(X),
+%                  time(X),
+                  statistics(cputime,T2),
+                  T is T2-T1,
+                  length(L,Num),
+                  writeln(num=Num/T),
+                  nl),_).

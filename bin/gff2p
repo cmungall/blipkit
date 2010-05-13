@@ -1,0 +1,100 @@
+#!/usr/bin/perl
+
+use strict;
+use Getopt::Long;
+
+my $format = '';
+my $delimiter = "\t";
+my $newline;
+my $pred;
+my @pre = ();
+@ARGV = map {if (/^\-f(\d+)/) {("-f", $1)}else{$_}} @ARGV;
+GetOptions("format|f=s"=>\$format,
+	   "delimiter|d=s"=>\$delimiter,
+	   "newline=s"=>\$newline,
+           "predicate|p=s"=>\$pred,
+           "pre=s@"=>\@pre,
+	  );
+if ($newline) {
+    $/ = $newline;
+}
+else {
+    $newline = "\n";
+}
+while(<>) {
+    chomp;
+    my @fields = split(/$delimiter/, $_);
+    my $group = pop(@fields);
+    @fields = map {pquote($_)} @fields;
+    my @tagvals = split(/;\s*/,$group);
+    my $id = '';
+    my @parents = ();
+    my @nu_tagvals = ();
+    foreach (@tagvals) {
+        my ($tag,$val) = split(/=/,$_);
+        if ($format eq 'gtf') {
+            $tag =~ s/name/ID/;
+            $tag =~ s/transgrp/Parent/;
+        }
+        if ($tag eq 'ID') {
+            $id = $val;
+        }
+        elsif ($tag eq 'Parent') {
+            push(@parents, pquote($val));
+        }
+        else {
+            push(@nu_tagvals, sprintf("%s=%s",pquote($tag),pquote($val)));
+        }
+    }
+    push(@fields,
+         sprintf("group(%s,[%s],[%s])",
+                 pquote($id),
+                 join(',',@parents),
+                 join(',',@nu_tagvals)));
+    printf "gffrow(%s).\n",
+      join(', ', @fields);
+}
+
+sub pquote {
+    my $s = shift;
+    $s='' unless defined $s;
+    if ($s =~ /^\-?[0-9]+$/) {
+	return $s;
+    }
+    return "''" unless $s;
+    $s =~ s/\'/\'\'/g;
+    "'$s'";
+}
+
+__END__
+
+=head1 NAME
+
+gff2p
+
+=head1 SYNOPSIS
+
+gff2p my.gff > my.pro
+
+=head1 DESCRIPTION
+
+Converts GFF to Prolog
+
+Not yet fully tested
+
+=head2 ARGUMENTS
+
+=over
+
+=item d|delimiter
+
+tab is the default
+
+=item newline
+
+\n is the default
+
+=back
+
+=cut
+

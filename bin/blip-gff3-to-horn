@@ -1,0 +1,4 @@
+#!/bin/sh
+
+blip io-convert -u seqfeature_bridge_to_obolog -to obolog_prolog -i $@
+

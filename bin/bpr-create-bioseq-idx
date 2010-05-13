@@ -1,0 +1,16 @@
+#!/usr/bin/swipl -L0 -G0 -T0 -A0 -q -g main -t halt -s
+
+:- use_module(bio(bioprolog_util)).
+:- use_module(bio(bioseq)).
+
+:- dynamic seqidx/4.
+main:-
+        %getopt([atom([id,i],ID),atom([word,w],Word)],FileL),
+        getopt([
+                number([size,s],Siz,3),
+                atom([out,o],Out,'seqidx.pro')],FileL),
+        load_factfiles(FileL),
+        writeln(indexing),
+        index_all_seqs_to_file(Out,Siz),
+        halt.
+

@@ -1,0 +1,4 @@
+#!/bin/sh
+
+#blip io-convert -f go_assoc -u seqfeature_bridge_to_class -u curation_bridge_to_ontol -to curation_obo $@
+blip io-convert -f go_assoc -u seqfeature_bridge_to_class -to curation_obo $@

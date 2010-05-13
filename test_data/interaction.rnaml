@@ -1,0 +1,104 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE rnaml SYSTEM "http://www-lbit.iro.umontreal.ca/rnaml/current/rnaml.dtd">
+<rnaml reference-ids="ref2" version="1.1">
+  <molecule id="Yeast-tRNA-Phe">
+    <identity>
+      <name>Saccharomyces cerevisiae tRNA-Phe</name>
+      <taxonomy>
+        <domain>Eukaryota</domain>
+        <kingdom>Fungi</kingdom>
+        <phylum>Ascomycota</phylum>
+        <class>Saccharomycetes</class>
+        <order>Saccharomycetales</order>
+        <family>Saccharomycetaceae</family>
+        <genus>Saccharomyces</genus>
+        <species>Saccharomyces cerevisiae</species>
+      </taxonomy>
+    </identity>
+    <sequence reference-ids="ref1" database-ids="db1" length="76">
+      <seq-data>
+          GCGGAUUUAG CUCAGUUGGG AGAGCGCCAG ACUGAAGAUC UGGAGGUCCU GUGUUCGAUC
+          CACAGAAUUC GCACCA
+        </seq-data>
+    </sequence>
+  </molecule>
+  <molecule id="Yeast-mRNA">
+    <identity>
+      <name>Yeast mRNA</name>
+    </identity>
+    <sequence length="3">
+      <seq-data> AGG </seq-data>
+    </sequence>
+  </molecule>
+  <reference id="ref1">
+    <author>
+      <person>
+        <first-name>U.L.</first-name>
+        <last-name>RajBhandary</last-name>
+      </person>
+    </author>
+    <author>
+      <person>
+        <first-name>S.H.</first-name>
+        <last-name>Chang</last-name>
+      </person>
+    </author>
+    <author>
+      <person>
+        <first-name>A.</first-name>
+        <last-name>Stuart</last-name>
+      </person>
+    </author>
+    <author>
+      <person>
+        <first-name>R.D.</first-name>
+        <last-name>Faulkner</last-name>
+      </person>
+    </author>
+    <author>
+      <person>
+        <first-name>R.M.</first-name>
+        <last-name>Hoskinson</last-name>
+      </person>
+    </author>
+    <author>
+      <person>
+        <first-name>H.G.</first-name>
+        <last-name>Khorana</last-name>
+      </person>
+    </author>
+    <title>
+      Studies on polynucleotides LXVIII. The primary
+      structure of yeast phenylalanine transfer RNA.
+    </title>
+    <journal>
+      Proc. Natl. Acad. Sci. U.S.A.
+    </journal>
+    <issue>57</issue>
+    <pages>751,758</pages>
+    <date>
+      <year>1967</year>
+    </date>
+  </reference>
+  <database-entry id="db1">
+    <database>genbank</database>
+    <entry>M10263</entry>
+    <path>
+      <url>http://www.ncbi.nlm.nih.gov:80/entrez/query.fcgi&#60;cmd=Retrieve&#38;db=nucleotide&#38;list_uids=176479&#38;dopt=GenBank</url>
+    </path>
+  </database-entry>
+  <reference comment="Web pages of the RNAML format description" id="ref2">
+    <path>
+      <url>http://www-lbit.iro.umontreal.ca/rnaml</url>
+    </path>
+  </reference>
+  <revision>
+    <date>
+      <day>5</day>
+      <month>11</month>
+      <year>2001</year>
+    </date>
+    Example use of the RNAML format as last defined by Patrick Gendron.
+  </revision>
+</rnaml>

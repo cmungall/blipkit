@@ -1,0 +1,153 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Blip: Architecture</title>
+<link rel="SHORTCUT ICON" href="favicon.ico">
+<link rel="stylesheet" href="pdoc/prologdoc.css" type="text/css">
+<link rel="stylesheet" href="css/blip.css" type="text/css">
+</head>
+<body>
+<div id="logo">Blip: Biomedical Logic Programming</div>
+<div class="navbar">
+<p class="title">Documentation</p>
+<p class="side"><a href="index.html">Home</a><br><a href="started.html">Getting started</a><br><a href="tutorial.html">Tutorial</a><br><a href="architecture.html">Architecture</a><br><a href="modules.html">Modules</a><br><a href="examples.html">Examples</a><br><a href="applications.html">Applications</a><br><a href="serval.html">Serval</a><br><a href="faq.html">FAQ</a><br><a href="http://berkeleybop.org/blipdoc">pldoc server</a><br></p>
+<p class="title">Download</p>
+<p class="side"><a href="svn.html">Subversion repository</a><br></p>
+<p class="title">Announcements</p>
+<p class="side"><a href="http://blipkit.wordpress.com">Blip Blog</a><br></p>
+<p class="title">Open-Bio</p>
+<p class="side"><a href="http://www.open-bio.org/">Open Bioinformatics Foundation</a><br><a href="http://www.biojava.org/">BioJava</a><br><a href="http://www.biopython.org/">Biopython</a><br><a href="http://www.bioperl.org/">Bioperl</a><br><a href="http://www.bioruby.org/">Bioruby</a><br><a href="http://obda.open-bio.org/">OBDA</a><br><a href="http://www.biodas.org/">DAS</a><br><a href="http://www.biomoby.org/">MOBY</a><br><a href="http://www.emboss.org/">EMBOSS</a><br></p>
+<p class="title">Related Sites</p>
+<p class="side"><a href="http://skam.sourceforge.net/">BioMake</a><br><a href="http://www.fruitfly.org/~cjm/obol/">Obol</a><br></p>
+</div>
+<div id="header_menu">[ &lt;<a href="#Architecture">Architecture</a>&gt; ]</div>
+<div class="content">
+<a name="Architecture"></a><h3 class="section">Architecture</h3>
+<p>
+        Blip is a data integration toolkit. It wraps a variety of file
+        formats and data resources (called <b>bioresources</b>),
+        providing a unified query layer
+      </p>
+<h4 class="subsection">Diagram</h4>
+<p>
+          This figure shows how a general purpose application (in this
+          case Amigo-NG, a <a href="serval.html">serval</a> web application)
+            queries data from a variety of sources
+        </p>
+<img src="images/arch.png"><p>TODO: imagemap this png</p>
+<p>TODO: fix diagram - prolog xml transform now used in place
+          of XSL for SBML data</p>
+<p>
+          The core of Amigo-NG is a generic ontology class and
+          instance browser. Any biological model and data can be
+          represented as classes and instances, so Amigo-NG can act as
+          a generic data browser. The architecture also allows for
+          various plugins to create user-views over specific data
+          types, with the help of specific blip db modules.
+        </p>
+<h4 class="subsection">Bioresources</h4>
+<p>
+          At the bottom of the diagram are the <a href="bioresources.html">bioresources</a>. For AmiGO these will typically be files
+            containing class data and ontology instance data (in OBO or
+            OWL format), although different AmiGO plugins extend the basic
+            AmiGO class-and-instance layer views, which may require
+            different input files
+        </p>
+<h4 class="subsection">The prolog database</h4>
+<p>
+          bioresources are typically loaded into the in-memory prolog
+          database using a variety of mechanisms. The prolog database is
+          partitioned into seperate modules; class and instance data
+          live in either the rdf_db module or the <a href="pdoc/ontol_db.html">ontol_db</a> db module, organismal taxonomy into <a href="pdoc/taxon_db.html">taxon_db</a> db, etc. Each of these db modules has a set of
+              extensional and intensional predicates (ie the actual data
+              predicates and view predicates). By partitioning into modules
+              we avoid predicate clashes. Predicates can either be imported
+              into the user space or refered to by prefixing the module name.
+        </p>
+<h4 class="subsection">Parsers</h4>
+<p>
+          Some file formats can be read in directly; for example. the NH
+          and NHX phylogenetic tree format can be parsed using the
+          <a href="pdoc/parser_nhx.html">parser_nhx</a> module. For <a href="http://www.w3.org/TR/owl-features">OWL</a>
+              files, SWI-Prolog comes with rdf_db and owl modules
+              (themselves layered off of the SWI sgml module, which cab
+              parse XML).
+        </p>
+<p>
+          The user or application programmer does not need to worry
+          about using parsers directly - this is all handled by the
+          <a href="pdoc/io.html">io</a> module.
+        </p>
+<h4 class="subsection">Prolog fact files</h4>
+<p>
+          Many bio file formats are ad-hoc text formats. Whilst prolog
+          is an ideal language for implementing parsers, we have chosen
+          not to reinvent the wheel here - we use existing parsers
+          (BioPerl, go-perl and XSLT stylesheets) to convert native file
+          formats into prolog fact files which can then be loaded
+          directly into the prolog in-memory database. This approach is
+          not ideal, as many existing perl parsers are slow.
+        </p>
+<p>
+          The user or application programmer does not need to worry
+          about the details of converting bio formats to fact files -
+          this is all handled by the <a href="pdoc/io.html">io</a> module.
+        </p>
+<h4 class="subsection">XML mapping modules</h4>
+<p>
+        Many data resources exist in XML format. SWI-Prolog comes with
+        an XML parser, and blip comes with <modulref to="xml_transform"></modulref> which is a prolog specification language
+        for mapping XML files to data predicates
+      </p>
+<p>
+        The specifications themselves live in xmlmap modules - for
+        example, <a href="pdoc/seqfeature_xmlmap_chaos.html">seqfeature_xmlmap_chaos</a> which is a
+        mapping between <a href="http://www.fruitfly.org/chaos-xml">Chaos-XML</a> files and the data
+        predicates defined in the <a href="pdoc/seqfeature_db.html">seqfeature_db</a>
+        module. Currently the mapping is one-way, but it will soon be
+        reversible
+        </p>
+<h4 class="subsection">Bridge modules</h4>
+<p>
+        Bridge modules can be used where two db modules cover similar
+        domains.  For example, the SWI-Prolog owl.pl module and the
+        blip <modulref to="ontol_db"></modulref> db modules have similar
+        functionality. Applications such as AmiGO-NG use the ontol_db
+        interface. AmiGO-NG can be used seamlessly over OWL ontologies
+        using <a href="pdoc/ontol_bridge_to_owl.html">ontol_bridge_to_owl</a>. Bridge modules
+        can also be used to provide abstract relational views over
+        ontology instance data.
+        </p>
+<h4 class="subsection">SQL Databases</h4>
+<p>
+          Prolog is both a database and an application
+          language. Sometimes it may be desirable to swap in an
+          existing relational database in place of the in-memory
+          prolog database. This can be done seamlessly by using the
+          sqldb bridges, for example <a href="pdoc/ontol_bridge_from_gosql.html">ontol_bridge_from_gosql</a>, which maps tables in the GO
+          SQL database (see <a href="http://www.godatabase.org">amigo</a>) to the data predicates
+          defined in <a href="pdoc/ontol_db.html">ontol_db</a>
+        </p>
+<h4 class="subsection">Applications</h4>
+<p>
+          Applications can integrate various resources using the
+          <a href="pdoc/io.html">io</a> module, and then query them using the
+            predicates defined in any particular db module. Utility
+            modules such as <a href="pdoc/bioseq.html">bioseq</a> provide useful
+              operations on the different kinds of data
+        </p>
+<p>
+          See <a href="applications.html">applications</a> for some blip apps
+        </p>
+</div>
+<div class="footer">
+<address><a href="mailto:cjm_AT_fruitfly_DOT_org">chris mungall</a></address>
+<div class="metadata"><p><lastmod>
+      
+      
+Last modified: Thu Aug 25 15:03:04 PDT 2005
+
+    </lastmod></p></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,4 @@
+#!/bin/sh
+
+blip io-convert -f owl -u ontol_bridge_from_owl -to obo $@
+

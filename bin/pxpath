@@ -1,0 +1,21 @@
+#!/usr/bin/swipl -q -g main -t halt -s
+
+:- use_module(bioprolog(bioprolog_util)).
+:- use_module(bioprolog(xml_transform)).
+:- use_module(library(sgml)).
+
+main:-
+        getopt([atom(dialect,Dialect,xml)
+                ],
+               [File|Q]),
+        writeln(pxpath),
+        %read(Q),
+        %Q='SOAP-ENV:Body',
+        %Q=['//',returns,'//','URL'],
+        Opts = [dialect(Dialect),space(remove)],
+        xml2p(File,Q,Opts).
+
+xml2p(File,Q,Opts):-
+        load_structure(File,[XML],Opts),
+        pxpath(XML,Q,Result),
+        writeln(r=Result),nl,nl.

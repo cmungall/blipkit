@@ -1,0 +1,4 @@
+#!/bin/sh
+
+blip io-convert -f gff3 -u seqfeature_owlmap_gdc -to owl2_prolog -i $@
+

@@ -1,0 +1,467 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Blip: Modules</title>
+<link rel="SHORTCUT ICON" href="favicon.ico">
+<link rel="stylesheet" href="pdoc/prologdoc.css" type="text/css">
+<link rel="stylesheet" href="css/blip.css" type="text/css">
+<script type="text/javascript">
+          var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+                          document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+        </script><script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-11782828-1");
+              pageTracker._trackPageview();
+            } catch(err) {}
+        </script>
+</head>
+<body>
+<div id="logo">Blip: Biomedical Logic Programming</div>
+<div class="navbar">
+<p class="title">Documentation</p>
+<p class="side"><a href="index.html">Home</a><br><a href="started.html">Getting started</a><br><a href="tutorial.html">Tutorial</a><br><a href="architecture.html">Architecture</a><br><a href="modules.html">Modules</a><br><a href="examples.html">Examples</a><br><a href="applications.html">Applications</a><br><a href="serval.html">Serval</a><br><a href="faq.html">FAQ</a><br><a href="http://berkeleybop.org/blipdoc">pldoc server</a><br></p>
+<p class="title">Download</p>
+<p class="side"><a href="svn.html">Subversion repository</a><br></p>
+<p class="title">Announcements</p>
+<p class="side"><a href="http://blipkit.wordpress.com">Blip Blog</a><br></p>
+<p class="title">Open-Bio</p>
+<p class="side"><a href="http://www.open-bio.org/">Open Bioinformatics Foundation</a><br><a href="http://www.biojava.org/">BioJava</a><br><a href="http://www.biopython.org/">Biopython</a><br><a href="http://www.bioperl.org/">Bioperl</a><br><a href="http://www.bioruby.org/">Bioruby</a><br><a href="http://obda.open-bio.org/">OBDA</a><br><a href="http://www.biodas.org/">DAS</a><br><a href="http://www.biomoby.org/">MOBY</a><br><a href="http://www.emboss.org/">EMBOSS</a><br></p>
+<p class="title">Related Sites</p>
+<p class="side"><a href="http://skam.sourceforge.net/">BioMake</a><br><a href="http://www.fruitfly.org/~cjm/obol/">Obol</a><br></p>
+</div>
+<div id="header_menu">[ &lt;<a href="#Modules">Modules</a>&gt;  &lt;<a href="#Introduction">Introduction</a>&gt;  &lt;<a href="#Package%20List">Package List</a>&gt;  &lt;<a href="#Main%20Bio%20Modules">Main Bio Modules</a>&gt;  &lt;<a href="#Parsers">Parsers</a>&gt;  &lt;<a href="#Generic%20Modules">Generic Modules</a>&gt;  &lt;<a href="#Bio%20Ext%20Modules">Bio Ext Modules</a>&gt; ]</div>
+<div class="content">
+<a name="Modules"></a><h3 class="section">Modules</h3>
+<p>
+        The list below is incomplete. For a full list of modules, see
+        the dynamic module documentation in <a href="http://berkeleybop.org/blipdoc">blipdoc</a>.
+      </p>
+<a name="Introduction"></a><h3 class="section">Introduction</h3>
+<p>
+        Blip consists of different prolog modules covering different
+        areas of knowledge withins the life sciences - sequences,
+        analysis, ontologies, phylogenetics, pathways, etc. These
+        modules are largely independent - you may only need to use one
+        of the modules below for your research.
+      </p>
+<p>
+        The modules are in two sections: MAIN and
+        EXT. The MAIN modules are all in pure prolog and should run
+        without problems. The EXT modules use the SWI-Prolog foreign language
+        interface to use other libraries (currently C, but java and C++
+        may be on the cards for the future).
+      </p>
+<p>
+        Of the Main modules, some are <b>bio</b> modules (containing
+        code specific to some subdomain of biology), and some are
+        <b>generic</b> modules (which may be of interest to other <a href="http://www.swi-prolog.org">SWI-Prolog</a> users regardless of their interest in
+        bioinformatics). The latter may eventually be
+        split off from blip and go into independent packages.
+      </p>
+<p>
+        It may also be an idea to become familiar with some of the
+        standard <a href="http://www.swi-prolog.org/packages">SWI-Prolog
+          packages</a>
+      </p>
+<a name="Package List"></a><h3 class="section">Package List</h3>
+<ul>
+        <li>
+          <a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/blipcore/">blipcore</a>
+        </li>
+        <li>
+          <a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/ontol/">ontol</a>
+        </li>
+        <li>
+          <a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/metadata/">metadata</a>
+        </li>
+        <li>
+          <a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/curation/">curation</a>
+        </li>
+        <li>
+          <a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/genomic/">genomic</a>
+        </li>
+        <li>
+          <a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/sb/">sb</a>
+        </li>
+        <li>
+          <a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/phylo/">phylo</a>
+        </li>
+        <li>
+          <a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/sql/">sql</a>
+        </li>
+        <li>
+          <a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/xml/">xml</a>
+        </li>
+        <li>
+          <a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/web/">web</a>
+        </li>
+        <li>
+          <a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/serval/">serval</a>
+        </li>
+
+      </ul>
+<a name="Main Bio Modules"></a><h3 class="section">Main Bio Modules</h3>
+<p>
+        These modules contain specific biological semantics. There are
+        three kinds of modules:
+        <ul>
+          <li>
+            data or <b>domain model</b> modules, which define a set of
+            data predicates (facts) and view predicates over these
+            facts, which can be imported from some external file (see
+            the <a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip//io.pro">io</a> module). Data modules should be
+            named with the suffix <i>_db</i>. Data modules can also be
+            thought of as relational database schemas (albeit with
+            added behaviour).
+          </li>
+          <li>
+            <b>utility</b> modules, which do not depend on any data
+            module, and do not require any data to be stored in the
+            database.
+          </li>
+          <li>
+            <b>bridge</b> modules, which map one data model to
+            another. Blip does not insist on everything conforming to
+            one uber-model. For example, sometimes it is convenient to
+            model genomic features using the <a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip//seqfeature_db.pro">seqfeature_db</a> model, and other times it is more
+            convenient to model them as instances of <a href="http://song.sourceforge.net">SequenceOntology</a> classes using the
+            <a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip//ontol_db.pro">ontol_db</a> module or <a href="http://www.swi-prolog.org/packages/semweb.html">SemWeb</a>
+          </li>
+        </ul>
+      </p>
+<div package="genomic">
+      <div class="module">
+<div class="module_name">Module:<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/genomic/seqfeature_db.pro">seqfeature_db</a> [<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/seqfeature_db.pro">src</a>] (in <a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/genomic/">genomic</a>)</div>
+<div class="status"><status>usable</status></div>
+<div class="desc"><desc>
+          A model of biological sequence features. Maps well to
+          standard bio models, in particular GFF3, Chado and
+          Chaos-XML
+
+          <br>
+
+          This module also uses <a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/genomic/bioseq.pro">bioseq</a> and <a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/genomic/range.pro">range</a>
+        </desc></div>
+<p>
+          This data module can use the following inter-model bridges
+        </p>
+<ul>
+<li>
+<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/genomic/seqfeature_xmlmap_game.pro">seqfeature_xmlmap_game</a> [<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/seqfeature_xmlmap_game.pro">src</a>]</li>
+<li>
+<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/genomic/seqfeature_xmlmap_chaos.pro">seqfeature_xmlmap_chaos</a> [<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/seqfeature_xmlmap_chaos.pro">src</a>]</li>
+<li>
+<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/genomic/seqfeature_writer_chaos.pro">seqfeature_writer_chaos</a> [<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/seqfeature_writer_chaos.pro">src</a>]</li>
+<li>
+<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/genomic/seqfeature_bridge_from_chadosql.pro">seqfeature_bridge_from_chadosql</a> [<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/seqfeature_bridge_from_chadosql.pro">src</a>]</li>
+<li>
+<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/genomic/seqfeature_bridge_from_fasta.pro">seqfeature_bridge_from_fasta</a> [<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/seqfeature_bridge_from_fasta.pro">src</a>]</li>
+<li>
+<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/genomic/seqfeature_bridge_to_inst.pro">seqfeature_bridge_to_inst</a> [<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/seqfeature_bridge_to_inst.pro">src</a>]</li>
+</ul>
+</div>
+      </div>
+<div class="module">
+<div class="module_name">Module:<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/genomic/fasta_db.pro">fasta_db</a> [<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/fasta_db.pro">src</a>] (in <a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/genomic/">genomic</a>)</div>
+<div class="status"><status>stable</status></div>
+<div class="desc"><desc>
+          A simple schema for biological sequences based on
+          ID-description-residues triples.
+        </desc></div>
+</div>
+<div class="module">
+<div class="module_name">Module:<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/ontol/ontol_db.pro">ontol_db</a> [<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/ontol_db.pro">src</a>] (in <a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/ontol/">ontol</a>)</div>
+<div class="status"><status>stable</status></div>
+<div class="desc"><desc>
+          Models classes and instances. This model maps well to both
+          <a href="http://obo.sourceforge.net">OBO</a> and <a href="http://www.w3.org/TR/owl-features">OWL</a> models
+        </desc></div>
+<p>
+          This data module can use the following inter-model bridges
+        </p>
+<ul>
+<li>
+<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/ontol/ontol_bridge_from_owl.pro">ontol_bridge_from_owl</a> [<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/ontol_bridge_from_owl.pro">src</a>]</li>
+<li>
+<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/ontol/ontol_bridge_to_owl.pro">ontol_bridge_to_owl</a> [<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/ontol_bridge_to_owl.pro">src</a>]</li>
+<li>
+<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/ontol/ontol_bridge_from_gosql.pro">ontol_bridge_from_gosql</a> [<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/ontol_bridge_from_gosql.pro">src</a>]</li>
+<li>
+<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/ontol/ontol_writer_obo.pro">ontol_writer_obo</a> [<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/ontol_writer_obo.pro">src</a>]</li>
+<li>
+<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/ontol/ontol_writer_dot.pro">ontol_writer_dot</a> [<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/ontol_writer_dot.pro">src</a>]</li>
+<li>
+<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/ontol/ontol_writer_asp.pro">ontol_writer_asp</a> [<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/ontol_writer_asp.pro">src</a>]</li>
+<li>
+<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/ontol/parser_obo.pro">parser_obo</a> [<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/parser_obo.pro">src</a>]</li>
+</ul>
+</div>
+<div class="module">
+<div class="module_name">Module:<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/sb/sb_db.pro">sb_db</a> [<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/sb_db.pro">src</a>] (in <a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/sb/">sb</a>)</div>
+<div class="status"><status>usable, incomplete</status></div>
+<div class="desc"><desc>
+          Models pathways and interactions. Currently the model is
+          very SBML-y (level 1 and 2) but it may change. Little support for
+          quantative stuff as yet.
+        </desc></div>
+<p>
+          This data module can use the following inter-model bridges
+        </p>
+<ul>
+<li>
+<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/sb/sb_bridge_to_dot.pro">sb_bridge_to_dot</a> [<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/sb_bridge_to_dot.pro">src</a>]</li>
+<li>
+<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/sb/sb_xmlmap_sbml.pro">sb_xmlmap_sbml</a> [<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/sb_xmlmap_sbml.pro">src</a>]</li>
+<li>
+<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/sb/sb_bridge_from_biopax.pro">sb_bridge_from_biopax</a> [<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/sb_bridge_from_biopax.pro">src</a>]</li>
+<li>
+<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/sb/sb_bridge_to_chadoxml.pro">sb_bridge_to_chadoxml</a> [<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/sb_bridge_to_chadoxml.pro">src</a>]</li>
+</ul>
+</div>
+<div class="module">
+<div class="module_name">Module:<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/pheno/pheno_db.pro">pheno_db</a> [<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/pheno_db.pro">src</a>] (in <a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/pheno/">pheno</a>)</div>
+<div class="status"><status>in use</status></div>
+<div class="desc"><desc>
+          Genotype and phenotype data predicates
+        </desc></div>
+<p>
+          This data module can use the following inter-model bridges
+        </p>
+<ul>
+<li>
+<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/pheno/pheno_bridge_to_inst.pro">pheno_bridge_to_inst</a> [<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/pheno_bridge_to_inst.pro">src</a>]</li>
+<li>
+<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/pheno/pheno_bridge_from_inst.pro">pheno_bridge_from_inst</a> [<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/pheno_bridge_from_inst.pro">src</a>]</li>
+</ul>
+</div>
+<div class="module">
+<div class="module_name">Module:<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/phylo/phylo_db.pro">phylo_db</a> [<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/phylo_db.pro">src</a>] (in <a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/phylo/">phylo</a>)</div>
+<div class="status"><status>test</status></div>
+<div class="desc"><desc>
+          Phylogenetic tree data
+        </desc></div>
+<p>
+          This data module can use the following inter-model bridges
+        </p>
+<ul>
+<li>
+<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/phylo/phylo_bridge_from_taxon.pro">phylo_bridge_from_taxon</a> [<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/phylo_bridge_from_taxon.pro">src</a>]</li>
+<li>
+<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/phylo/parser_nhx.pro">parser_nhx</a> [<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/parser_nhx.pro">src</a>]</li>
+</ul>
+</div>
+<div class="module">
+<div class="module_name">Module:<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/genomic/seqanalysis_db.pro">seqanalysis_db</a> [<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/seqanalysis_db.pro">src</a>] (in <a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/genomic/">genomic</a>)</div>
+<div class="status"><status>new</status></div>
+<div class="desc"><desc>
+          Models results of sequence similarity searches, eg blast results
+        </desc></div>
+</div>
+<div class="module">
+<div class="module_name">Module:<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/phylo/taxon_db.pro">taxon_db</a> [<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/taxon_db.pro">src</a>] (in <a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/phylo/">phylo</a>)</div>
+<div class="status"><status>usable</status></div>
+<div class="desc"><desc>
+          Models a taxonomic tree of organisms. Fairly simple and
+          stable. Some overlaps with <a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/phylo/phylo_db.pro">phylo_db</a>
+        </desc></div>
+<p>
+          This data module can use the following inter-model bridges
+        </p>
+<ul><li>
+<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/phylo/taxon_bridge_to_ontol.pro">taxon_bridge_to_ontol</a> [<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/taxon_bridge_to_ontol.pro">src</a>]</li></ul>
+</div>
+<div class="module">
+<div class="module_name">Module:<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/blipcore/io.pro">io</a> [<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/io.pro">src</a>] (in <a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/blipcore/">blipcore</a>)</div>
+<div class="status"><status>usable</status></div>
+<div class="desc"><desc>handles input/output - mostly loading from external
+          files into the in-memory prolog database
+        </desc></div>
+</div>
+<div class="module">
+<div class="module_name">Module:<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/blipcore/biotable.pro">biotable</a> [<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/biotable.pro">src</a>] (in <a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/blipcore/">blipcore</a>)</div>
+<div class="status"><status>usable</status></div>
+<div class="desc"><desc>
+          Metadata about many common tabular bioinformatics file
+          formats, for use in conjunction with the <a href="http://www.swi-prolog.org/packages/table.html">table</a>
+          module
+        </desc></div>
+</div>
+<div class="module">
+<div class="module_name">Module:<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/blipcore/bioprolog_util.pro">bioprolog_util</a> [<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/bioprolog_util.pro">src</a>] (in <a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/blipcore/">blipcore</a>)</div>
+<div class="status"><status>usable, but not stable</status></div>
+<div class="desc"><desc>
+          hodgepodge of useful predicates. Some predicates may migrate
+          to more specialized modules in future
+        </desc></div>
+</div>
+<div class="module">
+<div class="module_name">Module:<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/genomic/bioseq.pro">bioseq</a> [<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/bioseq.pro">src</a>] (in <a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/genomic/">genomic</a>)</div>
+<div class="status"><status>usable, but currently very limited functionality</status></div>
+<div class="desc"><desc>
+          Provides some handy predicates for handling nucleic acid and
+          amino acid sequences. Does not assume any model
+        </desc></div>
+<p>
+          This module makes use of:
+        </p>
+<div class="module">
+<div class="module_name">Module:<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/genomic/gencode.pro">gencode</a> [<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/gencode.pro">src</a>] (in <a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip//"></a>)</div>
+<div class="status"><status>usable</status></div>
+<div class="desc"><desc>genetic codes (translation tables) for different species
+              classes</desc></div>
+</div>
+<div class="module">
+<div class="module_name">Module:<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/genomic/iupac.pro">iupac</a> [<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/iupac.pro">src</a>] (in <a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip//"></a>)</div>
+<div class="status"><status>usable</status></div>
+<div class="desc"></div>
+</div>
+</div>
+<div class="module">
+<div class="module_name">Module:<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/genomic/range.pro">range</a> [<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/range.pro">src</a>] (in <a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/genomic/">genomic</a>)</div>
+<div class="status"><status>usable, interface subject to change</status></div>
+<div class="desc"><desc>
+          Operations on linear ranges. Does not assume any particular
+          model (predicate arguments are typically compound terms
+          representing range "objects")
+        </desc></div>
+</div>
+<a name="Parsers"></a><h3 class="section">Parsers</h3>
+<p>File format parsers - these convert from flat files
+      conforming to some grammar into a list of prolog terms. These
+      prolog terms may then later be converted to datalog facts in one
+      of the db modules above; or the prolog terms may be an end in
+      themselves</p>
+<p>
+        Most parsers will be prolog DCGs. This means they may be
+        reversible - from prolog terms to flat file syntax
+      </p>
+<div class="module">
+<div class="module_name">Module:<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/phylo/parser_nhx.pro">parser_nhx</a> [<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/parser_nhx.pro">src</a>] (in <a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/phylo/">phylo</a>)</div>
+<div class="status"><status>stable</status></div>
+<div class="desc"><desc>
+          Parses New Hampshire and New Hampshire Extended format
+          (phylogenetic trees). See also <a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/phylo/phylo_db.pro">phylo_db</a>
+        </desc></div>
+</div>
+<div class="module">
+<div class="module_name">Module:<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/ontol/parser_obo.pro">parser_obo</a> [<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/parser_obo.pro">src</a>] (in <a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/ontol/">ontol</a>)</div>
+<div class="status"><status>beta</status></div>
+<div class="desc"><desc>
+          Parses obo text format. Not currently ysed. For now, the
+          <a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/ontol/io.pro">io</a> module will use go-perl behind the
+            scenes to convert this. See also <a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/ontol/ontol_db.pro">ontol_db</a>
+        </desc></div>
+</div>
+<a name="Generic Modules"></a><h3 class="section">Generic Modules</h3>
+<p>General purpose modules, not specifically tied to ontologies,
+        bioinformatics or biomedical applications</p>
+<p>(These modules may also be of interest to non-bio
+        programmers)</p>
+<div class="module">
+<div class="module_name">Module:<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/blipcore/graph.pro">graph</a> [<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/graph.pro">src</a>] (in <a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/blipcore/">blipcore</a>)</div>
+<div class="status"><status>incomplete, usable</status></div>
+<div class="desc"><desc>
+          Generic graph operations - closure, least common ancestors
+          etc. Higher order - can be used with different db modules.
+        </desc></div>
+</div>
+<div class="module">
+<div class="module_name">Module:<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/sql/rdb_util.pro">rdb_util</a> [<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/rdb_util.pro">src</a>] (in <a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/sql/">sql</a>)</div>
+<div class="status"><status>usable</status></div>
+<div class="desc"><desc>
+          SQL database interface, layered on top of the ODBC interface
+        </desc></div>
+</div>
+<div class="module">
+<div class="module_name">Module:<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/sql/sql_compiler.pro">sql_compiler</a> [<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/sql_compiler.pro">src</a>] (in <a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/sql/">sql</a>)</div>
+<div class="status"><status>usable</status></div>
+<div class="desc"><desc>
+          Extension of Draxler's code for rewriting prolog goals as SQL queries
+        </desc></div>
+</div>
+<div class="module">
+<div class="module_name">Module:<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/web/web_fetch_google.pro">web_fetch_google</a> [<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/web_fetch_google.pro">src</a>] (in <a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/web/">web</a>)</div>
+<div class="status"><status>usable</status></div>
+<div class="desc"><desc>
+          Wrapper for the Google SOAP API - enables google queries to
+          be performed from prolog
+        </desc></div>
+</div>
+<div class="module">
+<div class="module_name">Module:<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/blipcore/tabling.pro">tabling</a> [<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/tabling.pro">src</a>] (in <a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/blipcore/">blipcore</a>)</div>
+<div class="status"><status>usable, limited</status></div>
+<div class="desc"><desc>
+         Simple memoization of predicates
+        </desc></div>
+</div>
+<div class="module">
+<div class="module_name">Module:<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/xml/xml_writer.pro">xml_writer</a> [<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/xml_writer.pro">src</a>] (in <a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/xml/">xml</a>)</div>
+<div class="status"><status>usable</status></div>
+<div class="desc"><desc>
+          Maps prolog term syntax XML to actual XML
+        </desc></div>
+</div>
+<div class="module">
+<div class="module_name">Module:<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/xml/xml_transform.pro">xml_transform</a> [<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/xml_transform.pro">src</a>] (in <a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/xml/">xml</a>)</div>
+<div class="status"><status>incomplete, usable</status></div>
+<div class="desc"><desc>
+          XPath-like query language and declarative transforms between
+          XML formats and flat predicates
+        </desc></div>
+</div>
+<div class="module">
+<div class="module_name">Module:<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/serval/serval.pro">serval</a> [<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/serval.pro">src</a>] (in <a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/serval/">serval</a>)</div>
+<div class="status"><status>usable, in flux</status></div>
+<div class="desc"><desc>
+          A lightweight logical-functional framework for rapidly
+          deploying web applications
+        </desc></div>
+</div>
+<div class="module">
+<div class="module_name">Module:<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/graph/dotwriter.pro">dotwriter</a> [<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/dotwriter.pro">src</a>] (in <a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/graph/">graph</a>)</div>
+<div class="status"><status>usable</status></div>
+<div class="desc"><desc>
+          Simple predicates for generating graphviz dot files from
+          compound terms
+        </desc></div>
+</div>
+<a name="Bio Ext Modules"></a><h3 class="section">Bio Ext Modules</h3>
+<p>
+        These modules live in the "ext/" directory, and are not
+        installed by default. To install, descend into this directory
+        and follow the instructions there.
+      </p>
+<p>
+        The idea is that this directory will contain modules that use
+        the SWI foreign language interface to call C libraries for
+        tasks that may be slow in Prolog. So far this just has one
+        proof of concept module
+      </p>
+<div class="module">
+<div class="module_name">Module:<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip//squid.pro">squid</a> [<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/squid.pro">src</a>] (in <a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip//"></a>)</div>
+<div class="status"><status>not complete, but still usable</status></div>
+<div class="desc"><desc>
+          Uses Sean Eddy's <a href="http://selab.wustl.edu/cgi-bin/selab.pl?mode=software#squid">SQUID</a> C library for parsing
+            sequence files (various formats), and providing an alternate
+            implementation of revcomp/2
+        </desc></div>
+</div>
+<div class="module">
+<div class="module_name">Module:<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip//intervaldb.pro">intervaldb</a> [<a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/intervaldb.pro">src</a>] (in <a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip//"></a>)</div>
+<div class="status"><status>not complete, but still usable</status></div>
+<div class="desc"><desc>
+          Nested Containment Lists (NCLs)
+        </desc></div>
+</div>
+</div>
+<div class="footer">
+<address><a href="mailto:cjm_AT_fruitfly_DOT_org">chris mungall</a></address>
+<div class="metadata"><p><lastmod>
+        
+      
+Last modified: Sat Jan  7 17:01:48 PST 2006
+
+    </lastmod></p></div>
+</div>
+</body>
+</html>

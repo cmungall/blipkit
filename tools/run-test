@@ -1,0 +1,24 @@
+#!/opt/local/bin/swipl -q -t halt -g main -s
+
+user:file_search_path(bio,'lib').
+
+:- use_module(bio(bioprolog_util)).
+:- use_module(bio(io)).
+:- use_module(bio(unittest)).
+
+main:-
+        getopt([atom([dir,d],Dir,'test_data'),
+                atoms(debug,Debugs),
+                bool(guitracer,Guitracer),         
+                atom([test,t],Test)],
+               Mods),
+        (Guitracer=1->guitracer;true),
+        (   Debugs=[]
+        ->  true
+        ;   set_prolog_flag(verbose,normal),
+            maplist(debug,Debugs)),
+        working_directory(_,Dir),
+        forall(member(Mod,Mods),
+               run_tests(bio(Mod),Test)),
+        test_summary.
+

@@ -1,0 +1,127 @@
+################################################################
+# blip exp package
+#  squid
+#  gsl
+# Makefile.in modified from: SWI-Prolog `table' package
+# Jan Wielemaker. jan@swi.psy.uva.nl
+# Copyright: Same as SWI-Prolog
+################################################################
+
+.SUFFIXES: .tex .dvi .doc .pl
+
+PL=@PL@
+PLBASE=@PLBASE@
+PLARCH=@PLARCH@
+PKGDOC=$(PLBASE)/doc/packages
+PCEHOME=../../xpce
+SO=@SO@
+
+CC=@CC@
+COFLAGS=@COFLAGS@
+CWFLAGS=@CWFLAGS@
+CMFLAGS=@CMFLAGS@
+CIFLAGS=-I.
+CFLAGS=$(COFLAGS) $(CWFLAGS) $(CMFLAGS) $(CIFLAGS) @DEFS@
+
+DOCTOTEX=$(PCEHOME)/bin/doc2tex
+PLTOTEX=$(PCEHOME)/bin/pl2tex
+LATEX=latex
+DOC=table
+TEX=$(DOC).tex
+DVI=$(DOC).dvi
+PDF=$(DOC).pdf
+RUNTEX=../../man/runtex
+
+LD=@LD@
+LDFLAGS=@LDSOFLAGS@
+
+INSTALL=@INSTALL@
+INSTALL_PROGRAM=@INSTALL_PROGRAM@
+INSTALL_DATA=@INSTALL_DATA@
+
+#LIBPL=		bioseq_util.pro gd.pro squid.pro
+LIBPL=		bioseq_util.pro
+TARGETS=	bioseq_util.@SO@ gsl4pl.@SO@ intervaldb4pl.@SO@
+#TARGETS=	bioseq_util.@SO@ gd4pl.@SO@ squid4pl.@SO@
+
+#OBJ=		bioseq_util.o gd4pl.o squid4pl.o sql4pl.o
+OBJ=		bioseq_util.o sql4pl.o intervaldb4pl.o
+
+all:		$(TARGETS)
+
+bioseq_util.@SO@: bioseq_util.o
+		$(LD) $(LDFLAGS) -o $@ bioseq_util.o
+
+# requires pygr. cd pygr;make;cp libnclist.a <here>
+intervaldb4pl.@SO@: intervaldb4pl.o	
+		$(LD) $(LDFLAGS) -o $@ intervaldb4pl.o libnclist.a
+
+gd4pl.@SO@: gd4pl.o
+		$(LD) $(LDFLAGS) -o $@ gd4pl.o -lgd
+
+squid4pl.@SO@: squid4pl.o
+		$(LD) $(LDFLAGS) -o $@ squid4pl.o -lsquid
+
+gsl4pl.@SO@: gsl4pl.o
+		$(LD) $(LDFLAGS) -o $@ gsl4pl.o -lgsl
+
+install:	$(TARGETS) $(LIBPL)
+		mkdir -p $(PLBASE)/lib/$(PLARCH)
+		$(INSTALL) -m 755 $(TARGETS) $(PLBASE)/lib/$(PLARCH)
+		$(INSTALL) -m 644 $(LIBPL) $(PLBASE)/library
+		$(PL) -f none -g make -t halt
+
+rpm-install:	install
+
+pdf-install::
+		mkdir -p $(PKGDOC)
+		$(INSTALL_DATA) $(DOC).pdf $(PKGDOC)
+
+html-install::
+		mkdir -p $(PKGDOC)
+		$(INSTALL_DATA) $(DOC).html $(PKGDOC)
+
+uninstall:
+		(cd $(PLBASE)/lib/$(PLARCH) && rm -f $(TARGETS))
+		(cd $(PLBASE)/library && rm -f $(LIBPL))
+		$(PL) -f none -g make -t halt
+
+################################################################
+# Documentation
+################################################################
+
+pdf:		$(PDF)
+
+$(DVI):		$(TEX)
+		$(RUNTEX) $(DOC)
+
+$(PDF):		$(TEX)
+		$(RUNTEX) --pdf $(DOC)
+
+html:		$(TEX)
+		latex2html $(DOC)
+		mv html/index.html clib.html
+		rm -r html
+
+$(TEX):		$(DOCTOTEX)
+
+.doc.tex:
+		$(DOCTOTEX) $*.doc > $*.tex
+.pl.tex:
+		$(PLTOTEX) $*.pl > $*.tex
+
+################################################################
+# Check
+################################################################
+
+check::
+
+################################################################
+# Clean
+################################################################
+
+clean:
+		rm -f $(OBJ) *~ *.o *% a.out core config.log
+
+distclean:	clean
+		rm -f $(TARGETS) config.cache config.h config.status Makefile

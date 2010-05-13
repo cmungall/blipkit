@@ -1,0 +1,258 @@
+<page>
+  <title>Blip: Tutorial</title>
+  <section id="Tutorial">
+    <p>
+      NOTE: this section is being replaced by the tutorial section in <url to='blipdoc'/>. 
+    </p>
+  </section>
+
+  <section id="The blip command-line tool">
+    <p>
+      Blip comes with a command line tool to allow simple
+      non-programmatic access to a limited
+      subset of the functionality of the full blip package. Run with
+      the "-h" option for full instructions. Here are some examples
+      <code>
+        <desc>
+          show the context of the class named "lymphocyte" in the
+          "cell" ontology resource. Requires setting up "cell" in your
+          bioconf.pro file
+        </desc>
+        <pre>
+unix> blip -r cell ontol-subset -n lymphocyte
+class(CL:0000542, lymphocyte)
+/-CL:0000000 cell
+ I-CL:0000003 cell in vivo
+  I-CL:0000004 cell by organism
+   I-CL:0000255 eukaryotic cell
+    I-CL:0000548 animal cell
+     I-CL:0000080 circulating cell
+      I-CL:0000081 blood cell
+       I-CL:0000542 lymphocyte
+  I-CL:0000012 cell by class
+   I-CL:0000144 cell by function
+    I-CL:0000080 circulating cell
+     I-CL:0000081 blood cell
+      I-CL:0000542 lymphocyte
+        </pre>
+      </code>
+    </p>
+  </section>
+
+  <section id="Queries using blip">
+    <p>
+      If you run blip without specifying a command you will be placed
+      in prolog query mode
+      <code>
+        <desc>
+        </desc>
+        <pre>
+unix> blip -r cell
+?- use_module(bio(ontol_db)).
+
+Yes
+?- class(ID,lymphocyte),subclassT(ID,ParentID),class(ParentID,ParentN).
+
+ID = 'CL:0000542'
+ParentID = 'CL:0000081'
+ParentN = 'blood cell' ;
+
+ID = 'CL:0000542'
+ParentID = 'CL:0000080'
+ParentN = 'circulating cell' ;
+
+ID = 'CL:0000542'
+ParentID = 'CL:0000144'
+ParentN = 'cell by function' ;
+
+ID = 'CL:0000542'
+ParentID = 'CL:0000548'
+ParentN = 'animal cell' ;
+
+ID = 'CL:0000542'
+ParentID = 'CL:0000012'
+ParentN = 'cell by class' ;
+
+ID = 'CL:0000542'
+ParentID = 'CL:0000003'
+ParentN = 'cell in vivo' ;
+
+ID = 'CL:0000542'
+ParentID = 'CL:0000000'
+ParentN = cell ;
+
+ID = 'CL:0000542'
+ParentID = 'CL:0000255'
+ParentN = 'eukaryotic cell' ;
+
+ID = 'CL:0000542'
+ParentID = 'CL:0000004'
+ParentN = 'cell by organism' ;
+
+ID = 'CL:0000542'
+ParentID = 'CL:0000003'
+ParentN = 'cell in vivo' ;
+
+ID = 'CL:0000542'
+ParentID = 'CL:0000000'
+ParentN = cell ;
+
+No
+?- 
+        </pre>
+      </code>
+
+    </p>
+  </section>
+
+  <section id="Writing applications using blip">
+
+    <subsection id="Prolog">
+      <p>
+        The first thing you should know about Blip is that it is
+        written in Prolog. You will need to download and install <url
+          to="SWI-Prolog"/> (Blip has been tested on both stable and
+          release versions). If you wish to use a different prolog
+          engine, you will have to make some code
+          modifications. Currently only SWI is supported. In future the
+          <pageref page="download"/> section will have precompiled
+            binaries, so you will not need to install SWI-Prolog yourself.
+      </p>
+
+      <p>
+        Prolog is a declarative logic programming language, and as
+        such is quite distinct from typical imperative languages such
+        as Java, Perl, C, Python and Ruby. If you expect to use Blip
+        to write application programs, don't expect to just pick up
+        Prolog by browsing the Blip code, take the time to find a
+        decent Prolog tutorial and learn it properly. Don't be put off
+        if you are an inexperienced programmer - you may actually be
+        at an advantage if your thought processes aren't already
+        locked into the mindset of a lesser language
+      </p>
+
+      <p>
+        Prolog can be seen as a database system and programming
+        language, but don't let that put you off if you don't like
+        SQL. If you are intended to use blip in order to do some data
+        mining or complex querying across different data sources, you
+        should be able to get going by following some <pageref
+          page="examples"/> without needing to underst a lot of the
+          subtleties of Prolog programming
+      </p>
+    </subsection>
+    
+    <subsection id="Bluffers Guide to Blip">
+    <p>
+      When in an interactive prolog session, you can issue
+      <i>queries</i> to the prolog in-memory database. The query
+      takes the form of a <i>goal</i>: a <i>predicate</i> followed
+      by zero or more <i>arguments</i>. Arguments can be
+      <i>ground</i> or <i>free</i> (variables). Variables are
+      indicated by the fact that their name has a <b>leading upper
+        case</b> character (this may seem a little odd at first but it
+      is in fact extremely useful).
+    </p>
+    </subsection>
+  </section>
+
+  <section id="Examples">
+    <p>The following examples are absolutely trivial: check back
+      later for some real examples!!!!!!
+    </p>
+
+    <subsection id="Starting prolog">
+      <p>
+        To start SWI-Prolog, type <pre>swipl</pre> at the command line
+        - you are now in an interactive prolog session. Hit ctrl-D to
+        exit back to the unix shell at any time
+      </p>
+    </subsection>
+    <subsection id="Translating a DNA sequence">
+      <p>
+        <code>
+          <desc>translate the sequence 'atg' using the default genetic
+            code</desc>
+          <pre>
+<use mod="bioseq"/>
+translate_dna(atg,AASeq).
+          </pre>
+        </code>
+        The value of <pre>AASeq</pre> will be unified with the
+        translation of atg, which is methionine.
+      </p>
+      <p>
+        <code>
+          <desc>translate the sequence 'atg' using the vertebrate
+            mitochondrial genetic code (NCBI Genetic code ID 2)</desc>
+          <pre>
+<use mod="bioseq"/>
+translate_dna('ATG',AASeq,2).
+          </pre>
+        </code>
+        The value of <pre>AASeq</pre> will be unified with the
+        translation of atg, which is also methionine. Note that if we
+        choose to represent the DNA sequence in uppercase, we have to
+        place quotes around it so that prolog does not think it is a
+        variable
+      </p>
+
+      <p>
+        <code>
+          <desc>translate the sequence 'aaa' using all 24 genetic codes</desc>
+          <pre>
+<use mod="bioseq"/>
+translate_dna('AAA',AASeq,Code),gencode_organism(Code,Org).
+          </pre>
+        </code>
+        This query has three free variables: the amino acid sequence and
+        the ID and name of the genetic code. To cycle though all 24
+        answers, press the <b>;</b> key until prolog says "yes".
+      </p>
+    </subsection>
+
+    <subsection id="Reverse complementing a DNA sequence">
+      <p>
+        <code>
+          <desc>Reverse complements a sequence</desc>
+          <pre>
+<use mod="bioseq"/>
+revcomp(aaaaaatgcgcc,Seq).
+          </pre>
+        </code>
+        
+      </p>
+    </subsection>
+
+    <subsection id="Finding the least common clade between two species">
+      <p>
+        <code>
+          <desc>Look up the IDs for two taxa by their names
+            (scientific), then find the minimal common ancestor in the
+            taxonomy tree</desc>
+          <pre>
+<use mod="taxon_db"/>
+<use mod="io"/>
+
+load_biofile(ncbitaxnode,'nodes.dmp').
+load_biofile(ncbitaxname,'names.dmp').
+
+taxname(ID1,'Drosophila melanogaster'),
+taxname(ID2,'Homo sapiens'),
+nearest_common_ancestor(ID1,ID2,PID),
+taxname(PID,N).
+          </pre>
+        </code>
+        The answer you should get is 'Coelomata'
+      </p>
+    </subsection>
+  </section>
+
+    <lastmod>
+    <!-- Created: Mon May  2 09:02:21 PDT 2005 -->
+    <!-- hhmts start -->
+Last modified: Fri May 13 16:01:25 PDT 2005
+<!-- hhmts end -->
+  </lastmod>
+
+</page>

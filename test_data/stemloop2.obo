@@ -1,0 +1,203 @@
+[Term]
+id: gnra_tetraloop
+formula: "gnra_tetraloop:- g(b1), nucleotide(b2), purine(b3), a(b4), followed_by(b1,b2), followed_by(b2,b3), followed_by(b3,b4), paired_with(b4,b1)" prolog []
+
+[Term]
+id: tetraloop
+formula: "tetraloop:- nucleotide(b1), nucleotide(b2), nucleotide(b3), nucleotide(b4), followed_by(b1,b2), followed_by(b2,b3), followed_by(b3,b4), paired_with(b4,b1)" prolog []
+
+[Term]
+id: base_pair
+formula: "base_pair:- nucleotide(b1), nucleotide(b2), paired_with(b1,b2)" prolog []
+
+[Term]
+id: nucleotide
+
+[Term]
+id: purine
+is_a: nucleotide
+
+[Term]
+id: pyramidine
+is_a: nucleotide
+
+[Term]
+id: a
+is_a: purine
+
+[Term]
+id: u
+is_a: purine
+
+[Term]
+id: c
+is_a: pyramidine
+
+[Term]
+id: g
+is_a: pyramidine
+
+[Term]
+id: paired_base
+intersection_of: nucleotide
+intersection_of: paired_with nucleotide
+
+[Term]
+id: unpaired_base
+intersection_of: nucleotide
+intersection_of: not_paired_with nucleotide
+
+[Term]
+id: paired_a
+intersection_of: a
+intersection_of: paired_with u
+
+[Term]
+id: paired_u
+intersection_of: u
+intersection_of: paired_with a
+
+[Term]
+id: paired_c
+intersection_of: c
+intersection_of: paired_with g
+
+[Term]
+id: paired_g
+intersection_of: g
+intersection_of: paired_with c
+
+[Typedef]
+id: loop_then_bond
+holds_over_chain: transitive_followed_by paired_with
+
+[Typedef]
+id: in_loop_with
+is_a: connected_to
+cyclic_over: loop_then_bond
+
+[Typedef]
+id: self_loop_then_bond
+reflexive_over: loop_then_bond
+
+[Typedef]
+id: followed_by
+is_a: connected_to
+is_cyclic: true
+
+[Typedef]
+id: has_part_followed_by
+holds_over_chain: has_part followed_by
+
+[Typedef]
+id: followed_by_over_parts
+is_a: connected_to
+holds_over_chain: has_part_followed_by part_of
+
+[Typedef]
+id: transitively_connected_to
+is_transitive: true
+is_cyclic: true
+
+[Typedef]
+id: connected_to
+is_a: transitively_connected_to
+is_symmetric: true
+
+[Typedef]
+id: transitive_followed_by
+transitive_form_of: followed_by
+
+[Typedef]
+id: connected_in_cycle_with
+is_symmetric: true
+!is_a: connected_to
+cyclic_over: connected_to
+
+[Typedef]
+id: paired_with
+is_a: connected_to
+is_symmetric: true
+is_cyclic: true
+
+[Typedef]
+id: not_paired_with
+complement_of: paired_with
+
+[Typedef]
+id: part_of
+is_transitive: true
+
+[Typedef]
+id: has_part
+is_transitive: true
+inverse_of: part_of
+
+[Instance]
+id: x0
+instance_of: g
+relationship: followed_by x1
+
+[Instance]
+id: x1
+instance_of: g
+relationship: followed_by x2
+comment: start of the GNRA tetraloop
+
+[Instance]
+id: x2
+instance_of: g
+relationship: followed_by x3
+
+[Instance]
+id: x3
+instance_of: a
+relationship: followed_by x4
+
+[Instance]
+id: x4
+instance_of: a
+relationship: followed_by x5
+relationship: paired_with x1
+
+[Instance]
+id: x5
+instance_of: g
+relationship: paired_with x0
+
+
+! http://www.mib.ac.uk/images/Staff/ramesh3.jpg
+[Instance]
+id: c1
+instance_of: c
+relationship: followed_by a2
+relationship: paired_with g6
+
+[Instance]
+id: a2
+instance_of: a
+relationship: followed_by g3
+
+[Instance]
+id: g3
+instance_of: g
+relationship: followed_by c4
+
+[Instance]
+id: c4
+instance_of: c
+relationship: followed_by g5
+
+[Instance]
+id: g5
+instance_of: g
+relationship: followed_by g6
+
+[Instance]
+id: g6
+instance_of: g
+
+
+
+
+

@@ -1,0 +1,1337 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Blip: Examples</title>
+<link rel="SHORTCUT ICON" href="favicon.ico">
+<link rel="stylesheet" href="pdoc/prologdoc.css" type="text/css">
+<link rel="stylesheet" href="css/blip.css" type="text/css">
+</head>
+<body>
+<div id="logo">Blip: Biomedical Logic Programming</div>
+<div class="navbar">
+<p class="title">Documentation</p>
+<p class="side"><a href="index.html">Home</a><br><a href="started.html">Getting started</a><br><a href="tutorial.html">Tutorial</a><br><a href="architecture.html">Architecture</a><br><a href="modules.html">Modules</a><br><a href="examples.html">Examples</a><br><a href="applications.html">Applications</a><br><a href="serval.html">Serval</a><br><a href="faq.html">FAQ</a><br><a href="http://berkeleybop.org/blipdoc">pldoc server</a><br></p>
+<p class="title">Download</p>
+<p class="side"><a href="svn.html">Subversion repository</a><br></p>
+<p class="title">Announcements</p>
+<p class="side"><a href="http://blipkit.wordpress.com">Blip Blog</a><br></p>
+<p class="title">Open-Bio</p>
+<p class="side"><a href="http://www.open-bio.org/">Open Bioinformatics Foundation</a><br><a href="http://www.biojava.org/">BioJava</a><br><a href="http://www.biopython.org/">Biopython</a><br><a href="http://www.bioperl.org/">Bioperl</a><br><a href="http://www.bioruby.org/">Bioruby</a><br><a href="http://obda.open-bio.org/">OBDA</a><br><a href="http://www.biodas.org/">DAS</a><br><a href="http://www.biomoby.org/">MOBY</a><br><a href="http://www.emboss.org/">EMBOSS</a><br></p>
+<p class="title">Related Sites</p>
+<p class="side"><a href="http://skam.sourceforge.net/">BioMake</a><br><a href="http://www.fruitfly.org/~cjm/obol/">Obol</a><br></p>
+</div>
+<div id="header_menu">[ &lt;<a href="#Examples">Examples</a>&gt; ]</div>
+<div class="content">
+<a name="Examples"></a><h3 class="section">Examples</h3>
+<p>This pages contains various examples auto-extracted from the blip <a href="modules.html">module documentation</a>, in no particular order</p>
+<h4 class="subsection">example1_bioseq</h4>
+<p>Extracted from module : <a href="pdoc/bioseq.html">bioseq</a></p>
+<div class="code"><pre>
+<tt>
+
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>bioseq<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+
+  <span style="font-style: italic"><span style="color: #9A1900">% demo: reverse complement a DNA sequence</span></span>
+  <span style="font-weight: bold"><span style="color: #000000">demo</span></span><span style="color: #990000">:</span><span style="color: #990000">-</span>
+    <span style="font-weight: bold"><span style="color: #000000">revcomp</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'TCAG'</span><span style="color: #990000">,</span><span style="color: #009900">Seq1</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #0000FF">format</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'revcomp(TCAG) = ~w~n'</span><span style="color: #990000">,</span><span style="color: #990000">[</span><span style="color: #009900">Seq1</span><span style="color: #990000">]</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">translate_dna</span></span><span style="color: #990000">(</span>atg<span style="color: #990000">,</span><span style="color: #009900">Seq2</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #0000FF">format</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'translate(ATG) = ~w~n'</span><span style="color: #990000">,</span><span style="color: #990000">[</span><span style="color: #009900">Seq2</span><span style="color: #990000">]</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  </tt>
+</pre></div>
+<p>Output:</p>
+<div class="output"><pre>
+revcomp(TCAG) = CTGA
+translate(ATG) = M
+
+</pre></div>
+<h4 class="subsection">example2_biotable</h4>
+<p>Extracted from module : <a href="pdoc/biotable.html">biotable</a></p>
+<div class="code"><pre>
+<tt>
+
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>biotable<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">library</span></span><span style="color: #990000">(</span>table<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  
+  <span style="font-weight: bold"><span style="color: #000000">demo</span></span><span style="color: #990000">:</span><span style="color: #990000">-</span>
+    <span style="font-style: italic"><span style="color: #9A1900">% assumes we have run blast with -m8 option</span></span>
+    <span style="font-weight: bold"><span style="color: #000000">connect_biotable</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'hsinsulin.blastcl3.blastn.m8'</span><span style="color: #990000">,</span>blast_tbl<span style="color: #990000">,</span><span style="color: #009900">Tbh</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+  
+    <span style="font-style: italic"><span style="color: #9A1900">% select all hit sequence IDs satisfying expect-value constraint</span></span>
+    <span style="font-weight: bold"><span style="color: #000000">setof</span></span><span style="color: #990000">(</span><span style="color: #009900">Name</span><span style="color: #990000">,</span>
+          <span style="color: #009900">Pos</span><span style="color: #990000">^</span><span style="color: #009900">E</span><span style="color: #990000">^</span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">in_table</span></span><span style="color: #990000">(</span><span style="color: #009900">Tbh</span><span style="color: #990000">,</span><span style="color: #990000">[</span><span style="font-weight: bold"><span style="color: #000000">hit_name</span></span><span style="color: #990000">(</span><span style="color: #009900">Name</span><span style="color: #990000">)</span><span style="color: #990000">,</span><span style="font-weight: bold"><span style="color: #000000">evalue</span></span><span style="color: #990000">(</span><span style="color: #009900">E</span><span style="color: #990000">)</span><span style="color: #990000">]</span><span style="color: #990000">,</span><span style="color: #009900">Pos</span><span style="color: #990000">)</span><span style="color: #990000">,</span><span style="color: #009900">E</span><span style="color: #990000">&lt;</span><span style="color: #993399">1</span>e<span style="color: #990000">-</span><span style="color: #993399">40</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+          <span style="color: #009900">IDs</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+
+    <span style="font-style: italic"><span style="color: #9A1900">% show all IDs</span></span>
+    <span style="font-weight: bold"><span style="color: #000000">writeln</span></span><span style="color: #990000">(</span>hit_ids <span style="color: #990000">=</span> <span style="color: #009900">IDs</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  </tt>
+</pre></div>
+<p>Output:</p>
+<div class="output"><pre>
+hit_ids=[emb|AJ009655.1|HSA9655, emb|V00565.1|HSINSU, emb|X61089.1|PTPPINS, gb|AC130303.8|, gb|AC132217.15|, gb|AY137497.1|AY137496S2, gb|AY137500.1|AY137498S3, gb|AY137503.1|AY137501S3, gb|AY138590.1|AY138589S2, gb|J00265.1|HUMINS01, gb|J02989.1|ATRINS, gb|L15440.1|HUMINSTHIG, gb|M10039.1|HUMINSPR]
+
+</pre></div>
+<h4 class="subsection">example3_dbmeta</h4>
+<p>Extracted from module : <a href="pdoc/dbmeta.html">dbmeta</a></p>
+<div class="code"><pre>
+<tt>
+
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>io<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>dbmeta<span style="color: #990000">)</span><span style="color: #990000">,</span><span style="color: #990000">[</span>write_db_summary<span style="color: #990000">/</span><span style="color: #993399">0</span><span style="color: #990000">]</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+
+  <span style="font-weight: bold"><span style="color: #000000">demo</span></span><span style="color: #990000">:</span><span style="color: #990000">-</span>
+    <span style="font-weight: bold"><span style="color: #000000">load_bioresource</span></span><span style="color: #990000">(</span>go<span style="color: #990000">)</span><span style="color: #990000">,</span>
+    write_db_summary<span style="color: #990000">.</span>
+  </tt>
+</pre></div>
+<p>Output:</p>
+<div class="output"><pre>
+count(ontology/3, 0).
+count(class/2, 18988).
+count(subclass/2, 24505).
+count(restriction/3, 3569).
+count(belongs/2, 18989).
+count(synonym/3, 16843).
+count(class_xref/2, 12207).
+count(def_xref/2, 0).
+count(property/2, 1).
+count(property_domain/2, 0).
+count(property_range/2, 0).
+count(slot/2, 0).
+count(lexical_category/2, 0).
+count(is_anonymous/1, 0).
+count(inverse_of/2, 0).
+count(is_transitive/1, 1).
+count(is_symmetric/1, 0).
+count(is_reflexive/1, 0).
+count(is_anti_symmetric/1, 0).
+count(obsolete/3, 991).
+count(obsolete_class/2, 991).
+count(idspace/2, 0).
+count(inst_of/2, 0).
+count(inst_rel/3, 0).
+count(inst_sv/3, 0).
+count(inst_sv/4, 0).
+count(inst/2, 0).
+count(genus/2, 0).
+count(class_comment/2, 683).
+count(def/2, 18026).
+count(differentium/3, 0).
+
+</pre></div>
+<h4 class="subsection">example4_dbmeta</h4>
+<p>Extracted from module : <a href="pdoc/dbmeta.html">dbmeta</a></p>
+<div class="code"><pre>
+<tt>
+
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>taxon_db<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>dbmeta<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+
+  <span style="font-weight: bold"><span style="color: #000000">demo</span></span><span style="color: #990000">:</span><span style="color: #990000">-</span>
+    <span style="font-weight: bold"><span style="color: #0000FF">format</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'The taxon module defines the following data predicates~n'</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">forall</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">datapred</span></span><span style="color: #990000">(</span>taxon_db<span style="color: #990000">,</span><span style="color: #009900">P</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+           <span style="font-weight: bold"><span style="color: #0000FF">format</span></span><span style="color: #990000">(</span><span style="color: #FF0000">' Data predicate: ~w~n'</span><span style="color: #990000">,</span><span style="color: #990000">[</span><span style="color: #009900">P</span><span style="color: #990000">]</span><span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  
+  </tt>
+</pre></div>
+<p>Output:</p>
+<div class="output"><pre>
+The taxon module defines the following data predicates
+ Data predicate: taxname/5
+ Data predicate: taxnode/13
+
+</pre></div>
+<h4 class="subsection">example5_fasta_db</h4>
+<p>Extracted from module : <a href="pdoc/fasta_db.html">fasta_db</a></p>
+<div class="code"><pre>
+<tt>
+
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>fasta_db<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>io<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+
+  <span style="font-weight: bold"><span style="color: #000000">demo</span></span><span style="color: #990000">:</span><span style="color: #990000">-</span>
+    <span style="font-weight: bold"><span style="color: #000000">load_biofile</span></span><span style="color: #990000">(</span>fasta<span style="color: #990000">,</span><span style="color: #FF0000">'utr.fasta'</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">forall</span></span><span style="color: #990000">(</span> <span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">fastaseq</span></span><span style="color: #990000">(</span><span style="color: #009900">ID</span><span style="color: #990000">,</span><span style="color: #009900">_</span><span style="color: #990000">,</span><span style="color: #009900">Seq</span><span style="color: #990000">)</span><span style="color: #990000">,</span><span style="font-weight: bold"><span style="color: #000000">sub_atom</span></span><span style="color: #990000">(</span><span style="color: #009900">Seq</span><span style="color: #990000">,</span><span style="color: #009900">Pos</span><span style="color: #990000">,</span><span style="color: #009900">_</span><span style="color: #990000">,</span><span style="color: #009900">_</span><span style="color: #990000">,</span><span style="color: #FF0000">'CGCATATC'</span><span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+            <span style="font-weight: bold"><span style="color: #0000FF">format</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'Subseq in ~w at ~w~n'</span><span style="color: #990000">,</span><span style="color: #990000">[</span><span style="color: #009900">ID</span><span style="color: #990000">,</span><span style="color: #009900">Pos</span><span style="color: #990000">]</span><span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  </tt>
+</pre></div>
+<p>Output:</p>
+<div class="output"><pre>
+Subseq in CG2671-RB_5_UTR at 42
+Subseq in CG2671-RD_5_UTR at 42
+Subseq in CG2671-RE_5_UTR at 42
+Subseq in CG2671-RC_5_UTR at 58
+Subseq in CG2671-RA_5_UTR at 58
+Subseq in CG11924-RA_5_UTR at 225
+Subseq in CG11924-RB_5_UTR at 225
+Subseq in CG11924-RC_5_UTR at 249
+Subseq in CG11924-RD_5_UTR at 225
+Subseq in CG7239-RA_5_UTR at 80
+Subseq in CG18783-RA_5_UTR at 687
+Subseq in CG9261-RC_5_UTR at 573
+Subseq in CG4567-RA_5_UTR at 12
+Subseq in CG5686-RA_5_UTR at 130
+Subseq in CG6495-RA_5_UTR at 94
+Subseq in CG9339-RG_5_UTR at 539
+Subseq in CG9339-RA_5_UTR at 505
+Subseq in CG9339-RB_5_UTR at 759
+Subseq in CG9339-RE_5_UTR at 759
+Subseq in CG8213-RA_5_UTR at 320
+Subseq in CG10149-RB_5_UTR at 30
+Subseq in CG8183-RB_5_UTR at 257
+Subseq in CG8183-RA_5_UTR at 257
+Subseq in CG30463-RA_5_UTR at 662
+Subseq in CG30463-RB_5_UTR at 604
+Subseq in CG3800-RA_5_UTR at 84
+Subseq in CG1212-RA_5_UTR at 410
+Subseq in CG13893-RA_5_UTR at 445
+Subseq in CG7971-RA_5_UTR at 18
+Subseq in CG7971-RC_5_UTR at 18
+Subseq in CG11594-RA_5_UTR at 723
+Subseq in CG11594-RB_5_UTR at 723
+Subseq in CG7018-RA_5_UTR at 135
+Subseq in CG32048-RA_5_UTR at 152
+Subseq in CG33048-RB_5_UTR at 1475
+Subseq in CG1084-RA_5_UTR at 14
+Subseq in CG31522-RD_5_UTR at 74
+Subseq in CG31522-RA_5_UTR at 59
+Subseq in CG5167-RA_5_UTR at 171
+Subseq in CG7129-RA_5_UTR at 114
+Subseq in CG5835-RA_5_UTR at 194
+Subseq in CG6343-RB_5_UTR at 91
+Subseq in CG5441-RA_5_UTR at 210
+Subseq in CG5588-RB_5_UTR at 187
+Subseq in CG12773-RA_5_UTR at 6
+Subseq in CG7803-RA_5_UTR at 189
+Subseq in CG32498-RB_5_UTR at 1283
+Subseq in CG6824-RA_5_UTR at 519
+Subseq in CG4165-RA_5_UTR at 195
+Subseq in CG33080-RB_5_UTR at 34
+Subseq in CG11284-RA_5_UTR at 495
+Subseq in CG12106-RA_5_UTR at 12
+Subseq in CG1664-RA_5_UTR at 459
+Subseq in CG7122-RB_5_UTR at 641
+Subseq in CG7122-RA_5_UTR at 726
+Subseq in CG15064-RA_5_UTR at 28
+Subseq in CG14228-RA_5_UTR at 12
+Subseq in CG12679-RA_5_UTR at 63
+Subseq in CG1829-RA_5_UTR at 571
+
+</pre></div>
+<h4 class="subsection">example6_goa_db</h4>
+<p>Extracted from module : <a href="pdoc/goa_db.html">goa_db</a></p>
+<div class="code"><pre>
+<tt>
+
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>io<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>goa_db<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>ontol_db<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+
+  <span style="font-weight: bold"><span style="color: #000000">demo</span></span><span style="color: #990000">:</span><span style="color: #990000">-</span>
+    <span style="font-weight: bold"><span style="color: #000000">load_biofile</span></span><span style="color: #990000">(</span>go_assoc<span style="color: #990000">,</span><span style="color: #FF0000">'gene_assoc.fb.tbl'</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">load_bioresource</span></span><span style="color: #990000">(</span>go<span style="color: #990000">)</span><span style="color: #990000">,</span>         <span style="font-style: italic"><span style="color: #9A1900">% loads class/2, subclass/2 etc</span></span>
+    <span style="color: #009900">QN</span><span style="color: #990000">=</span>membrane<span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #0000FF">class</span></span><span style="color: #990000">(</span><span style="color: #009900">QueryClassID</span><span style="color: #990000">,</span><span style="color: #009900">QN</span><span style="color: #990000">)</span><span style="color: #990000">,</span>        <span style="font-style: italic"><span style="color: #9A1900">% fetch GO ID</span></span>
+    <span style="font-weight: bold"><span style="color: #0000FF">format</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'Querying "~w"~n'</span><span style="color: #990000">,</span><span style="color: #990000">[</span><span style="color: #009900">QN</span><span style="color: #990000">]</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">forall</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">associationRT</span></span><span style="color: #990000">(</span><span style="color: #009900">AssocID</span><span style="color: #990000">,</span><span style="color: #009900">ClassID</span><span style="color: #990000">,</span><span style="color: #009900">FeatureID</span><span style="color: #990000">,</span><span style="color: #009900">Qual</span><span style="color: #990000">,</span><span style="color: #009900">QueryClassID</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+           <span style="color: #990000">(</span>   <span style="font-weight: bold"><span style="color: #0000FF">class</span></span><span style="color: #990000">(</span><span style="color: #009900">ClassID</span><span style="color: #990000">,</span><span style="color: #009900">ClassName</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+               <span style="font-weight: bold"><span style="color: #000000">feature</span></span><span style="color: #990000">(</span><span style="color: #009900">ID</span><span style="color: #990000">,</span><span style="color: #009900">GeneName</span><span style="color: #990000">,</span><span style="color: #009900">_</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+               <span style="font-weight: bold"><span style="color: #0000FF">format</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'  Gene: ~w [assigned directly to ~w ~w]~n'</span><span style="color: #990000">,</span>
+                      <span style="color: #990000">[</span><span style="color: #009900">GeneName</span><span style="color: #990000">,</span><span style="color: #009900">ClassID</span><span style="color: #990000">,</span><span style="color: #009900">ClassName</span><span style="color: #990000">]</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+               <span style="font-weight: bold"><span style="color: #000000">forall</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">evidence</span></span><span style="color: #990000">(</span><span style="color: #009900">AssocID</span><span style="color: #990000">,</span><span style="color: #009900">EvID</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+                      <span style="font-weight: bold"><span style="color: #0000FF">format</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'    (evidence ~w)~n'</span><span style="color: #990000">,</span><span style="color: #990000">[</span><span style="color: #009900">EvID</span><span style="color: #990000">]</span><span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  </tt>
+</pre></div>
+<p>Output:</p>
+<div class="output"><pre>
+Querying "membrane"
+
+</pre></div>
+<h4 class="subsection">example7_google</h4>
+<p>Extracted from module : <a href="pdoc/google.html">google</a></p>
+<div class="code"><pre>
+<tt>
+
+  <span style="font-style: italic"><span style="color: #9A1900">% uncomment the following line and put your own key here:</span></span>
+  <span style="font-style: italic"><span style="color: #9A1900">% user:google_apikey('sdkhjaskldj//aljdalsdsjsdk').</span></span>
+
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>google<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+
+  <span style="font-weight: bold"><span style="color: #000000">demo</span></span><span style="color: #990000">:</span><span style="color: #990000">-</span>
+      <span style="font-weight: bold"><span style="color: #000000">google_search</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'google blip'</span><span style="color: #990000">,</span><span style="color: #009900">Items</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+      <span style="font-weight: bold"><span style="color: #000000">forall</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">member</span></span><span style="color: #990000">(</span><span style="color: #009900">Item</span><span style="color: #990000">,</span><span style="color: #009900">Items</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+             <span style="font-weight: bold"><span style="color: #000000">show_result_item</span></span><span style="color: #990000">(</span><span style="color: #009900">Item</span><span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+
+  <span style="font-weight: bold"><span style="color: #000000">show_result_item</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">item</span></span><span style="color: #990000">(</span><span style="color: #009900">URL</span><span style="color: #990000">,</span><span style="color: #009900">Tags</span><span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">:</span><span style="color: #990000">-</span>
+             <span style="font-weight: bold"><span style="color: #0000FF">format</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'URL: ~w~n'</span><span style="color: #990000">,</span><span style="color: #990000">[</span><span style="color: #009900">URL</span><span style="color: #990000">]</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+             <span style="font-weight: bold"><span style="color: #000000">member</span></span><span style="color: #990000">(</span>snippet<span style="color: #990000">=</span><span style="color: #009900">Snippet</span><span style="color: #990000">,</span><span style="color: #009900">Tags</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+             <span style="font-weight: bold"><span style="color: #0000FF">format</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'  snippet: ~w~n~n'</span><span style="color: #990000">,</span><span style="color: #990000">[</span><span style="color: #009900">Snippet</span><span style="color: #990000">]</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  </tt>
+</pre></div>
+<p>Output:</p>
+<div class="output"><pre>
+parsing(/tmp/pl_googleoutxml_7560_1)
+[element(SOAP-ENV:Envelope, [xmlns:SOAP-ENV=http://schemas.xmlsoap.org/soap/envelope/, xmlns:xsi=http://www.w3.org/1999/XMLSchema-instance, xmlns:xsd=http://www.w3.org/1999/XMLSchema], [element(SOAP-ENV:Body, [], [element(ns1:doGoogleSearchResponse, [xmlns:ns1=urn:GoogleSearch, SOAP-ENV:encodingStyle=http://schemas.xmlsoap.org/soap/encoding/], [element(return, [xsi:type=ns1:GoogleSearchResult], [element(directoryCategories, [xmlns:ns2=http://schemas.xmlsoap.org/soap/encoding/, xsi:type=ns2:Array, ns2:arrayType=ns1:DirectoryCategory[0]], []), element(documentFiltering, [xsi:type=xsd:boolean], [true]), element(endIndex, [xsi:type=xsd:int], [10]), element(estimateIsExact, [xsi:type=xsd:boolean], [false]), element(estimatedTotalResultsCount, [xsi:type=xsd:int], [27300]), element(resultElements, [xmlns:ns3=http://schemas.xmlsoap.org/soap/encoding/, xsi:type=ns3:Array, ns3:arrayType=ns1:ResultElement[10]], [element(item, [xsi:type=ns1:ResultElement], [element(URL, [xsi:type=xsd:string], [http://searchenginewatch.com/sereport/article.php/2164611]), element(cachedSize, [xsi:type=xsd:string], [50k]), element(directoryCategory, [xsi:type=ns1:DirectoryCategory], [element(fullViewableName, [xsi:type=xsd:string], []), element(specialEncoding, [xsi:type=xsd:string], [])]), element(directoryTitle, [xsi:type=xsd:string], []), element(hostName, [xsi:type=xsd:string], []), element(relatedInformationPresent, [xsi:type=xsd:boolean], [true]), element(snippet, [xsi:type=xsd:string], [This &lt;b&gt;Google&lt;/b&gt; &lt;b&gt;blip&lt;/b&gt; wouldn&amp;#39;t make Liv Tyler very happy, though it&amp;#39;s still hard to&lt;br&gt; see which &lt;b&gt;...&lt;/b&gt; The classic &lt;b&gt;Google&lt;/b&gt; &lt;b&gt;blip&lt;/b&gt;, that put Bill Gates on par with Satan. &lt;b&gt;...&lt;/b&gt;]), element(summary, [xsi:type=xsd:string], []), element(title, [xsi:type=xsd:string], [&lt;b&gt;Google&lt;/b&gt; Bombs Aren&amp;#39;t So Scary])]), element(item, [xsi:type=ns1:ResultElement], [element(URL, [xsi:type=xsd:string], [http://google.blogspace.com/archives/000620.html]), element(cachedSize, [xsi:type=xsd:string], [3k]), element(directoryCategory, [xsi:type=ns1:DirectoryCategory], [element(fullViewableName, [xsi:type=xsd:string], []), element(specialEncoding, [xsi:type=xsd:string], [])]), element(directoryTitle, [xsi:type=xsd:string], []), element(hostName, [xsi:type=xsd:string], []), element(relatedInformationPresent, [xsi:type=xsd:boolean], [true]), element(snippet, [xsi:type=xsd:string], [September 30, 2002: A &lt;b&gt;Blip&lt;/b&gt; on the Radar. Reuters: &amp;#39;&lt;b&gt;Google&lt;/b&gt; blips&amp;#39;: Search not&lt;br&gt; always right covers the fact that Microsoft comes up first on a search for &amp;quot;go &lt;b&gt;...&lt;/b&gt;]), element(summary, [xsi:type=xsd:string], []), element(title, [xsi:type=xsd:string], [A &lt;b&gt;Blip&lt;/b&gt; on the Radar (&lt;b&gt;Google&lt;/b&gt; Weblog)])]), element(item, [xsi:type=ns1:ResultElement], [element(URL, [xsi:type=xsd:string], [http://www.webmasterworld.com/forum89/6572.htm]), element(cachedSize, [xsi:type=xsd:string], []), element(directoryCategory, [xsi:type=ns1:DirectoryCategory], [element(fullViewableName, [xsi:type=xsd:string], []), element(specialEncoding, [xsi:type=xsd:string], [])]), element(directoryTitle, [xsi:type=xsd:string], []), element(hostName, [xsi:type=xsd:string], []), element(relatedInformationPresent, [xsi:type=xsd:boolean], [true]), element(snippet, [xsi:type=xsd:string], [Have your earnings returned to &amp;quot;normal&amp;quot; googles 05/05/05 &lt;b&gt;blip&lt;/b&gt;.]), element(summary, [xsi:type=xsd:string], []), element(title, [xsi:type=xsd:string], [&lt;b&gt;Google&amp;#39;s&lt;/b&gt; 05/05/05 &lt;b&gt;Blip&lt;/b&gt;])]), element(item, [xsi:type=ns1:ResultElement], [element(URL, [xsi:type=xsd:string], [http://www.webmasterworld.com/forum86/480.htm]), element(cachedSize, [xsi:type=xsd:string], []), element(directoryCategory, [xsi:type=ns1:DirectoryCategory], [element(fullViewableName, [xsi:type=xsd:string], []), element(specialEncoding, [xsi:type=xsd:string], [])]), element(directoryTitle, [xsi:type=xsd:string], []), element(hostName, [xsi:type=xsd:string], []), element(relatedInformationPresent, [xsi:type=xsd:boolean], [true]), element(snippet, [xsi:type=xsd:string], [A significant &lt;b&gt;blip&lt;/b&gt; on the &lt;b&gt;Google&lt;/b&gt; radar screen I&amp;#39;m sure. Let&amp;#39;s see if other nations&lt;br&gt; follow suit... antonaf Junior Member view member profile &lt;b&gt;...&lt;/b&gt;]), element(summary, [xsi:type=xsd:string], []), element(title, [xsi:type=xsd:string], [&lt;b&gt;Google&lt;/b&gt; Loses French Appeal])]), element(item, [xsi:type=ns1:ResultElement], [element(URL, [xsi:type=xsd:string], [http://chrisray.typepad.com/blog/2005/05/googles_dns_bli.html]), element(cachedSize, [xsi:type=xsd:string], [28k]), element(directoryCategory, [xsi:type=ns1:DirectoryCategory], [element(fullViewableName, [xsi:type=xsd:string], []), element(specialEncoding, [xsi:type=xsd:string], [])]), element(directoryTitle, [xsi:type=xsd:string], []), element(hostName, [xsi:type=xsd:string], []), element(relatedInformationPresent, [xsi:type=xsd:boolean], [true]), element(snippet, [xsi:type=xsd:string], [&lt;b&gt;Google&amp;#39;s&lt;/b&gt; DNS &lt;b&gt;Blip&lt;/b&gt;. Hacked? &lt;b&gt;Google&lt;/b&gt; says not and blame their 15 minute outage Saturday&lt;br&gt; &lt;b&gt;...&lt;/b&gt; Listed below are links to weblogs that reference &lt;b&gt;Google&amp;#39;s&lt;/b&gt; DNS &lt;b&gt;Blip&lt;/b&gt;: &lt;b&gt;...&lt;/b&gt;]), element(summary, [xsi:type=xsd:string], []), element(title, [xsi:type=xsd:string], [Chris Ray | Interactively Speaking: &lt;b&gt;Google&amp;#39;s&lt;/b&gt; DNS &lt;b&gt;Blip&lt;/b&gt;])]), element(item, [xsi:type=ns1:ResultElement], [element(URL, [xsi:type=xsd:string], [http://www.threadwatch.org/node/3632]), element(cachedSize, [xsi:type=xsd:string], [32k]), element(directoryCategory, [xsi:type=ns1:DirectoryCategory], [element(fullViewableName, [xsi:type=xsd:string], []), element(specialEncoding, [xsi:type=xsd:string], [])]), element(directoryTitle, [xsi:type=xsd:string], []), element(hostName, [xsi:type=xsd:string], []), element(relatedInformationPresent, [xsi:type=xsd:boolean], [true]), element(snippet, [xsi:type=xsd:string], [Text Link Advertising Moves Forward, Without a &lt;b&gt;Blip&lt;/b&gt;! &lt;b&gt;...&lt;/b&gt; We also know that &lt;b&gt;Google&lt;/b&gt;&lt;br&gt; hates link spam (comment spam, guestbook spam, trackback spam, link farms, &lt;b&gt;...&lt;/b&gt;]), element(summary, [xsi:type=xsd:string], []), element(title, [xsi:type=xsd:string], [Text Link Advertising Moves Forward, Without a &lt;b&gt;Blip&lt;/b&gt;! | Threadwatch.org])]), element(item, [xsi:type=ns1:ResultElement], [element(URL, [xsi:type=xsd:string], [http://www.searchengineworld.com/forum912/1-35-10.htm]), element(cachedSize, [xsi:type=xsd:string], []), element(directoryCategory, [xsi:type=ns1:DirectoryCategory], [element(fullViewableName, [xsi:type=xsd:string], []), element(specialEncoding, [xsi:type=xsd:string], [])]), element(directoryTitle, [xsi:type=xsd:string], []), element(hostName, [xsi:type=xsd:string], []), element(relatedInformationPresent, [xsi:type=xsd:boolean], [true]), element(snippet, [xsi:type=xsd:string], [&lt;b&gt;Google&lt;/b&gt; registered an initial 3 day &lt;b&gt;blip&lt;/b&gt; up in referrals then virtually disappeared&lt;br&gt; from SE referrals for the next 16 Days. In September however, &lt;b&gt;Google&lt;/b&gt; came &lt;b&gt;...&lt;/b&gt;]), element(summary, [xsi:type=xsd:string], []), element(title, [xsi:type=xsd:string], [&lt;b&gt;Google&lt;/b&gt; Update Jagger Continues])]), element(item, [xsi:type=ns1:ResultElement], [element(URL, [xsi:type=xsd:string], [http://www.theage.com.au/articles/2003/01/03/1041196779397.html]), element(cachedSize, [xsi:type=xsd:string], [28k]), element(directoryCategory, [xsi:type=ns1:DirectoryCategory], [element(fullViewableName, [xsi:type=xsd:string], []), element(specialEncoding, [xsi:type=xsd:string], [])]), element(directoryTitle, [xsi:type=xsd:string], []), element(hostName, [xsi:type=xsd:string], []), element(relatedInformationPresent, [xsi:type=xsd:boolean], [true]), element(snippet, [xsi:type=xsd:string], [Typed anything into the &lt;b&gt;Google&lt;/b&gt; search engine lately? Your query and millions like&lt;br&gt; it are being logged &lt;b&gt;...&lt;/b&gt; And that last little &lt;b&gt;blip&lt;/b&gt;? &amp;quot;Hawaii,&amp;quot; Patel says. &lt;b&gt;...&lt;/b&gt;]), element(summary, [xsi:type=xsd:string], []), element(title, [xsi:type=xsd:string], [Ga-ga over &lt;b&gt;Google&lt;/b&gt; - theage.com.au])]), element(item, [xsi:type=ns1:ResultElement], [element(URL, [xsi:type=xsd:string], [http://www.highrankings.com/faq-google-hate.htm]), element(cachedSize, [xsi:type=xsd:string], [11k]), element(directoryCategory, [xsi:type=ns1:DirectoryCategory], [element(fullViewableName, [xsi:type=xsd:string], []), element(specialEncoding, [xsi:type=xsd:string], [])]), element(directoryTitle, [xsi:type=xsd:string], []), element(hostName, [xsi:type=xsd:string], []), element(relatedInformationPresent, [xsi:type=xsd:boolean], [true]), element(snippet, [xsi:type=xsd:string], [While your various keyword phrases are on an emotional roller coaster at &lt;b&gt;Google&lt;/b&gt;,&lt;br&gt; you won&amp;#39;t even notice a &lt;b&gt;blip&lt;/b&gt; in your traffic or sales if you&amp;#39;ve got all &lt;b&gt;...&lt;/b&gt;]), element(summary, [xsi:type=xsd:string], []), element(title, [xsi:type=xsd:string], [Why does &lt;b&gt;Google&lt;/b&gt; hate my site? SEO FAQ - High Rankings])]), element(item, [xsi:type=ns1:ResultElement], [element(URL, [xsi:type=xsd:string], [http://groups.google.com/group/comp.graphics.apps.photoshop]), element(cachedSize, [xsi:type=xsd:string], [42k]), element(directoryCategory, [xsi:type=ns1:DirectoryCategory], [element(fullViewableName, [xsi:type=xsd:string], []), element(specialEncoding, [xsi:type=xsd:string], [])]), element(directoryTitle, [xsi:type=xsd:string], []), element(hostName, [xsi:type=xsd:string], []), element(relatedInformationPresent, [xsi:type=xsd:boolean], [true]), element(snippet, [xsi:type=xsd:string], [Go to &lt;b&gt;Google&lt;/b&gt; Groups Home &lt;b&gt;...&lt;/b&gt; Thanks, Colonel &lt;b&gt;Blip&lt;/b&gt;. E-mail: colonelblip.no.spam.ple...@big&lt;br&gt; foot.com ----== Posted via Newsfeeds. &lt;b&gt;...&lt;/b&gt;]), element(summary, [xsi:type=xsd:string], []), element(title, [xsi:type=xsd:string], [&lt;b&gt;Google&lt;/b&gt; Groups : comp.graphics.apps.photoshop])])]), element(searchComments, [xsi:type=xsd:string], []), element(searchQuery, [xsi:type=xsd:string], [google blip]), element(searchTime, [xsi:type=xsd:double], [0.291973]), element(searchTips, [xsi:type=xsd:string], []), element(startIndex, [xsi:type=xsd:int], [1])])])])])]
+URL: http://searchenginewatch.com/sereport/article.php/2164611
+  snippet: This &lt;b&gt;Google&lt;/b&gt; &lt;b&gt;blip&lt;/b&gt; wouldn&amp;#39;t make Liv Tyler very happy, though it&amp;#39;s still hard to&lt;br&gt; see which &lt;b&gt;...&lt;/b&gt; The classic &lt;b&gt;Google&lt;/b&gt; &lt;b&gt;blip&lt;/b&gt;, that put Bill Gates on par with Satan. &lt;b&gt;...&lt;/b&gt;
+
+URL: http://google.blogspace.com/archives/000620.html
+  snippet: September 30, 2002: A &lt;b&gt;Blip&lt;/b&gt; on the Radar. Reuters: &amp;#39;&lt;b&gt;Google&lt;/b&gt; blips&amp;#39;: Search not&lt;br&gt; always right covers the fact that Microsoft comes up first on a search for &amp;quot;go &lt;b&gt;...&lt;/b&gt;
+
+URL: http://www.webmasterworld.com/forum89/6572.htm
+  snippet: Have your earnings returned to &amp;quot;normal&amp;quot; googles 05/05/05 &lt;b&gt;blip&lt;/b&gt;.
+
+URL: http://www.webmasterworld.com/forum86/480.htm
+  snippet: A significant &lt;b&gt;blip&lt;/b&gt; on the &lt;b&gt;Google&lt;/b&gt; radar screen I&amp;#39;m sure. Let&amp;#39;s see if other nations&lt;br&gt; follow suit... antonaf Junior Member view member profile &lt;b&gt;...&lt;/b&gt;
+
+URL: http://chrisray.typepad.com/blog/2005/05/googles_dns_bli.html
+  snippet: &lt;b&gt;Google&amp;#39;s&lt;/b&gt; DNS &lt;b&gt;Blip&lt;/b&gt;. Hacked? &lt;b&gt;Google&lt;/b&gt; says not and blame their 15 minute outage Saturday&lt;br&gt; &lt;b&gt;...&lt;/b&gt; Listed below are links to weblogs that reference &lt;b&gt;Google&amp;#39;s&lt;/b&gt; DNS &lt;b&gt;Blip&lt;/b&gt;: &lt;b&gt;...&lt;/b&gt;
+
+URL: http://www.threadwatch.org/node/3632
+  snippet: Text Link Advertising Moves Forward, Without a &lt;b&gt;Blip&lt;/b&gt;! &lt;b&gt;...&lt;/b&gt; We also know that &lt;b&gt;Google&lt;/b&gt;&lt;br&gt; hates link spam (comment spam, guestbook spam, trackback spam, link farms, &lt;b&gt;...&lt;/b&gt;
+
+URL: http://www.searchengineworld.com/forum912/1-35-10.htm
+  snippet: &lt;b&gt;Google&lt;/b&gt; registered an initial 3 day &lt;b&gt;blip&lt;/b&gt; up in referrals then virtually disappeared&lt;br&gt; from SE referrals for the next 16 Days. In September however, &lt;b&gt;Google&lt;/b&gt; came &lt;b&gt;...&lt;/b&gt;
+
+URL: http://www.theage.com.au/articles/2003/01/03/1041196779397.html
+  snippet: Typed anything into the &lt;b&gt;Google&lt;/b&gt; search engine lately? Your query and millions like&lt;br&gt; it are being logged &lt;b&gt;...&lt;/b&gt; And that last little &lt;b&gt;blip&lt;/b&gt;? &amp;quot;Hawaii,&amp;quot; Patel says. &lt;b&gt;...&lt;/b&gt;
+
+URL: http://www.highrankings.com/faq-google-hate.htm
+  snippet: While your various keyword phrases are on an emotional roller coaster at &lt;b&gt;Google&lt;/b&gt;,&lt;br&gt; you won&amp;#39;t even notice a &lt;b&gt;blip&lt;/b&gt; in your traffic or sales if you&amp;#39;ve got all &lt;b&gt;...&lt;/b&gt;
+
+URL: http://groups.google.com/group/comp.graphics.apps.photoshop
+  snippet: Go to &lt;b&gt;Google&lt;/b&gt; Groups Home &lt;b&gt;...&lt;/b&gt; Thanks, Colonel &lt;b&gt;Blip&lt;/b&gt;. E-mail: colonelblip.no.spam.ple...@big&lt;br&gt; foot.com ----== Posted via Newsfeeds. &lt;b&gt;...&lt;/b&gt;
+
+
+</pre></div>
+<h4 class="subsection">example8_graph</h4>
+<p>Extracted from module : <a href="pdoc/graph.html">graph</a></p>
+<div class="code"><pre>
+<tt>
+
+  <span style="font-style: italic"><span style="color: #9A1900">% example data predicates</span></span>
+  <span style="font-weight: bold"><span style="color: #000000">subclass</span></span><span style="color: #990000">(</span>a<span style="color: #990000">,</span>d<span style="color: #990000">)</span><span style="color: #990000">.</span>
+  <span style="font-weight: bold"><span style="color: #000000">subclass</span></span><span style="color: #990000">(</span>b<span style="color: #990000">,</span>e<span style="color: #990000">)</span><span style="color: #990000">.</span>
+  <span style="font-weight: bold"><span style="color: #000000">subclass</span></span><span style="color: #990000">(</span>c<span style="color: #990000">,</span>f<span style="color: #990000">)</span><span style="color: #990000">.</span>
+  <span style="font-weight: bold"><span style="color: #000000">subclass</span></span><span style="color: #990000">(</span>d<span style="color: #990000">,</span>e<span style="color: #990000">)</span><span style="color: #990000">.</span>
+  <span style="font-weight: bold"><span style="color: #000000">subclass</span></span><span style="color: #990000">(</span>e<span style="color: #990000">,</span>g<span style="color: #990000">)</span><span style="color: #990000">.</span>
+  <span style="font-weight: bold"><span style="color: #000000">subclass</span></span><span style="color: #990000">(</span>f<span style="color: #990000">,</span>g<span style="color: #990000">)</span><span style="color: #990000">.</span>
+  <span style="font-weight: bold"><span style="color: #000000">subclassT</span></span><span style="color: #990000">(</span><span style="color: #009900">X</span><span style="color: #990000">,</span><span style="color: #009900">Y</span><span style="color: #990000">)</span><span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">closure</span></span><span style="color: #990000">(</span>subclass<span style="color: #990000">,</span><span style="color: #009900">X</span><span style="color: #990000">,</span><span style="color: #009900">Y</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+
+  <span style="font-style: italic"><span style="color: #9A1900">% this illustrates spanning_node/3</span></span>
+  <span style="font-weight: bold"><span style="color: #000000">demo</span></span><span style="color: #990000">:</span><span style="color: #990000">-</span>
+    <span style="font-weight: bold"><span style="color: #000000">ensure_loaded</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>graph<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">setof</span></span><span style="color: #990000">(</span><span style="color: #009900">X</span><span style="color: #990000">,</span><span style="font-weight: bold"><span style="color: #000000">spanning_node</span></span><span style="color: #990000">(</span>subclassT<span style="color: #990000">,</span><span style="color: #990000">[</span>a<span style="color: #990000">,</span>b<span style="color: #990000">,</span>c<span style="color: #990000">]</span><span style="color: #990000">,</span><span style="color: #009900">X</span><span style="color: #990000">)</span><span style="color: #990000">,</span><span style="color: #009900">Xs</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #0000FF">format</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'spanning nodes: ~w~n'</span><span style="color: #990000">,</span><span style="color: #990000">[</span><span style="color: #009900">Xs</span><span style="color: #990000">]</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  </tt>
+</pre></div>
+<p>Output:</p>
+<div class="output"><pre>
+spanning nodes: [g]
+
+</pre></div>
+<h4 class="subsection">example9_graph</h4>
+<p>Extracted from module : <a href="pdoc/graph.html">graph</a></p>
+<div class="code"><pre>
+<tt>
+
+  <span style="font-style: italic"><span style="color: #9A1900">% This example illustrates the transitive closure of a relation</span></span>
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>graph<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>ontol_db<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>io<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+
+  <span style="font-style: italic"><span style="color: #9A1900">% demo: find all superclasses of cysteine metabolism</span></span>
+  <span style="font-weight: bold"><span style="color: #000000">demo</span></span><span style="color: #990000">:</span><span style="color: #990000">-</span>
+    <span style="font-weight: bold"><span style="color: #000000">load_bioresource</span></span><span style="color: #990000">(</span>go<span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #0000FF">class</span></span><span style="color: #990000">(</span><span style="color: #009900">ID</span><span style="color: #990000">,</span><span style="color: #FF0000">'cysteine metabolism'</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">setof</span></span><span style="color: #990000">(</span><span style="color: #009900">SuperClassID</span><span style="color: #990000">,</span><span style="font-weight: bold"><span style="color: #000000">closure</span></span><span style="color: #990000">(</span>subclass<span style="color: #990000">,</span><span style="color: #009900">ID</span><span style="color: #990000">,</span><span style="color: #009900">SuperClassID</span><span style="color: #990000">)</span><span style="color: #990000">,</span><span style="color: #009900">SuperClassIDs</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">forall</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">member</span></span><span style="color: #990000">(</span><span style="color: #009900">SuperClassID</span><span style="color: #990000">,</span><span style="color: #009900">SuperClassIDs</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+           <span style="color: #990000">(</span>   <span style="font-weight: bold"><span style="color: #0000FF">class</span></span><span style="color: #990000">(</span><span style="color: #009900">SuperClassID</span><span style="color: #990000">,</span><span style="color: #009900">N</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+               <span style="font-weight: bold"><span style="color: #0000FF">format</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'subclass: ~w ~w~n'</span><span style="color: #990000">,</span><span style="color: #990000">[</span><span style="color: #009900">SuperClassID</span><span style="color: #990000">,</span><span style="color: #009900">N</span><span style="color: #990000">]</span><span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+    
+  </tt>
+</pre></div>
+<p>Output:</p>
+<div class="output"><pre>
+subclass: GO:0000096 sulfur amino acid metabolism
+subclass: GO:0006082 organic acid metabolism
+subclass: GO:0006519 amino acid and derivative metabolism
+subclass: GO:0006520 amino acid metabolism
+subclass: GO:0006790 sulfur metabolism
+subclass: GO:0006807 nitrogen compound metabolism
+subclass: GO:0007582 physiological process
+subclass: GO:0008150 biological_process
+subclass: GO:0008152 metabolism
+subclass: GO:0009069 serine family amino acid metabolism
+subclass: GO:0009308 amine metabolism
+subclass: GO:0009987 cellular process
+subclass: GO:0019752 carboxylic acid metabolism
+subclass: GO:0044237 cellular metabolism
+subclass: GO:0044238 primary metabolism
+subclass: GO:0050875 cellular physiological process
+
+</pre></div>
+<h4 class="subsection">example10_graph</h4>
+<p>Extracted from module : <a href="pdoc/graph.html">graph</a></p>
+<div class="code"><pre>
+<tt>
+
+  <span style="font-style: italic"><span style="color: #9A1900">% this illustrates the user of higher-order programming -</span></span>
+  <span style="font-style: italic"><span style="color: #9A1900">% combining relations</span></span>
+  <span style="font-style: italic"><span style="color: #9A1900">% here we combine graph closure over 'subclass' and inverse</span></span>
+  <span style="font-style: italic"><span style="color: #9A1900">% to get superclasses</span></span>
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>graph<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>ontol_db<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>io<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+
+  <span style="font-style: italic"><span style="color: #9A1900">% demo: find all subclasses of cysteine metabolism</span></span>
+  <span style="font-weight: bold"><span style="color: #000000">demo</span></span><span style="color: #990000">:</span><span style="color: #990000">-</span>
+    <span style="font-weight: bold"><span style="color: #000000">load_bioresource</span></span><span style="color: #990000">(</span>go<span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #0000FF">class</span></span><span style="color: #990000">(</span><span style="color: #009900">ID</span><span style="color: #990000">,</span><span style="color: #FF0000">'cysteine metabolism'</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">setof</span></span><span style="color: #990000">(</span><span style="color: #009900">SubClassID</span><span style="color: #990000">,</span><span style="font-weight: bold"><span style="color: #000000">closure</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">inverse</span></span><span style="color: #990000">(</span>subclass<span style="color: #990000">)</span><span style="color: #990000">,</span><span style="color: #009900">ID</span><span style="color: #990000">,</span><span style="color: #009900">SubClassID</span><span style="color: #990000">)</span><span style="color: #990000">,</span><span style="color: #009900">SubClassIDs</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">forall</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">member</span></span><span style="color: #990000">(</span><span style="color: #009900">SubClassID</span><span style="color: #990000">,</span><span style="color: #009900">SubClassIDs</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+           <span style="color: #990000">(</span>   <span style="font-weight: bold"><span style="color: #0000FF">class</span></span><span style="color: #990000">(</span><span style="color: #009900">SubClassID</span><span style="color: #990000">,</span><span style="color: #009900">N</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+               <span style="font-weight: bold"><span style="color: #0000FF">format</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'subclass: ~w ~w~n'</span><span style="color: #990000">,</span><span style="color: #990000">[</span><span style="color: #009900">SubClassID</span><span style="color: #990000">,</span><span style="color: #009900">N</span><span style="color: #990000">]</span><span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  </tt>
+</pre></div>
+<p>Output:</p>
+<div class="output"><pre>
+subclass: GO:0006535 cysteine biosynthesis from serine
+subclass: GO:0009093 cysteine catabolism
+subclass: GO:0019267 asparagine biosynthesis from cysteine
+subclass: GO:0019343 cysteine biosynthesis via cystathione
+subclass: GO:0019344 cysteine biosynthesis
+subclass: GO:0019345 cysteine biosynthesis via S-sulfo-L-cysteine
+subclass: GO:0019346 transsulfuration
+subclass: GO:0019447 D-cysteine catabolism
+subclass: GO:0019448 L-cysteine catabolism
+subclass: GO:0019449 L-cysteine catabolism to hypotaurine
+subclass: GO:0019450 L-cysteine catabolism to pyruvate
+subclass: GO:0019451 L-cysteine catabolism to pyruvate, using cysteine dioxygenase
+subclass: GO:0019452 L-cysteine catabolism to taurine
+subclass: GO:0019453 L-cysteine catabolism via cystine
+subclass: GO:0019454 L-cysteine catabolism via cystine, using glutathione-cystine transhydrogenase
+subclass: GO:0019455 L-cysteine catabolism via cystine, using cystine reductase
+subclass: GO:0019456 L-cysteine catabolism via cystine, using cysteine transaminase
+subclass: GO:0046438 D-cysteine metabolism
+subclass: GO:0046439 L-cysteine metabolism
+
+</pre></div>
+<h4 class="subsection">example11_io</h4>
+<p>Extracted from module : <a href="pdoc/io.html">io</a></p>
+<div class="code"><pre>
+<tt>
+
+  <span style="font-style: italic"><span style="color: #9A1900">% -- purpose: show loading and unloading of a dynamic db --</span></span>
+
+  <span style="font-style: italic"><span style="color: #9A1900">% make sure ontol db is modifiable BEFORE loading module</span></span>
+  user<span style="color: #990000">:</span><span style="font-weight: bold"><span style="color: #000000">dynamic_db</span></span><span style="color: #990000">(</span>ontol_db<span style="color: #990000">)</span><span style="color: #990000">.</span>
+
+  <span style="font-style: italic"><span style="color: #9A1900">% load modules</span></span>
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>io<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>ontol_db<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+
+  <span style="font-style: italic"><span style="color: #9A1900">% summarize all ontologies currently loaded into the db</span></span>
+  <span style="font-weight: bold"><span style="color: #000000">summarize_ontol</span></span><span style="color: #990000">:</span><span style="color: #990000">-</span>
+    <span style="font-weight: bold"><span style="color: #000000">setof</span></span><span style="color: #990000">(</span><span style="color: #009900">Ont</span><span style="color: #990000">,</span><span style="color: #009900">ID</span><span style="color: #990000">^</span><span style="font-weight: bold"><span style="color: #000000">belongs</span></span><span style="color: #990000">(</span><span style="color: #009900">ID</span><span style="color: #990000">,</span><span style="color: #009900">Ont</span><span style="color: #990000">)</span><span style="color: #990000">,</span><span style="color: #009900">Onts</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">length</span></span><span style="color: #990000">(</span><span style="color: #009900">Onts</span><span style="color: #990000">,</span><span style="color: #009900">CountOnts</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #0000FF">format</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'Summary of ~w ontologies:~n'</span><span style="color: #990000">,</span><span style="color: #990000">[</span><span style="color: #009900">CountOnts</span><span style="color: #990000">]</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">forall</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">member</span></span><span style="color: #990000">(</span><span style="color: #009900">Ont</span><span style="color: #990000">,</span><span style="color: #009900">Onts</span><span style="color: #990000">)</span><span style="color: #990000">,</span><span style="font-weight: bold"><span style="color: #000000">show_ontol_size</span></span><span style="color: #990000">(</span><span style="color: #009900">Ont</span><span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+
+  <span style="font-style: italic"><span style="color: #9A1900">% fetch all IDs belonging to an ontology and display count</span></span>
+  <span style="font-weight: bold"><span style="color: #000000">show_ontol_size</span></span><span style="color: #990000">(</span><span style="color: #009900">Ont</span><span style="color: #990000">)</span><span style="color: #990000">:</span><span style="color: #990000">-</span>
+    <span style="font-weight: bold"><span style="color: #000000">setof</span></span><span style="color: #990000">(</span><span style="color: #009900">ID</span><span style="color: #990000">,</span><span style="font-weight: bold"><span style="color: #000000">belongs</span></span><span style="color: #990000">(</span><span style="color: #009900">ID</span><span style="color: #990000">,</span><span style="color: #009900">Ont</span><span style="color: #990000">)</span><span style="color: #990000">,</span><span style="color: #009900">IDs</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">length</span></span><span style="color: #990000">(</span><span style="color: #009900">IDs</span><span style="color: #990000">,</span><span style="color: #009900">CountIDs</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #0000FF">format</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'ontol ~w has ~w classes~n'</span><span style="color: #990000">,</span><span style="color: #990000">[</span><span style="color: #009900">Ont</span><span style="color: #990000">,</span><span style="color: #009900">CountIDs</span><span style="color: #990000">]</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+
+  <span style="font-weight: bold"><span style="color: #000000">demo</span></span><span style="color: #990000">:</span><span style="color: #990000">-</span>
+    <span style="font-weight: bold"><span style="color: #000000">load_bioresource</span></span><span style="color: #990000">(</span>cell<span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">load_bioresource</span></span><span style="color: #990000">(</span>go<span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">writeln</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'cell+go:'</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    summarize_ontol<span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">unload_bioresource</span></span><span style="color: #990000">(</span>cell<span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">writeln</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'go:'</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    summarize_ontol<span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">unload_bioresource</span></span><span style="color: #990000">(</span>go<span style="color: #990000">)</span><span style="color: #990000">.</span>
+  </tt>
+</pre></div>
+<p>Output:</p>
+<div class="output"><pre>
+cell+go:
+Summary of 5 ontologies:
+ontol biological_process has 10046 classes
+ontol cell has 741 classes
+ontol cellular_component has 1629 classes
+ontol gene_ontology has 1 classes
+ontol molecular_function has 7313 classes
+go:
+Summary of 1 ontologies:
+ontol gene_ontology has 1 classes
+
+</pre></div>
+<h4 class="subsection">example12_io</h4>
+<p>Extracted from module : <a href="pdoc/io.html">io</a></p>
+<div class="code"><pre>
+<tt>
+
+  <span style="font-style: italic"><span style="color: #9A1900">% -- load an ontology into the db and query it --</span></span>
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>io<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>ontol_db<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>sb_db<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+
+  <span style="font-weight: bold"><span style="color: #000000">demo</span></span><span style="color: #990000">:</span><span style="color: #990000">-</span>
+    <span style="font-weight: bold"><span style="color: #000000">load_bioresource</span></span><span style="color: #990000">(</span>chebi<span style="color: #990000">)</span><span style="color: #990000">,</span> <span style="font-style: italic"><span style="color: #9A1900">% this ontology must be defined in bioconf.pro</span></span>
+    <span style="font-weight: bold"><span style="color: #000000">load_biofile</span></span><span style="color: #990000">(</span>sbml<span style="color: #990000">,</span><span style="color: #FF0000">'BIOMD0000000018.xml'</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #0000FF">class</span></span><span style="color: #990000">(</span><span style="color: #009900">ClassID</span><span style="color: #990000">,</span><span style="color: #FF0000">'amino acids'</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">forall</span></span><span style="color: #990000">(</span><span style="color: #990000">(</span>   <span style="font-weight: bold"><span style="color: #000000">subclassRT</span></span><span style="color: #990000">(</span><span style="color: #009900">AnnotClassID</span><span style="color: #990000">,</span><span style="color: #009900">ClassID</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+               <span style="font-weight: bold"><span style="color: #000000">entity_class</span></span><span style="color: #990000">(</span><span style="color: #009900">EntID</span><span style="color: #990000">,</span><span style="color: #009900">AnnotClassID</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+               <span style="font-weight: bold"><span style="color: #0000FF">class</span></span><span style="color: #990000">(</span><span style="color: #009900">AnnotClassID</span><span style="color: #990000">,</span><span style="color: #009900">AnnotClassName</span><span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+           <span style="font-weight: bold"><span style="color: #0000FF">format</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'Entity: ~w AnnotClass: ~w ~w~n'</span><span style="color: #990000">,</span>
+                  <span style="color: #990000">[</span><span style="color: #009900">EntID</span><span style="color: #990000">,</span><span style="color: #009900">AnnotClassID</span><span style="color: #990000">,</span><span style="color: #009900">AnnotClassName</span><span style="color: #990000">]</span><span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  </tt>
+</pre></div>
+<p>Output:</p>
+<div class="output"><pre>
+Entity: glutamine AnnotClass: CHEBI:18050 L-glutamine
+Entity: glutamine AnnotClass: CHEBI:18050 L-glutamine
+Entity: serine AnnotClass: CHEBI:17115 L-serine
+Entity: serine AnnotClass: CHEBI:17115 L-serine
+Entity: glycine AnnotClass: CHEBI:15428 glycine
+
+</pre></div>
+<h4 class="subsection">example13_io</h4>
+<p>Extracted from module : <a href="pdoc/io.html">io</a></p>
+<div class="code"><pre>
+<tt>
+
+  <span style="font-style: italic"><span style="color: #9A1900">% examples of converting from one file format to another:</span></span>
+  <span style="font-style: italic"><span style="color: #9A1900">% Chaos-XML to Chado/Sequence Ontology OWL format</span></span>
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>io<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+
+  <span style="font-weight: bold"><span style="color: #000000">demo</span></span><span style="color: #990000">:</span><span style="color: #990000">-</span>
+    <span style="font-weight: bold"><span style="color: #000000">load_bioresource</span></span><span style="color: #990000">(</span>so<span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">load_biofile</span></span><span style="color: #990000">(</span>chaos<span style="color: #990000">,</span><span style="color: #FF0000">'Rab1.chaos-xml'</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">write_biofile</span></span><span style="color: #990000">(</span>pro<span style="color: #990000">,</span><span style="color: #FF0000">'Rab1.pro'</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">ensure_loaded</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>seqfeature_bridge_to_inst<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">write_biofile</span></span><span style="color: #990000">(</span>owl<span style="color: #990000">,</span><span style="color: #FF0000">'Rab1.owl'</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">writeln</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'Showing first 100 lines of exported OWL file:'</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">shell</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'head -100 Rab1.owl'</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  </tt>
+</pre></div>
+<p>Output:</p>
+<div class="output"><pre>
+Showing first 100 lines of exported OWL file:
+&lt;?xml version='1.0' encoding='UTF-8'?&gt;
+&lt;!DOCTYPE rdf:RDF [
+    &lt;!ENTITY rdf 'http://www.w3.org/1999/02/22-rdf-syntax-ns#'&gt;
+]&gt;
+
+&lt;rdf:RDF
+    xmlns:rdf="&amp;rdf;"
+&gt;
+&lt;SO:SO_0000147 rdf:about="&amp;exon;exon_EMBL/GenBank/SwissProt:AE003734:54949:55287"
+    SO:SO_0000704="Rab1"
+    orphan:locus_tag="CG3320"&gt;
+  &lt;orphan:id rdf:resource="&amp;exon;exon_EMBL/GenBank/SwissProt:AE003734:54949:55287"/&gt;
+  &lt;sox:has_location rdf:resource="&amp;orphan;orphan_:featureloc::exon:EMBL/GenBank/SwissProt:AE003734:54949:55287::contig:AE003734.2:55787:51703::500::839::-1"/&gt;
+  &lt;rdfs:label xml:lang="en"&gt;Rab1-exon-5&lt;/rdfs:label&gt;
+&lt;/SO:SO_0000147&gt;
+
+&lt;SO:SO_0000147 rdf:about="&amp;exon;exon_EMBL/GenBank/SwissProt:AE003734:53798:53918"
+    SO:SO_0000704="Rab1"
+    orphan:locus_tag="CG3320"&gt;
+  &lt;orphan:id rdf:resource="&amp;exon;exon_EMBL/GenBank/SwissProt:AE003734:53798:53918"/&gt;
+  &lt;sox:has_location rdf:resource="&amp;orphan;orphan_:featureloc::exon:EMBL/GenBank/SwissProt:AE003734:53798:53918::contig:AE003734.2:55787:51703::1869::1990::-1"/&gt;
+  &lt;rdfs:label xml:lang="en"&gt;Rab1-exon-4&lt;/rdfs:label&gt;
+&lt;/SO:SO_0000147&gt;
+
+&lt;SO:SO_0000147 rdf:about="&amp;exon;exon_EMBL/GenBank/SwissProt:AE003734:53688:53735"
+    SO:SO_0000704="Rab1"
+    orphan:locus_tag="CG3320"&gt;
+  &lt;orphan:id rdf:resource="&amp;exon;exon_EMBL/GenBank/SwissProt:AE003734:53688:53735"/&gt;
+  &lt;sox:has_location rdf:resource="&amp;orphan;orphan_:featureloc::exon:EMBL/GenBank/SwissProt:AE003734:53688:53735::contig:AE003734.2:55787:51703::2052::2100::-1"/&gt;
+  &lt;rdfs:label xml:lang="en"&gt;Rab1-exon-3&lt;/rdfs:label&gt;
+&lt;/SO:SO_0000147&gt;
+
+&lt;SO:SO_0000147 rdf:about="&amp;exon;exon_EMBL/GenBank/SwissProt:AE003734:53404:53631"
+    SO:SO_0000704="Rab1"
+    orphan:locus_tag="CG3320"&gt;
+  &lt;sox:has_location rdf:resource="&amp;orphan;orphan_:featureloc::exon:EMBL/GenBank/SwissProt:AE003734:53404:53631::contig:AE003734.2:55787:51703::2156::2384::-1"/&gt;
+  &lt;rdfs:label xml:lang="en"&gt;Rab1-exon-2&lt;/rdfs:label&gt;
+&lt;/SO:SO_0000147&gt;
+
+&lt;SO:SO_0000147 rdf:about="&amp;exon;exon_EMBL/GenBank/SwissProt:AE003734:52204:53631"
+    SO:SO_0000704="Rab1"
+    orphan:locus_tag="CG3320"&gt;
+  &lt;sox:has_location rdf:resource="&amp;orphan;orphan_:featureloc::exon:EMBL/GenBank/SwissProt:AE003734:52204:53631::contig:AE003734.2:55787:51703::2156::3584::-1"/&gt;
+  &lt;rdfs:label xml:lang="en"&gt;Rab1-exon-6&lt;/rdfs:label&gt;
+&lt;/SO:SO_0000147&gt;
+
+&lt;SO:SO_0000147 rdf:about="&amp;exon;exon_EMBL/GenBank/SwissProt:AE003734:52204:53323"
+    SO:SO_0000704="Rab1"
+    orphan:locus_tag="CG3320"&gt;
+  &lt;sox:has_location rdf:resource="&amp;orphan;orphan_:featureloc::exon:EMBL/GenBank/SwissProt:AE003734:52204:53323::contig:AE003734.2:55787:51703::2464::3584::-1"/&gt;
+  &lt;rdfs:label xml:lang="en"&gt;Rab1-exon-1&lt;/rdfs:label&gt;
+&lt;/SO:SO_0000147&gt;
+
+&lt;SO:SO_0000104 rdf:about="&amp;orphan;AAN13857.1"
+    SO:SO_0000704="Rab1"
+    orphan:codon_start="1"
+    orphan:locus_tag="CG3320"
+    orphan:note="Rab1 gene product from transcript CG3320-RB"
+    orphan:product="CG3320-PB"
+    sox:has_seqlen="146"&gt;
+  &lt;orphan:db_xref&gt;FLYBASE:FBgn0016700&lt;/orphan:db_xref&gt;
+  &lt;orphan:db_xref&gt;GI:23171868&lt;/orphan:db_xref&gt;
+  &lt;orphan:protein_id rdf:resource="&amp;orphan;AAN13857.1"/&gt;
+  &lt;orphan:translation&gt;MSSVNPEYDYLFKLLLIGDSGVGKSCLLLRFADDTYTESYISTIGVDFKIRTIELDGKTIKLQIWDTAGQERFRTITSSYYRGAHGIIVVYDCTDQESFNNVKQWLEEIERYACENVNKLLVGNKSDLTTKKVVDHTTAAVRILLV&lt;/orphan:translation&gt;
+  &lt;sox:has_location rdf:resource="&amp;orphan;orphan_:featureloc::AAN13857.1::contig:AE003734.2:55787:51703::816::2405::-1"/&gt;
+  &lt;sox:has_residues&gt;MSSVNPEYDYLFKLLLIGDSGVGKSCLLLRFADDTYTESYISTIGVDFKIRTIELDGKTIKLQIWDTAGQERFRTITSSYYRGAHGIIVVYDCTDQESFNNVKQWLEEIERYACENVNKLLVGNKSDLTTKKVVDHTTAAVRILLV&lt;/sox:has_residues&gt;
+  &lt;rdfs:label xml:lang="en"&gt;Rab1-CDS-2&lt;/rdfs:label&gt;
+&lt;/SO:SO_0000104&gt;
+
+&lt;SO:SO_0000104 rdf:about="&amp;orphan;AAF55873.1"
+    SO:SO_0000704="Rab1"
+    orphan:codon_start="1"
+    orphan:locus_tag="CG3320"
+    orphan:note="Rab1 gene product from transcript CG3320-RA"
+    orphan:product="CG3320-PA"
+    sox:has_seqlen="205"&gt;
+  &lt;orphan:db_xref&gt;FLYBASE:FBgn0016700&lt;/orphan:db_xref&gt;
+  &lt;orphan:db_xref&gt;GI:7300727&lt;/orphan:db_xref&gt;
+  &lt;orphan:protein_id rdf:resource="&amp;orphan;AAF55873.1"/&gt;
+  &lt;orphan:translation&gt;MSSVNPEYDYLFKLLLIGDSGVGKSCLLLRFADDTYTESYISTIGVDFKIRTIELDGKTIKLQIWDTAGQERFRTITSSYYRGAHGIIVVYDCTDQESFNNVKQWLEEIERYACENVNKLLVGNKSDLTTKKVVDHTTAAEYAAQLGIPFLETSAKSATNVEQAFMTMAAEIKNRVGPPSSATDNASKVKIDQGRPVENTKSGCC&lt;/orphan:translation&gt;
+  &lt;sox:has_location rdf:resource="&amp;orphan;orphan_:featureloc::AAF55873.1::contig:AE003734.2:55787:51703::816::2662::-1"/&gt;
+  &lt;sox:has_residues&gt;MSSVNPEYDYLFKLLLIGDSGVGKSCLLLRFADDTYTESYISTIGVDFKIRTIELDGKTIKLQIWDTAGQERFRTITSSYYRGAHGIIVVYDCTDQESFNNVKQWLEEIERYACENVNKLLVGNKSDLTTKKVVDHTTAAEYAAQLGIPFLETSAKSATNVEQAFMTMAAEIKNRVGPPSSATDNASKVKIDQGRPVENTKSGCC&lt;/sox:has_residues&gt;
+  &lt;rdfs:label xml:lang="en"&gt;Rab1-CDS-1&lt;/rdfs:label&gt;
+&lt;/SO:SO_0000104&gt;
+
+&lt;SO:SO_0000234 rdf:about="&amp;mRNA;mRNA_EMBL/GenBank/SwissProt:AE003734:52204:55287"
+    SO:SO_0000704="Rab1"
+    orphan:db_xref="FLYBASE:FBgn0016700"
+    orphan:locus_tag="CG3320"
+    orphan:product="CG3320-RB"&gt;
+  &lt;sox:has_location rdf:resource="&amp;orphan;orphan_:featureloc::mRNA:EMBL/GenBank/SwissProt:AE003734:52204:55287::contig:AE003734.2:55787:51703::500::3584::-1"/&gt;
+  &lt;rdfs:label xml:lang="en"&gt;Rab1-mRNA-2&lt;/rdfs:label&gt;
+&lt;/SO:SO_0000234&gt;
+
+&lt;SO:SO_0000704 rdf:about="&amp;gene;gene_EMBL/GenBank/SwissProt:AE003734:52204:55287"
+    SO:SO_0000704="Rab1"
+    orphan:db_xref="FLYBASE:FBgn0016700"
+    orphan:locus_tag="CG3320"
+    orphan:map="93D2-93D2"
+    orphan:note="last curated on Mon Apr 01 10:37:17 PST 2002"&gt;
+
+</pre></div>
+<h4 class="subsection">example14_ontol_bridge_from_gosql</h4>
+<p>Extracted from module : <a href="pdoc/ontol_bridge_from_gosql.html">ontol_bridge_from_gosql</a></p>
+<div class="code"><pre>
+<tt>
+
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>ontol_db<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>ontol_bridge_from_gosql<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> ontol_bridge_from_gosql<span style="color: #990000">:</span><span style="font-weight: bold"><span style="color: #000000">set_bridge_resource</span></span><span style="color: #990000">(</span>go<span style="color: #990000">)</span><span style="color: #990000">.</span>
+
+  <span style="font-style: italic"><span style="color: #9A1900">% fetch classes from an instance of a GO MySQL DB</span></span>
+  <span style="font-weight: bold"><span style="color: #000000">demo</span></span><span style="color: #990000">:</span><span style="color: #990000">-</span>
+    <span style="font-weight: bold"><span style="color: #0000FF">class</span></span><span style="color: #990000">(</span><span style="color: #009900">ID</span><span style="color: #990000">,</span><span style="color: #FF0000">'transcription factor activity'</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #0000FF">format</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'Class: ~w (TF activity)~n'</span><span style="color: #990000">,</span><span style="color: #990000">[</span><span style="color: #009900">ID</span><span style="color: #990000">]</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">forall</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">synonym</span></span><span style="color: #990000">(</span><span style="color: #009900">ID</span><span style="color: #990000">,</span><span style="color: #009900">Type</span><span style="color: #990000">,</span><span style="color: #009900">Syn</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+           <span style="font-weight: bold"><span style="color: #0000FF">format</span></span><span style="color: #990000">(</span><span style="color: #FF0000">' Synonym: [~w] Type: ~w~n'</span><span style="color: #990000">,</span><span style="color: #990000">[</span><span style="color: #009900">Syn</span><span style="color: #990000">,</span><span style="color: #009900">Type</span><span style="color: #990000">]</span><span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">forall</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">subclass</span></span><span style="color: #990000">(</span><span style="color: #009900">ID</span><span style="color: #990000">,</span><span style="color: #009900">PID</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+           <span style="color: #990000">(</span>  <span style="font-weight: bold"><span style="color: #0000FF">class</span></span><span style="color: #990000">(</span><span style="color: #009900">PID</span><span style="color: #990000">,</span><span style="color: #009900">N</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+              <span style="font-weight: bold"><span style="color: #0000FF">format</span></span><span style="color: #990000">(</span><span style="color: #FF0000">' Superclass: [~w] ~w~n'</span><span style="color: #990000">,</span><span style="color: #990000">[</span><span style="color: #009900">PID</span><span style="color: #990000">,</span><span style="color: #009900">N</span><span style="color: #990000">]</span><span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  </tt>
+</pre></div>
+<p>Output:</p>
+<div class="output"><pre>
+Class: GO:0003700 (TF activity)
+ Synonym: [GO:0000130] Type: alt_id
+ Superclass: [GO:0003677] DNA binding
+ Superclass: [GO:0030528] transcription regulator activity
+
+</pre></div>
+<h4 class="subsection">example15_ontol_bridge_from_owl</h4>
+<p>Extracted from module : <a href="pdoc/ontol_bridge_from_owl.html">ontol_bridge_from_owl</a></p>
+<div class="code"><pre>
+<tt>
+
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>io<span style="color: #990000">)</span><span style="color: #990000">,</span><span style="color: #990000">[</span>load_biofile<span style="color: #990000">/</span><span style="color: #993399">2</span><span style="color: #990000">]</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>ontol_db<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>ontol_bridge_from_owl<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  
+  <span style="font-style: italic"><span style="color: #9A1900">% access biopax OWL model using ontol_db predicates</span></span>
+  <span style="font-weight: bold"><span style="color: #000000">demo</span></span><span style="color: #990000">:</span><span style="color: #990000">-</span>
+    <span style="font-weight: bold"><span style="color: #000000">load_biofile</span></span><span style="color: #990000">(</span>owl<span style="color: #990000">,</span><span style="color: #FF0000">'biopax-level1.owl'</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #0000FF">class</span></span><span style="color: #990000">(</span><span style="color: #009900">ID</span><span style="color: #990000">,</span>rna<span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #0000FF">format</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'In biopax, rna is a subclass of the following:~n'</span><span style="color: #990000">,</span><span style="color: #990000">[</span><span style="color: #990000">]</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">forall</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">subclass</span></span><span style="color: #990000">(</span><span style="color: #009900">ID</span><span style="color: #990000">,</span><span style="color: #009900">PID</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+           <span style="font-weight: bold"><span style="color: #000000">showclass</span></span><span style="color: #990000">(</span><span style="color: #009900">PID</span><span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+
+  <span style="font-weight: bold"><span style="color: #000000">showclass</span></span><span style="color: #990000">(</span><span style="color: #009900">ID</span><span style="color: #990000">)</span><span style="color: #990000">:</span><span style="color: #990000">-</span>
+    <span style="font-weight: bold"><span style="color: #0000FF">class</span></span><span style="color: #990000">(</span><span style="color: #009900">ID</span><span style="color: #990000">,</span><span style="color: #009900">N</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #0000FF">format</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'Class ID:~w~nClass name:~w~n'</span><span style="color: #990000">,</span><span style="color: #990000">[</span><span style="color: #009900">ID</span><span style="color: #990000">,</span><span style="color: #009900">N</span><span style="color: #990000">]</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  </tt>
+</pre></div>
+<p>Output:</p>
+<div class="output"><pre>
+In biopax, rna is a subclass of the following:
+Class ID:http://www.biopax.org/release/biopax-level1.owl#physicalEntity
+Class name:physicalEntity
+Class ID:http://www.biopax.org/release/biopax-level1.owl#entity
+Class name:entity
+
+</pre></div>
+<h4 class="subsection">example16_ontol_db</h4>
+<p>Extracted from module : <a href="pdoc/ontol_db.html">ontol_db</a></p>
+<div class="code"><pre>
+<tt>
+
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>ontol_db<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>io<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+
+  <span style="font-style: italic"><span style="color: #9A1900">% find all superclasses of a particular class</span></span>
+  <span style="font-weight: bold"><span style="color: #000000">demo</span></span><span style="color: #990000">:</span><span style="color: #990000">-</span>
+    <span style="font-weight: bold"><span style="color: #000000">load_bioresource</span></span><span style="color: #990000">(</span>go<span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #0000FF">class</span></span><span style="color: #990000">(</span><span style="color: #009900">ID</span><span style="color: #990000">,</span><span style="color: #FF0000">'transcription factor activity'</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">setof</span></span><span style="color: #990000">(</span><span style="color: #009900">ParentID</span><span style="color: #990000">,</span><span style="font-weight: bold"><span style="color: #000000">subclassRT</span></span><span style="color: #990000">(</span><span style="color: #009900">ID</span><span style="color: #990000">,</span><span style="color: #009900">ParentID</span><span style="color: #990000">)</span><span style="color: #990000">,</span><span style="color: #009900">ParentIDs</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">writeln</span></span><span style="color: #990000">(</span>parents<span style="color: #990000">=</span><span style="color: #009900">ParentIDs</span><span style="color: #990000">)</span><span style="color: #990000">.</span>    
+  </tt>
+</pre></div>
+<p>Output:</p>
+<div class="output"><pre>
+parents=[GO:0003674, GO:0003676, GO:0003677, GO:0003700, GO:0005488, GO:0030528]
+
+</pre></div>
+<h4 class="subsection">example17_parser_nhx</h4>
+<p>Extracted from module : <a href="pdoc/parser_nhx.html">parser_nhx</a></p>
+<div class="code"><pre>
+<tt>
+
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>io<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>phylo_db<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+
+  <span style="font-style: italic"><span style="color: #9A1900">% show height of all trees in file</span></span>
+  <span style="font-weight: bold"><span style="color: #000000">demo</span></span><span style="color: #990000">:</span><span style="color: #990000">-</span>
+    <span style="font-weight: bold"><span style="color: #000000">load_biofile</span></span><span style="color: #990000">(</span>nhx<span style="color: #990000">,</span><span style="color: #FF0000">'test.nhx'</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">forall</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">phylotree</span></span><span style="color: #990000">(</span><span style="color: #009900">Node</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+           <span style="color: #990000">(</span>   <span style="font-weight: bold"><span style="color: #000000">phylonode_height</span></span><span style="color: #990000">(</span><span style="color: #009900">Node</span><span style="color: #990000">,</span><span style="color: #009900">Height</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+               <span style="font-weight: bold"><span style="color: #0000FF">format</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'tree ~w has height ~w~n'</span><span style="color: #990000">,</span><span style="color: #990000">[</span><span style="color: #009900">Node</span><span style="color: #990000">,</span><span style="color: #009900">Height</span><span style="color: #990000">]</span><span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  </tt>
+</pre></div>
+<p>Output:</p>
+<div class="output"><pre>
+tree node1 has height 0.15
+
+</pre></div>
+<h4 class="subsection">example18_parser_obo</h4>
+<p>Extracted from module : <a href="pdoc/parser_obo.html">parser_obo</a></p>
+<div class="code"><pre>
+<tt>
+
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>io<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+
+  <span style="font-weight: bold"><span style="color: #000000">demo</span></span><span style="color: #990000">:</span><span style="color: #990000">-</span>
+    <span style="font-weight: bold"><span style="color: #000000">load_biofile</span></span><span style="color: #990000">(</span>obo_native<span style="color: #990000">,</span><span style="color: #FF0000">'test.obo'</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">write_biofile</span></span><span style="color: #990000">(</span>owl<span style="color: #990000">,</span><span style="color: #FF0000">'test.owl'</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">writeln</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'Showing first 100 lines of exported OWL file:'</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">shell</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'head -100 test.owl'</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  </tt>
+</pre></div>
+<p>Output:</p>
+<div class="output"><pre>
+Showing first 100 lines of exported OWL file:
+&lt;?xml version='1.0' encoding='UTF-8'?&gt;
+&lt;!DOCTYPE rdf:RDF [
+    &lt;!ENTITY rdf 'http://www.w3.org/1999/02/22-rdf-syntax-ns#'&gt;
+]&gt;
+
+&lt;rdf:RDF
+    xmlns:rdf="&amp;rdf;"
+&gt;
+&lt;owl:Class rdf:about="&amp;GO;GO_0050306"&gt;
+  &lt;rdfs:comment xml:lang="en"&gt;sucrose 1F-fructosyltransferase activity&lt;/rdfs:comment&gt;
+  &lt;rdfs:label xml:lang="en"&gt;sucrose 1F-fructosyltransferase activity&lt;/rdfs:label&gt;
+  &lt;rdfs:subClassOf rdf:resource="&amp;GO;GO_0050738"/&gt;
+&lt;/owl:Class&gt;
+
+&lt;owl:Class rdf:about="&amp;GO;GO_0050524"&gt;
+  &lt;rdfs:comment xml:lang="en"&gt;coenzyme-B sulfoethylthiotransferase activity&lt;/rdfs:comment&gt;
+  &lt;rdfs:label xml:lang="en"&gt;coenzyme-B sulfoethylthiotransferase activity&lt;/rdfs:label&gt;
+  &lt;rdfs:subClassOf rdf:resource="&amp;GO;GO_0050497"/&gt;
+&lt;/owl:Class&gt;
+
+&lt;owl:Class rdf:about="&amp;GO;GO_0050543"&gt;
+  &lt;rdfs:comment xml:lang="en"&gt;icosatetraenoic acid binding&lt;/rdfs:comment&gt;
+  &lt;rdfs:label xml:lang="en"&gt;icosatetraenoic acid binding&lt;/rdfs:label&gt;
+  &lt;rdfs:subClassOf rdf:resource="&amp;GO;GO_0050542"/&gt;
+&lt;/owl:Class&gt;
+
+&lt;owl:Class rdf:about="&amp;GO;GO_0050544"&gt;
+  &lt;rdfs:comment xml:lang="en"&gt;arachidonic acid binding&lt;/rdfs:comment&gt;
+  &lt;rdfs:label xml:lang="en"&gt;arachidonic acid binding&lt;/rdfs:label&gt;
+  &lt;rdfs:subClassOf rdf:resource="&amp;GO;GO_0050543"/&gt;
+&lt;/owl:Class&gt;
+
+&lt;owl:Class rdf:about="&amp;GO;GO_0050599"&gt;
+  &lt;rdfs:comment xml:lang="en"&gt;deacetoxycephalosporin-C synthase activity&lt;/rdfs:comment&gt;
+  &lt;rdfs:label xml:lang="en"&gt;deacetoxycephalosporin-C synthase activity&lt;/rdfs:label&gt;
+  &lt;rdfs:subClassOf rdf:resource="&amp;GO;GO_0050498"/&gt;
+&lt;/owl:Class&gt;
+
+&lt;owl:Class rdf:about="&amp;GO;GO_0050609"&gt;
+  &lt;rdfs:comment xml:lang="en"&gt;phosphonate dehydrogenase activity&lt;/rdfs:comment&gt;
+  &lt;rdfs:label xml:lang="en"&gt;phosphonate dehydrogenase activity&lt;/rdfs:label&gt;
+  &lt;rdfs:subClassOf rdf:resource="&amp;GO;GO_0050499"/&gt;
+&lt;/owl:Class&gt;
+
+&lt;owl:Class rdf:about="&amp;GO;GO_0050611"&gt;
+  &lt;rdfs:comment xml:lang="en"&gt;arsenate reductase (azurin) activity&lt;/rdfs:comment&gt;
+  &lt;rdfs:label xml:lang="en"&gt;arsenate reductase (azurin) activity&lt;/rdfs:label&gt;
+  &lt;rdfs:subClassOf rdf:resource="&amp;GO;GO_0050522"/&gt;
+&lt;/owl:Class&gt;
+
+&lt;owl:Class rdf:about="&amp;GO;GO_0050646"&gt;
+  &lt;rdfs:comment xml:lang="en"&gt;5-oxo-6E,8Z,11Z,14Z-icosatetraenoic acid binding&lt;/rdfs:comment&gt;
+  &lt;rdfs:label xml:lang="en"&gt;5-oxo-6E,8Z,11Z,14Z-icosatetraenoic acid binding&lt;/rdfs:label&gt;
+  &lt;rdfs:subClassOf rdf:resource="&amp;GO;GO_0050543"/&gt;
+&lt;/owl:Class&gt;
+
+&lt;owl:Class rdf:about="&amp;GO;GO_0050647"&gt;
+  &lt;rdfs:comment xml:lang="en"&gt;5-hydroxy-6E,8Z,11Z,14Z-icosatetraenoic acid binding&lt;/rdfs:comment&gt;
+  &lt;rdfs:label xml:lang="en"&gt;5-hydroxy-6E,8Z,11Z,14Z-icosatetraenoic acid binding&lt;/rdfs:label&gt;
+  &lt;rdfs:subClassOf rdf:resource="&amp;GO;GO_0050543"/&gt;
+&lt;/owl:Class&gt;
+
+&lt;owl:Class rdf:about="&amp;GO;GO_0050648"&gt;
+  &lt;rdfs:comment xml:lang="en"&gt;5(S)-hydroxyperoxy-6E,8Z,11Z,14Z-icosatetraenoic acid binding&lt;/rdfs:comment&gt;
+  &lt;rdfs:label xml:lang="en"&gt;5(S)-hydroxyperoxy-6E,8Z,11Z,14Z-icosatetraenoic acid binding&lt;/rdfs:label&gt;
+  &lt;rdfs:subClassOf rdf:resource="&amp;GO;GO_0050543"/&gt;
+&lt;/owl:Class&gt;
+
+&lt;owl:Class rdf:about="&amp;GO;GO_0050650"&gt;
+  &lt;rdfs:comment xml:lang="en"&gt;chondroitin sulfate proteoglycan biosynthesis&lt;/rdfs:comment&gt;
+  &lt;rdfs:label xml:lang="en"&gt;chondroitin sulfate proteoglycan biosynthesis&lt;/rdfs:label&gt;
+  &lt;rdfs:subClassOf rdf:resource="&amp;GO;GO_0050654"/&gt;
+&lt;/owl:Class&gt;
+
+&lt;owl:Class rdf:about="&amp;GO;GO_0050651"&gt;
+  &lt;rdfs:subClassOf rdf:resource="&amp;GO;GO_0050650"/&gt;
+  &lt;rdfs:subClassOf rdf:resource="&amp;GO;GO_0050655"/&gt;
+  &lt;rdfs:comment xml:lang="en"&gt;dermatan sulfate proteoglycan biosynthesis&lt;/rdfs:comment&gt;
+  &lt;rdfs:label xml:lang="en"&gt;dermatan sulfate proteoglycan biosynthesis&lt;/rdfs:label&gt;
+&lt;/owl:Class&gt;
+
+&lt;owl:Class rdf:about="&amp;GO;GO_0050655"&gt;
+  &lt;rdfs:comment xml:lang="en"&gt;dermatan sulfate proteoglycan metabolism&lt;/rdfs:comment&gt;
+  &lt;rdfs:label xml:lang="en"&gt;dermatan sulfate proteoglycan metabolism&lt;/rdfs:label&gt;
+  &lt;rdfs:subClassOf rdf:resource="&amp;GO;GO_0050654"/&gt;
+&lt;/owl:Class&gt;
+
+&lt;owl:Class rdf:about="&amp;GO;GO_0050658"&gt;
+  &lt;rdfs:comment xml:lang="en"&gt;RNA transport&lt;/rdfs:comment&gt;
+  &lt;rdfs:label xml:lang="en"&gt;RNA transport&lt;/rdfs:label&gt;
+  &lt;rdfs:subClassOf rdf:resource="&amp;GO;GO_0050657"/&gt;
+&lt;/owl:Class&gt;
+
+&lt;owl:Class rdf:about="&amp;GO;GO_0050660"&gt;
+  &lt;rdfs:comment xml:lang="en"&gt;FAD binding&lt;/rdfs:comment&gt;
+  &lt;rdfs:label xml:lang="en"&gt;FAD binding&lt;/rdfs:label&gt;
+  &lt;rdfs:subClassOf rdf:resource="&amp;GO;GO_0050662"/&gt;
+&lt;/owl:Class&gt;
+
+&lt;owl:Class rdf:about="&amp;GO;GO_0050661"&gt;
+
+</pre></div>
+<h4 class="subsection">example19_phylo_db</h4>
+<p>Extracted from module : <a href="pdoc/phylo_db.html">phylo_db</a></p>
+<div class="code"><pre>
+<tt>
+
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>io<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>phylo_db<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+
+  <span style="font-style: italic"><span style="color: #9A1900">% show height of all trees in file</span></span>
+  <span style="font-weight: bold"><span style="color: #000000">demo</span></span><span style="color: #990000">:</span><span style="color: #990000">-</span>
+    <span style="font-weight: bold"><span style="color: #000000">load_biofile</span></span><span style="color: #990000">(</span>nhx<span style="color: #990000">,</span><span style="color: #FF0000">'test.nhx'</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">forall</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">phylotree</span></span><span style="color: #990000">(</span><span style="color: #009900">Node</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+           <span style="color: #990000">(</span>   <span style="font-weight: bold"><span style="color: #000000">phylonode_height</span></span><span style="color: #990000">(</span><span style="color: #009900">Node</span><span style="color: #990000">,</span><span style="color: #009900">Height</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+               <span style="font-weight: bold"><span style="color: #0000FF">format</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'tree ~w has height ~w~n'</span><span style="color: #990000">,</span><span style="color: #990000">[</span><span style="color: #009900">Node</span><span style="color: #990000">,</span><span style="color: #009900">Height</span><span style="color: #990000">]</span><span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  </tt>
+</pre></div>
+<p>Output:</p>
+<div class="output"><pre>
+tree node1 has height 0.15
+
+</pre></div>
+<h4 class="subsection">example20_rdb_util</h4>
+<p>Extracted from module : <a href="pdoc/rdb_util.html">rdb_util</a></p>
+<div class="code"><pre>
+<tt>
+
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>rdb_util<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  rdb_util<span style="color: #990000">:</span><span style="font-weight: bold"><span style="color: #000000">qmap</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">term_assoc</span></span><span style="color: #990000">(</span><span style="color: #009900">ID</span><span style="color: #990000">,</span><span style="color: #009900">Sym</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+     <span style="font-weight: bold"><span style="color: #000000">sql</span></span><span style="color: #990000">(</span>cols<span style="color: #990000">=</span><span style="color: #990000">[</span><span style="color: #FF0000">'term.acc'</span><span style="color: #990000">=</span><span style="color: #009900">ID</span><span style="color: #990000">,</span>
+               <span style="color: #FF0000">'gene_product.symbol'</span><span style="color: #990000">=</span><span style="color: #009900">Sym</span><span style="color: #990000">]</span><span style="color: #990000">,</span>
+         from<span style="color: #990000">=</span><span style="color: #990000">[</span><span style="color: #FF0000">'term INNER JOIN association ON (term.id=term_id) INNER JOIN gene_product ON (gene_product.id=gene_product_id)'</span><span style="color: #990000">]</span><span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+
+  <span style="font-weight: bold"><span style="color: #000000">demo</span></span><span style="color: #990000">:</span><span style="color: #990000">-</span>
+    <span style="font-weight: bold"><span style="color: #000000">rdb_connect</span></span><span style="color: #990000">(</span><span style="color: #009900">Dbh</span><span style="color: #990000">,</span>go<span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="color: #009900">GeneSym</span><span style="color: #990000">=</span>dpp<span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">forall</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">rdb_lookup</span></span><span style="color: #990000">(</span><span style="color: #009900">Dbh</span><span style="color: #990000">,</span><span style="font-weight: bold"><span style="color: #000000">term_assoc</span></span><span style="color: #990000">(</span><span style="color: #009900">ID</span><span style="color: #990000">,</span><span style="color: #009900">GeneSym</span><span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+           <span style="font-weight: bold"><span style="color: #0000FF">format</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'Gene: ~w annotated_to: ~w~n'</span><span style="color: #990000">,</span><span style="color: #990000">[</span><span style="color: #009900">GeneSym</span><span style="color: #990000">,</span><span style="color: #009900">ID</span><span style="color: #990000">]</span><span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  </tt>
+</pre></div>
+<p>Output:</p>
+<div class="output"><pre>
+Gene: dpp annotated_to: GO:0005615
+Gene: dpp annotated_to: GO:0005622
+Gene: dpp annotated_to: GO:0007442
+Gene: dpp annotated_to: GO:0007444
+Gene: dpp annotated_to: GO:0007474
+Gene: dpp annotated_to: GO:0007476
+Gene: dpp annotated_to: GO:0008586
+Gene: dpp annotated_to: GO:0030718
+Gene: dpp annotated_to: GO:0035158
+Gene: dpp annotated_to: GO:0035263
+Gene: dpp annotated_to: GO:0042078
+Gene: dpp annotated_to: GO:0046843
+Gene: dpp annotated_to: GO:0005160
+Gene: dpp annotated_to: GO:0007179
+Gene: dpp annotated_to: GO:0001708
+Gene: dpp annotated_to: GO:0001715
+Gene: dpp annotated_to: GO:0002168
+Gene: dpp annotated_to: GO:0005160
+Gene: dpp annotated_to: GO:0005576
+Gene: dpp annotated_to: GO:0007179
+Gene: dpp annotated_to: GO:0007352
+Gene: dpp annotated_to: GO:0007378
+Gene: dpp annotated_to: GO:0007391
+Gene: dpp annotated_to: GO:0007393
+Gene: dpp annotated_to: GO:0007424
+Gene: dpp annotated_to: GO:0007444
+Gene: dpp annotated_to: GO:0007447
+Gene: dpp annotated_to: GO:0007448
+Gene: dpp annotated_to: GO:0007479
+Gene: dpp annotated_to: GO:0009795
+Gene: dpp annotated_to: GO:0009950
+Gene: dpp annotated_to: GO:0016015
+Gene: dpp annotated_to: GO:0019827
+Gene: dpp annotated_to: GO:0030509
+Gene: dpp annotated_to: GO:0042127
+Gene: dpp annotated_to: GO:0045476
+Gene: dpp annotated_to: GO:0001708
+Gene: dpp annotated_to: GO:0001709
+Gene: dpp annotated_to: GO:0001745
+Gene: dpp annotated_to: GO:0004871
+Gene: dpp annotated_to: GO:0007354
+Gene: dpp annotated_to: GO:0007391
+Gene: dpp annotated_to: GO:0007398
+Gene: dpp annotated_to: GO:0007423
+Gene: dpp annotated_to: GO:0007424
+Gene: dpp annotated_to: GO:0007425
+Gene: dpp annotated_to: GO:0007427
+Gene: dpp annotated_to: GO:0007440
+Gene: dpp annotated_to: GO:0007442
+Gene: dpp annotated_to: GO:0007444
+Gene: dpp annotated_to: GO:0007446
+Gene: dpp annotated_to: GO:0007447
+Gene: dpp annotated_to: GO:0007450
+Gene: dpp annotated_to: GO:0007458
+Gene: dpp annotated_to: GO:0007473
+Gene: dpp annotated_to: GO:0007474
+Gene: dpp annotated_to: GO:0007476
+Gene: dpp annotated_to: GO:0007479
+Gene: dpp annotated_to: GO:0007507
+Gene: dpp annotated_to: GO:0008285
+Gene: dpp annotated_to: GO:0009948
+Gene: dpp annotated_to: GO:0009950
+Gene: dpp annotated_to: GO:0009993
+Gene: dpp annotated_to: GO:0016015
+Gene: dpp annotated_to: GO:0017145
+Gene: dpp annotated_to: GO:0030509
+Gene: dpp annotated_to: GO:0030707
+Gene: dpp annotated_to: GO:0035147
+Gene: dpp annotated_to: GO:0035215
+Gene: dpp annotated_to: GO:0042078
+Gene: dpp annotated_to: GO:0045705
+Gene: dpp annotated_to: GO:0046620
+Gene: dpp annotated_to: GO:0046845
+Gene: dpp annotated_to: GO:0048066
+Gene: dpp annotated_to: GO:0048100
+
+</pre></div>
+<h4 class="subsection">example21_sb_bridge_from_biopax</h4>
+<p>Extracted from module : <a href="pdoc/sb_bridge_from_biopax.html">sb_bridge_from_biopax</a></p>
+<div class="code"><pre>
+<tt>
+
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>sb_db<span style="color: #990000">)</span><span style="color: #990000">,</span><span style="color: #990000">[</span>reaction<span style="color: #990000">/</span><span style="color: #993399">2</span><span style="color: #990000">,</span>entity_class<span style="color: #990000">/</span><span style="color: #993399">2</span><span style="color: #990000">,</span>reaction_link<span style="color: #990000">/</span><span style="color: #993399">3</span><span style="color: #990000">]</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>io<span style="color: #990000">)</span><span style="color: #990000">,</span><span style="color: #990000">[</span>load_biofile<span style="color: #990000">/</span><span style="color: #993399">2</span><span style="color: #990000">]</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>graph<span style="color: #990000">)</span><span style="color: #990000">,</span><span style="color: #990000">[</span>closure_dist<span style="color: #990000">/</span><span style="color: #993399">4</span><span style="color: #990000">]</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  
+  <span style="font-style: italic"><span style="color: #9A1900">% load OWL class and instance data and access via sb_db views</span></span>
+  <span style="font-weight: bold"><span style="color: #000000">demo</span></span><span style="color: #990000">:</span><span style="color: #990000">-</span>
+    <span style="font-weight: bold"><span style="color: #000000">load_biofile</span></span><span style="color: #990000">(</span>owl<span style="color: #990000">,</span><span style="color: #FF0000">'biopax-level1.owl'</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">load_biofile</span></span><span style="color: #990000">(</span>owl<span style="color: #990000">,</span><span style="color: #FF0000">'biopax-example-ecocyc-glycolysis.owl'</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">ensure_loaded</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>sb_bridge_from_biopax<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">reaction</span></span><span style="color: #990000">(</span><span style="color: #009900">ID</span><span style="color: #990000">,</span><span style="color: #FF0000">'6PFRUCTPHOS-RXN'</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">show_reaction</span></span><span style="color: #990000">(</span><span style="color: #009900">ID</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+
+  <span style="font-weight: bold"><span style="color: #000000">show_reaction</span></span><span style="color: #990000">(</span><span style="color: #009900">ID</span><span style="color: #990000">)</span><span style="color: #990000">:</span><span style="color: #990000">-</span>
+    <span style="font-weight: bold"><span style="color: #000000">reaction</span></span><span style="color: #990000">(</span><span style="color: #009900">ID</span><span style="color: #990000">,</span><span style="color: #009900">N</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #0000FF">format</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'Reaction: ~w [~w]~n'</span><span style="color: #990000">,</span><span style="color: #990000">[</span><span style="color: #009900">ID</span><span style="color: #990000">,</span><span style="color: #009900">N</span><span style="color: #990000">]</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">forall</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">entity_class</span></span><span style="color: #990000">(</span><span style="color: #009900">ID</span><span style="color: #990000">,</span><span style="color: #009900">CID</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+           <span style="font-weight: bold"><span style="color: #0000FF">format</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'  Annotation: ~w~n'</span><span style="color: #990000">,</span><span style="color: #990000">[</span><span style="color: #009900">CID</span><span style="color: #990000">]</span><span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">forall</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">closure_dist</span></span><span style="color: #990000">(</span>sb_db<span style="color: #990000">:</span>reaction_link<span style="color: #990000">,</span><span style="color: #009900">D</span><span style="color: #990000">,</span><span style="color: #009900">ID</span><span style="color: #990000">,</span><span style="color: #009900">ID2</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+           <span style="color: #990000">(</span>   <span style="font-weight: bold"><span style="color: #000000">reaction</span></span><span style="color: #990000">(</span><span style="color: #009900">ID2</span><span style="color: #990000">,</span><span style="color: #009900">N2</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+               <span style="font-weight: bold"><span style="color: #0000FF">format</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'  Distance ~w from ~w [~w]~n'</span><span style="color: #990000">,</span><span style="color: #990000">[</span><span style="color: #009900">D</span><span style="color: #990000">,</span><span style="color: #009900">ID2</span><span style="color: #990000">,</span><span style="color: #009900">N2</span><span style="color: #990000">]</span><span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  </tt>
+</pre></div>
+<p>Output:</p>
+<div class="output"><pre>
+Reaction: http://www.biopax.org/examples/glycolysis#biochemicalReaction13 [6PFRUCTPHOS-RXN]
+  Annotation: EC:2.7.1.11
+  Distance 0 from http://www.biopax.org/examples/glycolysis#biochemicalReaction13 [6PFRUCTPHOS-RXN]
+  Distance 1 from http://www.biopax.org/examples/glycolysis#biochemicalReaction295 [F16ALDOLASE-RXN]
+  Distance 2 from http://www.biopax.org/examples/glycolysis#biochemicalReaction172 [glyceraldehyde 3-phosphate oxidation]
+  Distance 2 from http://www.biopax.org/examples/glycolysis#biochemicalReaction297 [triose phosphate isomerization]
+
+</pre></div>
+<h4 class="subsection">example22_sb_db</h4>
+<p>Extracted from module : <a href="pdoc/sb_db.html">sb_db</a></p>
+<div class="code"><pre>
+<tt>
+
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>sb_db<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>ontol_db<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>io<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  
+  <span style="font-weight: bold"><span style="color: #000000">summarize_species</span></span><span style="color: #990000">(</span><span style="color: #009900">SID</span><span style="color: #990000">)</span><span style="color: #990000">:</span><span style="color: #990000">-</span>
+    <span style="font-weight: bold"><span style="color: #000000">species</span></span><span style="color: #990000">(</span><span style="color: #009900">SID</span><span style="color: #990000">,</span><span style="color: #009900">Name</span><span style="color: #990000">,</span><span style="color: #009900">Comp</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #0000FF">format</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'Species: ~w ~w in:~w~n'</span><span style="color: #990000">,</span><span style="color: #990000">[</span><span style="color: #009900">SID</span><span style="color: #990000">,</span><span style="color: #009900">Name</span><span style="color: #990000">,</span><span style="color: #009900">Comp</span><span style="color: #990000">]</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  
+  <span style="font-weight: bold"><span style="color: #000000">demo</span></span><span style="color: #990000">:</span><span style="color: #990000">-</span>
+    <span style="font-weight: bold"><span style="color: #000000">load_biofile</span></span><span style="color: #990000">(</span>sbml<span style="color: #990000">,</span><span style="color: #FF0000">'BIOMD0000000018.xml'</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">load_bioresource</span></span><span style="color: #990000">(</span>chebi<span style="color: #990000">)</span><span style="color: #990000">,</span>    <span style="font-style: italic"><span style="color: #9A1900">% EBI Chemical otnology</span></span>
+    
+    <span style="font-weight: bold"><span style="color: #000000">forall</span></span><span style="color: #990000">(</span> <span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #0000FF">class</span></span><span style="color: #990000">(</span><span style="color: #009900">CID1</span><span style="color: #990000">,</span><span style="color: #FF0000">'amino acids'</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+             <span style="font-weight: bold"><span style="color: #000000">parentRT</span></span><span style="color: #990000">(</span><span style="color: #009900">CID</span><span style="color: #990000">,</span><span style="color: #009900">CID1</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+             <span style="font-weight: bold"><span style="color: #000000">species_class</span></span><span style="color: #990000">(</span><span style="color: #009900">SID</span><span style="color: #990000">,</span><span style="color: #009900">CID</span><span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+           <span style="font-weight: bold"><span style="color: #000000">summarize_species</span></span><span style="color: #990000">(</span><span style="color: #009900">SID</span><span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  
+  </tt>
+</pre></div>
+<p>Output:</p>
+<div class="output"><pre>
+Species: glutamine  in:cell
+Species: glutamine  in:cell
+Species: serine  in:cell
+Species: glycine  in:cell
+Species: serine  in:cell
+
+</pre></div>
+<h4 class="subsection">example23_sb_db</h4>
+<p>Extracted from module : <a href="pdoc/sb_db.html">sb_db</a></p>
+<div class="code"><pre>
+<tt>
+
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>sb_db<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>io<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+
+  <span style="font-style: italic"><span style="color: #9A1900">% find reactions spanning distinct compartments</span></span>
+  <span style="font-weight: bold"><span style="color: #000000">reactions_spanning_compartments</span></span><span style="color: #990000">(</span><span style="color: #009900">R1</span><span style="color: #990000">,</span><span style="color: #009900">C1</span><span style="color: #990000">,</span><span style="color: #009900">R2</span><span style="color: #990000">,</span><span style="color: #009900">C2</span><span style="color: #990000">)</span><span style="color: #990000">:</span><span style="color: #990000">-</span>
+    <span style="font-weight: bold"><span style="color: #000000">species</span></span><span style="color: #990000">(</span><span style="color: #009900">S1</span><span style="color: #990000">,</span><span style="color: #009900">_</span><span style="color: #990000">,</span><span style="color: #009900">C1</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">reaction_reactant</span></span><span style="color: #990000">(</span><span style="color: #009900">R1</span><span style="color: #990000">,</span><span style="color: #009900">S1</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">reaction_link</span></span><span style="color: #990000">(</span><span style="color: #009900">R1</span><span style="color: #990000">,</span><span style="color: #009900">R2</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">reaction_product</span></span><span style="color: #990000">(</span><span style="color: #009900">R2</span><span style="color: #990000">,</span><span style="color: #009900">S2</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">species</span></span><span style="color: #990000">(</span><span style="color: #009900">S2</span><span style="color: #990000">,</span><span style="color: #009900">_</span><span style="color: #990000">,</span><span style="color: #009900">C2</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="color: #009900">C1</span> <span style="color: #990000">\</span><span style="color: #990000">=</span> <span style="color: #009900">C2</span><span style="color: #990000">.</span>
+  
+  <span style="font-weight: bold"><span style="color: #000000">demo</span></span><span style="color: #990000">:</span><span style="color: #990000">-</span>
+    <span style="font-weight: bold"><span style="color: #000000">load_biofile</span></span><span style="color: #990000">(</span>sbml<span style="color: #990000">,</span><span style="color: #FF0000">'BIOMD0000000018.xml'</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">forall</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">reactions_spanning_compartments</span></span><span style="color: #990000">(</span><span style="color: #009900">R1</span><span style="color: #990000">,</span><span style="color: #009900">C1</span><span style="color: #990000">,</span><span style="color: #009900">R2</span><span style="color: #990000">,</span><span style="color: #009900">C2</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+           <span style="font-weight: bold"><span style="color: #0000FF">format</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'Reaction ~w in ~w and ~w in ~w~n'</span><span style="color: #990000">,</span><span style="color: #990000">[</span><span style="color: #009900">R1</span><span style="color: #990000">,</span><span style="color: #009900">C1</span><span style="color: #990000">,</span><span style="color: #009900">R2</span><span style="color: #990000">,</span><span style="color: #009900">C2</span><span style="color: #990000">]</span><span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  </tt>
+</pre></div>
+<p>Output:</p>
+<div class="output"><pre>
+Reaction RFC in ext and MTX1on in cell
+Reaction RFC in ext and FPGS12 in cell
+
+</pre></div>
+<h4 class="subsection">example24_seqfeature_db</h4>
+<p>Extracted from module : <a href="pdoc/seqfeature_db.html">seqfeature_db</a></p>
+<div class="code"><pre>
+<tt>
+
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>seqfeature_db<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>io<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+
+  <span style="font-style: italic"><span style="color: #9A1900">% find all exons</span></span>
+  <span style="font-weight: bold"><span style="color: #000000">demo</span></span><span style="color: #990000">:</span><span style="color: #990000">-</span>
+    <span style="font-weight: bold"><span style="color: #000000">load_biofile</span></span><span style="color: #990000">(</span>chaos<span style="color: #990000">,</span><span style="color: #FF0000">'Rab1.chaos-xml'</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">forall</span></span><span style="color: #990000">(</span><span style="color: #990000">(</span>   <span style="font-weight: bold"><span style="color: #000000">feature</span></span><span style="color: #990000">(</span><span style="color: #009900">ID</span><span style="color: #990000">,</span><span style="color: #009900">_</span><span style="color: #990000">,</span>exon<span style="color: #990000">)</span><span style="color: #990000">,</span>
+               <span style="font-weight: bold"><span style="color: #000000">featureloc</span></span><span style="color: #990000">(</span><span style="color: #009900">ID</span><span style="color: #990000">,</span><span style="color: #009900">Src</span><span style="color: #990000">,</span><span style="color: #009900">Beg</span><span style="color: #990000">,</span><span style="color: #009900">End</span><span style="color: #990000">,</span><span style="color: #009900">Strand</span><span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+            <span style="font-weight: bold"><span style="color: #0000FF">format</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'Exon on ~w:~w..~w[~w]~n'</span><span style="color: #990000">,</span>
+                   <span style="color: #990000">[</span><span style="color: #009900">Src</span><span style="color: #990000">,</span><span style="color: #009900">Beg</span><span style="color: #990000">,</span><span style="color: #009900">End</span><span style="color: #990000">,</span><span style="color: #009900">Strand</span><span style="color: #990000">]</span><span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  
+  </tt>
+</pre></div>
+<p>Output:</p>
+<div class="output"><pre>
+Exon on contig:AE003734.2:55787:51703:500..839[-1]
+Exon on contig:AE003734.2:55787:51703:1869..1990[-1]
+Exon on contig:AE003734.2:55787:51703:2052..2100[-1]
+Exon on contig:AE003734.2:55787:51703:2156..2384[-1]
+Exon on contig:AE003734.2:55787:51703:2156..3584[-1]
+Exon on contig:AE003734.2:55787:51703:2464..3584[-1]
+
+</pre></div>
+<h4 class="subsection">example25_seqfeature_db</h4>
+<p>Extracted from module : <a href="pdoc/seqfeature_db.html">seqfeature_db</a></p>
+<div class="code"><pre>
+<tt>
+
+  <span style="font-style: italic"><span style="color: #9A1900">% demonstrate use of seqfeature module in conjunction with</span></span>
+  <span style="font-style: italic"><span style="color: #9A1900">% an ontology of sequence feature classes</span></span>
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>seqfeature_db<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>io<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>ontol_db<span style="color: #990000">)</span><span style="color: #990000">,</span><span style="color: #990000">[</span><span style="font-weight: bold"><span style="color: #0000FF">class</span></span><span style="color: #990000">/</span><span style="color: #993399">2</span><span style="color: #990000">,</span>subclassRT<span style="color: #990000">/</span><span style="color: #993399">2</span><span style="color: #990000">]</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>bioseq<span style="color: #990000">)</span><span style="color: #990000">,</span><span style="color: #990000">[</span>revcomp<span style="color: #990000">/</span><span style="color: #993399">2</span><span style="color: #990000">]</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+
+  <span style="font-style: italic"><span style="color: #9A1900">% reverse complement a transcript sequence</span></span>
+  <span style="font-style: italic"><span style="color: #9A1900">% if ID is not-ground, then will unify with some transcript ID</span></span>
+  <span style="font-style: italic"><span style="color: #9A1900">% in the database</span></span>
+  <span style="font-weight: bold"><span style="color: #000000">revcomp_transcript</span></span><span style="color: #990000">(</span><span style="color: #009900">ID</span><span style="color: #990000">,</span><span style="color: #009900">Name</span><span style="color: #990000">,</span><span style="color: #009900">RevSeq</span><span style="color: #990000">)</span><span style="color: #990000">:</span><span style="color: #990000">-</span>
+    <span style="font-weight: bold"><span style="color: #000000">feature_by_typename</span></span><span style="color: #990000">(</span>transcript<span style="color: #990000">,</span><span style="color: #009900">ID</span><span style="color: #990000">,</span><span style="color: #009900">_</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">feature</span></span><span style="color: #990000">(</span><span style="color: #009900">ID</span><span style="color: #990000">,</span><span style="color: #009900">Name</span><span style="color: #990000">,</span><span style="color: #009900">_</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">feature_residues</span></span><span style="color: #990000">(</span><span style="color: #009900">ID</span><span style="color: #990000">,</span><span style="color: #009900">DnaSeq</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">revcomp</span></span><span style="color: #990000">(</span><span style="color: #009900">DnaSeq</span><span style="color: #990000">,</span><span style="color: #009900">RevSeq</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+
+  <span style="font-weight: bold"><span style="color: #000000">demo</span></span><span style="color: #990000">:</span><span style="color: #990000">-</span>
+    <span style="font-weight: bold"><span style="color: #000000">load_biofile</span></span><span style="color: #990000">(</span>chaos<span style="color: #990000">,</span><span style="color: #FF0000">'Rab1.chaos-xml'</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">load_bioresource</span></span><span style="color: #990000">(</span>so<span style="color: #990000">)</span><span style="color: #990000">,</span>         <span style="font-style: italic"><span style="color: #9A1900">% load sequence ontology</span></span>
+    <span style="font-weight: bold"><span style="color: #000000">forall</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">revcomp_transcript</span></span><span style="color: #990000">(</span><span style="color: #009900">ID</span><span style="color: #990000">,</span><span style="color: #009900">Name</span><span style="color: #990000">,</span><span style="color: #009900">Seq</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+           <span style="font-weight: bold"><span style="color: #0000FF">format</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'transcript ~w ~w revcomp(dnaseq) = ~w~n'</span><span style="color: #990000">,</span><span style="color: #990000">[</span><span style="color: #009900">ID</span><span style="color: #990000">,</span><span style="color: #009900">Name</span><span style="color: #990000">,</span><span style="color: #009900">Seq</span><span style="color: #990000">]</span><span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  </tt>
+</pre></div>
+<p>Output:</p>
+<div class="output"><pre>
+
+</pre></div>
+<h4 class="subsection">example26_seqfeature_xmlmap_chaos</h4>
+<p>Extracted from module : <a href="pdoc/seqfeature_xmlmap_chaos.html">seqfeature_xmlmap_chaos</a></p>
+<div class="code"><pre>
+<tt>
+
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>io<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>seqfeature_db<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>seqfeature_bridge_from_chaos<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+
+  <span style="font-weight: bold"><span style="color: #000000">demo</span></span><span style="color: #990000">:</span><span style="color: #990000">-</span>
+    <span style="font-weight: bold"><span style="color: #000000">load_biofile</span></span><span style="color: #990000">(</span>chaos<span style="color: #990000">,</span><span style="color: #FF0000">'Rab1.chaos-xml'</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">setof</span></span><span style="color: #990000">(</span><span style="color: #009900">ID</span><span style="color: #990000">-</span><span style="color: #009900">Name</span><span style="color: #990000">,</span><span style="font-weight: bold"><span style="color: #000000">gene</span></span><span style="color: #990000">(</span><span style="color: #009900">ID</span><span style="color: #990000">,</span><span style="color: #009900">Name</span><span style="color: #990000">)</span><span style="color: #990000">,</span><span style="color: #009900">GeneIDNames</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">writeln</span></span><span style="color: #990000">(</span>genes<span style="color: #990000">=</span><span style="color: #009900">GeneIDNames</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  </tt>
+</pre></div>
+<p>Output:</p>
+<div class="output"><pre>
+genes=[gene:EMBL/GenBank/SwissProt:AE003734:52204:55287-Rab1]
+
+</pre></div>
+<h4 class="subsection">example27_seqfeature_xmlmap_game</h4>
+<p>Extracted from module : <a href="pdoc/seqfeature_xmlmap_game.html">seqfeature_xmlmap_game</a></p>
+<div class="code"><pre>
+<tt>
+
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>io<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>seqfeature_db<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>seqfeature_bridge_from_game<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+
+  <span style="font-weight: bold"><span style="color: #000000">demo</span></span><span style="color: #990000">:</span><span style="color: #990000">-</span>
+    <span style="font-weight: bold"><span style="color: #000000">load_biofile</span></span><span style="color: #990000">(</span>game<span style="color: #990000">,</span><span style="color: #FF0000">'Rab1.game-xml'</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">setof</span></span><span style="color: #990000">(</span><span style="color: #009900">ID</span><span style="color: #990000">-</span><span style="color: #009900">Name</span><span style="color: #990000">,</span><span style="font-weight: bold"><span style="color: #000000">gene</span></span><span style="color: #990000">(</span><span style="color: #009900">ID</span><span style="color: #990000">,</span><span style="color: #009900">Name</span><span style="color: #990000">)</span><span style="color: #990000">,</span><span style="color: #009900">GeneIDNames</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">writeln</span></span><span style="color: #990000">(</span>genes<span style="color: #990000">=</span><span style="color: #009900">GeneIDNames</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  </tt>
+</pre></div>
+<p>Output:</p>
+<div class="output"><pre>
+
+</pre></div>
+<h4 class="subsection">example28_tabling</h4>
+<p>Extracted from module : <a href="pdoc/tabling.html">tabling</a></p>
+<div class="code"><pre>
+<tt>
+
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>tabling<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+
+  <span style="font-weight: bold"><span style="color: #000000">fib</span></span><span style="color: #990000">(</span><span style="color: #009900">X</span><span style="color: #990000">,</span><span style="color: #009900">V</span><span style="color: #990000">)</span><span style="color: #990000">:</span><span style="color: #990000">-</span>
+        <span style="color: #990000">(</span>   <span style="color: #009900">X</span><span style="color: #990000">&lt;</span><span style="color: #993399">2</span>
+        <span style="color: #990000">-</span><span style="color: #990000">&gt;</span>  <span style="color: #009900">V</span><span style="color: #990000">=</span><span style="color: #009900">X</span>
+        <span style="color: #990000">;</span>   <span style="color: #009900">Xm1</span> is <span style="color: #009900">X</span><span style="color: #990000">-</span><span style="color: #993399">1</span><span style="color: #990000">,</span>
+            <span style="color: #009900">Xm2</span> is <span style="color: #009900">X</span><span style="color: #990000">-</span><span style="color: #993399">2</span><span style="color: #990000">,</span>
+            <span style="font-weight: bold"><span style="color: #000000">fib</span></span><span style="color: #990000">(</span><span style="color: #009900">Xm1</span><span style="color: #990000">,</span><span style="color: #009900">V1</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+            <span style="font-weight: bold"><span style="color: #000000">fib</span></span><span style="color: #990000">(</span><span style="color: #009900">Xm2</span><span style="color: #990000">,</span><span style="color: #009900">V2</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+            <span style="color: #009900">V</span> is <span style="color: #009900">V1</span><span style="color: #990000">+</span><span style="color: #009900">V2</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+
+  <span style="font-weight: bold"><span style="color: #000000">demo</span></span><span style="color: #990000">:</span><span style="color: #990000">-</span>
+    <span style="font-weight: bold"><span style="color: #000000">table_pred</span></span><span style="color: #990000">(</span>fib<span style="color: #990000">/</span><span style="color: #993399">2</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="color: #009900">X</span><span style="color: #990000">=</span><span style="color: #993399">30</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">fib</span></span><span style="color: #990000">(</span><span style="color: #009900">X</span><span style="color: #990000">,</span><span style="color: #009900">V</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #0000FF">format</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'fib(~w)=~w~n'</span><span style="color: #990000">,</span><span style="color: #990000">[</span><span style="color: #009900">X</span><span style="color: #990000">,</span><span style="color: #009900">V</span><span style="color: #990000">]</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  
+  </tt>
+</pre></div>
+<p>Output:</p>
+<div class="output"><pre>
+fib(30)=832040
+
+</pre></div>
+<h4 class="subsection">example29_taxon_bridge_to_ontol</h4>
+<p>Extracted from module : <a href="pdoc/taxon_bridge_to_ontol.html">taxon_bridge_to_ontol</a></p>
+<div class="code"><pre>
+<tt>
+
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>io<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>taxon_bridge_to_ontol<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>taxon_db<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>ontol_db<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+
+  <span style="font-weight: bold"><span style="color: #000000">show_class</span></span><span style="color: #990000">(</span><span style="color: #009900">ID</span><span style="color: #990000">)</span><span style="color: #990000">:</span><span style="color: #990000">-</span>
+    <span style="font-weight: bold"><span style="color: #0000FF">class</span></span><span style="color: #990000">(</span><span style="color: #009900">ID</span><span style="color: #990000">,</span><span style="color: #009900">Name</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #0000FF">format</span></span><span style="color: #990000">(</span><span style="color: #FF0000">' [~w] ~w~n'</span><span style="color: #990000">,</span><span style="color: #990000">[</span><span style="color: #009900">ID</span><span style="color: #990000">,</span><span style="color: #009900">Name</span><span style="color: #990000">]</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  
+  <span style="font-weight: bold"><span style="color: #000000">demo</span></span><span style="color: #990000">:</span><span style="color: #990000">-</span>
+    <span style="font-weight: bold"><span style="color: #000000">load_bioresource</span></span><span style="color: #990000">(</span>taxnames<span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">load_bioresource</span></span><span style="color: #990000">(</span>taxnodes<span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #0000FF">class</span></span><span style="color: #990000">(</span><span style="color: #009900">ID</span><span style="color: #990000">,</span><span style="color: #FF0000">'Drosophila melanogaster'</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #0000FF">format</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'Lineage of fruitfly is:~n'</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">forall</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">subclassT</span></span><span style="color: #990000">(</span><span style="color: #009900">ID</span><span style="color: #990000">,</span><span style="color: #009900">ParentID</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+           <span style="font-weight: bold"><span style="color: #000000">show_class</span></span><span style="color: #990000">(</span><span style="color: #009900">ParentID</span><span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  </tt>
+</pre></div>
+<p>Output:</p>
+<div class="output"><pre>
+Lineage of fruitfly is:
+ [NCBITaxon:32351] melanogaster subgroup
+ [NCBITaxon:32346] melanogaster group
+ [NCBITaxon:32341] Sophophora
+ [NCBITaxon:7215] Drosophila
+ [NCBITaxon:186285] Drosophiliti
+ [NCBITaxon:46879] Drosophilina
+ [NCBITaxon:46877] Drosophilini
+ [NCBITaxon:43845] Drosophilinae
+ [NCBITaxon:7214] Drosophilidae
+ [NCBITaxon:43746] Ephydroidea
+ [NCBITaxon:43741] Acalyptratae
+ [NCBITaxon:43738] Schizophora
+ [NCBITaxon:43733] Muscomorpha
+ [NCBITaxon:7203] Brachycera
+ [NCBITaxon:7147] Diptera
+ [NCBITaxon:33392] Endopterygota
+ [NCBITaxon:33340] Neoptera
+ [NCBITaxon:7496] Pterygota
+ [NCBITaxon:85512] Dicondylia
+ [NCBITaxon:50557] Insecta
+ [NCBITaxon:6960] Hexapoda
+ [NCBITaxon:197562] Pancrustacea
+ [NCBITaxon:197563] Mandibulata
+ [NCBITaxon:6656] Arthropoda
+ [NCBITaxon:88770] Panarthropoda
+ [NCBITaxon:33317] Protostomia
+ [NCBITaxon:33316] Coelomata
+ [NCBITaxon:33213] Bilateria
+ [NCBITaxon:6072] Eumetazoa
+ [NCBITaxon:33208] Metazoa
+ [NCBITaxon:33154] Fungi/Metazoa group
+ [NCBITaxon:2759] Eukaryota
+ [NCBITaxon:131567] cellular organisms
+ [NCBITaxon:1] root
+
+</pre></div>
+<h4 class="subsection">example30_taxon_db</h4>
+<p>Extracted from module : <a href="pdoc/taxon_db.html">taxon_db</a></p>
+<div class="code"><pre>
+<tt>
+
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>taxon_db<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>io<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+
+  <span style="font-weight: bold"><span style="color: #000000">demo</span></span><span style="color: #990000">:</span><span style="color: #990000">-</span>
+    <span style="font-weight: bold"><span style="color: #000000">load_bioresource</span></span><span style="color: #990000">(</span>taxnames<span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">load_bioresource</span></span><span style="color: #990000">(</span>taxnodes<span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">taxname</span></span><span style="color: #990000">(</span><span style="color: #009900">ID1</span><span style="color: #990000">,</span><span style="color: #FF0000">'Drosophila melanogaster'</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">taxname</span></span><span style="color: #990000">(</span><span style="color: #009900">ID2</span><span style="color: #990000">,</span><span style="color: #FF0000">'Homo sapiens'</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">nearest_common_ancestor</span></span><span style="color: #990000">(</span><span style="color: #009900">ID1</span><span style="color: #990000">,</span><span style="color: #009900">ID2</span><span style="color: #990000">,</span><span style="color: #009900">PID</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">taxname</span></span><span style="color: #990000">(</span><span style="color: #009900">PID</span><span style="color: #990000">,</span><span style="color: #009900">N</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #0000FF">format</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'least common ancestor node of fly and human is ~w~n'</span><span style="color: #990000">,</span><span style="color: #990000">[</span><span style="color: #009900">N</span><span style="color: #990000">]</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  </tt>
+</pre></div>
+<p>Output:</p>
+<div class="output"><pre>
+least common ancestor node of fly and human is Coelomata
+
+</pre></div>
+<h4 class="subsection">example31_xml_transform</h4>
+<p>Extracted from module : <a href="pdoc/xml_transform.html">xml_transform</a></p>
+<div class="code"><pre>
+<tt>
+
+  <span style="font-style: italic"><span style="color: #9A1900">% purpose: convert an xml file with 'person' elements</span></span>
+  <span style="font-style: italic"><span style="color: #9A1900">% and nested 'address' elements to a flat term list</span></span>
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>xml_transform<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">library</span></span><span style="color: #990000">(</span>sgml<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+
+  <span style="font-style: italic"><span style="color: #9A1900">% define the mapping in the 'user' module</span></span>
+  user<span style="color: #990000">:</span><span style="font-weight: bold"><span style="color: #000000">xmlpred</span></span><span style="color: #990000">(</span>personset<span style="color: #990000">,</span><span style="color: #009900">_</span><span style="color: #990000">,</span><span style="color: #990000">[</span><span style="color: #990000">]</span><span style="color: #990000">,</span><span style="font-weight: bold"><span style="color: #000000">translate</span></span><span style="color: #990000">(</span>person<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  user<span style="color: #990000">:</span><span style="font-weight: bold"><span style="color: #000000">xmlpred</span></span><span style="color: #990000">(</span>person<span style="color: #990000">,</span><span style="color: #009900">_</span><span style="color: #990000">,</span><span style="font-weight: bold"><span style="color: #000000">person</span></span><span style="color: #990000">(</span><span style="color: #009900">ID</span><span style="color: #990000">,</span><span style="color: #009900">Name</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+               <span style="color: #990000">[</span><span style="font-weight: bold"><span style="color: #000000">let</span></span><span style="color: #990000">(</span><span style="color: #009900">ID</span><span style="color: #990000">=</span>ssid<span style="color: #990000">)</span><span style="color: #990000">,</span>
+                <span style="font-weight: bold"><span style="color: #000000">let</span></span><span style="color: #990000">(</span><span style="color: #009900">Name</span><span style="color: #990000">=</span>fullname<span style="color: #990000">)</span><span style="color: #990000">,</span>
+                <span style="font-weight: bold"><span style="color: #000000">prolog</span></span><span style="color: #990000">(</span><span style="color: #009900">M</span><span style="color: #990000">=</span><span style="font-weight: bold"><span style="color: #000000">in_person</span></span><span style="color: #990000">(</span><span style="color: #009900">ID</span><span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+                <span style="font-weight: bold"><span style="color: #000000">translate</span></span><span style="color: #990000">(</span>address<span style="color: #990000">,</span><span style="color: #009900">M</span><span style="color: #990000">)</span><span style="color: #990000">]</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  user<span style="color: #990000">:</span><span style="font-weight: bold"><span style="color: #000000">xmlpred</span></span><span style="color: #990000">(</span>address<span style="color: #990000">,</span><span style="font-weight: bold"><span style="color: #000000">in_person</span></span><span style="color: #990000">(</span><span style="color: #009900">PID</span><span style="color: #990000">)</span><span style="color: #990000">,</span><span style="font-weight: bold"><span style="color: #000000">person_address</span></span><span style="color: #990000">(</span><span style="color: #009900">PID</span><span style="color: #990000">,</span><span style="color: #009900">Street</span><span style="color: #990000">,</span><span style="color: #009900">City</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+               <span style="color: #990000">[</span><span style="font-weight: bold"><span style="color: #000000">let</span></span><span style="color: #990000">(</span><span style="color: #009900">Street</span><span style="color: #990000">=</span>street<span style="color: #990000">)</span><span style="color: #990000">,</span>
+                <span style="font-weight: bold"><span style="color: #000000">let</span></span><span style="color: #990000">(</span><span style="color: #009900">City</span><span style="color: #990000">=</span>city<span style="color: #990000">)</span><span style="color: #990000">]</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+
+  <span style="font-style: italic"><span style="color: #9A1900">% convert XML to prolog facts and write them out</span></span>
+  <span style="font-weight: bold"><span style="color: #000000">demo</span></span><span style="color: #990000">:</span><span style="color: #990000">-</span>
+    <span style="color: #009900">File</span><span style="color: #990000">=</span><span style="color: #FF0000">'personset.xml'</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">load_structure</span></span><span style="color: #990000">(</span><span style="color: #009900">File</span><span style="color: #990000">,</span><span style="color: #009900">Els</span><span style="color: #990000">,</span><span style="color: #990000">[</span><span style="font-weight: bold"><span style="color: #000000">dialect</span></span><span style="color: #990000">(</span>xml<span style="color: #990000">)</span><span style="color: #990000">,</span><span style="font-weight: bold"><span style="color: #000000">space</span></span><span style="color: #990000">(</span>remove<span style="color: #990000">)</span><span style="color: #990000">]</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">apply_xmlpred</span></span><span style="color: #990000">(</span>user<span style="color: #990000">,</span><span style="color: #009900">Els</span><span style="color: #990000">,</span><span style="color: #009900">Preds</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+    <span style="font-weight: bold"><span style="color: #000000">forall</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">member</span></span><span style="color: #990000">(</span><span style="color: #009900">Pred</span><span style="color: #990000">,</span><span style="color: #009900">Preds</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+           <span style="font-weight: bold"><span style="color: #000000">writeln</span></span><span style="color: #990000">(</span><span style="color: #009900">Pred</span><span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  </tt>
+</pre></div>
+<p>Output:</p>
+<div class="output"><pre>
+person(1, Sherlock Holmes)
+person_address(1, 221B Baker Street, London)
+person(2, mr tickle)
+person_address(2, 1010B tickle street, New York)
+
+</pre></div>
+<h4 class="subsection">example32_xml_writer</h4>
+<p>Extracted from module : <a href="pdoc/xml_writer.html">xml_writer</a></p>
+<div class="code"><pre>
+<tt>
+
+  <span style="color: #990000">:</span><span style="color: #990000">-</span> <span style="font-weight: bold"><span style="color: #000000">use_module</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">bio</span></span><span style="color: #990000">(</span>xml_writer<span style="color: #990000">)</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+
+  <span style="font-weight: bold"><span style="color: #000000">demo</span></span><span style="color: #990000">:</span><span style="color: #990000">-</span>
+     <span style="font-weight: bold"><span style="color: #000000">doc_start</span></span><span style="color: #990000">(</span><span style="color: #009900">X</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+     <span style="font-weight: bold"><span style="color: #000000">event_start</span></span><span style="color: #990000">(</span><span style="color: #009900">X</span><span style="color: #990000">,</span><span style="color: #009900">X2</span><span style="color: #990000">,</span>note<span style="color: #990000">,</span><span style="color: #990000">[</span>id<span style="color: #990000">=</span><span style="color: #993399">1</span><span style="color: #990000">]</span><span style="color: #990000">)</span><span style="color: #990000">,</span>
+     <span style="font-weight: bold"><span style="color: #000000">event</span></span><span style="color: #990000">(</span><span style="color: #009900">X2</span><span style="color: #990000">,</span>hello<span style="color: #990000">)</span><span style="color: #990000">,</span>
+     <span style="font-weight: bold"><span style="color: #000000">event_end</span></span><span style="color: #990000">(</span><span style="color: #009900">X2</span><span style="color: #990000">,</span><span style="color: #009900">X</span><span style="color: #990000">)</span><span style="color: #990000">.</span>
+  </tt>
+</pre></div>
+<p>Output:</p>
+<div class="output"><pre>
+&lt;?xml version="1.0"?&gt;
+
+&lt;note id="1"&gt;hello&lt;/note&gt;
+</pre></div>
+</div>
+<div class="footer"><address><a href="mailto:cjm_AT_fruitfly_DOT_org">chris mungall</a></address></div>
+</body>
+</html>

@@ -1,0 +1,150 @@
+
+pllibdir = @PLLIBDIR@
+
+prefix      = @prefix@
+exec_prefix = @exec_prefix@
+bindir      = @bindir@
+libdir      = @libdir@
+
+archive  = @PACKAGE_TARNAME@-@PACKAGE_VERSION@
+
+INSTALL = './tools/install-sh'
+#INSTALL = @INSTALL@
+
+#include Modules-Makefile
+pl_files = $(patsubst packages/%.pro,%,$(wildcard packages/blip/*/*.pro))
+
+pl_ext_files = \
+	squid					
+
+all_pl_files = $(pl_files) $(pl_ext_files)
+
+bin_files = \
+blip\
+chaos2p\
+fasta2p\
+fasta2t\
+gencode2p\
+gff2p\
+t2fasta\
+serval\
+tbl2p
+
+all: scripts biorc
+	@echo "now run 'make install'"
+
+Modules-Makefile: module-info.list
+	perl tools/module-metadata-to-mf module-info.list > $@
+
+website: html pdoc_html source_html
+	test -d doc/download || mkdir doc/download
+	test -f doc/download/$(archive).tar.gz || cp $(archive).tar.gz doc/download
+
+copy_website:
+	rsync -avz doc/ portal.open-bio.org:/home/websites/blipkit.org/html
+
+
+MANIFEST:
+	tools/create-manifest > $@
+
+#scripts: bin/bpr-test
+scripts: bin/serval bin/blip
+
+biorc: etc/bc.pro
+
+bin/blip.bin:
+	@SWIPL@ -o $@ --toplevel=main --stand_alone=true --goal=prolog -c bin/blip
+
+test: tools/run-test
+	tools/run-test $(pl_files)
+
+
+PROLOGDOC = ~/cvs/PrologDocNG
+
+ALL_SOURCE = $(patsubst %,packages/%.pro,$(pl_files))
+
+pdoc_html: $(ALL_SOURCE)
+	tools/pdoc-wrapper $(PROLOGDOC) $(pl_files)
+
+.PRECIOUS: doc/pdoc/%.xml
+
+source_html: $(patsubst %,doc/pdoc/%.pro,$(pl_files)) $(patsubst %,doc/pdoc/%.pro.html,$(pl_files))
+
+doc/examples.html.in: pdoc_html
+	tools/extract-codelisting.pro doc/pdoc/*.xml
+
+doc/pdoc/%.xml: lib/%.pro
+	mkdir -p doc/pdoc
+	pldoc --to doc/pdoc --driver pldoc --pl-ext pro $< 
+
+doc/pdoc/%.html: doc/pdoc/%.xml
+	xsltproc --stringparam sourcedir "." $(PROLOGDOC)/xml/pdng-pd2html.xsl $< >$@.tmp && mv $@.tmp $@
+
+# todo: pretty printer
+doc/pdoc/%.pro: lib/%.pro
+	cp $< $@
+doc/pdoc/%.pro.html: lib/%.pro
+	source-highlight -sprolog -fxhtml -i$< -o$@ -cprologsrc.css
+
+HTML_PAGES = index started tutorial examples download modules svn maillist serval architecture bioresources applications cookbook FAQ
+
+html: $(patsubst %,doc/%.html,$(HTML_PAGES))
+
+WEBSITE_XSL = doc/xsl/website.xsl
+doc/%.html: doc/%.html.in $(WEBSITE_XSL)
+	xsltproc --stringparam release $(archive) $(WEBSITE_XSL) $< > $@.tmp && mv $@.tmp $@
+
+tools/run-test: tools/run-test.in
+	./config.status --file $@ && chmod +x $@
+bin/serval: bin/serval.in
+	./config.status --file $@ && chmod +x $@
+bin/blip: bin/blip.in
+	./config.status --file $@ && chmod +x $@
+bin/blip-sql: bin/blip-sql.in
+	./config.status --file $@ && chmod +x $@
+bin/blip-std: bin/blip-std.in
+	./config.status --file $@ && chmod +x $@
+bin/blip-ddb: bin/blip-ddb.in
+	./config.status --file $@ && chmod +x $@
+etc/bc.pro: etc/bc.pro.in
+	./config.status --file $@ && chmod +x $@
+
+install: all install-pl install-bin
+
+install-pl:
+	@echo "Installing prolog modules:"
+	@for i in $(pl_files); \
+		do \
+		echo "copying packages/$$i.pro to $(pllibdir)/$$i.pl"; \
+		$(INSTALL) -c packages/$$i.pro $(pllibdir)/$$i.pl; \
+		done
+
+install-bin:
+	@echo "Installing binaries:"
+	@for i in $(bin_files); \
+		do \
+		echo "copying $$i to $(bindir)/$$i"; \
+		$(INSTALL) -c -m 755 bin/$$i $(bindir)/$$i; \
+		done
+
+tags:
+	etags -l prolog lib/*.pro apps/*/src/*.pro
+
+dist:
+	mkdir -p $(archive) && \
+	( for i in `cat MANIFEST`; do $(INSTALL) -c $$i $(archive)/$$i; done) && \
+	tar czf $(archive).tar.gz $(archive) && \
+	cp $(archive).tar.gz doc/download/ && \
+	rm -Rf $(archive)
+
+# Latex generation
+# http://www.swi-prolog.org/pldoc/doc_for?object=section%283%2c%20%2710.4%27%2c%20swi%28%27%2fdoc%2fpackages%2fpldoc.html%27%29%29
+
+.SUFFIXES: .txt .tex
+
+%.tex: %.pro
+	swipl -s tools/pldoc_modules_std.pro -g "doc_latex('$*.pro','$*.tex',[stand_alone(true)]),halt" -t "halt(1)"
+.pro.tex:
+	swipl -f tools/pldoc_modules_std.pro -g "doc_latex('$*.pro','$*.tex',[stand_alone(false)]),halt" -t "halt(1)"
+.txt.tex:
+	swipl -f tools/pldoc_modules_std.pro -g "doc_latex('$*.txt','$*.tex',[stand_alone(false)]),halt" -t "halt(1)"

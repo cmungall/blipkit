@@ -1,0 +1,47 @@
+#!/usr/bin/perl -w
+use strict;
+my @lines = <>;
+my $s = join('',@lines);
+my @ex;
+if ($s =~ /(.*)(:\-\s*module\(\w+,\s*\[\s*.*?\])(.*)/s) {
+    my $start = $1;
+    my $mod = $2;
+    my $rest = $3;
+    $mod =~ /\[(.*)\]/;
+    my $exl = $1;
+    #$exl =~ s/\].*//;
+    @ex = split(/\s*,\s*/,$exl);
+    my %exh =
+      map {
+          split('/',$_);
+      } @ex;
+    @lines = split(/\n/, $rest);
+    my $in = 0;
+    print $start;
+    print $mod;
+    foreach (@lines) {
+        next if /^\%\s*=*\s*$/;
+        $_ .= "\n";
+        if (/^\%\s(\w+)\((.*?)\)/) {
+            my @args = split(/\,/,$2);
+            if ($exh{$1} = scalar(@args)) {
+                s/^\%//;
+                my $open = $in ? "     " : "/** ";
+                $_ = "$open\@form $_    \@descr\n";
+                $in = 1;
+            }
+        }
+        elsif ($in) {
+            if (/^\%/) {
+                $_ =~ s/^\%//;
+            }
+            else {
+                print "*/\n";
+                $in = 0;
+            }
+        }
+        else {
+        }
+        print $_;
+    }
+}

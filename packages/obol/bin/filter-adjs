@@ -1,0 +1,3 @@
+#!/bin/sh
+
+cut -f1-4 -d ' ' $1 | perl -npe 's/http.*FMAInOWL#/anatomy/;s/disease_ontology/disease/;s/MPheno\.ontology/phenotype/;s/adult.*gxd/anatomy/;' | sort -u | sort -k4 | perl -ne 'chomp;split;printf "\n/%s\n*relational_adj_ra\n", $_[3] if $_[3] ne $ont;$ont=$_[3];printf "%s, %s\n",$_[1],$_[2]'

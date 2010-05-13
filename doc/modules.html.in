@@ -1,0 +1,463 @@
+  <page>
+    <title>Blip: Modules</title>
+    <section id="Modules">
+      <p>
+        The list below is incomplete. For a full list of modules, see
+        the dynamic module documentation in <url to='blipdoc'/>.
+      </p>
+
+    </section>
+
+    <section id="Introduction">
+      <p>
+        Blip consists of different prolog modules covering different
+        areas of knowledge withins the life sciences - sequences,
+        analysis, ontologies, phylogenetics, pathways, etc. These
+        modules are largely independent - you may only need to use one
+        of the modules below for your research.
+      </p>
+      <p>
+        The modules are in two sections: MAIN and
+        EXT. The MAIN modules are all in pure prolog and should run
+        without problems. The EXT modules use the SWI-Prolog foreign language
+        interface to use other libraries (currently C, but java and C++
+        may be on the cards for the future).
+      </p>
+      <p>
+        Of the Main modules, some are <b>bio</b> modules (containing
+        code specific to some subdomain of biology), and some are
+        <b>generic</b> modules (which may be of interest to other <url
+        to="SWI-Prolog"/> users regardless of their interest in
+        bioinformatics). The latter may eventually be
+        split off from blip and go into independent packages.
+      </p>
+      <p>
+        It may also be an idea to become familiar with some of the
+        standard <a href="http://www.swi-prolog.org/packages">SWI-Prolog
+          packages</a>
+      </p>
+    </section>
+    <section id="Package List">
+      <ul>
+        <li>
+          <packageref to="blipcore"/>
+        </li>
+        <li>
+          <packageref to="ontol"/>
+        </li>
+        <li>
+          <packageref to="metadata"/>
+        </li>
+        <li>
+          <packageref to="curation"/>
+        </li>
+        <li>
+          <packageref to="genomic"/>
+        </li>
+        <li>
+          <packageref to="sb"/>
+        </li>
+        <li>
+          <packageref to="phylo"/>
+        </li>
+        <li>
+          <packageref to="sql"/>
+        </li>
+        <li>
+          <packageref to="xml"/>
+        </li>
+        <li>
+          <packageref to="web"/>
+        </li>
+        <li>
+          <packageref to="serval"/>
+        </li>
+
+      </ul>
+    </section>
+    <section id="Main Bio Modules">
+      <p>
+        These modules contain specific biological semantics. There are
+        three kinds of modules:
+        <ul>
+          <li>
+            data or <b>domain model</b> modules, which define a set of
+            data predicates (facts) and view predicates over these
+            facts, which can be imported from some external file (see
+            the <moduleref package="blipcore" to="io"/> module). Data modules should be
+            named with the suffix <i>_db</i>. Data modules can also be
+            thought of as relational database schemas (albeit with
+            added behaviour).
+          </li>
+          <li>
+            <b>utility</b> modules, which do not depend on any data
+            module, and do not require any data to be stored in the
+            database.
+          </li>
+          <li>
+            <b>bridge</b> modules, which map one data model to
+            another. Blip does not insist on everything conforming to
+            one uber-model. For example, sometimes it is convenient to
+            model genomic features using the <moduleref package="genomic"
+            to="seqfeature_db"/> model, and other times it is more
+            convenient to model them as instances of <url
+            to="SequenceOntology"/> classes using the
+            <moduleref to="ontol_db"/> module or <url to="SemWeb"/>
+          </li>
+        </ul>
+      </p>
+
+      <div package="genomic">
+      <module package="genomic" id="seqfeature_db" type="data">
+        <status>usable</status>
+        <desc>
+          A model of biological sequence features. Maps well to
+          standard bio models, in particular GFF3, Chado and
+          Chaos-XML
+
+          <br></br>
+
+          This module also uses <moduleref to="bioseq"/> and <moduleref 
+              to="range"/>
+        </desc>
+        <bridges>
+          <bridge id="seqfeature_xmlmap_game"/>
+          <bridge id="seqfeature_xmlmap_chaos"/>
+          <bridge id="seqfeature_writer_chaos"/>
+          <bridge id="seqfeature_bridge_from_chadosql"/>
+          <bridge id="seqfeature_bridge_from_fasta"/>
+          <bridge id="seqfeature_bridge_to_inst"/>
+        </bridges>
+      </module>
+      </div>
+
+      <module package="genomic" id="fasta_db" type="data">
+        <status>stable</status>
+        <desc>
+          A simple schema for biological sequences based on
+          ID-description-residues triples.
+        </desc>
+      </module>
+
+      <module package="ontol" id="ontol_db" type="data">
+        <status>stable</status>
+        <desc>
+          Models classes and instances. This model maps well to both
+          <url to="OBO"/> and <url to="OWL"/> models
+        </desc>
+        <bridges>
+          <bridge id="ontol_bridge_from_owl">
+            If OWL facts are loaded into the SWI rdf_db module, then
+            this bridge will provide access to this data using
+            ontol_db predicates
+          </bridge>
+          <bridge id="ontol_bridge_to_owl">
+            If data is present in ontol_db, then rdf_db predicates can
+            be used to access this (as if it was an OWL database)
+          </bridge>
+          <bridge id="ontol_bridge_from_gosql">
+            Given a relational database conforming to the GO schema,
+            accessible via ODBC, this will allow access to the
+            database through the standard ontol_db predicates
+          </bridge>
+          <bridge id="ontol_writer_obo">
+            Writes an ontology in Obo-text format
+          </bridge>
+          <bridge id="ontol_writer_dot">
+            writes to graphviz dot format
+          </bridge>
+          <bridge id="ontol_writer_asp">
+            writes to lparse answer-set prolog syntax
+          </bridge>
+          <bridge id="parser_obo">
+            parses OBO file format.
+          </bridge>
+        </bridges>
+      </module>
+
+      <module package="sb" id="sb_db" type="data">
+        <status>usable, incomplete</status>
+        <desc>
+          Models pathways and interactions. Currently the model is
+          very SBML-y (level 1 and 2) but it may change. Little support for
+          quantative stuff as yet.
+        </desc>
+        <bridges>
+          <bridge id="sb_bridge_to_dot">
+            <desc>
+              maps pathway graphs to graphviz dot format
+            </desc>
+          </bridge>
+          <bridge id="sb_xmlmap_sbml">
+            Maps from SBML Level 1 and 2 XML
+          </bridge>
+          <bridge id="sb_bridge_from_biopax">
+            Maps from BioPax level-1 OWL instances
+          </bridge>
+          <bridge id="sb_bridge_to_chadoxml">
+          </bridge>
+        </bridges>
+      </module>
+
+      <module package="pheno" id="pheno_db" type="data">
+        <status>in use</status>
+        <desc>
+          Genotype and phenotype data predicates
+        </desc>
+        <bridges>
+          <bridge id="pheno_bridge_to_inst">
+            <desc>
+                Maps pheno data to generic instances, allowing access
+                from ontol_db and rdf_db modules (and hence writing to
+                <url to="OBO"/> and <url to="OWL"/> formats)
+            </desc>
+          </bridge>
+          <bridge id="pheno_bridge_from_inst">
+            <desc>
+                Maps pheno data from generic instances conforming to
+                the pheno class model
+            </desc>
+          </bridge>
+        </bridges>
+      </module>
+
+      <module package="phylo" id="phylo_db" type="data">
+        <status>test</status>
+        <desc>
+          Phylogenetic tree data
+        </desc>
+        <bridges>
+          <bridge id="phylo_bridge_from_taxon">
+            <desc>
+              Maps to <moduleref to="taxon_db"/> schema
+            </desc>
+          </bridge>
+          <bridge id="parser_nhx">
+            <desc>
+              Parses 'New Hampshire' (normal and extended) format files
+            </desc>
+          </bridge>
+        </bridges>
+      </module>
+
+      <module package="genomic" id="seqanalysis_db" type="data">
+        <status>new</status>
+        <desc>
+          Models results of sequence similarity searches, eg blast results
+        </desc>
+      </module>
+
+      <module package="phylo" id="taxon_db" type="data">
+        <status>usable</status>
+        <desc>
+          Models a taxonomic tree of organisms. Fairly simple and
+          stable. Some overlaps with <moduleref to="phylo_db"/>
+        </desc>
+        <bridges>
+          <bridge id="taxon_bridge_to_ontol">
+          </bridge>
+        </bridges>
+      </module>
+
+      <module package="blipcore" id="io" type="util">
+        <status>usable</status>
+        <desc>handles input/output - mostly loading from external
+          files into the in-memory prolog database
+        </desc>
+      </module>
+
+      <module  package="blipcore" id="biotable" type="util">
+        <status>usable</status>
+        <desc>
+          Metadata about many common tabular bioinformatics file
+          formats, for use in conjunction with the <a
+            href="http://www.swi-prolog.org/packages/table.html">table</a>
+          module
+        </desc>
+      </module>
+
+      <module package="blipcore" id="bioprolog_util" type="util">
+        <status>usable, but not stable</status>
+        <desc>
+          hodgepodge of useful predicates. Some predicates may migrate
+          to more specialized modules in future
+        </desc>
+      </module>
+
+      <module  package="genomic" id="bioseq" type="util">
+        <status>usable, but currently very limited functionality</status>
+        <desc>
+          Provides some handy predicates for handling nucleic acid and
+          amino acid sequences. Does not assume any model
+        </desc>
+        <submodules>
+          <module id="gencode" type="util">
+            <status>usable</status>
+            <desc>genetic codes (translation tables) for different species
+              classes</desc>. Created automatically.
+          </module>
+          <module id="iupac" type="util">
+            <status>usable</status>
+          </module>
+        </submodules>
+      </module>
+
+      <module  package="genomic" id="range" type="util">
+        <status>usable, interface subject to change</status>
+        <desc>
+          Operations on linear ranges. Does not assume any particular
+          model (predicate arguments are typically compound terms
+          representing range "objects")
+        </desc>
+      </module>
+
+    </section>
+
+    <section id="Parsers">
+      
+      <p>File format parsers - these convert from flat files
+      conforming to some grammar into a list of prolog terms. These
+      prolog terms may then later be converted to datalog facts in one
+      of the db modules above; or the prolog terms may be an end in
+      themselves</p>
+
+      <p>
+        Most parsers will be prolog DCGs. This means they may be
+        reversible - from prolog terms to flat file syntax
+      </p>
+      
+      <module  package="phylo" id="parser_nhx" type="parser">
+        <status>stable</status>
+        <desc>
+          Parses New Hampshire and New Hampshire Extended format
+          (phylogenetic trees). See also <moduleref to="phylo_db"/>
+        </desc>
+      </module>
+      
+      <module package="ontol" id="parser_obo" type="parser">
+        <status>beta</status>
+        <desc>
+          Parses obo text format. Not currently ysed. For now, the
+          <moduleref to="io"/> module will use go-perl behind the
+            scenes to convert this. See also <moduleref to="ontol_db"/>
+        </desc>
+      </module>
+      
+    </section>
+
+    <section id="Generic Modules">
+
+      <p>General purpose modules, not specifically tied to ontologies,
+        bioinformatics or biomedical applications</p>
+
+      <p>(These modules may also be of interest to non-bio
+        programmers)</p>
+
+      <module package="blipcore" id="graph" type="util">
+        <status>incomplete, usable</status>
+        <desc>
+          Generic graph operations - closure, least common ancestors
+          etc. Higher order - can be used with different db modules.
+        </desc>
+      </module>
+      
+      <module package="sql" id="rdb_util" type="util">
+        <status>usable</status>
+        <desc>
+          SQL database interface, layered on top of the ODBC interface
+        </desc>
+      </module>
+      
+      <module package="sql" id="sql_compiler" type="util">
+        <status>usable</status>
+        <desc>
+          Extension of Draxler's code for rewriting prolog goals as SQL queries
+        </desc>
+      </module>
+      
+      <module package="web" id="web_fetch_google" type="util">
+        <status>usable</status>
+        <desc>
+          Wrapper for the Google SOAP API - enables google queries to
+          be performed from prolog
+        </desc>
+      </module>
+      
+      <module package="blipcore" id="tabling" type="util">
+        <status>usable, limited</status>
+        <desc>
+         Simple memoization of predicates
+        </desc>
+      </module>
+      
+      <module package="xml" id="xml_writer" type="util">
+        <status>usable</status>
+        <desc>
+          Maps prolog term syntax XML to actual XML
+        </desc>
+      </module>
+      
+      <module package="xml" id="xml_transform" type="util">
+        <status>incomplete, usable</status>
+        <desc>
+          XPath-like query language and declarative transforms between
+          XML formats and flat predicates
+        </desc>
+      </module>
+      
+      <module package="serval" id="serval" type="util">
+        <status>usable, in flux</status>
+        <desc>
+          A lightweight logical-functional framework for rapidly
+          deploying web applications
+        </desc>
+      </module>
+
+      <module package="graph" id="dotwriter" type="util">
+        <status>usable</status>
+        <desc>
+          Simple predicates for generating graphviz dot files from
+          compound terms
+        </desc>
+      </module>
+    </section>
+
+    <section id="Bio Ext Modules">
+      <p>
+        These modules live in the "ext/" directory, and are not
+        installed by default. To install, descend into this directory
+        and follow the instructions there.
+      </p>
+      <p>
+        The idea is that this directory will contain modules that use
+        the SWI foreign language interface to call C libraries for
+        tasks that may be slow in Prolog. So far this just has one
+        proof of concept module
+      </p>
+
+      <module id="squid" type="util">
+        <status>not complete, but still usable</status>
+        <desc>
+          Uses Sean Eddy's <url to="SQUID"/> C library for parsing
+            sequence files (various formats), and providing an alternate
+            implementation of revcomp/2
+        </desc>
+      </module>
+
+      <module id="intervaldb" type="util">
+        <status>not complete, but still usable</status>
+        <desc>
+          Nested Containment Lists (NCLs)
+        </desc>
+      </module>
+
+    </section>
+
+      <lastmod>
+        <!-- Created: Mon May  2 09:02:21 PDT 2005 -->
+      <!-- hhmts start -->
+Last modified: Sat Jan  7 17:01:48 PST 2006
+<!-- hhmts end -->
+    </lastmod>
+
+  </page>

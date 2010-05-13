@@ -1,0 +1,4 @@
+#!/bin/sh
+
+blip io-convert -f gff3 -u genome_bridge_from_seqfeature -to genome_db:pro $@
+

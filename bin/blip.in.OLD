@@ -1,0 +1,20 @@
+#!@SWIPL@ -L0 -G0 -A0 -T0 -q -g main -t halt -s
+
+user:file_search_path(bio,'@PLLIBDIR@/blip').
+user:program_info(package('@PACKAGE_TARNAME@','@PACKAGE_VERSION@')).
+
+/*
+
+  blip: main command line interface
+  
+*/
+
+:- use_module(library('blip/blipcore/blipkit')).
+:- use_module(library('blip/ontol/blipkit_ontol')).
+:- use_module(library('blip/phylo/blipkit_phylo')).
+:- use_module(library('blip/genomic/blipkit_fasta')).
+:- use_module(library('blip/sb/blipkit_sb')).
+:- use_module(library('blip/attic/blipkit_goa')).
+:- use_module(library('blip/web/blipkit_web')).
+
+

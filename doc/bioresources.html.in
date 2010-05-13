@@ -1,0 +1,144 @@
+<page>
+    <title>Blip: Bioresources</title>
+    <section id="About">
+      <p>
+        A bioresource is any file, database or URL containing
+        biological data. Bioresources have some kind of access path,
+        and can be given logical names. This makes it easier to refer
+        to these resources - for example, if you wish to repeatedly
+        use the <b>gene_ontology.obo</b> bioresource, you can
+        associate a name (like <b>go</b>) to a path (the file path in
+        your filesystem, or a URL)
+      </p>
+      <p>
+        Use of bioresources is optional, but they can make your life easier
+      </p>
+    </section>
+    <section id="Creating bioresources">
+      <p>
+        When you install blip you will set up some standard
+        bioresources (these may not be appropriate for your setup -
+        when blip gets a final release the defaults will be
+        standardised URLs). You will probably want to override
+        these. You can do this by creating a bioconf file.
+      </p>
+      <p>
+        Your bioconf file will consist of prolog facts in the 'user'
+        module. These facts use the predicate bioresource/2,
+        bioresource/3 and bioresource/4.
+      </p>
+      <p>
+        Create a file <b>bioconf.pro</b> and place it somewhere
+        accessible by all the users sharing the same
+        configuration. We'll assume it's in your home dir for the
+        purposes of this introduction
+      </p>
+    </section>
+    <section id="The bioresource predicate">
+      <p>
+        The bioresource predicate names a bioresource, provides a
+        path and the format of the resource.
+      </p>
+      <p>
+        Here is an example line from a bioconf.pro file:
+        <code>
+          <pre>
+user:bioresource(go,'/users/cjm/go/ontology/gene_ontology.obo'),obo).
+          </pre>
+        </code>
+        This specifies a resource named 'go' in 'obo' format
+      </p>
+      <p>
+        To make full use of a bioconf file you should understand the
+        SWI-Prolog predicate expand_file_search_path/2 (use the
+        builtin SWI help system for more details). The blip
+        bioresources system makes full use of this. For example, we
+        can change the above to:
+        <code>
+          <pre>
+user:file_search_path(go, '/users/cjm/go/ontology').
+user:bioresource(go,go('gene_ontology.obo'),obo).
+          </pre>
+        </code>
+      </p>
+      <p>
+        Files can be in any format understood by blip (see <modureref
+          to="io"/> for full list). Files can also be prolog
+          factfiles. In these cases, the schema module must also
+          be specified; for example:
+          <code>
+            <pre>
+user:bioresource(go,go('go.pro'),pro,ontol_db).
+user:bioresource(words,datadir('words.pro'),pro,user).
+            </pre>
+          </code>
+          There is no major advantage to explicitly specifying a
+          prolog fact file if the original format is available -
+          remember that the blip io system will take care of
+          converting the original format to prolog fact file (ensuring
+          the factfile is up to date with respect to the original file)
+      </p>
+    </section>
+    <section id="Remote bioresources">
+      <p>
+        (experimental) - use the url term to specify a remote
+        resource; eg:
+          <code>
+            <pre>
+user:bioresource(go,url('ftp://www.geneontology.org/pub/go/ontology/gene_ontology.org),obo).
+            </pre>
+        </code>
+      </p>
+    </section>
+    <section id="Example bioconf">
+      <p>
+        For guidance, look at the configuration in etc/bioconf.pro in
+        the blip distribution.
+      </p>
+    </section>
+    <section id="Configuration">
+      <p>
+        Create a file <b>~/.plrc</b> (if you don't have one
+        already). Add a line:
+        <code>
+          <pre>
+:- ['/users/cjm/bioconf.pro'].
+          </pre>
+        </code>
+        (changing the path appropriately of course)
+      </p>
+      <p>
+        If you wish to split your conf over multiple files, do this:
+        <code>
+          <pre>
+:- multifile bioresource/3,bioresource/4.
+:- ['/users/cjm/bioconf.pro'].
+:- ['/users/cjm/bioconf_extra.pro'].
+          </pre>
+        </code>
+      </p>
+    </section>
+    <section id="More details">
+      <p>
+        See the <moduleref to="io"/> documentation
+      </p>
+    </section>
+
+    <section id="TODO">
+      <p>
+        A later version of blip will have a set of standard
+        bioresources defined as standard URLs. The URL mechanism will
+        be improved so that local caches will be maintained on the
+        user's machine. For now, users wishing to use bioresources
+        should set them up themselves (which will entail downloading etc)
+      </p>
+    </section>
+
+    <lastmod>
+      <!-- Created: Mon May  2 09:02:21 PDT 2005 -->
+<!-- hhmts start -->
+Last modified: Sat Jan  7 21:03:38 GMT 2006
+<!-- hhmts end -->
+    </lastmod>
+
+  </page>

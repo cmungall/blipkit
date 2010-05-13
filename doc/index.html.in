@@ -1,0 +1,110 @@
+  <page>
+    <title>Blipkit: Biomedical LogIc Programming Knowledge Integration Kit</title>
+    <section id="About Blip">
+      <p>
+        Blip is a collection of logic programming modules intended
+        primarily for bioinformatics and biomedical applications,
+        although it contains some modules which may be of more
+        general interest. Blip is intended to be both an application
+        library, and a deductive database/query system. Blip is
+        written in
+        <url to="SWI-Prolog"/>, a
+          fast, robust and scalable implementation of ISO Prolog.
+      </p>
+      <p>
+        Blip is <a href="http://www.fsf.org">Free Software</a>,
+        available, licensed under the <url to="LGPL"/>. 
+      </p>
+      <p>Blip, aka <i>blipkit</i> can be cited as...</p>
+    </section>
+    <section id="Features">
+      <p>Here are some distinguishing characteristics of Blip</p>
+      <ul>
+        <li>
+          <b>Lightweight</b>. Bloat-free: Blip only has as many modules
+          as it needs to do its job.
+        </li>
+        <li>
+          <b>Fast</b>. 
+        </li>
+        <li>
+          <b>Declarative</b>. Say <i>what</i> you want to do, not
+          <i>how</i> you want to do it
+        </li>
+        <li>
+          Blip can be <b>Query-oriented</b>: specify your data
+          sources and ask your query
+        </li>
+        <li>
+          Blip can be <b>Application-oriented</b>: it is designed to be
+          used as an application library used by other bioinformatics tools
+        </li>
+        <li>
+         Mature and fully functional <b>ontology module</b> for
+         handling both <url to="OBO"/>-style ontologies and <url
+        to="OWL"/> ontologies.
+        </li>
+        <li>
+          Modules for handling <b>biological sequences</b> and
+          <b>sequence features</b>. [currently limited functionality,
+          added as needed]
+        </li>
+        <li>
+          A <b>systems biology</b> module for querying pathway and
+          interaction data. [currently limited functionality, added as needed]
+        </li>
+        <li>
+          <b>Relational database integration</b>. SQL can be viewed as a
+          highly restricted dialect of Prolog. Although the SWI-Prolog
+          in-memory database is fast and scalable, sometimes it is nice
+          to be able to fetch data from an external database. Blip
+          contains a generic SQL utility module and predicate mappings
+          for the GO database, Ensembl and Chado
+        </li>
+        <li>
+          <b>Integration</b> with a variety of bioinformatics <b>file
+            formats</b>. SWI-Prolog has a variety of fast libraries for
+          dealing with XML, RDF and tabular data files. Blip provides
+          bridges from bio file formats encoded using these syntaxes
+          into its native models. For other syntaxes, Blip seamlessly
+          integrates other packages such as <url to="BioPerl"/> and <url
+              to="go-perl"/>. Although these dependencies require extra
+              installation, there is no point reinventing the wheel
+        </li>
+        <li>
+          <b>Rapid development of web applications</b>. Blip extends <url
+          to="SWI-Prolog"/>'s excellent http support with a simple and
+          powerful logical-functional-programming style application
+          server, <pageref page="serval"/>. This has been used to
+          prototype a fully-featured next-generation replacement for
+          the GO project <url to="amigo"/> browser.
+        </li>
+        <li>
+          <b>Scalable</b>. Blip is not intended to be a toy system on
+          toy data (although it is happy to be used as a toy if you
+          like!). It is intended to be used as an application component
+          and a tool operating on real-world biological and biomedical
+          data
+        </li>
+        <li>
+          It's <b>free!</b>
+        </li>
+        <li>
+          It's <b>fun!</b>
+        </li>
+      </ul>
+    </section>
+    <section id="News">
+      <news>
+        <newsitem date="2009-05-15">
+          <a href="http://blipkit.wordpress.com">Blip Blog</a> up
+        </newsitem>
+      </news>
+    </section>
+    <lastmod>
+      <!-- Created: Mon May  2 09:02:21 PDT 2005 -->
+<!-- hhmts start -->
+Last modified: Fri Sep 30 18:23:46 PDT 2005
+<!-- hhmts end -->
+    </lastmod>
+  </page>

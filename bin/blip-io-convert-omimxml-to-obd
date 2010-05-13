@@ -1,0 +1,5 @@
+#!/bin/sh
+
+blip io-convert -f omimxml -u omim_bridge_to_ontol -to obd  -i $@
+
+

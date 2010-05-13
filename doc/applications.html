@@ -1,0 +1,174 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Blip: Applications</title>
+<link rel="SHORTCUT ICON" href="favicon.ico">
+<link rel="stylesheet" href="pdoc/prologdoc.css" type="text/css">
+<link rel="stylesheet" href="css/blip.css" type="text/css">
+<script type="text/javascript">
+          var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+                          document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+        </script><script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-11782828-1");
+              pageTracker._trackPageview();
+            } catch(err) {}
+        </script>
+</head>
+<body>
+<div id="logo">Blip: Biomedical Logic Programming</div>
+<div class="navbar">
+<p class="title">Documentation</p>
+<p class="side"><a href="index.html">Home</a><br><a href="started.html">Getting started</a><br><a href="tutorial.html">Tutorial</a><br><a href="architecture.html">Architecture</a><br><a href="modules.html">Modules</a><br><a href="examples.html">Examples</a><br><a href="applications.html">Applications</a><br><a href="serval.html">Serval</a><br><a href="faq.html">FAQ</a><br><a href="http://berkeleybop.org/blipdoc">pldoc server</a><br></p>
+<p class="title">Download</p>
+<p class="side"><a href="svn.html">Subversion repository</a><br></p>
+<p class="title">Announcements</p>
+<p class="side"><a href="http://blipkit.wordpress.com">Blip Blog</a><br></p>
+<p class="title">Open-Bio</p>
+<p class="side"><a href="http://www.open-bio.org/">Open Bioinformatics Foundation</a><br><a href="http://www.biojava.org/">BioJava</a><br><a href="http://www.biopython.org/">Biopython</a><br><a href="http://www.bioperl.org/">Bioperl</a><br><a href="http://www.bioruby.org/">Bioruby</a><br><a href="http://obda.open-bio.org/">OBDA</a><br><a href="http://www.biodas.org/">DAS</a><br><a href="http://www.biomoby.org/">MOBY</a><br><a href="http://www.emboss.org/">EMBOSS</a><br></p>
+<p class="title">Related Sites</p>
+<p class="side"><a href="http://skam.sourceforge.net/">BioMake</a><br><a href="http://www.fruitfly.org/~cjm/obol/">Obol</a><br></p>
+</div>
+<div id="header_menu">[ &lt;<a href="#Applications">Applications</a>&gt;  &lt;<a href="#blip%20kit">blip kit</a>&gt;  &lt;<a href="#AmiGO-NG">AmiGO-NG</a>&gt;  &lt;<a href="#OBO%20Browser">OBO Browser</a>&gt;  &lt;<a href="#OBO-Conv">OBO-Conv</a>&gt;  &lt;<a href="#Obol">Obol</a>&gt; ]</div>
+<div class="content">
+<a name="Applications"></a><h3 class="section">Applications</h3>
+<p>
+        This page lists some applications using blip
+      </p>
+<a name="blip kit"></a><h3 class="section">blip kit</h3>
+<p>
+        This is a command-line interface to much of the blip module
+        functionality, accessed via the unix command
+        <pre>blip</pre>, followed by the name of the blip command.
+      </p>
+<p>
+        Here is the blip help output. You can also get help on a
+        specific command by typing <pre>blip -h COMMAND</pre>
+<div class="code"><pre>
+unix$ blip -h
+Usage: blip &lt;OPTIONS&gt; COMMAND &lt;COMMAND-OPTIONS&gt; &lt;COMMAND-ARGS&gt;
+General Options:
+-trace
+    If set, enters prolog trace mode
+-pregoal ATOM, -pre ATOM [*]
+    A prolog goal to be satisfied
+-debug ATOM [*]
+    A debug category, eg "load"
+-goal ATOM
+    A prolog goal to be satisfied
+-format ATOM, -from ATOM, -f ATOM
+    Input format, see io module for full list
+-i ATOM, -input ATOM [*]
+    Input file, format specified by filename suffix or -from
+-r ATOM, -resource ATOM [*]
+    Input resource, must be defined in bioconf.pro
+-v, -verbose
+    If set, prints informational messages
+-h, -help
+    General help, or help on a specific command if specified
+-c ATOM, -conf ATOM [*]
+    Prolog conf files to be loaded
+-u ATOM, -use ATOM [*]
+    Name of blip module to be used; eg a bridge module
+
+Options marked [*] can be specified multiple times
+
+Commands:
+ontol-validate 
+    basic ontology validation
+ontol-stats 
+    various statistics on one ontology
+ontol-coverset 
+    given ids, find minimal id(s) that cover this
+ontol-subset 
+    exports a subset of an ontology
+sb-query 
+    Basic queries on sb entities: by species, component, reaction ID
+sb-query-by-annot 
+    As sb-query; id or name is for a class in some ontology used to annotate s/c/r
+sb-summarize 
+    Summarise a sb_db file or dataset (try running on a SBML file)
+go-show-minset 
+    Summarise gene products in go_assoc file by minimal cover set
+go-list-assocs 
+    Show gene associations by a GO class or similar
+prolog 
+    query blip resources via prolog shell
+config 
+    Setup a user's bioconf.pro file in ~/.blip/
+io-convert 
+    converts from one format to another: see io module
+io-diff 
+    compares two files at the prolog fact level
+
+
+Examples:
+ blip -r go ontol-coverset [list of GO IDs]
+
+</pre></div>        
+      </p>
+<p>
+        The blip script is extendable - just add your own blipkit
+        module. See exististing blipkit_* modules in the source
+        download for details.
+      </p>
+<a name="AmiGO-NG"></a><h3 class="section">AmiGO-NG</h3>
+<p>
+        This is a prototype and reference implementation for the next
+        generation of the <a href="http://amigo.geneontology.org">AmiGO</a> Gene Ontology
+        browser. The current AmiGO is written in object oriented perl
+        and template toolkit, querying a MySQL database. The data
+        model is fairly rigid, making it hard to explore new
+        implementation ideas such as OWL-style ontologies,
+        combinatorial annotations and other kinds of instance data
+        beside GO association files. AmiGO-NG may not ever be the
+        public interface for GO or <a href="http://obo.sourceforge.net">OBO</a>, but it is
+        currently proving very useful as a rapid prototying tool for
+        demoing new ideas, and will serve as a reference
+        implementation for the final production version.
+      </p>
+<p>
+        AmiGO-NG is written using <a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip//serval.pro">serval</a>. The core
+        model provides generic queries over classes and
+        instances. Different plugins allow different data models
+        (which may be views over the instance data) and different user
+        interfaces.
+      </p>
+<a name="OBO Browser"></a><h3 class="section">OBO Browser</h3>
+<p>
+          <ul>
+            <li>
+              <a href="http://berkeleybop.org/obo">OBO Browser</a>
+            </li>
+          </ul>
+        </p>
+<a name="OBO-Conv"></a><h3 class="section">OBO-Conv</h3>
+<p>
+          <ul>
+            <li>
+              <a href="http://berkeleybop.org/obo-conv.cgi">OBO Browser</a>
+            </li>
+          </ul>
+        </p>
+<a name="Obol"></a><h3 class="section">Obol</h3>
+<p>
+        Obol used blip, in particular, the same predicates as defined in
+        <a href="http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip//ontol_db.pro">ontol_db</a> - Obol may at some point be converted
+        to SWI-Prolog and blip.
+      </p>
+<p>
+        See the <a href="http://www.berkeleybop.org/obol/">Obol</a>
+        page for details
+      </p>
+</div>
+<div class="footer">
+<address><a href="mailto:cjm_AT_fruitfly_DOT_org">chris mungall</a></address>
+<div class="metadata"><p><lastmod>
+      
+
+Last modified: Thu Aug 25 14:58:29 PDT 2005
+
+    </lastmod></p></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,2 @@
+#!/bin/sh
+blip-sql -r obd/pkb -u ontol_db -u ontol_sqlmap_obd_inf -sqlbind ontol_db:inst_of/2-pkb  -sqlbind ontol_db:inst_rel/3-pkb  -sqlbind ontol_db:subclass/2-pkb -sqlbind metadata_db:entity_label/2-pkb -u ontol_xp_maker_i $*

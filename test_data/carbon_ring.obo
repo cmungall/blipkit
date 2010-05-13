@@ -1,0 +1,136 @@
+[Instance]
+id: c1
+instance_of: carbon
+relationship: has_bond_with c2
+
+[Instance]
+id: c2
+instance_of: carbon
+relationship: has_bond_with c3
+
+[Instance]
+id: c3
+instance_of: carbon
+relationship: has_bond_with c4
+
+[Instance]
+id: c4
+instance_of: carbon
+relationship: has_bond_with c5
+
+[Instance]
+id: c5
+instance_of: carbon
+relationship: has_bond_with c6
+
+[Instance]
+id: c6
+instance_of: carbon
+relationship: has_bond_with c1
+
+! 2nd ring
+[Instance]
+id: c7
+instance_of: carbon
+relationship: has_bond_with c6
+relationship: has_bond_with c8
+
+[Instance]
+id: c8
+instance_of: carbon
+relationship: has_bond_with c9
+
+[Instance]
+id: c9
+instance_of: carbon
+relationship: has_bond_with c10
+
+[Instance]
+id: c10
+instance_of: carbon
+relationship: has_bond_with c1
+
+[Instance]
+id: foo7
+instance_of: carbon
+relationship: has_bond_with c1
+comment: hangs off of ring
+
+[Instance]
+id: x1
+instance_of: carbon
+relationship: has_bond_with x2
+
+[Instance]
+id: x2
+instance_of: carbon
+relationship: has_bond_with x3
+
+[Instance]
+id: x3
+instance_of: carbon
+relationship: has_bond_with x4
+
+[Typedef]
+id: has_bond_with
+is_symmetric: true
+
+[Typedef]
+id: connected_in_cycle_with
+is_symmetric: true
+is_a: has_bond_with
+cyclic_over: has_bond_with
+!intersection_of: has_bond_with
+!intersection_of: transitive
+
+[Typedef]
+id: has_path_to
+is_a: has_bond_with
+directed_simple_path_over: has_bond_with
+
+[Term]
+id: atom
+
+[Term]
+id: carbon
+is_a: atom
+
+[Term]
+id: ring_atom1
+intersection_of: atom
+intersection_of: connected_in_cycle_with atom
+
+[Term]
+id: six_ring_atom1
+intersection_of: atom
+intersection_of: connected_in_cycle_with atom {cardinality=6}
+
+[Term]
+id: ring
+formula: "ring:- atom(cx), atom(cy), atom(cz), atom(cw), atom(cu), atom(cv),  has_bond_with(cx,cy), has_bond_with(cy,cz), has_bond_with(cz,cw),  has_bond_with(cw,cu),  has_bond_with(cu,cv), has_bond_with(cv,cx)" swrl []
+
+[Term]
+id: carbon_ring
+formula: "carbon_ring:- carbon(cx), carbon(cy), carbon(cz), carbon(cw), carbon(cu), carbon(cv),  has_bond_with(cx,cy), has_bond_with(cy,cz), has_bond_with(cz,cw),  has_bond_with(cw,cu),  has_bond_with(cu,cv), has_bond_with(cv,cx)" swrl []
+
+[Term]
+id: X
+intersection_of: z
+intersection_of: has_part atom
+
+[Term]
+id: Y
+intersection_of: z
+intersection_of: has_part atom
+
+
+[Typedef]
+id: part_of
+is_functional: true
+is_transitive: true
+inverse_of: has_part
+
+[Typedef]
+id: has_part
+
+

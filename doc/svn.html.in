@@ -1,0 +1,43 @@
+  <page>
+    <title>Blip: Subversion Access</title>
+    <section id="Subversion Access">
+      <p>
+        The subversion repository is on <url to="Open-Bio"/>.
+        <code>
+          <desc>Anonymous checkout:
+          </desc>
+          <pre>
+svn co svn://code.open-bio.org/blipkit/trunk blipkit
+          </pre>
+        </code>
+        Note that some firewalls may block this.
+
+        <code>
+          <desc>Checking out blipkit from the open-bio as a developer:
+          </desc>
+          <pre>
+svn co svn+ssh://dev.open-bio.org/home/svn-repositories/blipkit/trunk/ blipkit
+          </pre>
+        </code>
+      </p>
+    </section>
+    <section id="Web Access">
+      <p>
+        The subversion repository is browsable by <url to="svnweb"/>
+      </p>
+    </section>
+    <section id="Download Releases">
+      <p>
+        See the <a href="download.html">download</a> page.
+      </p>
+    </section>
+
+
+    <lastmod>
+      <!-- Created: Mon May  2 09:02:21 PDT 2005 -->
+<!-- hhmts start -->
+Last modified: Wed Apr 12 20:49:33 PDT 2006
+<!-- hhmts end -->
+    </lastmod>
+
+  </page>

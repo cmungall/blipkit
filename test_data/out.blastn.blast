@@ -1,0 +1,124 @@
+BLASTN 2.2.2 [Jan-08-2002]
+
+
+Reference: Altschul, Stephen F., Thomas L. Madden, Alejandro A. Schaffer, 
+Jinghui Zhang, Zheng Zhang, Webb Miller, and David J. Lipman (1997), 
+"Gapped BLAST and PSI-BLAST: a new generation of protein database search
+programs",  Nucleic Acids Res. 25:3389-3402.
+
+Query= na1
+         (511 letters)
+
+Database: na2.fa 
+           1 sequences; 459 total letters
+
+Searching.done
+
+                                                                   Score     E
+Sequences producing significant alignments:                        (bits)  Value
+
+na2 cp-of-na1-w-50bp-missing                                          517  e-151
+
+>na2 cp-of-na1-w-50bp-missing
+          Length = 459
+
+ Score =  517 bits (261), Expect = e-151
+ Identities = 261/261 (100%)
+ Strand = Plus / Plus
+
+                                                                       
+Query: 251 atagttcaaaaaattactcggccaccgccttaaccgtacaaacggaaatacataaagttt 310
+           ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+Sbjct: 199 atagttcaaaaaattactcggccaccgccttaaccgtacaaacggaaatacataaagttt 258
+
+                                                                       
+Query: 311 agaataaattcggccacaattaatatacttatttattcatcaaaaccaaaccaccacaag 370
+           ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+Sbjct: 259 agaataaattcggccacaattaatatacttatttattcatcaaaaccaaaccaccacaag 318
+
+                                                                       
+Query: 371 agcataaccaatcatgttaaagtttatcagaggaaaagggcagcagcccagtgctgacag 430
+           ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+Sbjct: 319 agcataaccaatcatgttaaagtttatcagaggaaaagggcagcagcccagtgctgacag 378
+
+                                                                       
+Query: 431 acaacgctacatcgtaagacggcacagcatggctttcctcataagccttcggctcttgcg 490
+           ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+Sbjct: 379 acaacgctacatcgtaagacggcacagcatggctttcctcataagccttcggctcttgcg 438
+
+                                
+Query: 491 tatgatccagttttgaaactt 511
+           |||||||||||||||||||||
+Sbjct: 439 tatgatccagttttgaaactt 459
+
+
+
+ Score =  392 bits (198), Expect = e-113
+ Identities = 198/198 (100%)
+ Strand = Plus / Plus
+
+                                                                       
+Query: 3   tagacccaccgatcgcgactttgtgtgtgttaaaatgacgcgcatatcgttttgggctaa 62
+           ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+Sbjct: 1   tagacccaccgatcgcgactttgtgtgtgttaaaatgacgcgcatatcgttttgggctaa 60
+
+                                                                       
+Query: 63  taatattgttcacgttttataaaacagatacacggttaagctctgaccggtcgtattatt 122
+           ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+Sbjct: 61  taatattgttcacgttttataaaacagatacacggttaagctctgaccggtcgtattatt 120
+
+                                                                       
+Query: 123 atctgtgtgttcttggttgacacgtttatttcatttattctcatttaaagcaacgatgtg 182
+           ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+Sbjct: 121 atctgtgtgttcttggttgacacgtttatttcatttattctcatttaaagcaacgatgtg 180
+
+                             
+Query: 183 aagaacagtgcgggcgtt 200
+           ||||||||||||||||||
+Sbjct: 181 aagaacagtgcgggcgtt 198
+
+
+
+ Score = 24.3 bits (12), Expect = 0.011
+ Identities = 12/12 (100%)
+ Strand = Plus / Minus
+
+                      
+Query: 76 gttttataaaac 87
+          ||||||||||||
+Sbjct: 85 gttttataaaac 74
+
+
+  Database: na2.fa
+    Posted date:  May 16, 2005  4:19 PM
+  Number of letters in database: 459
+  Number of sequences in database:  1
+  
+Lambda     K      H
+    1.37    0.711     1.31 
+
+Gapped
+Lambda     K      H
+    1.37    0.711     1.31 
+
+
+Matrix: blastn matrix:1 -3
+Gap Penalties: Existence: 5, Extension: 2
+Number of Hits to DB: 3
+Number of Sequences: 1
+Number of extensions: 3
+Number of successful extensions: 3
+Number of sequences better than 10.0: 1
+length of query: 511
+length of database: 459
+effective HSP length: 8
+effective length of query: 503
+effective length of database: 451
+effective search space:   226853
+effective search space used:   226853
+T: 0
+A: 40
+X1: 6 (11.9 bits)
+X2: 15 (29.7 bits)
+S1: 12 (24.3 bits)
+S2: 8 (16.4 bits)

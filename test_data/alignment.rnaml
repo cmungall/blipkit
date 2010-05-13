@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE rnaml SYSTEM "http://www-lbit.iro.umontreal.ca/rnaml/current/rnaml.dtd">
+<rnaml version="1.1">
+  <molecule id="Saccharomyces-uvarum">
+    <identity>
+      <name>Saccharomyces uvarum (Yeast nuclear RNA)</name>
+    </identity>
+    <sequence length="79">
+      <numbering-system id="genbank_L12749" used-in-file="true">
+        <numbering-range>
+          <start>751</start>
+          <end>829</end>
+        </numbering-range>
+      </numbering-system>
+      <seq-data comment="GENBANK L12749: 751..829">
+	  guggaacagu gguaauuccu acgauuaaga aaccuguuua cagaaggauc 
+	  cccaccuaug ggcggguuau cagauauua
+	</seq-data>
+    </sequence>
+  </molecule>
+  <molecule id="Saccharomyces-carlsbergensis">
+    <identity>
+      <name>Saccharomyces carlsbergensis (Yeast nuclear RNA)</name>
+    </identity>
+    <sequence length="74">
+      <numbering-system id="genbank_L12746" used-in-file="true">
+        <numbering-range>
+          <start>286</start>
+          <end>359</end>
+        </numbering-range>
+      </numbering-system>
+      <seq-data comment="GENBANK L12746: 286..359">
+	  guggaacagu ggugauuccu acgauuaaga aaccuguuug caaaagggcc 
+	  ugcccacgcg ggucaucuua uuuau
+	</seq-data>
+    </sequence>
+  </molecule>
+  <molecule-class>
+    <identity>
+      <name>
+        Yeast nuclear RNA
+      </name>
+    </identity>
+    <molecule-id ref="Saccharomyces-uvarum"/>
+    <molecule-id ref="Saccharomyces-carlsbergensis"/>
+    <numbering-system id="consensus">
+      <numbering-range>
+        <start>1</start>
+        <length>100</length>
+      </numbering-range>
+    </numbering-system>
+    <alignment id="a1">
+      <ali-sequence>
+        <molecule-id ref="Saccharomyces-uvarum"/>
+        <seq-data>
+	  .......... ......gugg aacaguggua auuccuacga uuaagaaacc
+	  uguuuacaga agga---ucc ccaccuau-g ggcggg-uua ucagauauua
+	</seq-data>
+      </ali-sequence>
+      <ali-sequence>
+        <molecule-id ref="Saccharomyces-carlsbergensis"/>
+        <seq-data>
+	  .......... ......gugg aacaguggug auuccuacga uuaagaaacc
+	  uguuugcaaa agggcc-ugc ccac------ -gcggg-uca ucu-uauuua
+	</seq-data>
+      </ali-sequence>
+    </alignment>
+  </molecule-class>
+</rnaml>

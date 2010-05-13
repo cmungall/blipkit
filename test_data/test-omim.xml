@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<omim_disease_set>
+  <OMIM-disease>
+    <OMIM-no>100050</OMIM-no>
+    <OMIM-ti>AARSKOG SYNDROME</OMIM-ti>
+    <OMIM-tx>Grier et al. (1983) reported father and 2 sons with typical Aarskog
+syndrome, including short stature, hypertelorism, and shawl scrotum.
+They tabulated the findings in 82 previous cases. X-linked recessive
+inheritance has been repeatedly suggested (see 305400). The family
+reported by Welch (1974) had affected males in 3 consecutive
+generations. Thus, there is either genetic heterogeneity or this is an
+autosomal dominant with strong sex-influence and possibly ascertainment
+bias resulting from use of the shawl scrotum as a main criterion.
+Stretchable skin was present in the cases of Grier et al. (1983). Teebi
+et al. (1993) reported the case of an affected mother and 4 sons
+(including a pair of monozygotic twins) by 2 different husbands. They
+suggested that the manifestations were as severe in the mother as in the
+sons and that this suggested autosomal dominant inheritance. Actually,
+the mother seemed less severely affected, compatible with X-linked
+inheritance.</OMIM-tx>
+    <OMIM-rf>1. Grier, R. E.; Farrington, F. H.; Kendig, R.; Mamunes, P.: Autosomal
+dominant inheritance of the Aarskog syndrome. Am. J. Med. Genet. 15:
+39-46, 1983.
+
+2. Teebi, A. S.; Rucquoi, J. K.; Meyn, M. S.: Aarskog syndrome: report
+of a family with review and discussion of nosology. Am. J. Med. Genet. 46:
+501-509, 1993.
+
+3. Welch, J. P.: Elucidation of a 'new' pleiotropic connective tissue
+disorder. Birth Defects Orig. Art. Ser. X(10): 138-146, 1974.</OMIM-rf>
+    <OMIM-cs>Growth:
+   Mild to moderate short stature
+
+Head:
+   Normocephaly
+
+Hair:
+   Widow's peak
+
+Facies:
+   Maxillary hypoplasia;
+   Broad nasal bridge;
+   Anteverted nostrils;
+   Long philtrum;
+   Broad upper lip;
+   Curved linear dimple below the lower lip
+
+Eyes:
+   Hypertelorism;
+   Ptosis;
+   Down-slanted palpebral fissures;
+   Ophthalmoplegia;
+   Strabismus;
+   Hyperopic astigmatism;
+   Large cornea
+
+Ears:
+   Floppy ears;
+   Lop-ears
+
+Mouth:
+   Cleft lip/palate
+
+GU:
+   Shawl scrotum;
+   Saddle-bag scrotum;
+   Cryptorchidism
+
+Limbs:
+   Brachydactyly;
+   Digital contractures;
+   Clinodactyly;
+   Mild syndactyly;
+   Transverse palmar crease;
+   Lymphedema of the feet
+
+Joints:
+   Ligamentous laxity;
+   Osteochondritis dissecans;
+   Proximal finger joint hyperextensibility;
+   Flexed distal finger joints;
+   Genu recurvatum;
+   Flat feet
+
+Skin:
+   Stretchable skin
+
+Spine:
+   Cervical spine hypermobility;
+   Odontoid anomaly
+
+Heme:
+   Macrocytic anemia;
+   Hemochromatosis
+
+GI:
+   Hepatomegaly;
+   Portal cirrhosis;
+   Imperforate anus;
+   Rectoperineal fistula
+
+Pulmonary:
+   Interstitial pulmonary disease
+
+Thorax:
+   Sternal deformity
+
+Inheritance:
+   Sex-influenced autosomal dominant form;
+   also X-linked form</OMIM-cs>
+    <OMIM-phenotype>
+      <phenotype_class>Growth</phenotype_class>
+      <phenotype_desc>Mild to moderate short stature</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Head</phenotype_class>
+      <phenotype_desc>Normocephaly</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Hair</phenotype_class>
+      <phenotype_desc>Widow's peak</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Facies</phenotype_class>
+      <phenotype_desc>Maxillary hypoplasia;</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Facies</phenotype_class>
+      <phenotype_desc>Broad nasal bridge;</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Facies</phenotype_class>
+      <phenotype_desc>Anteverted nostrils;</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Facies</phenotype_class>
+      <phenotype_desc>Long philtrum;</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Facies</phenotype_class>
+      <phenotype_desc>Broad upper lip;</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Facies</phenotype_class>
+      <phenotype_desc>Curved linear dimple below the lower lip</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Eyes</phenotype_class>
+      <phenotype_desc>Hypertelorism;</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Eyes</phenotype_class>
+      <phenotype_desc>Ptosis;</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Eyes</phenotype_class>
+      <phenotype_desc>Down-slanted palpebral fissures;</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Eyes</phenotype_class>
+      <phenotype_desc>Ophthalmoplegia;</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Eyes</phenotype_class>
+      <phenotype_desc>Strabismus;</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Eyes</phenotype_class>
+      <phenotype_desc>Hyperopic astigmatism;</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Eyes</phenotype_class>
+      <phenotype_desc>Large cornea</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Ears</phenotype_class>
+      <phenotype_desc>Floppy ears;</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Ears</phenotype_class>
+      <phenotype_desc>Lop-ears</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Mouth</phenotype_class>
+      <phenotype_desc>Cleft lip/palate</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>GU</phenotype_class>
+      <phenotype_desc>Shawl scrotum;</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>GU</phenotype_class>
+      <phenotype_desc>Saddle-bag scrotum;</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>GU</phenotype_class>
+      <phenotype_desc>Cryptorchidism</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Limbs</phenotype_class>
+      <phenotype_desc>Brachydactyly;</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Limbs</phenotype_class>
+      <phenotype_desc>Digital contractures;</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Limbs</phenotype_class>
+      <phenotype_desc>Clinodactyly;</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Limbs</phenotype_class>
+      <phenotype_desc>Mild syndactyly;</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Limbs</phenotype_class>
+      <phenotype_desc>Transverse palmar crease;</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Limbs</phenotype_class>
+      <phenotype_desc>Lymphedema of the feet</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Joints</phenotype_class>
+      <phenotype_desc>Ligamentous laxity;</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Joints</phenotype_class>
+      <phenotype_desc>Osteochondritis dissecans;</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Joints</phenotype_class>
+      <phenotype_desc>Proximal finger joint hyperextensibility;</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Joints</phenotype_class>
+      <phenotype_desc>Flexed distal finger joints;</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Joints</phenotype_class>
+      <phenotype_desc>Genu recurvatum;</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Joints</phenotype_class>
+      <phenotype_desc>Flat feet</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Skin</phenotype_class>
+      <phenotype_desc>Stretchable skin</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Spine</phenotype_class>
+      <phenotype_desc>Cervical spine hypermobility;</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Spine</phenotype_class>
+      <phenotype_desc>Odontoid anomaly</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Heme</phenotype_class>
+      <phenotype_desc>Macrocytic anemia;</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Heme</phenotype_class>
+      <phenotype_desc>Hemochromatosis</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>GI</phenotype_class>
+      <phenotype_desc>Hepatomegaly;</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>GI</phenotype_class>
+      <phenotype_desc>Portal cirrhosis;</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>GI</phenotype_class>
+      <phenotype_desc>Imperforate anus;</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>GI</phenotype_class>
+      <phenotype_desc>Rectoperineal fistula</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Pulmonary</phenotype_class>
+      <phenotype_desc>Interstitial pulmonary disease</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Thorax</phenotype_class>
+      <phenotype_desc>Sternal deformity</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Inheritance</phenotype_class>
+      <phenotype_desc>Sex-influenced autosomal dominant form;</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-phenotype>
+      <phenotype_class>Inheritance</phenotype_class>
+      <phenotype_desc>also X-linked form</phenotype_desc>
+    </OMIM-phenotype>
+    <OMIM-cd>
+      <OMIM-cd-value>Victor A. McKusick: 6/4/1986</OMIM-cd-value>
+    </OMIM-cd>
+    <OMIM-ed>
+      <OMIM-ed-value>alopez: 06/03/1997
+mimadm: 3/11/1994
+carol: 7/7/1993
+supermim: 3/16/1992
+supermim: 3/20/1990
+ddp: 10/26/1989
+marie: 3/25/1988</OMIM-ed-value>
+    </OMIM-ed>
+  </OMIM-disease>
+</omim_disease_set>

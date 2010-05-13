@@ -1,0 +1,101 @@
+% example ~/.plrc file
+% modify accordingly and cp to ~/.plrc in your home dir
+%
+% most of these are logical resources where certain useful prolog
+% factfiles can be located in your home dir. it saves having to
+% specify full path names or DSN paths for databases
+%
+% in future you will be able to specify URIs too
+
+%user:file_search_path(bioprolog,library('bioprolog')).
+user:file_search_path(bioprolog, HOME) :-
+	(   getenv('BIOPROLOG_LIB', HOME)	->  true
+        	;        
+            HOME = '/users/cjm/cvs/bioprolog/lib'
+	).
+user:file_search_path(bio, HOME) :-
+	(   getenv('BIOPROLOG_LIB', HOME)	->  true
+        	;        
+            HOME = '/users/cjm/cvs/bioprolog/lib'
+	).
+user:file_search_path(skam, HOME) :-
+	(   getenv('SKAM_HOME', HOME)	->  true
+        	;        
+            HOME = '/users/cjm/skam/lib'
+	).
+user:file_search_path(home, HOME) :-
+	(   getenv('HOME', HOME)	->  true
+        	;        
+            HOME = '/users/cjm'
+	).
+user:file_search_path(library, '/users/cjm/cvs').
+
+% --UserData--
+user:file_search_path(cvs, '/users/cjm/cvs').
+
+user:prolog_file_type(pro,bioprolog).
+user:prolog_file_type(pro,prolog).
+user:prolog_file_type('P',prolog).
+
+%:- prolog_load_context(directory, Dir),
+%  asserta(user:file_search_path(bio, Dir)).
+%user:file_search_path(bioseq,bio(bioseq)).
+%user:file_search_path(biopath,bio(biopath)).
+
+user:file_search_path(obo, OBO) :-
+	(getenv('OBO_HOME', OBO_HOME)
+	->  true
+        ;   getenv('HOME',HOME),
+            concat_atom([HOME,'/','cvs/obo'],OBO_HOME)),
+        concat_atom([OBO_HOME,'/','ontology'],OBO).
+user:file_search_path(go, GO) :-
+	(getenv('GO_HOME', GO_HOME)
+	->  true
+        ;   getenv('HOME',HOME),
+            concat_atom([HOME,'/','cvs/go'],GO_HOME)),
+        concat_atom([GO_HOME,'/','ontology'],GO).
+user:file_search_path(gene_assoc, cvs('go/gene-associations')).
+user:file_search_path(poc, cvs('Poc')).
+user:file_search_path(obol, '~/obol/data').
+user:file_search_path(obol_out, '~/obol/export').
+user:file_search_path(serval_conf, '~/cvs/bioprolog/conf').
+user:bioresource(rdb(go),[odbc_connect(go,[])]).
+
+% --Ontologies--
+user:bioresource(ubo,obol('ubo.pro')).
+user:bioresource(go,go('gene_ontology.pro')).
+user:bioresource(dl_go,go('gene_ontology_dl.pro')).
+user:bioresource(cell,obol('ont_cell.P')).
+user:bioresource(dl_cell,obol_out('cell.pro')).
+user:bioresource(plant,obol('ont_plant_anatomy.P')).
+user:bioresource(dl_plant,obol_out('plant_anatomy.pro')).
+%%%user:bioresource(pato,obo('phenotype/attribute_and_value.pro')).
+user:bioresource(pato,'/users/cjm/obol/data/ont_attribute_and_value.P').
+user:bioresource(fly_anatomy,obo('anatomy/gross_anatomy/animal_gross_anatomy/fly/fly_anatomy.pro')).
+user:bioresource(mouse_anatomy,obo('anatomy/gross_anatomy/animal_gross_anatomy/mouse/MA.pro')).
+user:bioresource('EMAP',obo('anatomy/gross_anatomy/animal_gross_anatomy/mouse/EMAP.pro')).
+user:bioresource(zebrafish_anatomy,obo('anatomy/gross_anatomy/animal_gross_anatomy/zebrafish/zebrafish_pure_anatomy.pro')).
+%%%%user:bioresource(zebrafish_anatomy,obo('anatomy/gross_anatomy/animal_gross_anatomy/zebrafish/zebrafish_anatomy.pro')).
+
+% --GeneAssociations--
+user:bioresource(uniprot_ga,gene_assoc('gene_association.goa_uniprot.lite.pro')).
+user:bioresource(tair_ga_xp,'/users/cjm/Data/phenotype/tair_ga_xp.pro').
+
+% mouse: special; includes CL,MA
+user:bioresource(mgi_ga,'/users/cjm/Data/phenotype/mgi_ga.pro').
+user:bioresource(fly_ga,'/users/cjm/Data/phenotype/fb_ga.pro').
+user:bioresource(fly_ga_xp,'/users/cjm/Data/phenotype/fb_ga_xp.pro').
+user:bioresource(tair_ga,gene_assoc('gene_association.tair.pro')).
+
+% --PlantPhenAssocs--
+user:bioresource(maize_pa,poc('associations/maize_ga.pro')).
+user:bioresource(gramene_pa,poc('associations/maize_ga.pro')).
+
+% --OBDPatoData--
+user:bioresource(fly_instances,'/users/cjm/Data/phenotype/fb_inst.pro').
+user:bioresource(zfin_instances,'/users/cjm/Data/phenotype/zfin_inst.pro').
+user:bioresource(organism,'/users/cjm/Data/phenotype/organism.pro').
+
+% --NCBI--
+user:bioresource(taxnames,home('Data/ncbitax/names.dmp')).
+user:bioresource(taxnodes,home('Data/ncbitax/nodes.dmp')).

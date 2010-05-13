@@ -1,0 +1,578 @@
+format-version: 1.2
+date: 05:02:2008 22:31
+subsetdef: goslim_candida "Candida GO slim"
+subsetdef: goslim_generic "Generic GO slim"
+subsetdef: goslim_goa "GOA and proteome slim"
+subsetdef: goslim_pir "PIR GO slim"
+subsetdef: goslim_plant "Plant GO slim"
+subsetdef: goslim_yeast "Yeast GO slim"
+subsetdef: gosubset_prok "Prokaryotic GO subset"
+default-namespace: file:/Users/cjm/Eclipse/workspace/OBO/test_resources/regulation_of_transcription.obo
+
+[Term]
+id: GO:0006139
+name: nucleobase, nucleoside, nucleotide and nucleic acid metabolic process
+namespace: biological_process
+def: "The chemical reactions and pathways involving nucleobases, nucleosides, nucleotides and nucleic acids." [GOC:ai]
+subset: goslim_generic
+subset: goslim_goa
+subset: goslim_pir
+subset: goslim_plant
+subset: gosubset_prok
+synonym: "nucleobase, nucleoside, nucleotide and nucleic acid metabolism" EXACT []
+is_a: GO:0044237 ! cellular metabolic process
+is_a: GO:0044238 ! primary metabolic process
+
+[Term]
+id: GO:0006350
+name: transcription
+namespace: biological_process
+def: "The synthesis of either RNA on a template of DNA or DNA on a template of RNA." [ISBN:0198506732]
+subset: goslim_candida
+subset: goslim_generic
+subset: goslim_pir
+subset: goslim_plant
+subset: goslim_yeast
+subset: gosubset_prok
+xref: Reactome:212088
+xref: Reactome:221846
+xref: Reactome:230414
+xref: Reactome:238456
+xref: Reactome:244998
+xref: Reactome:249880
+xref: Reactome:252609
+xref: Reactome:255785
+xref: Reactome:259179
+xref: Reactome:262535
+xref: Reactome:265362
+xref: Reactome:268499
+xref: Reactome:274216
+xref: Reactome:280685
+xref: Reactome:282909
+xref: Reactome:286705
+xref: Reactome:288376
+xref: Reactome:74159
+is_a: GO:0006139 ! nucleobase, nucleoside, nucleotide and nucleic acid metabolic process
+relationship: part_of GO:0010467 ! gene expression
+
+[Term]
+id: GO:0006351
+name: transcription, DNA-dependent
+namespace: biological_process
+def: "The synthesis of RNA on a template of DNA." [GOC:jl]
+subset: gosubset_prok
+is_a: GO:0006350 ! transcription
+is_a: GO:0032774 ! RNA biosynthetic process
+
+[Term]
+id: GO:0006355
+name: regulation of transcription, DNA-dependent
+namespace: biological_process
+def: "Any process that modulates the frequency, rate or extent of DNA-dependent transcription." [GOC:go_curators]
+subset: gosubset_prok
+synonym: "transcriptional control" BROAD []
+is_a: GO:0045449 ! regulation of transcription
+intersection_of: GO:0065007 ! biological regulation
+intersection_of: regulates GO:0006351 ! transcription, DNA-dependent
+
+[Term]
+id: GO:0006357
+name: regulation of transcription from RNA polymerase II promoter
+namespace: biological_process
+def: "Any process that modulates the frequency, rate or extent of transcription from an RNA polymerase II promoter." [GOC:go_curators]
+synonym: "regulation of transcription from Pol II promoter" EXACT []
+is_a: GO:0006355 ! regulation of transcription, DNA-dependent
+intersection_of: GO:0065007 ! biological regulation
+intersection_of: regulates GO:0006366 ! transcription from RNA polymerase II promoter
+
+[Term]
+id: GO:0006366
+name: transcription from RNA polymerase II promoter
+namespace: biological_process
+def: "The synthesis of RNA from a DNA template by RNA polymerase II (Pol II), originating at a Pol II-specific promoter. Includes transcription of messenger RNA (mRNA) and certain small nuclear RNAs (snRNAs)." [GOC:jl, ISBN:0321000382]
+synonym: "transcription from Pol II promoter" EXACT []
+xref: Reactome:211919
+xref: Reactome:221684
+xref: Reactome:230271
+xref: Reactome:238311
+xref: Reactome:244872
+xref: Reactome:249762
+xref: Reactome:252544
+xref: Reactome:255684
+xref: Reactome:259080
+xref: Reactome:262438
+xref: Reactome:265275
+xref: Reactome:268432
+xref: Reactome:274112
+xref: Reactome:280585
+xref: Reactome:286603
+xref: Reactome:288327
+xref: Reactome:73857
+is_a: GO:0006351 ! transcription, DNA-dependent
+
+[Term]
+id: GO:0007275
+name: multicellular organismal development
+namespace: biological_process
+def: "The biological process whose specific outcome is the progression of an organism over time from an initial condition (e.g. a zygote or a young adult) to a later condition (e.g. a multicellular animal or an aged adult)." [GOC:ems, GOC:isa_complete]
+comment: Note that this term was 'developmental process'.
+subset: goslim_generic
+subset: goslim_goa
+subset: goslim_plant
+is_a: GO:0032501 ! multicellular organismal process
+is_a: GO:0032502 ! developmental process
+
+[Term]
+id: GO:0007399
+name: nervous system development
+namespace: biological_process
+def: "The process whose specific outcome is the progression of nervous tissue over time, from its formation to its mature state." [GOC:dgh]
+synonym: "neurite biosynthesis" EXACT []
+synonym: "neurite formation" EXACT []
+synonym: "neurite growth" EXACT []
+synonym: "pan-neural process" RELATED []
+is_a: GO:0048731 ! system development
+
+[Term]
+id: GO:0007417
+name: central nervous system development
+namespace: biological_process
+def: "The process whose specific outcome is the progression of the central nervous system over time, from its formation to the mature structure. The central nervous system is the core nervous system that serves an integrating and coordinating function. In vertebrates it consists of the brain, spinal cord and spinal nerves. In those invertebrates with a central nervous system it typically consists of a brain, cerebral ganglia and a nerve cord." [GOC:bf, GOC:jic, ISBN:0582227089]
+synonym: "CNS development" EXACT []
+is_a: GO:0048731 ! system development
+relationship: part_of GO:0007399 ! nervous system development
+
+[Term]
+id: GO:0007420
+name: brain development
+namespace: biological_process
+def: "The process whose specific outcome is the progression of the brain over time, from its formation to the mature structure. The brain is one of the two components of the central nervous system and is the center of thought and emotion. It is responsible for the coordination and control of bodily activities and the interpretation of information from the senses (sight, hearing, smell, etc.)." [GOC:jic, http://cancerweb.ncl.ac.uk]
+is_a: GO:0048513 ! organ development
+relationship: part_of GO:0007417 ! central nervous system development
+
+[Term]
+id: GO:0008150
+name: biological_process
+namespace: biological_process
+def: "Those processes specifically pertinent to the functioning of integrated living units: cells, tissues, organs, and organisms. A process is a collection of molecular events with a defined beginning and end." [GOC:go_curators, GOC:isa_complete]
+comment: Note that, in addition to forming the root of the biological process ontology, this term is recommended for use for the annotation of gene products whose biological process is unknown. Note that when this term is used for annotation, it indicates that no information was available about the biological process of the gene product annotated as of the date the annotation was made; the evidence code ND, no data, is used to indicate this.
+subset: goslim_candida
+subset: goslim_generic
+subset: goslim_goa
+subset: goslim_pir
+subset: goslim_plant
+subset: goslim_yeast
+subset: gosubset_prok
+synonym: "biological process unknown" NARROW []
+synonym: "physiological process" EXACT []
+
+[Term]
+id: GO:0008152
+name: metabolic process
+namespace: biological_process
+def: "Processes that cause many of the chemical changes in living organisms, including anabolism and catabolism. Metabolic processes typically transform small molecules, but also include macromolecular processes such as DNA repair and replication, and protein synthesis and degradation." [GOC:go_curators, ISBN:0198547684]
+comment: Note that metabolic processes do not include single functions or processes such as protein-protein interactions, protein-nucleic acids, nor receptor-ligand interactions.
+subset: goslim_generic
+subset: goslim_goa
+subset: goslim_pir
+subset: goslim_plant
+subset: gosubset_prok
+synonym: "metabolic process resulting in cell growth" NARROW []
+synonym: "metabolism" EXACT []
+synonym: "metabolism resulting in cell growth" NARROW []
+xref: Reactome:212093
+xref: Reactome:221851
+xref: Reactome:230419
+xref: Reactome:238461
+xref: Reactome:245002
+xref: Reactome:249887
+xref: Reactome:252604
+xref: Reactome:255791
+xref: Reactome:259186
+xref: Reactome:262542
+xref: Reactome:265367
+xref: Reactome:268496
+xref: Reactome:274223
+xref: Reactome:280692
+xref: Reactome:282903
+xref: Reactome:286711
+xref: Reactome:288374
+xref: Reactome:289882
+xref: Reactome:290414
+xref: Reactome:291791
+xref: Reactome:292439
+xref: Reactome:293772
+xref: Reactome:71408
+is_a: GO:0008150 ! biological_process
+
+[Term]
+id: GO:0009987
+name: cellular process
+namespace: biological_process
+def: "Processes that are carried out at the cellular level, but are not necessarily restricted to a single cell. For example, cell communication occurs among more than one cell, but occurs at the cellular level." [GOC:go_curators, GOC:isa_complete]
+subset: goslim_goa
+subset: goslim_pir
+subset: goslim_plant
+subset: gosubset_prok
+synonym: "cell growth and/or maintenance" NARROW []
+synonym: "cell physiology" EXACT []
+synonym: "cellular physiological process" EXACT []
+is_a: GO:0008150 ! biological_process
+
+[Term]
+id: GO:0010467
+name: gene expression
+namespace: biological_process
+def: "The process by which a gene's coding sequence is converted into a mature gene product or products (proteins or RNA). This includes the production of an RNA transcript as well as any processing to produce a mature RNA product or an mRNA (for protein-coding genes) and the translation of that mRNA into protein. Some protein processing events may be included when they are required to form an active form of a product from an inactive precursor form." [GOC:dph, GOC:tb]
+is_a: GO:0008150 ! biological_process
+
+[Term]
+id: GO:0010468
+name: regulation of gene expression
+namespace: biological_process
+def: "Any process that modulates the frequency, rate or extent of gene expression. Gene expression is the process in which a gene's coding sequence is converted into a mature gene product or products (proteins or RNA). This includes the production of an RNA transcript as well as any processing to produce a mature RNA product or an mRNA (for protein-coding genes) and the translation of that mRNA into protein. Some protein processing events may be included when they are required to form an active form of a product from an inactive precursor form." [GOC:dph, GOC:tb]
+is_a: GO:0050789 ! regulation of biological process
+intersection_of: GO:0065007 ! biological regulation
+intersection_of: regulates GO:0010467 ! gene expression
+
+[Term]
+id: GO:0016070
+name: RNA metabolic process
+namespace: biological_process
+def: "The chemical reactions and pathways involving RNA, ribonucleic acid, one of the two main type of nucleic acid, consisting of a long, unbranched macromolecule formed from ribonucleotides joined in 3',5'-phosphodiester linkage." [ISBN:0198506732]
+subset: goslim_candida
+subset: goslim_pir
+subset: goslim_yeast
+subset: gosubset_prok
+synonym: "RNA metabolism" EXACT []
+is_a: GO:0006139 ! nucleobase, nucleoside, nucleotide and nucleic acid metabolic process
+is_a: GO:0043283 ! biopolymer metabolic process
+
+[Term]
+id: GO:0019219
+name: regulation of nucleobase, nucleoside, nucleotide and nucleic acid metabolic process
+namespace: biological_process
+def: "Any process that modulates the frequency, rate or extent of the chemical reactions and pathways involving nucleobases, nucleosides, nucleotides and nucleic acids." [GOC:go_curators]
+subset: gosubset_prok
+synonym: "regulation of nucleobase, nucleoside, nucleotide and nucleic acid metabolism" EXACT []
+is_a: GO:0031323 ! regulation of cellular metabolic process
+intersection_of: GO:0065007 ! biological regulation
+intersection_of: regulates GO:0006139 ! nucleobase, nucleoside, nucleotide and nucleic acid metabolic process
+
+[Term]
+id: GO:0019222
+name: regulation of metabolic process
+namespace: biological_process
+def: "Any process that modulates the frequency, rate or extent of the chemical reactions and pathways within a cell or an organism." [GOC:go_curators]
+subset: gosubset_prok
+is_a: GO:0050789 ! regulation of biological process
+intersection_of: GO:0065007 ! biological regulation
+intersection_of: regulates GO:0008152 ! metabolic process
+
+[Term]
+id: GO:0021872
+name: generation of neurons in the forebrain
+namespace: biological_process
+def: "The process by which nerve cells are generated in the forebrain. This includes the production of neuroblasts from and their differentiation into neurons." [GOC:cls, GOC:dgh, GOC:dph, GOC:jic, GOC:mtg_15jun06]
+comment: This term was added by GO_REF:0000021.
+is_a: GO:0048699 ! generation of neurons
+relationship: part_of GO:0030900 ! forebrain development
+
+[Term]
+id: GO:0021877
+name: forebrain neuron fate commitment
+namespace: biological_process
+def: "The process whereby the developmental fate of a cell becomes restricted such that it will develop into a neuron that resides in the forebrain." [GOC:cls, GOC:dgh, GOC:dph, GOC:jic, GOC:mtg_15jun06, PMID:16226447]
+comment: This term was added by GO_REF:0000021.
+is_a: GO:0048663 ! neuron fate commitment
+relationship: part_of GO:0021879 ! forebrain neuron differentiation
+
+[Term]
+id: GO:0021879
+name: forebrain neuron differentiation
+namespace: biological_process
+def: "The process whereby a relatively unspecialized cell acquires specialized features of a neuron that will reside in the forebrain." [GOC:cls, GOC:dgh, GOC:dph, GOC:jic, GOC:mtg_15jun06, PMID:16226447]
+comment: This term was added by GO_REF:0000021.
+is_a: GO:0030182 ! neuron differentiation
+relationship: part_of GO:0021872 ! generation of neurons in the forebrain
+
+[Term]
+id: GO:0021882
+name: regulation of transcription from RNA polymerase II promoter involved in forebrain neuron fate commitment
+namespace: biological_process
+def: "Any process that modulates the frequency, rate or extent of transcription from an RNA polymerase II promoter that contributes to the commitment of a neuroblast to a neuronal fate. The neuron will reside in the forebrain." [GOC:cls, GOC:dgh, GOC:dph, GOC:jic, GOC:mtg_15jun06, PMID:16226447]
+comment: This term was added by GO_REF:0000021.
+is_a: GO:0006357 ! regulation of transcription from RNA polymerase II promoter
+relationship: part_of GO:0021898 ! commitment of multipotent stem cells to the neuronal lineage in the forebrain
+
+[Term]
+id: GO:0021898
+name: commitment of multipotent stem cells to the neuronal lineage in the forebrain
+namespace: biological_process
+def: "The initial commitment of cells whereby the developmental fate of a cell becomes restricted such that it will develop into some type of neuron in the forebrain." [GOC:cls, GOC:dgh, GOC:dph, GOC:jic, GOC:mtg_15jun06, PMID:12626695]
+comment: This term was added by GO_REF:0000021.
+is_a: GO:0021877 ! forebrain neuron fate commitment
+
+[Term]
+id: GO:0022008
+name: neurogenesis
+namespace: biological_process
+def: "Generation of cells within the nervous system." [GOC:cls, GOC:curators, GOC:dgh, GOC:dph, GOC:jic, GOC:mtg_15jun06]
+comment: This term was added by GO_REF:0000021.
+synonym: "nervous system cell generation" EXACT []
+is_a: GO:0048468 ! cell development
+relationship: part_of GO:0007399 ! nervous system development
+
+[Term]
+id: GO:0030154
+name: cell differentiation
+namespace: biological_process
+def: "The process whereby relatively unspecialized cells, e.g. embryonic or regenerative cells, acquire specialized structural and/or functional features that characterize the cells, tissues, or organs of the mature organism or some other relatively stable phase of the organism's life history. Differentiation includes the processes involved in commitment of a cell to a specific fate." [ISBN:0198506732]
+subset: goslim_generic
+subset: goslim_goa
+subset: goslim_plant
+subset: gosubset_prok
+is_a: GO:0048869 ! cellular developmental process
+
+[Term]
+id: GO:0030182
+name: neuron differentiation
+namespace: biological_process
+def: "The process whereby a relatively unspecialized cell acquires specialized features of a neuron." [GOC:mah]
+is_a: GO:0030154 ! cell differentiation
+relationship: part_of GO:0048699 ! generation of neurons
+
+[Term]
+id: GO:0030900
+name: forebrain development
+namespace: biological_process
+def: "The process whose specific outcome is the progression of the forebrain over time, from its formation to the mature structure. The forebrain is the anterior of the three primary divisions of the developing chordate brain or the corresponding part of the adult brain (in vertebrates, includes especially the cerebral hemispheres, the thalamus, and the hypothalamus and especially in higher vertebrates is the main control center for sensory and associative information processing, visceral functions, and voluntary motor functions)." [http://www2.merriam-webster.com/cgi-bin/mwmednlm?book=Medical&va=forebrain]
+synonym: "prosencephalon development" EXACT []
+is_a: GO:0048856 ! anatomical structure development
+relationship: part_of GO:0007420 ! brain development
+
+[Term]
+id: GO:0031323
+name: regulation of cellular metabolic process
+namespace: biological_process
+def: "Any process that modulates the frequency, rate or extent of the chemical reactions and pathways by which individual cells transform chemical substances." [GOC:mah]
+subset: gosubset_prok
+synonym: "regulation of cellular metabolism" EXACT []
+intersection_of: GO:0065007 ! biological regulation
+intersection_of: regulates GO:0044237 ! cellular metabolic process
+
+[Term]
+id: GO:0032501
+name: multicellular organismal process
+namespace: biological_process
+def: "The biological processes, occurring at the level of the organism, pertinent to the function of the organism." [GOC:curators, GOC:isa_complete]
+subset: goslim_goa
+subset: goslim_pir
+synonym: "organismal physiological process" EXACT []
+is_a: GO:0008150 ! biological_process
+
+[Term]
+id: GO:0032502
+name: developmental process
+namespace: biological_process
+def: "A biological process whose specific outcome is the progression of an integrated living unit: a cell, tissue, organ, or organism over time from an initial condition to a later condition." [GOC:isa_complete]
+subset: goslim_pir
+subset: gosubset_prok
+synonym: "development" NARROW []
+is_a: GO:0008150 ! biological_process
+
+[Term]
+id: GO:0032774
+name: RNA biosynthetic process
+namespace: biological_process
+def: "The chemical reactions and pathways resulting in the formation of RNA, ribonucleic acid, one of the two main type of nucleic acid, consisting of a long, unbranched macromolecule formed from ribonucleotides joined in 3',5'-phosphodiester linkage. Includes polymerization of ribonucleotide monomers." [GOC:mah]
+synonym: "RNA anabolism" EXACT []
+synonym: "RNA biosynthesis" EXACT []
+synonym: "RNA formation" EXACT []
+synonym: "RNA synthesis" EXACT []
+is_a: GO:0016070 ! RNA metabolic process
+
+[Term]
+id: GO:0043170
+name: macromolecule metabolic process
+namespace: biological_process
+def: "The chemical reactions and pathways involving macromolecules, large molecules including proteins, nucleic acids and carbohydrates." [GOC:jl]
+subset: goslim_goa
+subset: goslim_pir
+subset: gosubset_prok
+synonym: "macromolecule metabolism" EXACT []
+is_a: GO:0008152 ! metabolic process
+
+[Term]
+id: GO:0043283
+name: biopolymer metabolic process
+namespace: biological_process
+def: "The chemical reactions and pathways involving biopolymers, long, repeating chains of monomers found in nature e.g. polysaccharides and proteins." [GOC:jl, http://en.wikipedia.org/]
+subset: goslim_pir
+subset: gosubset_prok
+synonym: "biopolymer metabolism" EXACT []
+is_a: GO:0043170 ! macromolecule metabolic process
+
+[Term]
+id: GO:0044237
+name: cellular metabolic process
+namespace: biological_process
+def: "The chemical reactions and pathways by which individual cells transform chemical substances." [GOC:go_curators]
+subset: goslim_pir
+subset: gosubset_prok
+synonym: "cellular metabolism" EXACT []
+is_a: GO:0008152 ! metabolic process
+is_a: GO:0009987 ! cellular process
+
+[Term]
+id: GO:0044238
+name: primary metabolic process
+namespace: biological_process
+def: "Reactions involving those compounds which are formed as a part of the normal anabolic and catabolic processes. These processes take place in most, if not all, cells of the organism." [GOC:go_curators, http://www.metacyc.org]
+subset: goslim_generic
+subset: goslim_pir
+subset: gosubset_prok
+synonym: "primary metabolism" EXACT []
+is_a: GO:0008152 ! metabolic process
+
+[Term]
+id: GO:0045165
+name: cell fate commitment
+namespace: biological_process
+def: "The commitment of cells to specific cell fates and their capacity to differentiate into particular kinds of cells. Positional information is established through protein signals that emanate from a localized source within a cell (the initial one-cell zygote) or within a developmental field." [ISBN:0716731185]
+comment: Note that this term was 'cell fate determination' but the term name was changed to better match its existing definition and the child term 'cell fate determination; GO:0001709' was also created.
+is_a: GO:0009987 ! cellular process
+relationship: part_of GO:0030154 ! cell differentiation
+
+[Term]
+id: GO:0045449
+name: regulation of transcription
+namespace: biological_process
+def: "Any process that modulates the frequency, rate or extent of the synthesis of either RNA on a template of DNA or DNA on a template of RNA." [ISBN:0198506732]
+subset: gosubset_prok
+!!! let the reasoner figure this one out:
+!!! is_a: GO:0010468  ! regulation of gene expression
+is_a: GO:0019219 ! regulation of nucleobase, nucleoside, nucleotide and nucleic acid metabolic process
+intersection_of: GO:0065007 ! biological regulation
+intersection_of: regulates GO:0006350 ! transcription
+
+[Term]
+id: GO:0048468
+name: cell development
+namespace: biological_process
+def: "The process whose specific outcome is the progression of the cell over time, from its formation to the mature structure. Cell development does not include the steps involved in committing a cell to a specific fate." [GOC:go_curators]
+subset: goslim_candida
+subset: gosubset_prok
+is_a: GO:0009987 ! cellular process
+relationship: part_of GO:0030154 ! cell differentiation
+
+[Term]
+id: GO:0048513
+name: organ development
+namespace: biological_process
+def: "Development of a tissue or tissues that work together to perform a specific function or functions. Development pertains to the process whose specific outcome is the progression of a structure over time, from its formation to the mature structure. Organs are commonly observed as visibly distinct structures, but may also exist as loosely associated clusters of cells that work together to perform a specific function or functions." [GOC:dph, GOC:jic]
+synonym: "development of an organ" EXACT []
+synonym: "organogenesis" EXACT []
+is_a: GO:0048856 ! anatomical structure development
+relationship: part_of GO:0048731 ! system development
+
+[Term]
+id: GO:0048663
+name: neuron fate commitment
+namespace: biological_process
+def: "The process whereby the developmental fate of a cell becomes restricted such that it will develop into a neuron." [GOC:dph]
+synonym: "neuron lineage restriction" EXACT []
+synonym: "neuronal lineage restriction" EXACT []
+is_a: GO:0045165 ! cell fate commitment
+relationship: part_of GO:0030182 ! neuron differentiation
+
+[Term]
+id: GO:0048699
+name: generation of neurons
+namespace: biological_process
+def: "The process by which nerve cells are generated. This includes the production of neuroblasts and their differentiation into neurons." [GOC:nln]
+is_a: GO:0022008 ! neurogenesis
+
+[Term]
+id: GO:0048731
+name: system development
+namespace: biological_process
+def: "The process whose specific outcome is the progression of an organismal system over time, from its formation to the mature structure. A system is a regularly interacting or interdependent group of organs or tissues that work together to carry out a given biological process." [GOC:dph, GOC:jic]
+is_a: GO:0048856 ! anatomical structure development
+relationship: part_of GO:0007275 ! multicellular organismal development
+
+[Term]
+id: GO:0048856
+name: anatomical structure development
+namespace: biological_process
+def: "The biological process whose specific outcome is the progression of an anatomical structure from an initial condition to its mature state. This process begins with the formation of the structure and ends with the mature structure, whatever form that may be including its natural destruction. An anatomical structure is any biological entity that occupies space and is distinguished from its surroundings. Anatomical structures can be macroscopic such as a carpel, or microscopic such as an acrosome." [GOC:mtg_15jun06]
+comment: This term was added by GO_REF:0000021.
+synonym: "development of an anatomical structure" EXACT []
+is_a: GO:0032502 ! developmental process
+
+[Term]
+id: GO:0048869
+name: cellular developmental process
+namespace: biological_process
+def: "A biological process whose specific outcome is the progression of a cell over time from an initial condition to a later condition." [GOC:isa_complete]
+subset: gosubset_prok
+is_a: GO:0009987 ! cellular process
+is_a: GO:0032502 ! developmental process
+
+[Term]
+id: GO:0050789
+name: regulation of biological process
+namespace: biological_process
+def: "Any process that modulates the frequency, rate or extent of a biological process. Biological processes are regulated by many means; examples include the control of gene expression, protein modification or interaction with a protein or substrate molecule." [GOC:ai, GOC:go_curators]
+subset: goslim_generic
+subset: goslim_goa
+subset: gosubset_prok
+synonym: "regulation of physiological process" EXACT []
+is_a: GO:0065007 ! biological regulation
+intersection_of: GO:0065007 ! biological regulation
+intersection_of: regulates GO:0008150 ! biological_process
+
+[Term]
+id: GO:0050794
+name: regulation of cellular process
+namespace: biological_process
+def: "Any process that modulates the frequency, rate or extent of cellular processes, those that are carried out at the cellular level, but are not necessarily restricted to a single cell. For example, cell communication occurs among more than one cell, but occurs at the cellular level." [GOC:go_curators]
+subset: gosubset_prok
+synonym: "regulation of cellular physiological process" EXACT []
+is_a: GO:0050789 ! regulation of biological process
+intersection_of: GO:0065007 ! biological regulation
+intersection_of: regulates GO:0009987 ! cellular process
+
+[Term]
+id: GO:0065007
+name: biological regulation
+namespace: biological_process
+def: "Any process that modulates the frequency, rate or extent of any biological process, quality or function." [GOC:isa_complete]
+subset: goslim_pir
+subset: gosubset_prok
+synonym: "regulation" BROAD []
+is_a: GO:0008150 ! biological_process
+
+[Typedef]
+id: negatively_regulates
+name: negatively_regulates
+is_a: regulates ! regulates
+transitive_over: part_of ! part of
+
+[Typedef]
+id: part_of
+name: part of
+namespace: gene_ontology
+is_transitive: true
+
+[Typedef]
+id: positively_regulates
+name: positively_regulates
+is_a: regulates ! regulates
+transitive_over: part_of ! part of
+
+[Typedef]
+id: regulates
+name: regulates
+transitive_over: part_of ! part of
+

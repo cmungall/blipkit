@@ -1,0 +1,83 @@
+aminoacid_chebi : bio : database of aminoacid types
+bioprolog_util : gen : miscellaneous utilities
+bioseq : bio : biological sequences - DNA, peptide
+biotable : bio, depr : access to bio tabular flatfiles
+blipkit	: bio : command line functionality
+ blipkit_fasta				
+ blipkit_goa				
+ blipkit_ontol				
+ blipkit_phylo				
+ blipkit_sb				
+ blipkit_seqfeature			
+ blipkit_sql				
+dbmeta : gen : datalog					
+fasta_db : bio, db : simple fasta sequence model
+gencode : bio, db : genetic code translation table
+goa_db : bio, db : gene ontology style annotation model
+ goa_bridge_from_assocfile
+ goa_bridge_from_gosql
+ goa_bridge_to_class
+ goa_bridge_to_inst              
+google : gen : access to Google API					
+graph : gen : graph operations over db modules				
+graphviz : gen : wrapper for Graphviz graph visualisation language
+io : bio : mediator module for parsers and writers
+iupac : bio : DNA symbols and complementations
+macros_lookup : gen : generates db search/lookup predicates
+macros_transitive : gen : rewriter for transitive predicates
+mode : gen : allows prolog mode annotations; optional run-time checks
+omim_db : bio, db : OMIM disease schema
+ omim_xmlmap_omimxml
+ontol_db : bio, db : ontology metamodel
+ ontol_bridge_from_fmaowl			
+ ontol_bridge_from_owl			
+ ontol_bridge_from_gosql		
+ ontol_bridge_to_owl			
+ ontol_lookup
+ ontol_writer_owl			
+ ontol_writer_asp			
+ ontol_writer_dot			
+ ontol_writer_obo			
+parser_general : gen : general purpose DCG predicates (not a module)
+parser_nhx : bio : parser for new hampshire (extended) format
+parser_nlp : bio : parser for Stanford NLP java lib output
+parser_obo : bio : parser for Obo 1.2 syntax				
+pheno_db : bio, db : phenotype model				
+ pheno_bridge_from_inst			
+phylo_db : bio, db : phylogenetic tree model
+ phylo_bridge_from_taxon		
+plunit : gen : test unit framework					
+query_ontol				
+query_mediator
+range					
+rdb_util : gen : SQL utilities				
+sb_db : bio, db : systems biology module, SBML-like
+ sb_xmlmap_sbml				
+ sb_bridge_from_biopax			
+ sb_writer_dot				
+ sb_writer_chadoxml			
+seqanalysis_db : bio, db : sequence analysis results model
+seqfeature_db : bio, db : sequence feature model - chado-like
+ seqfeature_bridge_from_chadosql	
+ seqfeature_bridge_from_fasta		
+ seqfeature_bridge_to_class		
+ seqfeature_bridge_to_inst		
+ seqfeature_xmlmap_game			
+ seqfeature_xmlmap_chaos		
+ seqfeature_xmlmap_chado : pre_alpha : 		
+ seqfeature_writer_chaos		
+serval : gen : web application framework
+sql_compiler : gen : Draxler prolog term to SQL compiler
+suffixtree				
+system_bioconf				
+tabling : gen : slow implementation of memoization
+taxon_db : bio, db : simple organism taxonomy model - NCBI-like
+ taxon_bridge_to_ontol			
+test_sql_compiler
+test_sql_compiler2
+test_tabling
+test_xml_transform
+textmatch : gen : simple text matching
+web_search_yahoo : gen : Yahoo web search
+xml_transform : gen : XML queries and transformations
+xml_writer : gen : simple XML writer

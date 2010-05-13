@@ -1,0 +1,12 @@
+#!/usr/bin/perl
+ 
+use strict;
+
+print 'pl_files = ';
+while (<>) {
+    chomp;
+    my ($f) = split(/:/);
+    $f =~ s/\s//g;
+    print "$f ";
+}
+print "\n";

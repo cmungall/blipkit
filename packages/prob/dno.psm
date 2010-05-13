@@ -1,0 +1,19 @@
+target(obs/1).
+
+values(p(_,_),[yes,no]).
+
+obs(L):- obs(L,[a,b,c,d,e]).
+
+obs([],[]).
+obs([A=V|AVL],[A|AL]):-
+	children(A,CL),
+	msw(p(A,CL),V),
+	obs(AVL,AL).
+
+children(X,CL):- findall(C,c(C,X),CL).
+
+c(b,a).
+c(c,a).
+c(d,b).
+c(e,b).
+

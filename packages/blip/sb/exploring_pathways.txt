@@ -1,0 +1,323 @@
+---+ Exploring pathways
+
+This tutorial takes you through some of the basics of exploring
+pathways using blip. Two alternative complementary modules are
+highlighted, one using the BioPAX RDFS model, the other using a more
+native prolog model.
+
+In both cases we use Reactome as a test case.
+
+For a quick overview, see quickstart_pathways.txt
+
+---++ Getting started 
+
+  1. download Reactome in BioPAX level 3 from http://www.reactome.org/download/index.html
+  2. untar this somewhere.
+
+There are multiple perspectives on pathways in blip. First we will
+explore a "native" BioPAX approach that is tightly coupled to the
+BioPAX3 model. Then we will explore an alternative approach that makes
+use of the blip pathway_db.pro module. I feel that the second approach
+is more natural and prolog-esque, but as usual your mileage may vary.
+
+---++ Exploring pathways at the RDFS level
+
+BioPAX is an OWL/RDFS ontology/schema for representing pathways. The
+BioPAX OWL export can be explored using the standard SWI semweb
+library and tools.
+
+Blip also provides some convenience predicates based on the BioPAX3
+model. These are available in biopax3_db.pro
+
+First start a blip session:
+
+==
+blip -i Homo_sapiens.owl -u biopax3_db -u biopax3_bridge_from_rdf
+==
+
+You can now make standard prolog queries using the biopax3_db model. For example to query for all interactions:
+
+==
+?- interaction(X).
+X = 'http://www.reactome.org/biopax#_Interaction_between_FEN1_and_PCNA__positively_regulates__Cleavage_of__flap_structures_' ;
+X = 'http://www.reactome.org/biopax#_Interaction_of_APE1_with_FEN1__positively_regulates__Cleavage_of__flap_structures_' ;
+X = 'http://www.reactome.org/biopax#_APE1_APE1_DNA_ligase_I_complex__nucleus___positively_regulates__Ligation_of_DNA_at_sites_of_patch_replacement_' .
+==
+
+Or to query for all interactions plus their left and right participants:
+
+==
+?- interaction(X),left(X,A),right(X,B).
+X = 'http://www.reactome.org/biopax#MPG_glycosylase_mediated_recognition_and_binding_of_3_methyladenine_',
+A = 'http://www.reactome.org/biopax#MPG_glycosylase__nucleoplasm_',
+B = 'http://www.reactome.org/biopax#MPG_glycosylase_3_methyladenine_complex__nucleoplasm_' ;
+X = 'http://www.reactome.org/biopax#MPG_glycosylase_mediated_recognition_and_binding_of_3_methyladenine_',
+A = 'http://www.reactome.org/biopax#Double_strand_DNA_containing_a_3_methyladenine__nucleoplasm_',
+B = 'http://www.reactome.org/biopax#MPG_glycosylase_3_methyladenine_complex__nucleoplasm_' ;
+X = 'http://www.reactome.org/biopax#MPG_glycosylase_mediated_recognition_and_binding_of_ethenoadenine_',
+A = 'http://www.reactome.org/biopax#MPG_glycosylase__nucleoplasm_',
+B = 'http://www.reactome.org/biopax#MPG_glycosylase_ethenoadenine_complex__nucleoplasm_' .
+==
+
+The biopax3_db.pro model is automaticaly generated from the BioPAX
+level 3 OWL schema. It gives you a unary predicate for every class and
+a binary predicate for every property. It also makes every property infix, so you can write:
+
+==
+?- interaction(X), X left A, X right B.
+==
+
+If you prefer.
+
+This is all equivalent to writing:
+
+==
+?- rdf_register_ns(biopax3,'http://www.biopax.org/release/biopax-level3.owl#').
+true.
+?- rdfs_individual_of(X,biopax3:'Interaction'),rdf_has(X,biopax3:left,A),rdf_has(X,biopax3:left,B).
+Correct to: "rdfs:rdfs_individual_of(X, 'http://www.biopax.org/release/biopax-level3.owl#Interaction')"? yes
+X = 'http://www.reactome.org/biopax#MPG_glycosylase_mediated_recognition_and_binding_of_3_methyladenine_',
+A = 'http://www.reactome.org/biopax#MPG_glycosylase__nucleoplasm_',
+B = 'http://www.reactome.org/biopax#MPG_glycosylase__nucleoplasm_' ;
+X = 'http://www.reactome.org/biopax#MPG_glycosylase_mediated_recognition_and_binding_of_3_methyladenine_',
+A = 'http://www.reactome.org/biopax#MPG_glycosylase__nucleoplasm_',
+B = 'http://www.reactome.org/biopax#Double_strand_DNA_containing_a_3_methyladenine__nucleoplasm_' ;
+X = 'http://www.reactome.org/biopax#MPG_glycosylase_mediated_recognition_and_binding_of_3_methyladenine_',
+A = 'http://www.reactome.org/biopax#Double_strand_DNA_containing_a_3_methyladenine__nucleoplasm_',
+B = 'http://www.reactome.org/biopax#MPG_glycosylase__nucleoplasm_' .
+==
+
+The biopax3_db model just gives you an extra level of convenience.
+
+You could also query via SPARQL too if you prefer. See the excellent semweb package for details.
+
+Effective querying at the RDFS level requires a bit of knowledge of BioPAX3. There are some guides online.
+
+Here is an example complex query for finding events in which some entity changes location:
+
+==
+?- left(X,A),entityReference(A,Ref),
+  cellularLocation(A,LocA),
+right(X,B),entityReference(B,Ref),
+  cellularLocation(B,LocB),
+LocA\=LocB,
+rdfs_label(X,XN).
+X = 'http://www.reactome.org/biopax#cytidine_5__diphosphate__cytosolic______cytidine_5__diphosphate__nuclear_',
+A = 'http://www.reactome.org/biopax#cytidine_5__diphosphate__cytosol_',
+Ref = 'http://www.reactome.org/biopax#CDP__ChEBI_17239_',
+LocA = 'http://www.reactome.org/biopax#cytosol',
+B = 'http://www.reactome.org/biopax#cytidine_5__diphosphate__nucleoplasm_',
+LocB = 'http://www.reactome.org/biopax#nucleoplasm' 
+XN = 'cytidine 5\'-diphosphate (cytosolic) <=> cytidine 5\'-diphosphate (nuclear)' 
+==
+
+See http://www.reactome.org/cgi-bin/eventbrowser?DB=gk_current&ID=111811
+
+You can find the stoichiometry (cardinality) of participants like this:
+
+==
+left(X,A),entityReference(A,Ref),
+  participantStoichiometry(X,StoiA),physicalEntity(StoiA,A),stoichiometricCoefficient(StoiA,SA_a),
+  atom_number(SA_a,SA),
+==
+
+This is rather complex, and is the kind of thing you might consider
+writing an n-ary predicate for. Fortunately this has all been done in
+the pathway_db.pro model, and the accompanying
+biopax3_bridge_to_pathway mapping.
+
+---++ Exploring pathways with a native prolog model
+
+The first thing we will do is convert the RDF file into a native
+prolog database using the pathway_db schema. This is isn't necessary -
+it can all be handled dynamically via the bridge module. However,
+dynamic bridging is slower (unless you nemoize using tabling.pro). On
+balance it's simpler to convert the file:
+
+==
+blip -i Homo_sapiens.owl -u biopax3_bridge_to_pathway io-convert -to Homo_sapiens-pathway_db.pro
+==
+
+Now start a session using the new file:
+
+==
+blip -i Homo_sapiens-pathway_db.pro -u pathway_db
+==
+
+Alternatively, you could use a pre-constructed database:
+
+==
+blip -i http://blipkit.org/reactome/Homo_sapiens-pathway_db.pro -u pathway_db
+==
+
+This should load fairly quickly. The first time round, blip will
+auto-convert this to a .qlf file for even faster subsequent accesses
+in future sessions.
+
+The native blip pathway_db schema provides lots of handy predicates such as:
+
+  * event_participant_role/3
+  * event_participant_roleT/3
+  * has_part/2
+  * has_part/3
+
+some of these correspond to facts (extensional predicates). Others
+correspond to simple rules (intensional predicates).
+
+The query for all events and their participants is simply:
+
+==
+entity_participant_role(E,P,R)
+==
+
+If you look at the source for pathway_db you'll see this is just a simple view over 3 binary predicates:
+
+==
+event_participant_role(E,C,input) :- event_input(E,C).
+event_participant_role(E,C,output) :- event_output(E,C).
+event_participant_role(E,C,catalyst) :- event_catalyst(E,C).
+==
+
+TODO - MORE EXAMPLES HERE
+
+Before delving into the pathway model it's worth going over some of
+the philosophy of the model used.
+
+In Reactome, each event participant gets a separate ID for every
+possible state that it can be in. Thus Cdk2 in the nucleoplasm gets a
+different ID from Cdk2 in the cytosol. The reactome IDs can be thought
+of as IDs for 'snapshots'. snapshots are distinct from 'continuants',
+entities that retain their identity whilst their properties
+change. Continuants can also be thought of as the whole 'lifetime' of
+the object.
+
+The snapshot_continuant/2 predicate maps a snapshot to its continuant. For example:
+
+==
+snapshot_continuant(cdk2_nucleoplasm,cdk2).
+snapshot_continuant(cdk2_cytosol,cdk2).
+==
+
+The transport/6 predicate is a handy way of querying for events in
+which continuants move from one place to another. We can peek inside
+the source to see how this works:
+
+==
+transport(P,S1,L1,S2,L2,C) :-
+        event_input(P,S1),event_output(P,S2),
+        snapshot_continuant(S1,C),snapshot_continuant(S2,C),located_in(S1,L1),located_in(S2,L2),
+        L2\=L1.
+==
+
+It should be obviously how this maps onto the RDFS query in the previous section.
+
+---++ Comparison of prolog with RDFS and OWL for Pathways
+
+Should you use pathway_db or biopax3_db? It depends on what you are
+doing. Of course, you could use the dynamic bridge and mix and match
+predicates from both to get the best of both worlds.
+
+Some of the advantages of biopax3_db:
+
+  * The SWI semweb library can be fast for certain operations, e.g. closure over transitive properties
+  * You are operating closer to two standards (BioPAX and the semantic web stack of standards)
+
+Personally I prefer pathway_db for various reasons. I find the
+restriction to binary predicates can lead to obfuscated code. For
+example, the pathway_db model gives you has_part/3 for relating an
+entity to its n parts. In RDF you need to introduce an extra
+individual to model the cardinality, and I find the biopax
+stoichiometry model confusing (but YMMV).
+
+There is also the issue of semantics. BioPAX is best interpreted using
+RDFS semantics (for a discussion of the problems with using OWL
+semantics for BioPAX, see the numerous excellent publications by
+Ruttenberg et al). Pathways are essentially bipartite graphs, which
+makes extracting transitive closure difficult with RDFS. You could do
+this in OWL2 using role chains, but BioPAX isn't really built for this.
+
+BioPAX makes things particularly difficult here. For example, causal
+relations are represented using a combination of stepProcess/2 and
+nextStep/2. In prolog we can say
+
+==
+% from biopax3_bridge_to_pathway:
+preceded_by(P2,P1):- PS1 stepProcess P1, PS1 nextStep PS2, PS2 stepProcess P2.
+
+% from pathway_db:
+preceded_byT(A,B) :- preceded_by(A,B).
+preceded_byT(A,B) :- preceded_by(A,X),preceded_byT(X,B).
+==
+
+But this isn't possible within RDFS semantics.
+
+One option would be to find an alternative OWL representation that
+fully takes advantage of OWL semantics. See some of the publications
+by Ruttenberg and Dumontier from OWLED for how this might work. The
+resulting representation could be accessed and processed through the
+SWI Thea2 library (or indeed through any OWL tool, bypassing Prolog
+altogether).
+
+My personal opinion is that OWL does not yet have quite the right
+expressivity. For example, consider:
+
+==
+event_transports_from_to(E,IL,OL) :- 
+  event_input(E,I),
+  event_output(E,O),
+  located_in(I,IL),
+  located_in(O,OL),
+  IL\=OL.
+==
+
+It's not possible to represent this in OWL2 - an extension called
+Description Graphs is required.
+
+Of course, the current prolog solution is not perfect. In particular,
+the use of backtracking means that the model is not as declarative as
+we might like it to be. Witness the use of seperate predicates for
+inferred vs asserted information (e.g. has_part/2 vs
+has_partT/2). It's somewhere between an imperative programming library
+and a logical model.
+
+In the future we might explore Yap or XSB + tabling for a more
+declarative model. Even more expressivity is possible using answer set
+programming. At the moment we are restricted to querying over pathway
+data using somewhat simplistic deductive inferences to find hidden
+data (e.g. finding the participants in a pathway by traversing the
+part-whole hierarchies of complexes and pathways). It would also be
+nice to use other kinds of reasoning e.g. to infer pathways based on
+observed data. This is the approach taken by King et al who use
+inductive logic programming (ILP) for hypothesis generation in the
+Robot Scientist
+(http://blipkit.wordpress.com/2009/06/01/robot-scientist/).
+
+---++ Other cool stuff
+
+---+++ Visualization
+
+The module pathway_writer_dot.pro provides a bridge to the
+dotwriter.pro package.
+
+Detailed view:
+
+==
+blip -r go -u blipkit_pathway -r reactome/Homo_sapiens pathway-viz -n "Mitotic Prometaphase"  -to display
+==
+
+Simpler view (this time querying by GO process ID, which is linked to the pathway via entity_xref/2):
+
+==
+blip -r go -u blipkit_pathway -r reactome/Homo_sapiens pathway-viz -id GO:0050796 -show participants -show xrefs -show subevents
+==
+
+---+++ Pathway Enrichment
+
+Given a set of genes (e.g. genes upregulated in a certain disease),
+what pathways are likely implicated?
+
+blip has a class-enrichment module which is typically used for
+GO-style annotation. It can also be used for pathways.
+
+TODO
+

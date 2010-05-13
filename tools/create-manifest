@@ -1,0 +1,19 @@
+#!/usr/bin/perl
+
+my @dirs = split(/\n/,`ls -R | grep CVS:`);
+
+foreach my $d (@dirs) {
+    my $pre;
+    if ($d =~ /(.*)CVS:/) {
+        $pre = $1;
+        $pre =~ s/$\.\///;
+    }
+    $d =~ s/:$//;
+    open(F,"$d/Entries") || die $d;
+    while(<F>) {
+        if (/^\/(.*)\/(.+)\/(.+)\/(.*)\//) {
+            print "$pre$1\n";
+        }
+    }
+    close(F);
+}

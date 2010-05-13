@@ -1,0 +1,13 @@
+amigo/obd     8100    http://spade.lbl.gov
+amigo/wine    8101
+amigo/ubo     8102
+amigo/bible   8103
+amigo/nci     8104
+amigo/po      8105
+amigo/biopax  8106
+amigo/wn      8107
+amigo/anatomy 8108
+amigo/ct      8109    http://spade.lbl.gov
+amigo/obol    8200    http://spade.lbl.gov
+sparql/go  2020    http://spade.lbl.gov
+sparql/ex  2021    http://spade.lbl.gov

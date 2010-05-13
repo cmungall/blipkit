@@ -1,0 +1,4 @@
+#!/bin/sh
+
+blip io-convert -include "association ontology" -include "feature ontology" -include "_ ontology" -f go_assoc -r evidence_code -r so -u goa_bridge_to_class -u seqfeature_bridge_to_class $*
+

@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<search_response total_num_hits="88">
+    <search_hit primary_id="614131">
+        <name>FGF</name>
+        <entity_type>protein</entity_type>
+        <excerpt>&lt;B&gt;&lt;b&gt;FGF&lt;/b&gt;&lt;/B&gt;</excerpt>
+        <organism ncbi_organism_id="9606">
+            <common_name>N/A</common_name>
+            <species_name>Homo sapiens</species_name>
+        </organism>
+        <pathway_list>
+            <pathway primary_id="604437">
+                <name>Syndecan-1-mediated signaling events</name>
+                <data_source>
+                    <name>NCI / Nature Pathway Interaction Database</name>
+                </data_source>
+            </pathway>
+            <pathway primary_id="604457">
+                <name>Syndecan-2-mediated signaling events</name>
+                <data_source>
+                    <name>NCI / Nature Pathway Interaction Database</name>
+                </data_source>
+            </pathway>
+            <pathway primary_id="604486">
+                <name>Syndecan-3-mediated signaling events</name>
+                <data_source>
+                    <name>NCI / Nature Pathway Interaction Database</name>
+                </data_source>
+            </pathway>
+            <pathway primary_id="604506">
+                <name>FGF signaling pathway</name>
+                <data_source>
+                    <name>NCI / Nature Pathway Interaction Database</name>
+                </data_source>
+            </pathway>
+            <pathway primary_id="604508">
+                <name>Proteogylcan syndecan-mediated signaling events</name>
+                <data_source>
+                    <name>NCI / Nature Pathway Interaction Database</name>
+                </data_source>
+            </pathway>
+        </pathway_list>
+    </search_hit>
+    <search_hit primary_id="618067">
+        <name>FGFR/FGF/Syndecan-2</name>
+        <entity_type>complex</entity_type>
+        <excerpt>&lt;b&gt;FGF&lt;/b&gt;R/&lt;B&gt;&lt;b&gt;FGF&lt;/b&gt;&lt;/B&gt;/Syndecan-2</excerpt>
+        <organism ncbi_organism_id="9606">
+            <common_name>N/A</common_name>
+            <species_name>Homo sapiens</species_name>
+        </organism>
+        <pathway_list>
+            <pathway primary_id="604457">
+                <name>Syndecan-2-mediated signaling events</name>
+                <data_source>
+                    <name>NCI / Nature Pathway Interaction Database</name>
+                </data_source>
+            </pathway>
+            <pathway primary_id="604506">
+                <name>FGF signaling pathway</name>
+                <data_source>
+                    <name>NCI / Nature Pathway Interaction Database</name>
+                </data_source>
+            </pathway>
+            <pathway primary_id="604508">
+                <name>Proteogylcan syndecan-mediated signaling events</name>
+                <data_source>
+                    <name>NCI / Nature Pathway Interaction Database</name>
+                </data_source>
+            </pathway>
+        </pathway_list>
+    </search_hit>
+    <search_hit primary_id="615397">
+        <name>Grb2/SOS1/SHC/FRS2/FGFR/FGF</name>
+        <entity_type>complex</entity_type>
+        <synonym>Grb2/SOS1/SHC/FRS2/FGFR/FGF/Syndecan-2</synonym>
+        <excerpt>Grb2/SOS1/SHC/FRS2/&lt;b&gt;FGF&lt;/b&gt;R/&lt;B&gt;&lt;b&gt;FGF&lt;/b&gt;&lt;/B&gt;</excerpt>
+        <excerpt>Grb2/SOS1/SHC/FRS2/&lt;b&gt;FGF&lt;/b&gt;R/&lt;B&gt;&lt;b&gt;FGF&lt;/b&gt;&lt;/B&gt;/Syndecan-2</excerpt>
+        <organism ncbi_organism_id="9606">
+            <common_name>N/A</common_name>
+            <species_name>Homo sapiens</species_name>
+        </organism>
+        <pathway_list>
+            <pathway primary_id="604457">
+                <name>Syndecan-2-mediated signaling events</name>
+                <data_source>
+                    <name>NCI / Nature Pathway Interaction Database</name>
+                </data_source>
+            </pathway>
+            <pathway primary_id="604506">
+                <name>FGF signaling pathway</name>
+                <data_source>
+                    <name>NCI / Nature Pathway Interaction Database</name>
+                </data_source>
+            </pathway>
+            <pathway primary_id="604508">
+                <name>Proteogylcan syndecan-mediated signaling events</name>
+                <data_source>
+                    <name>NCI / Nature Pathway Interaction Database</name>
+                </data_source>
+            </pathway>
+        </pathway_list>
+    </search_hit>
+    <search_hit primary_id="615961">
+        <name>FGFR/FGF/Syndecan-2/FRS2</name>
+        <entity_type>complex</entity_type>
+        <excerpt>&lt;b&gt;FGF&lt;/b&gt;R/&lt;B&gt;&lt;b&gt;FGF&lt;/b&gt;&lt;/B&gt;/Syndecan-2/FRS2</excerpt>
+        <organism ncbi_organism_id="9606">
+            <common_name>N/A</common_name>
+            <species_name>Homo sapiens</species_name>
+        </organism>
+        <pathway_list>
+            <pathway primary_id="604457">
+                <name>Syndecan-2-mediated signaling events</name>
+                <data_source>
+                    <name>NCI / Nature Pathway Interaction Database</name>
+                </data_source>
+            </pathway>
+            <pathway primary_id="604506">
+                <name>FGF signaling pathway</name>
+                <data_source>
+                    <name>NCI / Nature Pathway Interaction Database</name>
+                </data_source>
+            </pathway>
+            <pathway primary_id="604508">
+                <name>Proteogylcan syndecan-mediated signaling events</name>
+                <data_source>
+                    <name>NCI / Nature Pathway Interaction Database</name>
+                </data_source>
+            </pathway>
+        </pathway_list>
+    </search_hit>
+    <search_hit primary_id="615374">
+        <name>FGFR/FGF</name>
+        <entity_type>complex</entity_type>
+        <synonym>FGFR/FGF2</synonym>
+        <excerpt>&lt;b&gt;FGF&lt;/b&gt;R/&lt;B&gt;&lt;b&gt;FGF&lt;/b&gt;&lt;/B&gt;</excerpt>
+        <excerpt>&lt;b&gt;FGF&lt;/b&gt;R/&lt;b&gt;FGF&lt;/b&gt;2</excerpt>
+        <organism ncbi_organism_id="9606">
+            <common_name>N/A</common_name>
+            <species_name>Homo sapiens</species_name>
+        </organism>
+        <pathway_list>
+            <pathway primary_id="604437">
+                <name>Syndecan-1-mediated signaling events</name>
+                <data_source>
+                    <name>NCI / Nature Pathway Interaction Database</name>
+                </data_source>
+            </pathway>
+            <pathway primary_id="604457">
+                <name>Syndecan-2-mediated signaling events</name>
+                <data_source>
+                    <name>NCI / Nature Pathway Interaction Database</name>
+                </data_source>
+            </pathway>
+            <pathway primary_id="604486">
+                <name>Syndecan-3-mediated signaling events</name>
+                <data_source>
+                    <name>NCI / Nature Pathway Interaction Database</name>
+                </data_source>
+            </pathway>
+            <pathway primary_id="604508">
+                <name>Proteogylcan syndecan-mediated signaling events</name>
+                <data_source>
+                    <name>NCI / Nature Pathway Interaction Database</name>
+                </data_source>
+            </pathway>
+        </pathway_list>
+    </search_hit>
+    <search_hit primary_id="616419">
+        <name>SHP2/GAB/Grb2/FRS2/FGFR/FGF/Syndecan-2</name>
+        <entity_type>complex</entity_type>
+        <synonym>SHP2/GAB1/Grb2/FRS2/FGFR/FGF/Syndecan-2</synonym>
+        <excerpt>SHP2/GAB/Grb2/FRS2/&lt;b&gt;FGF&lt;/b&gt;R/&lt;B&gt;&lt;b&gt;FGF&lt;/b&gt;&lt;/B&gt;/Syndecan-2</excerpt>
+        <excerpt>SHP2/GAB1/Grb2/FRS2/&lt;b&gt;FGF&lt;/b&gt;R/&lt;B&gt;&lt;b&gt;FGF&lt;/b&gt;&lt;/B&gt;/Syndecan-2</excerpt>
+        <organism ncbi_organism_id="9606">
+            <common_name>N/A</common_name>
+            <species_name>Homo sapiens</species_name>
+        </organism>
+        <pathway_list>
+            <pathway primary_id="604457">
+                <name>Syndecan-2-mediated signaling events</name>
+                <data_source>
+                    <name>NCI / Nature Pathway Interaction Database</name>
+                </data_source>
+            </pathway>
+            <pathway primary_id="604506">
+                <name>FGF signaling pathway</name>
+                <data_source>
+                    <name>NCI / Nature Pathway Interaction Database</name>
+                </data_source>
+            </pathway>
+            <pathway primary_id="604508">
+                <name>Proteogylcan syndecan-mediated signaling events</name>
+                <data_source>
+                    <name>NCI / Nature Pathway Interaction Database</name>
+                </data_source>
+            </pathway>
+        </pathway_list>
+    </search_hit>
+    <search_hit primary_id="616953">
+        <name>FGFR/FGF/Syndecan-2/FRS2/Sprouty2</name>
+        <entity_type>complex</entity_type>
+        <excerpt>&lt;b&gt;FGF&lt;/b&gt;R/&lt;B&gt;&lt;b&gt;FGF&lt;/b&gt;&lt;/B&gt;/Syndecan-2/FRS2/Sprouty2</excerpt>
+        <organism ncbi_organism_id="9606">
+            <common_name>N/A</common_name>
+            <species_name>Homo sapiens</species_name>
+        </organism>
+        <pathway_list>
+            <pathway primary_id="604457">
+                <name>Syndecan-2-mediated signaling events</name>
+                <data_source>
+                    <name>NCI / Nature Pathway Interaction Database</name>
+                </data_source>
+            </pathway>
+            <pathway primary_id="604506">
+                <name>FGF signaling pathway</name>
+                <data_source>
+                    <name>NCI / Nature Pathway Interaction Database</name>
+                </data_source>
+            </pathway>
+            <pathway primary_id="604508">
+                <name>Proteogylcan syndecan-mediated signaling events</name>
+                <data_source>
+                    <name>NCI / Nature Pathway Interaction Database</name>
+                </data_source>
+            </pathway>
+        </pathway_list>
+    </search_hit>
+    <search_hit primary_id="586032">
+        <name>FGFR4 homodimer bound to FGF</name>
+        <entity_type>complex</entity_type>
+        <xref>
+            <db>Reactome</db>
+            <id>REACT_9679</id>
+            <url>http://reactome.org/cgi-bin/eventbrowser_st_id?ST_ID=REACT_9679</url>
+        </xref>
+        <xref>
+            <db>Reactome</db>
+            <id>190223</id>
+            <url>http://www.reactome.org/cgi-bin/eventbrowser?DB=gk_current&amp;ID=190223</url>
+        </xref>
+        <excerpt>&lt;b&gt;FGF&lt;/b&gt;R4 homodimer bound to &lt;B&gt;&lt;b&gt;FGF&lt;/b&gt;&lt;/B&gt; [plasma membrane]</excerpt>
+        <excerpt>&lt;b&gt;FGF&lt;/b&gt;R4 homodimer bound to &lt;B&gt;&lt;b&gt;FGF&lt;/b&gt;&lt;/B&gt;</excerpt>
+        <organism ncbi_organism_id="9606">
+            <common_name>N/A</common_name>
+            <species_name>Homo sapiens</species_name>
+        </organism>
+        <pathway_list>
+            <pathway primary_id="580009">
+                <name>Signaling by FGFR</name>
+                <data_source>
+                    <name>Reactome</name>
+                </data_source>
+            </pathway>
+            <pathway primary_id="580010">
+                <name>FGFR ligand binding and activation</name>
+                <data_source>
+                    <name>Reactome</name>
+                </data_source>
+            </pathway>
+            <pathway primary_id="580016">
+                <name>FGFR4 ligand binding and activation</name>
+                <data_source>
+                    <name>Reactome</name>
+                </data_source>
+            </pathway>
+        </pathway_list>
+    </search_hit>
+    <search_hit primary_id="589359">
+        <name>FGFR1b homodimer bound to FGF</name>
+        <entity_type>complex</entity_type>
+        <xref>
+            <db>Reactome</db>
+            <id>REACT_9772</id>
+            <url>http://reactome.org/cgi-bin/eventbrowser_st_id?ST_ID=REACT_9772</url>
+        </xref>
+        <xref>
+            <db>Reactome</db>
+            <id>190226</id>
+            <url>http://www.reactome.org/cgi-bin/eventbrowser?DB=gk_current&amp;ID=190226</url>
+        </xref>
+        <excerpt>&lt;b&gt;FGF&lt;/b&gt;R1b homodimer bound to &lt;B&gt;&lt;b&gt;FGF&lt;/b&gt;&lt;/B&gt;</excerpt>
+        <excerpt>&lt;b&gt;FGF&lt;/b&gt;R1b homodimer bound to &lt;B&gt;&lt;b&gt;FGF&lt;/b&gt;&lt;/B&gt; [plasma membrane]</excerpt>
+        <organism ncbi_organism_id="9606">
+            <common_name>N/A</common_name>
+            <species_name>Homo sapiens</species_name>
+        </organism>
+        <pathway_list>
+            <pathway primary_id="580009">
+                <name>Signaling by FGFR</name>
+                <data_source>
+                    <name>Reactome</name>
+                </data_source>
+            </pathway>
+            <pathway primary_id="580010">
+                <name>FGFR ligand binding and activation</name>
+                <data_source>
+                    <name>Reactome</name>
+                </data_source>
+            </pathway>
+            <pathway primary_id="580017">
+                <name>FGFR1 ligand binding and activation</name>
+                <data_source>
+                    <name>Reactome</name>
+                </data_source>
+            </pathway>
+            <pathway primary_id="580018">
+                <name>FGFR1b ligand binding and activation</name>
+                <data_source>
+                    <name>Reactome</name>
+                </data_source>
+            </pathway>
+        </pathway_list>
+    </search_hit>
+    <search_hit primary_id="592802">
+        <name>FGFR3c homodimer bound to FGF</name>
+        <entity_type>complex</entity_type>
+        <xref>
+            <db>Reactome</db>
+            <id>190234</id>
+            <url>http://www.reactome.org/cgi-bin/eventbrowser?DB=gk_current&amp;ID=190234</url>
+        </xref>
+        <xref>
+            <db>Reactome</db>
+            <id>REACT_9621</id>
+            <url>http://reactome.org/cgi-bin/eventbrowser_st_id?ST_ID=REACT_9621</url>
+        </xref>
+        <excerpt>&lt;b&gt;FGF&lt;/b&gt;R3c homodimer bound to &lt;B&gt;&lt;b&gt;FGF&lt;/b&gt;&lt;/B&gt; [plasma membrane]</excerpt>
+        <excerpt>&lt;b&gt;FGF&lt;/b&gt;R3c homodimer bound to &lt;B&gt;&lt;b&gt;FGF&lt;/b&gt;&lt;/B&gt;</excerpt>
+        <organism ncbi_organism_id="9606">
+            <common_name>N/A</common_name>
+            <species_name>Homo sapiens</species_name>
+        </organism>
+        <pathway_list>
+            <pathway primary_id="580009">
+                <name>Signaling by FGFR</name>
+                <data_source>
+                    <name>Reactome</name>
+                </data_source>
+            </pathway>
+            <pathway primary_id="580010">
+                <name>FGFR ligand binding and activation</name>
+                <data_source>
+                    <name>Reactome</name>
+                </data_source>
+            </pathway>
+            <pathway primary_id="580013">
+                <name>FGFR3 ligand binding and activation</name>
+                <data_source>
+                    <name>Reactome</name>
+                </data_source>
+            </pathway>
+            <pathway primary_id="580014">
+                <name>FGFR3c ligand binding and activation</name>
+                <data_source>
+                    <name>Reactome</name>
+                </data_source>
+            </pathway>
+        </pathway_list>
+    </search_hit>
+</search_response>

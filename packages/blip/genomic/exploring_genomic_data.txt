@@ -1,0 +1,63 @@
+
+==
+blip -i dmel-4-r5.17.gff 
+==
+
+==
+?- feature_type(F,exon).
+F = 'FBgn0040037:1' ;
+F = 'FBgn0040037:2' ;
+F = 'FBgn0040037:3' ;
+F = 'FBgn0040037:4' ;
+F = 'CR32011:4' ;
+F = 'CR32011:7' ;
+F = 'CR32011:6' .
+==
+
+==
+blip-io-convert-gff-to-genome-db -i dmel-4-r5.17.gff > dmel4.pro
+==
+
+==
+blip -i dmel4.pro -u genome_db
+==
+
+==
+?- utr(X).
+X = 'five_prime_UTR_CG17245:1_938' ;
+X = 'five_prime_UTR_CG2125:1_938' ;
+X = 'five_prime_UTR_CG2168:6_938' ;
+.
+.
+.
+X = 'three_prime_UTR_CG17245:5_938' ;
+X = 'three_prime_UTR_CG2125:6_938' ;
+X = 'three_prime_UTR_CG2168:2_938' ;
+X = 'three_prime_UTR_CG17964:113_951' ;
+==
+
+
+==
+genome_db:utr(A):-feature_type(A, 'UTR').
+genome_db:utr(A):-feature_type(A, five_prime_UTR).
+genome_db:utr(A):-feature_type(A, three_prime_UTR).
+==
+
+==
+blip -i dmel4.pro -u genome_db -table_pred genome_db:exon_transcript_order/3
+==
+
+asserted and inferred introns:
+
+==
+?- intron(X).
+X = 'intron_FBgn0040037:1_FBgn0040037:2' ;
+.
+.
+.
+X = intron(4, 470594, 473243, 1) ;
+==
+
+==
+blip -i dmel4.pro -u genome_db -table_pred genome_db:exon_transcript_order/3 io-convert -to genome_db:pro -o dmel4i.pro
+==

@@ -1,0 +1,3 @@
+---+ Working with GFF3
+
+blip-io-convert-gff-to-genome-db -u grule/exon_transcript_order -u genome_db -u grule/intron -r so -i test_data/dmel4alltypes.gff3

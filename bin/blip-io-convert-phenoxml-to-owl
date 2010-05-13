@@ -1,0 +1,4 @@
+#!/bin/sh
+
+blip io-convert -f phenoxml -u pheno_bridge_to_inst -to owl -i $@
+

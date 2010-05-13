@@ -1,0 +1,149 @@
+3702	827854	ATBRCA1	AT4G21070	-	-	4	-	ATBRCA1; ubiquitin-protein ligase/ zinc ion binding	protein-coding	-	-	-	-
+3702	828230	BRCA2A	AT4G00020	F6N15.14|F6N15_14	-	4	-	BRCA2A	protein-coding	-	-	-	-
+3702	831710	BRCA2B	AT5G01630	F7A7.150|F7A7_150	-	5	-	BRCA2B	protein-coding	-	-	-	-
+3702	839329	ATBRCA1	AT1G04020	F21M11.4|F21M11_4	-	1	-	ATBRCA1; protein binding / transcription coactivator/ ubiquitin-protein ligase/ zinc ion binding	protein-coding	-	-	-	-
+4932	856099	CHL1	YPL008W	CTF1|LPA9	SGD:S000005929	XVI	-	Conserved nuclear protein required to establish sister-chromatid pairing during S-phase, probable DNA helicase with similarity to human BACH1, which associates with tumor suppressor BRCA1; associates with acetyltransferase Ctf7p	protein-coding	-	-	-	Chl1p
+7460	411185	LOC411185	-	GB13205	-	LG7	-	similar to BRCA1 interacting protein C-terminal helicase 1	protein-coding	-	-	-	-
+7460	552601	LOC552601	-	GB15160	-	LG3	-	similar to BRCA1/BRCA2-containing complex subunit 3	protein-coding	-	-	-	-
+7460	724551	LOC724551	-	GB12410	-	LG15	-	similar to BRCA1-associated RING domain protein 1 (BARD-1)	protein-coding	-	-	-	-
+7668	574779	LOC574779	-	-	-	Un	-	similar to BRCA1/BRCA2-containing complex subunit 3	protein-coding	-	-	-	-
+7668	586387	LOC586387	-	-	-	Un	-	similar to BRCA2 and CDKN1A interacting protein	protein-coding	-	-	-	-
+7668	588646	LOC588646	-	-	-	Un	-	similar to BRCA1-associated RING domain protein	protein-coding	-	-	-	-
+7668	754784	LOC754784	-	-	-	Un	-	similar to BRCA1/BRCA2-containing complex subunit 3	protein-coding	-	-	-	-
+7668	760663	LOC760663	-	-	-	Un	-	similar to BRCA1/BRCA2-containing complex subunit 3	protein-coding	-	-	-	-
+7955	393137	cobra1	-	MGC55628|bZ1O1.4|cobra2|fe01e12|wu:fe01e12|zgc:55628	ZFIN:ZDB-GENE-040426-765	5	-	cofactor of BRCA1	protein-coding	cobra1	cofactor of BRCA1	O	-
+7955	436739	brap	-	zgc:92894	ZFIN:ZDB-GENE-040718-168	Un	-	BRCA1 associated protein	protein-coding	brap	BRCA1 associated protein	O	-
+7955	541348	bccip	-	zgc:110272	ZFIN:ZDB-GENE-050320-39	12	-	BRCA2 and CDKN1A interacting protein	protein-coding	bccip	BRCA2 and CDKN1A interacting protein	O	mp:zf637-1-000774
+7955	563230	LOC563230	-	-	-	9	-	similar to BRCA1-associated RING domain protein 1 (BARD-1)	protein-coding	-	-	-	-
+7955	563871	LOC563871	-	-	-	12	-	similar to neighbor of BRCA1 gene 1	protein-coding	-	-	-	-
+7955	567920	LOC567920	-	-	-	15	-	similar to BRCA1 interacting protein C-terminal helicase 1	protein-coding	-	-	-	-
+7955	567976	LOC567976	-	-	-	15	-	similar to BRCA1 interacting protein C-terminal helicase 1	protein-coding	-	-	-	-
+7955	568035	LOC568035	-	-	-	15	-	similar to BRCA1 interacting protein C-terminal helicase 1	protein-coding	-	-	-	-
+7955	568252	LOC568252	-	-	-	15	-	similar to BRCA1 interacting protein C-terminal helicase 1	protein-coding	-	-	-	-
+7955	573323	LOC573323	-	-	-	1	-	similar to BRCA1 associated protein	protein-coding	-	-	-	-
+7955	573427	LOC573427	-	-	-	22	-	similar to SWI/SNF-related matrix-associated actin-dependent regulator of chromatin subfamily E member 1-related (SMARCE1-related protein) (HMG domain protein HMG20B) (Structural DNA-binding protein BRAF35) (BRCA2-associated factor 35) (Sox-like tr...	protein-coding	-	-	-	hypothetical protein LOC573427
+7955	573715	LOC573715	-	-	-	Un	-	similar to BRCA1 associated protein	protein-coding	-	-	-	-
+8355	398242	BARD1	-	-	-	-	-	BRCA1-associated RING domain protein	protein-coding	-	-	-	-
+8355	399391	BRCA1	-	-	-	-	-	breast and ovarian cancer susceptibility protein	protein-coding	-	-	-	-
+9031	373983	BRCA1	-	-	-	27	-	breast cancer 1, early onset	protein-coding	-	-	-	-
+9031	374139	BRCA2	-	-	-	1	-	breast cancer 2, early onset	protein-coding	-	-	-	-
+9031	415944	RCJMB04_11f19	RCJMB04_11f19	BAP1	-	12	-	BRCA1 associated protein-1 (ubiquitin carboxy-terminal hydrolase)	protein-coding	-	-	-	BRCA1 associated protein-1
+9031	417254	LOC417254	-	-	-	17	-	similar to cofactor of BRCA1; negative elongation factor protein B	protein-coding	-	-	-	-
+9031	417642	BRIP1	-	-	-	19	-	BRCA1 interacting protein C-terminal helicase 1	protein-coding	-	-	-	-
+9031	420007	NBR1	-	-	-	27	-	neighbor of BRCA1 gene 1	protein-coding	-	-	-	-
+9031	422201	BRCC3	-	CXorf53	-	4	-	BRCA1/BRCA2-containing complex, subunit 3	protein-coding	-	-	-	c6.1A
+9031	424010	RCJMB04_10g11	RCJMB04_10g11	BARD1	-	7	-	BRCA1 associated RING domain 1	protein-coding	-	-	-	-
+9031	426224	LOC426224	-	-	-	Un	-	similar to BRCA2 and CDKN1A-interacting protein isoform BCCIPbeta; BRCA2 and CDKN1A-interacting protein; cdk inhibitor p21 binding protein; BCCIPalpha; BCCIPbeta; TOK-1alpha; TOK-1beta	protein-coding	-	-	-	-
+9031	426225	BCCIP	-	-	-	Un	-	BRCA2 and CDKN1A interacting protein	protein-coding	-	-	-	-
+9031	426558	LOC426558	-	-	-	Un	-	similar to AT rich interactive domain 4B (RBP1- like) isoform 1; RBP1-like protein; breast carcinoma-associated antigen BCAA; breast cancer-associated antigen BRCAA1; Rb-binding protein homolog; retinoblastoma-binding protein 1-like 1; SIN3A-associ...	protein-coding	-	-	-	-
+9031	427047	LOC427047	-	-	-	Un	-	similar to breast cancer-associated antigen BRCAA1	protein-coding	-	-	-	-
+9031	428508	LOC428508	-	-	-	2	-	similar to putative BRCA1-interacting protein	protein-coding	-	-	-	-
+9544	694301	BARD1	-	-	-	12	-	BRCA1 associated RING domain 1	protein-coding	-	-	-	-
+9544	696025	LOC696025	-	-	-	7	-	similar to BRCA1/BRCA2-containing complex subunit 36 isoform 1	pseudo	-	-	-	-
+9544	697221	LOC697221	-	-	-	2	-	similar to BRCA1 associated protein-1	protein-coding	-	-	-	-
+9544	699437	LOC699437	-	-	-	9	-	similar to BRCA2 and CDKN1A-interacting protein isoform BCCIPbeta	protein-coding	-	-	-	-
+9544	702888	LOC702888	-	-	-	X	-	similar to BRCA1/BRCA2-containing complex subunit 36 isoform 2	protein-coding	-	-	-	-
+9544	704966	LOC704966	-	-	-	15	-	similar to cofactor of BRCA1	protein-coding	-	-	-	-
+9544	708558	LOC708558	-	-	-	16	-	similar to neighbor of BRCA1 gene 1	protein-coding	-	-	-	-
+9544	712408	LOC712408	-	-	-	16	-	similar to BRCA1 interacting protein C-terminal helicase 1	pseudo	-	-	-	-
+9544	713386	LOC713386	-	-	-	11	-	similar to BRCA1 associated protein	protein-coding	-	-	-	-
+9544	715540	LOC715540	-	-	-	5	-	similar to Acyl-coenzyme A oxidase 3, peroxisomal (Pristanoyl-CoA oxidase) (Branched-chain acyl-CoA oxidase) (BRCACox)	protein-coding	-	-	-	-
+9544	715593	LOC715593	-	-	-	5	-	similar to Acyl-coenzyme A oxidase 3, peroxisomal (Pristanoyl-CoA oxidase) (Branched-chain acyl-CoA oxidase) (BRCACox)	protein-coding	-	-	-	-
+9544	715639	ACOX3	-	-	-	5	-	similar to Acyl-coenzyme A oxidase 3, peroxisomal (Pristanoyl-CoA oxidase) (Branched-chain acyl-CoA oxidase) (BRCACox)	protein-coding	-	-	-	-
+9544	718070	LOC718070	-	-	-	1	-	similar to BRCA2 and CDKN1A-interacting protein isoform C	pseudo	-	-	-	-
+9544	720082	LOC720082	-	-	-	19	-	similar to Zinc finger protein 350 (Zinc-finger protein ZBRK1) (Zinc finger and BRCA1-interacting protein with a KRAB domain 1) (KRAB zinc finger protein ZFQR)	protein-coding	-	-	-	-
+9544	721723	LOC721723	-	-	-	19	-	similar to SWI/SNF-related matrix-associated actin-dependent regulator of chromatin subfamily E member 1-related (SMARCE1-related protein) (HMG domain protein HMG20B) (Structural DNA-binding protein BRAF35) (BRCA2-associated factor 35) (Sox-like tr...	pseudo	-	-	-	-
+9544	721981	BRCA2	-	-	-	17	-	breast cancer 2, early onset	protein-coding	-	-	-	-
+9598	449497	BRCA1	-	-	-	17	-	breast cancer 1, early onset	protein-coding	-	-	-	-
+9598	452249	BRAP	-	-	-	12	-	BRCA1 associated protein	protein-coding	-	-	-	-
+9598	452526	BRCA2	-	-	-	13	-	breast cancer 2, early onset	protein-coding	-	-	-	-
+9598	454796	BRIP1	-	-	-	17	-	BRCA1 interacting protein C-terminal helicase 1	protein-coding	-	-	-	-
+9598	455047	NBR1	-	-	-	17	-	neighbor of BRCA1 gene 1	protein-coding	-	-	-	-
+9598	455263	LOC455263	-	-	-	17	-	similar to BRCA1-binding helicase-like protein BACH1	protein-coding	-	-	-	-
+9598	460426	BAP1	-	-	-	3	-	BRCA1 associated protein-1	protein-coding	-	-	-	-
+9598	461704	LOC461704	-	-	-	5	-	similar to putative BRCA1-interacting protein	protein-coding	-	-	-	-
+9598	465951	LOC465951	-	-	-	X	-	similar to BRCA1/BRCA2-containing complex, subunit 3	protein-coding	-	-	-	-
+9598	470638	BARD1	-	-	-	2B	-	BRCA1 associated RING domain 1	protein-coding	-	-	-	-
+9598	735710	LOC735710	-	-	-	5	-	similar to BRCA1/BRCA2-containing complex, subunit 3	pseudo	-	-	-	-
+9598	738638	BCCIP	-	-	-	10	-	BRCA2 and CDKN1A-interacting protein	protein-coding	-	-	-	-
+9598	750868	LOC750868	-	-	-	5	-	similar to putative BRCA1-interacting protein	protein-coding	-	-	-	-
+9606	580	BARD1	-	-	HGNC:952|MIM:601593|HPRD:03354	2	2q34-q35	BRCA1 associated RING domain 1	protein-coding	BARD1	BRCA1 associated RING domain 1	O	BRCA1-associated RING domain 1|BRCA1-associated RING domain gene 1
+9606	672	BRCA1	-	BRCAI|BRCC1|IRIS|PSCP|RNF53	HGNC:1100|MIM:113705|HPRD:00218	17	17q21	breast cancer 1, early onset	protein-coding	BRCA1	breast cancer 1, early onset	O	BRCA1/BRCA2-containing complex, subunit 1|breast and ovarian cancer susceptibility protein 1
+9606	675	BRCA2	RP11-298P3.4	BRCC2|FACD|FAD|FAD1|FANCB|FANCD|FANCD1	HGNC:1101|MIM:600185|HPRD:02554	13	13q12.3	breast cancer 2, early onset	protein-coding	BRCA2	breast cancer 2, early onset	O	BRCA1/BRCA2-containing complex, subunit 2|Fanconi anemia, complementation group D1|OTTHUMP00000042401|breast and ovarian cancer susceptibility gene, early onset|breast cancer 2 tumor suppressor|breast cancer susceptibility protein BRCA2
+9606	4077	NBR1	-	1A1-3B|KIAA0049|M17S2|MIG19	HGNC:6746|MIM:166945|HPRD:01326	17	17q21.31	neighbor of BRCA1 gene 1	protein-coding	NBR1	neighbor of BRCA1 gene 1	O	membrane component, chromosome 17, surface marker 2 (ovarian carcinoma antigen CA125)|migration-inducing protein 19
+9606	5888	RAD51	-	BRCC5|HRAD51|HsRad51|HsT16930|RAD51A|RECA	HGNC:9817|MIM:179617|HPRD:01557	15	15q15.1	RAD51 homolog (RecA homolog, E. coli) (S. cerevisiae)	protein-coding	RAD51	RAD51 homolog (RecA homolog, E. coli) (S. cerevisiae)	O	BRCA1/BRCA2-containing complex, subunit 5|DNA repair protein RAD51 homolog 1|RAD51 homolog protein|RAD51, S.cerevisiae, homolog of, A|RecA, E. coli, homolog of|RecA-like protein|recombination protein A
+9606	8068	BRCATA	-	-	MIM:600048	11	11q23	Breast cancer, 11;22 translocation associated	unknown	-	-	-	-
+9606	8309	ACOX2	-	BCOX|BRCACOX|BRCOX|THCCox	HGNC:120|MIM:601641|HPRD:09037	3	3p14.3	acyl-Coenzyme A oxidase 2, branched chain	protein-coding	ACOX2	acyl-Coenzyme A oxidase 2, branched chain	O	Peroxisomal branched chain acyl-CoA oxidase|THCA-CoA oxidase|Trihydroxycoprostanoyl-CoA oxidase
+9606	8314	BAP1	-	DKFZp686N04275|FLJ35406|FLJ37180|HUCEP-13|KIAA0272|hucep-6	HGNC:950|MIM:603089|HPRD:04366	3	3p21.31-p21.2	BRCA1 associated protein-1 (ubiquitin carboxy-terminal hydrolase)	protein-coding	BAP1	BRCA1 associated protein-1 (ubiquitin carboxy-terminal hydrolase)	O	BRCA1 associated protein-1|cerebral protein-13|cerebral protein-6|ubiquitin carboxy-terminal hydrolase
+9606	8315	BRAP	-	BRAP2|IMP|RNF52	HGNC:1099|MIM:604986	12	12q24	BRCA1 associated protein	protein-coding	BRAP	BRCA1 associated protein	O	impedes mitogenic signal propagation
+9606	9577	BRE	-	BRCC4|BRCC45	HGNC:1106|MIM:610497|HPRD:08498	2	2p23.2	brain and reproductive organ-expressed (TNFRSF1A modulator)	protein-coding	BRE	brain and reproductive organ-expressed (TNFRSF1A modulator)	O	BRCA1/BRCA2-containing complex, subunit 4
+9606	10230	NBR2	-	DKFZp686F081|MGC104305	HGNC:20691|HPRD:10115	17	17q21	neighbor of BRCA1 gene 2	miscRNA	NBR2	neighbor of BRCA1 gene 2	O	-
+9606	25920	COBRA1	-	DKFZP586B0519|NELF-B|NELFB	HPRD:10845	9	9q34	cofactor of BRCA1	protein-coding	-	-	-	negative elongation factor protein B
+9606	51742	ARID4B	RP11-382D8.2	BCAA|BRCAA1|DKFZp313M2420|RBBP1L1|RBP1L1|SAP180	HGNC:15550|MIM:609696|HPRD:10661	1	1q42.1-q43	AT rich interactive domain 4B (RBP1-like)	protein-coding	ARID4B	AT rich interactive domain 4B (RBP1-like)	O	AT rich interactive domain 4B|AT rich interactive domain 4B (RBP1- like)|RBP1-like protein|Rb-binding protein homolog|SIN3A-associated protein 180|breast cancer-associated antigen 1|breast carcinoma-associated antigen|retinoblastoma binding protein 1-like 1|retinoblastoma-binding protein 1-like 1
+9606	56647	BCCIP	-	TOK-1	HGNC:978|HPRD:16542	10	10q26.1	BRCA2 and CDKN1A interacting protein	protein-coding	BCCIP	BRCA2 and CDKN1A interacting protein	O	BCCIPalpha|BCCIPbeta|BRCA2 and CDKN1A-interacting protein|BRCA2 and Cip1/p21 interacting protein|TOK-1alpha|TOK-1beta|cdk inhibitor p21 binding protein
+9606	60500	BRCA3	-	BRCAX	HGNC:18617|MIM:605365	13	13q21	breast cancer 3	unknown	BRCA3	breast cancer 3	O	-
+9606	64979	MRPL36	-	BRIP1|L36mt|MGC104245|PRPL36|RPMJ	HGNC:14490|HPRD:14756	5	5p15.3	mitochondrial ribosomal protein L36	protein-coding	MRPL36	mitochondrial ribosomal protein L36	O	putative BRCA1-interacting protein
+9606	79184	BRCC3	RP11-143H17.2	BRCC36|C6.1A|CXorf53	HGNC:24185|MIM:300617|HPRD:06465	X	Xq28	BRCA1/BRCA2-containing complex, subunit 3	protein-coding	BRCC3	BRCA1/BRCA2-containing complex, subunit 3	O	BRCA1/BRCA2-containing complex subunit 36|OTTHUMP00000061450|c6.1A
+9606	79728	PALB2	-	DKFZp667I166|DKFZp686E1054|FLJ21816	MIM:610355|HPRD:07966	16	16p12.1	partner and localizer of BRCA2	protein-coding	-	-	-	-
+9606	83990	BRIP1	-	BACH1|FANCJ|FLJ90232|MGC126521|MGC126523|OF	HGNC:20473|MIM:605882|HPRD:05797	17	17q22-q24	BRCA1 interacting protein C-terminal helicase 1	protein-coding	BRIP1	BRCA1 interacting protein C-terminal helicase 1	O	BRCA1-associated C-terminal helicase 1|BRCA1-binding helicase-like protein BACH1|BRCA1-interacting protein 1
+9606	116840	CNTROB	-	LIP8|PP1221	HGNC:29616|HPRD:13991	17	17p13.1	centrobin, centrosomal BRCA2 interacting protein	protein-coding	CNTROB	centrobin, centrosomal BRCA2 interacting protein	O	LYST-interacting protein LIP8|centrobin|centrosomal BRCA2 interacting protein
+9606	394269	BRCA1P1	-	LBRCA1|PsiBRCA1|pseudo-BRCA1	HGNC:28470	17	17q21	BRCA1 pseudogene 1	pseudo	BRCA1P1	BRCA1 pseudogene 1	O	-
+9606	727732	LOC727732	-	-	-	17	-	similar to neighbor of BRCA1 gene 1	protein-coding	-	-	-	-
+9606	728352	LOC728352	-	-	-	5	5q35.2	similar to BRCA1/BRCA2-containing complex subunit 36 isoform 1	pseudo	-	-	-	-
+9606	731346	LOC731346	-	-	-	5	-	similar to BRCA1/BRCA2-containing complex subunit 36 isoform 1	pseudo	-	-	-	-
+9615	403437	BRCA1	-	-	-	9	-	breast cancer 1, early onset	protein-coding	-	-	-	BRCA1 homolog|breast and ovarian cancer susceptibility protein 1
+9615	474180	BRCA2	-	-	-	25	-	breast cancer 2, early onset	protein-coding	-	-	-	-
+9615	477864	LOC477864	-	-	-	28	-	similar to BRCA2 and CDKN1A-interacting protein isoform BCCIPbeta	protein-coding	-	-	-	-
+9615	480509	LOC480509	-	-	-	9	-	similar to neighbor of BRCA1 gene 1	protein-coding	-	-	-	-
+9615	484710	LOC484710	-	-	-	20	-	similar to Acyl-coenzyme A oxidase 2, peroxisomal (Branched-chain acyl-CoA oxidase) (BRCACox) (Trihydroxycoprostanoyl-CoA oxidase) (THCCox) (THCA-CoA oxidase)	protein-coding	-	-	-	-
+9615	484737	LOC484737	-	-	-	20	-	similar to BRCA1 associated protein-1	protein-coding	-	-	-	-
+9615	486271	LOC486271	-	-	-	26	-	similar to BRCA1 associated protein	protein-coding	-	-	-	-
+9615	491122	LOC491122	-	-	-	9	-	similar to BRCA1 interacting protein C-terminal helicase 1	protein-coding	-	-	-	-
+9615	491230	LOC491230	-	-	-	9	-	similar to cofactor of BRCA1	protein-coding	-	-	-	-
+9615	608082	LOC608082	-	-	-	22	-	similar to PHD finger protein 11 (BRCA1-C terminus associated protein) (NY-REN-34 antigen)	protein-coding	-	-	-	-
+9615	610150	LOC610150	-	-	-	32	-	similar to BRCA1/BRCA2-containing complex subunit 36 isoform 2	protein-coding	-	-	-	-
+9615	610190	LOC610190	-	-	-	37	-	similar to BRCA1-associated RING domain protein 1 (BARD-1)	protein-coding	-	-	-	-
+9615	612026	LOC612026	-	-	-	20	-	similar to SWI/SNF-related matrix-associated actin-dependent regulator of chromatin subfamily E member 1-related (SMARCE1-related protein) (HMG domain protein HMG20B) (Structural DNA-binding protein BRAF35) (BRCA2-associated factor 35) (Sox-like tr...	protein-coding	-	-	-	-
+9615	612642	LOC612642	-	-	-	X	-	similar to BRCA1/BRCA2-containing complex subunit 36 isoform 1	protein-coding	-	-	-	-
+9685	493761	BRCA1	-	-	-	-	-	breast cancer 1, early onset	protein-coding	-	-	-	-
+9913	353120	BRCA1	-	-	-	19	-	breast cancer 1, early onset	protein-coding	-	-	-	BRCA1 homologue
+9913	507723	MGC134468	-	-	-	7	-	similar to SWI/SNF-related matrix-associated actin-dependent regulator of chromatin subfamily E member 1-related (SMARCE1-related protein) (HMG domain protein HMG20B) (Structural DNA-binding protein BRAF35) (BRCA2-associated factor 35) (Sox-like tr...	protein-coding	-	-	-	hypothetical protein LOC507723
+9913	512466	BCCIP	-	MGC134343	-	26	-	BRCA2 and CDKN1A-interacting protein	protein-coding	-	-	-	BRCA2 and CDKN1A interacting protein
+9913	512799	LOC512799	-	-	-	11	-	similar to cofactor of BRCA1	protein-coding	-	-	-	-
+9913	513331	MGC137849	-	-	-	Un	-	similar to PHD finger protein 11 (BRCA1-C terminus associated protein) (NY-REN-34 antigen)	protein-coding	-	-	-	hypothetical protein LOC513331
+9913	514969	LOC514969	-	-	-	22	-	similar to Acyl-coenzyme A oxidase 2, peroxisomal (Branched-chain acyl-CoA oxidase) (BRCACox) (Trihydroxycoprostanoyl-CoA oxidase) (THCCox) (THCA-CoA oxidase)	protein-coding	-	-	-	-
+9913	515032	LOC515032	-	-	-	Un	-	similar to neighbor of BRCA1 gene 1	protein-coding	-	-	-	-
+9913	515334	MGC142378	-	-	-	18	-	similar to Zinc finger protein 350 (Zinc-finger protein ZBRK1) (Zinc finger and BRCA1-interacting protein with a KRAB domain 1)	protein-coding	-	-	-	hypothetical protein LOC515334
+9913	515335	LOC515335	-	-	-	18	-	similar to Zinc finger protein 350 (Zinc-finger protein ZBRK1) (Zinc finger and BRCA1-interacting protein with a KRAB domain 1)	protein-coding	-	-	-	-
+9913	518844	LOC518844	-	-	-	17	-	similar to BRCA1 associated protein	protein-coding	-	-	-	-
+9913	519513	BRCC3	-	CXorf53	-	Un	-	BRCA1/BRCA2-containing complex, subunit 3	protein-coding	-	-	-	-
+9913	526191	LOC526191	-	-	-	Un	-	similar to BRCA1-associated RING domain protein 1 (BARD-1)	protein-coding	-	-	-	-
+9913	530961	LOC530961	-	-	-	Un	-	similar to BRCA1-associated RING domain protein 1 (BARD-1)	protein-coding	-	-	-	-
+9913	533921	LOC533921	-	-	-	24	-	similar to SWI/SNF-related matrix-associated actin-dependent regulator of chromatin subfamily E member 1-related (SMARCE1-related protein) (HMG domain protein HMG20B) (Structural DNA-binding protein BRAF35) (BRCA2-associated factor 35) (Sox-like tr...	protein-coding	-	-	-	-
+9913	537489	LOC537489	-	-	-	X	-	similar to BRCA1/BRCA2-containing complex subunit 36 isoform 1	protein-coding	-	-	-	-
+10090	12021	Bard1	-	-	MGI:1328361	1	1 C3	BRCA1 associated RING domain 1	protein-coding	Bard1	BRCA1 associated RING domain 1	O	-
+10090	15353	Hmg20b	-	AW610687|BRAF35|Hmgx2|Smarce1r	MGI:1341190	10	10 C1|10 43.0 cM	high mobility group 20 B	protein-coding	Hmg20b	high mobility group 20 B	O	BRCA2-associated factor 35|high mobility group protein 20 B
+10090	58202	A730008L03Rik	-	AB041607|AI663983|Cobra1|Nelf-b	MGI:1931035	2	2 A3	RIKEN cDNA A730008L03 gene	protein-coding	A730008L03Rik	RIKEN cDNA A730008L03 gene	O	cofactor of BRCA1|negative elongation factor B
+10090	66165	Bccip	-	1110013J05Rik|TOK-1	MGI:1913415	7	7 F4	BRCA2 and CDKN1A interacting protein	protein-coding	Bccip	BRCA2 and CDKN1A interacting protein	O	-
+10090	72399	Brap	-	3010002G07Rik	MGI:1919649	5	5 F	BRCA1 associated protein	protein-coding	Brap	BRCA1 associated protein	O	-
+10090	94246	Arid4b	-	5930400I17|6330417L24Rik|6720480E17Rik|9330186M13|BCAA|BRCAA1|RBBP1L1|Rbp1l1|SAP180	MGI:2137512	13	13 A1|13 8.0 cM	AT rich interactive domain 4B (Rbp1 like)	protein-coding	Arid4b	AT rich interactive domain 4B (Rbp1 like)	O	RBP1-like protein|breast cancer-associated antigen|retinoblastoma binding protein 1-like 1
+10090	210766	Brcc3	-	C6.1A|MGC29148	MGI:2389572	X	X A7.3	BRCA1/BRCA2-containing complex, subunit 3	protein-coding	Brcc3	BRCA1/BRCA2-containing complex, subunit 3	O	6.1A protein|c6.1a protein
+10090	216846	Cntrob	RP23-26L6.9	9830165K03Rik|Lip8	MGI:2443290	11	11 B3	centrobin, centrosomal BRCA2 interacting protein	protein-coding	Cntrob	centrobin, centrosomal BRCA2 interacting protein	O	LYST-interacting protein LIP8|LYST-interacting protein LIP8 (Lip8-pending)
+10090	237911	Brip1	RP23-36C4.3	3110009N10Rik|8030460J03Rik|Bach1|OF	MGI:2442836	11	11 C	BRCA1 interacting protein C-terminal helicase 1	protein-coding	Brip1	BRCA1 interacting protein C-terminal helicase 1	O	-
+10116	64557	Bard1	-	-	RGD:621072	9	9q33	BRCA1 associated RING domain 1	protein-coding	Bard1	BRCA1 associated RING domain 1	O	BRCA1-associated RING domain protein 1
+10116	303240	Cntrob_predicted	-	RGD1307488	RGD:1307488	10	10q24	centrobin, centrosomal BRCA2 interacting protein (predicted)	protein-coding	Cntrob_predicted	centrobin, centrosomal BRCA2 interacting protein (predicted)	O	-
+10116	311796	RGD1307832_predicted	-	-	RGD:1307832	3	3p13	similar to cofactor of BRCA1; negative elongation factor protein B (predicted)	protein-coding	RGD1307832_predicted	similar to cofactor of BRCA1; negative elongation factor protein B (predicted)	O	-
+10116	316794	LOC316794	-	-	-	9	-	similar to BRCA1/BRCA2-containing complex subunit 36 isoform 2	protein-coding	-	-	-	-
+10116	360588	Brip1_predicted	-	-	RGD:1307659	10	10q26	BRCA1 interacting protein C-terminal helicase 1 (predicted)	protein-coding	Brip1_predicted	BRCA1 interacting protein C-terminal helicase 1 (predicted)	O	-
+10116	361666	Bccip_predicted	-	-	RGD:1307362	1	1q41	BRCA2 and CDKN1A interacting protein (predicted)	protein-coding	Bccip_predicted	BRCA2 and CDKN1A interacting protein (predicted)	O	-
+10116	365111	LOC365111	-	-	-	1	1q11	similar to BRCA1/BRCA2-containing complex subunit 3	pseudo	-	-	-	-
+10116	365817	LOC365817	-	-	-	2	2q32	similar to BRCA1/BRCA2-containing complex subunit 36 isoform 2	pseudo	-	-	-	-
+10116	683964	LOC683964	-	-	-	Un	-	similar to BRCA1/BRCA2-containing complex subunit 3	pseudo	-	-	-	-
+10116	687346	LOC687346	-	-	-	12	-	similar to BRCA1-associated protein (BRAP2) (Impedes mitogenic signal propagation) (IMP)	protein-coding	-	-	-	-
+13616	554178	BRCA1	-	-	-	-	-	breast cancer 1, early onset	protein-coding	-	-	-	BRCA1-like
+74547	1729215	PMT1002	PMT1002	-	-	-	-	possible BRCA1 C Terminus (BRCT) domain	protein-coding	-	-	-	-
+113370	4306224	ORF097	SfAV1a_gp097	-	-	-	-	18.2 kDa BRCA1-like protein	protein-coding	-	-	-	-
+353151	3414335	Chro.60121	Chro.60121	-	-	6	-	BRCA1 domain protein	protein-coding	-	-	-	-
+353151	3414940	Chro.60105	Chro.60105	-	-	6	-	BRCA1 domain protein	protein-coding	-	-	-	-
+353152	3376065	cgd6_1880	cgd6_1880	1MB.176	-	6	-	CG9286/Bcp1p/BRCA and CDKN1A-interacting protein isoform C-like	protein-coding	-	-	-	-
+353153	3547889	Tc00.1047053505999.40	Tc00.1047053505999.40	-	-	-	-	DNA repair protein BRCA2	protein-coding	-	-	-	-

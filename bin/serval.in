@@ -1,0 +1,41 @@
+#!@SWIPL@ -q -t halt -g main -s 
+
+:- use_module(bio(bioprolog_util)).
+:- use_module(bio(serval)).
+:- use_module(bio(io)).
+
+:- consult_bioconf.
+
+:- multifile bench_call/2.
+bench_call(call,listvar):- fail.
+
+main:-
+        getopt([number([p,port],P,8080),
+                bool([t,test],Test),
+                bool(benchmark,Bench),
+                atom([c,conf],Conf)],FileL),
+        (var(Conf)
+        ->  true
+        ;   expand_file_search_path(serval_conf(Conf),ConfPath),
+            consult(ConfPath)),
+        load_factfiles(FileL),
+        bench(Bench),
+        (Test=1
+        ->  serval:test([])
+        ;   start_server(P)),
+        prolog.
+
+bench(0).
+bench(1):-
+        writeln(benchmarking),
+        findall(X,
+                (
+                  bench_call(X,L),
+                  statistics(cputime,T1),
+                  writeln(calling:X/T1),
+                  time(X),
+                  statistics(cputime,T2),
+                  T is T2-T1,
+                  length(L,Num),
+                  writeln(num=Num/T),
+                  nl),_).

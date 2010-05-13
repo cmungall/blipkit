@@ -1,0 +1,125 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Blip: Getting started</title>
+<link rel="SHORTCUT ICON" href="favicon.ico">
+<link rel="stylesheet" href="pdoc/prologdoc.css" type="text/css">
+<link rel="stylesheet" href="css/blip.css" type="text/css">
+<script type="text/javascript">
+          var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+                          document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+        </script><script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-11782828-1");
+              pageTracker._trackPageview();
+            } catch(err) {}
+        </script>
+</head>
+<body>
+<div id="logo">Blip: Biomedical Logic Programming</div>
+<div class="navbar">
+<p class="title">Documentation</p>
+<p class="side"><a href="index.html">Home</a><br><a href="started.html">Getting started</a><br><a href="tutorial.html">Tutorial</a><br><a href="architecture.html">Architecture</a><br><a href="modules.html">Modules</a><br><a href="examples.html">Examples</a><br><a href="applications.html">Applications</a><br><a href="serval.html">Serval</a><br><a href="faq.html">FAQ</a><br><a href="http://berkeleybop.org/blipdoc">pldoc server</a><br></p>
+<p class="title">Download</p>
+<p class="side"><a href="svn.html">Subversion repository</a><br></p>
+<p class="title">Announcements</p>
+<p class="side"><a href="http://blipkit.wordpress.com">Blip Blog</a><br></p>
+<p class="title">Open-Bio</p>
+<p class="side"><a href="http://www.open-bio.org/">Open Bioinformatics Foundation</a><br><a href="http://www.biojava.org/">BioJava</a><br><a href="http://www.biopython.org/">Biopython</a><br><a href="http://www.bioperl.org/">Bioperl</a><br><a href="http://www.bioruby.org/">Bioruby</a><br><a href="http://obda.open-bio.org/">OBDA</a><br><a href="http://www.biodas.org/">DAS</a><br><a href="http://www.biomoby.org/">MOBY</a><br><a href="http://www.emboss.org/">EMBOSS</a><br></p>
+<p class="title">Related Sites</p>
+<p class="side"><a href="http://skam.sourceforge.net/">BioMake</a><br><a href="http://www.fruitfly.org/~cjm/obol/">Obol</a><br></p>
+</div>
+<div id="header_menu">[ &lt;<a href="#Getting%20Started">Getting Started</a>&gt;  &lt;<a href="#Download%20SWI-Prolog">Download SWI-Prolog</a>&gt;  &lt;<a href="#Download%20Blip">Download Blip</a>&gt;  &lt;<a href="#Optional%20components">Optional components</a>&gt;  &lt;<a href="#Setting%20up">Setting up</a>&gt;  &lt;<a href="#Developer%20options">Developer options</a>&gt;  &lt;<a href="#Using%20Blip">Using Blip</a>&gt;  &lt;<a href="#Blip%20Scripts">Blip Scripts</a>&gt; ]</div>
+<div class="content">
+<a name="Getting Started"></a><h3 class="section">Getting Started</h3>
+<p>
+        NOTE: this section has been superseded by the tutorial section in <a href="http://berkeleybop.org/blipdoc">blipdoc</a>.
+      </p>
+<a name="Download SWI-Prolog"></a><h3 class="section">Download SWI-Prolog</h3>
+<p>
+        Blip uses <a href="http://www.swi-prolog.org">SWI-Prolog</a> - this is easy to install on
+        a variety of platforms. In future Blip will be available as a
+        binary compiled on certain platforms - for now you have to
+        download the source
+      </p>
+<a name="Download Blip"></a><h3 class="section">Download Blip</h3>
+<p>
+        Go to the <a href="download.html">download</a> page and fetch the source
+        of the latest stable release. Download, and install as
+        follows:
+          <pre>
+cd blip-RELEASE
+./configure
+make
+make install
+          </pre>
+        OS X users may have to type <pre>sudo make install</pre>
+      </p>
+<a name="Optional components"></a><h3 class="section">Optional components</h3>
+<p>
+        The following components are not required for most tasks. In
+        time, even these optional dependencies may be removed</p>
+<ul>
+      <li>
+          <a href="http://www.bioperl.org">BioPerl</a> required for parsing some file formats
+      </li>
+        <li>
+          <a href="http://www.godatabase.org/dev">go-perl</a> required for parsing obo file format
+        </li>
+        <li>
+        <b><a href="http://www.swi-prolog.org/packages/odbc.html">ODBC</a></b> for database connectivity. You will need an ODBC
+          driver for your particular DBMS, and you will need to
+          download the <a href="http://www.swi-prolog.org">SWI-Prolog</a> source and install the
+          optional odbc package
+        </li>
+      </ul>
+<a name="Setting up"></a><h3 class="section">Setting up</h3>
+<p>
+        Your life will be easier if you set up some <a href="bioresources.html">bioresources</a>. This is a configuration file
+        telling blip where to go to find common data sources - for
+        example, the Gene Ontology, Reactome, the GO MySQL database,
+        your favourite genome, etc.
+      </p>
+<a name="Developer options"></a><h3 class="section">Developer options</h3>
+<p>This step is required for developers only. If you do not wish
+      to make changes to the blip source, you can ignore this section.
+      </p>
+<p>
+        Otherwise, add the following two lines to your
+        <pre>~/.plrc</pre> file:
+        <div class="code"><pre>
+% uninstalled modules use .pro suffix to avoid confusion with .pl
+user:prolog_file_type(pro,prolog).
+% location of blip prolog source
+user:file_search_path(bio, HOME) :-
+	(   getenv('BLIP_SRC', HOME)	-&gt;  true
+        	;        
+            HOME = '/users/me/cvs/blip/src'
+	).
+          </pre></div>
+        (modifying the path to the blip source directory as necessary)
+      </p>
+<a name="Using Blip"></a><h3 class="section">Using Blip</h3>
+<p>
+      You're now ready to get started: you can proceed to the
+      <a href="tutorial.html">tutorial</a> section, or if you are feeling
+        confident, why not just go straight for the <a href="modules.html">modules</a> documentation?
+      </p>
+<a name="Blip Scripts"></a><h3 class="section">Blip Scripts</h3>
+<p>
+        Much of the blip functionality can be used via the <i>blip</i>
+        script. See <a href="applications.html#blip%20kit">blipkit</a>
+        for details.
+      </p>
+</div>
+<div class="footer">
+<address><a href="mailto:cjm_AT_fruitfly_DOT_org">chris mungall</a></address>
+<div class="metadata"><p><lastmod>
+      
+
+Last modified: Thu Aug 25 14:56:50 PDT 2005
+
+    </lastmod></p></div>
+</div>
+</body>
+</html>

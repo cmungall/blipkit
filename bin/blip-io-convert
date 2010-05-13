@@ -1,0 +1,4 @@
+#!/bin/sh
+
+blip io-convert $@
+

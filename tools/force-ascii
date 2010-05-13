@@ -1,0 +1,7 @@
+#!/usr/bin/perl
+
+while (<>) {
+    tr [\200-\377]
+      [\000-\177];   # see 'man perlop', section on tr/
+    print;
+}

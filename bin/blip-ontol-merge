@@ -1,0 +1,21 @@
+#!/opt/local/bin/swipl -L0 -G0 -A0 -T0 -q -g main -t halt -s
+
+
+user:dynamic_db(ontol_db).
+user:file_search_path(bio,'/opt/local/lib/swipl-5.6.8/library/blip').
+user:program_info(package('blip','0.01-pre6')).
+
+/*
+
+  blip: main command line interface
+  
+*/
+
+:- use_module(bio(blipkit)).
+:- use_module(bio(blipkit_ontol)).
+:- use_module(bio(blipkit_phylo)).
+:- use_module(bio(blipkit_fasta)).
+:- use_module(bio(blipkit_sb)).
+:- use_module(bio(blipkit_goa)).
+
+

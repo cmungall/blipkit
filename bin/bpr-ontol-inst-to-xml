@@ -1,0 +1,51 @@
+#!/usr/local/bin/swipl -q -g main -t halt -s
+
+/*
+
+  input: prolog factfile containing instance (inst/2)
+
+*/
+
+:- use_module(bio(ontol_db)).
+:- use_module(bio(xml_writer)).
+:- use_module(bio(bioprolog_util)).
+
+usage('bpr-ontol-inst-to-xml inst.pro > inst.xml').
+      
+
+main:-
+        getopt([atom([r,resource],Res)],FileL),
+        (var(Res) -> true ; load_resource(Res)),
+        load_factfiles(FileL),
+        doc_start(X),
+        event_start(X,X2,obo),
+        setof(ID,C^inst_of(ID,C),IDs),
+        forall(member(ID,IDs),
+               inst_to_xml(X2,ID)),
+        event_end(X2,_,obo),
+        halt.
+
+inst_to_xml(X,ID):-
+        inst_of(ID,ClassID),
+        event_start(X,X2,instance),
+        event(X2,elt(id,[],ID)),
+        event(X2,elt(instance_of,[],ClassID)),
+        (setof(Slot:Val,inst_sv(ID,Slot,Val),SVs)
+        ->  true
+        ;   SVs=[]),
+        forall(member(Slot:Val,SVs),
+               (   event_start(X2,X3,property_value),
+                   event(X3,elt(property,[],Slot)),
+                   event(X3,elt(value,[],Val)),
+                   ((class(Val,_) ; inst(Val,_))
+                   ->  true
+                   ;   prolog_xsd(Val,XSD),
+                       event(X3,elt(xsd_type,[],XSD))),
+                   event_end(X3,X2,property_value))),
+        event_end(X2,X,instance).
+
+prolog_xsd(Num,'xsd:number'):-
+        catch(atom_number(Num,_),_,fail),
+        !.
+prolog_xsd(_,'xsd:string'):- !.
+

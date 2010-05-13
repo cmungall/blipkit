@@ -1,0 +1,73 @@
+
+---+ Installing Obol
+
+---++ Step 1: Install SWI-Prolog
+
+* http://www.swi-prolog.org
+
+---++ Step 2: Install blip
+
+Download Blipkit from SVN:
+
+* http://www.blipkit.org/svn.html
+
+==
+svn co svn+ssh://dev.open-bio.org/home/svn-repositories/blipkit/trunk/ blipkit
+==
+
+Install the blip libraries:
+
+==
+        cd blipkit
+        ./configure
+        make
+        sudo make install
+==
+
+See blipkit/INSTALL for more information
+
+---++ Step 3: Configure blip and obol
+
+See blipkit/tutorial.txt
+
+Add the following to your ~/.plrc file:
+
+==
+user:file_search_path(bio, '/users/me/blipkit/packages/obol/src').
+==
+
+(changing to the directory in which you downloaded blip)
+
+add the following to your path:
+
+==
+export PATH="${PATH}:/users/me/blipkit/packages/obol/bin').
+==
+
+---++ Step 4: Running Obol
+
+For all options:
+
+==
+obol -help
+==
+
+The following example parses BP for definitions in the BP x CL
+cross-product (see
+http://wiki.geneontology.org/index.php/XP:biological_process_xp_cell)
+
+==
+obol -r obo/biological_process -r obo/cell -u obol_biological_process_xp_cell obol-parse "belongs(ID,biological_process)"
+==
+
+Note that this will be extremely slow. You can configure obol to cache
+certain results. This requires a bit of understanding of what is going
+on beneath the hood. You can always adapt examples from the GO obol makefile:
+
+* http://www.geneontology.org/scratch/obol_results/Makefile
+
+For example:
+
+==
+obol -r obo/biological_process -r obo/cell -u obol_biological_process_xp_cell obol-parse -table_pred user:process5/3 -table_pred user:process/3 -table_pred classdef_parser:any_kind_of/3 -table_pred user:continuant/3 -table_pred ontol_db:subclassT/2 -table_pred user:cell/3 -table_pred user:cell5/3 "belongs(ID,biological_process)"
+==

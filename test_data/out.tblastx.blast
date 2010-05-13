@@ -1,0 +1,263 @@
+TBLASTX 2.2.2 [Jan-08-2002]
+
+
+Reference: Altschul, Stephen F., Thomas L. Madden, Alejandro A. Schaffer, 
+Jinghui Zhang, Zheng Zhang, Webb Miller, and David J. Lipman (1997), 
+"Gapped BLAST and PSI-BLAST: a new generation of protein database search
+programs",  Nucleic Acids Res. 25:3389-3402.
+
+Query= na1
+         (511 letters)
+
+Database: na2.fa 
+           1 sequences; 459 total letters
+
+Searching.done
+
+                                                                   Score     E
+Sequences producing significant alignments:                        (bits)  Value
+
+na2 cp-of-na1-w-50bp-missing                                          216  e-101
+
+>na2 cp-of-na1-w-50bp-missing
+          Length = 459
+
+ Score =  216 bits (467), Expect(2) = e-101
+ Identities = 87/87 (100%), Positives = 87/87 (100%)
+ Frame = -1 / -1
+
+                                                                       
+Query: 511 KFQNWIIRKSRRLMRKAMLCRLTM*RCLSALGCCPFPLINFNMIGYALVVVWF**INKYI 332
+           KFQNWIIRKSRRLMRKAMLCRLTM*RCLSALGCCPFPLINFNMIGYALVVVWF**INKYI
+Sbjct: 459 KFQNWIIRKSRRLMRKAMLCRLTM*RCLSALGCCPFPLINFNMIGYALVVVWF**INKYI 280
+
+                                      
+Query: 331 NCGRIYSKLYVFPFVRLRRWPSNFLNY 251
+           NCGRIYSKLYVFPFVRLRRWPSNFLNY
+Sbjct: 279 NCGRIYSKLYVFPFVRLRRWPSNFLNY 199
+
+
+
+ Score =  203 bits (438), Expect(2) = 3e-96
+ Identities = 86/86 (100%), Positives = 86/86 (100%)
+ Frame = -3 / -3
+
+                                                                       
+Query: 509 VSKLDHTQEPKAYEESHAVPSYDVALSVSTGLLPFSSDKL*HDWLCSCGGLVLMNK*VY* 330
+           VSKLDHTQEPKAYEESHAVPSYDVALSVSTGLLPFSSDKL*HDWLCSCGGLVLMNK*VY*
+Sbjct: 457 VSKLDHTQEPKAYEESHAVPSYDVALSVSTGLLPFSSDKL*HDWLCSCGGLVLMNK*VY* 278
+
+                                     
+Query: 329 LWPNLF*TLCISVCTVKAVAE*FFEL 252
+           LWPNLF*TLCISVCTVKAVAE*FFEL
+Sbjct: 277 LWPNLF*TLCISVCTVKAVAE*FFEL 200
+
+
+
+ Score =  193 bits (417), Expect(2) = 5e-98
+ Identities = 86/86 (100%), Positives = 86/86 (100%)
+ Frame = +3 / +2
+
+                                                                       
+Query: 252 *FKKLLGHRLNRTNGNT*SLE*IRPQLIYLFIHQNQTTTRA*PIMLKFIRGKGQQPSADR 431
+           *FKKLLGHRLNRTNGNT*SLE*IRPQLIYLFIHQNQTTTRA*PIMLKFIRGKGQQPSADR
+Sbjct: 200 *FKKLLGHRLNRTNGNT*SLE*IRPQLIYLFIHQNQTTTRA*PIMLKFIRGKGQQPSADR 379
+
+                                     
+Query: 432 QRYIVRRHSMAFLISLRLLRMIQF*N 509
+           QRYIVRRHSMAFLISLRLLRMIQF*N
+Sbjct: 380 QRYIVRRHSMAFLISLRLLRMIQF*N 457
+
+
+
+ Score =  168 bits (362), Expect(2) = 2e-86
+ Identities = 74/86 (86%), Positives = 74/86 (86%)
+ Frame = +1 / +3
+
+                                                                       
+Query: 253 SSKNYSATALTVQTEIHKV*NKFGHN*YTYLFIKTKPPQEHNQSC*SLSEEKGSSPVLTD 432
+           SSKNYSATALTVQTEIHKV*NKFGHN*YTYLFIKTKPPQEHNQSC*SLSEEKGSSPVLTD
+Sbjct: 201 SSKNYSATALTVQTEIHKV*NKFGHN*YTYLFIKTKPPQEHNQSC*SLSEEKGSSPVLTD 380
+
+                                     
+Query: 433 NATS*DGTAWLXXXXXXXXXXXXFET 510
+           NATS*DGTAWL            FET
+Sbjct: 381 NATS*DGTAWLSS*AFGSCV*SSFET 458
+
+
+
+ Score =  167 bits (359), Expect(2) = 5e-98
+ Identities = 68/74 (91%), Positives = 70/74 (93%)
+ Frame = +2 / +3
+
+                                                                       
+Query: 5   DPPIATLCVLK*RAYRFGLIILFTFYKTDTRLSSDRSYYYLCVLG*HVYFIYSHLKQRCE 184
+           DPPIATLCVLK*RAYRFGLIILFTFYKTDTRLSSDRSYYYLCVLG*HVYFIYSHLKQRCE
+Sbjct: 3   DPPIATLCVLK*RAYRFGLIILFTFYKTDTRLSSDRSYYYLCVLG*HVYFIYSHLKQRCE 182
+
+                         
+Query: 185 EQCGRFST*EYIQT 226
+           EQCGR+S+  Y  T
+Sbjct: 183 EQCGRYSSKNYSAT 224
+
+
+
+ Score =  165 bits (355), Expect(2) = 2e-84
+ Identities = 68/68 (100%), Positives = 68/68 (100%)
+ Frame = +2 / +1
+
+                                                                       
+Query: 308 FRINSATINILIYSSKPNHHKSITNHVKVYQRKRAAAQC*QTTLHRKTAQHGFPHKPSAL 487
+           FRINSATINILIYSSKPNHHKSITNHVKVYQRKRAAAQC*QTTLHRKTAQHGFPHKPSAL
+Sbjct: 256 FRINSATINILIYSSKPNHHKSITNHVKVYQRKRAAAQC*QTTLHRKTAQHGFPHKPSAL 435
+
+                   
+Query: 488 AYDPVLKL 511
+           AYDPVLKL
+Sbjct: 436 AYDPVLKL 459
+
+
+
+ Score =  154 bits (330), Expect(2) = 2e-86
+ Identities = 65/65 (100%), Positives = 65/65 (100%)
+ Frame = +1 / +2
+
+                                                                       
+Query: 4   RPTDRDFVCVKMTRISFWANNIVHVL*NRYTVKL*PVVLLSVCSWLTRLFHLFSFKATM* 183
+           RPTDRDFVCVKMTRISFWANNIVHVL*NRYTVKL*PVVLLSVCSWLTRLFHLFSFKATM*
+Sbjct: 2   RPTDRDFVCVKMTRISFWANNIVHVL*NRYTVKL*PVVLLSVCSWLTRLFHLFSFKATM* 181
+
+                
+Query: 184 RTVRA 198
+           RTVRA
+Sbjct: 182 RTVRA 196
+
+
+
+ Score =  153 bits (329), Expect(2) = e-101
+ Identities = 65/65 (100%), Positives = 65/65 (100%)
+ Frame = -1 / -2
+
+                                                                       
+Query: 199 TPALFFTSLL*MRINEINVSTKNTQIIIRPVRA*PCICFIKREQYY*PKTICASF*HTQS 20
+           TPALFFTSLL*MRINEINVSTKNTQIIIRPVRA*PCICFIKREQYY*PKTICASF*HTQS
+Sbjct: 197 TPALFFTSLL*MRINEINVSTKNTQIIIRPVRA*PCICFIKREQYY*PKTICASF*HTQS 18
+
+                
+Query: 19  RDRWV 5
+           RDRWV
+Sbjct: 17  RDRWV 3
+
+
+
+ Score =  151 bits (325), Expect(2) = 3e-96
+ Identities = 66/66 (100%), Positives = 66/66 (100%)
+ Frame = -3 / -1
+
+                                                                       
+Query: 200 NARTVLHIVALNENK*NKRVNQEHTDNNTTGQSLTVYLFYKT*TILLAQNDMRVILTHTK 21
+           NARTVLHIVALNENK*NKRVNQEHTDNNTTGQSLTVYLFYKT*TILLAQNDMRVILTHTK
+Sbjct: 198 NARTVLHIVALNENK*NKRVNQEHTDNNTTGQSLTVYLFYKT*TILLAQNDMRVILTHTK 19
+
+                 
+Query: 20  SRSVGL 3
+           SRSVGL
+Sbjct: 18  SRSVGL 1
+
+
+
+ Score =  150 bits (322), Expect(2) = 2e-84
+ Identities = 68/72 (94%), Positives = 68/72 (94%)
+ Frame = +3 / +1
+
+                                                                       
+Query: 3   *THRSRLCVC*NDAHIVLG**YCSRFIKQIHG*ALTGRIIICVFLVDTFISFILI*SNDV 182
+           *THRSRLCVC*NDAHIVLG**YCSRFIKQIHG*ALTGRIIICVFLVDTFISFILI*SNDV
+Sbjct: 1   *THRSRLCVC*NDAHIVLG**YCSRFIKQIHG*ALTGRIIICVFLVDTFISFILI*SNDV 180
+
+                       
+Query: 183 KNSAGVSQHKNT 218
+           KNSAGV   K T
+Sbjct: 181 KNSAGVIVQKIT 216
+
+
+
+ Score = 94.1 bits (199), Expect(4) = 2e-68
+ Identities = 39/39 (100%), Positives = 39/39 (100%)
+ Frame = -2 / -2
+
+                                                  
+Query: 366 WWFGFDE*ISILIVAEFILNFMYFRLYG*GGGRVIF*TI 250
+           WWFGFDE*ISILIVAEFILNFMYFRLYG*GGGRVIF*TI
+Sbjct: 314 WWFGFDE*ISILIVAEFILNFMYFRLYG*GGGRVIF*TI 198
+
+
+
+ Score = 82.2 bits (173), Expect(4) = 2e-68
+ Identities = 31/31 (100%), Positives = 31/31 (100%)
+ Frame = -2 / -2
+
+                                          
+Query: 510 SFKTGSYARAEGL*GKPCCAVLRCSVVCQHW 418
+           SFKTGSYARAEGL*GKPCCAVLRCSVVCQHW
+Sbjct: 458 SFKTGSYARAEGL*GKPCCAVLRCSVVCQHW 366
+
+
+
+ Score = 79.0 bits (166), Expect(4) = 2e-68
+ Identities = 32/32 (100%), Positives = 32/32 (100%)
+ Frame = -2 / -3
+
+                                           
+Query: 198 RPHCSSHRCFK*E*MK*TCQPRTHR**YDRSE 103
+           RPHCSSHRCFK*E*MK*TCQPRTHR**YDRSE
+Sbjct: 196 RPHCSSHRCFK*E*MK*TCQPRTHR**YDRSE 101
+
+
+
+ Score = 48.3 bits (99), Expect(4) = 2e-68
+ Identities = 18/18 (100%), Positives = 18/18 (100%)
+ Frame = -2 / -3
+
+                            
+Query: 57 PKRYARHFNTHKVAIGGS 4
+          PKRYARHFNTHKVAIGGS
+Sbjct: 55 PKRYARHFNTHKVAIGGS 2
+
+
+
+ Score = 13.0 bits (22), Expect = 2.9
+ Identities = 2/2 (100%), Positives = 2/2 (100%)
+ Frame = -2 / -2
+
+             
+Query: 366 WW 361
+           WW
+Sbjct: 314 WW 309
+
+
+  Database: na2.fa
+    Posted date:  May 16, 2005  4:19 PM
+  Number of letters in database: 459
+  Number of sequences in database:  1
+  
+Lambda     K      H
+   0.318    0.135    0.401 
+
+
+Matrix: BLOSUM62
+Number of Hits to DB: 1395
+Number of Sequences: 1
+Number of extensions: 26
+Number of successful extensions: 15
+Number of sequences better than 10.0: 1
+length of database: 153
+effective HSP length: 17
+effective length of database: 136
+effective search space used:    20672
+frameshift window, decay const: 50,  0.1
+T: 13
+A: 40
+X1: 16 ( 7.3 bits)
+X2: 0 ( 0.0 bits)
+S1: 41 (21.7 bits)

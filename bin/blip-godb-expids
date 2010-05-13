@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# Usage:
+blip -u ontol_db -u blipkit_sql -u ontol_sqlmap_go_exposed_ids -u seqfeature_sqlmap_go -u homol_sqlmap_go -u curation_db -u seqfeature_db $@
+

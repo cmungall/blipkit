@@ -1,0 +1,13 @@
+#!/usr/local/bin/swipl -q -g main -t halt -s
+
+:- use_module(bioprolog(io_chaosxml)).
+:- use_module(bioprolog(bioprolog_util)).
+
+main:-
+        getopt([],FileL),
+        findall(File,
+                (
+                  member(File,FileL),
+                  chaosxml_index(File)
+                ),_),
+        halt.

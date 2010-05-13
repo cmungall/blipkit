@@ -1,0 +1,3 @@
+#!/bin/sh
+
+blip-io-convert-goa-to-ontol  -u ontol_materialize_reification -to obd -i $@

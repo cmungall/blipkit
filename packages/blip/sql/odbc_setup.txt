@@ -1,0 +1,139 @@
+        ---+ Setting up ODBC
+
+SWI-Prolog comes with an excellent ODBC library. Unfortunately,
+setting up ODBC is not as simple as it is for JDBC or DBI.
+
+Remember and install SWI-Prolog with the ODBC package (default on OS
+X)
+
+Unix ODBC Guide:
+
+http://www.unixodbc.org/odbcinst.html
+
+Debian:
+
+http://www.debian-administration.org/articles/496
+
+OS X comes with the relevant ODBC libraries
+
+On Ubuntu, the following appears to work:
+
+==
+sudo apt-get install unixodbc-dev
+==
+
+---++ MySQL
+
+Debian:
+==
+sudo apt-get install libmyodbc
+==
+
+That's it!
+
+OS X:
+
+The free MyODBC driver seems to work fine
+
+---++ PostreSQL
+
+Debian:
+==
+sudo apt-get install odbc-postgresql
+==
+
+That's it!
+
+OS X:
+
+I could not get the official postgresql odbc driver to work on OS X. I
+use the Actual Open Source driver for this
+
+---++ odbc.ini
+
+On OS X this can go in ~/Library/ODBC/
+
+On linux, in ~/.odbc
+
+See etc/sample_odbc.ini (in blip distribution)
+
+---+++ Ensembl
+
+You odbc.ini should include stanzas like this:
+
+==
+[homo_sapiens_core]
+Driver       = /usr/local/lib/libmyodbc5.so
+Description  = homo_sapiens_core_51_36m
+Database     = homo_sapiens_core_51_36m
+Server       = ensembldb.ensembl.org
+User         = anonymous
+Type         = MySQL
+IncludeViews = Yes
+port         = 5306
+==
+
+You can then do this:
+
+==
+blip -r enscore/homo_sapiens_core
+==
+
+This is expanded via a line like this in your bioconf.pro:
+
+==
+user:bioresource(enscore(DB),odbc_connect(DB,[user(cjm),alias(DB),password(''),open(once),silent(true)]),enscore):- nonvar(DB).
+==
+
+See also bin/ensembl-dblist-to-odbc.pl
+
+This will generate ODBC.ini entries
+
+---+++ Chado
+
+Example ODBC stanza:
+
+==
+[flybase]
+Driver      = /usr/local/lib/psqlodbcw.so
+Description = 
+Database    = flybase
+Server      = flybase.org
+ServerName  = flybase.org
+ReadOnly    = yes
+User        = flybase
+Trace       = yes
+tracefile   = /tmp/psql.log
+debug       = yes
+debugfile   = /tmp/pdbg.log
+commlog     = yes
+==
+
+Connect like this:
+==
+blip -r rdb/flybase
+==
+
+via this conf line:
+==
+user:bioresource(rdb(flybase),odbc_connect(flybase,[user(flybase),alias(flybase),password(''),open(once)]),chado).
+==
+
+---+++ Linux Notes
+
+==
+odbcinst -j
+unixODBC 2.2.11
+DRIVERS............: /etc/odbcinst.ini
+SYSTEM DATA SOURCES: /etc/odbc.ini
+USER DATA SOURCES..: /users/cjm/.odbc.ini
+==
+
+==
+odbcinst -j
+unixODBC 2.2.11
+DRIVERS............: /etc/odbcinst.ini
+SYSTEM DATA SOURCES: /etc/odbc.ini
+USER DATA SOURCES..: /users/cjm/.odbc.ini
+==
+

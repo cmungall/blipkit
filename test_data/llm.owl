@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:owl="http://www.w3.org/2002/07/owl#" xmlns="http://www.geneontology.org/owl/#" xml:base="http://www.geneontology.org/owl/">
+  <owl:Ontology rdf:about=""/>
+  <owl:Class rdf:ID="GO_0008150">
+    <rdfs:label xml:lang="en">biological_process</rdfs:label>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A phenomenon marked by changes that lead to a particular result, mediated by one or more gene products.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:ID="GO_0050896">
+    <rdfs:label xml:lang="en">response to stimulus</rdfs:label>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A change in state or activity of a cell or an organism (in terms of movement, secretion, enzyme production, gene expression, etc.) as a result of a stimulus.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="#GO_0008150"/>
+  </owl:Class>
+  <owl:Class rdf:ID="GO_0007610">
+    <rdfs:label xml:lang="en">behavior</rdfs:label>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The specific actions or reactions of an organism in response to external or internal stimuli. Patterned activity of a whole organism in a manner dependent upon some combination of that organism's internal state and external conditions.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="#GO_0050896"/>
+  </owl:Class>
+  <owl:Class rdf:ID="GO_0007626">
+    <rdfs:label xml:lang="en">locomotory behavior</rdfs:label>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The specific movement from place to place of an organism in response to external or internal stimuli. Locomotion of a whole organism in a manner dependent upon some combination of that organism's internal state and external conditions.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="#GO_0007610"/>
+  </owl:Class>
+  <owl:Class rdf:ID="GO_0008345">
+    <rdfs:label xml:lang="en">larval locomotory behavior</rdfs:label>
+    <rdfs:subClassOf rdf:resource="#GO_0007626"/>
+    <rdfs:subClassOf rdf:resource="#GO_0030537"/>
+    <owl:equivalentClass>
+      <owl:Class>
+        <owl:intersectionOf rdf:parseType="Collection">
+          <owl:Class rdf:about="#GO_0007626"/>
+          <owl:Restriction>
+            <owl:onProperty>
+              <owl:ObjectProperty rdf:about="#OBOL_during"/>
+            </owl:onProperty>
+            <owl:someValuesFrom rdf:resource="#FBdv_00005336"/>
+          </owl:Restriction>
+        </owl:intersectionOf>
+      </owl:Class>
+    </owl:equivalentClass>
+  </owl:Class>
+  <owl:Class rdf:ID="GO_0030537">
+    <rdfs:label xml:lang="en">larval behavior</rdfs:label>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Behavior in a larval form of an organism, an immature organism that must undergo metamorphosis to assume adult characteristics.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="#GO_0007610"/>
+    <owl:equivalentClass>
+      <owl:Class>
+        <owl:intersectionOf rdf:parseType="Collection">
+          <owl:Class rdf:about="#GO_0007610"/>
+          <owl:Restriction>
+            <owl:onProperty>
+              <owl:ObjectProperty rdf:about="#OBOL_during"/>
+            </owl:onProperty>
+            <owl:someValuesFrom rdf:resource="#FBdv_00005336"/>
+          </owl:Restriction>
+        </owl:intersectionOf>
+      </owl:Class>
+    </owl:equivalentClass>
+  </owl:Class>
+</rdf:RDF>

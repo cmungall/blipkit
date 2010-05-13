@@ -1,0 +1,52 @@
+format-version: 1.0
+
+[Term]
+id: GO:0050060        ! xxx
+name: long-chain-alcohol dehydrogenase activity   !yyy
+namespace: function  !zzz
+def: "Catalysis of the reaction\: a long-chain alcohol + 2 NAD+ + H2O = a long-chain carboxylate + 2 NADH." [MetaCyc:LONG-CHAIN-ALCOHOL-DEHYDROGENASE-RXN, EC:1.1.1.192]
+xref_analog: EC:1.1.1.192
+xref_analog: MetaCyc:LONG-CHAIN-ALCOHOL-DEHYDROGENASE-RXN
+is_a: GO:0016616
+
+[Term]
+id: GO:0050061
+name: long-chain-aldehyde dehydrogenase activity
+namespace: function
+def: "Catalysis of the reaction\: a long-chain aldehyde + NAD+ = a long-chain carboxylate + NADH." [MetaCyc:LONG-CHAIN-ALDEHYDE-DEHYDROGENASE-RXN, EC:1.2.1.48]
+xref_analog: EC:1.2.1.48
+xref_analog: MetaCyc:LONG-CHAIN-ALDEHYDE-DEHYDROGENASE-RXN
+is_a: GO:0016620
+
+[Term]
+id: GO:0050405
+name: [acetyl-CoA carboxylase] kinase activity
+namespace: function
+def: "Catalysis of the reaction\: ATP + \[acetyl-CoA carboxylase\] = ADP + \[acetyl-CoA carboxylase\] phosphate." [MetaCyc:\[ACETYL-COA-CARBOXYLASE\]-KINASE-RXN, EC:2.7.1.128]
+xref_analog: EC:2.7.1.128
+xref_analog: MetaCyc:\[ACETYL-COA-CARBOXYLASE\]-KINASE-RXN
+is_a: GO:0016773
+
+[Term]
+id: GO:0050136
+name: NADH dehydrogenase (quinone) activity
+namespace: function
+def: "Catalysis of the reaction\: NADH + a quinone = NAD+ + a quinol." [MetaCyc:NADH-DEHYDROGENASE-(QUINONE)-RXN, EC:1.6.99.5, GO:mah ""]
+exact_synonym: "NADH dehydrogenase (quinone) activity" [foo]
+xref_analog: EC:1.6.99.5
+xref_analog: MetaCyc:NADH-DEHYDROGENASE-(QUINONE)-RXN
+is_a: GO:0003954
+
+[Term]
+id: GO:0050453
+name: cob(II)alamin reductase activity
+namespace: function
+def: "Catalysis of the reaction\: 2 cob(I)alamin + NAD+ = 2 cob(II)alamin + NADH + H+." [MetaCyc:COB(II)ALAMIN-REDUCTASE-RXN, EC:1.16.1.4]
+synonym: "vitamin B12 reductase activity" []
+xref_analog: EC:1.16.1.4
+xref_analog: MetaCyc:COB(II)ALAMIN-REDUCTASE-RXN
+is_a: GO:0016723
+
+[Typedef]
+id: part_of
+name: part_of

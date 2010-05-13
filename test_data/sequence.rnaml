@@ -1,0 +1,169 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE rnaml SYSTEM "http://www-lbit.iro.umontreal.ca/rnaml/current/rnaml.dtd">
+<rnaml version="1.1">
+  <molecule id="Yeast-tRNA-Phe">
+    <identity>
+      <name>Saccharomyces cerevisiae tRNA-Phe</name>
+      <taxonomy>
+        <domain>Eukaryota</domain>
+        <kingdom>Fungi</kingdom>
+        <phylum>Ascomycota</phylum>
+        <class>Saccharomycetes</class>
+        <order>Saccharomycetales</order>
+        <family>Saccharomycetaceae</family>
+        <genus>Saccharomyces</genus>
+        <species>Saccharomyces cerevisiae</species>
+      </taxonomy>
+    </identity>
+    <sequence>
+      <numbering-system id="natural" used-in-file="true">
+        <numbering-range>
+          <start>1</start>
+          <end>10</end>
+        </numbering-range>
+        <numbering-range>
+          <start>11</start>
+          <length>66</length>
+        </numbering-range>
+      </numbering-system>
+      <seq-data>
+	  GCGGAUUUAG CUCAGUUGGG AGAGCGCCAG ACUGAAGAUC UGGAGGUCCU GUGUUCGAUC
+          CACAGAAUUC GCACCA
+	</seq-data>
+      <seq-annotation comment="Annotations done by hand!">
+        <modification>
+          <base-id>
+            <position>10</position>
+          </base-id>
+          <modified-type>m2g</modified-type>
+        </modification>
+        <modification>
+          <base-id>
+            <position>16</position>
+          </base-id>
+          <modified-type>d</modified-type>
+        </modification>
+        <modification>
+          <base-id>
+            <position>26</position>
+          </base-id>
+          <modified-type>m2g</modified-type>
+        </modification>
+        <segment>
+          <seg-name>anticodon loop</seg-name>
+          <base-id-5p>
+            <base-id>
+              <position>34</position>
+            </base-id>
+          </base-id-5p>
+          <length>3</length>
+        </segment>
+        <segment>
+          <seg-name>T-psi-C loop</seg-name>
+          <base-id-5p>
+            <base-id>
+              <position>54</position>
+            </base-id>
+          </base-id-5p>
+          <base-id-3p>
+            <base-id>
+              <position>61</position>
+            </base-id>
+          </base-id-3p>
+        </segment>
+      </seq-annotation>
+    </sequence>
+  </molecule>
+  <revision comment="Created sequence example with RNAML version 1.1">
+    <date>
+      <day>13</day>
+      <month>11</month>
+      <year>2001</year>
+    </date>
+  </revision>
+  <reference comment="Basic reference for RNAML format" id="waugh2002">
+    <author>
+      <person>
+        <first-name>A.</first-name>
+        <last-name>Waugh</last-name>
+      </person>
+    </author>
+    <author>
+      <person>
+        <first-name>P.</first-name>
+        <last-name>Gendron</last-name>
+      </person>
+    </author>
+    <author>
+      <person>
+        <first-name>R.</first-name>
+        <last-name>Altman</last-name>
+      </person>
+    </author>
+    <author>
+      <person>
+        <first-name>J.W.</first-name>
+        <last-name>Brown</last-name>
+      </person>
+    </author>
+    <author>
+      <person>
+        <first-name>D.</first-name>
+        <last-name>Case</last-name>
+      </person>
+    </author>
+    <author>
+      <person>
+        <first-name>D.</first-name>
+        <last-name>Gautheret</last-name>
+      </person>
+    </author>
+    <author>
+      <person>
+        <first-name>S.C.</first-name>
+        <last-name>Harvey</last-name>
+      </person>
+    </author>
+    <author>
+      <person>
+        <first-name>N.</first-name>
+        <last-name>Leontis</last-name>
+      </person>
+    </author>
+    <author>
+      <person>
+        <first-name>J.</first-name>
+        <last-name>Westbrook</last-name>
+      </person>
+    </author>
+    <author>
+      <person>
+        <first-name>E.</first-name>
+        <last-name>Westhof</last-name>
+      </person>
+    </author>
+    <author>
+      <person>
+        <first-name>M.</first-name>
+        <last-name>Zuker</last-name>
+      </person>
+    </author>
+    <author>
+      <person>
+        <first-name>F.</first-name>
+        <last-name>Major</last-name>
+      </person>
+    </author>
+    <title>RNAML: A standard syntax for exchanging RNA information</title>
+    <journal>RNA</journal>
+    <volume>8</volume>
+    <issue>6</issue>
+    <pages>707,717</pages>
+  </reference>
+  <reference comment="Website for RNAML" id="gendron2001a">
+    <path>
+      <url>http://www-lbit.iro.umontreal.ca/rnaml/</url>
+    </path>
+  </reference>
+</rnaml>

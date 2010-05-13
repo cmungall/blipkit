@@ -1,0 +1,4 @@
+(<=>
+ (subrelation ?r1 ?r2)
+ (subPropertyOf ?r1 ?r2))
+

@@ -1,0 +1,32 @@
+#!/usr/local/bin/swipl -q -g main -t halt -s
+
+:- use_module(bioprolog(ontol)).
+:- use_module(bioprolog(bioprolog_util)).
+
+main:-
+        getopt([atom([id,i],ID),
+                atom([name,n],N),
+                atom([id2,i2],ID2),
+                atom([name2,n2],N2),
+                atom([res,r],Res)],
+               FileL),
+        (var(Res) -> true ; load_resource(Res)),
+        load_factfiles(FileL),
+        (class(ID,N) ; die(no_such_class(ID,N))),
+        (class(ID2,N2) ; die(no_such_class(ID2,N2))),
+        forall(lca(ID,ID2,PID),
+               (   class(PID,PN),
+                   writeln(PID/PN))),
+        halt.
+
+lca(ID1,ID2,PID):-
+        setof(ID,common_parentT(ID1,ID2,ID),IDs),
+        member(PID,IDs),
+        not((   member(ID,IDs),
+                parentT(ID,PID)
+            )).
+
+
+common_parentT(ID1,ID2,PID):-
+        parentT(ID1,PID),
+        parentT(ID2,PID).

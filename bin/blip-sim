@@ -1,0 +1,2 @@
+#!/bin/sh
+blip  -u metadata_db -u simmatrix -u tabling -table_pred simmatrix:attribute_information_content/2 sim $*

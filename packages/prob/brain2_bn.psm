@@ -1,0 +1,40 @@
+target(patient,12).
+data('patientdata.dat').
+
+values(_,[yes,no]).
+
+% patient/12 declaration (target)
+patient(Disease_1,Disease_2,Disease_3,Disease_4,Disease_5,Sick,Hipp,Amyg,Alveoli, Brain, Lung,Phenotype):- patient(_,_,Disease_1,Disease_2,Disease_3,Disease_4,Disease_5,Sick,Hipp,Amyg,Alveoli, Brain, Lung,Phenotype).
+
+% patient/14 declaration (graph)
+patient(Cause_1,Cause_2,Disease_1,Disease_2,Disease_3,Disease_4,Disease_5,Sick,Hipp,Amyg,Alveoli, Brain, Lung,Phenotype):-
+	msw(cause1,Cause_1),
+	msw(cause2,Cause_2),
+	msw(c(hipp,Cause_1,Cause_2),Hipp),
+	msw(c(amyg,Cause_1,Cause_2),Amyg),
+	msw(c(alv,Cause_1,Cause_2),Alveoli),
+	msw(c(d1,Cause_1,Cause_2),Disease_1),
+	msw(c(d2,Cause_1,Cause_2),Disease_2),
+	msw(c(d3,Cause_1,Cause_2),Disease_3),
+	msw(c(d4,Cause_1,Cause_2),Disease_4),
+	msw(c(d4,Cause_1,Cause_2),Disease_5),
+	msw(sick,Sick),
+	msw(c(sick,Disease_1,Disease_2,Disease_3,Disease_4,Disease_5),Sick),
+	%msw(n(hipp),Hipp),
+	%msw(n(amyg),Amyg),
+	(   (	Hipp=yes
+	    ;	Amyg=yes)
+	->  Brain=yes
+	;   Brain=no),
+	%msw(n(alveoli),Alveoli),
+	(   Alveoli=yes
+	->  Lung=yes
+	;   Lung=no),
+	(   (	Brain=yes
+	    ;	Lung=yes)
+	->  Phenotype=yes
+	;   Phenotype=no).
+
+	
+setup:-
+	set_sw(c(sick,yes,no,no,no,no),[1,0]).

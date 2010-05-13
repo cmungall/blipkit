@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# Usage: blip-enscore -proj 'x(ENSID,MaxStart)' "xref(X,_,_,'BRCA1'),gene(GID,_,_,_,_,_,_,X),gene_stable_id(GID,ENSID),is(MaxStart,max(Start,(transcript(TID,GID),exon_transcript(XID,TID),exon(XID,_,Start,_End))))"
+blip -r enscore/homo_sapiens_core -u blipkit_sql sql-map -schema sql_schema/schema_enscore44 $@
+
