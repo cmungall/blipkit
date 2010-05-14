@@ -1,0 +1,19 @@
+---+ Serval
+
+(*Serv*er-*A*pplication-*L*ogic)
+ 
+Serval is a lightweight web application framework for developing www
+interfaces. See lib/serval.pro
+
+Currently serval is bundled with bioprolog, due to shared dependencies
+on bioprolog_util. They may be separated in the future (OPEN-Q: should
+the shared utils be duplicated or moved into a 3rd library?)
+
+Currently the prototype new amigo app is bundled together with
+bioprolog and serval - in future it may be separated
+
+See examples/serval for an example server
+
+Run the script "serval" to start a server (default port 8080)
+
+Serval has no dependencies other than SWI Prolog
