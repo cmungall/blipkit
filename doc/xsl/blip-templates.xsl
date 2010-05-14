@@ -147,8 +147,10 @@
     <a>
       <xsl:attribute name="href">
         <xsl:text>http://berkeleybop.org/blipdoc/doc/users/cjm/cvs/blipkit/packages/blip/</xsl:text>
+        <xsl:value-of select="ancestor-or-self::module/@package"/>
+        <xsl:text>/</xsl:text>
         <xsl:value-of select="@id"/>
-        <xsl:text>.pro</xsl:text>
+        <xsl:text>.pro?source=true</xsl:text>
       </xsl:attribute>
       <xsl:text>src</xsl:text>
     </a>

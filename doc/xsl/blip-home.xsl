@@ -46,7 +46,7 @@
           
           <p class="title">Download</p>
           <p class="side">
-            <a href="svn.html">Subversion repository</a><br />
+            <a href="download.html">Download Blipkit</a><br />
           </p>
           
           <p class="title">Announcements</p>
@@ -106,8 +106,7 @@
         </div>
 
         <div class="footer">
-          <address><a href="mailto:cjm_AT_fruitfly_DOT_org">chris mungall</a></address>
-          <xsl:apply-templates select="lastmod"/>
+<!--          <xsl:apply-templates select="lastmod"/> -->
         </div>
       </body>
     </html>

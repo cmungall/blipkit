@@ -2,25 +2,30 @@
     <title>Blip: Download</title>
     <section id="Download">
       <p>
-        Currently Blip is only available as source tarballs. Contact
-        the <url to="developer"/> if you would like a binary for your
-          favourite platform (in future this will be a standard option).
+	Blip is available
+	from <a href="http://github.com/cmungall/blipkit">GitHub</a>. At
+	this time there are no official releases, but the latest
+	version of the code can always be obtained from the repository.
+	<ul>
+	  <li>
+	    <a href="http://github.com/cmungall/blipkit/archives/master">Download Source</a>
+	  </li>
+	  <li>
+	    Via git client:
+	    <pre>
+	      git clone git://github.com/cmungall/blipkit.git
+	    </pre>
+	  </li>
+	</ul>
       </p>
     </section>
-    <section id="Source">
+    <section id="Archive">
       <p>
-        The current release is <release type=".tar.gz"/>
-      </p>
-      <p>
-        For previous releases, see <a href="download/">download</a>
+        For previous releases, see the <a href="download/">download</a>
         dir
       </p>
     </section>
 
     <lastmod>
-      <!-- Created: Mon May  2 09:02:21 PDT 2005 -->
-<!-- hhmts start -->
-Last modified: Fri May 13 16:07:23 PDT 2005
-<!-- hhmts end -->
     </lastmod>
   </page>
