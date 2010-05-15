@@ -51,10 +51,6 @@ derived_triple(Sbj,rdfs:subPropertyOf,Obj):-
         subclass(Sbj,Obj).
 derived_triple(R,owl:inverseOf,S):-
         inverse_of(R,S).
-derived_triple(Sbj,owl:subPropertyOf,Obj):-
-        slot(Sbj,_),
-        subclass(Sbj,Obj),
-        slot(Obj,_).
 derived_triple(Sbj,oban:has_resource,Obj):-
         entity_resource(Sbj,Obj).
 derived_triple(Sbj,rdf:type,owl:'Class'):-
@@ -67,11 +63,6 @@ derived_triple(Sbj,rdfs:comment,Literal):-
         native_to_literal(N,Literal).        
 derived_triple(Sbj,rdf:type,owl:'ObjectProperty'):-
         property(Sbj).
-derived_triple(Sbj,rdf:type,owl:'DatatypeProperty'):-
-        slot(Sbj,_).
-derived_triple(Sbj,rdfs:label,Literal):-
-        slot(Sbj,N),
-        native_to_literal(N,Literal).        
 derived_triple(Sbj,rdfs:domain,Obj):-
         property_domain(Sbj,Obj).
 derived_triple(Sbj,rdfs:range,Obj):-
@@ -202,10 +193,6 @@ rdfify(OboID,ID):-
         !.
 rdfify(Local,ID):-
         entity_label(OboID,Local),        % use name to lookup ID; WARN?
-        rdfify_oboid(OboID,ID),
-        !.
-rdfify(Local,ID):-
-        slot(OboID,Local),     % use name to lookup ID; WARN?
         rdfify_oboid(OboID,ID),
         !.
 rdfify(Local,ID):-
