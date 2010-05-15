@@ -75,6 +75,7 @@ ontol_db:def(X,Label) <- term0(XI,X,_,_),term_definition(XI,Label,_,_,_).
 % TODO: split this into curation package?
 curation_db:curation(X) <- association(X,_,_,_,_,_,_).
 curation_db:curation_statement(X,S,has_role,O) <- association(X,OI,SI,0,_,_,_),term0(OI,O,_,_),product0(SI,S,_).
+%curation_db:curation_statement(X,S,_,O) <- association(X,OI,SI,0,_,_,_),term0(OI,O,_,_),product0(SI,S,_).
 curation_db:negative_curation_statement(X,S,has_role,O) <- association(X,OI,SI,1,_,_,_),term0(OI,O,_,_),product0(SI,S,_).
 curation_db:curation_evidence(C,E) <- evidence(E,_,C,_,_).
 curation_db:evidence_type(E,T) <- evidence(E,T,_,_,_).
