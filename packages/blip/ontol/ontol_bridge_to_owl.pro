@@ -184,10 +184,20 @@ rdfify(ID,ID):-
         rdf_is_bnode(ID),
         !.
 rdfify(NS:Local,ID):-
+	sub_atom(Local,0,1,_,A),
+	(   A='_'
+	;   A@>'a',A@<'z'
+	;   A@>'A',A@<'Z'),
         !,
         escape_ns(NS,NS2),
         force_ns(NS2),
         rdf_global_id(NS2:Local,ID).
+rdfify(NS:Local,ID):-
+        !,
+        escape_ns(NS,NS2),
+        force_ns(NS2),
+	concat_atom([NS2,Local],'_',SafeLocal),
+        rdf_global_id(NS2:SafeLocal,ID).
 rdfify(OboID,ID):-
         rdfify_oboid(OboID,ID),
         !.
