@@ -14,6 +14,12 @@ This package is part of blip. See ../../../README.txt for details
 
   * [[metadata][../metadata/README.txt]]
 
+The metadata package (metadata_db.pro) is used 
+
+---++ Tutorials
+
+* [[Ontol package tutorials][<howto/>]]
+
 ---++ Details
 
 ---++ Parsers

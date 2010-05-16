@@ -1,0 +1,54 @@
+---+ Reasoning Over Ontologies
+
+The ontol package provides too methods of reasoning
+
+  * backward chaining, via transitive predicates in ontol_db.pro
+  * forward chaining, via ontol_reasoner.pro
+
+Additional methods are provided for OWL ontologies in Thea2.
+
+---++ Backward chaining
+
+ontol_db provides predicates such as:
+
+ * subclassT/2
+ * subclassRT/2
+ * bf_parentRT/2
+ * parent_overT/3
+
+These use backward chaining. Because SWI is not tabled, cycles present
+a problem. You can check if the ontology contains cycles using
+parent_cycle/2.
+
+The bf_parentRT/2 predicate is cycle-safe
+
+Speed can sometimes be improved by using the blip tabling.pro module
+(not true tabling - would better be called memoization).
+
+Command line:
+
+==
+blip -i foo.obo -table_pred ontol_db:subclassT/2 "subclass_lca(X,Y)"
+==
+
+Prolog:
+
+==
+:- use_module(bio(tabling)).
+
+setup :-
+  load_biofile('foo.obo'),
+  table_pred(ontol_db:subclassT/2).
+==
+
+---++ Forward chaining
+
+Caching reasoner results:
+
+==
+blip-ddb -r go ontol-reasoner -to ontol_db:pro -o go_reasoned-ontol_db.pro
+==
+
+
+
+

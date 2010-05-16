@@ -1,0 +1,114 @@
+---+ Querying OWL ontologies
+
+There is an embarrassing wealth of options for querying and
+manipulating OWL ontologies in SWI-Prolog. The main package you should
+be using is [[Thea2][http://github/vangelis/thea]] -- this will give
+you access to the full expressivity of OWL2.
+
+This package (i.e. the ontol package that is part of blip) provides a
+model that is based on OBO-Format.
+
+---++ Obtaining an ontol_db view over an OWL ontology
+
+This is currently in transition. Currently there are two choices of
+bridge module:
+
+  * [[ontol_bridge_from_owl][../ontol_bridge_from_owl.pro]]
+  * [[ontol_bridge_from_owl2][../ontol_bridge_from_owl2.pro]]
+
+The first bridge module directly uses the SWI semweb library. The
+second uses Thea2.
+
+With a bridge module you can use all ontol_db predicates over an OWL
+ontology, just as if it was an OBO one.
+
+For example:
+
+==
+:- use_module(bio(io)).
+:- use_module(bio(ontol_db)).
+:- use_module(bio(metadata_db)).
+
+t :-
+  load_biofile(owl,'foo.owl'),
+  forall(class(C),show_info(C)).
+
+show_info(C) :-
+  forall(tagval(C,T,V),
+         format('~w: ~w~n',[T,V])),
+  nl.
+
+tagval(C,'ID',C).
+tagval(C,'Label',V) :- entity_label(C,V).
+tagval(C,'Synonym,V) :- entity_synonym(C,V).
+tagval(C,'SubClass Of',V) :- subclass(C,V).
+tagval(C,R,V) :- restriction(C,R,V).
+
+==
+
+---++ Translating an ontology
+
+---+++ Translating via the command line
+
+owl to a prolog database using the ontol_db model:
+
+==
+blip -i foo.owl io-convert -to ontol_db:pro -o foo-ontol_db.pro
+==
+
+owl to obo:
+
+==
+blip -i foo.owl io-convert -to obo -o foo.obo
+==
+
+---+++ Translating via prolog
+
+==
+t :-
+  use_module(bio(io)),
+  load_biofile(owl,'foo.owl'),
+  save_biofile(obo,'foo.obo')).
+==
+
+==
+t :-
+  use_module(bio(io)),
+  load_biofile(thea2_owl,'foo.owl'),
+  save_biofile(obo,'foo.obo')).
+==
+
+---++ Mapping to metadata_db
+
+The metadata_db.pro module provides a standard set of prolog fact
+predicates for interrogating standard metadata about information
+artefacts - for example, entity_label/2, entity_synonym/2.
+
+There are a plethora of vocabularies used in the OWL world to capture
+the same information - SKOS, Dublin Core, IAO, etc. In addition many
+ontologies roll their own.
+
+The blip ontol_db package provides a collection of mapping modules
+that manifest metadata_db facts based on a particular OWL vocabulary:
+
+* ontol_manifest_metadata_from_obi
+* ontol_manifest_metadata_from_nif
+
+For example:
+
+==
+blip -i obi.owl io-convert -to obo -o foo.obo -u ontol_manifest_metadata_from_obi
+==
+
+Unfortunately these are sometimes duplicated depending on which bridge module is being used:
+
+==
+blip -f thea2_owl -i obi.owl io-convert -to obo -o foo.obo -u ontol_manifest_metadata_from_obi_via_thea
+==
+
+This is hopefully a temporary situation
+
+
+
+
+

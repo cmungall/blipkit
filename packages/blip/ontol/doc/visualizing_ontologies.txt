@@ -1,0 +1,43 @@
+---+ Visualizing ontologies
+
+For some examples, see:
+
+  * http://berkeleybop.org/obo/FBbt:eye
+
+The ontol package includes a number of writer modules. On of these,
+ontol_writer_dot, provides a flexible way of generating dot files from
+a subset of an ontology. These can then be fed into a number of
+programs, including GraphViz.
+
+---++ Quick Start
+
+Generate a dot file:
+
+==
+blip -r cell -n astrocyte -to dot
+==
+
+Generate a png and open it right away:
+
+==
+blip -r cell -n astrocyte -to display
+==
+
+show only a subset of relations:
+
+==
+blip -r zebrafish_anatomy -n eye -rel subclass -rel part_of -rel develops_from -to display
+==
+
+multiple ontologies, multiple terms, color coded
+
+==
+blip -r zebrafish_anatomy -r uberon -r mouse_anatomy -n retina -n cornea -rel subclass -rel part_of -rel develops_from -to display -u ontol_config_autocolor_by_ontology
+==
+
+---++ From prolog
+
+TODO
+
+
+

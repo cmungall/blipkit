@@ -1,0 +1,62 @@
+---+ Querying OBO-Format ontologies
+
+The ontol_db schema closely follows the OBO-Format standard.
+
+---+ Loading an OBO file
+
+First download an obo file (e.g. from http://obofoundry.org)
+
+==
+blip -i cell.obo
+==
+
+You can now do interactive queries:
+
+==
+Starting blip shell
+1 ?- subclass(X,Y),entity_label(X,XN),entity_label(Y,YN).
+Correct to: "ontol_db:subclass(X,Y)"? yes
+Correct to: "metadata_db:entity_label(X,XN)"? yes
+Correct to: "metadata_db:entity_label(Y,YN)"? yes
+X = 'CL:0000001',
+Y = 'CL:0000010',
+XN = 'primary cell line cell',
+YN = 'cell line cell' ;
+X = 'CL:0000002',
+Y = 'CL:0000010',
+XN = 'permanent cell line cell',
+YN = 'cell line cell' ;
+X = 'CL:0000003',
+Y = 'CL:0000000',
+XN = 'cell in vivo',
+YN = cell .
+==
+
+You can also do this from the command line:
+
+==
+blip-findall -i cell.obo "subclass(X,Y)" -label
+==
+
+Find all neurons:
+
+==
+blip-findall -i cell.obo "class(N,neuron),subclassT(X,N)" -select N -label
+==
+
+This is the same as:
+
+==
+:- use_module(bio(io)).
+:- use_module(bio(ontol_db)).
+:- use_module(bio(metadata_db)).
+
+t :-
+  load_biofile('cell.obo'),
+  class(N,neuron),
+  forall((subclassT(Y,N),entity_label(Y,Label)),
+         writeln(Y-Label)).
+==
+
+This uses the subclass/2 predicate
+
