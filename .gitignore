@@ -1,8 +1,9 @@
 *~
 \#*
 .\#*
-./Makefile
+Makefile
+*.old
 config.log
-config.stats
+config.status
 autom4te.cache
 
