@@ -1,2 +1,52 @@
 ---+ Querying GO annotations (file-based)
 
+This tutorial shows how to query GO annotations derived from Gene Association Files (GAFs).
+
+---++ Setup
+
+Add the following to your bioconf.pro:
+
+==
+user:bioresource(go_assoc(N),url(URL),gzip(go_assoc)):- 
+  nonvar(N),concat_atom(['http://www.geneontology.org/gene-associations/gene_association.',N,'.gz'],URL).
+==
+
+This saves you having to download the files, or specify the full URL
+
+---++ Quick Start
+
+Find all mouse protein complexes:
+
+==
+blip-findall -u curation_db -r go -r go_assoc/mgi "class(B,'protein complex'),subclassT(A,B),curation_statement(_,G,_,A)" -select A-G -label
+==
+
+This may take a while the first time around as the following occurs in the background:
+
+ * downloading go, and converting to prolog
+ * downloading the MGI GAF, and converting to prolog
+ * indexing the prolog files as .qlf files
+
+You can trace these steps with the =|-debug load|= flag. See also your .blip/data_cache directory
+
+The second time round it should be faster, as the .qlf files are used
+directly. If you try again in a month and the source files have
+changed, they will have to be re-downloaded and indexed.
+
+Even with the files indexed, it's not as fast as it could be, for two reasons:
+
+ * subclassT/2 uses a lot of repeated computations
+ * curation_statement/4 is being used with a non-ground first argument
+
+To solve the first, use =|-table_pred ontol_db:subclassT/2|=. To solve the second, use =|-index curation_db:curation_statement(0,0,1,0)|=
+
+E.g.
+
+==
+blip-findall -u curation_db -r go -r go_assoc/mgi -table_pred ontol_db:subclassT/2 -index "curation_db:curation_statement(0,0,1,0)" "class(B,'protein complex'),subclassT(A,B),curation_statement(_,G,_,A)" -select A-G -label
+==
+
+Indexing pays off even more if the prolog session is kept alive for multiple queries
+
+See also querying_go_sql_annotations.txt
+

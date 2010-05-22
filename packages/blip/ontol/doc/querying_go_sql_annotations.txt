@@ -1,2 +1,9 @@
 ---+ Querying GO annotations (from MySQL database)
 
+You should first read the ODBC tutorial
+
+Documentation on the GO database:
+
+ * http://geneontology.org/GO.database.shtml
+
+

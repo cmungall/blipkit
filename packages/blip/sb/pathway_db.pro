@@ -17,6 +17,7 @@
            event_output_molecule/2,
 
 	   event_xref/2,
+	   snapshot_xref/2,
 	   
 	   atomic_event/1,
 	   

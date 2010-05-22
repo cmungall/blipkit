@@ -131,10 +131,12 @@ user:bioresource(biopax_glycolysis,datadir('Pathways/biopax-level1/biopax-exampl
 % blip -r reactome_biopax/Drosophila\ melanogaster
 user:bioresource(reactome_biopax(Sp),Path,owl) :-
         nonvar(Sp),
-        sformat(Path,'/Users/cjm/data/reactome-bp3/~w.owl',[Sp]).
+        sformat(Path,'/Users/cjm/cvs/biowarehouse/reactome/~w.owl',[Sp]).
+%        sformat(Path,'/Users/cjm/data/reactome-bp3/~w.owl',[Sp]).
 user:bioresource(reactome(Sp),Path,pathway_db:pro) :-
         nonvar(Sp),
-        sformat(Path,'/Users/cjm/data/reactome-bp3/~w-pathway_db.pro',[Sp]).
+        sformat(Path,'/Users/cjm/cvs/biowarehouse/reactome/~w-pathway_db.pro',[Sp]).
+%        sformat(Path,'/Users/cjm/data/reactome-bp3/~w-pathway_db.pro',[Sp]).
 
 user:bioresource(pathway_commons(Sp),url(Path),gzip(owl)) :-
         nonvar(Sp),
@@ -257,6 +259,7 @@ user:bioresource(chego,'/users/cjm/cvs/go/scratch/obol_results/chego.obo',obo).
 
 
 user:bioresource(cell,obo_cvs('anatomy/cell_type/cell.obo'),obo).
+user:bioresource(hemo_CL,obo_cvs('anatomy/cell_type/hemo_CL.obo'),obo).
 user:bioresource(cdo,obo_cvs('anatomy/cell_type/cdo.obo'),obo).
 user:bioresource(cell2,obo_cvs('anatomy/cell_type/cell_cjm.obo'),obo).
 user:bioresource(evoc_cell,obo_cvs('anatomy/cell_type/evoc_cell.obo'),obo).
@@ -417,6 +420,8 @@ user:bioresource(gaz2,obo_cvs('environmental/gaz2.obo'),obo).
 user:bioresource(uniprot_ga,gene_assoc('gene_association.goa_uniprot.lite.pro'),pro,ontol_db).
 user:bioresource(tair_ga_xp,datadir('phenotype/tair_ga_xp.pro'),pro,ontol_db).
 user:bioresource(fly_ga,gene_assoc('gene_association.fb.gz'),gzip(go_assoc)).
+user:bioresource(goa_human_norm,home('cvs/bbop-papers/Ours/2009/GO/te-analysis/gene_association.goa_human_norm.gz'),gzip(go_assoc)).
+
 
 % mouse: special; includes CL,MA
 user:bioresource(mgi_ga,datadir('phenotype/mgi_ga2.pro'),pro,goa_db).

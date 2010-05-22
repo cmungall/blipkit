@@ -769,6 +769,12 @@ class_from_bp(N,AN) :-
 	atom_concat(AN,' development',N).
 class_from_bp(N,AN) :-
 	atom_concat(AN,' morphogenesis',N).
+class_from_bp(N,AN) :-
+	atom_concat(AN,' formation',N).
+class_from_bp(N,AN) :-
+	atom_concat(AN,' cavitation',N).
+class_from_bp(N,AN) :-
+	atom_concat(AN,' closure',N).
 
 
 %% use MP and MP-XP

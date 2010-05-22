@@ -150,7 +150,7 @@ export GO_XP_CHEBI_ARGS=' -r chebi -r goxp/biological_process_xp_chebi  -r goxp/
 export GO_XP_CL_ARGS=' -r cell -r goxp/biological_process_xp_cell'
 export GO_XP_PRO_ARGS=' -r protein -r goxp/biological_process_xp_protein -r goxp/molecular_function_xp_protein'
 export GO_XP_MA_ARGS=' -r mouse_anatomy -r goxp/biological_process_xp_mouse_anatomy'
-export GO_XP_SELF_ARGS=' -r goxp/biological_process_xp_self -r goxp/biological_process_xp_cellular_component -r goxp/biological_process_xp_multi_organism_process -r goxp/cellular_component_xp_self -r goxp/cellular_component_xp_self-unvetted -r goxp/cellular_component_xp_go -r goxp/cellular_component_xp_cell -r goxp/molecular_function_xp_cellular_component -r goxp/molecular_function_xp_regulators -r goxp/molecular_function_xp_biological_process -r goxp/biological_process_xp_molecular_function -r obolr/biological_process_xp_regulation'
+export GO_XP_SELF_ARGS=' -r goxp/biological_process_xp_self -r goxp/biological_process_xp_cellular_component -r goxp/biological_process_xp_multi_organism_process -r goxp/cellular_component_xp_self -r goxp/cellular_component_xp_go -r goxp/cellular_component_xp_cell -r goxp/molecular_function_xp_cellular_component -r goxp/molecular_function_xp_regulators -r goxp/molecular_function_xp_biological_process -r goxp/biological_process_xp_molecular_function -r obolr/biological_process_xp_regulation'
 export GO_XP_FMA_ARGS=' -r fma -r goxp/biological_process_xp_human_anatomy'
 export GO_XP_UBER_ARGS=' -r fma -r goxp/biological_process_xp_uber_anatomy -r uberon'
 export GO_XP_PO_ARGS=' -r fma -r goxp/biological_process_xp_plant_anatomy'
@@ -164,6 +164,10 @@ alias goxmouse="ov -r go $GO_XP_CL_ARGS -showxp"
 alias qgoxmouse="oq -r go $GO_XP_CL_ARGS -showxp"
 alias goxhuman="ov -r go $GO_XP_CL_ARGS -showxp"
 alias qgoxhuman="oq -r go $GO_XP_CL_ARGS -showxp"
+alias goxu="ov -r go $GO_XP_UBER_ARGS -showxp"
+alias qgoxu="oq -r go $GO_XP_UBER_ARGS -showxp"
+
+alias viz-goxu='blip -id GO:0060977 -to display -u ontol_entailment_basic -to display'
 
 alias go+db="gox -u ontol_sqlmap_go -bindsql 'curation_db:curation_statement/4-go' -showannots"
 

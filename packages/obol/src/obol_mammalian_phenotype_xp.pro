@@ -37,6 +37,9 @@ phenotype(Q that towards(C)) --> [Magn],quality(BaseQ),[to],continuant(C),{magni
 
 quality(Q) --> [morphology], [or], [physiology],{class_label_exact(Q,quality)}.
 
+% abnormal follicular dendritic cell physiology
+quality(Q) --> [physiology],{class_label_exact(Q,functionality)}.
+
 %% ----------------------------------------
 %% relational qualities: relative number (concentration)
 %% ----------------------------------------
