@@ -123,6 +123,9 @@
            nochild/2,
            subclassT/2,
            subclassRT/2,
+           subclassX/2,
+           subclassXT/2,
+	   cdef_placement/5,
            subclassN/2,
            subclassTN/2,
            subclassRTN/2,
@@ -343,6 +346,93 @@ subclassT(X,Y):- subclass(X,Y).
 subclassT(X,Y):- subclass(X,Z),subclassT(Z,Y).
 subclassRT(X,X).
 subclassRT(X,Y):- subclassT(X,Y).
+
+
+%% subclassXT(?A,?B)
+% reflexive version of subclassX/2
+subclassXT(A,A).
+subclassXT(A,B) :-
+	debug(subclassX,'testing for subclassXT ~w < ~w',[A,B]),
+	subclassX(A,B),
+	debug(subclassX,'OK***** for subclassXT ~w < ~w',[A,B]).
+	
+
+%% subclassX(+A,+B)
+%
+% tests if A can be inferred to be a subclass of B
+%
+% if A and/or B are classes, will be translated into class expressions via class_cdef/2
+% (alternatively, class expressions can be used directly)
+%
+% this can be used to test quickly where a new class expression should be placed in
+% the ontology - given the ontology has all genus-differentia links already manifest
+%
+% e.g.
+% *  subclassX( cdef(vw,[col=red]), cdef(car,[color=primary]) )
+% *  subclassX( cdef(vw,[col=red]), bright_car ) where class_cdef(bright_car, ...)
+% *  subclassX( red_vw, cdef(car,[color=primary]) )
+% *  subclassX( red_vw, bright_car ) where class_cdef(bright_car, ...)
+%
+% to test 
+subclassX(A,B) :-
+	(   class_cdef(A,A1)
+	;   A1=A),
+	(   class_cdef(B,B1)
+	;   B1=B),
+	subclassX_2(A1,B1).
+subclassX(A,B) :-
+	subclassT(A,B).
+
+% N+S conditions, any < intersection
+subclassX_2(A,cdef(BG,BDs)) :-
+	subclassXT(A,BG),
+	forall(member(BD,BDs),
+	       subclassXT(A,BD)).
+% N+S conditions, class < rel-expr
+subclassX_2(A,BR=BV) :-
+	class(A),
+	parent(A,AR,AV),
+	subclassX_2(AR=AV,BR=BV).
+        %% parent_overT(R,A,V). -- TODO
+% N+S conditions, rel-expr < rel-expr
+subclassX_2(AR=AV,BR=BV) :-
+	subclassRT(AR,BR),
+	subclassRT(AV,BV).
+subclassX_2(AR=AV,BR=BV) :-
+	is_transitive(BR),
+	subclassRT(AR,BR),
+	subclassRT(AV,X),
+	parent(X,R,Y),
+	subclassX_2(R=Y,BR=BV).
+% N+S conditions, intersection < rel-expr [genus test]
+subclassX_2(cdef(AG,_),R=V) :-
+	subclassX_2(AG,R=V).
+% N+S conditions, intersection < rel-expr [differentiae test]
+subclassX_2(cdef(_,ADs),BR=BV) :-
+	member(AR=AV,ADs),
+	subclassX_2(AR=AV,BR=BV).
+% N+S conditions, intersection < class
+subclassX_2(cdef(AG,_),B) :-
+	class(B),
+	subclassRT(AG,B).
+
+
+%% class_cdef(?C,?CDef) is nondet.
+% true if CDef is asserted to be equivalent to C
+% (e.g. via genus/2 and differentium/3)
+% CDef = cdef(Genus,Diffs)
+% Diffs = [R=To,...]
+class_cdef(ID,cdef(G,Diffs)):-
+        genus(ID,G),
+        setof(R=To,differentium(ID,R,To),Diffs). 
+
+cdef_placement(CDef,Equiv,NRParents,NRChildren,Redundant) :-
+	solutions(Parent,subclassX(CDef,Parent),Parents),
+	solutions(Parent,(member(Parent,Parents),subclassX(Parent,CDef)),Equiv),
+	solutions(Child,subclassX(Child,CDef),Children),
+	solutions(Child-Parent,(member(Parent,Parents),subclass(Child,Parent),member(Child,Children)),Redundant),
+	solutions(Parent,(member(Parent,Parents),\+((subclass(P2,Parent),member(P2,Parents)))),NRParents),
+	solutions(Child,(member(Child,Children),\+((subclass(Child,C2),member(C2,Children)))),NRChildren).
 
 
 %%  equivalent_class(?Class1,?Class2) is nondet.
@@ -1460,12 +1550,6 @@ classdef_parent_c(Class,PClass):-
 	classdef_parent(intersection(GenusID,DiffL2),
 			intersection(PGenusID,PDiffL2)).
 
-%% class_cdef(?C,?CDef) is nondet.
-% CDef = cdef(Genus,Diffs)
-% Diffs = [R=To,...]
-class_cdef(ID,cdef(G,Diffs)):-
-        genus(ID,G),
-        setof(R=To,differentium(ID,R,To),Diffs). 
 
 class_id_or_label(ID,N):- (class(ID,N)-> true ; N=ID).
 cdef_label(cdef(G,Diffs),Label):-
