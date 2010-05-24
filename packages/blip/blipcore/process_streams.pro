@@ -6,6 +6,7 @@
 
 process_file_lines(Rule,-) :-
 	!,
+	prompt(_,''),		% TODO - better way than this hack?
 	process_stream_lines(Rule,user_input).
 process_file_lines(Rule,File) :-
 	!,
@@ -45,7 +46,7 @@ process_stream_lines((Head :- (Body1,Body)),In,Out) :-
 	;   read_line_to_codes(In, Codes),
 	    atom_codes(A,Codes),
 	    concat_atom(L,'\t',A),
-	    debug(sed,'LINE: ~w [~w]',[L,Body1]),
+	    debug(process_streams,'LINE: ~w [~w]',[L,Body1]),
 	    Body1=..[line|L],
 	    Body,
 	    Head=..[line|L2],

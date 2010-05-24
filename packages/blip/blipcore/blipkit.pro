@@ -256,9 +256,9 @@ blip(C,Desc,Opts,Files,Action):-
 		->  Files=Args
 		;   Args=[RuleFile|Files]),
 		open(RuleFile,read,IO),
-		read(IO,Rule),
-		!,
+		read_term(IO,Rule,[]),
 		close(IO)),
+	    !,
 	    debug(sed,'rule: ~w',[Rule]),
 	    ensure_loaded(bio(process_streams)),
 	    forall(member(File,Files),
