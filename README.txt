@@ -16,6 +16,7 @@ Blip is Free Software, available, licensed under the LGPL.
  * Explore the modules and packages using the pldoc navigation selector or search interface (above)
  * More details on the main homepage, http://www.blipkit.org
  * For news and examples, see the blip blog http://blipkit.wordpress.com
+ * To obtain the source, visit http://github.com/cmungall/blipkit
 
 This page is designed to be viewed via pldoc on
 http://berkeleybop.org/blipdoc/
