@@ -245,6 +245,27 @@ blip(C,Desc,Opts,Files,Action):-
         _,
 	true).
 
+:- blip('sed',
+        'process input file according to rule',
+        [term(rule,Rule),
+	 atom(rulefile,RuleFile)],
+        Args,
+        (   (	nonvar(Rule)
+	    ->	Files=Args
+	    ;	(   nonvar(RuleFile)
+		->  Files=Args
+		;   Args=[RuleFile|Files]),
+		open(RuleFile,read,IO),
+		read(IO,Rule),
+		!,
+		close(IO)),
+	    debug(sed,'rule: ~w',[Rule]),
+	    ensure_loaded(bio(process_streams)),
+	    forall(member(File,Files),
+		   process_file_lines(Rule,File)))).
+
+
+
 :- blip('io-extract',
         'chains',
         [atom(to,Fmt,pro),

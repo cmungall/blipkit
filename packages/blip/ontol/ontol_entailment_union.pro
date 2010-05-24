@@ -4,4 +4,5 @@
 
 :- multifile ontol_db:subclass/2.
 ontol_db:subclass(A,B):- class_union_element(B,A).
+ontol_db:class(A):- class_union_element(_,A).
 

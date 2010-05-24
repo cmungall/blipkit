@@ -69,7 +69,7 @@ ontol_db:is_symmetric(X) :- uri_oboid(U,X),symmetricProperty(U).
 ontol_db:is_asymmetric(X) :- uri_oboid(U,X),asymmetricProperty(U).
 ontol_db:is_functional(X) :- uri_oboid(U,X),functionalProperty(U).
 ontol_db:is_inverse_functional(X) :- uri_oboid(U,X),inverseFunctionalProperty(U).
-ontol_db:inverse_of_on_instance_level(X,Y) :- uri_oboid(UX,X),uri_oboid(UY,Y),owl2_model:inverseProperties(UX,UY).
+ontol_db:inverse_of(X,Y) :- uri_oboid(UX,X),uri_oboid(UY,Y),owl2_model:inverseProperties(UX,UY).
 
 % NOTE: revisit in future versions: overloading obo subsumption relation for legacy reasons
 ontol_db:subclass(X,Y) :-

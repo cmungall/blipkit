@@ -1,7 +1,5 @@
 /* -*- Mode: Prolog -*- */
 
-
-
 :- module(macros_transitive,
           [(transitive)/1,
            op(1150,fx,(transitive))]).
