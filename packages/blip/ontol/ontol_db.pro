@@ -380,7 +380,7 @@ subclassX(A,B) :-
 	(   class_cdef(B,B1)
 	;   B1=B),
 	subclassX_2(A1,B1).
-subclassX(A,B) :-
+subclassX(A,B,asserted) :-
 	subclassT(A,B).
 
 % N+S conditions, any < intersection
@@ -416,6 +416,7 @@ subclassX_2(cdef(AG,_),B) :-
 	class(B),
 	subclassRT(AG,B).
 
+	
 
 %% class_cdef(?C,?CDef) is nondet.
 % true if CDef is asserted to be equivalent to C

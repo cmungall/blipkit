@@ -22,6 +22,8 @@
 :- multifile suppress_entity/1.
 % OE1 has issues with relationships to xsd types
 suppress_entity(X) :- nonvar(X),atom(X),sub_atom(X,0,_,_,'http://www.w3.org/2001/XMLSchema#').
+suppress_entity('http://www.w3.org/2002/07/owl#topObjectProperty').
+
 
 % cut-n-pasted:
 literal_value_type(literal(lang(en,X)),X,string):- !.
@@ -41,7 +43,7 @@ convert_xsd_type(X,X).
 % ----------------------------------------
 :- multifile consumed_property/1.
 consumed_property('rdfs:label').
-
+% other modules may consume more
 
 % ----------------------------------------
 % DECLARATIONS
@@ -74,12 +76,19 @@ ontol_db:inverse_of(X,Y) :- uri_oboid(UX,X),uri_oboid(UY,Y),owl2_model:inversePr
 % NOTE: revisit in future versions: overloading obo subsumption relation for legacy reasons
 ontol_db:subclass(X,Y) :-
         uri_oboid(UX,X),uri_oboid(UY,Y),owl2_model:subPropertyOf(UX,UY),
-        objectProperty(UX),objectProperty(UY).
+        objectProperty(UX),objectProperty(UY),
+	\+ suppress_entity(UY).
+
+
 % TODO: more complex role chains
 ontol_db:holds_over_chain(X,Y,Z) :- uri_oboid(UX,X),uri_oboid(UY,Y),uri_oboid(UZ,Z),owl2_model:subPropertyOf(UX,propertyChain([UY,UZ])).
 
 % all-some/all-only
 ontol_db:property_relationship(R1,MR,R2) :- implicit_metarelation(R1,MR,R2).
+
+ontol_db:property_domain(R,X) :- uri_oboid(UR,R),uri_oboid(UX,X),owl2_model:propertyDomain(UR,UX).
+ontol_db:property_range(R,X) :- uri_oboid(UR,R),uri_oboid(UX,X),owl2_model:propertyRange(UR,UX).
+
 
 % ----------------------------------------
 % CLASS AXIOMS

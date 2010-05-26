@@ -451,7 +451,11 @@ parse_and_load(Fmt,InputFile):-
 parse_and_load(Fmt,File):-
         open(File,read,IO),
         parse_stream(Fmt,IO),
-        close(IO).
+        close(IO),
+	!.
+parse_and_load(Fmt,File):-
+	throw(parse_and_load_failed(Fmt,File)).
+
         
 % convert_and_load(+Fmt,+InputFile,+PrologFile)
 %  uses external parser

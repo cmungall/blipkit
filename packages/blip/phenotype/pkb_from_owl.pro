@@ -70,6 +70,7 @@ pkb_db:disease_description(Disease,Desc) :-
 % todo - manufacture fake inst ID
 pkb_db:organism_phenotype_inst(Org,((-),Q,D,(-))) :-
         organism(Org),
+	% Org bearer_of Q towards D 
         propertyAssertion('http://ontology.neuinfo.org/NIF/Backend/BIRNLex-OBO-UBO.owl#birnlex_17',Org,Q),
         \+ classAssertion('http://ontology.neuinfo.org/NIF/DigitalEntities/NIF-Investigation.owl#birnlex_2087',Q), % fake Phenotype class
         (   propertyAssertion('http://purl.org/obo/owl/obo#towards', Q, D)
@@ -77,10 +78,10 @@ pkb_db:organism_phenotype_inst(Org,((-),Q,D,(-))) :-
         ;   D=(-)).
 
 
-
 % relational qualifiers
 pkb_db:organism_phenotype_inst(Org,(E,Q,D,(-))) :-
         organism(Org),
+	% Org has_part E bearer_of Q towards D 
         propertyAssertion('http://www.obofoundry.org/ro/ro.owl#has_part',Org,E),
         propertyAssertion('http://ontology.neuinfo.org/NIF/Backend/BIRNLex-OBO-UBO.owl#birnlex_17',E,Q), % bearer-of
         (   propertyAssertion('http://purl.org/obo/owl/obo#towards', Q, D)

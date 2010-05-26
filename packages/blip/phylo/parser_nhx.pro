@@ -63,14 +63,18 @@ nhx_trees([Tree|Trees]) --> nhx_tree(Tree),!,{debug(nhx,'Tree: ~w',[Tree])},nhx_
 nhx_trees([]) --> !,[].
 nhx_tree(Tree) --> nhx_node(Tree),!,record_separator.
 
-%% nodes --> (node ',')* node
+% nodes --> (node ',')* node
 nhx_nodes([Node|Nodes]) --> nhx_node(Node),",",!,nhx_nodes(Nodes).
 nhx_nodes([Node]) --> nhx_node(Node).
 
-%% node --> '(' nodes ')' branch props
-%% Node = node(IsTerminal,Name,SubNodes,BranchLen,Props)
+% Internal --> "(" BranchSet ")" Name
+% node --> '(' nodes ')' branch props
+% Node = node(IsTerminal,Name,SubNodes,BranchLen,Props)
 nhx_node(node(nt,'',Nodes,BrLen,Props)) -->
         [0'(],!,nhx_nodes(Nodes),[0')],branch_tag(BrLen),nhx_props(Props).
+% panther trees have node name *preceding* bracketed expression
+nhx_node(node(nt,Name,Nodes,BrLen,Props)) -->
+        nodename(Name),[0'(],!,nhx_nodes(Nodes),[0')],branch_tag(BrLen),nhx_props(Props).
 nhx_node(node(t,Name,[],BrLen,Props)) -->
         nodename(Name),!,{debug(nhx,'Term: ~w',[Name])},branch_tag(BrLen),nhx_props(Props).
 

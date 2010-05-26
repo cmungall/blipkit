@@ -193,6 +193,8 @@ user:bioresource(skos,url('http://www.w3.org/2004/02/skos/core/history/2006-04-1
 user:bioresource(ubo,obo_cvs('upper_bio_ontology/ubo.obo'),obo).
 %user:bioresource(bfo,obo_cvs('upper_bio_ontology/bfo.obo'),obo).
 user:bioresource(bfo,[obo(bfo)]).
+user:bioresource(bfo2_obo,home('cvs/bfo/src/ontology/bfo2-classes.obo'),obo).
+user:bioresource(bfo2_rel,home('cvs/bfo/src/ontology/bfo2-relations.obo'),obo).
 user:bioresource(dolcelite,ontdir('upper/DolceLite/DOLCE-Lite_397.owl'),owl).
 user:bioresource(sumo,ontdir('upper/SUMO/SUMO.owl'),owl).
 user:bioresource(sumo_pro,ontdir('upper/SUMO/SUMO.pro'),pro,ontol_db).
@@ -290,7 +292,8 @@ user:bioresource(evidence_code,obo_cvs('evidence_code.obo'),obo).
 user:bioresource(obi,url('http://purl.obofoundry.org/obo/obi.owl'),owl).
 user:bioresource(brenda,url('http://purl.obofoundry.org/obo/obo-all/brenda/brenda.obo'),obo).
 
-user:bioresource(gro,url('http://www.ebi.ac.uk/Rebholz-srv/GRO/GRO_v0.2_20Dec2007.owl'),owl).
+user:bioresource(iao_om,url('http://purl.obolibrary.org/obo/iao/dev/ontology-metadata.owl'),owl).
+
 
 
 % XP
@@ -403,7 +406,6 @@ user:bioresource(psimi,obo_cvs('genomic-proteomic/protein/psi-mi.obo'),obo).
 user:bioresource(pro2uniprot_tbl,url('ftp://ftp.pir.georgetown.edu/databases/ontology/pro_obo/PRO_mappings/uniprotmapping.txt'),tbl).
 user:bioresource(pro2uniprot,'/users/cjm/cvs/go/scratch/xps/pro2uniprot.obo',obo).
 
-
 %user:bioresource(opb,url('http://rest.bioontology.org/bioportal/ontologies/download/38990'),owl).
 
 
@@ -444,14 +446,16 @@ user:bioresource(ncbi_gene_info,url('ftp://ftp.ncbi.nih.gov/gene/DATA/gene_info.
 user:bioresource(ncbi_generifs,url('ftp://ftp.ncbi.nih.gov/gene/GeneRIF/generifs_basic.gz'),gzip(gene_rif)).
 user:bioresource(homologene,url('ftp://ftp.ncbi.nih.gov/pub/HomoloGene/current/homologene.data'),homoltbl).
 user:bioresource(gene(Tax),obo_cvs(Path),obo) :- sformat(Path,'genomic-proteomic/gene/genes-~w.obo',[Tax]).
-%user:bioresource(ncbi_gene_ontol,ncbigene('gene_info_ontol.pro'),pro,ontol_db).
-%user:bioresource(gene_mouse,ncbigene('genes-10090.gene_info_ontol.pro'),pro,ontol_db).
-%user:bioresource(gene_fly,ncbigene('genes-7227.gene_info_ontol.pro'),pro,ontol_db).
-%user:bioresource(gene_fish,ncbigene('genes-7955.gene_info_ontol.pro'),pro,ontol_db).
-%user:bioresource(gene_human,ncbigene('genes-9606.gene_info_ontol.pro'),pro,ontol_db).
-%user:bioresource(obd_genes,[gene_mouse,gene_fly,gene_fish,gene_human]).
 
 user:bioresource(iproclass,url('ftp://ftp.pir.georgetown.edu/databases/iproclass/iproclass.tb.gz'),iproclass).
+
+user:bioresource(seq2pthr,url('ftp://ftp.pantherdb.org/genome/pthr7.0/seq2pthr.gz'),gzip(tbl(seq2pthr))).
+
+% e.g. 10116_rattus_norvegicus
+user:bioresource(gp2p(N),url(Path),tbl(gp2p)):- nonvar(N),concat_atom(['ftp://ftp.ebi.ac.uk/pub/contrib/qfo/gp2protein.',N],Path).
+
+% e.g. 10000
+user:bioresource(pthr(N),url(Path),nhx):- nonvar(N),concat_atom(['http://amigo.berkeleybop.org/amigo/panther/PTHR',N,'.tree'],Path).
 
 % --OBDPatoData--
 
@@ -524,6 +528,9 @@ user:bioresource(go_assoc_version(N,V),url(URL),gzip(go_assoc)):-
 user:bioresource(obolr(N),Path,obo):- nonvar(N),concat_atom(['/users/cjm/cvs/go/scratch/obol_results/',N,'-obol.obo'],Path).
 user:bioresource(goxp(N),Path,obo):- nonvar(N),concat_atom(['/users/cjm/cvs/go/scratch/xps/',N,'.obo'],Path).
 user:bioresource(anu(N),anatxp(Path),obo):- nonvar(N),concat_atom(['anu-',N,'_obo.obo'],Path).
+
+
+
 
 % post-reasoner results
 user:bioresource(implied(Resource),PrologFile,'ontol_db:pro'):-

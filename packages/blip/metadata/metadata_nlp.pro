@@ -108,6 +108,8 @@ synset(['-','']).
 synset(['/','']).
 synset([':','']).
 
+:- multifile synset_hook/1.
+synset(X) :- synset_hook(X).
 
 % consider indexing
 token_syn(T,S) :- synset(L),member(T,L),member(S,L),T\=S.

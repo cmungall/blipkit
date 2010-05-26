@@ -26,7 +26,10 @@
 ontol_bridge_from_owl2:suppress_entity('http://www.geneontology.org/formats/oboInOwl#ObsoleteClass').
 
 metadata_db:entity_resource(X,R) :-
-        class(X),
+        ontol_db:class(X),
+        id_idspace(X,R).
+metadata_db:entity_resource(X,R) :-
+        ontol_db:property(X),
         id_idspace(X,R).
 
 metadata_db:entity_synonym(X,Syn) :-
