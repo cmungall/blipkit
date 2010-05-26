@@ -2,7 +2,9 @@
 
 :- module(index_util,[
 		      materialize_index/1,
-		      materialize_index/2
+		      materialize_index/2,
+		      materialize_goal_to_file/2,
+		      materialize_goals_to_file/2
 		     ]).
 
 :- module_transparent materialize_index/1.
@@ -79,7 +81,23 @@ predicate_storedname(N1, N2, _) :-  % use first index as source for subsequent i
 
 predicate_ixname(N1, N2, Ix) :-
         concat_atom([N1, '_ix__', Ix], N2).
-	
+
+
+%% materialize_goal_to_file(+G:term,F) is det
+materialize_goal_to_file(G,F) :-
+	open(F,write,IO,[]),
+	forall(G,format(IO,'~q~n.',[G])),
+	close(IO).
+
+
+%% materialize_goals_to_file(+Goals:list,F) is det
+materialize_goals_to_file(Gs,F) :-
+	open(F,write,IO,[]),
+	forall(member(G,Gs),
+	       forall(G,format(IO,'~q~n.',[G]))),
+	close(IO).
+
+
 
 /** <module> materializes indexes that exploit first-argument indexing
 
