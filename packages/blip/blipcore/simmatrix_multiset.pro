@@ -142,6 +142,16 @@ feature_pair_aset_pair_lcs_ic(F1,F2,S1,S2,LCS,IC) :-
 feature_pair_aset_pair_ic(F1,F2,S1,S2,IC) :-
 	feature_pair_aset_pair_lcs_ic(F1,F2,S1,S2,_,IC).
 
+feature_pair_maxIC(F1,F2,MaxIC) :-
+	feature_pair_bestLCS_maxIC(F1,F2,_,MaxIC).
+
+feature_pair_bestLCS_maxIC(F1,F2,BestLCS,MaxIC) :-
+	setof(IC-LCS,feature_pair_aset_pair_lcs_ic(F1,F2,S1,S2,LCS,IC),IC_LCSs),
+	reverse(IC_LCSs,[MaxIC-BestLCS|_]).
+
+
+
+
 %feature_pair_aset_subsumers(F1,F2,L) :-
 %	setof(LCS-IC,S1^S2^feature_pair_aset_pair_lcs_ic(F1,F2,S1,S2,LCS,IC),SICs),
 %	feature_
