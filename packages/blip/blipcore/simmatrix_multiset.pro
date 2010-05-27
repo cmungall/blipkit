@@ -88,7 +88,7 @@ attribute_redundant_with_set(A,As) :-
 %% feature_subsumed_by_aset(?F,+S:set)
 % true is all members of S hold for F
 feature_subsumed_by_aset(F,S) :-
-	feature_aset(F,S1),
+	feature_nr_aset(F,S1),
 	aset_subsumed_by(S1,S).
 
 
@@ -130,8 +130,8 @@ aset_pair_lcs(S1,S2,LCS_Set) :-
 % given two features, each of which may have multiple asets
 % associated with it, enumerate LCS Asets.
 feature_pair_aset_pair_lcs(F1,F2,S1,S2,LCS) :-
-	feature_aset(F1,S1),
-	feature_aset(F2,S2),
+	feature_nr_aset(F1,S1),
+	feature_nr_aset(F2,S2),
 	debug(sim,'comparing ~w ~w VS ~w ~w',[F1,S1,F2,S2]),
 	aset_pair_lcs(S1,S2,LCS).
 
