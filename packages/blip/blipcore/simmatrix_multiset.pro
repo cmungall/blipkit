@@ -65,6 +65,22 @@ attribute_pair_cs(A1,A2,CS) :-
 	subsumed_by(A1,CS),
 	subsumed_by(A2,CS).
 
+% experimental
+attx_id(S,ID) :-
+	sformat(ID,'~w',[S]).
+
+% experimental
+indexable_attx_subsumed_by(SX,SY) :-
+	attx_id(SX,SXI),
+	attx_id(SY,SYI),
+	attx_i_subsumed_by(SXI,SYI).
+
+% experimental
+attx_i_subsumed_by(SXI,SYI) :-
+	attx_id(SX,SXI),
+	attx_id(SY,SYI),
+	attx_subsumed_by(SX,SY).
+
 attx_subsumed_by(SX,SY) :-
 	forall(member(B,SY),
 	       (   member(A,SX),
