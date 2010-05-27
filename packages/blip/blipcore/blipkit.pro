@@ -98,7 +98,7 @@ main:-
          atoms([set],SetVars),
          atoms([c,conf],ConfL),
          atoms([consult],ConsultFileL),
-         atoms([u,use],UseModL)],
+         terms([u,use],UseModL)],
         getopt(Opts,
                FileL),
         forall(member(Flag,SetPrologFlags),
@@ -126,7 +126,7 @@ main:-
                (   expand_file_search_path(Conf,ConfPath),
                    consult(ConfPath))),
         forall(member(Mod,UseModL),
-               user:ensure_loaded(bio(Mod))),
+               use_blip_module(Mod)),
         forall(member(Resource,ResourceL),
                load_bioresource(Resource)),
         forall(member(File,InputFileL),
@@ -185,6 +185,12 @@ main:-
         ;   true),
         EndGoal.
 
+use_blip_module(library(Mod)) :-
+	!,
+	use_module(library(Mod)).
+use_blip_module(Mod) :-
+	!,
+	use_module(bio(Mod)).
 
 
 prolog_shell:-
