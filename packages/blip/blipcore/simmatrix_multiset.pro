@@ -24,8 +24,8 @@ create_sim_index(File) :-
 	!.
 create_sim_index(File) :-
 	index_hooks,
-	table_pred(attx_i_subsumed_by/2),
-	table_pred(attx_id/2),
+	%table_pred(attx_i_subsumed_by/2),
+	%table_pred(attx_id/2),
 	%table_pred(attx_subsumed_by/2),
 	materialize_indexes_to_file([feature_attx(1,0),
 				     feature_nr_attx(1,0),
@@ -70,7 +70,7 @@ attx_id(S,ID) :-
 	sformat(ID,'~w',[S]).
 
 % experimental
-attx_subsumed_by(SX,SY) :-
+indexable_attx_subsumed_by(SX,SY) :-
 	attx_id(SX,SXI),
 	attx_id(SY,SYI),
 	attx_i_subsumed_by(SXI,SYI).
@@ -81,7 +81,7 @@ attx_i_subsumed_by(SXI,SYI) :-
 	attx_id(SY,SYI),
 	attx_subsumed_by_impl(SX,SY).
 
-attx_subsumed_by_impl(SX,SY) :-
+attx_subsumed_by(SX,SY) :-
 	forall(member(B,SY),
 	       (   member(A,SX),
 		   subsumed_by(A,B))). % hook
