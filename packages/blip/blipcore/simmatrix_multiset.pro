@@ -24,6 +24,7 @@ create_sim_index(File) :-
 	!.
 create_sim_index(File) :-
 	index_hooks,
+	table_pred(subsumed_by/2),
 	%table_pred(attx_i_subsumed_by/2),
 	%table_pred(attx_id/2),
 	%table_pred(attx_subsumed_by/2),
