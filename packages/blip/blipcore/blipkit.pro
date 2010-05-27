@@ -194,7 +194,7 @@ use_blip_module(Mod) :-
 
 
 prolog_shell:-
-        format('Starting blip shell~n'),
+        format('% Starting blip shell~n'),
         repeat,
         catch(prolog,
               E,
@@ -523,6 +523,24 @@ draw_source_dependencies(Sources,_ToFormat,_OutFile) :- % TODO
                        map_identifiers(Module,Pred,KeyIndex,NumArgs))),
             write_biofile(ToFormat,OutFile))).
 
+:- blip('multisim',
+        'calculates similarity using the simmatrix_multiset module',
+        [
+	 bool(label,IsLabel),
+         bool(write_prolog,IsProlog),
+	 atom([feature1,f1],F1),
+         atom([feature2,f2],F2)
+	],
+	FileL,
+        (   
+            maplist(load_biofile,FileL),
+            ensure_loaded(bio(simmatrix_multiset)),
+	    Opts=[isProlog(IsProlog),
+                  isLabel(IsLabel)],
+	    Goal=feature_pair_aset_pair_lcs_ic(F1,F2,_S1,_S2,_LCS,_IC),
+	    forall(Goal,
+		   show_factrow(Opts,Goal)))).
+
 
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -834,8 +852,9 @@ once_or_die(G,M):-
         ;   throw(user_error(M,G))).
         
 prolog:message(welcome) -->
-               ['  ::: Welcome to blip (Version ',V,') :::'],
+               ['%  ::: Welcome to blip (Version ',V,') :::'],
                {program_info(package(_,V));V=unknown}.
+
 /** <module>   
   @author Chris Mungall
   @version  $Revision: 1.19 $
