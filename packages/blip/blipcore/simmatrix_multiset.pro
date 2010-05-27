@@ -1,5 +1,8 @@
 :- module(simmatrix_multiset,
           [
+	   create_sim_index/1,
+	   feature_aset/2,
+	   feature_nr_aset/2,
 	   aset_frequency/2,
 	   aset_prob/2,
 	   feature_pair_aset_pair_lcs/5,
@@ -7,16 +10,49 @@
           ]).
 
 :- use_module(bio(index_util)).
+:- use_module(bio(tabling)).
 :- use_module(bio(ontol_db)). % todo
 :- use_module(bio(bioprolog_util),[solutions/3]).
-
 
 :- multifile feature_aset/2.
 :- multifile subsumed_by/2.
 
-subsumed_by(A,B) :- ontol_db:subclassRT(A,B).
+:- multifile simmatrix_multiset:index_hook/1.
 
-aset_nr(A,A).
+create_sim_index(File) :-
+	var(File),
+	!.
+create_sim_index(File) :-
+	index_hooks,
+	%table_pred(aset_subsumed_by/2),
+	materialize_indexes_to_file([feature_aset(1,0),
+				     feature_nr_aset(1,0),
+				     feature(1),
+				     feature_count(1)],File).
+
+index_hooks :-
+	index_hook(_),
+	fail.
+index_hooks.
+
+feature_nr_aset(F,ASet) :-
+	setof(ASet,feature_aset(F,ASet),ASets),
+	asets_extract_nr(ASets,ASetsNR),
+	member(ASet,ASetsNR).
+
+asets_extract_nr(ASets,ASetsNR) :-
+	setof(ASet,
+	      (	  member(ASet,ASets),
+		  \+ aset_redundant_with_aset_set(ASet,ASets)),
+	      ASetsNR).
+
+aset_redundant_with_aset_set(ASet,ASets) :-
+	member(ASet2,ASets),
+	ASet2\=ASet,
+	aset_subsumed_by(ASet2,ASet),
+	\+ aset_subsumed_by(ASet,ASet2).
+
+
 
 attribute_pair_lcs(A1,A2,CS) :-
 	attribute_pair_cs(A1,A2,CS),
@@ -32,6 +68,20 @@ aset_subsumed_by(SX,SY) :-
 	forall(member(B,SY),
 	       (   member(A,SX),
 		   subsumed_by(A,B))). % hook
+
+%% attributes_extract_nr(+As:list,?AsNR:list)
+% remove all redundant attributes
+attributes_extract_nr(As,AsNR) :-
+	setof(A,
+	      (	  member(A,As),
+		  \+ attribute_redundant_with_set(A,As)),
+	      AsNR).
+
+attribute_redundant_with_set(A,As) :-
+	member(A2,As),
+	A2\=A,
+	subsumed_by(A2,A),
+	\+ subsumed_by(A,A2).
 
 
 %% feature_subsumed_by_aset(?F,+S:set)
@@ -59,7 +109,6 @@ aset_prob(S,Prob) :-
 	feature_count(Tot),
 	Prob is Freq / Tot.
 
-
 aset_ic(S,IC) :-
 	aset_prob(S,Prob),
 	IC is -(log(Prob)/log(2)).
@@ -69,12 +118,20 @@ aset_pair_lcs(S1,S2,LCS_Set) :-
 			   member(A2,S2),
 			   attribute_pair_lcs(A1,A2,A_LCS)),
 	      LCS_Set_1),
-	aset_nr(LCS_Set_1,LCS_Set).
+	attributes_extract_nr(LCS_Set_1,LCS_Set).
 
 
+%% feature_pair_aset_pair_lcs(?F1,?F2,?S1,?S2,?LCS) is nondet
+% 
+% if two features are specified the mode is:
+% feature_pair_aset_pair_lcs(+F1,+F2,?S1,?S2,?LCS) det
+%
+% given two features, each of which may have multiple asets
+% associated with it, enumerate LCS Asets.
 feature_pair_aset_pair_lcs(F1,F2,S1,S2,LCS) :-
 	feature_aset(F1,S1),
 	feature_aset(F2,S2),
+	debug(sim,'comparing ~w ~w VS ~w ~w',[F1,S1,F2,S2]),
 	aset_pair_lcs(S1,S2,LCS).
 
 feature_pair_aset_pair_lcs_ic(F1,F2,S1,S2,LCS,IC) :-
@@ -90,49 +147,3 @@ feature_pair_aset_pair_ic(F1,F2,S1,S2,IC) :-
 	
 
 
-
-
-% ///?
-
-%% feature_agroup(?F,?G) is nondet
-% each feature has multiple attsets
-% each attset has a unique id
-feature_agroup(F,G) :-
-	feature_aset(F,ASet),	% hook
-	aset_agroup(ASet,G).
-
-:- dynamic aset_ix/2.
-aset_group(ASet,G) :-
-	aset_ix(ASet,G).
-aset_group(ASet,G) :-
-	\+ aset_ix(ASet,_),
-	gensym(agroup,G),
-	assert(aset_ix(ASet,G)).
-
-agroup_subsumed_by(GX,GY) :-
-	aset_group(GX,SX),
-	aset_group(GY,SY),
-	aset_subsumed_by(SX,SY).
-
-feature_pair_agroup_pair_lcs(F1,F2,G1,G2,LCS_Set) :-
-	feature_agroup(F1,G1),
-	feature_agroup(F2,G2),
-	agroup_pair_lcs(G1,G2,LCS_Set).
-agroup_ic(G,IC) :-
-	agroup_prob(G,Prob),
-	IC is -(log(Prob)/log(2)).
-agroup_prob(G,Prob) :-
-	agroup_frequency(G,Freq),
-	feature_count(Tot),
-	Prob is Freq / Tot.
-agroup_frequency(G,Freq) :-
-	aggregate(count,F,feature_subsumed_by_agroup(F,G),Freq).
-
-
-bitwise_union(L,V) :-
-	bitwise_union(L,V,0).
-
-bitwise_union([],V,V) :- !.
-bitwise_union([V1|L],V,V2) :-
-	V3 is V1 \/ V2,
-	bitwise_union(L,V,V3).

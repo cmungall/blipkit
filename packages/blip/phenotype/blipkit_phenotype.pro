@@ -15,7 +15,6 @@
 :- use_module(library('thea2/owl2_basic_reasoner')).
 :- table_pred(owl2_basic_reasoner:entailed/1).
 
-
 :- blip('phenotype-all-by-all',
         'all-by-all search',
         [atom(to,Fmt,txt),

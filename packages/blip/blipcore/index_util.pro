@@ -3,11 +3,15 @@
 :- module(index_util,[
 		      materialize_index/1,
 		      materialize_index/2,
+		      materialize_indexes_to_file/2,
+		      materialize_index_to_stream/2,
 		      materialize_goal_to_file/2,
 		      materialize_goals_to_file/2
 		     ]).
 
 :- module_transparent materialize_index/1.
+:- module_transparent materialize_index/2.
+:- module_transparent materialize_indexes_to_file/2.
 
 %% materialize_index(+Term) is det
 % materialize and index a set of facts, using first-argument indexing.
@@ -15,7 +19,7 @@
 % ==
 % materialize_index(my_fact(1,0,1,1))
 % ==
-% assumes that my_fact(?,?,?,?) can be enumerated.
+% assumes that my_fact(?,?,?,?) can be exhaustively enumerated.
 materialize_index(Mod:Term) :-
 	!,
 	materialize_index(Mod, Term).
@@ -36,6 +40,45 @@ materialize_index(M, Term) :-
 	DefaultGoal = ( CalledGoal :- StoredGoal ),
 	M:assert(DefaultGoal),
 	M:compile_predicates([CalledPred/Arity]).
+
+%% materialize_indexes_to_file(+Terms:list,+File) is det
+%
+% if File does not exist, materializes a set of indexes
+% and caches results in File.
+% if File does exist, consults File and materializes.
+%
+% note that this does not write the full index to file;
+% just the main goal. When an index is re-used, the materialization
+% step is still called. Thus there is only a benefit to
+% using this when Terms contains intensional predicates.
+materialize_indexes_to_file(Terms,File) :-
+	exists_file(File),
+	!,
+	% clear existing intensional predicate
+	forall(member(Term,Terms),
+	       (   functor(Term,Pred,Arity),
+		   abolish(Pred/Arity))),
+	% load cached version:
+	consult(File),
+	forall(member(Term,Terms),
+	       materialize_index(Term)).
+
+materialize_indexes_to_file(Terms,File) :-
+	open(File,write,IO),
+	forall(member(Term,Terms),
+	       materialize_index_to_stream(Term,IO)),
+	close(IO).
+
+:- module_transparent materialize_index_to_stream/2.
+materialize_index_to_stream(Term,IO) :-
+	materialize_index(Term),
+	functor(Term,Pred,Arity),
+	functor(Goal,Pred,Arity),
+	forall(Goal,
+	       format(IO,'~q.~n',[Goal])).
+
+	
+
 
 
 %% rewrite_goal_with_index_list(+Mod, +CalledGoal, +ArgNum:int, +IxArgs:list) is det

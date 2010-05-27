@@ -24,8 +24,10 @@
 %  
 %  
 table_pred(M:P):-
+	!,
         table_pred(P,M).
 table_pred(P):-
+	!,
         context_module(M),
         table_pred(P,M).
 table_pred(P,M):-

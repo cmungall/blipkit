@@ -528,6 +528,7 @@ draw_source_dependencies(Sources,_ToFormat,_OutFile) :- % TODO
         [
 	 bool(label,IsLabel),
          bool(write_prolog,IsProlog),
+	 atom(cache,CacheFile),
 	 atom([feature1,f1],F1),
          atom([feature2,f2],F2)
 	],
@@ -537,6 +538,7 @@ draw_source_dependencies(Sources,_ToFormat,_OutFile) :- % TODO
             ensure_loaded(bio(simmatrix_multiset)),
 	    Opts=[isProlog(IsProlog),
                   isLabel(IsLabel)],
+	    create_sim_index(CacheFile),
 	    Goal=feature_pair_aset_pair_lcs_ic(F1,F2,_S1,_S2,_LCS,_IC),
 	    forall(Goal,
 		   show_factrow(Opts,Goal)))).

@@ -1115,7 +1115,7 @@ user_bioconf_path(Path):-
 
 prolog:message(message(M)) --> [M].
 prolog:message(bioconf_already_loaded) -->
-        ['It appears bioresources have been defined;~n',
+        ['It appears bioresources have been defined --',
          '  will not consult bioconf.pro without force'].
 /** <module> input and output for bio file formats
 
