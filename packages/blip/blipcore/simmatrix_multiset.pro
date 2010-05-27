@@ -30,6 +30,7 @@ create_sim_index(File) :-
 				     feature(1),
 				     feature_count(1)],File).
 
+
 index_hooks :-
 	index_hook(_),
 	fail.
