@@ -4,7 +4,7 @@
 :- use_module(bio(simmatrix_multiset),[]).
 :- use_module(bio(pkb_db)).
 
-simmatrix_multiset:feature_aset(O,As) :-
+simmatrix_multiset:feature_attx(O,As) :-
 	organism_phenotype(O,P),
 	setof(A,
 	      Rel^(phenotype_property_value(P,Rel,A),A\='-'),
