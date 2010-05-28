@@ -1,0 +1,6 @@
+:- use_module(bio(ontol_db)).
+
+setup :-
+      load_bioresource(protein),
+      load_bioresource(pro2uniprot),
+      

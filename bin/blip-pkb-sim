@@ -1,0 +1,2 @@
+#!/bin/sh
+blip multisim -cache cache.pro -u owl2_to_sim -u pkb_to_sim -u simmatrix_multiset $*
