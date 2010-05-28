@@ -185,12 +185,13 @@ main:-
         ;   true),
         EndGoal.
 
+:- module_transparent use_blip_module/1.
 use_blip_module(library(Mod)) :-
 	!,
-	use_module(library(Mod)).
+	user:ensure_loaded(library(Mod)).
 use_blip_module(Mod) :-
 	!,
-	use_module(bio(Mod)).
+	user:ensure_loaded(bio(Mod)).
 
 
 prolog_shell:-
@@ -528,6 +529,7 @@ draw_source_dependencies(Sources,_ToFormat,_OutFile) :- % TODO
         [
 	 bool(label,IsLabel),
          bool(write_prolog,IsProlog),
+	 number(min_ic, MinIC, 3.5),
 	 atom(cache,CacheFile),
 	 atom([feature1,f1],F1),
          atom([feature2,f2],F2)
@@ -539,7 +541,30 @@ draw_source_dependencies(Sources,_ToFormat,_OutFile) :- % TODO
 	    Opts=[isProlog(IsProlog),
                   isLabel(IsLabel)],
 	    create_sim_index(CacheFile),
-	    Goal=feature_pair_attx_pair_lcs_ic(F1,F2,_S1,_S2,_LCS,_IC),
+	    Goal=feature_pair_attx_pair_lcs_ic(F1,F2,_S1,_S2,_LCS,IC),
+	    forall((Goal, IC >= MinIC),
+		   show_factrow(Opts,Goal)))).
+
+:- blip('sim',
+        'calculates similarity using the simmatrix module',
+        [
+	 bool(label,IsLabel),
+         bool(write_prolog,IsProlog),
+	 %number(min_ic, MinIC, 3.5),
+	 %atom(cache,CacheFile),
+	 atom([feature1,f1],F1),
+         atom([feature2,f2],F2)
+	],
+	FileL,
+        (   
+            maplist(load_biofile,FileL),
+            ensure_loaded(bio(simmatrix)),
+	    Opts=[isProlog(IsProlog),
+                  isLabel(IsLabel)],
+	    ensure_loaded(bio(index_util)),
+	    forall(simmatrix:generate_term_indexes_hook(Hook),
+		   debug(sim,'generated: ~w',[Hook])),
+	    Goal=feature_pair_ci(F1,F2,_S),
 	    forall(Goal,
 		   show_factrow(Opts,Goal)))).
 
@@ -688,6 +713,12 @@ show_term(Opts,T):-
         entity_label(T,Label),
         !,
         write(T-Label).
+show_term(Opts,T):-
+        member(isLabel(2),Opts),
+        atom(T),
+        entity_label(T,Label),
+        !,
+        format('~w~t~w',[T,Label]).
 show_term(Opts,L):-
         member(isLabel(1),Opts),
         is_list(L),

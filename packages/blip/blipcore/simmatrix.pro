@@ -34,6 +34,8 @@
 :- dynamic feature_pair_score_cached/3.
 :- dynamic attribute_subsumer_vector_cached/2. % new
 
+:- multifile simmatrix:generate_term_indexes_hook/1.
+
 %% attribute_subsumer(?Attribute,?ParentAttribute)
 % must be asserted or loaded if using ICCS
 %% feature_attribute_direct(?Feature,?Attribute)

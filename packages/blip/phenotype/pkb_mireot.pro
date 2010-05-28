@@ -21,7 +21,6 @@ mireot(ID) :-
 	debug(mireot,' prec: ~w',[P]),
 	bf_parentRT(P,ID).
 
-
 mireot(ID) :-
 	setof(X,P^PQ^R^(phenotype_quad(P,PQ),
 			phenotype_differentium(PQ,X,R)),
