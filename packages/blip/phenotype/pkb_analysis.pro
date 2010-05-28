@@ -27,11 +27,11 @@ feature_pair_category_pair_ci(F1,F2,S1,S2,Sc) :-
 % only compare two features if they are good matches for the species
 compare_feature_pair(F1,F2,Rank,Len) :-
 	feature_pair_category_pair_ci(F1,F2,S1,S2,Sc),
-	setof(ScX-F1X-F2X,
-	      feature_pair_category_pair_ci(F1X,F2X,S1,S2,ScX),
+	setof(ScX-F2X,
+	      feature_pair_category_pair_ci(F1,F2X,S1,S2,ScX),
 	      ScoredPairs),
 	reverse(ScoredPairs,RevScoredPairs),
-	nth1(Rank,RevScoredPairs,Sc-F1-F2),
+	nth1(Rank,RevScoredPairs,Sc-F2),
 	length(ScoredPairs,Len),
 	Marker is Len/4,
 	Rank < Marker.
@@ -45,10 +45,19 @@ fp(F1,F2) :-
 	compare_feature_pair(F2,F1,_,_),
 	F1 @< F2.
 
+:- multifile cached_feature_pair_attx_pair_lcs_ic/5.
+xxxgenerate(Goal) :-
+	Goal=feature_pair_attx_pair_lcs_ic(_F1,_F2,_S1,_S2,_LCS,_IC),
+	Goal,
+	IC >= 3.5.
+
 generate(Goal) :-
 	setof(F1-F2,fp(F1,F2),Pairs),
 	member(F1-F2,Pairs),
+	debug(foo,'test: ~w vs ~w',[F1,F2]),
 	Goal=feature_pair_attx_pair_lcs_ic(F1,F2,_S1,_S2,_LCS,IC),
+	\+ cached_feature_pair_attx_pair_lcs_ic(F1,F2,_,_,_,_),
+	debug(foo,'  **comparing: ~w vs ~w',[F1,F2]),
 	Goal,
 	IC >= 3.5.
 

@@ -25,6 +25,7 @@ direct_ref(X) :-
 	
 mireot(ID) :-
 	setof(X,direct_ref(X),Xs),
+	debug(mireot,' finding ancestor set...',[]).
 	bf_set_parentRT(Xs,ID),
 	debug(mireot,' MIREOT: ~w',[ID]).
 

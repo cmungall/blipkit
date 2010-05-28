@@ -552,7 +552,7 @@ draw_source_dependencies(Sources,_ToFormat,_OutFile) :- % TODO
         [
 	 bool(label,IsLabel),
          bool(write_prolog,IsProlog),
-	 %number(min_ic, MinIC, 3.5),
+	 number(min_ovlp, MinOvlp, 20),
 	 %atom(cache,CacheFile),
 	 atom([feature1,f1],F1),
          atom([feature2,f2],F2)
@@ -566,8 +566,8 @@ draw_source_dependencies(Sources,_ToFormat,_OutFile) :- % TODO
 	    ensure_loaded(bio(index_util)),
 	    forall(simmatrix:generate_term_indexes_hook(Hook),
 		   debug(sim,'generated: ~w',[Hook])),
-	    Goal=feature_pair_ci(F1,F2,_S),
-	    forall(Goal,
+	    Goal=feature_pair_ci(F1,F2,S),
+	    forall((Goal, S > MinOvlp),
 		   show_factrow(Opts,Goal)))).
 
 
