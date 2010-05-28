@@ -14,6 +14,11 @@
 :- use_module(bio(ontol_db)). % todo
 :- use_module(bio(bioprolog_util),[solutions/3]).
 
+%% feature_nr_attx(F,Attx)
+%
+% mapping between a feature and multiple attribute-expressions (Attxs).
+% An attx is a conjunction of attributes, represented as a prolog set.
+% A set [A1,A2,...,An] has the interpretation A1^An^...^An.
 :- multifile feature_attx/2.
 :- multifile subsumed_by/2.
 
@@ -25,13 +30,19 @@ create_sim_index(File) :-
 create_sim_index(File) :-
 	index_hooks,
 	table_pred(subsumed_by/2),
+	table_pred(attribute_pair_cs/2),
+	table_pred(attribute_pair_lcs/2),
+	table_pred(attx_frequency/2), % doubles the speed
 	%table_pred(attx_i_subsumed_by/2),
 	%table_pred(attx_id/2),
 	%table_pred(attx_subsumed_by/2),
 	materialize_indexes_to_file([feature_attx(1,0),
 				     feature_nr_attx(1,0),
 				     feature(1),
-				     feature_count(1)],
+				     feature_count(1),
+				     atomic_attr(1)
+				    %attribute_pair_lcs(1,0,0) % optional?
+				    ],
 				    File).
 
 index_hooks :-
@@ -39,6 +50,8 @@ index_hooks :-
 	fail.
 index_hooks.
 
+%% feature_nr_attx(F,Attx)
+% as feature_attx/2, but remove redundant attxs
 feature_nr_attx(F,Attx) :-
 	setof(Attx,feature_attx(F,Attx),Attxs),
 	attxs_extract_nr(Attxs,AttxsNR),
@@ -56,7 +69,13 @@ attx_redundant_with_attx_set(Attx,Attxs) :-
 	attx_subsumed_by(Attx2,Attx),
 	\+ attx_subsumed_by(Attx,Attx2).
 
+%% attribute_pair_lcs(+A1,+A2,?LCS)
+% standard LCS between atomic attributes.
+% consider indexing.
 attribute_pair_lcs(A1,A2,CS) :-
+	atomic_attr(A1),
+	atomic_attr(A2),
+	debug(lcs,'testing ~w vs ~w',[A1,A2]),
 	attribute_pair_cs(A1,A2,CS),
 	\+ ((attribute_pair_cs(A1,A2,CS_2),
 	     CS_2\=CS,
@@ -66,22 +85,10 @@ attribute_pair_cs(A1,A2,CS) :-
 	subsumed_by(A1,CS),
 	subsumed_by(A2,CS).
 
-% experimental
-attx_id(S,ID) :-
-	sformat(ID,'~w',[S]).
 
-% experimental
-indexable_attx_subsumed_by(SX,SY) :-
-	attx_id(SX,SXI),
-	attx_id(SY,SYI),
-	attx_i_subsumed_by(SXI,SYI).
-
-% experimental
-attx_i_subsumed_by(SXI,SYI) :-
-	attx_id(SX,SXI),
-	attx_id(SY,SYI),
-	attx_subsumed_by_impl(SX,SY).
-
+%% attx_subsumed_by(+SX,+SY) is semidet
+% true if SY subsumes SX.
+% this is true if each element of SY holds for SX
 attx_subsumed_by(SX,SY) :-
 	forall(member(B,SY),
 	       (   member(A,SX),
@@ -121,6 +128,10 @@ feature(F) :-
 feature_count(Freq) :-
 	aggregate(count,F,feature(F),Freq).
 
+atomic_attr(A) :-
+	setof(A,F^AX^(feature_nr_attx(F,AX),member(A,AX)),As),
+	member(A,As).
+
 
 attx_prob(S,Prob) :-
 	attx_frequency(S,Freq),
@@ -131,6 +142,8 @@ attx_ic(S,IC) :-
 	attx_prob(S,Prob),
 	IC is -(log(Prob)/log(2)).
 
+%% attx_pair_lcs(+S1,+S2,?LCS_Set)
+% given two attribute-expressions, find a minimal subsuming expression.
 attx_pair_lcs(S1,S2,LCS_Set) :-
 	setof(A_LCS,A1^A2^(member(A1,S1),
 			   member(A2,S2),
@@ -175,3 +188,18 @@ feature_pair_bestLCS_maxIC(F1,F2,BestLCS,MaxIC) :-
 	
 
 
+% experimental
+attx_id(S,ID) :-
+	sformat(ID,'~w',[S]).
+
+% experimental
+indexable_attx_subsumed_by(SX,SY) :-
+	attx_id(SX,SXI),
+	attx_id(SY,SYI),
+	attx_i_subsumed_by(SXI,SYI).
+
+% experimental
+attx_i_subsumed_by(SXI,SYI) :-
+	attx_id(SX,SXI),
+	attx_id(SY,SYI),
+	attx_subsumed_by_impl(SX,SY).

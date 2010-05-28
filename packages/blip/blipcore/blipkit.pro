@@ -541,6 +541,8 @@ draw_source_dependencies(Sources,_ToFormat,_OutFile) :- % TODO
 	    Opts=[isProlog(IsProlog),
                   isLabel(IsLabel)],
 	    create_sim_index(CacheFile),
+	    %Goal=feature_pair_attx_pair_lcs(F1,F2,_S1,_S2,_LCS),
+	    %forall((Goal),
 	    Goal=feature_pair_attx_pair_lcs_ic(F1,F2,_S1,_S2,_LCS,IC),
 	    forall((Goal, IC >= MinIC),
 		   show_factrow(Opts,Goal)))).

@@ -153,6 +153,7 @@
 	   safe_parentRT/2,
 	   safe_parentRT/3,
 	   bf_parentRT/2,
+	   bf_set_parentRT/2,
 	   strict_subclass/2,
 	   class_single_inheritance_path/2,
 	   cdef_label/2,
@@ -681,6 +682,11 @@ ids_ancestors([ID|IDs],DoneIDs,Ancs,AncsFinal) :-
 	ids_ancestors(IDs,[ID|DoneIDs],Ancs,AncsFinal).
 ids_ancestors([],_,Ancs,Ancs).
 
+bf_set_parentRT(IDs,PID) :-
+	ids_ancestors(IDs,[],[],PIDs),
+	member(PID,PIDs).
+bf_set_parentRT(IDs,PID) :-
+	member(PID,IDs). % TODO - unique results only
 
 strict_subclass(A,B) :-
 	subclass(A,B),

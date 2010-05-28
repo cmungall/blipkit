@@ -14,14 +14,30 @@ mireot_mpo(ID) :-
 	\+ id_idspace(Y,'MP'),
 	refs(Y,ID).
 
+direct_ref(P) :-
+	setof(P,O^(organism_phenotype(O,P),class(P)),Ps),
+	member(P,Ps).
+direct_ref(X) :-
+	setof(X,P^PQ^R^(phenotype_quad(P,PQ),
+			phenotype_differentium(PQ,X,R)),
+	      Xs),
+	member(X,Xs).
+	
 mireot(ID) :-
+	setof(X,direct_ref(X),Xs),
+	bf_set_parentRT(Xs,ID),
+	debug(mireot,' MIREOT: ~w',[ID]).
+
+
+
+old_mireot(ID) :-
 	% pre-composed
 	setof(P,O^(organism_phenotype(O,P),class(P)),Ps),
 	member(P,Ps),
-	debug(mireot,' prec: ~w',[P]),
+	debug(mireot,' precomposed: ~w',[P]),
 	bf_parentRT(P,ID).
 
-mireot(ID) :-
+old_mireot(ID) :-
 	setof(X,P^PQ^R^(phenotype_quad(P,PQ),
 			phenotype_differentium(PQ,X,R)),
 	      Xs),
