@@ -45,9 +45,9 @@ fp(F1,F2) :-
 	compare_feature_pair(F2,F1,_,_),
 	F1 @< F2.
 
-:- multifile cached_feature_pair_attx_pair_lcs_ic/5.
+:- multifile cached_feature_pair_attx_pair_LCS_IC/5.
 xxxgenerate(Goal) :-
-	Goal=feature_pair_attx_pair_lcs_ic(_F1,_F2,_S1,_S2,_LCS,_IC),
+	Goal=feature_pair_attx_pair_LCS_IC(_F1,_F2,_S1,_S2,_LCS,_IC),
 	Goal,
 	IC >= 3.5.
 
@@ -55,8 +55,8 @@ generate(Goal) :-
 	setof(F1-F2,fp(F1,F2),Pairs),
 	member(F1-F2,Pairs),
 	debug(foo,'test: ~w vs ~w',[F1,F2]),
-	Goal=feature_pair_attx_pair_lcs_ic(F1,F2,_S1,_S2,_LCS,IC),
-	\+ cached_feature_pair_attx_pair_lcs_ic(F1,F2,_,_,_,_),
+	Goal=feature_pair_attx_pair_LCS_IC(F1,F2,_S1,_S2,_LCS,IC),
+	\+ cached_feature_pair_attx_pair_LCS_IC(F1,F2,_,_,_,_),
 	debug(foo,'  **comparing: ~w vs ~w',[F1,F2]),
 	Goal,
 	IC >= 3.5.

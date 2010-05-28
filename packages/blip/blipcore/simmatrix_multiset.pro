@@ -5,8 +5,11 @@
 	   feature_nr_attx/2,
 	   attx_frequency/2,
 	   attx_prob/2,
-	   feature_pair_attx_pair_lcs/5,
-	   feature_pair_attx_pair_lcs_ic/6
+	   feature_pair_attx_pair_LCS/5,
+	   feature_pair_attx_pair_LCS_IC/6,
+	   feature_pair_bestLCS_maxIC/4,
+	   feature_pair_all_LCS_avg_IC/4,
+	   feature_pair_score_value/4
           ]).
 
 :- use_module(bio(index_util)).
@@ -31,7 +34,7 @@ create_sim_index(File) :-
 	index_hooks,
 	table_pred(subsumed_by/2),
 	table_pred(attribute_pair_cs/2),
-	table_pred(attribute_pair_lcs/2),
+	table_pred(attribute_pair_LCS/2),
 	table_pred(attx_frequency/2), % doubles the speed
 	%table_pred(attx_i_subsumed_by/2),
 	%table_pred(attx_id/2),
@@ -41,7 +44,7 @@ create_sim_index(File) :-
 				     feature(1),
 				     feature_count(1),
 				     atomic_attr(1)
-				    %attribute_pair_lcs(1,0,0) % optional?
+				    %attribute_pair_LCS(1,0,0) % optional?
 				    ],
 				    File).
 
@@ -69,10 +72,10 @@ attx_redundant_with_attx_set(Attx,Attxs) :-
 	attx_subsumed_by(Attx2,Attx),
 	\+ attx_subsumed_by(Attx,Attx2).
 
-%% attribute_pair_lcs(+A1,+A2,?LCS)
+%% attribute_pair_LCS(+A1,+A2,?LCS)
 % standard LCS between atomic attributes.
 % consider indexing.
-attribute_pair_lcs(A1,A2,CS) :-
+attribute_pair_LCS(A1,A2,CS) :-
 	atomic_attr(A1),
 	atomic_attr(A2),
 	debug(lcs,'testing ~w vs ~w',[A1,A2]),
@@ -84,7 +87,6 @@ attribute_pair_lcs(A1,A2,CS) :-
 attribute_pair_cs(A1,A2,CS) :-
 	subsumed_by(A1,CS),
 	subsumed_by(A2,CS).
-
 
 %% attx_subsumed_by(+SX,+SY) is semidet
 % true if SY subsumes SX.
@@ -117,7 +119,11 @@ feature_subsumed_by_attx(F,S) :-
 
 
 %% attx_frequency(+S:set,?Freq:int)
-% number of features that satisfy S
+% number of features that satisfy S.
+% note: in future we may want option for treatment of non-independent features;
+% grouping multiple observations together.
+% for example: multiple individuals with PD have repeating phenotypes.
+% for now, we push responsibility on the user to do accurate grouping
 attx_frequency(S,Freq) :-
 	aggregate(count,F,feature_subsumed_by_attx(F,S),Freq).
 
@@ -138,52 +144,89 @@ attx_prob(S,Prob) :-
 	feature_count(Tot),
 	Prob is Freq / Tot.
 
-attx_ic(S,IC) :-
+attx_IC(S,IC) :-
 	attx_prob(S,Prob),
 	IC is -(log(Prob)/log(2)).
 
-%% attx_pair_lcs(+S1,+S2,?LCS_Set)
+%% attx_pair_LCS(+S1,+S2,?LCS_Set)
 % given two attribute-expressions, find a minimal subsuming expression.
-attx_pair_lcs(S1,S2,LCS_Set) :-
+attx_pair_LCS(S1,S2,LCS_Set) :-
 	setof(A_LCS,A1^A2^(member(A1,S1),
 			   member(A2,S2),
-			   attribute_pair_lcs(A1,A2,A_LCS)),
+			   attribute_pair_LCS(A1,A2,A_LCS)),
 	      LCS_Set_1),
 	attributes_extract_nr(LCS_Set_1,LCS_Set).
 
 
-%% feature_pair_attx_pair_lcs(?F1,?F2,?S1,?S2,?LCS) is nondet
+%% feature_pair_attx_pair_LCS(?F1,?F2,?S1,?S2,?LCS) is nondet
 % 
 % if two features are specified the mode is:
-% feature_pair_attx_pair_lcs(+F1,+F2,?S1,?S2,?LCS) det
+% feature_pair_attx_pair_LCS(+F1,+F2,?S1,?S2,?LCS) det
 %
 % given two features, each of which may have multiple attxs
 % associated with it, enumerate LCS Attxs.
-feature_pair_attx_pair_lcs(F1,F2,S1,S2,LCS) :-
+feature_pair_attx_pair_LCS(F1,F2,S1,S2,LCS) :-
 	feature_nr_attx(F1,S1),
 	feature_nr_attx(F2,S2),
 	debug(sim,'comparing ~w ~w VS ~w ~w',[F1,S1,F2,S2]),
-	attx_pair_lcs(S1,S2,LCS).
+	attx_pair_LCS(S1,S2,LCS).
 
-feature_pair_attx_pair_lcs_ic(F1,F2,S1,S2,LCS,IC) :-
-	feature_pair_attx_pair_lcs(F1,F2,S1,S2,LCS),
-	attx_ic(LCS,IC).
+%% feature_pair_attx_pair_LCS_IC(?F1,?F2,?S1,?S2,?LCS,?IC) is nondet
+% as feature_pair_attx_pair_LCS_IC/5, but include the IC of the LCS
+feature_pair_attx_pair_LCS_IC(F1,F2,S1,S2,LCS,IC) :-
+	feature_pair_attx_pair_LCS(F1,F2,S1,S2,LCS),
+	attx_IC(LCS,IC).
 
-feature_pair_attx_pair_ic(F1,F2,S1,S2,IC) :-
-	feature_pair_attx_pair_lcs_ic(F1,F2,S1,S2,_,IC).
+%% feature_pair_attx_pair_IC(?F1,?F2,?S1,?S2,?IC)
+% as feature_pair_attx_pair_LCS_IC/5, but include the IC of the LCS rather than the LCS itself
+feature_pair_attx_pair_IC(F1,F2,S1,S2,IC) :-
+	feature_pair_attx_pair_LCS_IC(F1,F2,S1,S2,_,IC).
 
+feature_pair_attx_best_LCS_IC(F1,F2,LCS,IC,S1,S2) :-
+	feature_pair_attx_pair_LCS_IC(F1,F2,S1,S2,LCS,IC),
+	% best match for S1
+	\+ ((feature_pair_attx_pair_LCS_IC(F1,F2,S1,_,_,Better_IC),
+	     Better_IC > IC)).
+feature_pair_attx_best_LCS_IC(F1,F2,LCS,IC,S1,S2) :-
+	feature_pair_attx_pair_LCS_IC(F1,F2,S1,S2,LCS,IC),
+	% best match for S2
+	\+ ((feature_pair_attx_pair_LCS_IC(F1,F2,_,S2,_,Better_IC),
+	     Better_IC > IC)).
+
+feature_pair_all_LCS_avg_IC(F1,F2,RevScores,AvgIC) :-
+	setof(IC-s(LCS,S1,S2),feature_pair_attx_best_LCS_IC(F1,F2,LCS,IC,S1,S2),Scores),
+	reverse(Scores,RevScores),
+	length(RevScores,Num),
+	findall(IC,member(IC-_,RevScores),ICs),
+	sumlist(ICs,TotalIC),
+	AvgIC is TotalIC / Num.
+
+%% feature_pair_maxIC(?F1,?F2,?MaxIC)
+% of all LCSs of all attx of F1 and F2, MaxIC is the best
 feature_pair_maxIC(F1,F2,MaxIC) :-
 	feature_pair_bestLCS_maxIC(F1,F2,_,MaxIC).
 
-feature_pair_bestLCS_maxIC(F1,F2,BestLCS,MaxIC) :-
-	setof(IC-LCS,S1^S2^feature_pair_attx_pair_lcs_ic(F1,F2,S1,S2,LCS,IC),IC_LCSs),
-	reverse(IC_LCSs,[MaxIC-BestLCS|_]).
+%% feature_pair_maxIC(?F1,?F2,?BestLCSs:list,?MaxIC) is det
+% as feature_pair_maxIC/3, include the LCS that has the best IC
+feature_pair_bestLCS_maxIC(F1,F2,BestLCSs,MaxIC) :-
+	setof(IC-LCS,S1^S2^feature_pair_attx_pair_LCS_IC(F1,F2,S1,S2,LCS,IC),IC_LCSs),
+	reverse(IC_LCSs,[MaxIC-_|_]),
+	setof(BestLCS,member(MaxIC-BestLCS,IC_LCSs),BestLCSs).
 
 
-
+feature_pair_score_value(F1,F2,maxIC,MaxIC) :-
+	feature_pair_bestLCS_maxIC(F1,F2,_,MaxIC).
+feature_pair_score_value(F1,F2, best_LCS-maxIC, Best_LCS-MaxIC) :-
+	feature_pair_bestLCS_maxIC(F1,F2,Best_LCS,MaxIC).
+feature_pair_score_value(F1,F2, best_LCS, Best_LCS) :-
+	feature_pair_bestLCS_maxIC(F1,F2,Best_LCS,_).
+feature_pair_score_value(F1,F2, all_LCS-avg_IC, All-AvgIC) :-
+	feature_pair_all_LCS_avg_IC(F1,F2,All,AvgIC).
+%feature_pair_score_value(F1,F2, , Best_LCS) :-
+%	feature_pair_attx_pair_LCS_IC(F1,F2,S1,S2,LCS,IC).
 
 %feature_pair_attx_subsumers(F1,F2,L) :-
-%	setof(LCS-IC,S1^S2^feature_pair_attx_pair_lcs_ic(F1,F2,S1,S2,LCS,IC),SICs),
+%	setof(LCS-IC,S1^S2^feature_pair_attx_pair_LCS_IC(F1,F2,S1,S2,LCS,IC),SICs),
 %	feature_
 	
 

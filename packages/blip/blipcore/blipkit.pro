@@ -552,7 +552,7 @@ draw_source_dependencies(Sources,_ToFormat,_OutFile) :- % TODO
         [
 	 bool(label,IsLabel),
          bool(write_prolog,IsProlog),
-	 number(min_ovlp, MinOvlp, 20),
+	 number(min_ovlp, MinOvlp, 15),
 	 %atom(cache,CacheFile),
 	 atom([feature1,f1],F1),
          atom([feature2,f2],F2)
