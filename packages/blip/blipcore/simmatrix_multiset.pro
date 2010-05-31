@@ -20,6 +20,12 @@
 :- use_module(bio(ontol_db)). % todo
 :- use_module(bio(bioprolog_util),[solutions/3]).
 
+% UTIL
+dsetof(X,Goal,Xs):-
+        (   setof(X,Goal,Xs)
+        ->  true
+        ;   Xs=[]).
+
 %% feature_nr_attx(F,Attx)
 %
 % mapping between a feature and multiple attribute-expressions (Attxs).
@@ -265,21 +271,26 @@ feature_pair_minimal_LCS_set_by_simJ(F1,F2,RevScores,AvgSimJ) :-
 	setof(SimJ-LCS,S1^S2^feature_pair_attx_best_LCS_simJ(F1,F2,LCS,SimJ,S1,S2),ScoreLCSPairs),
 	setof(SimJ-lcs(LCS,Xs1,Xs2),
 	      (	  member(SimJ-LCS,ScoreLCSPairs),
-		  feature_pair_attx_best_LCS_simJ(F1,F2,LCS,SimJ,X1,SX)),
+		  setof(X1,
+			X2^feature_pair_attx_best_LCS_simJ(F1,F2,LCS,SimJ,X1,X2),
+			Xs1),
+		  setof(X2,
+			X1^feature_pair_attx_best_LCS_simJ(F1,F2,LCS,SimJ,X1,X2),
+			Xs2)),
 	      Scores),
 	% unmatched
-	setof(U1,
+	dsetof(U1,
 	      (	  feature_nr_attx(F1,U1),
 		  \+ feature_pair_attx_best_LCS_simJ(F1,F2,_,_,U1,_)),
 	      Us1),
 	% unmatched
-	setof(U1,
+	dsetof(U1,
 	      (	  feature_nr_attx(F2,U2),
 		  \+ feature_pair_attx_best_LCS_simJ(F1,F2,_,_,_,U2)),
 	      Us2),
 	reverse([0-lcs([],Us1,Us2)|Scores],RevScores),
 	findall(SimJ,
-		(   member(SimJ-lcs(_,X1s,X2s)-Scores),
+		(   member(SimJ-lcs(_,X1s,X2s),Scores),
 		    (	member(_,X1s)
 		    ;	member(_,X2s))),
 		SimJs),
