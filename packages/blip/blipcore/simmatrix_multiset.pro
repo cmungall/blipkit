@@ -20,11 +20,6 @@
 :- use_module(bio(ontol_db)). % todo
 :- use_module(bio(bioprolog_util),[solutions/3]).
 
-% UTIL
-dsetof(X,Goal,Xs):-
-        (   setof(X,Goal,Xs)
-        ->  true
-        ;   Xs=[]).
 
 %% feature_nr_attx(F,Attx)
 %
@@ -268,26 +263,34 @@ feature_pair_all_LCS_avg_simJ(F1,F2,RevScores,AvgSimJ) :-
 	AvgSimJ is TotalSimJ / Num.
 
 feature_pair_minimal_LCS_set_by_simJ(F1,F2,RevScores,AvgSimJ) :-
-	setof(SimJ-LCS,S1^S2^feature_pair_attx_best_LCS_simJ(F1,F2,LCS,SimJ,S1,S2),ScoreLCSPairs),
-	setof(SimJ-lcs(LCS,Xs1,Xs2),
-	      (	  member(SimJ-LCS,ScoreLCSPairs),
-		  setof(X1,
-			X2^feature_pair_attx_best_LCS_simJ(F1,F2,LCS,SimJ,X1,X2),
-			Xs1),
-		  setof(X2,
-			X1^feature_pair_attx_best_LCS_simJ(F1,F2,LCS,SimJ,X1,X2),
-			Xs2)),
-	      Scores),
+	setof(LCS,SimJ^S1^S2^feature_pair_attx_best_LCS_simJ(F1,F2,LCS,SimJ,S1,S2),MinimalLCSs),
+	length(MinimalLCSs,NumLCSs1),
+	debug(phenotype,'numLCSs1=~w',[NumLCSs1]),
+	solutions(SimJ-LCS,feature_pair_attx_best_LCS_simJ(F1,F2,LCS,SimJ,S1,S2),ScoreLCSPairs),
+	ScoreLCSPairs=[_|_],
+	length(ScoreLCSPairs,NumLCSs),
+	debug(phenotype,'numLCSs=~w',[NumLCSs]),
+	solutions(SimJ-lcs(LCS,Xs1,Xs2),
+		  (   member(SimJ-LCS,ScoreLCSPairs),
+		      solutions(X1,
+				feature_pair_attx_best_LCS_simJ(F1,F2,LCS,SimJ,X1,X2),
+				Xs1),
+		      solutions(X2,
+				feature_pair_attx_best_LCS_simJ(F1,F2,LCS,SimJ,X1,X2),
+				Xs2)),
+		  Scores),
+	length(Scores,NumScores),
+	debug(phenotype,'numScores=~w',[NumScores]),
 	% unmatched
-	dsetof(U1,
-	      (	  feature_nr_attx(F1,U1),
-		  \+ feature_pair_attx_best_LCS_simJ(F1,F2,_,_,U1,_)),
-	      Us1),
+	solutions(U1,
+		  (   feature_nr_attx(F1,U1),
+		      \+ feature_pair_attx_best_LCS_simJ(F1,F2,_,_,U1,_)),
+		  Us1),
 	% unmatched
-	dsetof(U1,
-	      (	  feature_nr_attx(F2,U2),
-		  \+ feature_pair_attx_best_LCS_simJ(F1,F2,_,_,_,U2)),
-	      Us2),
+	solutions(U1,
+		  (   feature_nr_attx(F2,U2),
+		      \+ feature_pair_attx_best_LCS_simJ(F1,F2,_,_,_,U2)),
+		  Us2),
 	reverse([0-lcs([],Us1,Us2)|Scores],RevScores),
 	findall(SimJ,
 		(   member(SimJ-lcs(_,X1s,X2s),Scores),
@@ -332,7 +335,7 @@ feature_pair_score_value_asym(F1,F2, all_LCS-avg_simJ, All-AvgSimJ) :-
 	feature_pair_all_LCS_avg_simJ(F1,F2,All,AvgSimJ).
 feature_pair_score_value_asym(F1,F2, minimal_LCS_simJ-avg_simJ, All-AvgSimJ) :-
 	feature_pair_minimal_LCS_set_by_simJ(F1,F2,All,AvgSimJ).
-feature_pair_score_value_asym(F1,F2, no_LCS(Fn), SL) :-
+feature_pair_score_value_asym(F1,F2, no_LCS(Fn), SL) :- % DEPREC
 	setof(S,feature_pair_no_LCS_attx(F1,F2,Fn,S),SL).
 
 % not all can be matched
