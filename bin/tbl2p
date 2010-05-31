@@ -88,7 +88,7 @@ sub pquote {
     my $s = shift;
     $s='' unless defined $s;
     if ($list2p && $s =~ /\[(.*)]/) {
-	my @elts = split(/, /,$1);
+	my @elts = split(/,\s*/,$1);
 	if ($keylist2p) {
 	    return sprintf("[%s]",
 			   join(', ',

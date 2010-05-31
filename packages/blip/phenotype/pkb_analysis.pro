@@ -33,7 +33,7 @@ compare_feature_pair(F1,F2,Rank,Len) :-
 	reverse(ScoredPairs,RevScoredPairs),
 	nth1(Rank,RevScoredPairs,Sc-F2),
 	length(ScoredPairs,Len),
-	Marker is Len/4,
+	Marker is Len/3,
 	Rank < Marker.
 
 % standardize direction, no dupes, at least 1
@@ -47,7 +47,7 @@ fp(F1,F2) :-
 
 :- multifile cached_feature_pair_attx_pair_LCS_IC/5.
 xxxgenerate(Goal) :-
-	Goal=feature_pair_attx_pair_LCS_IC(_F1,_F2,_S1,_S2,_LCS,_IC),
+	Goal=feature_pair_attx_pair_LCS_IC(_F1,_F2,_S1,_S2,_LCS,IC),
 	Goal,
 	IC >= 3.5.
 
@@ -56,7 +56,7 @@ generate(Goal) :-
 	member(F1-F2,Pairs),
 	debug(foo,'test: ~w vs ~w',[F1,F2]),
 	Goal=feature_pair_attx_pair_LCS_IC(F1,F2,_S1,_S2,_LCS,IC),
-	\+ cached_feature_pair_attx_pair_LCS_IC(F1,F2,_,_,_,_),
+	%\+ cached_feature_pair_attx_pair_LCS_IC(F1,F2,_,_,_,_),
 	debug(foo,'  **comparing: ~w vs ~w',[F1,F2]),
 	Goal,
 	IC >= 3.5.

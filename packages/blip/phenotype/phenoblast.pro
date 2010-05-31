@@ -3,6 +3,8 @@
 	  calculate_method_feature_pair_phenosim/4
 	  ]).
 
+% DEPRECATED
+
 :- use_module(phenotype_db).
 :- use_module(pkb_db).
 :- use_module(bio(bioprolog_util),[solutions/3]).

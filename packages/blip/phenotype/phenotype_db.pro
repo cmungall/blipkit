@@ -23,6 +23,8 @@
            feature_phenotype_compare/6
            ]).
 
+% DEPRECATED
+
 :- use_module(bio(dbmeta)).
 :- use_module(bio(ontol_db)).
 :- use_module(bio(simmatrix)).

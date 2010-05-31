@@ -36,6 +36,10 @@
 
            disease_phenotype/2,
 
+	   organism_pair_score_value/4,
+	   organism_pair_all_scores/3,
+	   organism_match_all_score_values/3,
+	   
 	   entity_phenotype/2
            ]).
 
@@ -118,6 +122,16 @@ phenotype_class(P,P) :-
 %% disease_gene(?D,?G)
 % true if G has some variant V that is implicated in D
 disease_gene(D,G) :- disease_gene_variant(D,G,_).
+
+%% organism_pair_score_value(?F1,?F2,?S,?V)
+% typically calculated by another module.
+% see pkb_from_sim
+:- extensional(organism_pair_score_value/4).
+:- extensional(organism_pair_all_scores/3).
+
+%% organism_match_all_score_values(+O1,?O2,?SVs:list) is semidet
+organism_match_all_score_values(O1,O2,SVs) :-
+	setof(S-V,organism_pair_score_value(O1,O2,S,V),SVs).
 
 
 %% inferred_organism_role_disease(?Model,?Role,?Disease)

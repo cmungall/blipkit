@@ -407,7 +407,7 @@ view_organism(Request) :-
                                           \phenotype_rows(Phenotypes)])]),
                               div(class(tabbertab),
                                   [h2('Similar organisms'),
-                                   \phenoblast_table(Org)
+                                   \similar_organisms_table(Org)
                                   ]),
                               div(class(tabbertab),
                                   [h2('Axioms'),
@@ -453,7 +453,7 @@ view_organism_type(_Request,OrgType) :-
                               div(class(tabbertab),
                                   [h2('Similar organisms'),
                                    %p(soon)
-                                   \phenoblast_table(OrgType)
+                                   \similar_organisms_table(OrgType)
                                   ]),
                               div(class(tabbertab),
                                   [h2('Axioms'),
@@ -531,8 +531,43 @@ view_organism_pair(Request) :-
                         ]).
 
 comparison_table(F1,F2) -->
-        {method_feature_pair_phenosim(postcomposed,F1,F2,Results), % TODO
 	 !,
+        {debug(phenotype,'compare: ~q, ~q',[F1,F2])},	 
+        %{organism_pair_score_value(F1,F2,all_LCS-avg_IC,All-AvgIC), % TODO
+        {organism_pair_score_value(F1,F2,all_LCS-avg_simJ,All-AvgIC), % TODO
+	 (   organism_pair_score_value(F1,F2,no_LCS(f1),Unmatched1)
+	 ->  true
+	 ;   Unmatched1=[]),
+	 (   organism_pair_score_value(F1,F2,no_LCS(f2),Unmatched2)
+	 ->  true
+	 ;   Unmatched2=[]),
+	 debug(phenotype,'avgIC: ~w',[AvgIC]),
+	findall(\phenosim_lcs_row(LCS,IC,S1,S2),
+                 member(IC-s(LCS,S1,S2),All),
+                 Sections)
+	},
+        html(table(border(1),
+                   [div([tr([th(\organism_href(F1)),
+			    th(' '),
+			    th(\organism_href(F2))])
+		       |
+			Sections]),
+		    div([tr([th('Unmatched'),th(''),th('Unmatched')]),
+			 tr([td(\phenotype_infos(Unmatched1)),
+			     td(' '),
+			     td(\phenotype_infos(Unmatched2))])
+			])])).
+
+/*
+,
+		    div(,
+			
+		*/
+%
+
+comparison_table(F1,F2) -->
+	 !,
+        {method_feature_pair_phenosim(postcomposed,F1,F2,Results), % TODO
 	 member(bestmatches(P1Xs,P2Xs),Results),
          append(P1Xs,P2Xs,PXs),
 	 length(PXs,NumPXs),
@@ -550,6 +585,7 @@ comparison_table(F1,F2) -->
                    |
                    Sections])).
 
+% show pairwise matches in a graphviz display
 comparison_table(F1,F2) -->
         {method_feature_pair_phenosim(psimj,F1,F2,_), % TODO
 	 !,
@@ -565,6 +601,7 @@ comparison_table(F1,F2) -->
 		    div(img([src=URL]))
 		 ])).
 
+% symmetry - TODO
 comparison_table(F1,F2) -->
         {method_feature_pair_phenosim(psimj,F2,F1,_)}, % TODO - better symm
 	!,
@@ -721,11 +758,21 @@ phenoblast(Request) :-
                         ],
                         [
                          \page_header('Phenoblast'),
-                         \phenoblast_table(Org)
+                         \similar_organisms_table(Org)
                         ]).
 
 
+phenosim_lcs_row(LCS,IC,S1,S2) -->
+        html([tr(td([colspan(3),align(center)],
+                    \phenotype_infos(LCS))),
+              tr(td([colspan(3),align(center)],
+                    [IC])),
+              tr([td(ul(\phenotype_infos(S1))),
+                  td(''),
+                  td(ul(\phenotype_infos(S2)))])]).
+
 % 3 rows summarising a phenotype pair and their LCA
+% DEP:
 phenoblast_summary(P,IC,P1Xs,P2Xs) -->
         {solutions(P1,
                    (   member(P1-_-P-_,P1Xs)
@@ -768,10 +815,16 @@ phenotype_info(P) -->
               \phenoquery_href(P),
               ' ) '
              ])).
+% allow also sets representing arbitrary conjunctions
+phenotype_info(P) -->
+	{P=[_|_]},
+	!,
+	class_info(P).
 phenotype_info(P) -->
         html(div(\class_info(P))).
 
 % TODO - move this?
+% DEPREC
 combine_feature_pair_phenosim(F1,F2,Score-Results) :-
 	setof(Results,M^(method_feature_pair_phenosim(M,F1,F2,Results)
 			;   method_feature_pair_phenosim(M,F2,F1,Results)),
@@ -781,69 +834,50 @@ combine_feature_pair_phenosim(F1,F2,Score-Results) :-
 	->  true
 	;   Score=1). % TODO
 
+getscore(S,SVs,V) :- getscore(S,SVs,V,0).
 
-phenoblast_table(Org) -->
-	{debug(phenotype,'gettings hits for ~w',[Org]),
-	 solutions(Hit,method_feature_pair_phenosim(_M,Org,Hit,Results),Hits),
-	 debug(phenotype,'hits=~w',[Hits]),
-	 solutions(Score-hit(Org,Hit,Results),
-                   (   member(Hit,Hits),
-		       combine_feature_pair_phenosim(Org,Hit,Score-Results)), % TODO
-                   ScoreHitPairsR),
-	 %debug(phenotype,'ordering: ~w',[ScoreHitPairsR]),
+getscore(S,SVs,V,_) :- member(S-V,SVs),!.
+getscore(_,_,Def,Def) :- !.
+
+combine_scores(SVs,Score) :-
+	getscore(maxIC,SVs,Score1),
+	getscore(avg_IC,SVs,Score2),
+	Score is Score1+Score2.
+
+similar_organisms_table(Org) -->
+	{debug(phenotype,'gettings hits for ~q',[Org]),
+	 solutions(Score-hit(Org,Hit,SVs),
+		   (   organism_match_all_score_values(Org,Hit,SVs),
+		       combine_scores(SVs,Score)),
+		   ScoreHitPairsR),
          reverse(ScoreHitPairsR,ScoreHitPairs)},
         html(table(class('sortable std_table'),
                    [tr([th('Organism/Type'),
-                        th('Type'),
                         th('Species'),
                         th([colspan=2],'MaxIC'),
-                        th('Overlap'),
+                        %th('Overlap'),
                         th('AvgIC'),
                         th('Combined'),
 			th('')
 			]),
-		    \phenoblast_hitrows(ScoreHitPairs)])).
+		    \organism_similarity_matchrows(ScoreHitPairs)])).
 
+organism_similarity_matchrows(L) --> multi(organism_similarity_matchrow,L).
 
-%phenoblast_hitrows([]) --> [].
-%phenoblast_hitrows([H|L]) --> {length(L,Len),debug(phenotype,'  processing hit [~w remaining]',[Len])},phenoblast_hitrow(H),!,phenoblast_hitrows(L).
-phenoblast_hitrows(L) --> multi(phenoblast_hitrow,L).
-
-phenoblast_hitrow(Score-hit(Org,Hit,Results)) -->
+organism_similarity_matchrow(Combined-hit(Org,Hit,SVs)) -->
 	{
-	 (   member(max_ic(MaxIC,MaxIC_classes),Results)
-	 ->  true
-	 ;   MaxIC_classes=[],
-	     (	 member(max_ic(MaxIC),Results)
-	     ->	 true
-	     ;	 MaxIC='-1')),
-
-	 (   member(avg_ic(AvgIC),Results)
-	 ->  true
-	 ;   member(avg_ic_bestmatches(AvgIC),Results)
-	 ->  true
-	 ;   AvgIC='-1'),
-	 
-	 (   member(simj(SimJ),Results)
-	 ->  true
-	 ;   SimJ='-1'),
-	 
-	 (   organism_species(Hit,Sp)
-        ->  true
-        ;   Sp='-'),
-	 
-	 (   organism_type(Hit,Type)
-	 ->  true
-	 ;   Type='-')
+	 organism_species(Hit,Sp),
+	 getscore(maxIC,SVs,MaxIC),
+	 getscore(best_LCS,SVs,[BestLCS|_]),
+	 getscore(avg_IC,SVs,AvgIC)
 	},
         html(tr([td(\organism_href(Hit)),
-                 td(\organism_type_href(Type)),
                  td(\organism_type_href(Sp)),
                  td(MaxIC),
-                 td(\multi(entity_info,MaxIC_classes)),
-                 td(SimJ),
+                 %td(\multi(entity_info,BestLCSs)),
+		 td(\phenotype_info(BestLCS)),
                  td(AvgIC),
-                 td(Score),
+                 td(Combined),
                  td(\organism_pair_href(Org,Hit))])
             ).
 
@@ -1507,6 +1541,9 @@ class_info(Class,true) --> html(b(\class_info(Class))).
 class_info(Class,false) --> html(\class_info(Class)).
         
 class_info((-)) --> !,html('-').
+
+class_info([H|T]) --> !,class_info(H),[' '],class_info(T).
+class_info([]) --> !.
 
 class_info(Class) -->
         {atom(Class)},
