@@ -351,11 +351,12 @@ subclassRT(X,Y):- subclassT(X,Y).
 
 %% subclassXT(?A,?B)
 % reflexive version of subclassX/2
-subclassXT(A,A).
 subclassXT(A,B) :-
-	debug(subclassX,'testing for subclassXT ~w < ~w',[A,B]),
-	subclassX(A,B),
-	debug(subclassX,'OK***** for subclassXT ~w < ~w',[A,B]).
+	subclassXT(A,B,[]).
+
+subclassXT(A,A,_).
+subclassXT(A,B,VL) :-
+	subclassX(A,B,VL).
 	
 
 %% subclassX(+A,+B)
@@ -375,48 +376,54 @@ subclassXT(A,B) :-
 % *  subclassX( red_vw, bright_car ) where class_cdef(bright_car, ...)
 %
 % to test 
+
 subclassX(A,B) :-
+	subclassX(A,B,[]).
+
+subclassX(A,B,VL) :-
 	(   class_cdef(A,A1)
 	;   A1=A),
 	(   class_cdef(B,B1)
 	;   B1=B),
-	subclassX_2(A1,B1).
-subclassX(A,B,asserted) :-
-	subclassT(A,B).
+	subclassX_2(A1,B1,VL).
+%subclassX(A,B,asserted) :-
+%	subclassT(A,B).
 
+	
 % N+S conditions, any < intersection
-subclassX_2(A,cdef(BG,BDs)) :-
-	subclassXT(A,BG),
+subclassX_2(A,cdef(BG,BDs),VL) :-
+	subclassXT(A,BG,VL),
 	forall(member(BD,BDs),
-	       subclassXT(A,BD)).
+	       subclassXT(A,BD,VL)).
 % N+S conditions, class < rel-expr
-subclassX_2(A,BR=BV) :-
+subclassX_2(A,BR=BV,VL) :-
 	class(A),
 	parent(A,AR,AV),
-	subclassX_2(AR=AV,BR=BV).
+	\+ member(AV,VL),
+	subclassX_2(AR=AV,BR=BV,[AV|VL]).
         %% parent_overT(R,A,V). -- TODO
 % N+S conditions, rel-expr < rel-expr
-subclassX_2(AR=AV,BR=BV) :-
+subclassX_2(AR=AV,BR=BV,_) :-
 	subclassRT(AR,BR),
 	subclassRT(AV,BV).
-subclassX_2(AR=AV,BR=BV) :-
-	is_transitive(BR),
-	subclassRT(AR,BR),
-	subclassRT(AV,X),
-	parent(X,R,Y),
-	R\=subclass,
-	Y\=AV,
-	writeln(foooo(AV,X,R,Y)),
-	subclassX_2(R=Y,BR=BV).
+% AR=AV < BR=BV if (AR=AV < R=X < BR=BV)
+% e.g.
+% part_of(A) < part_of(C) if A<part_of(C)
+subclassX_2(R=X,TR=Y,VL) :-
+	is_transitive(TR),
+	subclassRT(R,TR),
+	subclassRT(X,X1),
+	\+ member(X1,VL),
+	subclassX_2(X1,TR=Y,[X1|VL]).
 % N+S conditions, intersection < rel-expr [genus test]
-subclassX_2(cdef(AG,_),R=V) :-
-	subclassX_2(AG,R=V).
+subclassX_2(cdef(AG,_),R=V,VL) :-
+	subclassX_2(AG,R=V,VL).
 % N+S conditions, intersection < rel-expr [differentiae test]
-subclassX_2(cdef(_,ADs),BR=BV) :-
+subclassX_2(cdef(_,ADs),BR=BV,VL) :-
 	member(AR=AV,ADs),
-	subclassX_2(AR=AV,BR=BV).
+	subclassX_2(AR=AV,BR=BV,VL).
 % N+S conditions, intersection < class
-subclassX_2(cdef(AG,_),B) :-
+subclassX_2(cdef(AG,_),B,_) :-
 	class(B),
 	subclassRT(AG,B).
 
