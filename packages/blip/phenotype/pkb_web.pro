@@ -54,8 +54,7 @@ http:location(script, www(script), []).
 http:location(css, www(css), []).
 
 background:-
-        repeat,
-        fail.
+        thread_get_message(_).
 
 start_server :-
         start_server(9000).
