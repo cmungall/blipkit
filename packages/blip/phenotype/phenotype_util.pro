@@ -50,6 +50,7 @@ mim2genesymbol(D,Sym) :-
         entity_xref(G,MG),
         entity_label(G,Sym).
 
+
 split_reverse_join(In,Del,Out) :-
         concat_atom(L,Del,In),
         reverse(L,L2),

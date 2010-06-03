@@ -16,6 +16,12 @@
            phenotype_quad/2,
            phenotype_quad_cdef/3,
 	   phenotype_differentium/3,
+
+	   phenotype_bearer/2,
+           phenotype_quality/2,
+           phenotype_dependent/2,
+           phenotype_context/2,
+
            organism_phenotype_quad/3,
            organism_phenotype_quad/2,
 	   phenotype_property_value/3,
@@ -220,6 +226,11 @@ class_quad_aspect(C,(C,_,_,_),e).
 class_quad_aspect(C,(_,C,_,_),q).
 class_quad_aspect(C,(_,_,C,_),d).
 class_quad_aspect(C,(_,_,_,C),w).
+
+phenotype_bearer((E,_,_,_),E).
+phenotype_quality((_,Q,_,_),Q).
+phenotype_dependent((_,_,D,_),D).
+phenotype_context((_,_,_,W),W).
 
 
 %% phenotype_description(?P,?Description)

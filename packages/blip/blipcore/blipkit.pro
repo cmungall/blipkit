@@ -552,7 +552,9 @@ draw_source_dependencies(Sources,_ToFormat,_OutFile) :- % TODO
         [
 	 bool(label,IsLabel),
          bool(write_prolog,IsProlog),
-	 number(min_ovlp, MinOvlp, 15),
+	 atom(metric,Metric),
+	 term(simmatrix_hook,Hook),
+	 number(min_score, MinScore, 0.5),
 	 %atom(cache,CacheFile),
 	 atom([feature1,f1],F1),
          atom([feature2,f2],F2)
@@ -566,8 +568,12 @@ draw_source_dependencies(Sources,_ToFormat,_OutFile) :- % TODO
 	    ensure_loaded(bio(index_util)),
 	    forall(simmatrix:generate_term_indexes_hook(Hook),
 		   debug(sim,'generated: ~w',[Hook])),
-	    Goal=feature_pair_ci(F1,F2,S),
-	    forall((Goal, S > MinOvlp),
+	    (	var(Metric)
+	    ->	Goal=feature_pair_ci_cu_simj(F1,F2,CI,_,S),
+		Where= (CI>8, S>MinScore)
+	    ;	Goal=compare_feature_pair(F1,F2,S,[metric(Metric)]),
+		Where= (S>MinScore)),
+	    forall((Goal,Where),
 		   show_factrow(Opts,Goal)))).
 
 
@@ -636,6 +642,7 @@ blipkit:example('blip findall bioresource/2 bioresource/3 bioresource/4',
         [atoms(consult,Consults),
          atom(select,SelectAtom,true),
          bool(label,IsLabel),
+         bool(use_tabs,IsUseTabs),
          bool(write_prolog,IsProlog),
          atom(where,WhereAtom,true)],
         PredAtoms,
@@ -643,6 +650,7 @@ blipkit:example('blip findall bioresource/2 bioresource/3 bioresource/4',
             forall(member(File,Consults),
                    consult(File)),
             Opts=[isProlog(IsProlog),
+		  isUseTabs(IsUseTabs),
                   isLabel(IsLabel)],
             maplist(show_findall(Opts,WhereAtom,SelectAtom),PredAtoms))).
 
@@ -701,7 +709,7 @@ show_factrow(Opts,T):-
 show_terms(_Opts,[]).
 show_terms(Opts,[H]):-
         !,
-        show_term(Opts,H).
+	show_term(Opts,H).
 show_terms(Opts,[H|L]):-
         !,
         show_term(Opts,H),
@@ -711,16 +719,20 @@ show_terms(Opts,[H|L]):-
 
 show_term(Opts,T):-
         member(isLabel(1),Opts),
+        member(isUseTabs(1),Opts),
+        \+ member(isHeader(1),Opts),
+        !,
+        (   atom(T),
+	    entity_label(T,Label)
+        ->  true
+	;   Label=''),
+	format('~w\t~w',[T,Label]).
+show_term(Opts,T):-
+        member(isLabel(1),Opts),
         atom(T),
         entity_label(T,Label),
         !,
         write(T-Label).
-show_term(Opts,T):-
-        member(isLabel(2),Opts),
-        atom(T),
-        entity_label(T,Label),
-        !,
-        format('~w~t~w',[T,Label]).
 show_term(Opts,L):-
         member(isLabel(1),Opts),
         is_list(L),

@@ -26,9 +26,7 @@ user:file_search_path(amigo_conf,'/users/cjm/cvs/bioprolog/apps/amigo/conf').
 user:file_search_path(amigo_src,'/users/cjm/cvs/bioprolog/apps/obol/src').
 user:file_search_path(amigo_conf,'/users/cjm/obol2/conf').
 
-% amipath
-user:file_search_path(amipath_src,'/users/cjm/cvs/bioprolog/apps/amipath/src').
-user:file_search_path(amipath_conf,'/users/cjm/cvs/bioprolog/apps/amipath/conf').
+user:file_search_path(biowarehouse,'/users/cjm/cvs/biowarehouse').
 
 user:file_search_path(obo_cvs, OBO) :-
 	(getenv('OBO_HOME', OBO_HOME)
@@ -152,7 +150,8 @@ user:bioresource(disease_stemmed,ontdir('disease/DO_stemmed.pro'),pro,ontol_db).
 user:bioresource(disease_xp,'/Users/cjm/cvs/obo/ontology/phenotype/disease_xp/disease_xp_all-merged.obo',obo).
 user:bioresource(disease2gene,url('http://django.nubic.northwestern.edu/fundo/media/data/do_lite.txt'),txt).
 user:bioresource(do_rif,url('http://projects.bioinformatics.northwestern.edu/do_rif/do_rif.human.txt'),do_rif).
-user:bioresource(omim,'/users/cjm/cvs/obo-database/build/build-omim/omim.obo',obo).
+user:bioresource(omim,biowarehouse('omim/omim.obo'),obo).
+user:bioresource(omim2gene,biowarehouse('omim/disorder2ncbigene.txt'),txt).
 user:bioresource(generif,'/users/cjm/cvs/obo-database/build/build-ncbi-gene/generifs_basic.gz',gzip(gene_rif)).
 user:bioresource(ido,obo_cvs('phenotype/infectious_disease.obo'),obo).
 user:bioresource(mgip,'/users/cjm/obd/data/phenotype_annotation/MGI/source_files/gene_mp-curation_db.pro',curation_db:pro).

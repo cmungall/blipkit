@@ -18,14 +18,14 @@ direct_ref(P) :-
 	setof(P,O^(organism_phenotype(O,P),class(P)),Ps),
 	member(P,Ps).
 direct_ref(X) :-
-	setof(X,P^PQ^R^(phenotype_quad(P,PQ),
-			phenotype_differentium(PQ,X,R)),
+	setof(X,
+	      P^Rel^phenotype_property_value(P,Rel,X),
 	      Xs),
 	member(X,Xs).
 	
 mireot(ID) :-
 	setof(X,direct_ref(X),Xs),
-	debug(mireot,' finding ancestor set...',[]).
+	debug(mireot,' finding ancestor set...',[]),
 	bf_set_parentRT(Xs,ID),
 	debug(mireot,' MIREOT: ~w',[ID]).
 

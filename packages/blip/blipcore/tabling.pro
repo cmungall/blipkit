@@ -18,11 +18,7 @@
 %  A predicate in a different module can be specified by including
 %  the module as a prefix - for example
 %
-%  @c
-%  table_pred(mymod:mypred/3)
-%  
-%  
-%  
+%  =|table_pred(mymod:mypred/3)|=
 table_pred(M:P):-
 	!,
         table_pred(P,M).

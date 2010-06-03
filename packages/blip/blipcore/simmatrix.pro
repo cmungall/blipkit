@@ -9,6 +9,7 @@
            feature_pair_ci/3,
            feature_pair_cu/3,
            feature_pair_simj/3,
+	   feature_pair_ci_cu_simj/5,
            feature_pair_simGIC/3,
 	   feature_pair_simICratio/3,
            feature_pair_maxIC/3,
@@ -232,6 +233,13 @@ feature_pair_simj(F1,F2,Sim) :-
 	CU > 0,
         feature_pair_ci(F1,F2,CI),
         Sim is CI/CU.
+
+feature_pair_ci_cu_simj(F1,F2,CI,CU,Sim) :-
+        feature_pair_cu(F1,F2,CU),
+	CU > 0,
+        feature_pair_ci(F1,F2,CI),
+        Sim is CI/CU.
+
 
 %% feature_pair_simGIC(?F1,?F2,-Sim:float)
 % ∑ [a ∈ A1 ∩ A2] IC(a)  / ∑ [a ∈  A1 ∪ A2]IC(t)

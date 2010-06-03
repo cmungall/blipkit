@@ -404,6 +404,9 @@ subclassX_2(AR=AV,BR=BV) :-
 	subclassRT(AR,BR),
 	subclassRT(AV,X),
 	parent(X,R,Y),
+	R\=subclass,
+	Y\=AV,
+	writeln(foooo(AV,X,R,Y)),
 	subclassX_2(R=Y,BR=BV).
 % N+S conditions, intersection < rel-expr [genus test]
 subclassX_2(cdef(AG,_),R=V) :-

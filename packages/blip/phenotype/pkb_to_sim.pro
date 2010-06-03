@@ -26,15 +26,5 @@ simmatrix:generate_term_indexes_hook(organism_phenotype) :-
 					(   pkb_db:organism_phenotype(O,P),
 					    pkb_db:phenotype_property_value(P,_,A1),
 					    owl2_tbox_reasoner:subClassOfRT(A1,A))).
-
-/*
-simmatrix:generate_term_indexes_hook(organism_phenotype) :-
-	ensure_loaded(bio(ontol_db)),
-	ensure_loaded(bio(simmatrix)),
-	generate_term_indexes(O,A,
-			      (	  pkb_db:organism_phenotype(O,P),
-				  pkb_db:phenotype_property_value(P,_,A1),
-				  ontol_db:bf_parentRT(A1,A))).
-*/
 	
 

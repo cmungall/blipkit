@@ -9,6 +9,7 @@
            curation_statementT_over/6,
 	   curation_statement_nr/4,
            curation_lca/4,
+	   curation_subject_property_value/4,
            negative_curation_statement/4,
            curation_qualifier/3,
            curation_evidence/2,
@@ -59,6 +60,10 @@
 
 %% curation_qualifier(?Curation,?Type,?QualifierValue)
 :- extensional(curation_qualifier/3).
+
+%% curation_subject_property_value(?SubjectClass,?Property,?Value)
+:- extensional(curation_subject_property_value/4).
+
 
 %% curation_evidence(?Curation,?Evidence)
 :- extensional(curation_evidence/2).

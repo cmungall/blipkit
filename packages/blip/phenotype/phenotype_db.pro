@@ -1,10 +1,6 @@
 :- module(phenotype_db,
           [
            feature_phenotype/2,
-           phenotype_bearer/2,
-           phenotype_quality/2,
-           phenotype_dependent/2,
-           phenotype_context/2,
            feature_phenotype_tag_value/4,
            
            inferred_feature_phenotype/2,
@@ -41,10 +37,6 @@ inferred_feature_phenotype(F,P) :-
         phenotype_subsumed_by(P1,P). % (+,?)
 :- table_pred(inferred_feature_phenotype/2).
 
-phenotype_bearer((E,_,_,_),E).
-phenotype_quality((_,Q,_,_),Q).
-phenotype_dependent((_,_,D,_),D).
-phenotype_context((_,_,_,W),W).
 
 %% feature_phenotype_tag_value(?F,?P,?Tag,?Val)
 :- extensional(feature_phenotype_tag_value/4).

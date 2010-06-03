@@ -16,10 +16,17 @@ pkb_db:species(S) :- species_label(S,_).
 
 pkb_db:organism(Org) :- organism_variant_gene(Org,_).
 
+% requires omim2gene
+pkb_db:organism_variant_gene(O,G) :-
+	organism_disease(O,D),
+	disorder2gene(D,G).
+
+/*
 pkb_db:organism_variant_gene(O,G) :-
 	organism_disease(O,D),
 	restriction(D,associated_with,X),
 	entity_xref(G,X).
+*/
 
 pkb_db:disease_label(D,L) :-
 	disease(D),

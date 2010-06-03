@@ -76,11 +76,16 @@ entity_label_token_stemmed(E,A,T,false) :-
 %  * removes all whitespaces
 entity_nlabel_scope_stemmed(E,A,Scope,St) :-
 	entity_label_scope(E,L,Scope),
+	\+ exclude_entity(E),
+	debug(nlp,'calculating nlabel ~w "~w" (~w)',[E,L,Scope]),
 	dehyphenate(L,L2), % nd
 	setof(Tok,term_token_stemmed(L2,Tok,St),Toks),
 	maplist(token_syn_refl,Toks,Toks2), % nondet
 	sort(Toks2,Toks3), % need to sort again, synsets may introduce re-ordering
 	concat_atom(Toks3,'',A).
+
+:- multifile exclude_entity/1.
+
 
 dehyphenate(X,X).
 dehyphenate(X,Y) :- concat_atom(L,'-',X),L\=[_],concat_atom(L,'',Y).

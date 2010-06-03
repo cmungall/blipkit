@@ -9,7 +9,7 @@
 :- use_module(library('thea2/owl2_model')).
 :- use_module(library('thea2/owl2_basic_reasoner')).
 :- use_module(pkb_db).
-:- use_module(phenotype_db).
+%:- use_module(phenotype_db).
 :- use_module(phenoblast_writer_dot).
 :- use_module(bio(bioprolog_util),[solutions/3]).
 :- use_module(bio(tabling),[table_pred/1]).
@@ -265,7 +265,7 @@ all_organisms(Request) :-
         debug(phenotype,'act: ~w orgs: ~w',[Action,Orgs]),
         Orgs=[_|_],
         !,
-        selected_organisms(Action,Orgs).
+        action_on_selected_organisms(Action,Orgs).
 all_organisms(_Request) :-
         debug(phenotype,'  counting orgs',[]),
         aggregate(count,Org,organism(Org),N),
@@ -309,7 +309,7 @@ organisms_by_label_index_page :-
                           ul(LetterList)]).
 
 
-selected_organisms(compare,Orgs) :-
+action_on_selected_organisms(compare,Orgs) :-
         debug(phenotype,'comparing: ~w',[Orgs]),
         solutions(P,
                   (   (   member(O,Orgs)
@@ -351,7 +351,7 @@ selected_organisms(compare,Orgs) :-
                                 Rows])]).
 
 % defaults to view
-selected_organisms(_,Orgs) :-
+action_on_selected_organisms(_,Orgs) :-
         setof(Org-P,(member(Org,Orgs),organism_phenotype(Org,P)),OrgPs),
         reply_html_page([ title('Selected Organism Phenotypes'),
                           link([rel=stylesheet,type='text/css',href='/pkb/js/obd-main.css'],[]),
@@ -1783,6 +1783,8 @@ subsumed_by(X,X).
 
 proper_subsumed_by(X,Y) :- subsumed_by(X,Y),X\=Y.
 
+%% subsumed_by_lca_set(+Classes:list,?AncClasses:list)
+% nr set of atomic ancestors
 subsumed_by_lca_set(Cs,CAs) :-
         solutions(A,
                   (   member(C,Cs),
@@ -1794,7 +1796,7 @@ subsumed_by_lca_set(Cs,CAs) :-
                     \+ \+ ((member(C,Cs),
                             subsumed_by(C,A),
                            member(C2,Cs),
-                            atomic_subsumed_by_lca(C,C2,A)))),
+                            atomic_subsumed_by_lca(C,C2,A)))), % TODO: deprecate this
                 CAs).
 
 
