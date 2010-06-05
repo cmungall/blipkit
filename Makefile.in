@@ -12,7 +12,7 @@ INSTALL = './tools/install-sh'
 #INSTALL = @INSTALL@
 
 #include Modules-Makefile
-pl_files = $(patsubst packages/%.pro,%,$(wildcard packages/blip/*/*.pro))
+pl_files = $(patsubst packages/%.pro,%,$(wildcard packages/*/*.pro))
 
 pl_ext_files = \
 	squid					
