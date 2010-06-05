@@ -11,7 +11,6 @@ overhaul. See http://blipkit.wordpress.com for announcements
 One of the goals is to make the individual modules more independent
 
 * Rename all .pro files to .pl
-* simplify directory structure, package/blip/X/ --> X/
 * merge phylo/ and homol/
 * merge curation/ and ontol/
 ** separate project for each package? use git submodules

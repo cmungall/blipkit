@@ -974,3 +974,4 @@ ontol_stat(S,pct_xp_defined,Pct) :-
 	ontol_stat(S,num_classes,Tot),
 	Pct is floor((Num/Tot)*100 + 0.5).
 
+

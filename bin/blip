@@ -1,6 +1,6 @@
 #!/usr/bin/swipl -L0 -G0 -T0 -q -g main -t halt -s
 
-user:file_search_path(blipkit,'/opt/local/lib/swipl-5.7.15/library/blip').
+user:file_search_path(blipkit,'/opt/local/lib/swipl-5.10.0/library/blip').
 system:program_info(package('blip','0.08')).
 
 user:file_search_path(bio, blipkit(attic)).

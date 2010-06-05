@@ -376,3 +376,4 @@ affected_freq_org(A,Num) :-
 
 
 is_abnormal('PATO:0000460').
+
