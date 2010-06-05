@@ -25,6 +25,7 @@ materialize_index(Mod:Term) :-
 	materialize_index(Mod, Term).
 materialize_index(Term) :-
 	context_module(M),
+	!,
 	materialize_index(M, Term).
 materialize_index(M, Term) :-
 	debug(index, 'indexing ~w:~w', [M, Term]),

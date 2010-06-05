@@ -662,4 +662,20 @@ has_terminal_part_gene_recap(W,P,G,S) :-
 	curation_statement(A2,G,_,W),
 	curation_source(A2,S).
 
+% ----------------------------------------
+% blip-findall -table_pred user:class_simplexp_promote/3 -table_pred ontol_db:subclassRT/2 -r goxp/biological_process_xp_cell -r cell -r go -u curation_db  -r go_assoc_local/mgi -u query_go "promote_annotation_by_xp(G,C,C2)" -label
+% ----------------------------------------
+
+class_simplexp_promote(C,Y,C_specific) :-
+	subclassRT(C,Genus),
+	genus(C_specific,Genus),
+	differentium(C_specific,_,Y2),
+	subclassRT(Y,Y2).
+	
+promote_annotation_by_xp(G,C,C_specific) :-
+	curation_subject_property_value(Ann,C,_,Y),
+	class_simplexp_promote(C,Y,C_specific),
+	subclassT(C_specific,C),
+	curation_statement(Ann,G,_,_).
+
 

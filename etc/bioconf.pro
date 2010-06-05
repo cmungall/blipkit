@@ -59,8 +59,8 @@ user:file_search_path(serval_conf, '/users/cjm/cvs/bioprolog/conf').
 user:file_search_path(localncbigene, datadir('NCBI/Gene')).
 
 
-%user:file_search_path(anatxp, obo_cvs('anatomy/anatomy_xp')).
-user:file_search_path(anatxp, '/users/cjm/cvs/uberon').
+%user:file_search_path(uberon, obo_cvs('anatomy/anatomy_xp')).
+user:file_search_path(uberon, '/users/cjm/cvs/uberon').
 
 :- discontiguous user:bioresource/2, user:bioresource/3, user:bioresource/4.
 
@@ -354,7 +354,7 @@ user:bioresource(medaka_anatomy,obo_cvs('anatomy/gross_anatomy/animal_gross_anat
 user:bioresource(full_galen,url('http://www.co-ode.org/galen/full-galen.owl'),owl).
 %user:bioresource(galen,url('http://www.cs.man.ac.uk/~horrocks/OWL/Ontologies/galen.owl'),owl).
 %user:bioresource(galen,obo_cvs('scratch/full-galen-with-names.obo'),obo).
-user:bioresource(galen,anatxp('galen.obo'),obo).
+user:bioresource(galen,uberon('galen.obo'),obo).
 
 user:bioresource(worm_anatomy,obo_cvs('anatomy/gross_anatomy/animal_gross_anatomy/worm/worm_anatomy/WBbt.obo'),obo).
 %user:bioresource(worm_anatomy,[obo('worm_anatomy')]).
@@ -362,8 +362,8 @@ user:bioresource(worm_phenotype,url('http://tazendra.caltech.edu/~azurebrd/cgi-b
 
 user:bioresource(dicty_anatomy,obo_cvs('anatomy/gross_anatomy/microbial_gross_anatomy/dictyostelium/dictyostelium_anatomy.obo'),obo).
 user:bioresource(fungal_anatomy,obo_cvs('anatomy/gross_anatomy/microbial_gross_anatomy/dictyostelium/dictyostelium_anatomy.obo'),obo).
-user:bioresource(cyc,anatxp('opencyc2.obo'),obo).
-user:bioresource(sao_obo,anatxp('sao.obo'),obo).
+user:bioresource(cyc,uberon('opencyc2.obo'),obo).
+user:bioresource(sao_obo,uberon('sao.obo'),obo).
 user:bioresource(sao,url('http://ccdb.ucsd.edu/SAO/1.2/SAO.owl'),owl).
 user:bioresource(birndo,url('http://ccdb.ucsd.edu/SAO/PDPO/2.0/HumanPDPO.owl'),owl).
 user:bioresource(birndpo,url('http://ccdb.ucsd.edu/SAO/DPO/1.0/DPO.owl'),owl).
@@ -374,25 +374,25 @@ user:bioresource(pkb,home('cvs/OBD-PKB/PKB.obo'),obo).
 user:bioresource(nif_downcase,home('cvs/OBD-PKB/PKB_dn.obo'),obo).
 
 user:bioresource(birnlex_anatomy,url('http://birnlex.nbirn.net/ontology/BIRNLex-Anatomy.owl'),owl).
-user:bioresource(birnlex_anatomy_obo,anatxp('birnlex_anatomy.obo'),obo).
+user:bioresource(birnlex_anatomy_obo,uberon('birnlex_anatomy.obo'),obo).
 user:bioresource(birnlex,url('http://purl.org/nbirn/birnlex'),owl).
 
 user:bioresource(nif_anatomy,url('http://nif.nbirn.net/ontology/NIF-Anatomy.owl'),owl).
-user:bioresource(nif_anatomy_obo,anatxp('nif_anatomy.obo'),obo).
+user:bioresource(nif_anatomy_obo,uberon('nif_anatomy.obo'),obo).
 
-user:bioresource(fly2fma,anatxp('fly-to-fma-homology.obo'),obo).
-user:bioresource(zf2fma,anatxp('zfa-to-fma-homology.obo'),obo).
-user:bioresource(mouse2fma,anatxp('ma-to-fma-homology.obo'),obo).
-user:bioresource(miaa,anatxp('MIAA.obo'),obo).
+user:bioresource(fly2fma,uberon('fly-to-fma-homology.obo'),obo).
+user:bioresource(zf2fma,uberon('zfa-to-fma-homology.obo'),obo).
+user:bioresource(mouse2fma,uberon('ma-to-fma-homology.obo'),obo).
+user:bioresource(miaa,uberon('MIAA.obo'),obo).
 user:bioresource(bila,X,obo):-
         bioresource(obo(bilateria_mrca),X,obo).
 user:bioresource(amphibian_anatomy,X,obo):- bioresource(obo(amphibian_anatomy),X,obo).
-user:bioresource(uberon,anatxp('uberon_edit.obo'),obo).
-user:bioresource(uberonp,anatxp('uberon.obo'),obo).
-user:bioresource(uberon_with_isa,anatxp('uberon_edit-with-isa.obo'),obo).
-user:bioresource(uberonp_with_isa,anatxp('uberon-with-isa.obo'),obo).
-user:bioresource(fma_xp,anatxp('fma_xp.obo'),obo).
-user:bioresource(wpanat,anatxp('dbpedia_ontol.obo'),obo).
+user:bioresource(uberon,uberon('uberon_edit.obo'),obo).
+user:bioresource(uberonp,uberon('uberon.obo'),obo).
+user:bioresource(uberon_with_isa,uberon('uberon_edit-with-isa.obo'),obo).
+user:bioresource(uberonp_with_isa,uberon('uberon-with-isa.obo'),obo).
+user:bioresource(fma_xp,uberon('fma_xp.obo'),obo).
+user:bioresource(wpanat,uberon('dbpedia_ontol.obo'),obo).
 
 user:bioresource(gemina_anatomy,url('http://gemina.svn.sourceforge.net/viewvc/gemina/trunk/Gemina/ontologies/gemina_anatomy.obo'),obo).
 
@@ -526,7 +526,7 @@ user:bioresource(go_assoc_version(N,V),url(URL),gzip(go_assoc)):-
 
 user:bioresource(obolr(N),Path,obo):- nonvar(N),concat_atom(['/users/cjm/cvs/go/scratch/obol_results/',N,'-obol.obo'],Path).
 user:bioresource(goxp(N),Path,obo):- nonvar(N),concat_atom(['/users/cjm/cvs/go/scratch/xps/',N,'.obo'],Path).
-user:bioresource(anu(N),anatxp(Path),obo):- nonvar(N),concat_atom(['anu-',N,'_obo.obo'],Path).
+user:bioresource(anu(N),uberon(Path),obo):- nonvar(N),concat_atom(['anu-',N,'_obo.obo'],Path).
 
 
 

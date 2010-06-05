@@ -169,6 +169,9 @@ alias qgoxu="oq -r go $GO_XP_UBER_ARGS -showxp"
 
 alias viz-goxu='blip -id GO:0060977 -to display -u ontol_entailment_basic -to display'
 
+alias blip-viz='blip ontol-subset -to display'
+alias blip-viz-upheno='blip -u ontol_config_upheno -u ontol_config_hidexref -u ontol_manifest_reverse_relation_from_uberon_xref  -u ontol_manifest_relation_from_uberon_xref ontol-subset -rel xref -cr xrefed_by -rel subclass'
+
 alias go+db="gox -u ontol_sqlmap_go -bindsql 'curation_db:curation_statement/4-go' -showannots"
 
 alias fly2fma="ov -r fly_anatomy -r fma -r fly2fma"

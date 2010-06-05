@@ -17,8 +17,9 @@ node_relation_closure(ID,Rel,Ancs) :-
 	!,
 	nodes_relation_closure([ID],Rel,Ancs).
 node_relation_closure(ID,Rel,Ancs) :-
-	Goal=..[Rel,ID,_],
-	Goal,
+	Goal=..[Rel,ID,XID],
+	setof(ID,XID^Goal,IDs),
+	member(ID,IDs),
 	nodes_relation_closure([ID],Rel,Ancs).
 
 

@@ -53,7 +53,6 @@
            is_functional/1,
            is_inverse_functional/1,
            is_cyclic/1,
-           is_nondangling/1,
            is_proper/1,
            transitive_form_of/2,
            proper_form_of/2,
@@ -98,16 +97,11 @@
            entailed_by/3,
            logicalformula/3,
 
-	   merge_class/2,
-	   merge_class/3,
-	   
-           remove_dangling_facts/0,
 	   
            % intensional predicates
            class/2,
            property/2,
            inst/2,
-           id_name/2,
            referenced_id/2,
            class_by_name_or_synonym/2,
            class_label/3,
@@ -152,6 +146,8 @@
 	   safe_parentT/4,
 	   safe_parentRT/2,
 	   safe_parentRT/3,
+	   idspace_references/2,
+	   idspace_references_reflexive/2,
 	   bf_parentRT/2,
 	   bf_set_parentRT/2,
 	   strict_subclass/2,
@@ -165,7 +161,6 @@
            abduced_link/1,
            abduced_link_nr/1,
            
-           dangling_class/1,
            redundant_subclass/3,
            redundant_parent/5,
            subclass_underlap/3,
@@ -201,7 +196,6 @@
            property/2,
            slot/2,
            inst/2,
-           id_name/2,
            referenced_id/2,
            class_by_name_or_synonym/2,
            class_label/3,
@@ -246,7 +240,6 @@
            abduced_link/1,
            abduced_link_nr/1,
            
-           dangling_class/1,
            redundant_subclass/3,
            redundant_parent/5,
            subclass_underlap/3,
@@ -671,8 +664,27 @@ safe_parentRT(ID,[],ID).
 safe_parentRT(ID,Rs,PID) :-
 	safe_parentT(ID,Rs,PID).
 
+% for mireoting
+
+idspace_references(S,Ref) :-
+	setof(X,(class(X),
+		 id_idspace(X,S)),
+	      Xs),
+	member(X,Xs),
+	bf_parentRT(X,Ref),
+	\+ id_idspace(Ref,S).
+
+idspace_references_reflexive(S,Ref) :-
+	idspace_references(S,Ref).
+idspace_references_reflexive(S,Ref) :-
+	class(Ref),
+	id_idspace(Ref,S).
+
+
+
 bf_parentRT(ID,PID) :-
 	class(ID),
+	debug(bf_parentRT,'bf_parentRT(~w)',[ID]),
 	ids_ancestors([ID],[],[],L),
 	member(PID,L).
 bf_parentRT(ID,ID) :-
@@ -1050,10 +1062,6 @@ metaproperty(X,is_reflexive):- is_reflexive(X).
 %%  is_inverse_functional(?Relation) is semidet
 :- extensional(is_inverse_functional/1).
 
-%%  is_nondangling(?Relation) is semidet
-is_nondangling(X):- class(X).
-is_nondangling(X):- property(X).
-is_nondangling(X):- inst(X).
 
 %%  is_proper(?Relation) is nondet.
 :- extensional(is_proper/1).
@@ -1226,33 +1234,6 @@ inst_sv(ID,S,PID):-
 %% logicalformula(?ID,?FormulaAtom,?Language) is nondet.
 :- extensional(logicalformula/3).
 
-%% merge_class(+Src,+Tgt) is det
-merge_class(Src,Tgt) :-
-	merge_class(Src,Tgt,[merge(all)]).
-			     
-
-%% merge_class(+Src,+Tgt,+Opts) is det
-merge_class(Src,Tgt,Opts) :-
-	debug(merge,'merging ~w -> ~w',[Src,Tgt]),
-	merge_class_axiom(subclass(Src,X),subclass(Tgt,X),Opts),
-	merge_class_axiom(restriction(Src,R,X),restriction(Tgt,R,X),Opts),
-	merge_class_axiom(genus(Src,X),genus(Tgt,X),Opts),
-	merge_class_axiom(differentium(Src,R,X),differentium(Tgt,R,X),Opts),
-	merge_class_axiom(entity_synonym_scope(Src,R,X),entity_synonym_scope(Tgt,R,X),Opts),
-	retractall(class(Src)),
-	assert(metadata_db:entity_alternate_identifier(Tgt,Src)).
-
-merge_class_axiom(Src,Tgt,Opts) :-
-	Src =.. [P|_],
-	(   member(merge(P),Opts)
-	;   member(merge(all),Opts)),
-	!,
-	forall((Src,\+invalid(Tgt)),
-	       assert(Tgt)).
-merge_class_axiom(_,_,_).
-
-invalid(subclass(X,X)).
-invalid(restriction(X,_,X)).
 
 
 	
@@ -1277,11 +1258,6 @@ class_label(ID,N,T):-
 
 class_label_exact(ID,N):-  class_label(ID,N,exact).
 
-%% id_name(Entity,Name) is nondet.
-% DEPRECATED
-id_name(ID,N):- class(ID,N).
-id_name(ID,N):- property(ID,N).
-id_name(ID,N):- inst(ID,N).
 
 
 % TODO
@@ -1504,49 +1480,11 @@ abduced_link_nr(subclass(A,B)):-
         \+ (( abduced_link(subclass(A,C)),
               abduced_link(subclass(C,B)))).
 
-remove_dangling_facts :-
-	dangling_fact(F),
-	retractall(F),
-	fail.
-remove_dangling_facts.
-
-dangling_fact(F) :-
-	F=subclass(A,B),
-	F,
-	\+ ((is_nondangling(A),
-	     is_nondangling(B))).
-dangling_fact(F) :-
-	F=disjoint_from(A,B),
-	F,
-	\+ ((is_nondangling(A),
-	     is_nondangling(B))).
-dangling_fact(F) :-
-	F=restriction(A,R,B),
-	F,
-	\+ ((is_nondangling(A),
-	     is_nondangling(R),
-	     is_nondangling(B))).
-dangling_fact(F) :-
-	class_cdef(C,cdef(G,DL)),
-	\+ ((is_nondangling(G),
-	     forall(member(R=X,DL),
-		    (	is_nondangling(R),
-			is_nondangling(X))))),
-	class_cdef_fact(C,cdef(G,DL),F).
-
-class_cdef_fact(C,cdef(G,_),genus(C,G)).
-class_cdef_fact(C,cdef(_,DL),differentium(C,R,X)) :-
-	member(R=X,DL).
 
 
-	
 	
 
 % experimental stuff from here on
-
-dangling_class(ID):-
-        (parent(ID,_) ; parent(_,ID)),
-        (not(class(ID)) ; not(belongs(ID,_))).
 
 classdef_parent(Class,PClass):-
         not(var(Class)),
