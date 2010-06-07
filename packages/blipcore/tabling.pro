@@ -2,12 +2,17 @@
 
 :- module(tabling,[
                    table_pred/1,
+		   persistent_table_pred/2,
                    table_call/5,
                    clear_table_pred/1
                    ]).
 
 :- module_transparent table_pred/1.
 :- module_transparent table_call/5.
+:- module_transparent persistent_table_pred/2.
+
+:- dynamic persist_to/2.
+:- dynamic persist_to_stream/2.
 
 %% table_pred(+Pred)
 %  @param Pred
@@ -46,6 +51,42 @@ table_pred(P,M):-
 table_pred(P,M):-
 	throw(error(table_pred(P,M))).
 
+persistent_table_pred(MPA,File) :-
+	(   MP=_:P/A
+	->  true
+	;   MP=P/A),
+	assert(persist_to(P/A,File)),
+	table_pred(MPA),
+	initiate_persistent_stream(P/A,File).
+
+initiate_persistent_stream(P/A,File) :-
+	(   exists_file(File)
+	->  consult(File),
+	    open(File,append,IO,[])
+	;   open(File,write,IO,[])),
+	retractall(persist_to_stream(P/A,_)),
+	assert(persist_to_stream(P/A,IO)).
+
+
+persistent_retractall(_:T) :-
+	functor(T,P,A),
+	persist_to(P/A,File),
+	exists_file(File),
+	!,
+	delete_file(File).
+persistent_retractall(_).
+
+persistent_assert(M:T) :-
+	functor(T,P,A),
+	persist_to_stream(P/A,IO),
+	!,
+	format(IO,'~q.~n',[M:T]),
+	flush_output(IO).
+persistent_assert(_).
+
+wrap_assert(T) :-
+	assert(T),
+	persistent_assert(T).
 
 %% clear_table_pred(+Pred)
 %  @param Pred
@@ -65,7 +106,9 @@ clear_table_pred(P,M):-
         pred_to_unground_term(Fm/Arity,Tm),
         pred_to_unground_term(Fs/Arity,Ts),
         retractall(M:Tm),
-        retractall(M:Ts).
+        retractall(M:Ts),
+	persistent_retractall(M:Tm),
+        persistent_retractall(M:Ts).
 
 % create_tabled_pred_impl(+Head,+Body,+Module)
 %  Head is a term representing the head of a clause. The arguments
@@ -133,9 +176,16 @@ create_tabled_pred_wrap(T,M):-
         % recompile abolished clause - now a wrapper to impl
         compile_predicates([M:F/Arity]).
 
-%% table_call(+Goal,+GoalImpl,+CachePred,+CalledPred,+Mod)
+%% table_call(+Goal,+GoalImpl,+GoalMemo,+GoalSubsumed,+Mod)
 %
 %  you should not need to call this directly
+% 
+%  the following conventions are used:
+% 
+% * GoalImpl = <origpred>_tabled__(...) -- rewritten original clause
+% * GoalSubsumed = <origpred>_called__(...) -- record what has been cached
+% * GoalMemo = <origpred>_cached__(...) -- database of facts
+%
 % note that in the 4 arguments here, all should have
 % identical argument lists
 table_call(G,GImpl,GMemo,GSub,M):-
@@ -153,13 +203,13 @@ table_call(G,GImpl,GMemo,GSub,M):-
         findall(GMemo,(M:GImpl,
                        (   M:GMemo
                        ->  true % don't assert duplicate
-                       ;   assert(M:GMemo))),
+                       ;   wrap_assert(M:GMemo))),
                 GMemos),
         debug(tabling,'seeded = ~w  // ~w',[GMemos,G]),
 
         % record the fact that G has been called
         % (remember: GSub has identical args to G)
-        assert(M:GSub),
+        wrap_assert(M:GSub),
 
         % succeed with each solution in cache
         member(GMemo,GMemos).
@@ -301,7 +351,7 @@ calculated and cached. The second time it is called (with the second call being 
 rewritten, and the original clauses to be asserted but with a
 different name. The rewritten clauses will call table_call/5,
 which will check to see if the call is subsumed by a previous call; if
-so use a dynamic cache to present all solutions; if not, call the
+so, use a dynamic cache to present all solutions; if not, call the
 clauses containing the original code
 
   ---++ Limitations
