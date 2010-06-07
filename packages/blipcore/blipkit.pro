@@ -555,6 +555,7 @@ draw_source_dependencies(Sources,_ToFormat,_OutFile) :- % TODO
 	 atom(metric,Metric),
 	 term(simmatrix_hook,Hook),
 	 number(min_score, MinScore, 0.5),
+	 number(min_overlap, MinOverlap, 20),
 	 %atom(cache,CacheFile),
 	 atom([feature1,f1],F1),
          atom([feature2,f2],F2)
@@ -570,7 +571,7 @@ draw_source_dependencies(Sources,_ToFormat,_OutFile) :- % TODO
 		   debug(sim,'generated: ~w',[Hook])),
 	    (	var(Metric)
 	    ->	Goal=feature_pair_ci_cu_simj(F1,F2,CI,_,S),
-		Where= (CI>8, S>MinScore)
+		Where= (CI>MinOverlap, S>MinScore)
 	    ;	Goal=compare_feature_pair(F1,F2,S,[metric(Metric)]),
 		Where= (S>MinScore)),
 	    forall((Goal,Where),

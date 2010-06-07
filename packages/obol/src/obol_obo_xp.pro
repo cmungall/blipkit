@@ -148,7 +148,7 @@ anatomical_ontology(plant_structure).
 anatomical_ontology(zebrafish_anatomy).
 anatomical_ontology(teleost_anatomy).
 anatomical_ontology(fly_anatomy). % in-preparation..
-anatomical_ontology(fungal_anatomy).
+anatomical_ontology(fungal_anatomy_ontology).
 anatomical_ontology('fly_anatomy.ontology').
 anatomical_ontology('adult_mouse_anatomy.gxd').
 anatomical_ontology('Dictyostelium_discoideum_anatomy').

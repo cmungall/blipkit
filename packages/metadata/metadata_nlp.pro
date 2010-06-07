@@ -15,7 +15,11 @@
 	   index_labeled_entities/1,
 	   index_corpus_by_labels/1,
 	   index_corpus_by_labels/4,
+	   entity_pair_nlp_subset_of/3,
+	   entity_pair_nlp_subset_of_cross_idspace/3,
 	   entity_pair_nlp_match/7,
+	   entity_pair_label_match/2,
+	   entity_pair_label_match/3,
 	   atom_search/5,
 	   corpus_search/6
 	   ]).
@@ -50,8 +54,13 @@ term_nth_token_stemmed(A,N,T,true) :-
 term_nth_token_stemmed(A,N,T,false) :-
 	term_nth_token(A,N,T).
 
+%% entity_label_token(?E,?Tok) is nondet
+% see entity_label_token/3
 entity_label_token(E,T) :-
 	entity_label_token(E,_,T).
+
+%% entity_label_token(?E,?Label,?Tok) is nondet
+% each entity has multiple labels, and each label has multiple tokens
 entity_label_token(E,A,T) :-
 	entity_label_or_synonym(E,A),
 	term_token(A,T).
@@ -134,6 +143,7 @@ corpus_label_token_frequency(T,Freq) :-
 corpus_label_token_stemmed_frequency(T,Freq,Stemmed) :-
 	aggregate(count,E,entity_label_token_stemmed(E,T,Stemmed),Freq).
 
+% todo?
 entity_pair_nlp_match(A,B,label,LA,LB,Stemmed,J-Sim) :-
 	entity_label_token_stemmed(A,LA,Token,Stemmed),
 	entity_label_token_stemmed(B,LB,Token,Stemmed),
@@ -141,6 +151,37 @@ entity_pair_nlp_match(A,B,label,LA,LB,Stemmed,J-Sim) :-
 	feature_pair_simj(A,B,J),
 	J>0.5,
 	feature_pair_simGIC(A,B,Sim).
+
+%% entity_pair_nlp_subset_of(A,B,S)
+% ensure index_labels/1 is called first
+entity_pair_nlp_subset_of(A,B,S) :-
+	var(B),
+	entity_label(A,AN),
+	feature_pair_subset_of(AN,BN,S),
+	entity_label(B,BN),
+	A\=B.
+entity_pair_nlp_subset_of(A,B,S) :-
+	nonvar(B),
+	entity_label(B,BN),
+	feature_pair_subset_of(AN,BN,S),
+	entity_label(A,AN),
+	A\=B.
+
+
+entity_pair_nlp_subset_of_cross_idspace(A,B,S) :-
+	entity_pair_nlp_subset_of(A,B,S),
+	id_idspace(A,AO),
+	id_idspace(B,BO),
+	AO\=BO.
+
+	
+
+entity_pair_label_match(A,B) :-
+	entity_pair_label_match(A,B,true).
+entity_pair_label_match(A,B,Stemmed) :-
+	entity_nlabel_scope_stemmed(A,N,_ScA,Stemmed),
+	entity_nlabel_scope_stemmed(B,N,_ScB,Stemmed).
+
 
 index_labels(Stemmed) :-
 	debug(nlp,'indexing [stemmed:~w]',[Stemmed]),

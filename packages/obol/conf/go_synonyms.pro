@@ -4,6 +4,22 @@
  % -- ********************************************************* --
 
 
+class('GO:0060600').
+metadata_db:entity_synonym('GO:0060600', 'dichotomous subdivision of terminal units').
+metadata_db:entity_synonym_scope('GO:0060600', 'dichotomous subdivision of terminal units', 'exact').
+
+class('GO:0060601').
+metadata_db:entity_synonym('GO:0060601', 'lateral sprouting').
+metadata_db:entity_synonym_scope('GO:0060601', 'lateral sprouting', 'exact').
+
+class('GO:0060602').
+metadata_db:entity_synonym('GO:0060602', 'epithelial cord elongation').
+metadata_db:entity_synonym_scope('GO:0060602', 'epithelial cord elongation', 'exact').
+
+class('GO:0008305').
+metadata_db:entity_synonym('GO:0008305', 'integrin').
+metadata_db:entity_synonym_scope('GO:0008305', 'integrin', 'exact').
+
 class('GO:0008045').
 metadata_db:entity_synonym('GO:0008045', 'motor neuron axon guidance').
 metadata_db:entity_synonym_scope('GO:0008045', 'motor neuron axon guidance', 'exact').

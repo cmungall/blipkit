@@ -8,6 +8,7 @@
 	   attribute_information_content/2,
            feature_pair_ci/3,
            feature_pair_cu/3,
+	   feature_pair_subset_of/3,
            feature_pair_simj/3,
 	   feature_pair_ci_cu_simj/5,
            feature_pair_simGIC/3,
@@ -218,6 +219,19 @@ feature_pair_cu(F1,F2,Num) :-
         feature_vector(F2,AV2),
         AVP = AV1 \/ AV2,
         Num is popcount(AVP).
+
+%% feature_pair_subset_of(?F1,?F2,S:number)
+% degree to which F1 is a subset of F2.
+% 1.0 iff every attribute of F1 is an attribute of F2
+% 0.0 iff no attributes of F1 are attributes of F2
+feature_pair_subset_of(F1,F2,S) :-
+        feature_vector(F1,AV1),
+        feature_vector(F2,AV2),
+        Num1 is popcount(AV1),
+        NumBoth is popcount(AV1 /\ AV2),
+	S is NumBoth/Num1.
+
+
 
 %% feature_pair_simj(?F1,?F2,-Sim:float)
 % Jacard similarity coefficient between two features,

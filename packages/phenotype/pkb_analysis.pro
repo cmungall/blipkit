@@ -18,7 +18,7 @@ organism_category(F,SL) :-
 
 
 feature_pair_category_pair_ci(F1,F2,S1,S2,Sc) :-
-	feature_pair_ci(F1,F2,Sc),
+	feature_pair_ci_cu_simj(F1,F2,_,_,Sc),
 	organism_category(F1,S1),
 	organism_category(F2,S2).
 
@@ -46,19 +46,21 @@ fp(F1,F2) :-
 	F1 @< F2.
 
 :- multifile cached_feature_pair_attx_pair_LCS_IC/5.
-xxxgenerate(Goal) :-
+
+% use this for pkb
+generate_all(Goal) :-
 	Goal=feature_pair_attx_pair_LCS_IC(_F1,_F2,_S1,_S2,_LCS,IC),
 	Goal,
 	IC >= 3.5.
 
-generate(Goal) :-
+generate_selected(Goal) :-
 	setof(F1-F2,fp(F1,F2),Pairs),
 	member(F1-F2,Pairs),
 	debug(foo,'test: ~w vs ~w',[F1,F2]),
-	Goal=feature_pair_attx_pair_LCS_IC(F1,F2,_S1,_S2,_LCS,IC),
-	%\+ cached_feature_pair_attx_pair_LCS_IC(F1,F2,_,_,_,_),
+	Goal=feature_pair_attx_pair_LCS_IC(F1,F2,_S1,_S2,LCS,IC),
 	debug(foo,'  **comparing: ~w vs ~w',[F1,F2]),
 	Goal,
+	debug(foo,'     **result: ~w :: ~w',[IC,LCS]),
 	IC >= 3.5.
 
 prepare(File) :-
