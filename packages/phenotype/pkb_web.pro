@@ -535,7 +535,7 @@ comparison_table(F1,F2) -->
         %{organism_pair_score_value(F1,F2,all_LCS-avg_IC,All-AvgIC), % TODO
         {organism_pair_score_value(F1,F2,minimal_LCS_simJ-avg_simJ,All-AvgIC), % TODO
 	 debug(phenotype,'avgIC: ~w',[AvgIC]),
-	findall(\phenosim_lcs_row(LCS,IC,S1s,S2s),
+	findall(\comparison_table_lcs_row(LCS,IC,S1s,S2s),
 		member(IC-lcs(LCS,S1s,S2s),All),
 		Sections)
 	},
@@ -587,6 +587,16 @@ comparison_table(F1,F2) -->
         {method_feature_pair_phenosim(psimj,F2,F1,_)}, % TODO - better symm
 	!,
 	comparison_table(F2,F1).
+
+comparison_table_lcs_row(LCS,IC,S1s,S2s) -->
+	%{debug(phenotype,'LCS[~w] ~w < ~w AND ~w',[IC,LCS,S1s,S2s])},
+        html([tr(td([colspan(3),align(center)],
+                    \phenotype_infos(LCS))),
+              tr(td([colspan(3),align(center)],
+                    [IC])),
+              tr([td(ul(\phenotype_infos(S1s))),
+                  td(''),
+                  td(ul(\phenotype_infos(S2s)))])]).
 
 feature_pair_subsumers(F1,F2) -->
 	{method_feature_pair_phenosim(simj_all,F1,F2,Rs),
@@ -743,15 +753,6 @@ phenoblast(Request) :-
                         ]).
 
 
-phenosim_lcs_row(LCS,IC,S1s,S2s) -->
-	%{debug(phenotype,'LCS[~w] ~w < ~w AND ~w',[IC,LCS,S1s,S2s])},
-        html([tr(td([colspan(3),align(center)],
-                    \phenotype_infos(LCS))),
-              tr(td([colspan(3),align(center)],
-                    [IC])),
-              tr([td(ul(\phenotype_infos(S1s))),
-                  td(''),
-                  td(ul(\phenotype_infos(S2s)))])]).
 
 % 3 rows summarising a phenotype pair and their LCA
 % DEP:

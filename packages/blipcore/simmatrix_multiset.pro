@@ -262,6 +262,9 @@ feature_pair_all_LCS_avg_simJ(F1,F2,RevScores,AvgSimJ) :-
 	sumlist(SimJs,TotalSimJ),
 	AvgSimJ is TotalSimJ / Num.
 
+%% feature_pair_minimal_LCS_set_by_simJ(F1,F2,ScoreLCSPairs:list,AvgSimJ:number)
+% minimal set of LCSs such that each attx in each feature can be matched with
+% one atts in the opposite feature
 feature_pair_minimal_LCS_set_by_simJ(F1,F2,RevScores,AvgSimJ) :-
 	setof(LCS,SimJ^S1^S2^feature_pair_attx_best_LCS_simJ(F1,F2,LCS,SimJ,S1,S2),MinimalLCSs),
 	length(MinimalLCSs,NumLCSs1),
@@ -315,12 +318,28 @@ feature_pair_bestLCS_maxIC(F1,F2,BestLCSs,MaxIC) :-
 	setof(BestLCS,member(MaxIC-BestLCS,IC_LCSs),BestLCSs).
 
 
+%% feature_pair_score_value(F1,F2,Score,Val)
+%
+% convenience predicate wrapping individual score predicates
+%
+% this is a symmetric predicate. Even if scores are only asserted in one direction
+% (e.g. f1,f2) scores will be inferred the inverse direction (f2,f1).
 feature_pair_score_value(F1,F2,S,V) :-
-	feature_pair_score_value_asym(F1,F2,S,V).
+	feature_pair_score_value_asym(F1,F2,S,V). % asserted dir
 feature_pair_score_value(F1,F2,S,V) :-
-	feature_pair_score_value_asym(F2,F1,S,V).
+	feature_pair_score_value_asym(F2,F1,S,V). % infer reverse asserted
+
+% note that some scores require special treatment to infer the reverse
+feature_pair_score_value(F1,F2, minimal_LCS_simJ-avg_simJ, Pairs-AvgSimJ) :-
+	feature_pair_minimal_LCS_set_by_simJ(F1,F2,Pairs,AvgSimJ).
+feature_pair_score_value(F1,F2, minimal_LCS_simJ-avg_simJ, InvPairs-AvgSimJ) :-
+	feature_pair_minimal_LCS_set_by_simJ(F2,F1,Pairs,AvgSimJ),
+	findall(Sim-lcs(LCS,X2,X1),
+		member(Sim-lcs(LCS,X1,X2),Pairs),
+		InvPairs).
 
 
+% asymmetric
 feature_pair_score_value_asym(F1,F2,maxIC,MaxIC) :-
 	feature_pair_bestLCS_maxIC(F1,F2,_,MaxIC).
 feature_pair_score_value_asym(F1,F2, best_LCS-maxIC, Best_LCS-MaxIC) :-
@@ -333,8 +352,6 @@ feature_pair_score_value_asym(F1,F2, avg_IC, AvgIC) :-
 	feature_pair_all_LCS_avg_IC(F1,F2,_,AvgIC).
 feature_pair_score_value_asym(F1,F2, all_LCS-avg_simJ, All-AvgSimJ) :-
 	feature_pair_all_LCS_avg_simJ(F1,F2,All,AvgSimJ).
-feature_pair_score_value_asym(F1,F2, minimal_LCS_simJ-avg_simJ, All-AvgSimJ) :-
-	feature_pair_minimal_LCS_set_by_simJ(F1,F2,All,AvgSimJ).
 feature_pair_score_value_asym(F1,F2, no_LCS(Fn), SL) :- % DEPREC
 	setof(S,feature_pair_no_LCS_attx(F1,F2,Fn,S),SL).
 
