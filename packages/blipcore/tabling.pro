@@ -11,10 +11,12 @@
 :- module_transparent table_call/5.
 :- module_transparent persistent_table_pred/2.
 
-:- dynamic persist_to/2.
-:- dynamic persist_to_stream/2.
+:- dynamic persist_to/2. % track which predspecs are persisted to which files
+:- dynamic persist_to_stream/2. % track which predspecs are persisted to which streams
+:- dynamic cache_file/1. % track the full set of files to be loaded when ready
 
-%% table_pred(+Pred)
+
+%% table_pred(+PredSpec)
 %  @param Pred
 %  a predicate in the current module of the form Name/Arity
 %
@@ -51,39 +53,85 @@ table_pred(P,M):-
 table_pred(P,M):-
 	throw(error(table_pred(P,M))).
 
+%% persistent_table_pred(+PredSpec,+File)
+%
+% as table_pred/1, with persistence of the results of called predicates.
+%
+% For example, if subclassT/2 from ontol_db is persisted via:
+%  =|persistent_table_pred(ontol_db:subclassT/2,'sc.pro')|=
+% then, in the same prolog session, subclassT('GO:0006915',X) is called,
+% the results of this will be saved in sc.pro.
+% then, if the prolog session is ended, and a new one is resumed with
+% the same cache, future calls will either reuse or append to this cache.
+%
+% PredSpec can be Module:Pred/Arity or just Pred/Arity. In the latter
+% case, the context module is assumed.
+% 
+% note that currently if you cache M1:P/A and M2:P/A then the results
+% will be combined. This may not be desirable, may change in future
+% releases.
 persistent_table_pred(MPA,File) :-
-	(   MP=_:P/A
+	debug(tabling,'peristing ~w to ~w',[MPA,File]),
+	% module can be explicit or context module
+	(   MPA=_:P/A
 	->  true
-	;   MP=P/A),
+	;   MPA=P/A),
 	assert(persist_to(P/A,File)),
+	% rewrite predicates; note this also sets the relevant caching
+	% predicates to be dynamic
 	table_pred(MPA),
+	% open the caching stream ready for writing
 	initiate_persistent_stream(P/A,File).
 
 initiate_persistent_stream(P/A,File) :-
+	debug(tabling,'  caching ~w in ~w',[P/A,File]),
+	% if the cache file exists, then record it for consultation later.
+	% if it does not exist, create it.
+	% in both cases, prepare for writing.
 	(   exists_file(File)
-	->  consult(File),
+	->  assert(cache_file(File)),
 	    open(File,append,IO,[])
 	;   open(File,write,IO,[])),
+	debug(tabling,'persisting: ~w to stream: ~w',[P/A,IO]),
 	retractall(persist_to_stream(P/A,_)),
 	assert(persist_to_stream(P/A,IO)).
 
+% this is called whenever a memoized predicate is about to be called.
+% it ensures that all cache files are loaded.
+% the reason for delaying this is that we want to ensure all cached
+% predicates are declared dynamic before consulting them.
+ensure_cache_loaded :-
+	setof(File,cache_file(File),Files),
+	!,
+	maplist(consult,Files),
+	retractall(cache_file(_)).
+ensure_cache_loaded.
 
+% internal use only.
+% currently only works if one predicate is memoized per file
 persistent_retractall(_:T) :-
 	functor(T,P,A),
-	persist_to(P/A,File),
+	mapped_pred_name(P_orig,P),
+	persist_to(P_orig/A,File),
 	exists_file(File),
 	!,
+	format(user_error,'not tested!!~n',[]),
 	delete_file(File).
 persistent_retractall(_).
 
+% internal use only - writes fact to cache stream.
+% note this does NOT call assert/1 - see wrap_assert/1
 persistent_assert(M:T) :-
+	debug(tabling,'persisting assert(~w) to cache',[M:T]),
 	functor(T,P,A),
-	persist_to_stream(P/A,IO),
+	mapped_pred_name(P_orig,P),
+	persist_to_stream(P_orig/A,IO),
 	!,
 	format(IO,'~q.~n',[M:T]),
 	flush_output(IO).
 persistent_assert(_).
 
+% asserts in in-memory db, and in persistent storage, if relevant
 wrap_assert(T) :-
 	assert(T),
 	persistent_assert(T).
@@ -140,6 +188,10 @@ cached_pred_name(N1,N2):-
 called_pred_name(N1,N2):-
         concat_atom([N1,'_called__'],N2).
 
+mapped_pred_name(N1,N2) :- cached_pred_name(N1,N2).
+mapped_pred_name(N1,N2) :- called_pred_name(N1,N2).
+
+
 % create_tabled_pred_wrap(+PredTerm,+Module)
 %  PredTerm is a term representing a predicate. The arguments
 %  are always unground
@@ -189,6 +241,7 @@ create_tabled_pred_wrap(T,M):-
 % note that in the 4 arguments here, all should have
 % identical argument lists
 table_call(G,GImpl,GMemo,GSub,M):-
+	ensure_cache_loaded,
         % has G been called already? [remember args(G) == args(GSub)]
         \+ goal_subsumed(M:GSub),
         !,

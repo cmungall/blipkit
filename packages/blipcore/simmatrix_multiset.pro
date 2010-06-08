@@ -10,6 +10,7 @@
 	   feature_pair_attx_pair_LCS_simJ/6,
 	   feature_pair_bestLCS_maxIC/4,
 	   feature_pair_all_LCS_avg_IC/4,
+	   feature_pair_minimal_LCS_set_by_simJ/4,
 	   feature_pair_no_LCS_attx/4,
 	   feature_pair_score_value/4
           ]).
@@ -242,8 +243,12 @@ feature_pair_attx_best_LCS_simJ(F1,F2,LCS,SimJ,S1,S2) :-
 	\+ ((feature_pair_attx_pair_LCS_simJ(F1,F2,_,S2,_,Better_simJ),
 	     Better_simJ > SimJ)).
 
-%% feature_pair_all_LCS_avg_IC(F1,F2,Matches,AvgIC)
-% 
+%% feature_pair_all_LCS_avg_IC(F1,F2,ScoreLCSPairs:list,AvgIC)
+%
+% aggregates feature_pair_attx_best_LCS_IC/6 such that each F-pair
+% has zero or one results.
+%
+% ScoreLCSPairs is a list of IC-s(LCS,X1,X2) pairs
 feature_pair_all_LCS_avg_IC(F1,F2,RevScores,AvgIC) :-
 	setof(IC-s(LCS,S1,S2),feature_pair_attx_best_LCS_IC(F1,F2,LCS,IC,S1,S2),Scores),
 	reverse(Scores,RevScores),
@@ -263,9 +268,27 @@ feature_pair_all_LCS_avg_simJ(F1,F2,RevScores,AvgSimJ) :-
 	AvgSimJ is TotalSimJ / Num.
 
 %% feature_pair_minimal_LCS_set_by_simJ(F1,F2,ScoreLCSPairs:list,AvgSimJ:number)
+%
 % minimal set of LCSs such that each attx in each feature can be matched with
 % one atts in the opposite feature
+%
+% depends on:
+%  * feature_pair_attx_best_LCS_simJ/6
+%   * feature_pair_attx_pair_LCS_simJ/6
+%  * feature_nr_attx/2
+%  * no reasoning required
+%
+% differs from feature_pair_all_LCS_avg_simJ/4 in that there is further
+% aggregation - each LCS is represented at least once.
+%
+% unmatched attxs are also grouped at end, with zero similarity
+%
+% ScoreLCSPairs is a list of SimJ-s(LCS,X1_List,X2_List) pairs
+%
 feature_pair_minimal_LCS_set_by_simJ(F1,F2,RevScores,AvgSimJ) :-
+	feature(F1),
+	feature(F2),
+	F1\=F2,
 	setof(LCS,SimJ^S1^S2^feature_pair_attx_best_LCS_simJ(F1,F2,LCS,SimJ,S1,S2),MinimalLCSs),
 	length(MinimalLCSs,NumLCSs1),
 	debug(phenotype,'numLCSs1=~w',[NumLCSs1]),
@@ -290,7 +313,7 @@ feature_pair_minimal_LCS_set_by_simJ(F1,F2,RevScores,AvgSimJ) :-
 		      \+ feature_pair_attx_best_LCS_simJ(F1,F2,_,_,U1,_)),
 		  Us1),
 	% unmatched
-	solutions(U1,
+	solutions(U2,
 		  (   feature_nr_attx(F2,U2),
 		      \+ feature_pair_attx_best_LCS_simJ(F1,F2,_,_,_,U2)),
 		  Us2),

@@ -12,6 +12,9 @@
 :- module_transparent materialize_index/1.
 :- module_transparent materialize_index/2.
 :- module_transparent materialize_indexes_to_file/2.
+:- module_transparent materialize_index_to_path/2.
+:- module_transparent materialize_indexes_to_path/2.
+
 
 %% materialize_index(+Term) is det
 % materialize and index a set of facts, using first-argument indexing.
@@ -41,6 +44,22 @@ materialize_index(M, Term) :-
 	DefaultGoal = ( CalledGoal :- StoredGoal ),
 	M:assert(DefaultGoal),
 	M:compile_predicates([CalledPred/Arity]).
+
+materialize_indexes_to_path(Terms,Dir) :-
+	forall(member(Term,Terms),
+	       materialize_index_to_path(Term,Dir)).
+
+%% materialize_index_to_path(+Term,+Dir)
+%
+% caches 
+%
+% Dir is expanded using absolute_file_name/2
+materialize_index_to_path(Term,Dir) :-
+	Term=..[P|_],
+	atom_concat(P,'.pl',FileName),
+	absolute_file_name(Dir,DirAbs),
+	absolute_file_name(DirAbs/FileName,AbsFilePath),
+	materialize_indexes_to_file([Term],AbsFilePath).
 
 %% materialize_indexes_to_file(+Terms:list,+File) is det
 %

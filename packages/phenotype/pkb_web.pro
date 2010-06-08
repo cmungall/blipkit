@@ -532,11 +532,11 @@ view_organism_pair(Request) :-
 comparison_table(F1,F2) -->
 	 !,
         {debug(phenotype,'compare: ~q, ~q',[F1,F2])},	 
-        %{organism_pair_score_value(F1,F2,all_LCS-avg_IC,All-AvgIC), % TODO
-        {organism_pair_score_value(F1,F2,minimal_LCS_simJ-avg_simJ,All-AvgIC), % TODO
-	 debug(phenotype,'avgIC: ~w',[AvgIC]),
-	findall(\comparison_table_lcs_row(LCS,IC,S1s,S2s),
-		member(IC-lcs(LCS,S1s,S2s),All),
+        %{organism_pair_score_value(F1,F2,all_LCS-avg_Sim,Pairs-AvgSim), % TODO
+        {organism_pair_score_value(F1,F2,minimal_LCS_simJ-avg_simJ,Pairs-AvgSim), % TODO
+	 debug(phenotype,'avgSim: ~w',[AvgSim]),
+	 findall(\comparison_table_lcs_row(LCS,Sim,S1s,S2s),
+		member(Sim-lcs(LCS,S1s,S2s),Pairs),
 		Sections)
 	},
         html(table(border(1),
@@ -588,12 +588,12 @@ comparison_table(F1,F2) -->
 	!,
 	comparison_table(F2,F1).
 
-comparison_table_lcs_row(LCS,IC,S1s,S2s) -->
-	%{debug(phenotype,'LCS[~w] ~w < ~w AND ~w',[IC,LCS,S1s,S2s])},
+comparison_table_lcs_row(LCS,Sim,S1s,S2s) -->
+	%{debug(phenotype,'LCS[~w] ~w < ~w AND ~w',[Sim,LCS,S1s,S2s])},
         html([tr(td([colspan(3),align(center)],
                     \phenotype_infos(LCS))),
               tr(td([colspan(3),align(center)],
-                    [IC])),
+                    ['Simlarity: ',Sim])),
               tr([td(ul(\phenotype_infos(S1s))),
                   td(''),
                   td(ul(\phenotype_infos(S2s)))])]).

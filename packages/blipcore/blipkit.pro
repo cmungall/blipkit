@@ -88,6 +88,7 @@ main:-
          atoms([r,resource],ResourceL),
          atoms([mat,materialize],MaterializePreds),
          atoms(dedupe,DeDupeList),
+         atom(table_file,TableFile),
          terms(table_pred,TablePreds),
          terms(assert,AssertTerms),
          atoms(set_prolog_flag,SetPrologFlags),
@@ -164,7 +165,10 @@ main:-
         maplist(materialize_view,MaterializePreds),
 
         % tabling
-        maplist(table_pred,TablePreds),
+	(   var(TableFile)
+        ->  maplist(table_pred,TablePreds)
+	;   forall(member(TablePred,TablePreds),
+		   persistent_table_pred(TablePred,TableFile))),
         
         forall(member(File,ConsultFileL),
               ensure_loaded(File)),
