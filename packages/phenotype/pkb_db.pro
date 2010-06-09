@@ -31,7 +31,9 @@
            organism_role_disease/3,
            organism_disease/2,
            inferred_organism_role_disease/3,
+           inferred_organism_role_disease/4,
 	   inferred_organism_role_disease_species/5,
+	   inferred_organism_role_disease_species/6,
            species/1,
            species_label/2,
            disease/1,
@@ -45,6 +47,7 @@
 	   organism_pair_score_value/4,
 	   organism_pair_all_scores/3,
 	   organism_match_all_score_values/3,
+	   organism_pair_combined_score_value/4,
 	   
 	   entity_phenotype/2
            ]).
@@ -139,55 +142,74 @@ disease_gene(D,G) :- disease_gene_variant(D,G,_).
 organism_match_all_score_values(O1,O2,SVs) :-
 	setof(S-V,organism_pair_score_value(O1,O2,S,V),SVs).
 
+%% organism_pair_combined_score_value(F1,F2,ScoreExpr,V)
+% ScoreExpr is a mathematic expr e.g. avg_IC+maxIC
+% (only addition supported currently)
+%
+% may be slow for unground F
+organism_pair_combined_score_value(F1,F2,S1+S2,V) :-
+	organism_pair_combined_score_value(F1,F2,S1,V1),
+	organism_pair_combined_score_value(F1,F2,S2,V2),
+	V is V1+V2.
+organism_pair_combined_score_value(F1,F2,S,V) :-
+	atom(S),
+	organism_pair_score_value(F1,F2,S,V).
+organism_pair_combined_score_value(F1,F2,S,0) :-
+	atom(S),
+	\+ organism_pair_score_value(F1,F2,S,_).
 
-%% inferred_organism_role_disease(?Model,?Role,?Disease)
 inferred_organism_role_disease(Model,model,D) :-
-        solutions(MaxIC-Model,
+	inferred_organism_role_disease(Model,model,D,avg_IC+maxIC).
+
+%% inferred_organism_role_disease(?Model,?Role,?Disease,+Metric)
+inferred_organism_role_disease(Model,model,D,Metric) :-
+        solutions(Sc-Model,
                   (   organism_role_disease(Patient,patient,D),
-                      method_feature_pair_phenosim(postcomposed,Patient,Model,Results),
-		      member(max_ic(MaxIC),Results),
+                      organism_pair_combined_score_value(Patient,Model,Metric,Sc),
                       \+ organism_role_disease(Model,patient,_)
                   ),
-                  L),           % TODO
-        member(MaxIC-Model,L),
-        \+ ((member(MaxIC2-_,L),
-             MaxIC2 > MaxIC)).
+                  L),
+        member(Sc-Model,L),
+        \+ ((member(Sc2-_,L),
+             Sc2 > Sc)).
 
-%% inferred_organism_role_disease_species(?Org,?Role,?Disease,?Sp,IsReciprocal)
-% Org inferred to play role Role in Disease, and Org is of species Sp
+%% inferred_organism_role_disease_species(?Org,?Role,?Disease,?Sp,?IsReciprocal)
+% as inferred_organism_role_disease_species/6, default metric
 inferred_organism_role_disease_species(Org,model,D,S,IsReciprocal) :-
+	inferred_organism_role_disease_species(Org,model,D,S,IsReciprocal,avg_IC+maxIC).
+
+%% inferred_organism_role_disease_species(?Org,?Role,?Disease,?Sp,?IsReciprocal,+Metric)
+% Org inferred to play role Role in Disease, and Org is of species Sp.
+%
+% as inferred_organism_role_disease, but restricted by species
+inferred_organism_role_disease_species(Org,model,D,S,IsReciprocal,Metric) :-
         species(S), % force S to be ground
 	% find all score-organism pairs for a given species
         solutions(Sc-Org,
-		  organism_disease_species_score(Org,D,S,Sc),
+		  organism_disease_species_score(Org,D,S,Sc,Metric),
                   L),           % TODO
         member(Sc-Org,L),
         \+ ((member(Sc2-_,L),
              Sc2 > Sc)),
 	% must be reciprocal; i.e. no other disease D2 that for which
 	% Org-D2 is a better match
-	(   organism_disease_species_score(Org,D2,S,Sc2),
+	(   organism_disease_species_score(Org,D2,S,Sc2,Metric),
 	    D2\=D,
 	    Sc2 > Sc
 	->  IsReciprocal=false
 	;   IsReciprocal=true).
 
-
-
 organism_disease_species_score(Org,D,S,Sc) :-
-	organism_role_disease(Patient,patient,D),
-	organism_pair_combined_score(Patient,Org,Sc),
-	Sc > 2.0,		% arbitrary for now...
-	organism_species(Org,S),
-	\+ organism_role_disease(Org,patient,_).
+	organism_disease_species_score(Org,D,S,Sc,avg_IC+maxIC).
 
-%% organism_pair_combined_score(?O1,?O2,?S)
-% ad-hoc combination of similarity scores between two organisms, based on method_feature_pair_phenosim/6
-organism_pair_combined_score(O1,O2,S) :-
-        method_feature_pair_phenosim(postcomposed,O1,O2,Results),
-	member(max_ic(MaxIC),Results),
-	member(avg_ic_bestmatches(AvgIC),Results),
-        S is MaxIC + AvgIC/5.
+%% organism_disease_species_score(?Org,?Dis,?Sp,?Sc,+Metric)
+organism_disease_species_score(Org,D,S,Sc,Metric) :-
+	organism_role_disease(Patient,patient,D),
+	organism_pair_combined_score_value(Patient,Org,Metric,Sc),
+	Sc > 4.5,		% arbitrary for now...
+	organism_species(Org,S),
+	debug(phenotype,'odss ~w ~w ~w ~w',[Org,D,S,Sc]),
+	\+ organism_role_disease(Org,patient,_).
 
 %% organism_inferred_type(?Org,?Type)
 % combination of organism_type/2 and inferred (reflexive) subClassOf/2 using entailed/1

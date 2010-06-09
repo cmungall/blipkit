@@ -87,6 +87,12 @@ start_server(Port) :-
 :- http_handler(pkb(classes), used_classes, []).
 
 :- http_handler(pkb(js), js_dir, [prefix]).
+:- http_handler(pkb(images), images_dir, [prefix]).
+:- http_handler('/images/', implicit_images_dir, [prefix]).
+%:- http_handler('/bubble.gif', implicit_images_dir, [prefix]).
+
+
+
 
 param(title,     [optional(true)]).
 param(name,      [length >= 2 ]).
@@ -122,10 +128,33 @@ js(_URL) -->
         html_post(js,
                   script([type='text/javascript',src='/pkb/js/all.js'])).
 
+images_dir(Request) :-
+	http_location_by_id(images_dir, ResRoot),
+	memberchk(path(Path), Request),
+	atom_concat(ResRoot, File, Path),  % e.g. /img/, hi.jpg, /img/hi.jpg
+        atom_concat('images',File,Local), % e.g. img/, hi.jpg, img/hi.jpg
+	http_reply_file(Local, [], Request).
+
+implicit_images_dir(Request) :-
+	memberchk(path(Path), Request),
+	atom_concat(/, File, Path),  % 
+	http_reply_file(File, [], Request).
+
+
 include_htmlfile(File) -->
 	{read_file_to_codes(File,Codes,[]),
 	 atom_codes(A,Codes)},
 	[A].
+
+
+tooltip(Info) -->
+	html(a([href='#',class=tt],
+	       ['[?]',
+		span(class=tooltip,
+		     [span(class=top,''),
+		      span(class=middle,Info),
+		      span(class=bottom,'')])])).
+
 
 
 % ----------------------------------------
@@ -281,7 +310,6 @@ all_organisms_page(Orgs) :-
                           \html_receive(js)
                         ],
                         [ \page_header('Main'),
-                          \db_summary,
                           \organisms_summary(Orgs)
                         
                         ]).
@@ -465,15 +493,20 @@ view_organism_type(_Request,OrgType) :-
 
 organisms_summary(Orgs) -->
         html(div(class(organisms_summary),
-                  form([id(organisms_summary)],
-                       [table(class('std_table sortable'),
-                              [\organism_tblhdr,
-                               \organism_rows(Orgs)]),
-                        select(name(action),
+		 [h2(['Organisms summary',
+		      \tooltip('A list of all organisms represented in the database. Click on column headings to sort')]),
+		  form([id(organisms_summary)],
+		       [table(class('std_table sortable'),
+			      [\organism_tblhdr,
+			       \organism_rows(Orgs)]),
+			select(name(action),
                                [option(value(view)),
                                 option(value(compare))
-                                ]),
-                        input([name(submit),type(submit),value(organism_query)])]))).
+			       ]),
+			input([name(submit),type(submit),value(organism_query)])])
+		 ])).
+
+
 
 
 
@@ -531,22 +564,133 @@ view_organism_pair(Request) :-
 
 comparison_table(F1,F2) -->
 	 !,
-        {debug(phenotype,'compare: ~q, ~q',[F1,F2])},	 
-        %{organism_pair_score_value(F1,F2,all_LCS-avg_Sim,Pairs-AvgSim), % TODO
-        {organism_pair_score_value(F1,F2,minimal_LCS_simJ-avg_simJ,Pairs-AvgSim), % TODO
-	 debug(phenotype,'avgSim: ~w',[AvgSim]),
-	 findall(\comparison_table_lcs_row(LCS,Sim,S1s,S2s),
-		member(Sim-lcs(LCS,S1s,S2s),Pairs),
-		Sections)
-	},
-        html(table(border(1),
-                   [tr([th(\organism_href(F1)),
+        {debug(phenotype,'compare: ~q, ~q',[F1,F2]),
+	 organism_pair_score_value(F1,F2,minimal_LCS_simJ-avg_simJ,Pairs-AvgSim),
+	 Pairs=[TopSim-lcs(TopLCS,TopX1,TopX2)|_],
+	 TopLCS=[TopLCS_1|TopLCS_Rest],
+	 debug(phenotype,'avgSim: ~w',[AvgSim])},
+        html([h2('Organism-Phenotype Pairwise Comparison Table'),
+	      p(i(['Scroll to ',a(href='#info','bottom of table'),' for full description'])),
+	      p(['Average Similarity: ',
+		 b(AvgSim),
+		 \tooltip('The average pairwise similarity between all best-matching pairs')]),
+	      table(border(1),
+		    [tr([th(\organism_href(F1)),
 			th(' '),
-			th(\organism_href(F2))])
-		   |
-		   Sections])).
+			th(\organism_href(F2))]),
+		    \comparison_table_lcs_rows(Pairs,[])]),
+	      div([id=info,class=infoBox],
+		  [
+		   h3('Documentation'),
+		   p(['This table displays the phenotypic similarity between two organisms, ',
+		      \organism_href(F1),' and ',\organism_href(F2),'. ']),
+		   p(['Each phenotype is described combinatorially as a set of classes (this is a simplification of other underlying more complex phenotype representation). ',
+		      'The classes are drawn from different ontologies, including the PATO ontology of phenotypic qualities. ',
+		      'For example, the first phenotype listed for ',\organism_href(F1),
+		      ' is {',\class_info(TopX1),'}. '
+		      ]),
+		   p(['We try and match up each phenotype in each of the two organisms with its best matching phenotype in the other organism. ',
+		      'For each matching pair, we also show the least common subsumer - a description that unifies both phenotypes. ',
+		      'The resulting display is a list of match-triples, between each pair and a common subsumer.']),
+		   h3('Pairwise matches'),
+		   p(['The phenotypes specific to each organism are listed on the left and right sides, such that each phenotype is aligned alongside ',
+		      'the best-matching phenotype in the other organism, with the best match at the top. If the match is a reciprocal best hit, then both phenotypes will be shown in bold. ',
+		      'Otherwise, one of the phenotypes is shown in italics (this phenotype will have a better match higher up in the table). ']),
+		   p(['For example, the best match in the table above is ',
+		      \example_sim(TopSim,TopX1,TopX2),
+		      '. ']),
+		   p(['Occasionally more than one phenotype is listed on each side of the pairwise match. This happens when there are ties between matches. ']),
+		   h3('Pairwise Similarity Scores'),
+		   p(['Each pairwise matching is assigned a similarity score. OBD is capable of calculating different similarity scores, but in this case the ',
+		      a(href='http://en.wikipedia.org/wiki/Jaccard_index','Jacard Similarity'),' is used. ',
+		      'This is the ratio of total set of all classes in common between the two phenotypes versus the the union of these classes. ',
+		      'Note that the fully inferred subsumption hierarchy is used. ',
+		      'For example, in this particular comparison, the best pairing is between ',
+		      \class_info(TopX1),' and ',\class_info(TopX2),'. ',
+		      'The classes in common include ',\class_info(TopLCS_1),' and all the subsumers of this class',
+		      \example_subsumer(TopLCS_1),' as well as all the subsumers for ',\class_info(TopLCS_Rest)
+		      ]),
+		   h3('Least Common Subsumers'),
+		   p(['Above each phenotype pairing is shown the Least Common Subsumer (LCS). This is the most specific description that could be found which is inclusive of both ',
+		      'individual phenotypes. The description is also combinatorial, consisting of a conjunction of classes. ',
+		      'Sometimes the individual elements of these descriptions may be class expressions, rather than named classes in the ontology']),
+		   h3('Unmatched phenotypes'),
+		   p(['The bottom of the table shows the unmatched phenotypes (if any). ',
+		      'No pairings could be made for these (using the existing ontologies)']),
+		   ''
+		  ])]).
+
+
+example_sim(_,TopX,TopX) -->
+	!,
+	html(['an exact match -- both organisms have the ',\class_info(TopX),' phenotype (which has a perfect match score of 1)']).
+example_sim(Sim,TopX1,TopX2) -->
+	html([\class_info(TopX1),' and ',\class_info(TopX2),' (with a score of ',Sim,')']).
+
+example_subsumer(X) -->
+	{subClassOf(X,Y)},
+	!,
+	html([' (such as ',\class_info(Y),')']).
+example_subsumer(_) -->
+	html(' (umm, guess I chose a bad example here, I can\'t find any subsumers which is odd. Sorry about that, bear with me...)').
+
+
+	    
+
 
 comparison_table(F1,F2) -->
+	old_comparison_table(F1,F2).
+
+comparison_table_lcs_rows([],_) --> [].
+comparison_table_lcs_rows([Pair|Pairs],PairsDone) -->
+	{debug(phenotype,'foo',[])},
+	comparison_table_lcs_row(Pair,PairsDone),
+	comparison_table_lcs_rows(Pairs,[Pair|PairsDone]).
+
+comparison_table_lcs_row(Pair,PairsDone) -->
+	{Pair=Sim-lcs(LCS,S1s,S2s),
+	 (   member(_-lcs(_,S1s,_),PairsDone)
+	 ->  S1IsBest=false
+	 ;   S1IsBest=true),
+	 (   member(_-lcs(_,_,S2s),PairsDone)
+	 ->  S2IsBest=false
+	 ;   S2IsBest=true)},
+        html([tr(td([colspan(3),align(center)],
+                    [\phenotype_lcs_info(LCS),
+		     br(''),
+		     span(['Pairwise Similarity: ',
+			   b(Sim),
+			   \pairwise_similarity_tooltip(Sim)
+			   ])])),
+              tr([td(\hi_phenotype_infos(S1IsBest,S1s)),
+                  td(''),
+                  td(\hi_phenotype_infos(S2IsBest,S2s))]),
+	      tr(td(colspan(3),p('')))]).
+
+phenotype_lcs_info([]) --> !, html(i('No match')).
+phenotype_lcs_info([X]) --> !,phenotype_info(X).
+phenotype_lcs_info([X|L]) --> !,phenotype_info(X),phenotype_lcs_info(L).
+
+sim_expl(1,'A score of 1 indicates an exact match').
+sim_expl(Sim,'This indicates a high degree of similarity') :- Sim>0.75.
+sim_expl(Sim,'This indicates a moderate-to-high degree of similarity') :- Sim>0.5.
+sim_expl(Sim,'This indicates a low-to-moderate degree of similarity') :- Sim>0.25.
+sim_expl(0,'A score of 0 indicates that the class sets have nothing in common in the ontologies used').
+sim_expl(_,'This indicates a very low level of similarity').
+
+
+pairwise_similarity_tooltip(Sim) -->
+	{sim_expl(Sim,Expl)},
+	html(\tooltip(['This is the Jacard Similarity measure of the overlap between the pair of class sets in each of the organisms. ',
+		       'The Jacard Similarity is the ratio between classes in common and classes in the union (the full inferred subsumption hierarchy is taken into account). ',
+		       br(''),
+		       'The similarity of these two class sets is ',Sim,'. ',
+		       Expl,'. '])).
+
+
+	
+
+old_comparison_table(F1,F2) -->
 	 !,
         {method_feature_pair_phenosim(postcomposed,F1,F2,Results), % TODO
 	 member(bestmatches(P1Xs,P2Xs),Results),
@@ -567,7 +711,7 @@ comparison_table(F1,F2) -->
                    Sections])).
 
 % show pairwise matches in a graphviz display
-comparison_table(F1,F2) -->
+old_comparison_table(F1,F2) -->
         {method_feature_pair_phenosim(psimj,F1,F2,_), % TODO
 	 !,
 	 feature_pair_to_dotgraph(F1,F2,G),
@@ -583,20 +727,10 @@ comparison_table(F1,F2) -->
 		 ])).
 
 % symmetry - TODO
-comparison_table(F1,F2) -->
+old_comparison_table(F1,F2) -->
         {method_feature_pair_phenosim(psimj,F2,F1,_)}, % TODO - better symm
 	!,
 	comparison_table(F2,F1).
-
-comparison_table_lcs_row(LCS,Sim,S1s,S2s) -->
-	%{debug(phenotype,'LCS[~w] ~w < ~w AND ~w',[Sim,LCS,S1s,S2s])},
-        html([tr(td([colspan(3),align(center)],
-                    \phenotype_infos(LCS))),
-              tr(td([colspan(3),align(center)],
-                    ['Simlarity: ',Sim])),
-              tr([td(ul(\phenotype_infos(S1s))),
-                  td(''),
-                  td(ul(\phenotype_infos(S2s)))])]).
 
 feature_pair_subsumers(F1,F2) -->
 	{method_feature_pair_phenosim(simj_all,F1,F2,Rs),
@@ -778,8 +912,12 @@ phenoblast_summary(P,IC,P1Xs,P2Xs) -->
                   td(''),
                   td(ul(\phenotype_infos(P2s)))])]).
 
-phenotype_infos([]) --> [].
-phenotype_infos([H|L]) --> phenotype_info(H),phenotype_infos(L).
+hi_phenotype_infos(true,X) --> !,html(b(\phenotype_infos(X))).
+hi_phenotype_infos(_,X) --> html(i(\phenotype_infos(X))).
+
+phenotype_infos([]) --> !,[].
+phenotype_infos([H]) --> !,phenotype_info(H).
+phenotype_infos([H|L]) --> !,phenotype_info(H),html(hr('')),phenotype_infos(L).
 
 
 % todo - rename phenotype_quad_info?
@@ -806,16 +944,6 @@ phenotype_info(P) -->
 phenotype_info(P) -->
         html(div(\class_info(P))).
 
-% TODO - move this?
-% DEPREC
-combine_feature_pair_phenosim(F1,F2,Score-Results) :-
-	setof(Results,M^(method_feature_pair_phenosim(M,F1,F2,Results)
-			;   method_feature_pair_phenosim(M,F2,F1,Results)),
-	      ResultsSet),
-	flatten(ResultsSet,Results),
-	(   member(simj(Score),Results)
-	->  true
-	;   Score=1). % TODO
 
 getscore(S,SVs,V) :- getscore(S,SVs,V,0).
 
@@ -831,7 +959,7 @@ similar_organisms_table(Org) -->
 	{debug(phenotype,'gettings hits for ~q',[Org]),
 	 solutions(Score-hit(Org,Hit,SVs),
 		   (   organism_match_all_score_values(Org,Hit,SVs),
-		       combine_scores(SVs,Score)),
+		       combine_scores(SVs,Score)), % todo
 		   ScoreHitPairsR),
          reverse(ScoreHitPairsR,ScoreHitPairs)},
         html(table(class('sortable std_table'),
@@ -1079,6 +1207,7 @@ all_diseases(_Request) :-
         solutions(S,(species(S),
                      \+ \+ inferred_organism_role_disease_species(_,model,_,S,_)),
                   SL),
+	debug(phenotype,'species with data: ~w',[SL]),
         findall(th(\organism_type_href(S)),
                 member(S,SL),
                 SpHdrs),
@@ -1093,14 +1222,30 @@ all_diseases(_Request) :-
                           p(class(info),
                             'this table shows all diseases with organismal phenotype data associated. Click on column headings to sort.'),
                           table(class('sortable std_table'),
-				[tr([th(colspan=4,'Disease'),
-				     th(colspan=10,'Predicted Best Model')]),
+				[
 				 tr([th('Name'),
-				     th('Desc'),
-				     th('Organisms'),
-				     th('Phenotypes'),
-				     th('All Potential')|SpHdrs]),
-				 \disease_rows(DL,SL)])
+				     th(['Cases',
+					 \tooltip('Total distinct human records in database associated with this disease')]),
+				     th(['Phenotypes',
+					 \tooltip('Total distinct phenotypes in database associated with this disease')]),
+				    th(['All Potential',
+					\tooltip('Best algorithmically predicted model for the disease, across all species')])
+				    |SpHdrs]),
+				% tr([th(colspan=4,'Disease'),
+				%    th(colspan=10,'Predicted Best Model')]),
+				 \disease_rows(DL,SL)]),
+			  div([id=info,class=infoBox],
+			      [
+			       h3('Documentation'),
+			       p('This pages summarises the main diseases in the database, and shows algorothmically predicted best models for the disease.'),
+			       h3('Predications'),
+			       p('For each disease, the single best model is predicted. If it is a tie, multiple models are shown.'),
+			       p(['For each disease-species pair, the best predicated model of that disease in that species is shown. ',
+				  'If this is a reciprocal best hit (i.e. that model does not better match any other disease), then this is indicated.']),
+			       h3('Algorithm'),
+			       p('Multiple metrics are combined. Soon you will be able to select different metrics')
+			      ])
+		   
                         ]).
 
 disease_rows([],_) --> [].
@@ -1108,23 +1253,28 @@ disease_rows([X|XL],SL) --> disease_row(X,SL),disease_rows(XL,SL).
 
 disease_row(Disease,SL) -->
 	{
+	 debug(phenotype,'disease: ~w',[Disease]),
 	 (   disease_description(Disease,Desc)
 	 ->  true
 	 ;   Desc=''),
 	 aggregate(count,Org,Role^organism_role_disease(Org,Role,Disease),NumOrgs),
 	 aggregate(count,P,disease_phenotype(Disease,P),NumPhenotypes),
+	 debug(phenotype,'NumP: ~w',[NumPhenotypes]),
+	 Metric=avg_IC+maxIC,
+	 % best overall model for Disease
 	 solutions(Model,
-		   inferred_organism_role_disease(Model,model,Disease),
+		   inferred_organism_role_disease(Model,model,Disease,Metric),
 		   Models),
+	 % best model per-species for Disease
 	 findall(S-ModelsBySpecies,
 		 (   member(S,SL),
 		     solutions(Model-IsReciprocal,
-			       inferred_organism_role_disease_species(Model,model,Disease,S,IsReciprocal),
+			       inferred_organism_role_disease_species(Model,model,Disease,S,IsReciprocal,Metric),
 			       ModelsBySpecies)
 		 ),
 		 SpeciesMatchesList)},
-	html(tr([td(\disease_href(Disease)),
-		 td(Desc),
+	html(tr([td([\disease_href(Disease),
+		     \tooltip(Desc)]),
 		 td(NumOrgs),
 		 td(NumPhenotypes),
 		 td(\organism_hrefs(Models)),
@@ -1525,33 +1675,66 @@ class_info(Class,false) --> html(\class_info(Class)).
         
 class_info((-)) --> !,html('-').
 
-class_info([H|T]) --> !,class_info(H),[' '],class_info(T).
 class_info([]) --> !.
+class_info([H]) --> !,class_info(H).
+class_info([H|T]) --> !,class_info(H),[' * '],class_info(T).
 
 class_info(Class) -->
         {atom(Class)},
+	!,
+	class_info_r(Class).
+class_info(Class) -->
+	class_info_r(Class),
+	class_expression_tooltip.
+
+class_info_r(Class) -->
+        {atom(Class)},
+	!,
         {labelAnnotation_value(Class,Label) -> true ; Label=Class},
         html(a(href(location_by_id(view_class) + encode(Class)),Label)).
 
-class_info(intersectionOf(L)) -->
+class_info_r(intersectionOf(L)) -->
         {select(someValuesFrom(P,Y),L,[X])},
-        class_info_simple_gd(X,P,Y),
-        !.
-class_info(Class) -->
+	!,
+        class_info_simple_gd(X,P,Y).
+class_info_r(intersectionOf([X])) -->
+	!,
+        class_info_r(X).
+class_info_r(intersectionOf([X|L])) -->
+	!,
+        html([\class_info_r(X),
+	      ' and ',
+	      \class_info_r(intersectionOf(L))]).
+class_info_r(someValuesFrom(P,X)) -->
+	!,
+	html([\entity_info(P),' some ',\class_info_r(X)]).
+class_info_r(Class) -->
         % generic class expression
         entity_info(Class).
 
 % e.g. nitrated protein
 class_info_simple_gd(X,'http://ontology.neuinfo.org/NIF/Backend/BIRNLex-OBO-UBO.owl#birnlex_17',Y) -->
+	!,
         html([\class_info(Y),' ',\class_info(X)]).
 
 class_info_simple_gd(X,R,Y) -->
 	{rel_uri(part_of,R)},
+	!,
         html([\class_info(X),' of ',\class_info(Y)]).
 
 class_info_simple_gd(X,R,Y) -->
 	{rel_uri(has_part,R)},
+	!,
         html([\class_info(Y),' ',\class_info(X)]).
+class_info_simple_gd(X,R,Y) -->
+	html([\class_info(X),' that ',\entity_info(R),' some ',\class_info(Y)]).
+
+class_expression_tooltip -->
+	tooltip(['This is a ',i('class expression'),', ',
+		 'which is a way of describing a complex entity by combining existing named classes from the ontology. ',
+		 'In some cases, the least common subsumer of two existing classes may be a class expression. ',
+		 'The class expression here is written in OWL Manchester Syntax. Future versions of OBD may display this in a more intuitive way.']).
+
 
 rel_uri(part_of,'http://purl.org/obo/owl/OBO_REL#part_of').
 rel_uri(part_of,'http://www.obofoundry.org/ro/ro.owl#part_of').
