@@ -29,6 +29,7 @@
            phenotype_description/2,
            organism_inferred_type/2,
            organism_role_disease/3,
+	   disease_canonical_organism/2,
            organism_disease/2,
            inferred_organism_role_disease/3,
            inferred_organism_role_disease/4,
@@ -48,6 +49,7 @@
 	   organism_pair_all_scores/3,
 	   organism_match_all_score_values/3,
 	   organism_pair_combined_score_value/4,
+	   phenotype_pair_score_value/4,
 	   
 	   entity_phenotype/2
            ]).
@@ -78,6 +80,8 @@
 :- extensional(organism_role_disease/3).
 
 organism_disease(O,D) :- organism_role_disease(O,_,D).
+
+disease_canonical_organism(D,O) :- organism_role_disease(O,canonical,D).
 
 
 %% organism_role_disease(?Org,?Role,?Disease,?Species)
@@ -158,15 +162,17 @@ organism_pair_combined_score_value(F1,F2,S,0) :-
 	atom(S),
 	\+ organism_pair_score_value(F1,F2,S,_).
 
+:- extensional(phenotype_pair_score_value/4).
+
 inferred_organism_role_disease(Model,model,D) :-
 	inferred_organism_role_disease(Model,model,D,avg_IC+maxIC).
 
 %% inferred_organism_role_disease(?Model,?Role,?Disease,+Metric)
 inferred_organism_role_disease(Model,model,D,Metric) :-
         solutions(Sc-Model,
-                  (   organism_role_disease(Patient,patient,D),
-                      organism_pair_combined_score_value(Patient,Model,Metric,Sc),
-                      \+ organism_role_disease(Model,patient,_)
+                  (   organism_role_disease(Canonical,canonical,D),
+                      organism_pair_combined_score_value(Canonical,Model,Metric,Sc),
+                      \+ organism_role_disease(Model,canonical,_)
                   ),
                   L),
         member(Sc-Model,L),
@@ -204,12 +210,12 @@ organism_disease_species_score(Org,D,S,Sc) :-
 
 %% organism_disease_species_score(?Org,?Dis,?Sp,?Sc,+Metric)
 organism_disease_species_score(Org,D,S,Sc,Metric) :-
-	organism_role_disease(Patient,patient,D),
-	organism_pair_combined_score_value(Patient,Org,Metric,Sc),
+	organism_role_disease(Canonical,canonical,D),
+	organism_pair_combined_score_value(Canonical,Org,Metric,Sc),
 	Sc > 4.5,		% arbitrary for now...
 	organism_species(Org,S),
 	debug(phenotype,'odss ~w ~w ~w ~w',[Org,D,S,Sc]),
-	\+ organism_role_disease(Org,patient,_).
+	\+ organism_role_disease(Org,canonical,_).
 
 %% organism_inferred_type(?Org,?Type)
 % combination of organism_type/2 and inferred (reflexive) subClassOf/2 using entailed/1

@@ -444,6 +444,20 @@ atom_chebis(A,L):-
 	concat_atom(Toks,' + ',A),
 	maplist(atom_chebi,Toks,L).
 
+atom_chebi(A,exactly(Num,C)):-
+	concat_atom([NA|Toks],' ',A),
+	catch(atom_number(NA,Num),_,fail),
+	concat_atom(Toks,' ',A2),
+	atom_chebi(A2,C),
+	!.
+atom_chebi(A,in(C)):-
+	atom_concat(A2,'(in)',A),
+	atom_chebi(A,C),
+	!.
+atom_chebi(A,out(C)):-
+	atom_concat(A2,'(out)',A),
+	atom_chebi(A,C),
+	!.
 atom_chebi(A,C):-
 	entity_label(C,A),
 	!.
@@ -463,7 +477,9 @@ atom_chebi(A,or(Cs)):-
 	Toks=[_,_|_],
 	!,
 	maplist(atom_chebi,Toks,Cs).
-atom_chebi(A,A).
+atom_chebi(A,A) :-
+	debug(chebi,'Not_in_chebi: ~w',[A]).
+
 
 
 def_reaction(F,A,B):-

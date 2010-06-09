@@ -46,12 +46,14 @@ pkb_db:disease(D) :-
         member(someValuesFrom('http://ontology.neuinfo.org/NIF/Backend/BIRNLex-OBO-UBO.owl#birnlex_17', D),L),
         entailed(subClassOf(D,'http://ontology.neuinfo.org/NIF/Dysfunction/NIF-Dysfunction.owl#birnlex_12796')).
 
-pkb_db:organism_role_disease(O,patient,D) :-
+pkb_db:organism_role_disease(O,Role,D) :-
         equivalent_to(O1,intersectionOf(L)),
         member(someValuesFrom('http://ontology.neuinfo.org/NIF/Backend/BIRNLex-OBO-UBO.owl#birnlex_17', D),L),
         entailed(subClassOf(D,'http://ontology.neuinfo.org/NIF/Dysfunction/NIF-Dysfunction.owl#birnlex_12796')),
-        (   O1=O
-        ;   classAssertion(O1,O)).
+        (   O1=O,
+	    Role=canonical
+        ;   classAssertion(O1,O),
+	    Role=patient).
 
 
 pkb_db:disease_label(D,X) :- disease(D),labelAnnotation_value(D,X).

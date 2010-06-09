@@ -573,11 +573,13 @@ comparison_table(F1,F2) -->
 	      p(i(['Scroll to ',a(href='#info','bottom of table'),' for full description'])),
 	      p(['Average Similarity: ',
 		 b(AvgSim),
-		 \tooltip('The average pairwise similarity between all best-matching pairs')]),
+		 \avg_simj_tooltip]),
 	      table(border(1),
-		    [tr([th(\organism_href(F1)),
+		    [tr([th(width='40%',
+			    \organism_href(F1)),
 			th(' '),
-			th(\organism_href(F2))]),
+			th(width='40%',
+			   \organism_href(F2))]),
 		    \comparison_table_lcs_rows(Pairs,[])]),
 	      div([id=info,class=infoBox],
 		  [
@@ -614,6 +616,15 @@ comparison_table(F1,F2) -->
 		   p(['Above each phenotype pairing is shown the Least Common Subsumer (LCS). This is the most specific description that could be found which is inclusive of both ',
 		      'individual phenotypes. The description is also combinatorial, consisting of a conjunction of classes. ',
 		      'Sometimes the individual elements of these descriptions may be class expressions, rather than named classes in the ontology']),
+		   p(['We also calculate the information content (IC) of each of the LCSs. ',
+		      'The IC is a measure of "surprise" at seeing a phenotype. It is calculated by taking the negative of the log of the probability of an organism ',
+		      'having that phenotype. Note that the only way OBD has of calculating this probability is using the existing data in the database. ',
+		      'This means that the IC is subject to literature bias, and is less useful when the corpus is small.']),
+		   p(['For example, if the corpus is biased towards hippocampal phenotypes, then a hippocampal phenotype will have a lower IC, because it ',
+		      'looks like a common phenotype. ',
+		      'Conversely, if only two organisms in the corpus have a retinal phenotype, then this will score highly, because it looks like ',
+		      'a rare phenotype.']),
+		   p(['Note also that the IC of the LCS does not reflect differences between the phenotype pair, it only reflects what is shared between the two']),
 		   h3('Unmatched phenotypes'),
 		   p(['The bottom of the table shows the unmatched phenotypes (if any). ',
 		      'No pairings could be made for these (using the existing ontologies)']),
@@ -649,6 +660,11 @@ comparison_table_lcs_rows([Pair|Pairs],PairsDone) -->
 
 comparison_table_lcs_row(Pair,PairsDone) -->
 	{Pair=Sim-lcs(LCS,S1s,S2s),
+	 (   member(S1,S1s),
+	     member(S2,S2s),
+	     phenotype_pair_score_value(S1,S2,lcs_IC,LCS_IC)
+	 ->  true
+	 ;   LCS_IC='?'),
 	 (   member(_-lcs(_,S1s,_),PairsDone)
 	 ->  S1IsBest=false
 	 ;   S1IsBest=true),
@@ -658,13 +674,18 @@ comparison_table_lcs_row(Pair,PairsDone) -->
         html([tr(td([colspan(3),align(center)],
                     [\phenotype_lcs_info(LCS),
 		     br(''),
-		     span(['Pairwise Similarity: ',
-			   b(Sim),
-			   \pairwise_similarity_tooltip(Sim)
-			   ])])),
+		     span(['Information Content of LCS: ',
+			   b(LCS_IC),
+			   \lcs_IC_tooltip(LCS_IC)
+			   ])
+		    ])),
               tr([td(\hi_phenotype_infos(S1IsBest,S1s)),
-                  td(''),
-                  td(\hi_phenotype_infos(S2IsBest,S2s))]),
+                  td(valign=top,
+		     ['Pairwise Similarity: ',
+		      b(Sim),
+		      \pairwise_similarity_tooltip(Sim)
+			   ]),
+		  td(\hi_phenotype_infos(S2IsBest,S2s))]),
 	      tr(td(colspan(3),p('')))]).
 
 phenotype_lcs_info([]) --> !, html(i('No match')).
@@ -678,6 +699,9 @@ sim_expl(Sim,'This indicates a low-to-moderate degree of similarity') :- Sim>0.2
 sim_expl(0,'A score of 0 indicates that the class sets have nothing in common in the ontologies used').
 sim_expl(_,'This indicates a very low level of similarity').
 
+avg_simj_tooltip -->
+	tooltip('The average pairwise similarity between all best-matching pairs. Note that at this time this is only calculated where matches can be found. This is not an ideal strategy, and in future this score will penalize unmatched phenotypes').
+
 
 pairwise_similarity_tooltip(Sim) -->
 	{sim_expl(Sim,Expl)},
@@ -685,6 +709,25 @@ pairwise_similarity_tooltip(Sim) -->
 		       'The Jacard Similarity is the ratio between classes in common and classes in the union (the full inferred subsumption hierarchy is taken into account). ',
 		       br(''),
 		       'The similarity of these two class sets is ',Sim,'. ',
+		       Expl,'. '])).
+
+ic_expl(IC,'The IC was not calculated for this LCS') :- \+number(IC).
+ic_expl(IC,'This is a high IC, representing p<0.01 (against the current database)') :- IC > 6.64.
+ic_expl(IC,'This is a moderate IC, representing 0.01 < p < 0.05') :- IC > 4.32.
+ic_expl(IC,'This is a low/moderate IC, representing 0.05 < p < 0.1') :- IC > 3.32.
+ic_expl(IC,'This is a low IC, representing 0.1 < p < 0.25') :- IC > 2.
+ic_expl(_,'This is an insignificant IC, representing 0 < p < 0.25').
+
+
+
+
+lcs_IC_tooltip(IC) -->
+	{ic_expl(IC,Expl)},
+	html(\tooltip(['This is the information content (IC) of the most specific Least Common Subsuming description that could be inferred for the phenotype pair. ',
+		       'The IC is the negative log of the probability of seeing this phenotype by chance in an organism, based on phenotypes in this database. ',
+		       br(''),
+		       'Note that without a large background set, this figure may be misleading. ',
+		       'The IC for this LCS description is ',IC,'. ',
 		       Expl,'. '])).
 
 
@@ -764,7 +807,9 @@ organism_type_href(OrgType) -->
         html(a(href(location_by_id(view_organism_type) + encode(OrgType)),Label)).
 
 organism_pair_href(Org,Hit) -->
-        html(a(href(location_by_id(view_organism_pair) + encode(Org) + ' ' + encode(Hit)),show)).
+        html(a(href(location_by_id(view_organism_pair) + encode(Org) + ' ' + encode(Hit)),
+	       b('[VIEW]'))).
+%	       img([height='16px',src='/images/compare.gif'],''))).
 
 
 % ----------------------------------------
@@ -953,7 +998,8 @@ getscore(_,_,Def,Def) :- !.
 combine_scores(SVs,Score) :-
 	getscore(maxIC,SVs,Score1),
 	getscore(avg_IC,SVs,Score2),
-	Score is Score1+Score2.
+	getscore(minimal_LCS_simJ-avg_simJ,SVs,_-AvgSimJ),
+	Score is Score1+Score2+AvgSimJ.
 
 similar_organisms_table(Org) -->
 	{debug(phenotype,'gettings hits for ~q',[Org]),
@@ -965,11 +1011,19 @@ similar_organisms_table(Org) -->
         html(table(class('sortable std_table'),
                    [tr([th('Organism/Type'),
                         th('Species'),
-                        th([colspan=2],'MaxIC'),
+                        th([colspan=2],
+			   ['Best Match',
+			    \tooltip('The most specific phenotype description that could be calculated to cover both source and target species.
+				    The information content (IC) of this description is also shown. This is the inverse log of the probability of that
+				    description being observed by chance')]),
                         %th('Overlap'),
-                        th('AvgIC'),
-                        th('Combined'),
-			th('')
+                        th(['AvgIC',
+			   \tooltip('Average Information Content across minimal Least Common Subsumer set')]),
+                        th(['AvgSimJ',
+			    \avg_simj_tooltip]),
+                        th(['Combined',
+			    \tooltip('Ad-hoc combination of all scores')]),
+			th('View')
 			]),
 		    \organism_similarity_matchrows(ScoreHitPairs)])).
 
@@ -980,7 +1034,8 @@ organism_similarity_matchrow(Combined-hit(Org,Hit,SVs)) -->
 	 organism_species(Hit,Sp),
 	 getscore(maxIC,SVs,MaxIC),
 	 getscore(best_LCS,SVs,[BestLCS|_]),
-	 getscore(avg_IC,SVs,AvgIC)
+	 getscore(avg_IC,SVs,AvgIC),
+	 getscore(minimal_LCS_simJ-avg_simJ,SVs,_-AvgSimJ)
 	},
         html(tr([td(\organism_href(Hit)),
                  td(\organism_type_href(Sp)),
@@ -988,6 +1043,7 @@ organism_similarity_matchrow(Combined-hit(Org,Hit,SVs)) -->
                  %td(\multi(entity_info,BestLCSs)),
 		 td(\phenotype_info(BestLCS)),
                  td(AvgIC),
+                 td(AvgSimJ),
                  td(Combined),
                  td(\organism_pair_href(Org,Hit))])
             ).
@@ -1238,10 +1294,13 @@ all_diseases(_Request) :-
 			      [
 			       h3('Documentation'),
 			       p('This pages summarises the main diseases in the database, and shows algorothmically predicted best models for the disease.'),
-			       h3('Predications'),
+			       h3('Predictions'),
 			       p('For each disease, the single best model is predicted. If it is a tie, multiple models are shown.'),
 			       p(['For each disease-species pair, the best predicated model of that disease in that species is shown. ',
 				  'If this is a reciprocal best hit (i.e. that model does not better match any other disease), then this is indicated.']),
+			       p(['Predicted matches are also shown between the "canonical" disease and individual humans. ',
+				  'We would expect that individual humans diagnosed with the disease are always the best match for the canonical disease; ',
+				  'in some cases this is not the case, but this may be because there are no individual humans diagnosed with that disease in the database.']),
 			       h3('Algorithm'),
 			       p('Multiple metrics are combined. Soon you will be able to select different metrics')
 			      ])
@@ -1254,6 +1313,7 @@ disease_rows([X|XL],SL) --> disease_row(X,SL),disease_rows(XL,SL).
 disease_row(Disease,SL) -->
 	{
 	 debug(phenotype,'disease: ~w',[Disease]),
+	 disease_canonical_organism(Disease,Canonical),
 	 (   disease_description(Disease,Desc)
 	 ->  true
 	 ;   Desc=''),
@@ -1278,24 +1338,25 @@ disease_row(Disease,SL) -->
 		 td(NumOrgs),
 		 td(NumPhenotypes),
 		 td(\organism_hrefs(Models)),
-		 \model_matches_columns(SpeciesMatchesList)
+		 \model_matches_columns(Canonical,SpeciesMatchesList)
 		 ])).
 
-model_matches_columns([]) --> [].
-model_matches_columns([_-ML|MLs]) -->
-	html(td(\model_matches(ML))),
-	model_matches_columns(MLs).
+model_matches_columns(_,[]) --> [].
+model_matches_columns(Canonical,[_-ML|MLs]) -->
+	html(td(\model_matches(Canonical,ML))),
+	model_matches_columns(Canonical,MLs).
 
 
-model_matches([]) --> [].
-model_matches([M|ML]) --> model_match(M),model_matches(ML).
+model_matches(_,[]) --> [].
+model_matches(Canonical,[M|ML]) --> model_match(Canonical,M),model_matches(Canonical,ML).
 	
-model_match(M-IsReciprocal) -->
+model_match(Canonical,M-IsReciprocal) -->
 	{(   IsReciprocal
 	 ->  Notes=' [Reciprocal]'
 	 ;   Notes='')},
 	html(div([\organism_href(M),
-		  b(Notes)])).
+		  b(Notes),
+		  \organism_pair_href(Canonical,M)])).
 
 % TOP-LEVEL: view a specific disease
 % /disease/Disease
@@ -1705,6 +1766,9 @@ class_info_r(intersectionOf([X|L])) -->
         html([\class_info_r(X),
 	      ' and ',
 	      \class_info_r(intersectionOf(L))]).
+class_info_r(someValuesFrom('http://purl.org/obo/owl/obo#towards',X)) -->
+	!,
+	class_info_r(X).
 class_info_r(someValuesFrom(P,X)) -->
 	!,
 	html([\entity_info(P),' some ',\class_info_r(X)]).

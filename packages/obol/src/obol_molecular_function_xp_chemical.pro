@@ -64,6 +64,7 @@ molecular_function(F that executes(P that results_in_division_of(C)) and depends
 
 
 % DEFINITION
+% use -parse_rule def in obol
 % eg "Catalysis of the reaction: ATP + L-lysine + tRNA(Lys) = AMP + diphosphate + L-lysyl-tRNA(Lys)."
 % - this rule can be used for parsing
 def(molecular_function(F that IDiffs and ODiffs)) -->
@@ -74,8 +75,10 @@ inputs(X and Y) -->
         input(X),['+'],inputs(Y).
 inputs(X) -->
         input(X).
-input(has_input(N,X)) --> num(N),fchemical(X).
-input(has_input(X)) --> fchemical(X).
+input(has_input(N,X)) --> num(N),fchemical(X),!.
+input(has_input(X)) --> fchemical(X),!.
+input(_,Toks,_) --> {concat_atom(Toks,' ',A),debug(obol,'Cannot parse: ~w',[A]),fail}.
+
 
 outputs(X and Y) -->
         output(X),['+'],outputs(Y).
