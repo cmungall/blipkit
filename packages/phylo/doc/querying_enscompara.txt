@@ -1,0 +1,78 @@
+
+In order to run the examples in this tutorial, you need the following packages installed
+
+* odbc (in SWI core)
+* sql (in blip)
+
+This is a relatively advanced query, as it involves mapping predicates
+to two databases.
+
+First of all create a file compara_ex1.pl define a convenience
+predicate, that sets up a connection to an ensembl genome databases
+and binds the predicates phylonode_parent/2 and phylonode_branchlen/2
+to the ensembl_compara database.
+
+==
+  :- use_module(bio(rdb_util)).
+  :- use_module(bio(genome_sqlmap_enscore)).
+  :- use_module(bio(phylo_sqlmap_enscompara)).
+  :- use_module(bio(phylo_db)).
+  :- use_module(bio(genome_db)).
+
+  % note that we only specify bindings to one database.
+  % we assume that both databases are on the same mysql
+  % server, and that the tables in the compara database
+  % can be accessed from the homo_sapiens database via
+  % table name prefixing
+  init_bindings:-
+  	Db = homo_sapiens_core,
+          sqlbind(genome_db:all-Db),
+          sqlbind(phylo_db:phylonode_parent/2-Db),
+          sqlbind(phylo_db:phylonode_branchlen/2-Db),
+          % ensure the sql tables are prefixed by db name
+          assert(sql_compiler:schema_dbname(enscompara,ensembl_compara)).
+==
+
+The above assumes you have an ODBC driver installed, and have added lines such as the following to your odbc.ini:
+
+==
+[ensembl_compara]
+Driver       = /usr/local/lib/libmyodbc5.so
+Description  = ensembl_compara_52
+Database     = ensembl_compara_52
+Server       = ensembldb.ensembl.org
+User         = anonymous
+Type         = MySQL
+IncludeViews = Yes
+port         = 5306
+
+[homo_sapiens_core]
+Driver       = /usr/local/lib/libmyodbc5.so
+Description  = homo_sapiens_core_56_37a
+Database     = homo_sapiens_core_56_37a
+Server       = ensembldb.ensembl.org
+User         = anonymous
+Type         = MySQL
+IncludeViews = Yes
+port         = 5306
+
+==
+
+You can now interactively query via SWI. First load your convenience modules:
+
+==
+swipl
+[compara_ex1].
+==
+
+Query for all ancestors of BRCA1:
+
+==
+initdb(Rdb),gene_symbol(G,'BRCA1'),gene_translation(G,P),phylonode_xref(Node,P),phylonode_parentT(Node,Anc).
+==
+
+==
+initdb(Rdb),gene_symbol(G,'BRCA1'),gene_translation(G,P),phylonode_xref(Node,P),phylonode_parentT(Node,Anc),phylonode_parentT(HNode,Anc),HNode\=Node,phylonode_xref(HNode,HXref)
+==
+
+At this time you cannot easily get the genomic info for the homologs, this would require using some kind of registry

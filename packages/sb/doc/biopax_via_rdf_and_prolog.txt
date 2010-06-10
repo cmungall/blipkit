@@ -1,9 +1,9 @@
 ---+ Exploring pathways
 
 This tutorial takes you through some of the basics of exploring
-pathways using blip. Two alternative complementary modules are
-highlighted, one using the BioPAX RDFS model, the other using a more
-native prolog model.
+pathways represented in BioPAX using blip. Two alternative
+complementary modules are highlighted, one using the BioPAX RDFS
+model, the other using a more native prolog model.
 
 In both cases we use Reactome as a test case.
 
@@ -43,6 +43,14 @@ X = 'http://www.reactome.org/biopax#_Interaction_between_FEN1_and_PCNA__positive
 X = 'http://www.reactome.org/biopax#_Interaction_of_APE1_with_FEN1__positively_regulates__Cleavage_of__flap_structures_' ;
 X = 'http://www.reactome.org/biopax#_APE1_APE1_DNA_ligase_I_complex__nucleus___positively_regulates__Ligation_of_DNA_at_sites_of_patch_replacement_' .
 ==
+
+This would be equivalent to a SPARQL query:
+
+==
+SELECT ?x WHERE { ?x rdf:type bp:interaction }
+==
+
+(over a triplestore that provides RDFS entailment)
 
 Or to query for all interactions plus their left and right participants:
 
@@ -127,6 +135,11 @@ the pathway_db.pro model, and the accompanying
 biopax3_bridge_to_pathway mapping.
 
 ---++ Exploring pathways with a native prolog model
+
+biopax3_db provides a prolog model that corresponds on a 1:1 basis
+with the biopax schema. Blip also comes with pathway_db, an
+alternative model. There is a seamless mapping from biopax3_db to
+pathway_db.
 
 The first thing we will do is convert the RDF file into a native
 prolog database using the pathway_db schema. This is isn't necessary -

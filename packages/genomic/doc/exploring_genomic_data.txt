@@ -1,0 +1,125 @@
+
+Assumes you have downloaded dmel-4-r5.17.gff from FlyBase. You can
+substitute other GFF3 files - but the results will most closely
+correspond if you use a GFF3 of a similar flavor.
+
+(you can also use t/data/dmel4_80k.gff3)
+
+Load the GFF file into a seqfeature_db database and start a prolog session:
+==
+blip -i dmel-4-r5.17.gff 
+==
+
+the first time you run this, you will see a new file generated with
+the .pro suffix - this is the prolog database.
+
+You can do the same thing directly in prolog:
+
+==
+?- use_module(bio(io)).
+?- use_module(bio(seqfeature_db)).
+?- load_biofile('dmel-4-r5.17.gff').
+==
+
+Once you have loaded the data into memory you can interactively query using predicates such as feature_type/2
+
+==
+?- feature_type(F,exon).
+F = 'FBgn0040037:1' ;
+F = 'FBgn0040037:2' ;
+F = 'FBgn0040037:3' ;
+F = 'FBgn0040037:4' ;
+F = 'CR32011:4' ;
+F = 'CR32011:7' ;
+F = 'CR32011:6' .
+==
+
+You can also try:
+
+* feature_residues/2 -- dynamically extract sequence of feature
+
+The seqfeature_db corresponds to models such as GFF and Chado, where
+genomic types are reified - i.e. they are part of the data rather than
+the model.
+
+The genome_db model provides feature types as first-class predicates
+in the model.
+
+The simplest thing to do is convert a GFF3 file to a genome_db model:
+
+==
+blip-io-convert-gff-to-genome-db -i dmel-4-r5.17.gff > dmel4-genome_db.pro
+==
+
+Then load this:
+
+==
+blip -i dmel4-genome_db.pro 
+==
+
+You can now query using predicates such as utr/1
+
+==
+?- utr(X).
+X = 'five_prime_UTR_CG17245:1_938' ;
+X = 'five_prime_UTR_CG2125:1_938' ;
+X = 'five_prime_UTR_CG2168:6_938' ;
+.
+.
+.
+X = 'three_prime_UTR_CG17245:5_938' ;
+X = 'three_prime_UTR_CG2125:6_938' ;
+X = 'three_prime_UTR_CG2168:2_938' ;
+X = 'three_prime_UTR_CG17964:113_951' ;
+==
+
+The mapping between the generic seqfeature_db model and genome_db
+(genome_bridge_from_seqfeature) is quite simple, and consists of
+mapping rules such as:
+
+==
+genome_db:utr(A):-feature_type(A, 'UTR').
+genome_db:utr(A):-feature_type(A, five_prime_UTR).
+genome_db:utr(A):-feature_type(A, three_prime_UTR).
+genome_db:inron(A):-feature_type(A, 'UTR').
+genome_db:intron(A):-feature_type(A, five_prime_intron).
+genome_db:intron(A):-feature_type(A, interior_intron).
+genome_db:intron(A):-feature_type(A, three_prime_intron).
+==
+
+(this is actually generated automatically from the sequence ontology)
+
+As can be seen, there is no sophisticated inference of features beyond
+a simple type hierarchy. For example, it infers the X is an intron,
+based on the fact that X is a five_prime_intron - but it does not
+infer the existence of implicit introns from surrounding exons.
+
+In order to do this, we need to individual rule files. These are
+stored in the grule/ directory.
+
+The following command line will load in the basic genome_db set of
+facts, and the rule for inferring introns:
+
+==
+blip -i dmel4-genome_db.pro -u grule/intron -table_pred genome_db:exon_transcript_order/3
+==
+
+We can now query using intron/1, and get back both asserted and inferred introns:
+
+==
+?- intron(X).
+X = 'intron_FBgn0040037:1_FBgn0040037:2' ;
+.
+.
+.
+X = intron(4, 470594, 473243, 1) ;
+==
+
+The inferred introns have skolem IDs - prolog terms that uniquely identify the feature by its type and position.
+
+Note that at this time, both inferred and asserted introns may be
+present redundantly, and there is no predicate for testing equivalence.
+
+==
+blip -i dmel4.pro -u genome_db -table_pred genome_db:exon_transcript_order/3 io-convert -to genome_db:pro -o dmel4i.pro
+==

@@ -1,0 +1,171 @@
+##gff-version 3
+##sequence-region 4 1 1351857
+4	FlyBase	chromosome_arm	1	1351857	.	.	.	ID=4;Dbxref=GB:AE014135
+4	FlyBase	BAC_cloned_genomic_insert	1	138217	.	.	.	ID=AC010915_BAC_cloned_genomic_insert;Name=BACR05L22;Dbxref=GB:AC010915;status=tiling path;description=gi|113206006|gb|AC010915 Drosophila melanogaster clone BACR05L22%2C complete sequence.organism: Drosophila melanogaster (27-AUG-2006)
+4	FlyBase	transposable_element	2	611	.	+	.	ID=FBti0062890;Name=ninja-Dsim-like{}4829;Alias=Dsim\ninja#7678,TE62890;derived_cyto_location=-
+4	FlyBase	transposable_element	638	1719	.	-	.	ID=FBti0020395;Name=baggins{}1471;Alias=baggins{}1471,TE20395;gbunit=AE003845;derived_cyto_location=-,102A1-102A1
+4	FlyBase	transposable_element	2022	2162	.	+	.	ID=FBti0062886;Name=HMS-Beagle2{}4825;Alias=HMS-Beagle2#7675,TE62886;derived_cyto_location=-
+4	FlyBase	transposable_element	2217	2505	.	+	.	ID=FBti0062758;Name=gypsy{}4697;Alias=gypsy#7620,TE62758;derived_cyto_location=-
+4	FlyBase	transposable_element	2506	4343	.	-	.	ID=FBti0020396;Name=Rt1c{}1472;Alias=Rt1c{}1472,TE20396;gbunit=AE003845;derived_cyto_location=-,102A1-102A1
+4	FlyBase	transposable_element	4364	13761	.	-	.	ID=FBti0020400;Name=1360{}1476;Alias=1360{}1476,TE20400;gbunit=AE003845;derived_cyto_location=-101F1,102A1-102A1
+4	FlyBase	transposable_element	4886	13244	.	+	.	ID=FBti0059758;Name=GATE{}1697;Alias=TE20397,TE20399,FBti0020397,FBti0020399,GATE#7664,GATE{}1473,GATE{}1475,TE59758;derived_cyto_location=-101F1
+4	FlyBase	transposable_element	11691	12255	.	-	.	ID=FBti0020398;Name=GATE{}1474;Alias=GATE{}1474,TE20398;gbunit=AE003845;derived_cyto_location=102A1-102A1
+4	FlyBase	transposable_element	13848	13898	.	-	.	ID=FBti0062859;Name=R1{}4798;Alias=R1-element#7665,TE62859;derived_cyto_location=101F1-101F1
+4	FlyBase	transposable_element	13913	16920	.	-	.	ID=FBti0063397;Name=Rt1a{}5336;Alias=Rt1a#100522,TE63397;derived_cyto_location=101F1-101F1
+4	FlyBase	transposable_element	17379	17472	.	-	.	ID=FBti0062792;Name=Rt1b{}4731;Alias=Rt1b#7637,TE62792;derived_cyto_location=101F1-101F1
+4	FlyBase	transposable_element	17702	24049	.	-	.	ID=FBti0020401;Name=Rt1b{}1477;Alias=Rt1b{}1477,TE20401;gbunit=AE003845;derived_cyto_location=101F1-101F1,102A1-102A1
+4	FlyBase	transposable_element	18281	23344	.	+	.	ID=FBti0063368;Name=gypsy8{}5307;Alias=gypsy8#100512,TE63368;derived_cyto_location=101F1-101F1
+4	VDRC_1	RNAi_reagent	22678	22982	.	-	.	ID=FBsf0000075317;Name=dsRNA-GD5641;Alias=FBri0072507;comment=One copy of repeat shown;PCR_template=genomic DNA
+4	FlyBase	gene	24053	25621	.	+	.	ID=FBgn0040037;Name=JYalpha;fullname=JYalpha;Alias=JYalpha,JYAlpha,CG17923;Ontology_term=SO:0000010,SO:0000087,GO:0005391,GO:0005886,GO:0005890,GO:0016021,GO:0005524,GO:0015662,GO:0008152,GO:0015077,GO:0015672;Dbxref=FlyBase:FBan0017923,FlyBase_Annotation_IDs:CG17923,GB:AE003845,GB_protein:AAN06537,GB:AF202632,GB_protein:AAF17586,GB:CL528249,UniProt/TrEMBL:Q8IMB4,UniProt/TrEMBL:Q9U458,INTERPRO:IPR001757,INTERPRO:IPR004014,INTERPRO:IPR005775,INTERPRO:IPR005834,INTERPRO:IPR006068,INTERPRO:IPR006069,INTERPRO:IPR008250,dedb:13623,flygrid:72490,ihop:69279,nucl:GB:AE003845,nucl:GB:AF202632,nucl:GB:CL528249,pdom:INTERPRO:IPR001757,pdom:INTERPRO:IPR004014,pdom:INTERPRO:IPR005775,pdom:INTERPRO:IPR005834,pdom:INTERPRO:IPR006068,pdom:INTERPRO:IPR006069,pdom:INTERPRO:IPR008250,prot:GB_protein:AAF17586,prot:GB_protein:AAN06537,prot:UniProt/TrEMBL:Q8IMB4,prot:UniProt/TrEMBL:Q9U458;derived_computed_cyto=101F1-101F1;gbunit=AE014135
+4	FlyBase	mRNA	24053	25621	.	+	.	ID=FBtr0299529;Name=JYalpha-RB;Parent=FBgn0040037;Dbxref=FlyBase_Annotation_IDs:CG17923-RB;score_text=Moderately Supported;score=6
+4	FlyBase	protein	24053	25618	.	+	.	ID=FBpp0288804;Name=JYalpha-PB;Derives_from=FBtr0299529;Dbxref=FlyBase_Annotation_IDs:CG17923-PB;derived_isoelectric_point=4.75;derived_molecular_weight=36020.6
+4	FlyBase	CDS	24053	24477	.	+	0	ID=CDS_FBgn0040037:1_932;Name=JYalpha-cds;Parent=FBtr0299529
+4	FlyBase	exon	24053	24477	.	+	.	ID=FBgn0040037:1;Name=JYalpha:1;Parent=FBtr0299529
+4	DRSC	RNAi_reagent	24068	24476	.	+	.	ID=FBsf0000020471;Name=DRSC21700;Alias=FBri0020201;comment=One copy of repeat shown;PCR_template=genomic DNA
+4	VDRC_1	RNAi_reagent	24154	24447	.	+	.	ID=FBsf0000072498;Name=dsRNA-GD1823;Alias=FBri0069037;comment=One copy of repeat shown;PCR_template=genomic DNA
+4	FlyBase	intron	24478	24978	.	+	.	ID=intron_FBgn0040037:1_FBgn0040037:2;Name=JYalpha-in;Parent=FBtr0299529
+4	FlyBase	CDS	24979	25153	.	+	2	ID=CDS_FBgn0040037:2_932;Name=JYalpha-cds;Parent=FBtr0299529
+4	FlyBase	exon	24979	25153	.	+	.	ID=FBgn0040037:2;Name=JYalpha:2;Parent=FBtr0299529
+4	FlyBase	intron	25154	25217	.	+	.	ID=intron_FBgn0040037:2_FBgn0040037:3;Name=JYalpha-in;Parent=FBtr0299529
+4	FlyBase	CDS	25218	25450	.	+	0	ID=CDS_FBgn0040037:3_932;Name=JYalpha-cds;Parent=FBtr0299529
+4	FlyBase	exon	25218	25450	.	+	.	ID=FBgn0040037:3;Name=JYalpha:3;Parent=FBtr0299529
+4	FlyBase	intron	25451	25500	.	+	.	ID=intron_FBgn0040037:3_FBgn0040037:4;Name=JYalpha-in;Parent=FBtr0299529
+4	FlyBase	CDS	25501	25621	.	+	2	ID=CDS_FBgn0040037:4_932;Name=JYalpha-cds;Parent=FBtr0299529
+4	FlyBase	exon	25501	25621	.	+	.	ID=FBgn0040037:4;Name=JYalpha:4;Parent=FBtr0299529
+4	FlyBase	transposable_element	25683	25820	.	+	.	ID=FBti0062196;Name=INE-1{}4135;Alias=INE-1#7575,TE62196;derived_cyto_location=101F1-101F1
+4	FlyBase	transposable_element	26090	26124	.	+	.	ID=FBti0062197;Name=INE-1{}4136;Alias=INE-1#7576,TE62197;derived_cyto_location=101F1-101F1
+4	FlyBase	gene	26994	32391	.	-	.	ID=FBgn0052011;Name=CR32011;fullname=CR32011;Alias=CG32011;Ontology_term=SO:0000087,SO:0000042;Dbxref=FlyBase:FBan0032011,FlyBase_Annotation_IDs:CR32011,GB:AE003845,flygrid:533643,ihop:1478836,nucl:GB:AE003845;derived_computed_cyto=101F1-102A1;gbunit=AE014135
+4	FlyBase	pseudogene	26994	32391	.	-	.	ID=FBtr0089182;Name=CR32011-RA;Parent=FBgn0052011;Dbxref=FlyBase_Annotation_IDs:CR32011-RA,REFSEQ:NR_001596;score_text=Weakly Supported;score=1
+4	FlyBase	exon	26994	27101	.	-	.	ID=CR32011:4;Name=CR32011:4;Parent=FBtr0089182
+4	FlyBase	syntenic_region	27167	76481	.	.	.	ID=syntenic_block:6013;to_species=dpse;Target=Unknown_group_417 17795 36718
+4	FlyBase	exon	27167	27349	.	-	.	ID=CR32011:7;Name=CR32011:7;Parent=FBtr0089182
+4	FlyBase	exon	28371	28609	.	-	.	ID=CR32011:6;Name=CR32011:6;Parent=FBtr0089182
+4	FlyBase	exon	28966	29301	.	-	.	ID=CR32011:5;Name=CR32011:5;Parent=FBtr0089182
+4	FlyBase	exon	29356	30391	.	-	.	ID=CR32011:3;Name=CR32011:3;Parent=FBtr0089182
+4	FlyBase	exon	30551	31625	.	-	.	ID=CR32011:1;Name=CR32011:1;Parent=FBtr0089182
+4	FlyBase	exon	31703	32391	.	-	.	ID=CR32011:2;Name=CR32011:2;Parent=FBtr0089182
+4	FlyBase	transposable_element	32464	32601	.	+	.	ID=FBti0062198;Name=INE-1{}4137;Alias=INE-1#7577,TE62198;derived_cyto_location=102A1-102A1
+4	FlyBase	transposable_element	32871	32905	.	+	.	ID=FBti0062199;Name=INE-1{}4138;Alias=INE-1#7578,TE62199;derived_cyto_location=102A1-102A1
+4	FlyBase	gene	33776	46839	.	-	.	ID=FBgn0052010;Name=CR32010;fullname=CR32010;Alias=CG32010;Ontology_term=SO:0000087,SO:0000042;Dbxref=FlyBase:FBti0020403,FlyBase:FBan0032010,FlyBase_Annotation_IDs:CR32010,GB:AE003845,flygrid:533841,ihop:1479032,nucl:GB:AE003845;derived_computed_cyto=102A1-102A1;gbunit=AE014135
+4	FlyBase	pseudogene	33776	46839	.	-	.	ID=FBtr0089181;Name=CR32010-RA;Parent=FBgn0052010;Alias=TE20403-RA;Dbxref=FlyBase_Annotation_IDs:CR32010-RA,REFSEQ:NR_001597;score_text=Weakly Supported;score=1
+4	FlyBase	exon	33776	33883	.	-	.	ID=CR32010:7;Name=CR32010:7;Parent=FBtr0089181
+4	FlyBase	exon	33949	34131	.	-	.	ID=CR32010:6;Name=CR32010:6;Parent=FBtr0089181
+4	FlyBase	transposable_element	34275	40712	.	+	.	ID=FBti0020402;Name=McClintock{}1478;Alias=McClintock{}1478,TE20402;gbunit=AE003845;derived_cyto_location=102A1-102A1,102A1-102A2
+4	FlyBase	exon	41596	42179	.	-	.	ID=CR32010:5;Name=CR32010:5;Parent=FBtr0089181
+4	FlyBase	exon	42238	42573	.	-	.	ID=CR32010:4;Name=CR32010:4;Parent=FBtr0089181
+4	FlyBase	exon	42628	44897	.	-	.	ID=CR32010:3;Name=CR32010:3;Parent=FBtr0089181
+4	FlyBase	exon	44975	45680	.	-	.	ID=CR32010:2;Name=CR32010:2;Parent=FBtr0089181
+4	FlyBase	transposable_element	45760	46860	.	-	.	ID=FBti0020403;Name=1360{}1479;Alias=1360{}1479,TE20403;gbunit=AE003845;derived_cyto_location=102A1-102A1,102A3-102A3
+4	FlyBase	exon	46785	46839	.	-	.	ID=CR32010:1;Name=CR32010:1;Parent=FBtr0089181
+4	FlyBase	transposable_element	46874	46978	.	+	.	ID=FBti0062200;Name=INE-1{}4139;Alias=INE-1#7579,TE62200;derived_cyto_location=102A1-102A1
+4	FlyBase	transposable_element	47251	47285	.	+	.	ID=FBti0062214;Name=INE-1{}4153;Alias=INE-1#7580,TE62214;derived_cyto_location=102A1-102A1
+4	FlyBase	gene	48156	51939	.	-	.	ID=FBgn0052009;Name=CR32009;fullname=CR32009;Alias=CG32009;Ontology_term=SO:0000087,SO:0000042;Dbxref=FlyBase:FBan0032009,FlyBase_Annotation_IDs:CR32009,GB:AE003845,flygrid:533753,ihop:1478945,nucl:GB:AE003845;derived_computed_cyto=102A1-102A1;gbunit=AE014135
+4	FlyBase	pseudogene	48156	51939	.	-	.	ID=FBtr0089180;Name=CR32009-RA;Parent=FBgn0052009;Dbxref=FlyBase_Annotation_IDs:CR32009-RA,REFSEQ:NR_001598;score_text=Weakly Supported;score=1
+4	FlyBase	exon	48156	48263	.	-	.	ID=CR32009:5;Name=CR32009:5;Parent=FBtr0089180
+4	FlyBase	exon	48329	48511	.	-	.	ID=CR32009:4;Name=CR32009:4;Parent=FBtr0089180
+4	FlyBase	exon	49533	50116	.	-	.	ID=CR32009:3;Name=CR32009:3;Parent=FBtr0089180
+4	FlyBase	exon	50175	50510	.	-	.	ID=CR32009:2;Name=CR32009:2;Parent=FBtr0089180
+4	FlyBase	exon	50565	51939	.	-	.	ID=CR32009:1;Name=CR32009:1;Parent=FBtr0089180
+4	FlyBase	transposable_element	52332	52469	.	+	.	ID=FBti0062215;Name=INE-1{}4154;Alias=INE-1#7581,TE62215;derived_cyto_location=102A1-102A1
+4	FlyBase	gene	53434	64403	.	-	.	ID=FBgn0025740;Name=plexB;fullname=plexin B;Alias=FBgn0024198,Plexin-B,plexin-B,plexin,PlexB,plex,plexin and met-hepatocyte growth factor receptor-like,unnamed,CG17245,plexinB;Ontology_term=SO:0000010,SO:0000087,GO:0007411,GO:0017154,GO:0008045,GO:0035021,GO:0035025,GO:0005622,GO:0016020,GO:0007165;Dbxref=FlyBase:FBan0017245,FlyBase_Annotation_IDs:CG17245,INTERPRO:IPR015943,GB:AA142091,GB:AE003845,GB_protein:AAF59374,GB:AF106933,GB_protein:AAD09426,GB:BI216074,GB:BT010009,GB_protein:AAQ22478,GB:CZ480000,UniProt/TrEMBL:Q9V4A7,INTERPRO:IPR001627,INTERPRO:IPR002165,INTERPRO:IPR002909,INTERPRO:IPR003659,INTERPRO:IPR008936,INTERPRO:IPR013548,INTERPRO:IPR014756,INTERPRO:IPR016201,dedb:13626,flygrid:68604,hybrigenics:521765,if:/genebrief/plexinb.htm,ihop:68600,nucl:GB:AA142091,nucl:GB:AE003845,nucl:GB:AF106933,nucl:GB:BI216074,nucl:GB:BT010009,nucl:GB:CZ480000,orthologs:ensANOGA:ENSANGP00000008358,orthologs:ensBOSTA:ENSBTAP00000013391,pdom:INTERPRO:IPR001627,pdom:INTERPRO:IPR002165,pdom:INTERPRO:IPR002909,pdom:INTERPRO:IPR003659,pdom:INTERPRO:IPR008936,pdom:INTERPRO:IPR013548,pdom:INTERPRO:IPR014756,pdom:INTERPRO:IPR015943,pdom:INTERPRO:IPR016201,prot:GB_protein:AAD09426,prot:GB_protein:AAF59374,prot:GB_protein:AAQ22478,prot:UniProt/TrEMBL:Q9V4A7;derived_computed_cyto=102A1-102A1;gbunit=AE014135
+4	FlyBase	mRNA	53434	64403	.	-	.	ID=FBtr0089179;Name=plexB-RA;Parent=FBgn0025740;Alias=CG17245-RA;Dbxref=FlyBase_Annotation_IDs:CG17245-RA,REFSEQ:NM_079877;score_text=Strongly Supported;score=11
+4	FlyBase	orthologous_to	53434	64403	.	-	.	ID=FBgn0025740_putative_ortholog_of_10;Name=plexB;to_species=Dwil;to_id=FBgn0215675;to_name=Dwil\GK13667;Target=scf2_1100000004943 1019278 1027509 +
+4	FlyBase	orthologous_to	53434	64403	.	-	.	ID=FBgn0025740_putative_ortholog_of_11;Name=plexB;to_species=Dyak;to_id=FBgn0232132;to_name=Dyak\GE14532;Target=4 17632 31466 -
+4	FlyBase	orthologous_to	53434	64403	.	-	.	ID=FBgn0025740_putative_ortholog_of_1;Name=plexB;to_species=Dpse;to_id=FBgn0074437;to_name=Dpse\GA14409;Target=Unknown_group_417 29052 36721 +
+4	FlyBase	orthologous_to	53434	64403	.	-	.	ID=FBgn0025740_putative_ortholog_of_2;Name=plexB;to_species=Dana;to_id=FBgn0096341;to_name=Dana\GF19331;Target=scaffold_13335 2724002 2740101 -
+4	FlyBase	orthologous_to	53434	64403	.	-	.	ID=FBgn0025740_putative_ortholog_of_3;Name=plexB;to_species=Dere;to_id=FBgn0108698;to_name=Dere\GG16467;Target=scaffold_4512 1257849 1266983 +
+4	FlyBase	orthologous_to	53434	64403	.	-	.	ID=FBgn0025740_putative_ortholog_of_4;Name=plexB;to_species=Dgri;to_id=FBgn0131450;to_name=Dgri\GH23993;Target=scaffold_14822 350733 359676 +
+4	FlyBase	orthologous_to	53434	64403	.	-	.	ID=FBgn0025740_putative_ortholog_of_5;Name=plexB;to_species=Dmoj;to_id=FBgn0136874;to_name=Dmoj\GI14120;Target=scaffold_6498 1682512 1690081 +
+4	FlyBase	orthologous_to	53434	64403	.	-	.	ID=FBgn0025740_putative_ortholog_of_6;Name=plexB;to_species=Dper;to_id=FBgn0155990;to_name=Dper\GL18389;Target=scaffold_51 63526 71195 -
+4	FlyBase	orthologous_to	53434	64403	.	-	.	ID=FBgn0025740_putative_ortholog_of_7;Name=plexB;to_species=Dsec;to_id=FBgn0178105;to_name=Dsec\GM23238;Target=scaffold_52 1727 11461 -
+4	FlyBase	orthologous_to	53434	64403	.	-	.	ID=FBgn0025740_putative_ortholog_of_8;Name=plexB;to_species=Dsim;to_id=FBgn0195733;to_name=Dsim\GD24393;Target=4 114155 118733 -
+4	FlyBase	orthologous_to	53434	64403	.	-	.	ID=FBgn0025740_putative_ortholog_of_9;Name=plexB;to_species=Dvir;to_id=FBgn0201895;to_name=Dvir\GJ14688;Target=scaffold_13052 1327137 1334006 +
+4	FlyBase	exon	53434	53751	.	-	.	ID=CG17245:5;Name=plexB:5;Parent=FBtr0089179
+4	FlyBase	three_prime_UTR	53434	53643	.	-	.	ID=three_prime_UTR_CG17245:5_942;Name=plexB-u3;Parent=FBtr0089179
+4	FlyBase	CDS	53644	53751	.	-	0	ID=CDS_CG17245:5_942;Name=plexB-cds;Parent=FBtr0089179
+4	FlyBase	protein	53647	64050	.	-	.	ID=FBpp0088246;Name=plexB-PA;Derives_from=FBtr0089179;Alias=CG17245-PA;Dbxref=FlyBase_Annotation_IDs:CG17245-PA,GB_protein:AAF59374,REFSEQ:NP_524616;derived_isoelectric_point=6.65;derived_molecular_weight=231677.3
+4	tblastn_Dmel_r3.1	orthologous_region	53647	63969	.	-	.	ID=ortho:4398;Name=Dmel\plexB-PA;Alias=FBpp0088246;to_species=dpse;Target=Unknown_group_417 29136 36718 +;program=tblastn;programversion=2.2.5;sourcename=Dmel r3.1
+4	FlyBase	intron	53752	53816	.	-	.	ID=intron_CG17245:4_CG17245:5;Name=plexB-in;Parent=FBtr0089179
+4	FlyBase	CDS	53817	53999	.	-	0	ID=CDS_CG17245:4_942;Name=plexB-cds;Parent=FBtr0089179
+4	FlyBase	exon	53817	53999	.	-	.	ID=CG17245:4;Name=plexB:4;Parent=FBtr0089179
+4	FlyBase	intron	54000	56499	.	-	.	ID=intron_CG17245:3_CG17245:4;Name=plexB-in;Parent=FBtr0089179
+4	FlyBase	transposable_element	54450	55919	.	+	.	ID=FBti0020404;Name=1360{}1480;Alias=1360{}1480,TE20404;gbunit=AE003845;derived_cyto_location=102A1-102A1,102A3-102A3
+4	FlyBase	transposable_element_insertion_site	55163	55163	.	-	.	ID=FBti0065488;Name=PBac{PB}c03653;Alias=PBac{PB}c03653;Dbxref=GB:CZ468799;flanking_sequence=CZ468799
+4	FlyBase	CDS	56500	57083	.	-	1	ID=CDS_CG17245:3_942;Name=plexB-cds;Parent=FBtr0089179
+4	FlyBase	exon	56500	57083	.	-	.	ID=CG17245:3;Name=plexB:3;Parent=FBtr0089179
+4	FlyBase	intron	57084	57141	.	-	.	ID=intron_CG17245:2_CG17245:3;Name=plexB-in;Parent=FBtr0089179
+4	FlyBase	CDS	57142	61911	.	-	1	ID=CDS_CG17245:2_942;Name=plexB-cds;Parent=FBtr0089179
+4	FlyBase	exon	57142	61911	.	-	.	ID=CG17245:2;Name=plexB:2;Parent=FBtr0089179
+4	VDRC_1	RNAi_reagent	59756	60101	.	-	.	ID=FBsf0000081754;Name=dsRNA-GD14473;Alias=FBri0080183;comment=One copy of repeat shown;PCR_template=genomic DNA
+4	VDRC_1	RNAi_reagent	60498	60730	.	-	.	ID=FBsf0000073129;Name=dsRNA-GD2500;Alias=FBri0069695;comment=One copy of repeat shown;PCR_template=genomic DNA
+4	VDRC_1	RNAi_reagent	60741	61092	.	-	.	ID=FBsf0000082705;Name=dsRNA-GD16420;Alias=FBri0081424;comment=One copy of repeat shown;PCR_template=cDNA
+4	DRSC	RNAi_reagent	60944	61454	.	-	.	ID=FBsf0000016653;Name=DRSC17177;Alias=FBri0016509;comment=One copy of repeat shown;PCR_template=genomic DNA
+4	HFAAmplicon	RNAi_reagent	60944	61454	.	-	.	ID=FBsf0000057841;Name=HFA17177;Dbxref=FlyBase:FBsf0000057841;PCR_template=genomic DNA
+4	BKNAmplicon	RNAi_reagent	61137	61413	.	+	.	ID=FBsf0000050153;Name=BKN30121;Dbxref=FlyBase:FBsf0000050153;PCR_template=genomic DNA
+4	DGRC_1	pcr_product	61291	61781	.	+	.	ID=INC088H10_pcr_product;Name=INC088H10;Dbxref=DGRC-1:INC088H10
+4	FlyBase	intron	61912	63539	.	-	.	ID=intron_CG17245:1_CG17245:2;Name=plexB-in;Parent=FBtr0089179
+4	FlyBase	transposable_element	62140	62884	.	+	.	ID=FBti0020405;Name=1360{}plexB[1481];Alias=1360(1481),1360{}1481,TE20405;affected_genes=FBgn0025740;causes_alleles=FBal0178413;gbunit=AE003845;derived_cyto_location=102A1-102A1,102A3-102A3
+4	FlyBase	transposable_element	63131	63219	.	+	.	ID=FBti0062217;Name=INE-1{}4156;Alias=INE-1#7582,TE62217;derived_cyto_location=102A1-102A1
+4	FlyBase	exon	63540	64403	.	-	.	ID=CG17245:1;Name=plexB:1;Parent=FBtr0089179
+4	FlyBase	CDS	63540	64050	.	-	0	ID=CDS_CG17245:1_942;Name=plexB-cds;Parent=FBtr0089179
+4	DRSC	RNAi_reagent	63564	63764	.	-	.	ID=FBsf0000031411;Name=DRSC34852;Alias=FBri0031057;comment=One copy of repeat shown;PCR_template=genomic DNA
+4	FlyBase	transposable_element_insertion_site	63918	63918	.	-	.	ID=FBti0047547;Name=PBac{RB}plexB[e02173];Alias=PBac{RB}plexB[e02173],PBac{RB}e02173;affected_genes=FBgn0025740;causes_alleles=FBal0178412;derived_cyto_location=102A1;flanking_sequence=CZ480000
+4	FlyBase	five_prime_UTR	64051	64403	.	-	.	ID=five_prime_UTR_CG17245:1_942;Name=plexB-u5;Parent=FBtr0089179
+4	FlyBase	transposable_element_insertion_site	64361	64361	.	+	.	ID=FBti0024432;Name=P{SUPor-P}plexB[KG00878];Alias=KG00878,P{SUPor-P}KG00878;affected_genes=FBgn0025740;causes_alleles=FBal0216740;derived_cyto_location=101F1;flanking_sequence=BH900861
+4	FlyBase	BAC_cloned_genomic_insert	65575	227642	.	.	.	ID=AC011250_BAC_cloned_genomic_insert;Name=BACR21B19;Dbxref=GB:AC011250;status=tiling path;description=gi|50872242|gb|AC011250 Drosophila melanogaster clone BACR21B19%2C complete sequence.organism: Drosophila melanogaster (27-AUG-2006)
+4	FlyBase	transposable_element	67212	68082	.	-	.	ID=FBti0062808;Name=1360{}4747;Alias=1360#7646,TE62808;derived_cyto_location=102A1-102A1
+4	FlyBase	gene	68334	77667	.	-	.	ID=FBgn0004859;Name=ci;fullname=cubitus interruptus;Alias=FBgn0000314,FBgn0000315,FBgn0010154,FBgn0010155,FBgn0017411,FBgn0019831,Gli,Cubitus interruptus,cubitus-interruptus-Dominant,Ci,CI,CG2125,ci155,CID,CiD,ciD,l(4)17,ci[D],ci-D,Ci[D],Ce,l(4)13,cubitus-interruptus-dominant,Cell,l(4)102ABc,Ci/GLI,Cubitus interuptus,Siah,Ci/Gli;Ontology_term=SO:0000010,SO:0000087,GO:0007224,GO:0016020,GO:0048100,GO:0045449,GO:0003700,GO:0035217,GO:0045944,GO:0000122,GO:0016563,GO:0016564,GO:0003704,GO:0005634,GO:0030707,GO:0005737,GO:0035301,GO:0007346,GO:0007350,GO:0035277,GO:0035017,GO:0035224,GO:0048592,GO:0048813,GO:0048666,GO:0008544,GO:0005515,GO:0048477,GO:0008270,GO:0003676;Dbxref=FlyBase:FBan0002125,FlyBase_Annotation_IDs:CG2125,GB:AC010915,GB:AC011250,GB:AE003845,GB_protein:AAF59373,GB:AF242878,GB:AF433680,GB_protein:AAM17953,GB:AY573706,GB_protein:AAS87249,GB:BI352516,GB:BZ286250,GB:U21389,GB:U21390,GB_protein:AAG15271,GB:U66884,GB_protein:AAC47752,GB:X54360,GB_protein:CAA38244,UniProt/Swiss-Prot:P19538,UniProt/TrEMBL:Q6J8P4,INTERPRO:IPR007087,INTERPRO:IPR013087,INTERPRO:IPR015880,dedb:13627,flygrid:68605,hybrigenics:521395,hybrigenics:521465,if:/segment/cubitus.htm,ihop:68601,nucl:GB:AC010915,nucl:GB:AC011250,nucl:GB:AE003845,nucl:GB:AF242878,nucl:GB:AF433680,nucl:GB:AY573706,nucl:GB:BI352516,nucl:GB:BZ286250,nucl:GB:U21389,nucl:GB:U21390,nucl:GB:U66884,nucl:GB:X54360,orthologs:ensANOGA:ENSANGP00000001418,orthologs:ensBOSTA:ENSBTAP00000014119,orthologs:ensCANFA:ENSCAFP00000007223,orthologs:ensCIOIN:ENSCINP00000007290,orthologs:ensCIOIN:ENSCINP00000014356,orthologs:ensFUGRU:NEWSINFRUP00000163565,orthologs:ensGALGA:ENSGALP00000020121,orthologs:ensHOMSA:ENSP00000344473,orthologs:ensMONDO:ENSMODP00000000296,orthologs:ensPANTR:ENSPTRP00000021248,orthologs:ensRATNO:ENSRNOP00000019396,orthologs:ensTETNI:GSTENP00033101001,orthologs:ensXENTR:ENSXETP00000003920,orthologs:modCAEBR:WBGene00029514,orthologs:modDANRE:ZDB-GENE-990706-8,orthologs:modMUSMU:MGI:95728,pdom:INTERPRO:IPR007087,pdom:INTERPRO:IPR013087,pdom:INTERPRO:IPR015880,prot:GB_protein:AAC47752,prot:GB_protein:AAF59373,prot:GB_protein:AAG15271,prot:GB_protein:AAM17953,prot:GB_protein:AAS87249,prot:GB_protein:CAA38244,prot:UniProt/Swiss-Prot:P19538,prot:UniProt/TrEMBL:Q6J8P4;derived_computed_cyto=102A1-102A3;gbunit=AE014135
+4	FlyBase	mRNA	68334	77667	.	-	.	ID=FBtr0089178;Name=ci-RA;Parent=FBgn0004859;Alias=CG2125-RA;Dbxref=FlyBase_Annotation_IDs:CG2125-RA,REFSEQ:NM_079878;score_text=Weakly Supported;score=3
+4	FlyBase	orthologous_to	68334	77667	.	-	.	ID=FBgn0004859_putative_ortholog_of_10;Name=ci;to_species=Dwil;to_id=FBgn0215674;to_name=Dwil\GK13666;Target=scf2_1100000004943 961237 1009943 +
+4	FlyBase	orthologous_to	68334	77667	.	-	.	ID=FBgn0004859_putative_ortholog_of_11;Name=ci;to_species=Dyak;to_id=FBgn0022826;to_name=Dyak\ci;Target=4 34611 42091 -
+4	FlyBase	orthologous_to	68334	77667	.	-	.	ID=FBgn0004859_putative_ortholog_of_1;Name=ci;to_species=Dpse;to_id=FBgn0249202;to_name=Dpse\GA27838;Target=Unknown_group_417 15282 22408 +
+4	FlyBase	orthologous_to	68334	77667	.	-	.	ID=FBgn0004859_putative_ortholog_of_2;Name=ci;to_species=Dana;to_id=FBgn0096058;to_name=Dana\GF19046;Target=scaffold_13010 574492 582628 +
+4	FlyBase	orthologous_to	68334	77667	.	-	.	ID=FBgn0004859_putative_ortholog_of_3;Name=ci;to_species=Dere;to_id=FBgn0108697;to_name=Dere\GG16466;Target=scaffold_4512 1246091 1251933 +
+4	FlyBase	orthologous_to	68334	77667	.	-	.	ID=FBgn0004859_putative_ortholog_of_4;Name=ci;to_species=Dgri;to_id=FBgn0131449;to_name=Dgri\GH23992;Target=scaffold_14822 338076 349184 +
+4	FlyBase	orthologous_to	68334	77667	.	-	.	ID=FBgn0004859_putative_ortholog_of_5;Name=ci;to_species=Dmoj;to_id=FBgn0136873;to_name=Dmoj\GI14119;Target=scaffold_6498 1660648 1668561 +
+4	FlyBase	orthologous_to	68334	77667	.	-	.	ID=FBgn0004859_putative_ortholog_of_6;Name=ci;to_species=Dper;to_id=FBgn0155989;to_name=Dper\GL18388;Target=scaffold_51 77602 84739 -
+4	FlyBase	orthologous_to	68334	77667	.	-	.	ID=FBgn0004859_putative_ortholog_of_7;Name=ci;to_species=Dsec;to_id=FBgn0178104;to_name=Dsec\GM23237;Target=scaffold_52 14791 21609 -
+4	FlyBase	orthologous_to	68334	77667	.	-	.	ID=FBgn0004859_putative_ortholog_of_8;Name=ci;to_species=Dsim;to_id=FBgn0012866;to_name=Dsim\ci;Target=chrX_Mrandom_785 11964 18793 +
+4	FlyBase	orthologous_to	68334	77667	.	-	.	ID=FBgn0004859_putative_ortholog_of_9;Name=ci;to_species=Dvir;to_id=FBgn0201862;to_name=Dvir\GJ14655;Target=scaffold_13052 1316302 1325599 +
+4	FlyBase	exon	68334	71088	.	-	.	ID=CG2125:6;Name=ci:6;Parent=FBtr0089178
+4	FlyBase	three_prime_UTR	68334	68619	.	-	.	ID=three_prime_UTR_CG2125:6_942;Name=ci-u3;Parent=FBtr0089178
+4	FlyBase	CDS	68620	71088	.	-	0	ID=CDS_CG2125:6_942;Name=ci-cds;Parent=FBtr0089178
+4	FlyBase	protein	68623	76494	.	-	.	ID=FBpp0088245;Name=ci-PA;Derives_from=FBtr0089178;Alias=CG2125-PA;Dbxref=FlyBase_Annotation_IDs:CG2125-PA,GB_protein:AAF59373,REFSEQ:NP_524617;derived_isoelectric_point=7.21;derived_molecular_weight=153278.9
+4	DRSC	RNAi_reagent	69379	69948	.	-	.	ID=FBsf0000033641;Name=DRSC37519;Dbxref=FlyBase:FBsf0000033641;comment=One copy of repeat shown;PCR_template=genomic DNA
+4	FlyBase	chromosome_band	69669	90134	.	+	.	ID=band-101_chromosome_band;Name=band-101
+4	FlyBase	chromosome_band	69669	90134	.	+	.	ID=band-101F1_chromosome_band;Name=band-101F1
+4	FlyBase	chromosome_band	69669	90134	.	+	.	ID=band-101F_chromosome_band;Name=band-101F
+4	BKNAmplicon	RNAi_reagent	70298	70689	.	+	.	ID=FBsf0000048605;Name=BKN20856;Dbxref=FlyBase:FBsf0000048605;PCR_template=genomic DNA
+4	DRSC	RNAi_reagent	70452	70965	.	-	.	ID=FBsf0000016648;Name=DRSC17172;Alias=FBri0016504;comment=One copy of repeat shown;PCR_template=genomic DNA
+4	HFAAmplicon	RNAi_reagent	70452	70965	.	-	.	ID=FBsf0000057835;Name=HFA17172;Dbxref=FlyBase:FBsf0000057835;PCR_template=genomic DNA
+4	FlyBase	intron	71089	71141	.	-	.	ID=intron_CG2125:5_CG2125:6;Name=ci-in;Parent=FBtr0089178
+4	FlyBase	CDS	71142	71306	.	-	0	ID=CDS_CG2125:5_942;Name=ci-cds;Parent=FBtr0089178
+4	FlyBase	exon	71142	71306	.	-	.	ID=CG2125:5;Name=ci:5;Parent=FBtr0089178
+4	FlyBase	intron	71307	71370	.	-	.	ID=intron_CG2125:4_CG2125:5;Name=ci-in;Parent=FBtr0089178
+4	FlyBase	CDS	71371	71883	.	-	0	ID=CDS_CG2125:4_942;Name=ci-cds;Parent=FBtr0089178
+4	FlyBase	exon	71371	71883	.	-	.	ID=CG2125:4;Name=ci:4;Parent=FBtr0089178
+4	VDRC_1	RNAi_reagent	71459	71806	.	-	.	ID=FBsf0000072115;Name=dsRNA-GD1403;Alias=FBri0068632;comment=One copy of repeat shown;PCR_template=genomic DNA
+4	DRSC	RNAi_reagent	71592	71825	.	-	.	ID=FBsf0000029389;Name=DRSC32444;Alias=FBri0029042;comment=One copy of repeat shown;PCR_template=genomic DNA
+4	FlyBase	intron	71884	71939	.	-	.	ID=intron_CG2125:3_CG2125:4;Name=ci-in;Parent=FBtr0089178
+4	FlyBase	CDS	71940	72580	.	-	1	ID=CDS_CG2125:3_942;Name=ci-cds;Parent=FBtr0089178
+4	FlyBase	exon	71940	72580	.	-	.	ID=CG2125:3;Name=ci:3;Parent=FBtr0089178
+4	DRSC	RNAi_reagent	72088	72332	.	-	.	ID=FBsf0000029388;Name=DRSC32443;Alias=FBri0029041;comment=One copy of repeat shown;PCR_template=genomic DNA
+4	FlyBase	intron	72581	72642	.	-	.	ID=intron_CG2125:2_CG2125:3;Name=ci-in;Parent=FBtr0089178
+4	FlyBase	CDS	72643	73010	.	-	2	ID=CDS_CG2125:2_942;Name=ci-cds;Parent=FBtr0089178
+4	FlyBase	exon	72643	73010	.	-	.	ID=CG2125:2;Name=ci:2;Parent=FBtr0089178
+4	FlyBase	intron	73011	76456	.	-	.	ID=intron_CG2125:1_CG2125:2;Name=ci-in;Parent=FBtr0089178
+4	FlyBase	transposable_element	73357	73575	.	-	.	ID=FBti0062218;Name=INE-1{}4157;Alias=INE-1#7583,TE62218;derived_cyto_location=102A1-102A1;derived_comput_cyto_location=101F1
+4	FlyBase	transposable_element	73579	74622	.	-	.	ID=FBti0019472;Name=1360{}ci[1482];Alias=1360(1482),1360{}1482,TE19472;affected_genes=FBgn0004859;causes_alleles=FBal0180476;gbunit=AE003845;derived_cyto_location=102A1-102A1,102A4-102A4;derived_comput_cyto_location=101F1
+4	FlyBase	transposable_element_insertion_site	74547	74547	.	+	.	ID=FBti0024173;Name=P{SUPor-P}ci[KG05811];Alias=KG05811,P{SUPor-P}ci[KG05811];affected_genes=FBgn0004859;causes_alleles=FBal0147226;derived_cyto_location=102A1;derived_comput_cyto_location=101F1;flanking_sequence=BZ286250
+4	FlyBase	transposable_element	74624	74974	.	+	.	ID=FBti0062219;Name=INE-1{}4158;Alias=INE-1#7584,TE62219;derived_cyto_location=102A1-102A1;derived_comput_cyto_location=101F1
+4	FlyBase	transposable_element	75410	76020	.	-	.	ID=FBti0062220;Name=INE-1{}4159;Alias=INE-1#7585,TE62220;derived_cyto_location=102A2-102A2;derived_comput_cyto_location=101F1
+4	FlyBase	exon	76457	77667	.	-	.	ID=CG2125:1;Name=ci:1;Parent=FBtr0089178
+4	FlyBase	CDS	76457	76494	.	-	0	ID=CDS_CG2125:1_942;Name=ci-cds;Parent=FBtr0089178
+4	FlyBase	five_prime_UTR	76495	77667	.	-	.	ID=five_prime_UTR_CG2125:1_942;Name=ci-u5;Parent=FBtr0089178
+4	FlyBase	transposable_element_insertion_site	78202	78202	.	+	.	ID=FBti0046518;Name=PBac{RB}e00563;Alias=PBac{RB}e00563;derived_cyto_location=102A3;derived_comput_cyto_location=101F1;flanking_sequence=CZ478441
+4	FlyBase	transposable_element_insertion_site	78485	78485	.	-	.	ID=FBti0048611;Name=PBac{RB}e04022;Alias=PBac{RB}e04022;derived_cyto_location=102A3;derived_comput_cyto_location=101F1;flanking_sequence=CZ481779
+4	FlyBase	transposable_element_insertion_site	79131	79131	.	-	.	ID=FBti0076445;Name=PBac{y[+]-attP-9A}VK00024;Alias=VK00024,PBac{yellow[+]-attP-9A}VK00024,24,VK24;derived_cyto_location=102A3;derived_comput_cyto_location=101F1
+4	FlyBase	breakpoint	79870	79870	.	.	.	ID=Df(4)ED6364:bk1_breakpoint;Name=Df(4)ED6364:bk1;reported_genomic_loc=4_r5:79870..79870
+4	FlyBase	transposable_element_insertion_site	79870	79870	.	-	.	ID=FBti0027928;Name=P{RS3}CB-0038-3;Alias=P{RS3}CB-0038-3;Dbxref=GB:AJ547344,drosdel:CB-0038-3;derived_cyto_location=102A3;derived_comput_cyto_location=101F1;flanking_sequence=AJ547344
+4	FlyBase	transposable_element_insertion_site	79901	79901	.	.	.	ID=FBti0021663;Name=P{SUPor-P}KG01127;Alias=KG01127;derived_cyto_location=102A1;derived_comput_cyto_location=101F1;flanking_sequence=BH759278,BH759277
+4	FlyBase	transposable_element_insertion_site	79908	79908	.	+	.	ID=FBti0048765;Name=PBac{RB}e04280;Alias=PBac{RB}e04280;derived_cyto_location=102A3;derived_comput_cyto_location=101F1;flanking_sequence=CZ482027

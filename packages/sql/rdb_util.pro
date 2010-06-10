@@ -338,15 +338,19 @@ sqlterm_clause(Clause,SqlTerm,Val):-
 
 %% sqlbind(+BindArgs) is det
 % BindArgs = Module:PredicateSpec-DB or Module:PredicateSpec
+% 
+% if the second form is used, the current database handle is used
+% 
 % PredicateSpace = Predicate/Arity or 'all'
-% leave DB to connect to the current open db handle.
+%
 % Examples:
 % ==
 % sqlbind(ontol_db:all)
 % ==
 % or
 % ==
-% sqlbind(genome_db:all-enscore(homo_sapiens_lite)),sqlbind(ontol_db:subclass/2-godb(go))
+% sqlbind(genome_db:all-enscore(homo_sapiens_lite)),
+% sqlbind(ontol_db:subclass/2-godb(go))
 % ==
 %  see sqlbind/2
 sqlbind(Mod:HeadSpec-DB):-

@@ -10,11 +10,12 @@
 
 ---++ Package dependencies
 
-This package is part of blip. See ../../../README.txt for details
+This package is part of blip. See ../../README.txt for details
 
 ---++ Tutorials
 
-  * exploring_pathways.txt
+  * doc/quickstart_pathways.txt
+  * doc/biopax_via_rdf_and_prolog.txt
 
 ---++ Details
 

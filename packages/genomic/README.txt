@@ -105,6 +105,11 @@ Bridge module: seqfeature_bridge_from_fasta.pro
 
  * ontol_db.pro for feature types
 
+---++ Tutorials and further documentation
+
+* doc/exploring_genomic_data.txt
+* doc/genomic_cookbook.txt
+
 
 
 

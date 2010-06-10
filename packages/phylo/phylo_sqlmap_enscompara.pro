@@ -59,10 +59,16 @@ setrdb(Rdb):-
           initdb(homo_sapiens_core,Rdb),
           init_walk(Rdb,'BRCA1').
   
+  % note that we only connect to one database.
+  % we assume that both databases are on the same mysql
+  % server, and that the tables in the compara database
+  % can be accessed from the homo_sapiens database via
+  % table name prefixing
   initdb(Db,Rdb):-
   	rdb_connect(Rdb,Db),
           sqlbind(phylo_db:phylonode_parent/2-Db),
           sqlbind(phylo_db:phylonode_branchlen/2-Db),
+          % ensure the sql tables are prefixed by db name
           assert(sql_compiler:schema_dbname(enscompara,ensembl_compara_52)). % change with each release..
   
   %% init_walk(+Rdb,+Symbol)
