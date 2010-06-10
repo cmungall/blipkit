@@ -60,27 +60,6 @@ bestmatch(C,Set,X):-
 
 
 
-% -------------------- TESTS --------------------
-% regression tests to ensure behaviour of module is correct;
-% lines below here are not required for module functionality
-
-unittest:testn(1,apoptosos).
-
-unittest(load(sofa)=
-      load_biofile(obo,'sofa.obo')/[]).
-unittest(load(go)=
-      load_bioresource(go)/[]).
-
-unittest(test(go,
-            [_=load(go)],
-            (   ensure_loaded(bio(ontol_compare)),
-                ensure_loaded(bio(bioprolog_util)),
-                class(C,'head sensillum'),
-                solutions(P,closure(ontol_db:parent_over_nr(part_of),C,P),Ps),
-                writeln(parents=Ps),
-                nl
-                ),
-            member('FBbt:00000001',Ps))).
 
 
 /** <module> perform comparisons of class sets

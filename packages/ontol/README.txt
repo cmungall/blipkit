@@ -13,6 +13,7 @@ The core module is the ontol_db model
   * ontol_segmenter.pro -- for extracting subsets of ontologies
   * ontol_management.pro -- class merging and ontology lifecycle
   * ontol_reasoner.pro -- forward chaining reasoning
+  * ontol_restful.pro -- http access
 
 ---++ Package dependencies
 
