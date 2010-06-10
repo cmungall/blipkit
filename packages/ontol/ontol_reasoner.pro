@@ -754,14 +754,6 @@ holds_over_chain(R,[R1,R2,R3,R4]) <- equivalent_to_chain(R,[R1,R2,R3,R4]) :: ec2
 
 is_unsatisfiable(X) <- min_cardinality_restriction(X,R,Min,Y),max_cardinality_restriction(X,R,Max,Y),Min>Max :: inconsistent_cardinality/given.
 
-% temporal relations - n-ary pattern - EXPERIMENTAL
-% should these go in RO?
-(   inst_of(I,Slice),
-    inst_rel(I,during,T),
-    inst_rel(Slice,subslice_of,C)) <- inst_of_at(I,C,T).
-(   inst_rel(Slice,R,Y),
-    inst_rel(X,during,T),
-    inst_rel(X,subslice_of,Slice)) <- inst_rel_at(X,R,Y,T).
 
 %% inst_satisfies_differentium(+I,+R,+Filler)
 inst_satisfies_differentium(I,R,Filler):-

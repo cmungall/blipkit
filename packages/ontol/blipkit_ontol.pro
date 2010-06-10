@@ -8,6 +8,7 @@
 :- use_module(bio(bioprolog_util)).
 :- use_module(bio(metadata_db)).
 :- use_module(bio(ontol_db)).
+:- use_module(bio(ontol_segmenter)).
 :- use_module(bio(curation_db)).
 :- use_module(bio(ontol_lookup)).
 :- use_module(bio(ontol_writer)).
@@ -62,8 +63,6 @@ shownode(ID):- write_class(text,ID),nl.
 shownode(T,ID,Opts):- write_class(text,ID,[prefix(T)|Opts]),nl.
 shownode_nonl(T,ID,Opts):- write_class(text,ID,[prefix(T)|Opts]).
                                 
-% TODO: move this..
-single_parent_relation(part_of).
 
 %:- mode validate_ontols is det.
 validate_ontols:-
@@ -89,16 +88,6 @@ validate_ontols:-
                    shownode(-T,PID,[]),
                    shownode(-is_a_ancestor,ZID,[]),
                    writeln(-subsuming_path=TL))),
-        forall_distinct((single_parent_relation(T),
-                         multiple_parent(ID,T,PID1,PID2,ViaID),
-                         PID1@<PID2), % symmetrical: no dupes
-                        
-               (   format('Multiple parent: ~n',[]),
-                   format('-type ~w~n',[T]),
-                   shownode(-term,ID,[]),
-                   shownode(-parent,PID1,[]),
-                   shownode(-parent2,PID2,[]),
-                   shownode(-parent2_directly_related_via,ViaID,[]))),
         format('Validation complete~n').
         
         

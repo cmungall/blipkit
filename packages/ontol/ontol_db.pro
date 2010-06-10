@@ -74,7 +74,6 @@
            inst_rel/4,
            inst_rel/5,
            inst_rel/6,
-           inst_rel_at/4,
            inst_rel_anon/3,
            inst_rel_type/3,
            inst_sv/3,
@@ -96,7 +95,6 @@
            entailed_by/2,
            entailed_by/3,
            logicalformula/3,
-
 	   
            % intensional predicates
            class/2,
@@ -123,8 +121,6 @@
            subclassN/2,
            subclassTN/2,
            subclassRTN/2,
-           child/2,
-           child/3,
            node_link/3,
            restrictionN/3,
            parent_over/3,
@@ -141,50 +137,29 @@
            parentRT/2,
            parentRT/3,
            parentRT/4,
-	   safe_parentT/2,
-	   safe_parentT/3,
-	   safe_parentT/4,
-	   safe_parentRT/2,
-	   safe_parentRT/3,
 	   idspace_references/2,
 	   idspace_references_reflexive/2,
 	   bf_parentRT/2,
 	   bf_set_parentRT/2,
 	   strict_subclass/2,
-	   class_single_inheritance_path/2,
 	   cdef_label/2,
            class_cdef/2,
            
            subclass_cycle/2,
            parent_cycle/2,
 
-           abduced_link/1,
-           abduced_link_nr/1,
-           
            redundant_subclass/3,
            redundant_parent/5,
            subclass_underlap/3,
-           multiple_parent/4,
-           multiple_parent/5,
-           name_composed_type/2,
-
-           ontology_segment/3,
-           ontology_segment/4,
 
            subclass_lca/2,
            class_pair_subclass_lca/3,
            
-           % experimental
-
-           inst_ofRT/2,
-           classdef_parent/2,
-           classdef_subsumes_id/2,
-           cdef/2
+           inst_ofRT/2
           ]).
 
 % metadata on the data predicates used in this module
 :- use_module(bio(dbmeta)).
-:- use_module(bio(graph)).
 :- use_module(bio(metadata_db)).
 :- use_module(bio(bioprolog_util)).  % required for statistics
 :- use_module(bio(macros_transitive)).
@@ -251,26 +226,12 @@
            
            % experimental
 
-           inst_ofRT/2,
-           classdef_parent/2,
-           classdef_subsumes_id/2,
-           cdef/2.
+           inst_ofRT/2.
 
-
-
-%  in progress: rewrite to use metadata_db
-%
-%  the convention is now to use
-%
-%  * predicate(ID) - ID is an instance of predicate [extensional]
-%  * predicate(ID,Name) - intensional
-%
-%  some predicates are declared multifile, to support legacy factfiles
-%  
 
 %**************************************
-%*              ONTOLOGIES               *
-%***************************************
+%*              ONTOLOGIES            *
+%**************************************
 
 %%  ontology(?Ontology,?Name,?Desc) is nondet.
 :- extensional(ontology/3).
@@ -316,8 +277,8 @@ import_ontologies([File|Files],Parsed):-
         import_ontologies(Next,[File|Parsed]).
 
 %**************************************
-%*              CLASSES                  *
-%***************************************
+%*              CLASSES               *
+%**************************************
 
 %%  class(?Class) is nondet.
 % class declaration - true if Class is a class
@@ -328,16 +289,22 @@ import_ontologies([File|Files],Parsed):-
 :- multifile class/2.
 class(C,Name):- entity_label(C,Name),class(C).
 
+class_id_or_label(ID,N):- (class(ID,N)-> true ; N=ID).
+
+
 %%  subclass(?Class,?SuperClass) is nondet.
 %    An asserted is_a (subtype, subsumption) relationship
 %    equivalent to owl:subClassOf
 %    transitive form is subclassT/2
 :- extensional(subclass/2).
-%:- transitive subclass/2.  % TODO!!! check : does not work with tabling??
+
 %%  subclassT(?Class,?SuperClass) is nondet.
 % transitive form of subclass/2
 subclassT(X,Y):- subclass(X,Y).
 subclassT(X,Y):- subclass(X,Z),subclassT(Z,Y).
+
+%%  subclassRT(?Class,?SuperClass) is nondet
+% reflexive form of subclassT/2
 subclassRT(X,X).
 subclassRT(X,Y):- subclassT(X,Y).
 
@@ -440,6 +407,20 @@ cdef_placement(CDef,Equiv,NRParents,NRChildren,Redundant) :-
 	solutions(Child,(member(Child,Children),\+((subclass(Child,C2),member(C2,Children)))),NRChildren).
 
 
+%% cdef_label(+CDef,?Label)
+% generates a label from a cdef
+cdef_label(cdef(G,Diffs),Label):-
+        class_id_or_label(G,GN),
+        findall(DiffN,
+                (   member(R=To,Diffs),
+                    class_id_or_label(R,RN),
+                    class_id_or_label(To,ToN),
+                    sformat(DiffN,'~w ~w',[RN,ToN])),
+                DiffNs),
+        concat_atom(DiffNs,' and ',DiffAtom),
+        sformat(Label,'~w that ~w',[GN,DiffAtom]).
+
+
 %%  equivalent_class(?Class1,?Class2) is nondet.
 %    corresponds to owl:equivalentClass
 :- extensional(equivalent_class/2).
@@ -528,25 +509,10 @@ parentN(Nc,R,Np):-
 	    parent(ID,R,IDp),
 	    class(IDp,Np)).
 
-% DEPRECATED - consider parent_over/3 or parentT/3
-restrictionT(ID,[R],IDp):-
-        restriction(ID,R,IDp),
-        is_transitive(R).
-restrictionT(ID,[R|RL],IDp):-
-        (var(ID)
-        ->  restriction(IDz,R,IDp),
-            restrictionT(IDz,RL,ID)
-        ;   restriction(ID,R,IDz),
-            restrictionT(IDz,RL,IDp)),
-        is_transitive(R).
-
-%% child(?Parent,?Child) is nondet.
-child(ID,IDc):- parent(IDc,ID).
-%% child(?Parent,?Relation,?Child) is nondet.
-child(ID,T,IDc):- parent(IDc,T,ID).
 
 %% node_link(Node,Relation,Link) is nondet.
 % true if parent/3 or inst_rel/3
+% TODO: check semantics
 node_link(X,Y,Z):- parent(X,Y,Z).
 %node_link(X,Y,Z):- inst_rel(X,Y,Z). % now in parent/3
 %node_link(X,instance_of,Y):- inst_of(X,Y).
@@ -579,16 +545,6 @@ parent(ID,T,IDp):-
 parent(ID,equivalent,IDp):-
 	equivalent_class(ID,IDp).
 
-
-%% parent(?Class,+Relation,?ParentClass,+ViaRelation) is nondet.
-% DEPRECATED?? consider parent_over/3
-% true if Class is linked to ParentClass via either subclass, or
-% ViaRelation, or ia one of the subproperties of ViaRelation
-parent(ID,subclass,IDp,_):-
-	subclass(ID,IDp).
-parent(ID,T,IDp,T1):-
-	restriction(ID,T,IDp),
-        subclassRT(T,T1).
 
 %% parentT(?Class,?ParentClass) is nondet.
 % see parentT/3
@@ -645,27 +601,11 @@ parentRT(ID,IDp):- parentRT(ID,_,IDp).
 parentRT(ID,[],ID).
 parentRT(ID,TL,IDp):- parentT(ID,TL,IDp).
 
-safe_parentT(ID,PID) :-
-	safe_parentT(ID,_,PID).
-
-safe_parentT(ID,R,PID) :-
-	safe_parentT(ID,R,PID,[]).
-
-safe_parentT(ID,[R],PID,_Visited) :-
-	parent(ID,R,PID).
-safe_parentT(ID,[R|Rs],PID,Visited) :-
-	parent(ID,R,XID),
-	\+ member(XID,Visited),
-	safe_parentT(XID,Rs,PID,[XID|Visited]).
-
-safe_parentRT(ID,PID) :-
-	safe_parentRT(ID,_,PID).
-safe_parentRT(ID,[],ID).
-safe_parentRT(ID,Rs,PID) :-
-	safe_parentT(ID,Rs,PID).
-
-% for mireoting
-
+%% idspace_references(?S,?Ref)
+% true if Ref is in the bf_parentRT/2 closure of a class
+% in idspace S.
+%
+% this predicate can be used for MIREOTing
 idspace_references(S,Ref) :-
 	setof(X,(class(X),
 		 id_idspace(X,S)),
@@ -674,6 +614,8 @@ idspace_references(S,Ref) :-
 	bf_parentRT(X,Ref),
 	\+ id_idspace(Ref,S).
 
+%% idspace_references_reflexive(?S,?Ref)
+% as idspace_references/2, but includes all classes in S
 idspace_references_reflexive(S,Ref) :-
 	idspace_references(S,Ref).
 idspace_references_reflexive(S,Ref) :-
@@ -681,7 +623,11 @@ idspace_references_reflexive(S,Ref) :-
 	id_idspace(Ref,S).
 
 
-
+%% bf_parentRT(?ID,?PID)
+% true if PID is reachable from ID via parent/2.
+%
+% use breadth-first traversal
+% cycle-safe
 bf_parentRT(ID,PID) :-
 	class(ID),
 	debug(bf_parentRT,'bf_parentRT(~w)',[ID]),
@@ -689,7 +635,6 @@ bf_parentRT(ID,PID) :-
 	member(PID,L).
 bf_parentRT(ID,ID) :-
 	class(ID).
-				%nonvar(ID).
 
 ids_ancestors([ID|IDs],DoneIDs,Ancs,AncsFinal) :-
 	setof(XID,parent(ID,XID),Parents),
@@ -704,23 +649,21 @@ ids_ancestors([ID|IDs],DoneIDs,Ancs,AncsFinal) :-
 	ids_ancestors(IDs,[ID|DoneIDs],Ancs,AncsFinal).
 ids_ancestors([],_,Ancs,Ancs).
 
+%% bf_set_parentRT(IDs:list,PID)
+% as bf_parentRT/2, starting point is a list
 bf_set_parentRT(IDs,PID) :-
 	ids_ancestors(IDs,[],[],PIDs),
 	member(PID,PIDs).
 bf_set_parentRT(IDs,PID) :-
 	member(PID,IDs). % TODO - unique results only
 
+%% strict_subclass(?A,?B)
+% true if A is a subclass of B, and there is no Z
+% such that a is a subclass of Z.
+% this is always true of subclass/2 in a single-inheritance hierarchy
 strict_subclass(A,B) :-
 	subclass(A,B),
 	\+((subclass(A,Z),Z\=B)).
-
-class_single_inheritance_path(C,[]) :-
-	class(C),
-	\+ subclass(C,_).
-class_single_inheritance_path(C,[D|Path]) :-
-	setof(D,subclass(C,D),[D]),
-	class_single_inheritance_path(D,Path).
-
 
 
 
@@ -863,14 +806,21 @@ class_disjoint_union_list(Class,Us):-
                forall((member(C2,Us),C1\=C2),
                       disjoint_from(C1,C2))).
 
+%% disjoint_from_violation(?P1,?P2,?C)
+% true if disjoint_from/2 holds between P1 and P2,
+% and C is a subclass/2 of both
 disjoint_from_violation(P1,P2,C):-
         disjoint_from(P1,P2),
         subclassT(C,P1),
         subclassT(C,P2).
 
-% this is slow - recommended use ontol_reasoner first..
+%% disjoint_over_violation(?DR,?X,?Y,?A)
+% true if X is declared to be disjoint with Y over some relation R,
+% and there is some A that stands in relation R to X and Y
+%
+% this is slow - recommended use ontol_reasoner instead
 disjoint_over_violation(DR,X,Y,A):-
-        disjoint_over(DR,R),
+        disjoint_over(DR,R),	% e.g. disjoint_over(disconnected_from,part_of)
         (   restriction(X,DR,Y)
         ;   restriction(Y,DR,X)),
         debug(ontol,'testing disjoint_over ~w :: ~w ~w ~w',[R,X,DR,Y]),
@@ -1180,18 +1130,9 @@ inst_ofRT(Inst,Class):-
 :- extensional(inst_rel/6).
 :- extensional(inst_rel/7).
 
-%%  inst_rel_at(?Instance,?Relation,?ToInstance,?Time) is nondet.
-% true if Instance stands in Relation to ToInstance at/during Time.
-% time is not explicitly modeled in the ontology language; Time
-% will be an instance of an appropriate class in an upper ontology
-% (eg BFO or owl-time).
-% deprecated: use inst_rel/4 instead
-:- extensional(inst_rel_at/4).
-
 %% inst_rel_type(?I,?Rel,?Type)
 % true if I is related by Rel to some instance of type Type
 inst_rel_type(I,Rel,Type):- inst_rel(I,Rel,I2),inst_of(I2,Type).
-
 
 %%  inst_rel_anon(?Instance,?Relation,?Class) is nondet.
 % true if Instance stands in Relation to some unnamed instance of Class
@@ -1210,7 +1151,7 @@ inst_sv(ID,S,PID):-
         inst_rel(ID,S,PID).
 
 %% class_instrule(?Class,?HeadVars,?PrologRuleBody)
-%
+% Class(HeadVars) :- Body is a rule for instantiating Class
 :- extensional(class_instrule/3).
 
 %% class_reified_rulebody(?Class,HeadVars,?HeadConjTerms)
@@ -1225,7 +1166,9 @@ inst_sv(ID,S,PID):-
 
 %% entailed_by(?Statement,?Rule) is nondet.
 % true if Statement is entailed (logically inferred) by Rule
-% Expression may be 'true' if deduction provenance is not maintained
+% Expression may be 'true' if deduction provenance is not maintained.
+%
+% see ontol_reasoner.pro
 :- extensional(entailed_by/2).
 
 %% entailed_by(?Statement,?Rule,?Expression) is nondet.
@@ -1234,16 +1177,13 @@ inst_sv(ID,S,PID):-
 %% logicalformula(?ID,?FormulaAtom,?Language) is nondet.
 :- extensional(logicalformula/3).
 
-
-
 	
 %% class_by_name_or_synonym(+N,?ID) is nondet.
-% DEPRECATED. index instead
+% TODO: deprecate. still used in obol
 class_by_name_or_synonym(N,ID):-
         class(ID,N).
 class_by_name_or_synonym(N,ID):-
         synonym(ID,_,N).
-
 
 %% class_label(?Class,?Label,?Type)
 % true if Class has name or synonym Label (case-insensitive)
@@ -1267,30 +1207,6 @@ dbmeta:resolve_query(synonym(S),class(ID)):-
             synonym(ID,_,S)).
 
 
-
-subpathL(P,IDp,L,P1):-
-        member(P1/IDp,L),
-        P1\=P,
-        subpath(P,P1).
-
-subpath([],_).
-subpath([T|P1],[T|P2]):-
-        !,
-        subpath(P1,P2).
-subpath(P1,[_|P2]):-
-        !,
-        subpath(P1,P2).
-
-cpath(Pi,Po):-
-        cpath(Pi,Po,[],null).
-cpath([],X,X,_).
-cpath([subclass|TL],P,Pb,Last):-
-        !,
-        cpath(TL,P,Pb,Last).
-cpath([T|TL],P,Pb,Last):-
-        (T=Last
-        ->  cpath(TL,P,Pb,Last)
-        ;   cpath(TL,P,[T|Pb],T)).
 
 
 %% referenced_id(?ID,?RefID)
@@ -1381,48 +1297,6 @@ redundant_parent(ID,T,PID,ZID,TL):-
         subclassT(ID,ZID),
         parentT(ZID,TL,PID,T).
 
-%% multiple_parent(?ID,?T,?PID1,?PID2)
-%  finds classes with multiple parents of the same time
-%
-%  takes into account the rule:
-%  
-%  if   X is_a* Y
-%  and  Y part_of Z
-%  then X part_of Z
-%
-%  (substitute part_of for any other relation T here)
-%
-%  PID1 must be a direct part_of ID, but PID2 can be an indirect part
-%
-%  does not report if PID1 is_a* PID2 (because they are not distinct parts)
-%  
-%  Note that this will unify with duplicate results as PID1 and PID2
-%are symmeryical. When PID1 and PID2 are unground, you can de-duplicate
-%like this:
-%
-%  ==
-%  multiple_parent(ID,part_of,PID1,PID2),
-%  PID1@<PID2.
-%  ==
-multiple_parent(ID,T,PID1,PID2):-
-        multiple_parent(ID,T,PID1,PID2,_).
-
-%% multiple_parent(?ID,?T,?PID1,?PID2,?ViaID)
-%   As multiple_parent/4 but also provides the ID of the class
-%ViaID such that PID2 is a direct part_of ViaID (and ViaID is a
-%superclass* of ID)
-%
-%  PID1 is always a direct part_of ID
-%
-%  (substitute part_of for any other relation T here)
-multiple_parent(ID,T,PID1,PID2,ViaID):-
-        restriction(ID,T,PID1),
-        subclassRT(ID,ViaID),
-        restriction(ViaID,T,PID2),
-        PID1\=PID2,
-        \+ parentRT(PID1,PID2).
-        % GO is missing is_a parents, so we need the above hack
-        %\+ subclassRT(PID1,PID2).
 
 %% subclass_underlap(?C,?P1,?P2) is nondet.
 % C is_a P1 and C is_a P2
@@ -1432,6 +1306,9 @@ subclass_underlap(C,P1,P2):-
         subclassT(C,P2),
         P1\=P2.
 
+% ----------------------------------------
+% CYCLE CHECKS
+% ----------------------------------------
 
 %% subclass_cycle(+ID,?Path) is nondet.
 %  check for cyclical paths, going up from ID
@@ -1467,237 +1344,7 @@ parent_cycle(ID,X,P):-
 	parent(ID,R,SuperID),
 	parent_cycle(SuperID,X,[ID-R-SuperID|P]).
 
-abduced_link(subclass(Yc,Yp)):-
-        subclassT(Xc,Xp),
-        genus(Xc,G),
-        genus(Xp,G),
-        differentium(Xc,R,Yc),
-        differentium(Xp,R,Yp),
-        \+ parentRT(Yc,Yp).
 
-abduced_link_nr(subclass(A,B)):-
-        abduced_link(subclass(A,B)),
-        \+ (( abduced_link(subclass(A,C)),
-              abduced_link(subclass(C,B)))).
-
-
-
-	
-
-% experimental stuff from here on
-
-classdef_parent(Class,PClass):-
-        not(var(Class)),
-        not(var(PClass)),
-        ((cdef(ID,Class),cdef(PID,PClass))
-        ->  parentRT(ID,PID)
-        ;   classdef_parent_c(Class,PClass)).
-classdef_parent_c(Class,PClass):-
-	%format('~n~w~n~w~n~n',[Class,PClass]),
-	not(var(Class)),
-	not(var(PClass)),
-	Class=intersection(GenusID,DiffL),
-	PClass=intersection(PGenusID,PDiffL),
-	select(RelType:ToClass,DiffL,DiffL2),
-	(select(RelType:PToClass,PDiffL,PDiffL2) % unify reltype
-	->  classdef_parent(ToClass,PToClass) % parentD
-	;   PDiffL2=PDiffL),    % parent of top
-	classdef_parent(intersection(GenusID,DiffL2),
-			intersection(PGenusID,PDiffL2)).
-
-
-class_id_or_label(ID,N):- (class(ID,N)-> true ; N=ID).
-cdef_label(cdef(G,Diffs),Label):-
-        class_id_or_label(G,GN),
-        findall(DiffN,
-                (   member(R=To,Diffs),
-                    class_id_or_label(R,RN),
-                    class_id_or_label(To,ToN),
-                    sformat(DiffN,'~w ~w',[RN,ToN])),
-                DiffNs),
-        concat_atom(DiffNs,' and ',DiffAtom),
-        sformat(Label,'~w that ~w',[GN,DiffAtom]).
-
-
-
-% private
-%  TODO ALSO returns subclasses; fix this
-cdef(ID,intersection(GenusID,DiffL)):-
-        (var(ID)
-        ->  (DiffL=[]
-            ->  GenusID=ID
-            ;   genus(ID,GenusID),
-                forall(member(R:ToClass,DiffL),
-                       (   cdef(ToID,ToClass), % (?,+)
-                           differentium(ID,R,ToID))))
-        ;   (genus(ID,GenusID)
-            ->  setof(R:ToClass,
-                      (differentium(ID,R,ToID),cdef(ToID,ToClass)),
-                      DiffL)
-            ;   GenusID=ID,DiffL=[])),
-        !.
-
-% (+,?) eg for queries
-classdef_subsumes_id(PClass,ID):-
-        not(var(PClass)),
-        class(ID),            % make sure unified
-        (cdef(PID,PClass)
-        ->  subclassRT(ID,PID)
-        ;   classdef_subsumes_id_c(PClass,ID)).
-
-% PClass is NOT extant
-classdef_subsumes_id_c(PClass,ID):-
-	PClass=intersection(PGenusID,PDiffL),
-	%Class=intersection(GenusID,DiffL),
-	genus(ID,GenusID),
-	subclassRT(GenusID,PGenusID),
-	forall(member(R:PToClass,PDiffL),
-	       (differentium(ID,R,ToID),
-		classdef_subsumes_id(PToClass,ToID))).
-
-% should this stay here or go to ontol_manifest_names_from_genus_differentia?
-name_composed_type(Genus^Diff,Name):-
-        !,
-        name_composed_type(Genus,GenusName),
-        name_composed_type(Diff,Which),
-        concat_atom([GenusName,' that ',Which],Name).
-name_composed_type(Rel=To,N):-
-        !,
-        name_composed_type(Rel,RelN),
-        name_composed_type(To,ToN),
-        concat_atom([RelN,' ',ToN],N).
-name_composed_type([],''):- !.
-name_composed_type([D],N):- !, name_composed_type(D,N).
-name_composed_type([D|Ds],N):-
-        !,
-        name_composed_type(D,N1),
-        name_composed_type(Ds,N2),
-        concat_atom([N1,' and ',N2],N).
-name_composed_type(C,N):- class(C,N),!.
-name_composed_type(C,N):- property(C,N),!.
-name_composed_type(X,X).
-
-% -------------------- SEGMENTATION --------------------
-
-%% ontology_segment(+InNodes,?OutNodes,?Opts)
-ontology_segment(InNodes,OutNodes,Opts):-
-        ontology_segment(InNodes,_,OutNodes,Opts).
-%% ontology_segment(+InNodes,?Edges,?OutNodes,?Opts)
-ontology_segment(InNodes,Edges,OutNodes,Opts):-
-        debug(ontol,'Segmenting: ~w Opts: ~w',[InNodes,Opts]),
-        (   member(relations(Rels),Opts),
-            Rels\=[]
-        ->  true
-        ;   member(exclude_relations(ExcRels),Opts)
-        ->  solutions(Rel,(parent(_,Rel,_),\+member(Rel,ExcRels)),Rels)
-        ;   Rels=[]),
-        relation_closure_predicate(Rels,Pred,Opts), % unify Pred with Goal for matching node to parents
-        debug(ontol,'Closure pred: ~w ',[Pred]),
-        (   member(maxdown(MaxDown),Opts)
-        ->  true
-        ;   MaxDown=0),
-        (   member(siblings(1),Opts)
-        ->  solutions(PNode,(member(Node,InNodes),call(Pred,Node,PNode)),InNodesPlus),
-            Delta=down(1)
-        ;   member(maxup(MaxUp),Opts),nonvar(MaxUp)
-        ->  Delta=up(MaxUp)
-        ;   InNodesPlus=InNodes,
-            Delta=down(MaxDown)),
-        debug(ontol,'Will use ~w for graph traversal. delta=~w',[Pred,Delta]),
-        closure_to_edgelist_delta(Pred,InNodesPlus,Edges1,Delta,0), % todo IsReverse
-        debug(ontol_segment,'collapsing: ~w',[Edges]),
-        % todo: optimize this
-        (   member(collapse_relation(CR),Opts)
-        ->  collapse_edgelist_via_pred(Edges1,Edges,collapse_relation(CR)) % todo
-        ;   member(collapse_predicate(CP),Opts)
-        ->  collapse_edgelist_via_pred(Edges1,Edges,CP)
-        ;   Edges=Edges1),
-        debug(ontol_segment,'Converting edges to trees: ~w',[Edges]),
-        edgelist_to_trees(Edges,Trees),
-        debug(ontol_segment,'Converted edges to trees: ~w',[Trees]),
-        solutions(OutNode,
-                  (   member(Tree,Trees),
-                      tree_node_ids(Tree,OutNodes1),
-                      member(OutNode,OutNodes1)),
-                  OutNodes).
-
-collapse_edgelist_via_pred(L,L,fail):- !.
-collapse_edgelist_via_pred(EdgesIn,EdgesOut,Pred):-
-        findall(N,(   member(edge(N,_,_),EdgesIn)
-                  ;   member(edge(_,N,_),EdgesIn)),Nodes),
-        findall(N,(member(N,Nodes),user:call(Pred,N,EdgesIn)),NodesToGo),
-        collapse_edgelist(EdgesIn,EdgesOut,NodesToGo,EdgesIn).
-
-/*
-xxcollapse_edgelist(EL,EL2,[N|NodesToGo],ELO):-
-        findall(edge(X,Z,R2),member(edge(Y,Z,R2),EL),ELJ),
-        findall(E2,(member(E2,EL),E2\=edge(Y,_,_)),ELRest),
-        foo.
-
-        
-collapse_edgelist([E|EL],EL2,NodesToGo,ELO):-
-        E=edge(X,Y,R),
-        member(Y,NodesToGo),
-        !,
-        findall(edge(X,Z,R2),member(edge(Y,Z,R2),EL),ELJ),
-        findall(E2,(member(E2,EL),E2\=edge(Y,_,_)),ELRest),
-                append(ELRest,ELJ,ELPush),
-
-        % remove edge from final list
-        debug(collapse,'rm: ~w',[E]),
-        collapse_edgelist(ELJ,EL2,ELC,ELO).
-*/
-
-collapse_edgelist([E|EL],[E|EL2],ELC,ELO):-
-        !,
-        % pass through
-        debug(collapse,'pass: ~w',[E]),
-        collapse_edgelist(EL,EL2,ELC,ELO).
-collapse_edgelist([],[],_,_):- !.
-
-collapse_relation(R,Edge,EdgesIn):-
-        Edge=edge(_,Y,R),
-        member(edge(Y,_,R),EdgesIn).
-
-user:collapse_is_a(Edge,EdgesIn):-
-        Edge=edge(_,Y,relation_link(subclass)),
-        member(edge(Y,_,relation_link(subclass)),EdgesIn).
-
-relation_closure_predicate(R,inverse(P),Opts):-
-        select(invert(1),Opts,OptsRemaining),
-        !,
-        relation_closure_predicate(R,P,OptsRemaining).
-relation_closure_predicate(all,relation_link(_),_):- !.
-relation_closure_predicate([],relation_link(_),_):- !. % empty=all
-relation_closure_predicate([R],parent_over_nr(R,_),_):- !. % [R]->R
-relation_closure_predicate(Rs,parent_over_oneof(_-Rs),_):- is_list(Rs),!.
-relation_closure_predicate(R,parent_over_nr(R,_),_).
-
-%% parent_over_oneof(+RTerm,?Node,?PNode)
-% RTerm = Rel-Rels
-% true if Rel is a member of Rels, and PNode can be reached from Node via Rel
-parent_over_oneof(R-Rs,Node,PNode):- member(R,Rs),parent_over_nr(R,Node,PNode).
-
-% inverts order of arguments so it can be used in a functional style
-% (instances AND classes)
-relation_link(R,Node,PNode):- node_link(Node,R,PNode),\+exclude_relation_in_closure(R).
-%exclude_relation_in_closure(has_part).  % !!! HACK!! sometimes we want this. works fine for Cell in FMA
-exclude_relation_in_closure(R):- is_cyclic(R).
-
-% helper predicates (duped with blipkit_ontol)
-
-% tree_node_ids(+N,?NodeSet) is semidet
-% NodeSet has no dupes
-% N=node(_,Node,SubNodes)
-tree_node_ids(N,Nodes):-
-        tree_node_id_list(N,Nodes1),
-        list_to_set(Nodes1,Nodes).
-
-% tree_node_ids(+N,?NodeList)t
-% NodeList may have dupes
-tree_node_id_list(node(_,Node,Nodes),[Node|Nodes]):-
-        findall(SubNodes,(member(Node,Nodes),tree_node_id_list(Node,SubNodes)),SubNodesL),
-        flatten(SubNodesL,Nodes).
 
 %% subclass_lca(+IDs,?LCA) is semidet
 subclass_lca(IDs,LCA):-
@@ -1733,6 +1380,7 @@ dbmeta:schema_statistic(ontol_db,count_by(classes_by_ontology,Num)):-
 % -------------------- TESTS --------------------
 % regression tests to ensure behaviour of module is correct;
 % lines below here are not required for module functionality
+% TODO - move to plt plunit file
 
 unittest(load(sofa)=
       load_biofile(obo,'sofa.obo')/[]).
@@ -1835,12 +1483,10 @@ obo-like, and can easily be mapped to an OWL ontology (see bridge)
   detecting illegal cycles or redundant relationships. It requires
   ontology prolog fact files containing at least the following facts:
 
-  
     * class/2
     * belongs/2
     * subclass/2
     * restriction/3
-  
   
   Any cycles over subclass/2 or restriction/3 will cause
   non-terminating behavior
@@ -1854,21 +1500,17 @@ prolog fact databases and other formats
 
   The following file formats can be read in using load_biofile/2
 and load_bioresource/1
-
   
   * obo
   * obo_xml
   * go
   * owl
-  
 
   (See below for full details)
   
   The following database schemas have adapters:
-
   
   * gosql
-  
   
   ---+++ Export
 

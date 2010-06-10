@@ -5,6 +5,8 @@
 :- use_module(bio(dbmeta)).
 :- use_module(bio(bioprolog_util),[solutions/3]).
 
+% experimental long-forgotten module?
+
 ontol_db:class_reified_rulebody(C,Xs,Conj):-
         class(C),
         \+genus(C,_),
