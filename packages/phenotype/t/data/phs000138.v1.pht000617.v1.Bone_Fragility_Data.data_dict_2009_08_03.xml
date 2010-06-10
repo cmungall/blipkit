@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="./datadict_v2.xsl"?>
+<data_table id="pht000617.v1" study_id="phs000138.v1" participant_set="1" date_created="Mon Aug  3 15:20:41 2009">
+
+<variable id="phv00065497.v1">
+	<name>studyid</name>
+	<description>De-identified subject&#39;s ID</description>
+	<type>Integer</type>
+</variable>
+
+<variable id="phv00065498.v1">
+	<name>case/control</name>
+	<description>Case or control?</description>
+	<type>Text</type>
+</variable>
+
+<variable id="phv00065499.v1">
+	<name>CIDR_fam</name>
+	<description>Family number</description>
+	<type>Integer</type>
+</variable>
+
+<variable id="phv00065501.v1">
+	<name>age_baseline</name>
+	<description>Age of participant at primary study visit</description>
+	<type>Integer</type>
+	<unit>Years</unit>
+	<logical_min>20</logical_min>
+	<logical_max>50</logical_max>
+</variable>
+
+<variable id="phv00065502.v1">
+	<name>sex</name>
+	<description>Gender of participant</description>
+	<type>Coded value</type>
+	<value code="2">Female</value>
+</variable>
+
+<variable id="phv00065503.v1">
+	<name>race</name>
+	<description>Race of participant</description>
+	<type>Coded value</type>
+	<value code="W">White</value>
+	<value code="his">Hispanic origin</value>
+</variable>
+
+<variable id="phv00065504.v1">
+	<name>l2l4bmd</name>
+	<description>Bone mineral density at lumbar spine (L2-L4); residual from regression on weight, baseline age</description>
+	<type>Decimal</type>
+	<unit>Grams per square centimeter</unit>
+	<logical_min>-0.422</logical_min>
+	<logical_max>0.424</logical_max>
+</variable>
+
+<variable id="phv00065505.v1">
+	<name>neck_bmd</name>
+	<description>Bone mineral density at femoral neck; residual from regression on weight, baseline age</description>
+	<type>Decimal</type>
+	<unit>Grams per square centimeter</unit>
+	<logical_min>-0.31</logical_min>
+	<logical_max>0.525</logical_max>
+</variable>
+
+<variable id="phv00065506.v1">
+	<name>troc_bmd</name>
+	<description>Bone mineral density at greater trochanter of femur; residual from regression on weight, baseline age</description>
+	<type>Decimal</type>
+	<unit>Grams per square centimeter</unit>
+	<logical_min>-0.308</logical_min>
+	<logical_max>0.516</logical_max>
+</variable>
+
+<variable id="phv00065507.v1">
+	<name>ward_bmd</name>
+	<description>Bone mineral density at Ward&#39;s triangle; residual from regression on weight, baseline age</description>
+	<type>Decimal</type>
+	<unit>Grams per square centimeter</unit>
+	<logical_min>-0.313</logical_min>
+	<logical_max>0.65</logical_max>
+</variable>
+
+<variable id="phv00065508.v1">
+	<name>thip_bmd</name>
+	<description>Bone mineral density at total hip; residual from regression on weight, baseline age</description>
+	<type>Decimal</type>
+	<unit>Grams per square centimeter</unit>
+	<logical_min>-0.336</logical_min>
+	<logical_max>0.367</logical_max>
+</variable>
+
+<variable id="phv00065509.v1">
+	<name>tb_bmd</name>
+	<description>Bone mineral density for total body scan; residual from regression on weight, baseline age</description>
+	<type>Decimal</type>
+	<unit>Grams per square centimeter</unit>
+	<logical_min>-0.334</logical_min>
+	<logical_max>0.232</logical_max>
+</variable>
+
+<variable id="phv00065510.v1">
+	<name>bone</name>
+	<description>Bone mass from total body scan</description>
+	<type>Decimal</type>
+	<unit>Grams</unit>
+	<logical_min>1701</logical_min>
+	<logical_max>4034</logical_max>
+</variable>
+
+<variable id="phv00065511.v1">
+	<name>fat</name>
+	<description>Fat mass from total body scan</description>
+	<type>Decimal</type>
+	<unit>Grams</unit>
+	<logical_min>4914</logical_min>
+	<logical_max>78269</logical_max>
+</variable>
+
+<variable id="phv00065512.v1">
+	<name>lean</name>
+	<description>Lean mass from total body scan</description>
+	<type>Decimal</type>
+	<unit>Grams</unit>
+	<logical_min>25875</logical_min>
+	<logical_max>76545</logical_max>
+</variable>
+
+<variable id="phv00065513.v1">
+	<name>PELV_AXI</name>
+	<description>Pelvic axis length</description>
+	<type>Decimal</type>
+	<unit>Millimeters</unit>
+	<logical_min>8.1</logical_min>
+	<logical_max>37.43</logical_max>
+</variable>
+
+<variable id="phv00065514.v1">
+	<name>FEM_AXI</name>
+	<description>Femoral axis length</description>
+	<type>Decimal</type>
+	<unit>Millimeters</unit>
+	<logical_min>80.33</logical_min>
+	<logical_max>136.46</logical_max>
+</variable>
+
+<variable id="phv00065515.v1">
+	<name>HEAD_W</name>
+	<description>Femoral head width</description>
+	<type>Decimal</type>
+	<unit>Millimeters</unit>
+	<logical_min>37.34</logical_min>
+	<logical_max>62.33</logical_max>
+</variable>
+
+<variable id="phv00065516.v1">
+	<name>FTW</name>
+	<description>Femoral shaft width</description>
+	<type>Decimal</type>
+	<unit>Millimeters</unit>
+	<logical_min>22.44</logical_min>
+	<logical_max>41.86</logical_max>
+</variable>
+
+<variable id="phv00065517.v1">
+	<name>periods</name>
+	<description>Age of menarche</description>
+	<type>Integer</type>
+	<unit>Years</unit>
+	<logical_min>7</logical_min>
+	<logical_max>16</logical_max>
+</variable>
+
+<variable id="phv00065518.v1">
+	<name>packyrs</name>
+	<description>Smoking exposure (packs per day times years)</description>
+	<type>Decimal</type>
+	<unit>Packs/years/days</unit>
+	<logical_min>0.05</logical_min>
+	<logical_max>57.5</logical_max>
+</variable>
+
+<variable id="phv00065519.v1">
+	<name>height</name>
+	<description>Height</description>
+	<type>Decimal</type>
+	<unit>Centimeters</unit>
+	<logical_min>146.5</logical_min>
+	<logical_max>192.3</logical_max>
+</variable>
+
+<variable id="phv00065520.v1">
+	<name>weight</name>
+	<description>Weight at primary study visit</description>
+	<type>Decimal</type>
+	<unit>Kilograms</unit>
+	<logical_min>37.6</logical_min>
+	<logical_max>144.4</logical_max>
+</variable>
+
+<variable id="phv00065521.v1">
+	<name>BMI</name>
+	<description>Body mass index</description>
+	<type>Decimal</type>
+	<unit>Kilograms per square meter</unit>
+	<logical_min>15.8</logical_min>
+	<logical_max>51.7</logical_max>
+</variable>
+
+<variable id="phv00065522.v1">
+	<name>HGB</name>
+	<description>Hemoglobin</description>
+	<type>Decimal</type>
+	<unit>Grams per deciliter</unit>
+	<logical_min>8.4</logical_min>
+	<logical_max>17</logical_max>
+</variable>
+
+<variable id="phv00065523.v1">
+	<name>HCT</name>
+	<description>Hematocrit</description>
+	<type>Decimal</type>
+	<unit>Percent</unit>
+	<logical_min>27.5</logical_min>
+	<logical_max>49.8</logical_max>
+</variable>
+
+<variable id="phv00065524.v1">
+	<name>WBC</name>
+	<description>White blood cell count</description>
+	<type>Decimal</type>
+	<unit>Thousands per cubic millimeter</unit>
+	<logical_min>2.3</logical_min>
+	<logical_max>12.9</logical_max>
+</variable>
+
+<variable id="phv00065525.v1">
+	<name>platec</name>
+	<description>Platelet count</description>
+	<type>Decimal</type>
+	<unit>Thousands per milliliter</unit>
+	<logical_min>77</logical_min>
+	<logical_max>607</logical_max>
+</variable>
+
+<variable id="phv00065526.v1">
+	<name>MCV</name>
+	<description>Mean corpuscular volume</description>
+	<type>Decimal</type>
+	<unit>Cubic micrometers</unit>
+	<logical_min>70.1</logical_min>
+	<logical_max>109</logical_max>
+</variable>
+
+<variable id="phv00065527.v1">
+	<name>CBC_age</name>
+	<description>Participant age when sample taken for complete blood count</description>
+	<type>Integer</type>
+	<unit>Years</unit>
+	<logical_min>20</logical_min>
+	<logical_max>55</logical_max>
+</variable>
+
+<variable id="phv00065528.v1">
+	<name>calc</name>
+	<description>Serum calcium</description>
+	<type>Decimal</type>
+	<unit>Milligrams per deciliter</unit>
+	<logical_min>6.5</logical_min>
+	<logical_max>10.5</logical_max>
+</variable>
+
+<variable id="phv00065529.v1">
+	<name>phos</name>
+	<description>Serum phosphorus</description>
+	<type>Decimal</type>
+	<unit>Milligrams per deciliter</unit>
+	<logical_min>1.8</logical_min>
+	<logical_max>4.8</logical_max>
+</variable>
+
+<variable id="phv00065530.v1">
+	<name>creat</name>
+	<description>Serum creatinine</description>
+	<type>Decimal</type>
+	<unit>Milligrams per deciliter</unit>
+	<logical_min>0.5</logical_min>
+	<logical_max>1.4</logical_max>
+</variable>
+
+<variable id="phv00065531.v1">
+	<name>alkph</name>
+	<description>Serum alkaline phosphatase</description>
+	<type>Decimal</type>
+	<unit>International units per liter</unit>
+	<logical_min>28</logical_min>
+	<logical_max>157</logical_max>
+</variable>
+
+<variable id="phv00065532.v1">
+	<name>fgluc</name>
+	<description>Fasting serum glucose</description>
+	<type>Decimal</type>
+	<unit>Milligrams per deciliter</unit>
+	<logical_min>44</logical_min>
+	<logical_max>127</logical_max>
+</variable>
+
+<variable id="phv00065533.v1">
+	<name>album</name>
+	<description>Albumin</description>
+	<type>Decimal</type>
+	<unit>Grams per deciliter</unit>
+	<logical_min>3.1</logical_min>
+	<logical_max>6</logical_max>
+</variable>
+
+<variable id="phv00065534.v1">
+	<name>tprot</name>
+	<description>Total protein</description>
+	<type>Decimal</type>
+	<unit>Grams per deciliter</unit>
+	<logical_min>5.8</logical_min>
+	<logical_max>9.4</logical_max>
+</variable>
+
+<variable id="phv00065535.v1">
+	<name>sgot</name>
+	<description>Serum glutamic oxaloacetic transaminase</description>
+	<type>Decimal</type>
+	<unit>International units per liter</unit>
+	<logical_min>10</logical_min>
+	<logical_max>75</logical_max>
+</variable>
+
+</data_table>
