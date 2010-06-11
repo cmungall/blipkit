@@ -1,0 +1,388 @@
+/cellular_component
+
+*relational_adj_pp
+coated, coat
+segmented, segment
+stranded, strand
+
+*adj
+% distinct from chemical/polar
+polar
+
+perinuclear
+nucleoid
+conoid
+adherens
+encapsulating
+endoplasmic
+basal
+intracellular
+extracellular
+cornified
+endocytic
+extrachromosomal
+phagocytic
+homotypic
+heterotypic
+parasitophorous
+food
+interstitial
+intermembrane
+pericentric
+periplasmic
+intercalary
+transmembrane
+
+*antonym
+external, internal
+outer, inner
+early, late
+smooth, rough
+
+*relational_adj_ra
+laminal, lamina
+capsular, capsule
+centromeric, centromere
+centrosomal, centrosome
+cellular, cell
+centric, centromere
+flagellar, flagellum
+fimbrial, fimbrium
+ciliary, cilium
+
+cytosolic, cytosol
+mitochondrial, mitochondrion
+spliceosomal, spliceosome
+chloroplastic, chloroplast
+vesicular, vesicle
+cytoplasmic, cytoplasm
+nucleoplasmic, nucleoplasm
+cytoskeletal, cytoskeleton
+lysosomal, lysosome
+
+lamellar, lamella
+prolamellar, prolamella
+peroxisomal, peroxisome
+endosomal, endosome
+
+nucleocytoplasmic, nucleocytoplasm
+
+pellicular,pellicle
+subpellicular,subpellicle
+telomeric, telomere
+
+ribosomal, ribosome
+vacuolar, vacuole
+
+nucleolar, nucleolus
+nuclear, nucleus
+organellar, organelle
+polysomal, polysome
+
+
+*type_token
+U1
+U11
+U12
+U2
+U4
+U4atac
+U5
+U6
+U6atac
+U7
+
+
+*inflection
+nucleus, nuclei
+
+*noun
+
+% Q:cell - part of cell ontology??? YES
+%%%%%%%%%%cell
+
+chromatid
+ER
+button
+cytoneme
+edging
+fibril
+hillock
+loop
+macronucleus
+micronucleus
+prikaryon
+region
+replisome
+rim
+rootlet
+sleeve
+snRNP
+soma
+spine
+varicosity
+
+laminim
+ring
+tip
+
+subunit
+channel
+
+complex, right
+pore, right
+body
+stack
+vesicle
+coat
+organelle
+lumen
+segment
+space
+
+pole, right
+matrix
+pit
+
+% ATOMS (except -osomes)
+Lands
+Nebenkern
+S-layer
+T-tubule
+TRAPP
+
+% SEMI-ATOMIC ("-osome"s)
+% TODO: define the thing the -osome refers to; or is this useless?
+% there is really no point in decomposing chromosome
+acrosome
+autosome
+centrosome
+chitosome
+chlorosome
+chromosome
+desmosome
+endosome
+glycosome
+hemidesmosome
+hydrogenosome
+lysosome
+mannosome
+melanosome
+mesosome
+microsome
+nucleosome
+phragmosome
+preribosome
+repairosome
+ribosome
+spectrosome
+synaptosome
+
+% ATOMIC ATOMS
+
+acidocalcisome
+actomyosin
+aggresome
+alpha-heterochromatin
+amyloplast
+apicoplast
+apoplast
+apparatus
+assemblon
+aster
+axolemma
+axon
+axoneme
+band
+beta-heterochromatin
+bilayer
+border
+bridge
+bud
+cable
+canal
+canaliculus
+cap
+capsid
+capsomere
+capsule
+caveola
+center
+centriole
+chiasma
+chloroplast
+chorion
+chromatin
+chromatophore
+chromocenter
+chromoplast
+chylomicron
+cilium
+circle
+cisterna
+cleft
+cnidocyst
+collagen
+compartment
+component
+cone
+cortex
+cortext
+costamere
+crista
+cyanelle
+cytoplasm
+cytoskeleton
+cytosol
+degradosome
+dendrite
+densa
+desmotubule
+droplet
+elaioplast
+element
+envelope
+etioplast
+euchromatin
+exocyst
+exosome
+extrinsic
+face
+fibers
+fibrils
+filament
+filopodium
+fimbria
+fimbrin
+flagellum
+forespore
+fork
+fraction
+fusome
+genome
+glycocalyx
+glyoxysome
+grain
+granule
+granum
+heterochromatin
+heterodimer
+holocomplex
+hook
+host
+interband
+junction
+katanin
+kinetochore
+kinetoplast
+knob
+lamella
+lamellae
+lamellipodium
+lamina
+laminin
+laminin-1
+laminin-2
+laminin-3
+laminin-4
+laminin-5
+laminin-6
+laminin-7
+layer
+leucoplast
+lucida
+material
+membrane
+microbody
+microfibril
+microneme
+microtubule
+microvillus
+midbody
+mitochondrion
+myofibril
+myosin
+neck
+network
+neurofilament
+nexin
+nodule
+nucleocapsid
+nucleolus
+nucleoplasm
+nucleus
+origin
+paraspeckles
+part
+particle
+patch
+pellicle
+perichromatin
+peroxisome
+photosystem
+phragmoplast
+phycobilisome
+plaque
+plasm
+plasma
+plasmodesma
+plastid
+plate
+pocket
+point
+polarisome
+polysome
+procapsid
+projection
+pronucleus
+proplastid
+prospore
+proteasome
+prothylakoid
+protrusion
+provirus
+puff
+raft
+reticularis
+reticulum
+rhabdomere
+rhoptry
+ruffles
+sarcolemma
+sarcomere
+sarcoplasm
+scaffold
+scar
+septum
+shaft
+side
+site
+speck
+speckle
+spectrin
+spindle
+spoke
+spokehead
+stalk
+strip
+stroma
+structure
+subcomplex
+surface
+synapse
+system
+tegument
+thylakoid
+translocon
+tropomyosin
+tubulin
+unlocalized
+vacuole
+virion
+wall
+
+% TODO: make this part of ontology
+/er_type
+*adj
+smooth
+rough

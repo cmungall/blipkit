@@ -1,0 +1,346 @@
+/anatomy
+
+*adj
+
+alimentary
+subset
+ocular
+oblique
+occipital
+hairy
+frontal
+common
+contralateral
+bilateral
+aortic
+alimentary
+
+abdominal
+degenerate
+vascular
+adipose
+sterile
+
+adult
+male
+female
+ectopic
+focal
+mammary
+microvillar
+somatic
+stomatogastric
+synaptonemal
+cephalic
+axial
+mature
+immature
+% eg brown fat
+brown
+white
+
+urogenital
+visceral
+vitelline
+
+*noun
+
+tendon
+tissue
+precursor
+disc
+capsule
+
+cavity
+centre
+core
+abdomen
+uterus
+tooth
+slit
+pump
+pouch
+neurite
+mouth
+mouthpart
+mass
+hairs
+head
+genitalia
+fold
+femur
+field
+eyelet
+esophagus
+domain
+ductule
+diaphragm
+core
+centre
+caecum
+anus
+
+cumulus
+foot
+system
+follicle
+
+analia
+arm
+bristle
+carpel
+digit
+ear
+fin
+foregut
+forelimb
+fruit
+genital
+haltere
+hindgut
+hindlimb
+inflorescence
+leaf
+leg
+margin
+notum
+ocellus
+ovule
+petal
+proboscis
+sac
+seed
+sepal
+shoot
+sporocyte
+stamen
+sternite
+tail
+tergite
+tube
+tubule
+vein
+whorl
+
+
+trachea
+pancreas
+sphincter
+gut
+lung
+
+bone
+blood
+fat
+valve
+gland
+crest
+medulla
+hair
+yolk
+trophoblast
+syncytiotrophoblast
+myofibroblast
+epiblast
+cytotrophoblast
+blastoderm
+CNS
+
+egg
+nerve
+
+thorax
+appendage
+axoneme
+eye
+wing
+limb
+mesoderm
+sex
+ovary
+cuticle
+duct
+
+neck
+
+symmetry
+asymmetry
+amnioserosa
+biofilm
+brain
+bundle
+catenane
+chamber
+characteristics
+comb
+conjugant
+cord
+cristae
+cyst
+ectoderm
+endoderm
+endosperm
+flower
+furrow
+gametophyte
+gonad
+heart
+heteroduplex
+joint
+karyosome
+lens
+lymph
+metanephros
+micropyle
+microspike
+midgut
+midline
+mushroom
+organ
+pattern
+phagosome
+placode
+plug
+prostate
+sperm
+spliceosome
+suspensor
+syncytium
+muscle
+vessel
+zygote
+
+*relational_adj_ra
+
+metanephric, metanephros
+mesonephric, mesonephros
+pronephric, pronephros
+hippocampal, hippocampus
+thoracic, thorax
+prothoracic, prothorax
+antennal, antenna
+larval, larva
+
+scutellar, scutellum
+scabellar, scabellum
+rectal, rectum
+prescutal, prescutum
+pleural, pleurum
+pharyngeal, pharynx
+ommatidial, ommatidium
+metathoracic, metathorax
+labral, labrum
+humeral, humerus
+ganglionic, ganglion
+aristal, arista
+antenno, antenna
+acrosomal, acrosome
+
+ventricular, ventricle
+tracheolar, tracheole
+mesothoracic, mesothorax
+
+stomatal, stoma
+aortic, aorta
+anal, anus
+rectal, rectum
+dental, tooth
+cerebral, cerebrum
+cerebellar, cerebellum
+renal, kidney
+cardiac, heart
+phallic, phallus
+uterine, uterus
+choanal, choana
+facial, face
+humeral, humerus
+
+abdominal, abdomen
+chorionic, chorion
+commissural, commissure
+dendritic, dendrite
+ectodermal, ectoderm
+ganglionic, ganglion
+gonadal, gonad
+mesodermal, mesoderm
+neuronal, neuron
+neuropile, neuropil
+papillae, papilla
+segmental, segment
+
+esophageal, esophagus
+trophectodermal, trophectoderm
+ectodermal, ectoderm
+endodermal, endoderm
+
+epiphyseal, epiphysis
+
+structural, structure
+digital, digit
+physiological, physiology
+
+embryonic, embryo
+epidermal, epidermis
+epithelial, epithelium
+glandular, gland
+duodenal, duodenum
+glial, glia
+neurectodermal, neurectoderm
+hepatic, liver
+
+laryngeal, larynx
+pharyngeal, pharynx
+
+syncytial, syncytium
+retinal, retina
+pancreatic, pancreas
+corneal, cornea
+cranial, cranium
+macular, macula
+cortical, cortex
+
+gonadal, gonad
+testicular, testicle
+tracheal, trachea
+floral, flower
+
+ventricular, ventricle
+cervical, cervix
+vulval, vulva
+labial, labia
+vaginal, vagina
+penile, penis
+urethral, urethra
+ureteric, ureter
+ureteral, ureter
+skeletal, skeleton
+hyphal, hypha
+intestinal, intestine
+pupal, pupa
+axonemal, axoneme
+synaptic, synapse
+nervous, nerve
+
+neuromuscular, neuromuscle
+spinal, spine
+
+fetal, fetus
+scrotal, scrotum
+gingival, gingiva
+retroperitoneal, retroperitoneum
+diencephalic, diencephalon
+glomerular, glomerulus
+
+% is this right?
+optic, eye
+ovarian, ovary
+
+respiratory, respiration
+salivary, saliva
+
+% TODO - add this to ontology
+/muscle_type
+*adj
+smooth
+striated
+

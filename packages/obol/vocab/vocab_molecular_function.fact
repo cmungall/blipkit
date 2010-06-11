@@ -1,0 +1,119 @@
+/molecular_function
+
+*adj
+anaerobic
+antibacterial
+antibiotic
+antifungal
+antimicrobial
+apyrimidinic
+
+specificity
+
+atypical
+canalicular
+classical
+transepithelial
+
+farnesoic
+fimbrial
+gastric
+gastropyloric
+glyoxal
+
+altered
+induced
+inhibited
+diacylated
+directed
+dehydrogenated
+conserved
+converted
+triacylated
+uncoupled
+unmethylated
+
+potential
+signal
+specific
+unspecific
+immunological
+stereospecific
+intramolecular
+multifunctional
+muscarinic
+nalidixic
+neurohypophyseal
+neurotrophic
+nonspecific
+organomercurial
+peritrophic
+prothoracicotrophic
+puparial
+noncyclic
+subcellular
+terminal
+
+*noun
+activity, rightmost
+
+receptor
+coreceptor
+thermoreceptor
+aporeceptor
+chemoreceptor
+pressoreceptor
+photoreceptor
+
+energizer
+activator
+transporter
+regulator
+antiporter
+symporter
+factor
+cofactor
+motor
+
+% binding is also in func
+binding
+
+
+*relational_adj_ra
+
+apoptogenic, apoptogen
+apoptotic, apoptosis
+apurinic, apurine
+regulatory, regulator
+
+electrochemical, electrochemisrty
+
+catalytic, catalysis
+
+rotational, rotation
+spliceosomal, spliceosome
+
+mechanoreceptor, mechanoreception
+
+
+*relational_adj_pp
+barbed, barb
+based, base
+delayed, delay
+encoded, encodes
+enhanced, enhancement
+expressed, expression
+handed, hand
+involved, involve
+mediated, mediation
+operated, operation
+paired, pair
+patched, patch
+prenylated, prenylation
+related, relation
+smoothened, smoothen
+stimulated, stimulation
+
+/misc_molecular_function
+*noun
+sensitive

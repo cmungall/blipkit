@@ -97,7 +97,8 @@ abduced_synonym(C,N,exact) :-
 abduced_subclass(A,B) :-
 	newclass_xref(A,AX),
 	newclass_xref(B,BX),
-	subclassRT(AX,BX).
+	subclass(AX,BX).
+%	subclassRT(AX,BX). % calculate closure later
 
 /*
 simple_subclassXT(cdef(G1,DL1),cdef(G2,DL2)) :-

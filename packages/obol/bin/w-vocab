@@ -1,0 +1,109 @@
+#!/usr/local/bin/perl -w
+
+use strict;
+use Getopt::Long;
+
+my ($sort,$write);
+$write = 'p';
+GetOptions("sort|s"=>\$sort,
+	   "write|w=s"=>\$write,
+	   );
+
+my @onts = ();
+my $suffix;
+my $fact;
+while (<>) {
+    chomp;
+    next if /^\s*$/;
+    if (/^\/(\w+)/) {
+	$suffix = $1;
+	push(@onts, [$suffix]);
+    }
+    elsif (/^\*(\w+)/) {
+	$fact = $1;
+    }
+    elsif (/^\%/) {
+	# comment
+    }
+    else {
+#	my @args = map {s/\\//g;$_} split(/\s*[^\\]\,\s*/, $_);
+	my @args = split(/\s*\,\s*/, $_);
+	if ($suffix &&
+	    ($fact ne 'general')) {
+	    push(@args, $suffix);
+	}
+	if (!@onts) {
+	    @onts = (['']);
+	}
+	push(@{$onts[-1]}, [$fact, @args]);
+    }
+}
+if ($sort) {
+    @onts =
+      map {
+	  my $n = shift @$_;
+	  [$n, sort {"@$a" cmp "@$b"} @$_]
+      } @onts;
+}
+my %got = ();
+my %word = ();
+if (lc($write) eq 'p') {
+    foreach my $ont (@onts) {
+	my $n = shift @$ont;
+	foreach my $f (@$ont) {
+	    my $p = shift @$f;
+            my @all = @$f;
+            pop @all;
+            my $w = "@all";
+            my @index = @$f;
+            if ($index[-2] eq 'right') {
+                splice(@index,-2,1);
+            }
+            if ($got{"@index"}) {
+                warn("REMOVING DUPLICATE: $p ( @$f )");
+                next;
+            }
+            if ($word{"$w"}) {
+                print STDERR "SAFE DUPLICATE: $w [ $n and $word{$w} ]\n";
+                # keep it
+                #next;
+            }
+            $got{"@index"} = 1;
+            $word{$w} = $n;
+	    printf "$p(%s).\n",
+	      join(', ', map {prologquote($_)} @$f);
+	}
+    }
+}
+elsif (lc($write) eq 'f') {
+    foreach my $ont (@onts) {
+	my $n = shift @$ont;
+        print "/$n\n";
+        my $t = '';
+	foreach my $f (@$ont) {
+	    my $p = shift @$f;
+            if ($p ne $t) {
+                $t=$p;
+                print "\n*"."$t\n";
+            }
+            if ($got{"@$f"}) {
+                warn("REMOVING DUPLICATE: $p ( @$f )");
+                next;
+            }
+            $got{"@$f"} = 1;
+            my $last = pop @$f;
+            die "$n != $last" unless $n eq $last;
+	    printf "%s\n",
+	      join(', ', @$f);
+	}
+    }
+}
+else {
+    die;
+}
+
+sub prologquote {
+    my $w = shift;
+    $w =~ s/\'/\'\'/g;
+    "'$w'";
+}

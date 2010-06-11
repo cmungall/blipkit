@@ -1363,6 +1363,16 @@ class_pair_subclass_lca(X,Y,LCA):-
               subclassRT(Y,CA),
               subclassT(CA,LCA))).
 
+:- multifile dbmeta:fact_chain_hook/2.
+dbmeta:fact_chain_hook(class(C),
+	   [subclass(C,_),
+	    restriction(C,_,_),
+	    genus(C,_),
+	    differentium(C,_,_),
+	    metadata_db:entity_label(C,_),
+	    metadata_db:entity_resource(C,_),
+	    metadata_db:entity_partition(C,_)
+	    ]).
 
 % -------------------- STATS --------------------
 :- multifile dbmeta:schema_statistic/2.
