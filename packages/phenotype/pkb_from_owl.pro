@@ -115,7 +115,9 @@ opq(O,P,PQ) :-
 	P = (E1,Q1,D1,W1),
         organism_phenotype_inst(O,P),
         nullableClassAssertion(Q,Q1),
-	\+ has_number_of(Q),
+	\+ ((has_number_of(Q),
+	     propertyAssertion('http://ontology.neuinfo.org/NIF/Backend/BIRNLex-OBO-UBO.owl#birnlex_17',D1,_) % TODO - check
+	    )),
         nullableClassAssertion(E,E1),
         nullableClassAssertion(D,D1),
         nullableClassAssertion(W,W1).
@@ -123,6 +125,8 @@ opq(O,P,PQ) :-
 
 % rewrite has_number_of
 % e.g. has_number_of (chromatin bearer_of q)
+% what about:
+%  o has_part e, q inheres_in e, n towards d (where q=has_number_of)
 opq(O,P,PQ) :-
 	PQ = (E,Q,D,W),
 	P = (E1,NQ1,D1,_),

@@ -84,36 +84,13 @@ abduced_synonym(C,N,Sc) :-
 	entity_synonym_scope(X,N,Sc).
 abduced_synonym(C,N,exact) :-
 	abduced_name(C,N).
-
-% A < B if can be inferred from cdef
-% DO THIS LATER
-%abduced_subclass(A,B) :-
-%	newclass_cdef(A,AX),
-%	newclass_cdef(B,BX),
-%	A\=B,
-%	subclassXT(AX,BX).
 	
 % A < B if A and B are derived from classes that stand in a subclass relationship
 abduced_subclass(A,B) :-
 	newclass_xref(A,AX),
 	newclass_xref(B,BX),
-	subclass(AX,BX).
-%	subclassRT(AX,BX). % calculate closure later
+	subclass(AX,BX). % we ensure that we have the full isa path, so we only need direct here
 
-/*
-simple_subclassXT(cdef(G1,DL1),cdef(G2,DL2)) :-
-	subclassRT(G1,G2),
-	forall(member(D2,DL2),
-	       (   member(D1,DL1),
-		   simple_subclassXT(D1,D2))).
-simple_subclassXT(R=X,R=Y) :- subclassRT(X,Y).
-simple_subclassXT('OBO_REL:inheres_in'=X,'OBO_REL:inheres_in_part_of'=Y) :-
-	subclassRT(X,Y).
-simple_subclassXT('OBO_REL:inheres_in'=X,'OBO_REL:inheres_in_part_of'=Y) :-
-	subclassRT(X,U),
-	parent(U,part_of,V),
-	subclassRT(V,Y).
-*/
 
 % closure
 abduced_subclassT(A,B) :-
@@ -156,17 +133,6 @@ canonical_equiv(Canonical,X) :-
 	Es=[Canonical|Rest],
 	member(X,Rest).
 
-	/*
-	setof(E,abduced_equiv(Canonical,E),L),
-	setof(E,(   member(E,L)
-		;   E=Canonical),[X|_]),
-	X\=Canonical.
-	  */
-
-xxequivset(Es) :-
-	setof(E,abduced_equiv(C,E),L),
-	setof(E,(   member(E,L)
-		;   E=C),Es).
 
 equivset(L) :-
 	abduced_equiv(A,_),
@@ -201,7 +167,7 @@ newclass(C) :- newclass_xref(C,_).
 % newclass for every distinct rewritten logical definition
 newclass_cdef_xref(ID,CDef,X) :-
 	pheno_cdef(X,CDef),
-	atom(X),
+	class(X),
 	debug(foo,'making id for ~w',[CDef]),
 	cdef_make_id(CDef,ID).
 
@@ -212,11 +178,7 @@ newclass_cdef(ID,CDef) :-
 newclass_cdef(ID,CDef) :-
 	newclass_cdef_xref(ID,CDef,_).
 
-newclass_xref(ID,X) :-
-	newclass_cdef_xref(ID,_,X).
-
-% newclass by exact string match
-newclass_xref(ID,A) :-
+newclass_xref_pair(ID,A,B) :-
 	class(A),
 	is_phenoclass(A),
 	entity_nlabel_scope_stemmed(A,N,_,true),
@@ -225,6 +187,22 @@ newclass_xref(ID,A) :-
 	is_phenoclass(B),
 	order_pair(A,B,L),
 	cdef_make_id(union(L),ID).
+
+% newclass for anything with a logical definition
+newclass_xref_direct(ID,X) :-
+	newclass_cdef_xref(ID,_,X).
+
+% newclass by exact string match
+newclass_xref_direct(ID,A) :-
+	newclass_xref_pair(ID,A,_).
+
+% ensure we include the closure of all referenced terms
+newclass_xref(ID,Y) :-
+	newclass_xref_direct(ID,X),
+	subclassRT(X,Y).
+
+
+
 
 order_pair(A,B,[A,B]) :- A @< B,!.
 order_pair(A,B,[B,A]).
@@ -255,6 +233,7 @@ cdef_make_id(X,A) :-
 
 pheno_cdef_direct(P,CDef) :-
 	class_cdef(P,CDef),
+	class(P), % exclude obsoletes
 	id_idspace(P,Ont),
 	pheno_ont(Ont).
 

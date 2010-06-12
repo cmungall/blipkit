@@ -1,18 +1,17 @@
-:- module(phenotype_writer_distmatrix,[]).
+:- module(pkb_writer_distmatrix,[]).
 
-:- use_module(phenotype_db).
 :- use_module(pkb_db).
 :- use_module(bio(bioprolog_util)).
 :- use_module(bio(metadata_db)).
 
-io:format_writer(distmatrix,phenotype_writer_distmatrix).
+io:format_writer(distmatrix,pkb_writer_distmatrix).
 
 % semi-hack: indicates that this writes to stdout
 io:redirect_stdout(distmatrix).
         
 io:write_all(distmatrix,_,_Filter):-
         solutions(F1,
-		  (   method_feature_pair_phenosim(_,F1,_,_),
+		  (   organism(F1),
 		      organism_label(F1,_)),
 		  Fs),
         length(Fs,Num),
@@ -42,13 +41,11 @@ write_row(FMap,Fs,F1) :-
         writef('%10L',[F1X]),
         forall(member(F2,Fs),
                (   (   F1=F2
-                   ->  Score = 0
-                   ;   (   feature_pair_phenosim_value(F1,F2,max_ic,MaxIC),
-			   feature_pair_phenosim_value(F1,F2,avg,ICCS)
-				%                       ->  Score is 10 - (MaxIC + ICCS/5) / 5
-                       ->  Score is  1 - (MaxIC + ICCS/5) / 15
-                       ;   Score is 1)),
-                   format(' ~4f',[Score]))),
+                   ->  Dist = 0
+                   ;   (   organism_pair_combined_score_value(F1,F2,maxIC+avg_IC,Score)
+                       ->  Dist is  1 - (Score / 15)
+                       ;   Dist is 1)),
+                   format(' ~4f',[Dist]))),
         nl.
 
 replace_unsafe([],[]) :- !.
