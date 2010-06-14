@@ -197,11 +197,17 @@ newclass_xref_direct(ID,A) :-
 	newclass_xref_pair(ID,A,_).
 
 % ensure we include the closure of all referenced terms
-newclass_xref(ID,Y) :-
-	newclass_xref_direct(ID,X),
-	subclassRT(X,Y).
+newclass_xref_1(ID,X) :-
+	newclass_xref_direct(ID,X).
+newclass_xref_1(ID,Y) :-
+	newclass_xref_direct(_,X),
+	subclassRT(X,Y),
+	\+ newclass_xref_direct(_,Y),
+	cdef_make_id(union([Y]),ID).
 
-
+newclass_xref(ID,X) :-
+	setof(ID-X,newclass_xref_1(ID,X),Pairs),
+	member(ID-X,Pairs).
 
 
 order_pair(A,B,[A,B]) :- A @< B,!.

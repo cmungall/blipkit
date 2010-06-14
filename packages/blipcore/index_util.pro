@@ -120,7 +120,7 @@ rewrite_goal_with_index(M, CalledGoal, Ix, 1) :-
 	StoredGoal=..[StoredPred|Args],
 	predicate_ixname(CalledPred, IxPred, Ix),
 	IxGoal=..[IxPred|ReorderedArgs],
-	forall(M:StoredGoal, M:assert(IxGoal)),
+	forall(M:StoredGoal, M:assert(IxGoal)), % todo: uniquify?
 	M:compile_predicates([IxPred/Arity]),
 	(   Ix=1
 	->  M:abolish(CalledPred/Arity)

@@ -2,10 +2,12 @@
 % bioconf.pro - bio configuration file for prolog %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% TODO - normalize some of this file, make it usable for others
-
-% done this so far for ontologies, need to split out others
+% TODO:
+%  make this more configurable, such that the
+%  this core conf file can be used without all
+%  packages installed
 :- [bio(conf/ontol_bioresources_local)].
+:- [bio(conf/sb_bioresources_local)].
 
 
 %% ---++ bioconf
@@ -48,8 +50,6 @@ user:bioresource(rdb(obd),odbc_connect(obd,[user(cjm),alias(obd),password(''),op
 user:bioresource(rdb(obd2),odbc_connect(obd2,[user(cjm),alias(obd2),password(''),open(once),silent(false)]),obd).
 user:bioresource(rdb(obdtest),odbc_connect(obdtest,[user(cjm),alias(obdtest),password(''),open(once),silent(false)]),obd).
 user:bioresource(rdb(cjmtest),odbc_connect(cjmtest,[user(cjm),alias(cjmtest),password(''),open(once)]),cjmtest).
-user:bioresource(rdb(wn),odbc_connect(wn,[user(cjm),alias(wn),open(once)]),wn).
-user:bioresource(rdb(crm),odbc_connect(crm,[user(cjm),alias(srm),password(''),open(once)]),chado).
 user:bioresource(rdb(flybase),odbc_connect(flybase,[user(flybase),alias(flybase),password(''),open(once)]),chado).
 user:bioresource(obd(DB),odbc_connect(DB,[user(cjm),alias(DB),password(''),open(once),silent(true)]),obd):- nonvar(DB).
 user:bioresource(chado(DB),odbc_connect(DB,[user(cjm),alias(DB),password(''),open(once),silent(true)]),chado):- nonvar(DB).
@@ -71,10 +71,7 @@ user:bioresource(sesame(local),connect([host(localhost),
                                         repository('mem-rdfs-db')])).
 
 % --GO.xrf_abbs--
-%user:bioresource(xrf,'/users/cjm/obd/conf/go_xrf_abbs.obo',obo).
 user:bioresource(xrf,'http://www.berkeleybop.org/ontologies/obo-all/go_xrf_metadata/go_xrf_metadata.obo',obo).
-
-
 
 % --WordNet--
 user:file_search_path(wn, ontdir('wn')).
@@ -88,71 +85,12 @@ user:bioresource(wn_ms,wn('wn_ms.pl'),pro,wn_db).
 user:bioresource(wn_mp,wn('wn_mp.pl'),pro,wn_db).
 user:bioresource(wn_der,wn('wn_der.pl'),pro,wn_db).
 
-% --Genomics--
-user:bioresource(testcg,'/users/cjm/chaos-xml/sample-data/Rab1.chaos-xml',chaos).
-user:bioresource(testsox,ontdir('testsox.owl'),owl).
-user:bioresource(testobd,ontdir('obdtest.owl'),owl).
-
-% --Pathways--
-user:bioresource(rhea,datadir('rhea/rhea-pathway_db.pro'),pathway_db:pro).
-%user:bioresource(reactome,datadir('Pathways/reactome.sbml'),sbml).
-user:bioresource(biopax1,url('http://www.biopax.org/release/biopax-level1.owl'),owl).
-user:bioresource(biopax2,url('http://www.biopax.org/release/biopax-level2.owl'),owl).
-user:bioresource(biopax3,url('http://www.biopax.org/release/biopax-level3.owl'),owl).
-
-user:bioresource(biopax_glycolysis,datadir('Pathways/biopax-level1/biopax-example-ecocyc-glycolysis'),owl).
-% blip -r reactome_biopax/Drosophila\ melanogaster
-user:bioresource(reactome_biopax(Sp),Path,owl) :-
-        nonvar(Sp),
-        sformat(Path,'/Users/cjm/cvs/biowarehouse/reactome/~w.owl',[Sp]).
-%        sformat(Path,'/Users/cjm/data/reactome-bp3/~w.owl',[Sp]).
-user:bioresource(reactome(Sp),Path,pathway_db:pro) :-
-        nonvar(Sp),
-        sformat(Path,'/Users/cjm/cvs/biowarehouse/reactome/~w-pathway_db.pro',[Sp]).
-%        sformat(Path,'/Users/cjm/data/reactome-bp3/~w-pathway_db.pro',[Sp]).
-
-user:bioresource(pathway_commons(Sp),url(Path),gzip(owl)) :-
-        nonvar(Sp),
-        sformat(Path,'http://www.pathwaycommons.org/pc-snapshot/biopax/by_species/~w.owl.zip',[Sp]).
-
-
-
-% --Disease--
-%user:bioresource(disease,obo_download('disease_ontology/disease_ontology.obo'),obo).
-user:bioresource(disease_dn,ontdir('diseaseontology/HumanDO_downcase.obo'),obo).
-user:bioresource(disease,cvs('diseaseontology/HumanDO.obo'),obo).
-user:bioresource(disease_stemmed,ontdir('disease/DO_stemmed.pro'),pro,ontol_db).
-user:bioresource(disease_xp,'/Users/cjm/cvs/obo/ontology/phenotype/disease_xp/disease_xp_all-merged.obo',obo).
-user:bioresource(disease2gene,url('http://django.nubic.northwestern.edu/fundo/media/data/do_lite.txt'),txt).
-user:bioresource(do_rif,url('http://projects.bioinformatics.northwestern.edu/do_rif/do_rif.human.txt'),do_rif).
-user:bioresource(omim,biowarehouse('omim/omim.obo'),obo).
-user:bioresource(omim2gene,biowarehouse('omim/disorder2ncbigene.txt'),txt).
-user:bioresource(generif,'/users/cjm/cvs/obo-database/build/build-ncbi-gene/generifs_basic.gz',gzip(gene_rif)).
-user:bioresource(ido,obo_cvs('phenotype/infectious_disease.obo'),obo).
-user:bioresource(mgip,'/users/cjm/obd/data/phenotype_annotation/MGI/source_files/gene_mp-curation_db.pro',curation_db:pro).
-user:bioresource(mgi_gene,'/users/cjm/obd/data/phenotype_annotation/MGI/source_files/gene.obo',obo).
-user:bioresource(ogms,cvs('ogms-read-only/src/ontology/ogms.obo'),obo).
 
 % --Proteomics--
 user:bioresource(interpro,datadir('interpro.obo-xml'),obo_xml).
 
 % --Comparative--
 user:bioresource(inparanoid,datadir('inparanoid/all.tbl'),inparanoid_tbl).
-
-% --Interaction--
-% TODO - new URL?
-%user:bioresource(biogrid,url('http://www.thebiogrid.org/downloadfile.php?type=current&file=1'),gzip(tbl(interaction))).
-user:bioresource(biogrid,'/Users/cjm/src/biogrid/biogrid.tab.txt',tbl(interaction)).
-user:bioresource(biogrid_hs,'/Users/cjm/src/biogrid/biogrid-hs.pro',interaction_db:pro).
-user:bioresource(biogrid_hs_gene,'/Users/cjm/src/biogrid/biogrid-hs-gene.pro',interaction_db:pro).
-% Reactome convention: genus_species (all lowercase)
-user:bioresource(reactome_interactions(Sp),url(URL),gzip(tbl(reactome_interaction))) :-
-        nonvar(Sp),
-        sformat(URL,'http://www.reactome.org/download/current/~w.interactions.txt.gz',[Sp]).
-% hs only?
-user:bioresource(reactome_mitab(Sp),url(URL),gzip(tbl(reactome_interaction))) :-
-        nonvar(Sp),
-        sformat(URL,'http://www.reactome.org/download/current/~w.mitab.interactions.txt.gz',[Sp]).
 
 % http://jura.wi.mit.edu/young_public/regulatory_network/binding_by_gene.tsv
 
@@ -162,43 +100,6 @@ user:bioresource(owl,'/users/cjm/cvs/Triple20/Ontologies/Base/owl.owl',owl).
 user:bioresource(dc,url('http://purl.org/dc/terms'),rdfs).
 user:bioresource(protege_dc,url('http://protege.stanford.edu/plugins/owl/dc/protege-dc.owl'),owl).
 user:bioresource(skos,url('http://www.w3.org/2004/02/skos/core/history/2006-04-18.rdf'),owl).
-
-% --Upper Ontologies--
-user:bioresource(ubo,obo_cvs('upper_bio_ontology/ubo.obo'),obo).
-%user:bioresource(bfo,obo_cvs('upper_bio_ontology/bfo.obo'),obo).
-user:bioresource(bfo,[obo(bfo)]).
-user:bioresource(bfo2_obo,home('cvs/bfo/src/ontology/bfo2-classes.obo'),obo).
-user:bioresource(bfo2_rel,home('cvs/bfo/src/ontology/bfo2-relations.obo'),obo).
-user:bioresource(dolcelite,ontdir('upper/DolceLite/DOLCE-Lite_397.owl'),owl).
-user:bioresource(sumo,ontdir('upper/SUMO/SUMO.owl'),owl).
-user:bioresource(sumo_pro,ontdir('upper/SUMO/SUMO.pro'),pro,ontol_db).
-user:bioresource(opencyc,ontdir('upper/opencyc.owl'),owl).
-user:bioresource(biotop,url('http://www.ifomis.org/biotop/biotop.owl'),owl).
-
-% --Non-Bio Ontologies--
-user:bioresource(wine,ontdir('wine.owl'),owl).
-user:bioresource(bible,ontdir('NTNames.owl'),owl).
-user:bioresource(food,ontdir('food.owl'),owl).
-user:bioresource(koala,ontdir('koala.owl'),owl).
-
-% --Other Bio-Ontologies--
-user:bioresource(rex,obo_download('rex/rex.obo'),obo).
-user:bioresource(ncit,obo_download('ncithesaurus/ncithesaurus.pro'),pro).
-%user:bioresource(ncit_dn,obo_download('ncithesaurus/ncithesaurus.pro'),pro).
-user:bioresource(pir,pir('PIRSF_ontology-02082005.dag'),dag).
-user:bioresource(pir_uniprot,pir('PIRSF_UniProt_ontology-02082005.dag'),dag).
-user:bioresource(evoc,ontdir('evoc.pro'),pro,ontol_db).
-%user:bioresource(cco,ontdir('cco.owl'),owl).
-user:bioresource(cco,url('http://www.cellcycleontology.org/ontology/cco.obo'),obo).
-%user:bioresource(acgt,url('http://www.ifomis.org/acgt/1.0' ),owl). % 1.0
-
-% -- Obol --
-user:bioresource(obol_av,obol2('vocab/vocab_obo.pro'),pro,av_db).
-
-% --Chemistry--
-user:bioresource(biochem_prim,url('http://ontology.dumontierlab.com/biochemistry-primitive'),owl).
-user:bioresource(biochem_complex,url('http://ontology.dumontierlab.com/biochemistry-complex'),owl).
-user:bioresource(xchebi,obolr('xchebi.obo'),obo).
 
 % --Models--
 %user:bioresource(phenmodel,obo_cvs('phenotype/phenmodel.obo'),obo).

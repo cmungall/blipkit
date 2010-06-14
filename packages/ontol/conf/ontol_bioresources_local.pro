@@ -72,22 +72,16 @@ user:bioresource(obo_download(N),obo_download(Path),obo):- nonvar(N),concat_atom
 user:bioresource(obo(N),url(Path),obo):- nonvar(N),concat_atom(['http://purl.org/obo/obo-all/',N,'/',N,'.obo'],Path).
 user:bioresource(obo2(N),url(Path),obo):- nonvar(N),concat_atom(['http://purl.org/obo/obo/',N,'.obo'],Path).
 user:bioresource(obop(N),url(Path),ontol_db:pro):- nonvar(N),concat_atom(['http://purl.org/obo/obo-all/',N,'/',N,'.pro'],Path).
-user:file_search_path(song, cvs(song)).
-user:file_search_path(poc, cvs('Poc')).
-user:file_search_path(ontdir, '/users/cjm/ontologies').
-user:file_search_path(obo_download, '/users/cjm/cvs/obo/website/utils/obo-all').
-user:file_search_path(obo_metadata_local, '/users/cjm/cvs/obo/website/cgi-bin').
+
+user:file_search_path(song, local(song)).
+user:file_search_path(poc, local('Poc')).
+user:file_search_path(obo_download, local(obo/website/utils/obo-all)).
+user:file_search_path(obo_metadata_local, local(obo/website/cgi-bin)).
 user:file_search_path(obo_remote, 'http://purl.org/obo').
-user:file_search_path(pir, ontdir(pir)).
-user:file_search_path(obol, '/users/cjm/obol').
-user:file_search_path(obol2, '/users/cjm/obol2').
-user:file_search_path(obolr, '/users/cjm/cvs/go/scratch/obol_results').
-user:file_search_path(obol_ont, obol('ontologies')).
-user:file_search_path(obol_out, obol('export')).
-
-
-%user:file_search_path(uberon, obo_cvs('anatomy/anatomy_xp')).
-user:file_search_path(uberon, '/users/cjm/cvs/uberon').
+user:file_search_path(pir, local(pir)).
+user:file_search_path(obol2, home(obol2)).
+user:file_search_path(obolr, go(scratch/obol_results)).
+user:file_search_path(uberon, local(uberon)).
 
 % --OBO Ontologies--
 user:bioresource(caro,obo_local('anatomy/caro/caro.obo'),obo).
@@ -95,10 +89,8 @@ user:bioresource(spatial,obo_local('anatomy/caro/spatial.obo'),obo).
 user:bioresource(caro_extra,obo_local('anatomy/caro/caro_extra.obo'),obo).
 user:bioresource(relationship,obo_local('OBO_REL/ro.obo'),obo).
 user:bioresource(ro_proposed,obo_local('OBO_REL/ro_proposed_edit.obo'),obo).
-user:bioresource(biological_role,'/users/cjm/cvs/go/scratch/obol_results/biological_role.obo',obo).
-user:bioresource(goche,'/users/cjm/cvs/go/scratch/obol_results/goche.obo',obo).
-user:bioresource(transitive_over,obo_local('OBO_REL/transitive_over.obo'),obo).
-user:bioresource(test_transitive_over,ontdir('test_transitive_over.obo'),obo).
+user:bioresource(biological_role,obolr('biological_role.obo'),obo).
+user:bioresource(goche,obolr('goche.obo'),obo).
 user:bioresource(chebi,obo_local('chemical/chebi.obo'),obo).
 user:bioresource(so,song('ontology/so.obo'),obo).
 user:bioresource(sequence,song('ontology/so.obo'),obo). % synonym for SO
@@ -108,12 +100,25 @@ user:bioresource(fpo,song('ontology/fpo/feature_property.obo'),obo).
 user:bioresource(genbank_fpo,song('ontology/fpo/genbank_fpo.obo'),obo).
 user:bioresource(sofa,song('ontology/sofa.obo'),obo).
 user:bioresource(biological_process,obo_download('biological_process/biological_process.obo'),obo).
-user:bioresource(go_synonyms,'/users/cjm/obol2/conf/go_synonyms.obo',obo).
+user:bioresource(go_synonyms,obolr('conf/go_synonyms.obo'),obo).
 
-user:bioresource(bp_xp_uberon,'/users/cjm/cvs/go/scratch/xps/biological_process_xp_uber_anatomy-imports.obo',obo).
-user:bioresource(chebi_slim,'/users/cjm/cvs/go/scratch/xps/chebi_relslim.obo',obo).
-user:bioresource(chebi_with_formula,'/users/cjm/cvs/go/scratch/obol_results/chebi_with_formula.obo',obo).
-user:bioresource(chego,'/users/cjm/cvs/go/scratch/obol_results/chego.obo',obo).
+user:bioresource(chebi_slim,go('scratch/xps/chebi_relslim.obo'),obo).
+user:bioresource(chebi_with_formula,go('scratch/obol_results/chebi_with_formula.obo'),obo).
+user:bioresource(chego,go('scratch/obol_results/chego.obo'),obo).
+
+% --Disease--
+user:bioresource(disease_dn,local('diseaseontology/HumanDO_downcase.obo'),obo).
+user:bioresource(disease,local('diseaseontology/HumanDO.obo'),obo).
+user:bioresource(disease_stemmed,local('disease/DO_stemmed.pro'),pro,ontol_db).
+user:bioresource(disease2gene,url('http://django.nubic.northwestern.edu/fundo/media/data/do_lite.txt'),txt).
+user:bioresource(do_rif,url('http://projects.bioinformatics.northwestern.edu/do_rif/do_rif.human.txt'),do_rif).
+user:bioresource(omim,biowarehouse('omim/omim.obo'),obo).
+user:bioresource(omim2gene,biowarehouse('omim/disorder2ncbigene.txt'),txt).
+user:bioresource(generif,'/users/cjm/cvs/obo-database/build/build-ncbi-gene/generifs_basic.gz',gzip(gene_rif)).
+user:bioresource(ido,obo_cvs('phenotype/infectious_disease.obo'),obo).
+user:bioresource(mgip,'/users/cjm/obd/data/phenotype_annotation/MGI/source_files/gene_mp-curation_db.pro',curation_db:pro).
+user:bioresource(mgi_gene,'/users/cjm/obd/data/phenotype_annotation/MGI/source_files/gene.obo',obo).
+user:bioresource(ogms,local('ogms-read-only/src/ontology/ogms.obo'),obo).
 
 
 user:bioresource(cell,obo_local('anatomy/cell_type/cell.obo'),obo).
@@ -166,21 +171,21 @@ user:bioresource(cc_xp_self,'/users/cjm/cvs/go/scratch/xps/cellular_component_xp
 
 % --Relations hack--
 %   part_of etc are in their own idspace
-user:bioresource(flat_relations,ontdir('flat_relations.obo'),obo).
+user:bioresource(flat_relations,local('flat_relations.obo'),obo).
 
 user:bioresource(cfg,url('http://ontology.dumontierlab.com/cfg'),owl).
 
 % --Anatomical Ontologies--
-%user:bioresource(fma,ontdir('FMA/fma_obo.obo'),obo).
-user:bioresource(fma_with_has_part,cvs('fma-conversion/fma_obo.obo'),obo).
-user:bioresource(fma,cvs('fma-conversion/fma2.obo'),obo).
-user:bioresource(fma_simple,cvs('fma-conversion/fma2-simple.obo'),obo).
-user:bioresource(fma2,cvs('fma-conversion/fma2.obo'),obo). % NOW DEFAULT
-user:bioresource(fma3,cvs('fma-conversion/fma3.obo'),obo).
-user:bioresource(fma1,cvs('fma-conversion/fma-part-slim.obo'),obo).
-%user:bioresource(fma,cvs('obo-database/conf/fma-part-slim.obo'),obo).
-user:bioresource(fma_downcase,cvs('fma-conversion/fma_downcase.obo'),obo).
-user:bioresource(fma_stemmed,ontdir('FMA/fma_obo_stemmed.obo'),obo).
+%user:bioresource(fma,local('FMA/fma_obo.obo'),obo).
+user:bioresource(fma_with_has_part,local('fma-conversion/fma_obo.obo'),obo).
+user:bioresource(fma,local('fma-conversion/fma2.obo'),obo).
+user:bioresource(fma_simple,local('fma-conversion/fma2-simple.obo'),obo).
+user:bioresource(fma2,local('fma-conversion/fma2.obo'),obo). % NOW DEFAULT
+user:bioresource(fma3,local('fma-conversion/fma3.obo'),obo).
+user:bioresource(fma1,local('fma-conversion/fma-part-slim.obo'),obo).
+%user:bioresource(fma,local('obo-database/conf/fma-part-slim.obo'),obo).
+user:bioresource(fma_downcase,local('fma-conversion/fma_downcase.obo'),obo).
+user:bioresource(fma_stemmed,local('FMA/fma_obo_stemmed.obo'),obo).
 user:bioresource(efo,'/users/cjm/tmp/efo.obo',obo).
 user:bioresource(hao,'/users/cjm/tmp/hao.obo',obo).
 user:bioresource(hog,url('http://bgee.unil.ch/bgee/download/HOG.obo'),obo).
@@ -262,17 +267,49 @@ user:bioresource(psimi,obo_local('genomic-proteomic/protein/psi-mi.obo'),obo).
 user:bioresource(pro2uniprot_tbl,url('ftp://ftp.pir.georgetown.edu/databases/ontology/pro_obo/PRO_mappings/uniprotmapping.txt'),tbl).
 user:bioresource(pro2uniprot,'/users/cjm/cvs/go/scratch/xps/pro2uniprot.obo',obo).
 
-%user:bioresource(opb,url('http://rest.bioontology.org/bioportal/ontologies/download/38990'),owl).
-
-
-user:bioresource(ant,'/Users/cjm/tmp/Ant.obo',obo).
-
 % --Env--
 user:bioresource(envo,obo_local('environmental/envo.obo'),obo).
 user:bioresource(envo_xp,obo_local('environmental/envo_xp.obo'),obo).
-%user:bioresource(gaz,[obo2('GAZ')]).
 user:bioresource(gaz,obo_local('environmental/gaz.obo'),obo).
 user:bioresource(gaz2,obo_local('environmental/gaz2.obo'),obo).
+
+
+% --Upper Ontologies--
+user:bioresource(ubo,obo_cvs('upper_bio_ontology/ubo.obo'),obo).
+%user:bioresource(bfo,obo_cvs('upper_bio_ontology/bfo.obo'),obo).
+user:bioresource(bfo,[obo(bfo)]).
+user:bioresource(bfo2_obo,home('cvs/bfo/src/ontology/bfo2-classes.obo'),obo).
+user:bioresource(bfo2_rel,home('cvs/bfo/src/ontology/bfo2-relations.obo'),obo).
+user:bioresource(dolcelite,ontdir('upper/DolceLite/DOLCE-Lite_397.owl'),owl).
+user:bioresource(sumo,ontdir('upper/SUMO/SUMO.owl'),owl).
+user:bioresource(sumo_pro,ontdir('upper/SUMO/SUMO.pro'),pro,ontol_db).
+user:bioresource(opencyc,ontdir('upper/opencyc.owl'),owl).
+user:bioresource(biotop,url('http://www.ifomis.org/biotop/biotop.owl'),owl).
+
+% --Non-Bio Ontologies--
+user:bioresource(wine,ontdir('wine.owl'),owl).
+user:bioresource(bible,ontdir('NTNames.owl'),owl).
+user:bioresource(food,ontdir('food.owl'),owl).
+user:bioresource(koala,ontdir('koala.owl'),owl).
+
+% --Other Bio-Ontologies--
+user:bioresource(rex,obo_download('rex/rex.obo'),obo).
+user:bioresource(ncit,obo_download('ncithesaurus/ncithesaurus.pro'),pro).
+%user:bioresource(ncit_dn,obo_download('ncithesaurus/ncithesaurus.pro'),pro).
+user:bioresource(pir,pir('PIRSF_ontology-02082005.dag'),dag).
+user:bioresource(pir_uniprot,pir('PIRSF_UniProt_ontology-02082005.dag'),dag).
+user:bioresource(evoc,ontdir('evoc.pro'),pro,ontol_db).
+%user:bioresource(cco,ontdir('cco.owl'),owl).
+user:bioresource(cco,url('http://www.cellcycleontology.org/ontology/cco.obo'),obo).
+%user:bioresource(acgt,url('http://www.ifomis.org/acgt/1.0' ),owl). % 1.0
+
+% -- Obol --
+user:bioresource(obol_av,obol2('vocab/vocab_obo.pro'),pro,av_db).
+
+% --Chemistry--
+user:bioresource(biochem_prim,url('http://ontology.dumontierlab.com/biochemistry-primitive'),owl).
+user:bioresource(biochem_complex,url('http://ontology.dumontierlab.com/biochemistry-complex'),owl).
+user:bioresource(xchebi,obolr('xchebi.obo'),obo).
 
 % --GeneAssociations--
 user:bioresource(uniprot_ga,gene_assoc('gene_association.goa_uniprot.lite.pro'),pro,ontol_db).
@@ -359,7 +396,7 @@ user:bioresource(implied(InputFileTerm),PrologFile,'ontol_db:pro'):-
 
 % --SWEET--
 % from NASA JPL
-user:file_search_path(sweet_dir, ontdir('SWEET')).
+user:file_search_path(sweet_dir, local('SWEET')).
 
 user:bioresource(sweet_biosphere,sweet_dir('biosphere.owl'),owl).
 user:bioresource(sweet_data,sweet_dir('data.owl'),owl).
@@ -381,7 +418,6 @@ user:bioresource(sweet(X),sweet_dir(File),owl):- atom_concat(X,'.owl',File).
 
 user:bioresource(hydrology,url('http://www.ordnancesurvey.co.uk/ontology/Hydrology0.1.owl'),owl).
 user:bioresource(ecological_concepts,url('http://wow.sfsu.edu/ontology/rich/EcologicalConcepts.owl'),owl).
-
         
 % deprecated - use thea2 catalogs
 user:uri_resolution('http://ccdb.ucsd.edu/PDStageOntology/1.0/','http://ccdb.ucsd.edu/SAO/PDSO/1.0/PDSO.owl').
