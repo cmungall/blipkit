@@ -1,24 +1,13 @@
 % ----------------------------------------
-% ontol_biosources_local
+% ontol_biosources_remote
 % ----------------------------------------
 % this configuration should be used if you wish to use
-% locally checked out versions of all ontologies.
+% http-accessed versions of all ontologies.
 
 :- [ontol_bioresources_shared].
 
-:- multifile bioresource/2,bioresource/3,bioresource/4.
 
-% assume that there is a common root directory
-% in which all ontologies are checked out from
-% cvs/svn/git.
-% on my machine this is called ~/cvs/, but
-% you can override this or make a symlink
-user:file_search_path(local, Path) :-
-	(   getenv('BLIP_LOCAL', Path)
-	->  true
-	;   getenv('HOME',HOME)
-	->  concat_atom([HOME,'/','cvs'],Path)
-	;   throw(error('Must have HOME env var set'))).
+:- multifile bioresource/2,bioresource/3,bioresource/4.
 
 % ----------------------------------------
 % GO
@@ -26,12 +15,31 @@ user:file_search_path(local, Path) :-
 % assume go is checked out from geneontology.org cvs
 % default location is $BLIP_LOCAL/go (~/cvs/go)
 
-user:file_search_path(go, GO) :-
-	(getenv('GO_HOME', GO)
-	->  true
-        ;   GO=local(go)).
-
+user:file_search_path(go, 'http://geneontology.org').
 user:file_search_path(go_gene_associations, go('gene-associations')).
+
+% EXPANSION RULES FOR GO XPS
+user:bioresource(goxp(N),Path,obo):-
+	nonvar(N),
+	absolute_file_name(go('scratch/xps/'),P1),
+	concat_atom([P1,N,'.obo'],Path).
+user:bioresource(obolr(N),Path,obo):-
+	nonvar(N),
+	absolute_file_name(go('scratch/obol_results/'),P1),
+	concat_atom([P1,N,'-obol.obo'],Path).
+
+% EXPANSION RULES FOR GENE ASSOCIATIONS
+user:bioresource(go_assoc_local(N),go_gene_associations(Path),gzip(go_assoc)):- nonvar(N),concat_atom(['gene_association.',N,'.gz'],Path).
+user:bioresource(go_assoc_submit(N),go_gene_associations(Path),gzip(go_assoc)):- nonvar(N),concat_atom(['submission/gene_association.',N,'.gz'],Path).
+user:bioresource(go_assoc(N),url(URL),gzip(go_assoc)):- nonvar(N),concat_atom(['http://www.geneontology.org/gene-associations/gene_association.',N,'.gz'],URL).
+user:bioresource(go_assoc_version(N,V),url(URL),gzip(go_assoc)):-
+        nonvar(N),
+        concat_atom(['http://cvsweb.geneontology.org/cgi-bin/cvsweb.cgi/~checkout~/go/gene-associations/gene_association.',N,'.gz?rev=',V,';content-type=application%2Fx-gzip.'],URL).
+
+% ONTOLOGIES
+user:bioresource(go,go('ontology/editors/gene_ontology_write.obo'),obo).
+user:bioresource(go_public,go('ontology/gene_ontology_edit.obo'),obo).
+
 
 % ----------------------------------------
 % OBO
@@ -47,6 +55,10 @@ user:file_search_path(obo_local, OBO) :-
 
 % --AUTOMATIC EXPANSION--
 
+user:bioresource(obo_download(N),obo_download(Path),obo):- nonvar(N),concat_atom([N,'/',N,'.obo'],Path).
+user:bioresource(obo(N),url(Path),obo):- nonvar(N),concat_atom(['http://purl.org/obo/obo-all/',N,'/',N,'.obo'],Path).
+user:bioresource(obo2(N),url(Path),obo):- nonvar(N),concat_atom(['http://purl.org/obo/obo/',N,'.obo'],Path).
+user:bioresource(obop(N),url(Path),ontol_db:pro):- nonvar(N),concat_atom(['http://purl.org/obo/obo-all/',N,'/',N,'.pro'],Path).
 
 user:file_search_path(song, local(song)).
 user:file_search_path(poc, local('Poc')).

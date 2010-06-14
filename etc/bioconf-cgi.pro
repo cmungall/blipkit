@@ -49,5 +49,4 @@ user:bioresource(go,url('http://www.geneontology.org/ontology/gene_ontology.obo'
 user:bioresource(obo(N),url(Path),obo):- nonvar(N),concat_atom(['http://purl.org/obo/obo-all/',N,'/',N,'.obo'],Path).
 user:bioresource(obop(N),url(Path),ontol_db:pro):- nonvar(N),concat_atom(['http://purl.org/obo/obo-all/',N,'/',N,'.pro'],Path).
 
-user:bioresource(birnall,'/Users/cjm/OBDAPI/conf/obd-birn/all.obo',obo).
 
