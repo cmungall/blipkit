@@ -12,7 +12,7 @@ INSTALL = './tools/install-sh'
 #INSTALL = @INSTALL@
 
 #include Modules-Makefile
-pl_files = $(patsubst packages/%.pro,%,$(wildcard packages/*/*.pro))
+pl_files = $(patsubst packages/%.pro,%,$(wildcard packages/*/*.pro)) $(patsubst packages/%.pro,%,$(wildcard packages/*/*/*.pro))
 
 pl_ext_files = \
 	squid					
@@ -59,12 +59,8 @@ test: tools/run-test
 	tools/run-test $(pl_files)
 
 
-PROLOGDOC = ~/cvs/PrologDocNG
-
 ALL_SOURCE = $(patsubst %,packages/%.pro,$(pl_files))
 
-pdoc_html: $(ALL_SOURCE)
-	tools/pdoc-wrapper $(PROLOGDOC) $(pl_files)
 
 .PRECIOUS: doc/pdoc/%.xml
 
@@ -72,19 +68,6 @@ source_html: $(patsubst %,doc/pdoc/%.pro,$(pl_files)) $(patsubst %,doc/pdoc/%.pr
 
 doc/examples.html.in: pdoc_html
 	tools/extract-codelisting.pro doc/pdoc/*.xml
-
-doc/pdoc/%.xml: lib/%.pro
-	mkdir -p doc/pdoc
-	pldoc --to doc/pdoc --driver pldoc --pl-ext pro $< 
-
-doc/pdoc/%.html: doc/pdoc/%.xml
-	xsltproc --stringparam sourcedir "." $(PROLOGDOC)/xml/pdng-pd2html.xsl $< >$@.tmp && mv $@.tmp $@
-
-# todo: pretty printer
-doc/pdoc/%.pro: lib/%.pro
-	cp $< $@
-doc/pdoc/%.pro.html: lib/%.pro
-	source-highlight -sprolog -fxhtml -i$< -o$@ -cprologsrc.css
 
 HTML_PAGES = index started tutorial examples download modules svn maillist serval architecture bioresources applications cookbook FAQ
 
