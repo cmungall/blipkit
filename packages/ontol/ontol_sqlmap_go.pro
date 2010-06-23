@@ -56,7 +56,7 @@ ontol_db:subclass(X,Y) <- parent0(X,is_a,Y).
 ontol_db:restriction(X,R,Y) <- parent(X,R,Y),not(R=is_a).
 %ontol_db:inst_of(X,Y) <- parent(X,'OBO_REL:instance_of',Y).
 %:- abolish(ontol_db:subclassT/2).
-%ontol_db:subclassT(X,Y) <- node(XI,X,_,'C'),link(XI,RI,YI,_),node(RI,'OBO_REL:is_a',_,_),node(YI,Y,_,'C').
+ontol_db:subclassT(X,Y) <- parentT(X,is_a,Y).
 
 %:- abolish(ontol_db:noparent/1).
 ontol_db:noparent(X) <- class(X),not(parent(X,_)).
@@ -292,7 +292,7 @@ See odbc_setup.txt
   
   =|blip prolog-to-sql -u ontol_sqlmap_go -u blipkit_sql  -proj 'X' 'entity_label(X,apoptosis)'|=
 
-  more complex query. By default parentT/2 is mapped to graph_path/5 in the database
+  more complex query. By default parentT/2 is mapped to graph_path/5 in the database (subclassT/2 not mapped, will unfold iteratively)
   
   =|blip-godb -debug sql -u ontol_db -r rdb/go sql-map -proj Y,YN  '(class(X,apoptosis),parentT(Y,X),class(Y,YN))'|=
 

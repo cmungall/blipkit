@@ -260,6 +260,8 @@ unify_plterm1(G,G2):-
 :- module_transparent rewrite_query/2.
 %% rewrite_query(+GoalIn,?GoalOut) is det
 rewrite_query(call(_),_):- !,fail.
+rewrite_query(aggregate(count,X,G,Num),	is(Num,count_distinct(X,G))) :-
+	!.
 rewrite_query((G,Gs),Gm):-
         !,
         rewrite_query(G,G1),

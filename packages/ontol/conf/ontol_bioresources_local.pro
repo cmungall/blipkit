@@ -50,8 +50,8 @@ user:file_search_path(obo_local, OBO) :-
 
 user:file_search_path(song, local(song)).
 user:file_search_path(poc, local('Poc')).
-user:file_search_path(obo_download, local(obo/website/utils/obo-all)).
-user:file_search_path(obo_metadata_local, local(obo/website/cgi-bin)).
+user:file_search_path(obo_download, local('obo/website/utils/obo-all')).
+user:file_search_path(obo_metadata_local, local('obo/website/cgi-bin')).
 user:file_search_path(obo_remote, 'http://purl.org/obo').
 user:file_search_path(pir, local(pir)).
 user:file_search_path(obol2, home(obol2)).
@@ -75,7 +75,7 @@ user:bioresource(fpo,song('ontology/fpo/feature_property.obo'),obo).
 user:bioresource(genbank_fpo,song('ontology/fpo/genbank_fpo.obo'),obo).
 user:bioresource(sofa,song('ontology/sofa.obo'),obo).
 user:bioresource(biological_process,obo_download('biological_process/biological_process.obo'),obo).
-user:bioresource(go_synonyms,obolr('conf/go_synonyms.obo'),obo).
+user:bioresource(go_synonyms,obol2('conf/go_synonyms.obo'),obo).
 
 user:bioresource(chebi_slim,go('scratch/xps/chebi_relslim.obo'),obo).
 user:bioresource(chebi_with_formula,go('scratch/obol_results/chebi_with_formula.obo'),obo).
@@ -250,7 +250,7 @@ user:bioresource(gaz2,obo_local('environmental/gaz2.obo'),obo).
 
 
 % --Upper Ontologies--
-user:bioresource(ubo,obo_cvs('upper_bio_ontology/ubo.obo'),obo).
+user:bioresource(ubo,obo_local('upper_bio_ontology/ubo.obo'),obo).
 %user:bioresource(bfo,obo_cvs('upper_bio_ontology/bfo.obo'),obo).
 user:bioresource(bfo,[obo(bfo)]).
 user:bioresource(bfo2_obo,home('cvs/bfo/src/ontology/bfo2-classes.obo'),obo).

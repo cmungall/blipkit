@@ -1,7 +1,9 @@
+
 :- use_module(bio(ontol_db)).
 :- use_module(bio(metadata_db)).
 
 :- use_module(bio(ontol_reasoner)).
+:- use_module(bio(ontol_management)).
 
 :- use_module(bio(ontol_entailment_basic)).
 :- use_module(bio(ontol_entailment_inverse)).
@@ -19,5 +21,4 @@
 :- use_module(bio(ontol_writer_chadoxml)).
 :- use_module(bio(ontol_vizlayout)).
 
-:- use_module(bio(thea_wrapper)).
 :- use_module(bio(parser_obo)).

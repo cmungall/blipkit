@@ -14,6 +14,8 @@
 :- use_module(bio(io)).
 
 blipkit:opt_description(show,'show additional info. E.g. -show xrefs. Valid: xrefs, participants, subevents').
+blipkit:opt_description(diagram,'full[default] OR event OR event(Opts). Opts = role(Role) | nestp. E.g. event([role(catalyst),nestp])').
+
 
 blipkit:example('blip -r go -r reactome/Homo_sapiens pathway-viz -n "Mitotic Prometaphase"  -to display',
                 'visualize pathway').
@@ -77,6 +79,15 @@ show_pathway(P,dot,Opts) :-
         pathway_to_dotgraph(P,Diagram,GX,Opts),
         graph_to_dot_atom(GX,A),
         writeln(A).
+
+show_pathway(P,png,Opts) :-
+        !,
+        member(diagram(Diagram),Opts),
+        pathway_to_dotgraph(P,Diagram,GX,Opts),
+        graph_to_dot_file(GX,png,File),
+	concat_atom([cat,File],' ',Cmd), % hack alert!
+	shell(Cmd).
+
 
 show_pathway(P,display,Opts) :-
         !,

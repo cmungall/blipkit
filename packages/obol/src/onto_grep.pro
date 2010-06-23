@@ -182,13 +182,6 @@ matches(ID1,ID2,Opts):-
 	okscope(Sc1,Opts),
 	entity_nlabel_scope_stemmed(ID2,Lab,Sc2,true),
 	okscope(Sc2,Opts).
-xxxmatches(ID1,ID2,Opts):-
-        class_toks(ID1,Toks,Type1),
-        okscope(Type1,Opts),
-	%debug(obol,':: ~w ~w ~w',[N1,Type1,Toks]),
-        class_toks(ID2,Toks,Type2),
-        okscope(Type2,Opts),
-	!.
 
 :- blip('onto-exact-align',
         'align matching classes. uses stemming',

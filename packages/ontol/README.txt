@@ -9,7 +9,6 @@ The ontol_db.pro module models OBO-style ontologies
 The core module is the ontol_db model
 
   * [[ontol_db][ontol_db.pro]]
-
   * ontol_segmenter.pro -- for extracting subsets of ontologies
   * ontol_management.pro -- class merging and ontology lifecycle
   * ontol_reasoner.pro -- forward chaining reasoning
@@ -25,13 +24,19 @@ The metadata package (metadata_db.pro) is used
 
 ---++ Tutorials
 
-* [[Ontol package tutorials][<doc/>]]
+  * [[Ontol package tutorials][<doc/>]]
 
 ---++ Details
 
+TODO
+
 ---++ Parsers and Writers
 
+TODO
+
 ---++ Mappings
+
+TODO
 
 ---+++ Database Mappings
 

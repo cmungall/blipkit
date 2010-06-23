@@ -6,30 +6,31 @@ one of the packages below.
 
 ---++ Biological Data modeling and Inference Modules
 
-  * [[genome][packages/blip/genomic/README.txt]]: Sequence features. Example predicates: gene/1, intron/1, feature/1
-  * [[phylo][packages/blip/phylo/README.txt]]: Phylogenetic trees. Example predicates: phylonode/1, phylonode_parent/3
-  * [[homol][packages/blip/homol/README.txt]]: Simple homology groupings. Example predicates: homologset_member/2
-  * [[sb][packages/blip/sb/README.txt]]: Systems biology and pathways. Example predicates: event_participant_role/3, reaction_product/2, kinetic_law/2
-  * [[metadata][packages/blip/metadata/README.txt]]: Generic cross-schema metadata about entities in the domain. Example predicates: entity_label/2, entity_synonym/2
-  * [[ontol][packages/blip/ontol/README.txt]]: Ontologies. Example predicates: class/1, subclass/2
-  * [[curation][packages/blip/curation/README.txt]]: Example predicates: curation_statement/4, curation_evidence/2 
+  * [[genome][packages/genomic/README.txt]]: Sequence features. Example predicates: gene/1, intron/1, feature/1
+   * packages/genomic/seqfeature_db.pro
+   * packages/genomic/genome_db.pro
+  * [[phylo][packages/phylo/README.txt]]: Phylogenetic trees. Example predicates: phylonode/1, phylonode_parent/3
+  * [[sb][packages/sb/README.txt]]: Systems biology and pathways. Example predicates: event_participant_role/3, reaction_product/2, kinetic_law/2
+  * [[metadata][packages/metadata/README.txt]]: Generic cross-schema metadata about entities in the domain. Example predicates: entity_label/2, entity_synonym/2
+  * [[ontol][packages/ontol/README.txt]]: Ontologies. Example predicates: class/1, subclass/2
+  * [[curation][packages/curation/README.txt]]: Example predicates: curation_statement/4, curation_evidence/2 
 
 ---++ General Purpose Utility Packages
 
-  * [[sql][packages/blip/sql/README.txt]]: Binding to SQL: view/2, plterm_to_sqlterm/3,
+  * [[sql][packages/sql/README.txt]]: Binding to SQL: view/2, plterm_to_sqlterm/3,
 
-  * [[blipcore][packages/blip/blipcore/README.txt]]: General
+  * [[blipcore][packages/blipcore/README.txt]]: General
     purpose. bioprolog_util.pro contains generic prolog predicates
     like solutions/3. io.pro includes blip specific input-output
     predicates such as load_bioresource/1.
 
-  * [[graph][packages/blip/graph/README.txt]]: writing dot files. See graph_to_dot_file/3
+  * [[graph][packages/graph/README.txt]]: writing dot files. See graph_to_dot_file/3
 
-  * [[serval][packages/blip/serval/serval_db.pro]]: web application framework
+  * [[serval][packages/serval/serval.pro]]: web application framework
 
-  * [[web][packages/blip/web/README.txt]]: accessing remote REST and SOAP APIs
+  * [[web][packages/web/README.txt]]: accessing remote REST and SOAP APIs
 
 ---++ More information
 
   * tutorial.txt - introductory tutorial
-  * [[exploring pathways][packages/blip/sb/exploring_pathways.txt]] - introduction to sb package
+  * [[exploring pathways][packages/sb/exploring_pathways.txt]] - introduction to sb package

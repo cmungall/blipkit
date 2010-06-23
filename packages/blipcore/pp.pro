@@ -1,3 +1,5 @@
+:- module(pp,
+	  []).
 
 :- op(900,xfy,:=).
 :- op(800,fx,run).

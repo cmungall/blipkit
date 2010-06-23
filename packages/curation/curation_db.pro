@@ -1,6 +1,7 @@
 :- module(curation_db,
           [
            curation/1,
+           curation_statement/3,
            curation_statement/4,
            curation_statementT/4,
            curation_statementT/5,
@@ -17,6 +18,8 @@
            evidence_with/2,
            curation_evidence_code/2,
            curation_evidence_with/2,
+	   curation_statement_evidence_type/5,
+	   curation_statement_evidence_type/4,
            curation_publisher/2,
            curation_source/2,           
            all_curation_creator/1,
@@ -55,6 +58,12 @@
 %  (a curation is typically a single statement)
 :- extensional(curation_statement/4).
 
+%% curation_statement(C,S,Ob)
+% as curation_statement/4
+curation_statement(C,S,Ob) :-
+	curation_statement(C,S,has_role,Ob).
+
+
 %% negative_curation_statement(?Curation,?Subject,?Relation,?Object)
 :- extensional(negative_curation_statement/4).
 
@@ -80,6 +89,18 @@ curation_evidence_code(A,Code):-
 curation_evidence_with(A,With):-
         curation_evidence(A,E),
         evidence_with(E,With).
+
+
+%% curation_statement_evidence_type(C,S,R,Ob,ET)
+curation_statement_evidence_type(C,S,R,Ob,ET) :-
+	curation_statement(C,S,R,Ob),
+	curation_evidence_code(C,ET).
+
+%% curation_statement_evidence_type(C,S,Ob,ET)
+curation_statement_evidence_type(C,S,Ob,ET) :-
+	curation_statement(C,S,Ob),
+	curation_evidence_code(C,ET).
+
 
 %% curation_publisher(?Curation,?Publisher)
 % combination of curation/1 and entity_publisher/2

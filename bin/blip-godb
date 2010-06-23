@@ -1,5 +1,6 @@
 #!/bin/sh
 
+echo "deprecated - use alias instead"
 # Usage:
 #  blip-godb -r rdb/go sql-map -proj X 'class(X)'
 #  blip-godb -debug sql -u ontol_db -r rdb/go sql-map -proj X,Y  '(class(X,apoptosis),subclassT(X,Y))'

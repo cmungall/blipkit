@@ -1,10 +1,9 @@
 /* -*- Mode: Prolog -*- */
 
-
 :- module(sb_bridge_from_biopax_level2,[]).
 
-:- use_module(semweb(rdf_db)).
-:- use_module(semweb(rdfs)).
+:- use_module(library(semweb/rdf_db)).
+:- use_module(library(semweb/rdfs)).
 :- use_module(bio(ontol_db)).
 :- use_module(bio(sb_db)).
 
@@ -17,11 +16,15 @@ literal_to_native(X,X):- !.
 
 biopax_ns('http://www.biopax.org/release/biopax-level2.owl#').
 
-:-
+setup_ns :-
+	ensure_loaded(library(semweb/rdf_db)),
         biopax_ns(NSFull),
         (   rdf_db:ns(bp,NSFull)
         ->  true
-        ;   register_ns(bp,NSFull)).
+        ;   rdf_register_ns(bp,NSFull)).
+
+:- initialization(setup_ns,now).
+
 
 sb_db:reaction(ID,N):-
         rdfs_individual_of(ID,bp:interaction),

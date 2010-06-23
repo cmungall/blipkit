@@ -1,4 +1,4 @@
-:- use_module(bio(docroot)).
+%:- use_module(bio(docroot)).
 :- use_module(bio(io)).
 :- use_module(library(pldoc)).
 
@@ -14,7 +14,7 @@
 :- [bio(load_obol)].
 
 :- use_module(bio(dotwriter)).
-:- use_module(semweb(rdfs)).
+:- use_module(library(semweb/rdfs)).
 
 % Thea2
 :- use_module(library('thea2/owl2_model')).

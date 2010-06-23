@@ -173,6 +173,7 @@ alias blip-viz='blip ontol-subset -to display'
 alias blip-viz-upheno='blip -u ontol_config_upheno -u ontol_config_hidexref -u ontol_manifest_reverse_relation_from_uberon_xref  -u ontol_manifest_relation_from_uberon_xref ontol-subset -rel xref -cr xrefed_by -rel subclass'
 
 alias go+db="gox -u ontol_sqlmap_go -bindsql 'curation_db:curation_statement/4-go' -showannots"
+alias blip-go-sql="blip -u ontol_db -u blipkit_sql -u ontol_sqlmap_go -u seqfeature_sqlmap_go -u homol_sqlmap_go -u curation_db -u seqfeature_db"
 
 alias fly2fma="ov -r fly_anatomy -r fma -r fly2fma"
 alias zf2fma="ov -r zebrafish_anatomy -r fma -r zf2fma"
