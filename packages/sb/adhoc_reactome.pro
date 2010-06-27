@@ -2,6 +2,7 @@
 % ad-hoc queries for reactome
 
 :- use_module(pathway_db).
+:- use_module(pathway_go_util).
 :- use_module(interaction_db).
 :- use_module(bio(metadata_db)).
 :- use_module(bio(ontol_db)).
@@ -247,29 +248,6 @@ r2go_nr_xref_match(Type,P,RID,GOID,CurrentXref,Match) :-
         ;   CurrentXref=none,
             Match=no_existing_xref).
 
-event_goxref(P,GOID) :-
-        entity_xref(P,GOID),
-        id_idspace(GOID,'GO').
-event_goxref(P,GOID) :-
-        event_catalyst(P,_,C),
-        entity_xref(C,GOID),
-        id_idspace(GOID,'GO').
-% humancyc biopax export does not have go xrefs
-event_goxref(P,GOID) :-
-	entity_xref(P,PX),
-	id_idspace(PX,'HUMANCYC'),
-	id_localid(PX,CYC_ID),
-	% switch humancyc->metacyc
-	concat_atom(['MetaCyc',CYC_ID],':',XrefInGO),
-	entity_xref(GOID,XrefInGO).
-event_goxref(Interaction,GOID) :-
-	event_catalyst(P,_,Interaction,catalyst),
-	entity_xref(P,PX),
-	id_idspace(PX,'HUMANCYC'),
-	id_localid(PX,CYC_ID),
-	% switch humancyc->metacyc
-	concat_atom(['MetaCyc',CYC_ID],':',XrefInGO),
-	entity_xref(GOID,XrefInGO).
 
 % TODO: unify
 binding_relation('UCDHSC:results_in_joining_of').

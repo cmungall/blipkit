@@ -54,6 +54,8 @@
            is_inverse_functional/1,
            is_cyclic/1,
            is_proper/1,
+           expand_expression_to/2,
+           expand_assertion_to/2,
            transitive_form_of/2,
            proper_form_of/2,
            cyclic_form_of/2,
@@ -550,20 +552,10 @@ parent(ID,equivalent,IDp):-
 % see parentT/3
 parentT(ID,IDp):- parentT(ID,_,IDp).
 
-%% parentT(?Class,?RelationList,?ParentClass) is nondet.
+%% parentT(?Class,?Relation,?ParentClass) is nondet.
 % transitive parent/3
-parentT(ID,[ID-T],IDp):-
-	parent(ID,T,IDp).
-parentT(ID,[Link|TL],IDp):-
-        (   var(ID)
-        ->  parent(IDz,T,IDp),
-            \+is_cyclic(T),
-            Link=IDz-T,
-            parentT(ID,TL,IDz)
-        ;   parent(ID,T,IDz),
-            \+is_cyclic(T),
-            Link=ID-T,
-            parentT(IDz,TL,IDp)).
+parentT(ID,R,IDp):-
+	parent_overT(R,ID,IDp).
 
 %% parentT(?ID,+RelationList,?SuperClass,+ViaRelation) is nondet.
 % DEPRECATED? consider parent_overT/3
@@ -598,7 +590,7 @@ parentRT(ID,IDp):- parentRT(ID,_,IDp).
 
 %% parentRT(?Class,?Relation,?ParentClass) is nondet.
 % reflexive transitive parent/3
-parentRT(ID,[],ID).
+parentRT(ID,R,ID) :- is_reflexive(R).
 parentRT(ID,TL,IDp):- parentT(ID,TL,IDp).
 
 %% idspace_references(?S,?Ref)
@@ -1015,6 +1007,16 @@ metaproperty(X,is_reflexive):- is_reflexive(X).
 
 %%  is_proper(?Relation) is nondet.
 :- extensional(is_proper/1).
+
+%% expand_expression_to(?Rel,?ExprAtom)
+% OWL macros
+:- extensional(expand_expression_to/2).
+
+%% expand_assertion_to(?Rel,?ExprAtom)
+% OWL macros
+:- extensional(expand_assertion_to/2).
+
+
 
 %% transitive_form_of(?TransitiveRel,?Rel) is nondet
 % strictly required? We can make the Rel a subproperty of TransitiveRel instead, but this is less intuitive

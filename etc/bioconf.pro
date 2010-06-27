@@ -120,7 +120,9 @@ user:bioresource(iproclass,url('ftp://ftp.pir.georgetown.edu/databases/iproclass
 user:bioresource(seq2pthr,url('ftp://ftp.pantherdb.org/genome/pthr7.0/seq2pthr.gz'),gzip(tbl(seq2pthr))).
 
 % e.g. 10116_rattus_norvegicus
-user:bioresource(gp2p(N),url(Path),tbl(gp2p)):- nonvar(N),concat_atom(['ftp://ftp.ebi.ac.uk/pub/contrib/qfo/gp2protein.',N],Path).
+%user:bioresource(gp2p(N),url(Path),tbl(gp2p)):- nonvar(N),concat_atom(['ftp://ftp.ebi.ac.uk/pub/contrib/qfo/gp2protein.',N],Path).
+user:bioresource(gp2p(N),url(Path),gzip(tbl(gp2p))):- nonvar(N),concat_atom(['ftp://ftp.ebi.ac.uk/pub/databases/reference_proteomes/gp2protein.',N,'.gz'],Path).
+user:bioresource(qfo(N),url(Path),gzip(fasta)):- nonvar(N),concat_atom(['ftp://ftp.ebi.ac.uk/pub/databases/reference_proteomes/',N,'.fasta.gz'],Path).
 
 % e.g. 10000
 user:bioresource(pthr(N),url(Path),nhx):- nonvar(N),concat_atom(['http://amigo.berkeleybop.org/amigo/panther/PTHR',N,'.tree'],Path).

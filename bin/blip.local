@@ -1,4 +1,4 @@
-#!/usr/bin/swipl -L0 -G0 -A0 -T0 -q -g main -t halt -f
+#!/usr/bin/swipl -L0 -G0  -T0 -q -g main -t halt -f
 
 :- ['../etc/bioconf-cgi.pro'].
 user:file_search_path(blipkit,'/users/cjm/cvs/blipkit/packages').
@@ -18,7 +18,7 @@ user:file_search_path(bio, blipkit(obolog)).
 user:file_search_path(bio, blipkit(omim)).
 user:file_search_path(bio, blipkit(ontograph)).
 user:file_search_path(bio, blipkit(ontol)).
-user:file_search_path(bio, blipkit('ontol/thea')).
+user:file_search_path(bio, blipkit(ontol/conf)).
 user:file_search_path(bio, blipkit(pheno)).
 user:file_search_path(bio, blipkit(phylo)).
 user:file_search_path(bio, blipkit(rdft)).

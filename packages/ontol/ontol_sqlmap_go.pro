@@ -28,13 +28,6 @@ metadata_db:entity_source(ID,DB) <- dbxrefd(_IID,_Acc,_,DB,_,ID).
 
 % ONTOL
 ontol_db:class(ID) <- term0(_,ID,_,_).
-%ontol_db:class(ID,N) <- node(_,ID,N,'C').
-
-%ontol_db:property(ID) <- node(_,ID,_,'R').
-%ontol_db:property(ID,N) <- node(_,ID,N,'R').
-%ontol_db:inst(ID) <- node(_,ID,_,'I').
-%ontol_db:inst(ID,N) <- node(_,ID,N,'I').
-%ontol_db:entity_uri(ID,URI) <- node(_,ID,_,_,_,_,_,_,_,URI).
 
 %:- abolish(ontol_db:parent/2).
 ontol_db:parent(X,Y) <- term0(XI,X,_,_),link_n(XI,_,YI),term0(YI,Y,_,_).
@@ -92,12 +85,6 @@ curation_db:class_infocontent(C,InfoContent) <-
 
 
 :- dynamic rdb_handle/1.
-% TODO: use solution that is thread-shared
-%getrdb(Rdb):-
-%        rdb_handle(Rdb).
-%setrdb(Rdb):-
-%        retractall(rdb_handle(_)),
-%        assert(rdb_handle(Rdb)).
 getrdb(Rdb):-
         nb_getval(rdb,Rdb).
 setrdb(Rdb):-

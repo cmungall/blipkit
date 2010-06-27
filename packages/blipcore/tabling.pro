@@ -1,6 +1,7 @@
 /* -*- Mode: Prolog -*- */
 
 :- module(tabling,[
+		   table_preds/0,
                    table_pred/1,
 		   persistent_table_pred/2,
                    table_call/5,
@@ -14,6 +15,15 @@
 :- dynamic persist_to/2. % track which predspecs are persisted to which files
 :- dynamic persist_to_stream/2. % track which predspecs are persisted to which streams
 :- dynamic cache_file/1. % track the full set of files to be loaded when ready
+
+:- multifile memoize_hook/1.
+
+%% table_preds
+% call table_pred/1 for all predicates for which
+% tabling:memoize_hook/1 is defined
+table_preds :-
+	forall(memoize_hook(H),
+	       table_pred(H)).
 
 
 %% table_pred(+PredSpec)
