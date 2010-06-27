@@ -1469,6 +1469,10 @@ blipkit:trusted_command('ontol-rest').
             ensure_loaded(bio(ontol_restful)),
             maplist(eqatom_param,ParamAtoms,Params),
             debug(ontol_rest,' Params=~w',[Params]),
+            current_prolog_flag(encoding,Enc),
+            debug(ontol_rest,' enc=~w',[Enc]),
+            %set_prolog_flag(encoding,utf8),
+            set_prolog_flag(encoding,text),
             forall(member(Path,Paths),
                    ontol_page(Path,Params)))).
 

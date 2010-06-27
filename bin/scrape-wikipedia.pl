@@ -244,8 +244,6 @@ sub getContent {
   my $req = HTTP::Request->new( GET => $url );
   my $res = $ua->request( $req );
 
-  printf STDERR "content: %s\n", $res->content;
-
   # see if the request worked...
   my $content;
   if( $res->is_success ) {
