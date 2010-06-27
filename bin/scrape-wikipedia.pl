@@ -244,10 +244,12 @@ sub getContent {
   my $req = HTTP::Request->new( GET => $url );
   my $res = $ua->request( $req );
 
+  printf STDERR "content: %s\n", $res->content;
+
   # see if the request worked...
   my $content;
   if( $res->is_success ) {
-    ( $content ) = $res->content =~ m/\<\!\-\- start content \-\-\>(.*)\<\!\-\- end content \-\-\>/s;
+    ( $content ) = $res->content =~ m/\<\!\-\- content \-\-\>(.*)\<\!\-\- \/content \-\-\>/s;
   } else {
 	print STDERR "(WW) WARNING: couldn't retrieve content for \"$wpid\": "
 	             . $res->status_line . "\n";

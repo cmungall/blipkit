@@ -19,6 +19,7 @@
 :- use_module(bio(serval)).
 :- use_module(bio(ontol_db)).
 :- use_module(bio(ontol_lookup)).
+:- use_module(bio(ontol_segmenter)).
 :- use_module(bio(ontol_writer_dot)).
 :- use_module(bio(metadata_db)).
 :- use_module(bio(io)).
