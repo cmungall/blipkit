@@ -6,7 +6,9 @@ package BlipApp;
 use base 'CGI::Application';
 use FileHandle;
 use IPC::Open2;
+use Encode;
 
+#binmode(STDOUT, ':encoding(UTF-8)');
 
 my $PATH_TO_BLIP = "/users/cjm/cvs/blipkit/bin/";
 $ENV{PATH} = "$ENV{PATH}:$PATH_TO_BLIP";
@@ -93,7 +95,9 @@ sub run_blip_rest {
     print STDERR `cat $errf`; # TODO - too much info?
     unlink($cmdf);
     unlink($errf);
-    return "$payload";
+    #return encode("UTF-8",$payload);
+    return decode("UTF-8",$payload);
+    #return "$payload";
 }
 
 
