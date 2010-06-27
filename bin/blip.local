@@ -1,7 +1,7 @@
 #!/usr/bin/swipl -L0 -G0 -A0 -T0 -q -g main -t halt -f
 
 :- ['../etc/bioconf-cgi.pro'].
-user:file_search_path(blipkit,'/users/cjm/cvs/blipkit/packages/blip').
+user:file_search_path(blipkit,'/users/cjm/cvs/blipkit/packages').
 
 user:program_info(package('blip','0.01-pre6')).
 
