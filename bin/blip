@@ -1,6 +1,6 @@
 #!/usr/bin/swipl -L0 -G0 -T0 -q -g main -t halt -s
 
-user:file_search_path(blipkit,'/opt/local/lib/swipl-5.11.1/library/blip').
+user:file_search_path(blipkit,'/opt/local/lib/swipl-5.11.1/library').
 system:program_info(package('blip','0.08')).
 
 user:file_search_path(bio, blipkit(attic)).
@@ -21,6 +21,7 @@ user:file_search_path(bio, blipkit(pheno)).
 user:file_search_path(bio, blipkit(phylo)).
 user:file_search_path(bio, blipkit(rdft)).
 user:file_search_path(bio, blipkit(sb)).
+user:file_search_path(bio, blipkit(sb/conf)).
 user:file_search_path(bio, blipkit(serval)).
 user:file_search_path(bio, blipkit(sql)).
 user:file_search_path(bio, blipkit(stats)).

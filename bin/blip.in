@@ -1,6 +1,6 @@
 #!@SWIPL@ -L0 -G0 -T0 -q -g main -t halt -s
 
-user:file_search_path(blipkit,'@PLLIBDIR@/blip').
+user:file_search_path(blipkit,'@PLLIBDIR@').
 system:program_info(package('@PACKAGE_TARNAME@','@PACKAGE_VERSION@')).
 
 user:file_search_path(bio, blipkit(attic)).

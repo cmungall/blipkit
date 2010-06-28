@@ -2,6 +2,7 @@
 
 :- ['../etc/bioconf-cgi.pro'].
 user:file_search_path(blipkit,'/users/cjm/cvs/blipkit/packages').
+user:file_search_path(library,'/users/cjm/pllib').
 
 user:program_info(package('blip','0.01-pre6')).
 
