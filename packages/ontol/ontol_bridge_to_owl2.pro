@@ -1,10 +1,10 @@
 /* -*- Mode: Prolog -*- */
 
 :- module(ontol_bridge_to_owl2,[
+                                uri_oboid/2
                                ]).
 :- use_module(bio(ontol_db)).
 :- use_module(bio(metadata_db)).
-:- use_module(bio(rdf_id_util),[rdfid_oboid/2]).
 :- use_module(library('thea2/owl2_model'),
 	      []).
 
@@ -17,53 +17,111 @@ native_to_literal(Term,literal(lang(en,Term))).
 
 % only convert a minimal amount - leave the rest to bridge modules
 
-owl2_model:propertyAssertion('http://www.w3.org/2000/01/rdf-schema#label',UA,UX) :-
-        rdfid_oboid(UA,A),
+owl2_model:annotationAssertion('http://www.w3.org/2000/01/rdf-schema#label',UA,UX) :-
+        uri_oboid(UA,A),
         entity_label(A,X),
+        native_to_literal(X,UX).
+
+owl2_model:annotationAssertion('http://purl.obolibrary.org/obo/IAO_0000424',UA,UX) :-
+        uri_oboid(UA,A),
+        expand_expression_to(A,X),
+        native_to_literal(X,UX).
+
+owl2_model:annotationAssertion('http://purl.obolibrary.org/obo/IAO_0000425',UA,UX) :-
+        uri_oboid(UA,A),
+        expand_assertion_to(A,X),
         native_to_literal(X,UX).
 
 % ----------------------------------------
 % DECLARATIONS
 % ----------------------------------------
 
-owl2_model:class(UA) :- rdfid_oboid(UA,A),class(A).
-owl2_model:objectProperty(UA) :- rdfid_oboid(UA,A),property(A),\+is_class_level(A).
-owl2_model:individual(UA) :- rdfid_oboid(UA,A),inst(A).
+% obsoletes?
+
+owl2_model:class(UA) :- uri_oboid(UA,A),class(A).
+owl2_model:objectProperty(UA) :- uri_oboid(UA,A),property(A),\+is_class_level(A).
+owl2_model:annotationProperty(UA) :- uri_oboid(UA,A),property(A),is_class_level(A).
+owl2_model:namedIndividual(UA) :- uri_oboid(UA,A),inst(A).
 
 % ----------------------------------------
 % PROPERTIES
 % ----------------------------------------
 
-owl2_model:transitiveProperty(UA) :- rdfid_oboid(UA,A),is_transitive(A),\+is_class_level(A).
-owl2_model:symmetricProperty(UA) :- rdfid_oboid(UA,A),is_symmetric(A),\+is_class_level(A).
+owl2_model:transitiveProperty(UA) :- uri_oboid(UA,A),is_transitive(A),\+is_class_level(A).
+owl2_model:reflexiveProperty(UA) :- uri_oboid(UA,A),is_reflexive(A),\+is_class_level(A).
+owl2_model:symmetricProperty(UA) :- uri_oboid(UA,A),is_symmetric(A),\+is_class_level(A).
+owl2_model:asymmetricProperty(UA) :- uri_oboid(UA,A),is_asymmetric(A),\+is_class_level(A).
 
-owl2_model:inverseProperties(UA,AB) :- rdfid_oboid(UA,A),rdfid_oboid(UB,B),inverse_of(A,B).
-owl2_model:subPropertyOf(propertyChain([UA,UB]),UA) :- rdfid_oboid(UA,A),rdfid_oboid(UB,B),transitive_over(A,B).
-owl2_model:subPropertyOf(propertyChain([UA,UB]),UC) :- rdfid_oboid(UA,A),rdfid_oboid(UB,B),rdfid_oboid(UC,C),holds_over_chain(C,[A,B]).
-owl2_model:subPropertyOf(propertyChain([UA,UB]),UC) :- rdfid_oboid(UA,A),rdfid_oboid(UB,B),rdfid_oboid(UC,C),equivalent_to_chain(C,[A,B]).
-                        
+owl2_model:functionalProperty(UA) :- uri_oboid(UA,A),is_functional(A),\+is_class_level(A).
+owl2_model:inverseFunctionalProperty(UA) :- uri_oboid(UA,A),is_inverse_functional(A),\+is_class_level(A).
+
+owl2_model:inverseProperties(UA,UB) :- uri_oboid(UA,A),uri_oboid(UB,B),inverse_of(A,B).
+owl2_model:subPropertyOf(propertyChain([UA,UB]),UA) :- uri_oboid(UA,A),uri_oboid(UB,B),transitive_over(A,B).
+owl2_model:subPropertyOf(propertyChain([UA,UB]),UC) :- uri_oboid(UA,A),uri_oboid(UB,B),uri_oboid(UC,C),holds_over_chain(C,[A,B]).
+owl2_model:subPropertyOf(propertyChain([UA,UB]),UC) :- uri_oboid(UA,A),uri_oboid(UB,B),uri_oboid(UC,C),equivalent_to_chain(C,[A,B]).
+
+owl2_model:propertyDomain(UA,UB) :- uri_oboid(UA,A),uri_oboid(UB,B),property_domain(A,B).
+owl2_model:propertyRange(UA,UB) :- uri_oboid(UA,A),uri_oboid(UB,B),property_range(A,B).
+
 
 % ----------------------------------------
-% AXIOMS
+% CLASS AXIOMS
 % ----------------------------------------
 
 owl2_model:subClassOf(UA,UB) :-
-	rdfid_oboid(UA,A),rdfid_oboid(UB,B),subclass(A,B).
+	uri_oboid(UA,A),uri_oboid(UB,B),
+        subclass(A,B).
 owl2_model:subClassOf(UA,Expr):-
-	rdfid_oboid(UA,A),
+	uri_oboid(UA,A),
 	restriction(A,P,B),
 	pval_expr(P,B,Expr).
 
 owl2_model:equivalentClasses([UA,UB]) :-
-	rdfid_oboid(UA,A),
-	rdfid_oboid(UB,B),
-        equivalent_to(A,B).
+	uri_oboid(UA,A),
+	uri_oboid(UB,B),
+        equivalent_class(A,B).
 
 owl2_model:equivalentClasses([UA,intersectionOf([UG|Restrs])]) :-
-	rdfid_oboid(UA,A),
-	rdfid_oboid(UG,G),
+	uri_oboid(UA,A),
+	uri_oboid(UG,G),
         genus(A,G),
-        findall(Restr,(differentium(A,P,B)),pval_expr(P,B,Restr)),Restrs).
+        findall(Restr,(
+                       differentium(A,P,B),
+                       pval_expr(P,B,Restr)),
+                Restrs).
+
+
+owl2_model:disjointUnion(UA,UL) :-
+        uri_oboid(UA,A),
+        class_disjoint_union_list(A,L),
+        findall(UX,(member(X,L),
+                    uri_oboid(UX,X)),
+                UL).
+
+owl2_model:disjointWith(UA,UB) :-
+	uri_oboid(UA,A),uri_oboid(UB,B),
+        disjoint_from(A,B).
+
+owl2_model:disjointWith( someValuesFrom(UQ,UA), someValuesFrom(UQ,UB) ) :-
+	uri_oboid(UA,A),uri_oboid(UB,B),
+        uri_oboid(UQ,Q),
+        disjoint_over(P,Q),
+        restriction(A,P,B).
+
+% ----------------------------------------
+% INSTANCE AXIOMS
+% ----------------------------------------
+
+owl2_model:classAssertion(UA,UB) :-
+	uri_oboid(UA,A),uri_oboid(UB,B),
+        inst_of(B,A).
+
+owl2_model:propertyAssertion(UP,UA,UB) :-
+	uri_oboid(UA,A),uri_oboid(UB,B),
+        uri_oboid(UP,P),
+        inst_rel(A,P,B).
+
+% inst_sv/4 TODO
 
 % ----------------------------------------
 % CLASS EXPRESSIONS
@@ -74,42 +132,61 @@ owl2_model:equivalentClasses([UA,intersectionOf([UG|Restrs])]) :-
 % (OWL-DL does not allow QCRs on transitive properties).
 
 pval_expr(card(P,_,0 ),B,allValuesFrom(UP,complementOf(UB))) :- 
-	rdfid_oboid(UB,B),
-	rdfid_oboid(UP,P),
+	uri_oboid(UB,B),
+	uri_oboid(UP,P),
         !.
 pval_expr(card(P,N),B,minCardinality(N,UP,UB)) :- 
-	rdfid_oboid(UB,B),
-	rdfid_oboid(UP,P),
+	uri_oboid(UB,B),
+	uri_oboid(UP,P),
         \+ is_transitive(P),
         !.
 pval_expr(card(P,N,N),B,exactCardinality(N,UP,UB)) :- 
-	rdfid_oboid(UB,B),
-	rdfid_oboid(UP,P),
+	uri_oboid(UB,B),
+	uri_oboid(UP,P),
         \+ is_transitive(P),
         !.
 pval_expr(card(P,Min,Max),B,intersectionOf([minCardinality(Min,UP,UB),maxCardinality(Max,UP,UB)])) :- 
-	rdfid_oboid(UB,B),
-	rdfid_oboid(UP,P),
+	uri_oboid(UB,B),
+	uri_oboid(UP,P),
         \+ is_transitive(P),
         !.
 pval_expr(card(P,_),B,someValuesFrom(UP,UB)) :- % no cardinality on transitive in OWL-DL
-	rdfid_oboid(UB,B),
-	rdfid_oboid(UP,P),
+	uri_oboid(UB,B),
+	uri_oboid(UP,P),
         is_transitive(P),
         !.
 pval_expr(card(P,_,_),B,someValuesFrom(UP,UB)) :- % no cardinality on transitive in OWL-DL
-	rdfid_oboid(UB,B),
-	rdfid_oboid(UP,P),
+	uri_oboid(UB,B),
+	uri_oboid(UP,P),
         is_transitive(P),
         !.
 pval_expr(P,B,someValuesFrom(UP,UB)) :- % GUESS existential
-	rdfid_oboid(UB,B),
-	rdfid_oboid(UP,P),
+	uri_oboid(UB,B),
+	uri_oboid(UP,P),
         \+ is_class_level(P),
         !.
 pval_expr(P,B,hasValue(UP,UB)) :- % GUESS existential
-	rdfid_oboid(UB,B),
-	rdfid_oboid(UP,P),
+	uri_oboid(UB,B),
+	uri_oboid(UP,P),
         is_class_level(P),
         !.
 pval_expr(R,To,_) :- throw(pval_expr('cannot translate ~w ~w',[R,To])).
+
+
+uri_oboid(U,X) :-
+        var(X),
+        !,
+        freeze(X,uri_oboid(U,X)).
+uri_oboid(U,X) :-
+        concat_atom([S,A],':',X),
+        !,
+        concat_atom(['http://purl.obolibrary.org/obo/',S,'_',A],U).
+uri_oboid(U,X) :-
+        concat_atom([S|L],':',X), % > 1 separator
+        L\=[],
+        !,
+        concat_atom(['http://purl.obolibrary.org/obo/',S,'_'|L],U).
+uri_oboid(U,X) :-
+        !,
+        concat_atom(['http://purl.obolibrary.org/obo/',X],U).
+

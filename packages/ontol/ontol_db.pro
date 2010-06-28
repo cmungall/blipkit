@@ -891,8 +891,10 @@ property(P,Name):- entity_label(P,Name),property(P).
 :- extensional(property_range/2).
 
 %% complement_of(?NegRel,?Rel)
+% EXPERIMENTAL
 :- extensional(complement_of/2).
 
+% DEPRECATED
 :- extensional(holds_temporally_between/3).
 :- extensional(holds_atemporally_between/3).
 
@@ -918,6 +920,7 @@ property(P,Name):- entity_label(P,Name),property(P).
 %%  inverse_of_on_instance_level(?Relation,?Inverse) is nondet.
 % true if all_some(Relation,InstRelation),inverse_of(InstRelation,InstRelationInv),all_some(InstRelationInv,Inverse)
 % (always asserted)
+% TODO: DEPRECATE? obof1.3, no longer valid in obof1.4
 :- extensional(inverse_of_on_instance_level/2).
 
 %%  class_level_inverse_of(?Relation,?Inverse) is nondet.
@@ -1109,7 +1112,8 @@ inst(I,Name):- entity_label(I,Name),inst(I).
 %%  inst_of_at(?Instance,?Class,?Time) is nondet.
 % true if Instance is a direct instaniation of Class at Time
 % time-indexed version of inst_of/2
-% see also inst_rel/4
+% see also inst_rel/4.
+% DEPRECATED
 :- extensional(inst_of_at/3).
 
 

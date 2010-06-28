@@ -1034,6 +1034,7 @@ format_writer(obolog,obolog_writer_kif).
 format_writer(obolog_prolog,obolog_writer_prolog_unreified).
 format_writer(owl,ontol_writer_owl).
 format_writer(owl2_prolog,ontol_writer_owl2).
+format_writer(owl2,ontol_writer_owl2).
 format_writer(owl2(_),ontol_writer_owl2).
 format_writer(thea,ontol_writer_thea_syntax).
 format_writer(thea_owlrdf,ontol_writer_thea_owlrdf).

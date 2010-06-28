@@ -96,8 +96,8 @@ sub run_blip_rest {
     unlink($cmdf);
     unlink($errf);
     #return encode("UTF-8",$payload);
-    return decode("UTF-8",$payload);
-    #return "$payload";
+    #return decode("UTF-8",$payload);
+    return "$payload";
 }
 
 
