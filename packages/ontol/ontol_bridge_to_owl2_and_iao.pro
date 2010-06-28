@@ -13,10 +13,22 @@
 native_to_literal(Term,literal(Term)):- number(Term),!.
 native_to_literal(Term,literal(lang(en,Term))).
 
-owl2_model:annotationProperty('http://purl.obolibrary.org/obo/IAO_0000115').
-owl2_model:annotationProperty('http://purl.obolibrary.org/obo/IAO_0000118').
-owl2_model:annotationProperty('http://purl.obolibrary.org/obo/IAO_0000119').
-owl2_model:annotationProperty('http://purl.org/dc/elements/1.1/source').
+% ----------------------------------------
+% MIREOT ANNOTATION PROPS
+% ----------------------------------------
+
+ap_label('http://purl.obolibrary.org/obo/IAO_0000115',definition).
+ap_label('http://purl.obolibrary.org/obo/IAO_0000119','definition source').
+ap_label('http://purl.obolibrary.org/obo/IAO_0000118','alternative term').
+
+%owl2_model:annotationProperty('http://purl.org/dc/elements/1.1/source').
+
+owl2_model:annotationProperty(P) :- ap_label(P,_).
+owl2_model:annotationAssertion('http://www.w3.org/2000/01/rdf-schema#label',P,literal(lang(en,N))) :- ap_label(P,N).
+
+% ----------------------------------------
+% METADATA
+% ----------------------------------------
 
 owl2_model:annotationAssertion('http://purl.obolibrary.org/obo/IAO_0000115',UA,UX) :-
         uri_oboid(UA,A),

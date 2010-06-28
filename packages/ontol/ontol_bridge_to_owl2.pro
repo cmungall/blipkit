@@ -12,6 +12,19 @@ native_to_literal(Term,literal(Term)):- number(Term),!.
 native_to_literal(Term,literal(lang(en,Term))).
 
 % ----------------------------------------
+% ONTOLOGY
+% ----------------------------------------
+
+% we don't assert ontologyAxiom/2
+
+owl2_model:ontology(UO) :-
+        ontology(UO),
+        sub_atom(UO,0,_,_,'http').
+owl2_model:ontology(UO) :-
+        ontology(O),
+        concat_atom(['http://purl.obolibrary.org/obo/',O],UO).
+
+% ----------------------------------------
 % METADATA
 % ----------------------------------------
 
@@ -31,6 +44,11 @@ owl2_model:annotationAssertion('http://purl.obolibrary.org/obo/IAO_0000425',UA,U
         uri_oboid(UA,A),
         expand_assertion_to(A,X),
         native_to_literal(X,UX).
+
+owl2_model:annotationProperty('http://purl.obolibrary.org/obo/IAO_0000425') :- \+ \+ expand_assertion_to(_,_).
+owl2_model:annotationProperty('http://purl.obolibrary.org/obo/IAO_0000424') :- \+ \+ expand_expression_to(_,_).
+
+
 
 % ----------------------------------------
 % DECLARATIONS
@@ -63,6 +81,18 @@ owl2_model:subPropertyOf(propertyChain([UA,UB]),UC) :- uri_oboid(UA,A),uri_oboid
 owl2_model:propertyDomain(UA,UB) :- uri_oboid(UA,A),uri_oboid(UB,B),property_domain(A,B).
 owl2_model:propertyRange(UA,UB) :- uri_oboid(UA,A),uri_oboid(UB,B),property_range(A,B).
 
+owl2_model:subPropertyOf(UA,UB) :-
+	uri_oboid(UA,A),uri_oboid(UB,B),
+        subclass(A,B),
+        property(A).
+
+/*
+owl2_model:disjointProperties([UA,UB]) :-
+	uri_oboid(UA,A),uri_oboid(UB,B),
+        disjoint_from(A,B),
+        property(A),
+        property(B).
+*/
 
 % ----------------------------------------
 % CLASS AXIOMS
@@ -70,7 +100,8 @@ owl2_model:propertyRange(UA,UB) :- uri_oboid(UA,A),uri_oboid(UB,B),property_rang
 
 owl2_model:subClassOf(UA,UB) :-
 	uri_oboid(UA,A),uri_oboid(UB,B),
-        subclass(A,B).
+        subclass(A,B),
+        class(A).
 owl2_model:subClassOf(UA,Expr):-
 	uri_oboid(UA,A),
 	restriction(A,P,B),
@@ -98,11 +129,13 @@ owl2_model:disjointUnion(UA,UL) :-
                     uri_oboid(UX,X)),
                 UL).
 
-owl2_model:disjointWith(UA,UB) :-
+owl2_model:disjointClasses([UA,UB]) :-
 	uri_oboid(UA,A),uri_oboid(UB,B),
-        disjoint_from(A,B).
+        disjoint_from(A,B),
+        class(A),
+        class(B).
 
-owl2_model:disjointWith( someValuesFrom(UQ,UA), someValuesFrom(UQ,UB) ) :-
+owl2_model:disjointClasses( [ someValuesFrom(UQ,UA), someValuesFrom(UQ,UB) ] ) :-
 	uri_oboid(UA,A),uri_oboid(UB,B),
         uri_oboid(UQ,Q),
         disjoint_over(P,Q),
@@ -173,6 +206,7 @@ pval_expr(P,B,hasValue(UP,UB)) :- % GUESS existential
 pval_expr(R,To,_) :- throw(pval_expr('cannot translate ~w ~w',[R,To])).
 
 
+%% uri_oboid(?U,+X)
 uri_oboid(U,X) :-
         var(X),
         !,
@@ -186,6 +220,15 @@ uri_oboid(U,X) :-
         L\=[],
         !,
         concat_atom(['http://purl.obolibrary.org/obo/',S,'_'|L],U).
+uri_oboid(U,X) :-
+        % hacky translation of relation URIs
+        property(X),
+        entity_xref(X,Y),
+        id_idspace(Y,S),
+        (   S='RO'
+        ;   S='BFO'),
+        !,
+        uri_oboid(U,Y).
 uri_oboid(U,X) :-
         !,
         concat_atom(['http://purl.obolibrary.org/obo/',X],U).

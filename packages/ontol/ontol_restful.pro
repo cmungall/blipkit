@@ -358,6 +358,7 @@ ontol_page_actual([Fmt,ID],Params):-
         write_obo(ID,Params),
         told,
         sformat(Cmd,'~w ~w',[Exec,F]),
+        debug(ontol_rest,'executing: ~w',[Cmd]),
         shell(Cmd).
 
 ontol_page_actual([revlinks,ID],Params):-
@@ -486,6 +487,7 @@ redirect(ID,'301 Moved Permanently',URL):-
         id_url(X,URL).
 
 fmt_ct_exec(owl,'text/xml',go2owl).
+fmt_ct_exec(owl2,'text/xml','blip.local io-convert -to owl2 -f obo -u ontol_bridge_to_owl2_and_iao -i').
 fmt_ct_exec(obox,'text/xml',go2xml).
 fmt_ct_exec(chado,'text/xml',go2chadoxml).
 

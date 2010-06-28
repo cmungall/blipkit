@@ -1,6 +1,7 @@
 /* -*- Mode: Prolog -*- */
 :- module(ontol_db,
           [
+           ontology/1,
            ontology/2,
            ontology/3,
            import_directive/1,
@@ -235,10 +236,16 @@
 %*              ONTOLOGIES            *
 %**************************************
 
+%%  ontology(?Ontology) is nondet.
+% e.g. ontology('GO')
+:- extensional(ontology/1).
+
 %%  ontology(?Ontology,?Name,?Desc) is nondet.
+% DEPRECATED
 :- extensional(ontology/3).
 
 %% ontology(?Ontology,?Name)
+% DEPRECATED
 % see ontology/3  
 ontology(ID,N):-
         ontology(ID,N,_).

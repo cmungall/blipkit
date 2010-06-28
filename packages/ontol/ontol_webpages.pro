@@ -243,7 +243,10 @@ noresults(Ont,S) =>
          h2('Your search produced no results')]).
 
 basicrow(ID) =>
-  tr(td(hlink(ID)),
+  tr(td(if(id_idspace(ID,S),
+           then: S,
+           else: '-')),
+     td(hlink(ID)),
      td(data(X) forall_unique def(ID,X))).
 
 
@@ -479,6 +482,7 @@ pagelink('/obo/help','Help','Documentation').
 download(obo).
 download(obox).
 download(owl).
+download(owl2).
 download(chado).
 download(pro).
 download(json).
