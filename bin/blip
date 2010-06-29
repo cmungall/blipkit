@@ -1,47 +1,13 @@
-#!/usr/bin/swipl -L0 -G0 -T0 -q -g main -t halt -s
+#!/bin/sh
+PATH_TO_ME=`dirname $0`;
+if [ -z "$BLIP_PATH" ]; then
+   BLIP_PATH=$PATH_TO_ME/..;
+fi
 
-user:file_search_path(blipkit,'/opt/local/lib/swipl-5.11.1/library').
-system:program_info(package('blip','0.08')).
+SWIPL=swipl
+if [ -z `which swipl` ]; then
+  # default location on OS X
+  SWIPL=/opt/local/bin/swipl;
+fi
 
-user:file_search_path(bio, blipkit(attic)).
-user:file_search_path(bio, blipkit(biblio)).
-user:file_search_path(bio, blipkit(bionlp)).
-user:file_search_path(bio, blipkit(blipcore)).
-user:file_search_path(bio, blipkit(curation)).
-user:file_search_path(bio, blipkit(genomic)).
-user:file_search_path(bio, blipkit(homol)).
-user:file_search_path(bio, blipkit(metadata)).
-user:file_search_path(bio, blipkit(obolog)).
-user:file_search_path(bio, blipkit(omim)).
-user:file_search_path(bio, blipkit(graph)).
-user:file_search_path(bio, blipkit(ontol)).
-user:file_search_path(bio, blipkit(ontol/conf)).
-user:file_search_path(bio, blipkit(geo)).
-user:file_search_path(bio, blipkit(pheno)).
-user:file_search_path(bio, blipkit(phylo)).
-user:file_search_path(bio, blipkit(rdft)).
-user:file_search_path(bio, blipkit(sb)).
-user:file_search_path(bio, blipkit(sb/conf)).
-user:file_search_path(bio, blipkit(serval)).
-user:file_search_path(bio, blipkit(sql)).
-user:file_search_path(bio, blipkit(stats)).
-user:file_search_path(bio, blipkit(structure)).
-user:file_search_path(bio, blipkit(variation)).
-user:file_search_path(bio, blipkit(web)).
-user:file_search_path(bio, blipkit(xml)).
-
-/*
-
-  blip: main command line interface
-  
-*/
-
-:- use_module(bio(blipkit)).
-:- use_module(bio(blipkit_ontol)).
-:- use_module(bio(blipkit_phylo)).
-:- use_module(bio(blipkit_fasta)).
-:- use_module(bio(blipkit_sb)).
-:- use_module(bio(blipkit_pathway)).
-:- use_module(bio(blipkit_web)).
-
-
+$SWIPL -L0 -G0 -T0 -q -p blipkit=$BLIP_PATH/packages -p library=$BLIP_PATH/packages  -g main,halt -t halt -s $BLIP_PATH/bin/blip-main "$@"

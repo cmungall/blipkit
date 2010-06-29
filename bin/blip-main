@@ -1,7 +1,7 @@
-#!@SWIPL@ -L0 -G0 -T0 -q -g main -t halt -s
+#!/usr/bin/swipl -L0 -G0 -T0 -q -g main -t halt -s
 
-user:file_search_path(blipkit,'@PLLIBDIR@').
-system:program_info(package('@PACKAGE_TARNAME@','@PACKAGE_VERSION@')).
+system:program_info(package('blip','0.08')).
+user:prolog_file_type(pro,prolog).
 
 user:file_search_path(bio, blipkit(attic)).
 user:file_search_path(bio, blipkit(biblio)).
@@ -29,6 +29,9 @@ user:file_search_path(bio, blipkit(structure)).
 user:file_search_path(bio, blipkit(variation)).
 user:file_search_path(bio, blipkit(web)).
 user:file_search_path(bio, blipkit(xml)).
+
+:- ['/users/cjm/cvs/blipkit/etc/bioconf.pro'].
+:- ['/users/cjm/cvs/blipkit/etc/bioconf_rdf.pro'].
 
 /*
 
