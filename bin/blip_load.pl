@@ -1,12 +1,15 @@
+/* -*- Mode: Prolog -*- */
 
 % ----------------------------------------
-%  setup
+%  SETUP
 % ----------------------------------------
-%system:program_info(package('blip','0.08')).
 
 % all blip prolog files use .pro suffix
 user:prolog_file_type(pro,prolog).
 
+% setup "bio" shortcut.
+% eventually this will be deprecated and
+% library(PACKAGE/MODULE) will be used
 user:file_search_path(bio, blipkit(attic)).
 user:file_search_path(bio, blipkit(biblio)).
 user:file_search_path(bio, blipkit(bionlp)).
@@ -34,13 +37,25 @@ user:file_search_path(bio, blipkit(variation)).
 user:file_search_path(bio, blipkit(web)).
 user:file_search_path(bio, blipkit(xml)).
 
-% TODO
-:- ['/users/cjm/cvs/blipkit/etc/bioconf.pro'].
-:- ['/users/cjm/cvs/blipkit/etc/bioconf_rdf.pro'].
+% ----------------------------------------
+%  CONFIGURATION
+% ----------------------------------------
+:- (   getenv('BLIP_CONFIG', A)
+   ->  concat_atom(L,':',A),
+       forall(member(X,L),
+              consult(etc(X)))
+   ;   true).
+
+
+:- [etc(bioconf)].
+:- [etc(bioconf_rdf)].
 
 % ----------------------------------------
-%  blip: main command line interfaces
+%  PACKAGE SETUP
 % ----------------------------------------
+
+% each package has a blipkit module that defines package-specific
+% command line processing
 
 
 :- use_module(bio(blipkit)).
@@ -50,5 +65,6 @@ user:file_search_path(bio, blipkit(xml)).
 :- use_module(bio(blipkit_sb)).
 :- use_module(bio(blipkit_pathway)).
 :- use_module(bio(blipkit_web)).
+:- use_module(bio(blipkit_sql)).
 
 

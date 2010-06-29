@@ -1,2 +1,2 @@
 #!/bin/sh
-blip -r reactome/Homo_sapiens -r go pathway-viz $*
+blip -r reactome/Homo_sapiens -r go pathway-viz "$@"

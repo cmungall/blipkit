@@ -1,2 +1,3 @@
 #!/bin/sh
-blip -debug test -goal "set_test_options([silent(false)]),run_tests" -u $*
+
+blip -debug test -goal "set_test_options([silent(false)]),run_tests" -u "$@"
