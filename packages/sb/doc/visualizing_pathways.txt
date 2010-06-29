@@ -1,0 +1,12 @@
+
+==
+alias reactome='blip -r reactome/Homo_sapiens -r go pathway-viz'
+==
+
+Wnt signaling:
+
+==
+reactome -n 'Signaling by Wnt' -to display -diagram "event([role(catalyst),nestp])"
+==
+
+See <img src="wnt.png"/>
