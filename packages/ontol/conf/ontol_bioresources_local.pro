@@ -8,6 +8,10 @@
 
 :- multifile bioresource/2,bioresource/3,bioresource/4.
 
+user:file_search_path(home, Home) :-
+	getenv('HOME',Home).
+
+
 % assume that there is a common root directory
 % in which all ontologies are checked out from
 % cvs/svn/git.
