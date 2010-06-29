@@ -1,6 +1,10 @@
 #!/usr/bin/swipl -L0 -G0 -T0 -q -g main -t halt -s
 
-system:program_info(package('blip','0.08')).
+% ----------------------------------------
+%  setup
+% ----------------------------------------
+%system:program_info(package('blip','0.08')).
+
 user:prolog_file_type(pro,prolog).
 
 user:file_search_path(bio, blipkit(attic)).
@@ -30,14 +34,14 @@ user:file_search_path(bio, blipkit(variation)).
 user:file_search_path(bio, blipkit(web)).
 user:file_search_path(bio, blipkit(xml)).
 
+% TODO
 :- ['/users/cjm/cvs/blipkit/etc/bioconf.pro'].
 :- ['/users/cjm/cvs/blipkit/etc/bioconf_rdf.pro'].
 
-/*
+% ----------------------------------------
+%  blip: main command line interfaces
+% ----------------------------------------
 
-  blip: main command line interface
-  
-*/
 
 :- use_module(bio(blipkit)).
 :- use_module(bio(blipkit_ontol)).
