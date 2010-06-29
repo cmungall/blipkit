@@ -20,12 +20,9 @@ scripts in the bin directory.
 
 ---+ Prerequisites
 
-SWI-Prolog; tested on 5.7.x
+SWI-Prolog. 5.10.x or higher recommended.
 
 http://www.swi-prolog.org/
-
-You are recommended to use the the latest version, in the 5.7.x
-series. 5.6.x may suffice for most purposes though.
 
 If you are installing from source you should build all packages. In
 particular:
