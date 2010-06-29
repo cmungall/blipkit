@@ -37,6 +37,9 @@ user:file_search_path(bio, blipkit(variation)).
 user:file_search_path(bio, blipkit(web)).
 user:file_search_path(bio, blipkit(xml)).
 
+% APPS:
+user:file_search_path(bio, blipkit(obol)).
+
 % ----------------------------------------
 %  CONFIGURATION
 % ----------------------------------------
