@@ -81,8 +81,6 @@ tools/run-test: tools/run-test.in
 	./config.status --file $@ && chmod +x $@
 bin/serval: bin/serval.in
 	./config.status --file $@ && chmod +x $@
-bin/blip: bin/blip.in
-	./config.status --file $@ && chmod +x $@
 bin/blip-sql: bin/blip-sql.in
 	./config.status --file $@ && chmod +x $@
 bin/blip-std: bin/blip-std.in

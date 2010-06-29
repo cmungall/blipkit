@@ -1,10 +1,10 @@
-#!/usr/bin/swipl -L0 -G0 -T0 -q -g main -t halt -s
 
 % ----------------------------------------
 %  setup
 % ----------------------------------------
 %system:program_info(package('blip','0.08')).
 
+% all blip prolog files use .pro suffix
 user:prolog_file_type(pro,prolog).
 
 user:file_search_path(bio, blipkit(attic)).
