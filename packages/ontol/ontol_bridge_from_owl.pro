@@ -11,7 +11,6 @@
 :- use_module(bio(rdf_id_util),[rdfid_oboid/2]).
 :- use_module(bio(mode)).
 :- use_module(bio(bioprolog_util),[solutions/3]).
-:- use_module(triple20(owl)).   % ? just use direct rdf? owl_direct_subclass_of
 :- use_module(library('semweb/rdf_db')).
 :- use_module(library('semweb/rdfs')).
 

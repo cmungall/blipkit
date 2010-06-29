@@ -163,8 +163,11 @@ die(M):-
 	   '~nERROR: ~w~n[program terminated with error]~n',[M]),
     halt(1).
 
+% trust unless specified otherwise.
+% generally trusted_user(false) this would be asserted in a wrapper script to
+% be executed via the web
 trust_current_user:-
-        user:trusted_user(true),
+        %user:trusted_user(true),
         forall(user:trusted_user(True),
                True=true).
 

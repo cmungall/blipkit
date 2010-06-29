@@ -670,6 +670,8 @@ user:opt_insecure(query).
          bool([stem],Stem),
          atom([queryfile,qf],TokensFile),
          atom(query,OntolQueryAtom),
+         atom(mireot,Mireot),
+         atom(mireot_ext,MireotExt),
          atom([to,t],OutFmt,textnl),
          bool(showsyns,WithSynonyms),
          bool(showcomments,WithComments),
@@ -719,19 +721,9 @@ user:opt_insecure(query).
             ;   nonvar(OntolQueryAtom)
             ->  atom_to_term(OntolQueryAtom,OntolQuery,Bindings),
                 member('ID'=ID,Bindings),
-		debug(blip,'Query=~w',OntolQuery),
-                solutions(ID,OntolQuery,QIDs),
-                forall(member(ID,QIDs),
-		       (   class(ID)
-                       ->  write_class(OutFmt,ID,Opts)
-                       ;   inst(ID)
-		       ->  write_instance(OutFmt,ID,Opts)
-		       ;   true)),
-                (   OutFmt=obo
-                ->  solutions(R,(member(ID,QIDs),restriction(ID,R,_),property(R)),Rs),
-                    forall(member(R,Rs),
-                           write_property(OutFmt,R))
-                ;   true)
+                ontol_run_query(OntolQuery,ID,OutFmt,Opts)
+            ;   nonvar(Mireot)
+            ->  ontol_run_query(idspace_mireot(Mireot,ID,MireotExt),ID,OutFmt,Opts)
             ;   (   IDs=[]
                 ->  format(user_error,'::Query ~w~n',[QueryNames]),
                     solutions(ID,(member(QueryName,QueryNames),matching_class(ID,QueryName,Opts)),MatchingIDs)
@@ -744,7 +736,23 @@ user:opt_insecure(query).
                            write_property(OutFmt,R))
                 ;   true)
             ))).
-        
+
+ontol_run_query(OntolQuery,ID,OutFmt,Opts) :-
+        debug(blip,'Query=~w',OntolQuery),
+        solutions(ID,OntolQuery,QIDs),
+        forall(member(ID,QIDs),
+               (   class(ID)
+               ->  write_class(OutFmt,ID,Opts)
+               ;   inst(ID)
+               ->  write_instance(OutFmt,ID,Opts)
+               ;   true)),
+        % write all referenced properties (if obof)
+        (   OutFmt=obo
+        ->  solutions(R,(member(ID,QIDs),parent(ID,R1,_),property(R1),subclassRT(R1,R)),Rs),
+            forall(member(R,Rs),
+                   write_property(OutFmt,R))
+        ;   true).
+
 ontol_query_from_tokens_file(File,OutFmt,Opts):-
         format(user_error,'Reading File: ~w~n',[File]),
         open(File,read,IO),

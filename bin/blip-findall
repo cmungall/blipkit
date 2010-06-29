@@ -1,2 +1,2 @@
 #!/bin/sh
-blip -u ontol_db -u metadata_db -u pathway_db findall $*
+blip -u ontol_db -u metadata_db -u pathway_db findall "$@"

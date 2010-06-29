@@ -216,7 +216,7 @@ ontology_query(Ont,Query,Results) =>
         [h1(hlink(Ont),' query'),
          div(class=queryForm,
              form(p('Query:'),textarea(name=query,rows=10,cols=64,[Query]),
-                  p('Select:'),textarea(name=select,rows=1,cols=32,[]),
+                  p('Select:'),input(type=textfield,name=select,cols=32,[]),
                   input(name=submit,type=submit,value=query))),
          div(class=queryOutput,
              h3('Query results:'),

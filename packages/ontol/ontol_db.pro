@@ -142,6 +142,8 @@
            parentRT/4,
 	   idspace_references/2,
 	   idspace_references_reflexive/2,
+           idspace_mireot/2,
+           idspace_mireot/3,
 	   bf_parentRT/2,
 	   bf_set_parentRT/2,
 	   strict_subclass/2,
@@ -620,6 +622,20 @@ idspace_references_reflexive(S,Ref) :-
 idspace_references_reflexive(S,Ref) :-
 	class(Ref),
 	id_idspace(Ref,S).
+
+idspace_mireot(SX,Ref) :-
+        idspace_mireot(SX,Ref,_).
+idspace_mireot(SX,Ref,SY) :-
+	solutions(X,(class(X),
+                     id_idspace(X,SX),
+                     parent(X,Y),
+                     id_idspace(Y,SY),
+                     SY\=SX),
+                  Xs),
+	member(X,Xs),
+        bf_parentRT(X,Ref).
+
+
 
 
 %% bf_parentRT(?ID,?PID)

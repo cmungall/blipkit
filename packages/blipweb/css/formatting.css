@@ -185,6 +185,8 @@ table .gp-sym { font-weight: bold; }
 
 .evCode { color: #4D2797; font-weight: bold; }
 
+textfield { border: 1px solid #666; }
+
 th.input { width: 1.5em; }
 
 th.ontCol { width: 10em; }

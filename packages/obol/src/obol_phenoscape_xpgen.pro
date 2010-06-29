@@ -16,7 +16,7 @@ term_textdef(P) --> def(phenotype(P)).
 
 anat_tax(A that 'PHENOSCAPE:in_taxon'(T)) --> taxon(T),anatomical_continuant(A).
 
-
+anatomical_continuant(A) --> terminal(A),{id_idspace(A,'TAO')}.
 gross_anatomical5(T) --> taxon(T).
 taxon(T) --> terminal(T),{id_idspace(T,'TTO')}.
 

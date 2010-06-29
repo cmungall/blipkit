@@ -102,10 +102,29 @@ owl2_model:subClassOf(UA,UB) :-
 	uri_oboid(UA,A),uri_oboid(UB,B),
         subclass(A,B),
         class(A).
+
 owl2_model:subClassOf(UA,Expr):-
 	uri_oboid(UA,A),
 	restriction(A,P,B),
 	pval_expr(P,B,Expr).
+
+% class level symmetry at axiom level
+% TODO: decide whether to keep this.
+owl2_model:subClassOf(UB,someValuesFrom(UP,UA)):-
+	uri_oboid(UA,A),
+	restriction(A,P,B),
+        is_class_level(P),
+        is_symmetric(P),
+	pval_expr(P,B,Expr),
+        Expr=someValuesFrom(UP,UB).
+owl2_model:subClassOf(UB,hasValue(UP,UA)):-
+	uri_oboid(UA,A),
+	restriction(A,P,B),
+        is_class_level(P),
+        is_symmetric(P),
+	pval_expr(P,B,Expr),
+        Expr=hasValue(UP,UB).
+
 
 owl2_model:equivalentClasses([UA,UB]) :-
 	uri_oboid(UA,A),

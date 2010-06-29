@@ -404,6 +404,7 @@ stanza(ID,StanzaType) =>
    tagnodenl(consider(ID,X),consider,X) forall_unfiltered entity_consider(ID,X),
    booltag(is_anonymous) where is_anonymous(ID),
    booltag(is_metadata_tag) where is_metadata_tag(ID),
+   booltag(is_class_level) where is_class_level(ID),
    booltag(is_transitive) where is_transitive(ID),
    booltag(is_reflexive) where is_reflexive(ID),
    booltag(is_symmetric) where is_symmetric(ID),

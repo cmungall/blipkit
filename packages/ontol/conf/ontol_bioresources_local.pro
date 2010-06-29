@@ -226,6 +226,7 @@ user:bioresource(bila,X,obo):-
 user:bioresource(amphibian_anatomy,X,obo):- bioresource(obo(amphibian_anatomy),X,obo).
 user:bioresource(uberon,uberon('uberon_edit.obo'),obo).
 user:bioresource(uberonp,uberon('uberon.obo'),obo).
+user:bioresource(uber_anatomy,uberon('uberon.obo'),obo).
 user:bioresource(uberon_with_isa,uberon('uberon_edit-with-isa.obo'),obo).
 user:bioresource(uberonp_with_isa,uberon('uberon-with-isa.obo'),obo).
 user:bioresource(fma_xp,uberon('fma_xp.obo'),obo).
