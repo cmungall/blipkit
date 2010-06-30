@@ -3,10 +3,16 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 user:trusted_user(false).
+user:file_search_path(home,'/tmp').
 user:file_search_path(data_cache,'/tmp/.blip/data_cache').
 user:file_search_path(path_to_wget,'/opt/local/bin').
 user:file_search_path(path_to_dot,'/opt/local/bin').
 user:file_search_path(obo_metadata_local, 'http://obo.cvs.sourceforge.net/viewvc/*checkout*/obo/obo/website/cgi-bin/').
+
+%% This is required to run anything using Thea2 (e.g. owl2 conversion in ontol_rest)
+% TODO: use git submodules intsead!!
+user:file_search_path(library,'/users/cjm/cvs/').
+
 
 user:max_cached_file_age_seconds(MaxAge):- MaxAge is 3600 * 100. % ~4 days
 
@@ -15,13 +21,13 @@ user:max_cached_file_age_seconds(MaxAge):- MaxAge is 3600 * 100. % ~4 days
 user:prolog_file_type(pro,prolog). % -- blip style
 %user:prolog_file_type('P',prolog). % -- XSB style
 
-user:file_search_path(blip_apps,home('cvs/bioprolog/apps')).
+%user:file_search_path(blip_apps,home('cvs/bioprolog/apps')).
 
 user:file_search_path(amigo,blip_apps(amigo)).
 user:file_search_path(amigo_src,amigo(src)).
 
-user:file_search_path(obo,home('cvs/obo/ontology')).
-user:file_search_path(data,home('Data')).
+%user:file_search_path(obo,home('cvs/obo/ontology')).
+%user:file_search_path(data,home('Data')).
 
 :- discontiguous user:bioresource/2, user:bioresource/3, user:bioresource/4.
 
@@ -34,7 +40,7 @@ user:bioresource(rdb(wn),odbc_connect(wn,[user(cjm),alias(wn),open(once)]),wn).
 
 % --Base Ontologies--
 %   these must be loaded when reasoning over OWL ontologies
-user:file_search_path(triple20_base,home('cvs/Triple20/Ontologies/Base')).
+%user:file_search_path(triple20_base,home('cvs/Triple20/Ontologies/Base')).
 user:bioresource(owl,triple20_base('rdfs.rdfs'),rdfs).
 user:bioresource(rdfs,triple20_base('owl.owl'),owl).
 

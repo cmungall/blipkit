@@ -20,9 +20,8 @@ user:file_search_path(home, Home) :-
 user:file_search_path(local, Path) :-
 	(   getenv('BLIP_LOCAL', Path)
 	->  true
-	;   getenv('HOME',HOME)
-	->  concat_atom([HOME,'/','cvs'],Path)
-	;   throw(error('Must have HOME env var set'))).
+	;   getenv('HOME',HOME),
+            concat_atom([HOME,'/','cvs'],Path)).
 
 % ----------------------------------------
 % GO
