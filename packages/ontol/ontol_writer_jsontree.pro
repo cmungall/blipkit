@@ -25,6 +25,8 @@ node_json(ID,json([id=ID,name=Name,children=Children])):-
 	entity_label(ID,Name),
 	findall(json(['_reference'=C]),subclass(C,ID),Children).
 
+
+
 edges_to_jsontree_atom(Edges,A,Opts):-
 	edges_to_jsontree(Edges,JSON,Opts),
 	atom_json_term(A,JSON,[as(atom)]).
@@ -51,6 +53,8 @@ node_attr(ID,Edges,isRoot=true):-
 
 node_attr(ID,_,definition=Def):-	def(ID,Def).
 node_attr(ID,_Edges,link=json([relation=R,target=T])):-	restriction(ID,R,T).
+node_attr(ID,_,synonyms=L) :-
+        setof(X,entity_synonym(ID,X),L).
 
 
 /** <module>

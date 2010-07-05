@@ -756,6 +756,8 @@ redirect_stdout(_):- fail.
 %    * tbl
 %        tab delimited fact files - first column is predicate/relation
 %        name, subsequence columns are argument values
+%    * txt
+%        tab delimited fact files - filename is used as predicate/relation
 %    * summary
 %        summary of db contents (written in prolog syntax)
 %    * chadoxml

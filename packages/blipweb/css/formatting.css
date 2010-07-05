@@ -84,6 +84,31 @@ p.toTop a:hover, p.toTop a:active { background: #3875D7; color: #fff; }
 .filters dt { font-weight: bold; }
 .filters dd { font-size: 90%; }
 
+.treetbl_left { 
+    width: 40%;
+    white-space: nowrap;
+
+}
+
+.xxtreetbl_right { 
+    position: absolute;
+    left: 50%;
+    font-size: 75%;
+}
+
+.treetbl_right { 
+    float: right; 
+    font-size: 75%;
+}
+
+.treetbl li { 
+    line-style:none;
+    width:240px;
+    height:20px;
+    padding:10px;
+    float:left;
+}
+
 .treeview ul { list-style: none; padding: 0; margin: 0; line-height: 1.5; }
 
 .treeview li { margin: 0.1em 0; /* border: 1px solid green; */ }

@@ -1,4 +1,5 @@
 :- module(web_search_expander,[
+                               create_search_url/3,
                                replace_search_term_atom/2,
                                replace_search_term_atom/3,
                                create_search_term_atom/3,
@@ -7,6 +8,8 @@
 :- use_module(bio(ontol_db)).
 :- use_module(bio(bioprolog_util)).
 :- use_module(bio(metadata_db)).
+:- use_module(library(url)).
+
 
 /**
 
@@ -45,23 +48,43 @@ replace_search_term_atom(Label,Service,TermAtom):-
         entity_label_or_synonym(ID,Label), % TODO - all
         create_search_term_atom(ID,Service,TermAtom).
 
+create_search_url(ID,pubmed,URL) :-
+        create_search_term_atom(ID,pubmed,A),
+        www_form_encode(A,AE),
+        concat_atom(['http://www.ncbi.nlm.nih.gov/pubmed?term=',AE],URL).
+create_search_url(ID,google,URL) :-
+        create_search_term_atom(ID,google,A),
+        www_form_encode(A,AE),
+        concat_atom(['http://www.google.com/search?q=',AE],URL).
+create_search_url(ID,yahoo,URL) :-
+        create_search_term_atom(ID,google,A),
+        www_form_encode(A,AE),
+        concat_atom(['http://search.yahoo.com/search?p=',AE],URL).
+
 create_search_term_atom(ID,TermAtom):-
         create_search_term_atom(ID,google,TermAtom).
 
 create_search_term_atom(ID,pubmed,TermAtom):-
+        !,
         create_search_term_list(ID,Terms),
         maplist(webquote,Terms,QuotedTerms),
         maplist(add_suffix('[All Fields]'),QuotedTerms,SuffixedTerms),
         concat_atom(SuffixedTerms,' OR ',TermAtom1),
         sformat(TermAtom,'(~w)',[TermAtom1]).
 
-create_search_term_atom(ID,_,TermAtom):-
+create_search_term_atom(ID,google,TermAtom):-
+        !,
         create_search_term_list(ID,Terms),
         maplist(webquote,Terms,QuotedTerms),
         concat_atom(QuotedTerms,' OR ',TermAtom).
 
+create_search_term_atom(ID,_,TermAtom):-
+        create_search_term_atom(ID,google,TermAtom). % default
+
+
 create_search_term_list(ID,Terms):-
         solutions(Term,(subclassRT(CID,ID),entity_label_or_synonym(CID,Term)),AllTerms),
+        % extract non-redundant subset
         solutions(Term,(member(Term,AllTerms),has_no_substring_in(Term,AllTerms)),Terms).
 
 webquote(A,AQ):-

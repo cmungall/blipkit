@@ -35,3 +35,4 @@ user:bioresource(obo_download(N),obo_download(Path),obo):- nonvar(N),concat_atom
 user:bioresource(obo(N),url(Path),obo):- nonvar(N),concat_atom(['http://purl.org/obo/obo-all/',N,'/',N,'.obo'],Path).
 user:bioresource(obo2(N),url(Path),obo):- nonvar(N),concat_atom(['http://purl.org/obo/obo/',N,'.obo'],Path).
 user:bioresource(obop(N),url(Path),ontol_db:pro):- nonvar(N),concat_atom(['http://purl.org/obo/obo-all/',N,'/',N,'.pro'],Path).
+user:bioresource(owl2(N),url(Path),thea2_owl):- nonvar(N),concat_atom(['http://purl.org/obo/obo-all/',N,'.owl2'],Path).

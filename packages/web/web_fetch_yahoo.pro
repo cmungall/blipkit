@@ -1,8 +1,5 @@
 /* -*- Mode: Prolog -*- */
 
-
-
-
 :- module(web_fetch_yahoo,[
                             web_search_yahoo/3
                             ]).
@@ -56,6 +53,7 @@ unittest(test(yahoo,
                  forall(member(Result,Results),
                         format(' ~w~n~n',[Result]))),
             true)).
+
 /** <module>
   @author Chris Mungall
   @version  $Revision: 1.4 $

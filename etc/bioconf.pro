@@ -147,6 +147,9 @@ user:bioresource(taxonomy_stemmed,ontdir('ncbi_taxonomy_stemmed.obo'),obo).
 user:bioresource(gotax,'/users/cjm/cvs/go/quality_control/annotation_checks/taxon_checks/taxon_go_triggers.obo',obo).
 user:bioresource(taxslim,'/users/cjm/cvs/go/quality_control/annotation_checks/taxon_checks/ncbi_taxon_slim.obo',obo).
 
+user:bioresource(gwas,url('http://www.genome.gov/admin/gwascatalog.txt'),tbl(gwas)).
+
+
 user:bioresource(gi_taxid_nucl,home('Data/NCBI/gi_taxid_nucl.dmp.gz'),gzip(gi_taxid)).
 
 user:bioresource(shape,url('http://www.aimatshape.net/resources/aas-ontologies/shapecommonontology.owl'),owl).

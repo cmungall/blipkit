@@ -87,6 +87,7 @@ entity_info(ID) =>
 	    tdpair(hlink(R),hlink(X)) forall_unique restriction(ID,R,X),                     
 	    ''),
       class_children(ID),
+      meta_search_button(ID),
       div(id=what_links_here,
 	  call(id_url(ID,revlinks,RevURL)),
 	  call(sformat(JS,'JavaScript:replaceContents(document.getElementById(\'what_links_here\'),\'~w\');',[RevURL])),
@@ -98,10 +99,19 @@ entity_info(ID) =>
   images_box(ID),
   wikipedia_info(ID,X) forall_unique id_wikipage(ID,X).
 
+meta_search_button(ID) =>
+ div(id=meta_search,
+     call(id_url(ID,meta_search,SearchURL)),
+     call(sformat(SearchJS,'JavaScript:replaceContents(document.getElementById(\'meta_search\'),\'~w\');',[SearchURL])),
+     html:input(type=button,
+                onClick=SearchJS,
+                value='Meta-Search')).
+
 multirow(Col,Val,Goal,Var,List) =>
  tr(th(Col),
     td([Val] forall_unique [html:p]/Goal) forall member(Var,List)).
 
+% show multiple IDs together
 multiple(IDs) =>
  outer(IDs,
        span(downloadbar(IDs),       
@@ -185,6 +195,7 @@ gdrow(ID) =>
      td(hlink(X1))),
   tr(td(''),td(''),td(hlink(R)),td(hlink(X))) forall_unique member(R-X,DiffsRest).
 
+
 basic_search_form =>
   getparam(search_term,Val,''),
   form(input(type=textfield,
@@ -249,6 +260,57 @@ basicrow(ID) =>
      td(hlink(ID)),
      td(data(X) forall_unique def(ID,X))).
 
+ontology_browsable_tree(S) =>
+  outer(['Browse: ',S],
+        div(h2(hlink(S)),
+            div(class=treeview,
+                ul(browser_node(ID) forall (class(ID),id_idspace(ID,S),
+                                            \+((subclass(ID,P),id_idspace(P,S)))))))).
+
+
+
+browser_node(ID) =>
+  call(sformat(OpenEltID,'open-~w',[ID])),
+  call(id_url(open_node/ID,OpenURL)),
+  call(sformat(JS,'JavaScript:replaceContents(document.getElementById(\'~w\'),\'~w\');',[OpenEltID,OpenURL])),
+  li(id=OpenEltID,
+     span(class=treetbl_left,
+          if(subclass(_,ID),
+             then: [html:input(type=image,
+                               onClick=JS,
+                               src='http://amigo.berkeleybop.org/amigo/images/plus.png',
+                               alt=open)
+                   ],
+             else: [img(src='http://amigo.berkeleybop.org/amigo/images/dot.png')]
+            ),
+          hlink(ID)),
+     browser_node_info(ID)).
+
+% in-line replacement of a node
+browser_open_node(ID) =>
+  call(sformat(CloseEltID,'open-~w',[ID])),
+  call(id_url(open_node/ID,CloseURL)),
+  % TODO: close
+  call(sformat(_JS,'JavaScript:replaceContents(document.getElementById(\'~w\'),\'~w\');',[CloseEltID,CloseURL])),
+  li(span(id=CloseEltID,
+          span(class=treetbl_left,
+               img(src='http://amigo.berkeleybop.org/amigo/images/minus.gif'),
+               hlink(ID)),
+          browser_node_info(ID),
+          ul(browser_node(Y) forall (subclass(Y,ID))))).
+
+browser_node_info(ID) =>
+  span(class=treetbl_right,
+       data(X) where def(ID,X)).
+
+
+ontology_entry(S) =>
+  outer(['Ontology ',S],
+        div(h2(hlink(S)),
+            basic_search_form,
+            table(tr(td('Browse this ontology'),td(hlink([tree,S]))),
+                  tr(td('View all classes'),td(hlink([ontology,S]))),
+                  tr(td('Get metadata'),td(hlink([metadata,S])))))).
 
 ontology_table(S) =>
   outer(['IDSpace ',S],
@@ -310,6 +372,13 @@ ontology_metadata(S) =>
                ntdpair([pagelink([relationships,S,R],R),' relationships'], N) forall_unique ((R=subclass;property(R)),setof_count(X-Y,parent(X,R,Y),N)))
         ]).
 
+meta_search_urls_table(Pairs) =>
+  div(id=meta_search_results,
+      p('Search various websites using ontology-expanded URL'),
+      table(class='tagval_table',
+        tr(th('Site/Engine'),th('URL')),
+        tr(td(Engine),td(a(href=URL,data(URL)))) forall member(Engine-URL,Pairs))).
+
 what_links_here_table(ID) =>
   table(class='tagval_table',
 
@@ -350,6 +419,8 @@ revlink(Prop,Val,Goal) =>
      th(Prop),
      th('"'),
      td(hlink(Source)) forall_unique fact_clausesource(Goal,Source))
+%        ' ',
+%        hlink(Val,Source)) forall_unique fact_clausesource(Goal,Source))
   forall_unique Goal.
 
 fwdlink(ID,Prop,Val,Goal) =>
@@ -369,7 +440,7 @@ wikipedia_info(_ID,Page) =>
  div(id=wikipedia,
      h3('Wikipedia'),a(href=EditURL,'Edit wikipedia entry'),html:br,
      div(id=wpData,class=controlTabContent,
-	 noesc(Body) forall (        format(user_error,'Fetching ~w~n',[Page]),
+	 noesc(Body) forall (        %format(user_error,'Fetching ~w~n',[Page]),
 				     web_search_wikipedia(Page,Results,[]),
 				     member(Body,Results))),
      noesc('<!-- The code to extract wikipedia entries was kindly provided by the Rfam group -->')).
@@ -381,15 +452,21 @@ images_box(ID) =>
 graphimg(ID) =>
  graphimg(ID,floatR).
 
+class_imgurl(ID,Hidden,ImgURL) :-
+        sformat(ImgURL,'/obo/~w.png?~w',[ID,Hidden]).
+
+embedded_graph_img(ID,Hidden) =>
+ call(class_imgurl(ID,Hidden,ImgURL)),
+ img(id=main_img,
+     src=ImgURL).
+       
 graphimg(ID,CssClass) =>
  in(Params,call(params_hidden(Params,Hidden))),
- call(sformat(ImgUrl,'/obo/~w.png?~w',[ID,Hidden])),
  %call(sformat(ImgUrlAll,'/obo/~w.png?rel=all',[ID])),
  call(solutions(R,restriction(_,R,_),Rs)),
  in(Params,call(params_drels_crels(Params,DRels,CRels))),
-    span(class=CssClass,
-      img(id=main_img,
-          src=ImgUrl),
+ span(class=CssClass,
+      embedded_graph_img(ID,Hidden),
       html:br,
       a(id=imgform_toggler,
         href='#',
@@ -412,9 +489,7 @@ graphimg(ID,CssClass) =>
            call(sformat(JSAll,'JavaScript:fetch_graph_image_all_relations(\'~w\');',ImgUrl)),
            html:input(type=button,
                       onClick=JSAll,
-                      value='Show All'))
-           %a(href=ImgURLAll,'Show all'))
-     ).
+                      value='Show All'))).
 
 class_parents(ID) =>
   ul(li(hlink(R),' ',hlink(X)) forall_unique parent(ID,R,X)).
@@ -427,6 +502,10 @@ pagelink(L,N) =>
           id_params_url(X,Params,URL))),
      a(href=URL,N)]).
 
+hlink([X|L]) =>
+ call(concat_atom([X|L],'/',A)),
+ hlink(A).
+  
 hlink(X) =>
  if(parse_id_idspace(X,'Image',Local),
     then:a(href=Local,img(height=80,src=Local)),
@@ -460,8 +539,108 @@ hlinklist(Xs,Title) =>
 
 help_page =>
  outer('OBO Browser Documentation',
-       div(h2('OBO Browser Documentation'),
-           p('This is an experimental browser for OBO ontologies'))).
+       div(div(h2('OBO Browser'),
+               p('This is an experimental browser for OBO ontologies')),
+           div(h3('Page URLs'),
+               p('Each ontology class has its own page, with a URL of the form',
+                 html:code('http://berkeleybop.org/obo/',b('[OBO-ID]')),
+                 'For example:',
+                 ul(li(hlink('FBbt:00005106'),' -- neuron, in fly anatomy'),
+                    li(hlink('FMA:7088'),' -- heart, in FMA'))),
+               p('You can also use the primary label as the ID, for example: ',
+                 hlink('CL:neuron'),' -- neuron, in CL')),
+           div(h3('Graph Views'),
+
+               p('A graph view is shown for each class. The default
+               behavior is to show the closure of the subclass
+               relation. For some ontologies the defauly behavior is
+               different. For example, many anatomy ontologies will by
+               default show the partonomy and the ontogeny (develops
+               from relations). Ontologies that follow strict single
+               isa inheritance (such as the FMA), the default behavior
+               may be to show subclass relationships via
+               ',i(containment),' -- this can be seen for example with
+               the FMA class "Heart" (shown)', embedded_graph_img('FMA:7088',_)),
+
+              p('In all cases the default behavior can be overridden
+              by clicking on the ',i('graph config panel'),' which
+              allows the display of additional relations, and the
+              selection of a containment relation. Note that behavior
+              is undefined when a multiple parentage relation is
+              selected for containment')),
+
+          div(h3('Wikipedia Integration'),
+
+              p('If an ontology has wikipedia cross-references
+              (e.g. GO, UBERON), then the wikipedia page will be
+              embedded in the OBO page. See for example ',hlink('UBERON:0001474'))),
+
+          div(h3('Alternative downloads'),
+
+              p('A number of download options are available, including
+              obo, owl and owl2 (the latter uses the new
+              purl.obolibrary.org URI scheme, and IAO for ontology
+              metadata). The default approach is to perform the
+              subclass closure, but this can be overridden by
+              appending "?rel=<REL>" to the URL, or "?rel=all" for all
+              relations. In future there will be a more intuitive
+              interface for this. Some examples follow:'),
+
+             ul(li(hlink('CL:0000540.owl2?rel=all'),' -- neuron in OWL, with all relations followed'),
+                li(hlink('CL:0000540.obo?rel=all'),' -- the same in obo'))),
+
+          div(h3('Multiple class view'),
+
+              p('It is possible to view multiple classes together
+               using URLs such as ',hlink('CL:0000084+CL:0000236')),
+
+             p('This is also possible for classes in different
+              ontologies. For example:
+              ',hlink('UBERON:0000019+ZFA:0000107+MA:0000261')),
+
+             p('URLs such as this are constructed automatically as
+              links from xrefs. See for example any Uberon page (e.g. ',hlink('UBERON:eye'),').'),
+          
+             p('Eye in Uberon, ZFA and MA:',embedded_graph_img('ZFA:0000107+MA:0000261+UBERON:0000019.png?rel=part_of',_))),
+           
+           div(h3('Meta-search'),
+
+               p('Allows search of google, pubmed and in future other
+               resources using ontology-based term
+               expansion. Currently only subclass relationships are
+               used')),
+
+           div(h3('What links here?'),
+
+               p('One of the goals of the OBO Foundry is to have all
+               ontologies integrated, interoperable and
+               interconnected. Clicking this button will show classes
+               in external ontologies that reference this one. Logical
+               definition bridge files are also searched here.'),
+
+              p('See for example ',hlink('MP:0000100?import=MP_XP'),'
+              -- abnormal ethmoidal bone morphology, with logical definitions from PATO and MA loaded')),
+          
+          div(h3('Ontology metadata'),
+              p('See for example: ',hlink('metadata/CARO'))),
+
+          div(h3('Ontology search'),
+
+              p('See for example: ',hlink('CARO'),' and type in a
+              search term to the text box. Search is currently quite
+              primitive. You can also use the OBO firefox plugin or
+              search via URLs such as ',
+              a(href='http://amigo.berkeleybop.org/cgi-bin/obo/stoc?query=ethmoid','this
+              one'))),
+          
+          div(h3('Advanced queries'),
+
+              p('Advanced prolog queries can be executed from the query page for each ontology. E.g. ',
+              hlink('query/FBbt'),' -- see blipkit ontol_db module for details.'),
+              p('In future DL queries and Thea POPL transformations will be possible')),
+
+           html:hr)).
+
 
 javascript('http://yui.yahooapis.com/2.3.1/build/yahoo-dom-event/yahoo-dom-event.js').
 javascript('http://amigo.geneontology.org/amigo/js/all.js').

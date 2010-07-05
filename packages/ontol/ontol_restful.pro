@@ -33,6 +33,7 @@ idspace_confmod('MA',ontol_config_ma).
 idspace_confmod('SO',ontol_config_so).
 idspace_confmod('GAZ',ontol_config_gaz).
 idspace_confmod('UBERON',ontol_config_uberon).
+idspace_confmod('OBI',ontol_config_obi).
 idspace_confmod('FBdv',ontol_config_fbdv).
 idspace_confmod('ZFA',ontol_config_zfa).
 idspace_confmod('XAO',ontol_config_xao).
@@ -144,8 +145,9 @@ params_drels_crels(Params,AllRels,CRels) :-
 params_drels_crels1(Params,AllRels,CRels) :-
         \+ member(rel=_,Params),
         \+ member(cr=_,Params),
+        debug(ontol_rest,' Fetching config display parameters',[]),
         setof(R,user:graphviz_ontol_param(display_relation(Ont),R),AllRels),
-        setof(R,user:graphviz_ontol_param(containment_relation(Ont),R),CRels),
+        solutions(R,user:graphviz_ontol_param(containment_relation(Ont),R),CRels),
         debug(ontol_rest,' Using display params for ~w : ~w & ~w',[Ont,AllRels,CRels]),
 	% avoid combining multiple display relations from multiple configs
         \+ ((user:graphviz_ontol_param(display_relation(Ont2),_),Ont2\=Ont)),
@@ -269,8 +271,9 @@ ontol_page_actual([Last],Params):-
 ontol_page_actual([S],Params):-
         concat_atom([_],':',S),
         !,
-        ontol_page_actual([ontology,S],Params).
+        ontol_page_actual([ontology_entry,S],Params).
 
+% multiple IDs can be specified A+B+...+Z
 ontol_page_actual([IDListAtom],Params):-
 	listatom_ids(IDListAtom,IDs),
 	!,
@@ -368,6 +371,26 @@ ontol_page_actual([revlinks,ID],Params):-
         preload_revlinks(ID,Params),
         emit_page(what_links_here_table(ID),Params).
 
+ontol_page_actual([meta_search,ID],Params):-
+        ensure_loaded(bio(web_search_expander)),
+        debug(ontol_rest,'metasearch ~w',[ID]),
+        emit_content_type('text/html'),
+        preload(ID,Params),
+        findall(Type-URL,
+                create_search_url(ID,Type,URL),
+                Pairs),
+        emit_page(meta_search_urls_table(Pairs),Params).
+
+ontol_page_actual([ontology_entry,ID],Params):-
+        emit_content_type('text/html'),
+        debug(ontol_rest,'ontology entry ~w',[ID]),
+        (   member(search_term=S,Params),
+            preload_ont(ID,Params)
+        ->  (   searchterm_entities(S,L)
+            ->  emit_page(ontology_filtered(ID,S,L),Params)
+            ;   emit_page(noresults(ID,S),Params))
+        ;   emit_page(ontology_entry(ID),Params)).
+
 ontol_page_actual([ontology,ID],Params):-
         emit_content_type('text/html'),
         preload_ont(ID,Params),
@@ -381,6 +404,30 @@ ontol_page_actual([ontology_table,ID],Params):-
         emit_content_type('text/html'),
         preload_ont(ID,Params),
         emit_page(ontology_table(ID),Params).
+
+ontol_page_actual([new,Local],Params):-
+        concat_atom([S|T],'_',Local),
+        concat_atom(T,'_',NewLocal),
+        concat_atom([S,NewLocal],':',ID),
+        ontol_page_actual([ID],Params).
+
+ontol_page_actual([metadata,ID],Params):-
+        emit_content_type('text/html'),
+        preload_ont(ID,Params),
+        %load_bioresource(obo_meta),
+        load_bioresource(obo_meta_xp),
+        emit_page(ontology_metadata(ID),Params).
+
+ontol_page_actual([tree,Ont],Params):-
+        debug(ontol_rest,' params=~w',[Params]),
+        emit_content_type('text/html'),
+        preload_ont(Ont,Params),
+        emit_page(ontology_browsable_tree(Ont),Params).
+
+ontol_page_actual([open_node,ID],Params):-
+        preload(ID,Params),
+        emit_content_type('text/html'),
+        emit_page(browser_open_node(ID),Params).
 
 ontol_page_actual([query,Ont],Params):-
         debug(ontol_rest,' params=~w',[Params]),
@@ -413,12 +460,6 @@ ontol_page_actual([query,Ont,QueryAtom,SelectAtom],Params):-
         ;   emit_page(ontology_query(Ont,QueryAtom,[unsafe_query(Query)]),Params)).
 
 
-ontol_page_actual([metadata,ID],Params):-
-        emit_content_type('text/html'),
-        preload_ont(ID,Params),
-        %load_bioresource(obo_meta),
-        load_bioresource(obo_meta_xp),
-        emit_page(ontology_metadata(ID),Params).
 
 ontol_page_actual([xps,S],Params):-
         emit_content_type('text/html'),

@@ -43,7 +43,7 @@ safe1(Goal) :-                  % forall etc safe only if goal args safe
 safe_predicate(true/0).
 safe_predicate(fail/0).
 safe_predicate(member/2).
-safe_predicate(=/2).
+safe_predicate((=)/2).
 safe_predicate(concat_atom/2).
 safe_predicate(atom_concat/3).
 safe_predicate(P) :- datapred(_,P).

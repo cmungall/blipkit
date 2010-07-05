@@ -128,7 +128,8 @@ user:bioresource(genetic_context,obo_local('phenotype/genetic_context.obo'),obo)
 user:bioresource(rkc,obo_local('phenotype/phenotype_xp/rkc.obo'),obo).
 user:bioresource(yeast_phenotype,obo_local('phenotype/yeast_phenotype.obo'),obo).
 user:bioresource(evidence_code,obo_local('evidence_code.obo'),obo).
-user:bioresource(obi,url('http://purl.obofoundry.org/obo/obi.owl'),owl).
+%user:bioresource(obi,url('http://purl.obofoundry.org/obo/obi.owl'),owl).
+%user:bioresource(obi,obo(obi),obo).
 user:bioresource(brenda,url('http://purl.obofoundry.org/obo/obo-all/brenda/brenda.obo'),obo).
 
 user:bioresource(iao_om,url('http://purl.obolibrary.org/obo/iao/dev/ontology-metadata.owl'),owl).
@@ -178,6 +179,7 @@ user:bioresource(fly_development,obo_local('developmental/animal_development/fly
 user:bioresource(worm_development,obo_local('developmental/animal_development/worm/worm_development.obo'),obo).
 user:bioresource(mosquito_anatomy,obo_local('anatomy/gross_anatomy/animal_gross_anatomy/mosquito_anatomy.obo'),obo).
 user:bioresource(ehdaa,obo_local('anatomy/gross_anatomy/animal_gross_anatomy/human/human-dev-anat-abstract.obo'),obo).
+user:bioresource(ehdaa2,obo_local('anatomy/gross_anatomy/animal_gross_anatomy/human/human-dev-anat-abstract2.obo'),obo).
 user:bioresource(adult_mouse,obo_local('anatomy/gross_anatomy/animal_gross_anatomy/mouse/adult_mouse_anatomy.obo'),obo). % synonym
 user:bioresource(mouse_anatomy,obo_local('anatomy/gross_anatomy/animal_gross_anatomy/mouse/adult_mouse_anatomy.obo'),obo).
 user:bioresource(emap,obo_local('anatomy/gross_anatomy/animal_gross_anatomy/mouse/EMAP.obo'),obo).
