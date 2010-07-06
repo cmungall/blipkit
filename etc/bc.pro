@@ -12,7 +12,7 @@ user:file_search_path(amipath_src,'/users/cjm/cvs/bioprolog/apps/amipath/src').
 user:file_search_path(amipath_conf,'/users/cjm/cvs/bioprolog/apps/amipath/conf').
 
 user:file_search_path(obo, OBO) :-
-        concat_atom(['/Users/cjm/cvs/obo','/','ontology'],OBO).
+        concat_atom(['/users/cjm/cvs/obo','/','ontology'],OBO).
 user:file_search_path(go, GO) :-
 	(getenv('GO_HOME', GO_HOME)
 	->  true
