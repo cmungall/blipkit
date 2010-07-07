@@ -274,7 +274,7 @@ quickterm('',S) =>
                      select(name=template,
                              option(value=T,T) forall (quickterm_template(T))
                             ),
-                     input(name=submit,type=submit,value=submit))))).
+                     input(name=submit,type=submit,value=proceed))))).
 
 
 quickterm(T,S) =>
@@ -288,6 +288,9 @@ quickterm(T,S) =>
                 form(input(type=hidden,
                            name=template,
                            value=T),
+                     input(type=hidden,
+                           name=request,
+                           value=true),
                      
                      div(A,':',
                          input(class=term,

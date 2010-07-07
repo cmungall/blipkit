@@ -404,7 +404,7 @@ ontol_page_actual([quickterm,S],Params):-
         (   member(template=T,Params)
         ->  true
         ;   T=''),
-        (   member(submit=_,Params),
+        (   member(submit=submit,Params),
             (   member(commit=Commit,Params)
             ->  true
             ;   Commit=false)
