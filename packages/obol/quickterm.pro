@@ -3,6 +3,7 @@
            quickterm_template/1,
            qtt_arg_type/3,
            qtt_description/2,
+           qtt_wraps/2,
            template_request/3,
            template_resolve_args/4
           ]).
@@ -21,6 +22,20 @@ regrel(positively_regulates).
 % ----------------------------------------
 % TEMPLATES
 % ----------------------------------------
+%
+% Tags:
+%  * description
+%  * ontology
+%  * arguments - name=domain constraint list
+%  * ontology - ID space
+%  * wraps - optional list of sub-templates
+%  * private - true if this is only accessible via a super-template
+%  * cdef - template for logical definition, of form cdef(Genus,[R1=X1, ..., ])
+%  * name - template for name
+%  * synonyms - list of templates for synonyms
+%  * def - template for textual definition
+%  * requires - list of URLs of ontologies that must be imported. E.g. xp bridge files.
+
 template(all_regulation(X),
          [
           description= 'generates 3 regulation terms',
@@ -93,7 +108,7 @@ template(part_of_cell_component(P,W),
           cdef= cdef(P,[part_of=W]),
           name= [name(W),' ',name(P)],
           synonyms= [[synonym(P),' of ',synonym(W)]],
-          def= ['Any ',name(P),' that is involved in ',name(W),'.']
+          def= ['Any ',name(P),' that is part of a ',name(W),'.']
          ]).
 
 % ----------------------------------------
@@ -114,6 +129,10 @@ qtt_arg_type(T,A,Dom) :-
 qtt_description(T,Desc) :-
         template_lookup(T,description,Desc).
 
+qtt_wraps(T,X) :-
+        template_lookup(T,wraps,L),
+        member(XT,L),
+        functor(XT,X,_).
         
 
 template_lookup(T,Key,Val) :-
@@ -130,24 +149,45 @@ template_lookup(Template,Key,Val) :-
 % TEMPLATE -> PROLOG FACTS
 % ----------------------------------------
 
+%% generate_facts(+Template,+NewClass,?Facts,+Opts)
+% given a template and a class ID, what are the ontol_db and metadata_db facts that
+% can be generated from this?
+
 generate_facts(_,New,[ontol_db:class(New)],_).
 
+generate_facts(_,New,[metadata_db:entity_creation_date(New,D)],_) :-
+        current_time_iso_full(D).
+
+generate_facts(_,New,[metadata_db:entity_created_by(New,obol)],_).
+
 generate_facts(Template,New,[metadata_db:entity_label(New,Name)],Opts) :-
-        template_lookup(Template,name,NameT),
-        generate_text(NameT,Name,Opts).
+        (   member(name(Name),Opts)
+        ->  true
+        ;   template_lookup(Template,name,NameT),
+            generate_text(NameT,Name,Opts)).
 
 generate_facts(Template,New,[metadata_db:entity_synonym(New,Syn),
-                             %metadata_db:entity_synonym_scope(New,Syn,Scope),
+                             metadata_db:entity_synonym_scope(New,Syn,Scope),
                              metadata_db:entity_synonym_xref(New,Syn,'OBOL:automatic')
                              ],Opts) :-
-        template_lookup(Template,synonym,SynsT),
-        generate_text(SynsT,Syn,Opts).
+        template_lookup(Template,synonyms,SynsT),
+        generate_text(SynsT,Syn,Scope,Opts),
+        \+ ((template_lookup(Template,name,NameT),
+             generate_text(NameT,Syn,Opts))).
 
 generate_facts(Template,New,[ontol_db:def(New,Def),
-                             ontol_db:def_xref(New,'OBOL:automatic')
+                             ontol_db:def_xref(New,DX)
                             ],Opts) :-
-        template_lookup(Template,def,DefT),
-        generate_text(DefT,Def,Opts).
+        (   member(def(Def),Opts)
+        ->  true
+        ;   template_lookup(Template,def,DefT),
+            generate_text(DefT,Def,Opts)),
+        (   member(def_xref(DX),Opts)
+        ->  true
+        ;   DX='OBOL:automatic').
+
+generate_facts(Template,New,[metadata_db:entity_comment(New,X)],Opts) :-
+        member(comment(X),Opts).
 
 generate_facts(Template,New,[ontol_db:genus(New,Genus)],_) :-
         template_lookup(Template,cdef,cdef(Genus,_)).
@@ -159,6 +199,7 @@ generate_facts(Template,New,[ontol_db:restriction(New,R,X)],Opts) :-
         template_lookup(Template,cdef,cdef(_,DL)),
         member(R=X,DL).
 
+% single-valued
 generate_fact(Template,New,Fact,Opts) :-
         generate_facts(Template,New,Facts,Opts),
         debug(quickterm,'  facts: ~w',[Facts]),
@@ -168,18 +209,29 @@ generate_fact(Template,New,Fact,Opts) :-
 % REQUEST
 % ----------------------------------------
 
+%% template_request(+Template,?Msgs,+Opts)
+%
+% Opts:
+%  * commit(Bool) - if true then sub add and del files are written
+%  * subtemplate(ST) - zero or more.
+%     if Template is a wrapper then subtemplates must be explicitly selected
+
+% First check to make sure Mutex not owned
 template_request(_,error('Lock owned by someone else - try in 5 mins'),Opts) :-
         member(subfile(NF),Opts),
+        nonvar(NF),
         atom_concat(NF,'-mutex',Mutex),
         exists_file(Mutex),
         time_file(Mutex,MT),
         get_time(T),
         DT is T-MT,
-        DT < 295,
+        DT =< 299, % assume stale after 5 mins
         !.
 
+% lock Mutex and proceed to next step
 template_request(MultiTemplate,Msgs,Opts) :-
-        (   member(subfile(NF),Opts)
+        (   member(subfile(NF),Opts),
+            nonvar(NF)
         ->  atom_concat(NF,'-mutex',Mutex),
             tell(Mutex),
             format('~w.~n',[MultiTemplate]),
@@ -187,11 +239,14 @@ template_request(MultiTemplate,Msgs,Opts) :-
             sformat(Cmd,'chmod 777 ~w',[Mutex]),
             shell(Cmd)
         ;   true),
+        
         (   member(subfile(NF),Opts),
+            nonvar(NF),
             exists_file(NF)
         ->  load_biofile(NF)
         ;   true),
         (   member(addfile(AF),Opts),
+            nonvar(AF),
             exists_file(AF)
         ->  load_biofile(AF)
         ;   true),
@@ -201,7 +256,7 @@ template_request(MultiTemplate,Msgs,Opts) :-
         ;   true).
 
 
-template_request_2(Template,Msgs,Opts) :-
+template_request_2(Template,_Msgs,_Opts) :-
         template_lookup(Template,requires,URLs),
         maplist(load_biofile,URLs),
         fail.
@@ -209,6 +264,8 @@ template_request_2(MultiTemplate,Msgs,Opts) :-
         template_lookup(MultiTemplate,wraps,Templates),
         !,
         findall(Msg,(member(Template,Templates),
+                     functor(Template,W,_),
+                     member(subtemplate(W),Opts),
                      template_request_2(Template,Msg,Opts)),
                 Msgs).
 template_request_2(Template,error(term_with_same_logical_definition_exists(X)),_) :-
@@ -264,7 +321,9 @@ collect_files(files(N,A,D),Atom) :-
         collect_file(N,NA),
         collect_file(A,AA),
         collect_file(D,DA),
-        concat_atom([NA,AA,DA],Atom).
+        sformat(Atom,'!! SUBMISSION:~n~w~n~n!! AXIOMS TO ADD:~n~w~n~n!! AXIOM TO DELETED:~n~w~n',
+                [NA,AA,DA]).
+
 
 collect_file(F,A) :-
         read_file_to_codes(F,Cs,[]),
@@ -355,35 +414,52 @@ fact_json(_,_:Ax,T=V,_) :- Ax=..[T|V].
 % ----------------------------------------
 
 generate_text(Toks,Atom,Opts) :-
+        generate_text(Toks,Atom,_,Opts).
+
+%% generate_text(+Toks,?Atom,?ScopeCombined,+Opts) is nondet
+generate_text(Toks,Atom,ScopeCombined,Opts) :-
         debug(quickterm,'generating text: ~q',[Toks]),
-        tokens_translate(Toks,ToksX,Opts),
+        tokens_translate(Toks,ToksX,Scopes,Opts),
+        combine_scopes(Scopes,ScopeCombined),
         debug(quickterm,'  ==> ~q',[ToksX]),
         flatten(ToksX,ToksY),
         concat_atom(ToksY,Atom).
 
-
-tokens_translate([],[],_) :- !.
-tokens_translate([Tok|Toks],[TokX|ToksX],Opts) :-
-        tokens_translate(Tok,TokX,Opts),
+%% tokens_translate(+Tin,?Tout,?Scopes,+Opts) is nondet
+tokens_translate([],[],[],_) :- !.
+tokens_translate([Tok|Toks],[TokX|ToksX],[S1|S2],Opts) :-
         !,
-        tokens_translate(Toks,ToksX,Opts).
-tokens_translate(name(X),Name,_) :-
+        tokens_translate(Tok,TokX,S1,Opts),
+        tokens_translate(Toks,ToksX,S2,Opts).
+tokens_translate(name(X),Name,name,_) :-
         entity_label(X,Name),
         !.
-tokens_translate(synonym(X),Name,_) :-
-        entity_label(X,Name),
+tokens_translate(synonym(X),Name,Scope,_) :-
+        !,
+        (   entity_label(X,Name),
+            Scope=name
+        ;   entity_synonym_scope(X,Name,Scope)).
+tokens_translate(X,X,exact,_) :-
+        atom(X),
         !.
-tokens_translate(synonym(X),Name,_) :-
-        entity_synonym_scope(X,Name,_Scope),
-        !.
-tokens_translate(X,X,_) :-
-        atom(X).
-tokens_translate(X,_,_) :-
+tokens_translate(X,_,_,_) :-
         print_message(error,quickterm(no_translation(X))),
         fail.
 
+combine_scopes(Scopes,ScopeCombined) :-
+        flatten(Scopes,L),
+        (   forall(member(S,L),
+                   (   S=name
+                   ;   S=exact))
+        ->  ScopeCombined=exact
+        ;   member(ScopeCombined,L),
+            forall(member(S,L),S=ScopeCombined)
+        ->  true
+        ;   ScopeCombined=related).
+
+
 % ----------------------------------------
-% HTTP HELPER
+% RESOLVING PARAMETERS
 % ----------------------------------------
 template_resolve_args(T,Params,Template,UnresolvedList) :-
         template_lookup(T,arguments,ArgDomains),
@@ -391,12 +467,12 @@ template_resolve_args(T,Params,Template,UnresolvedList) :-
         Template=..[T|Args].
 
 params_args([],_,[],[]).
-params_args([P=Dom|Doms],Params,[A|Args],UL) :-
+params_args([P=_|Doms],Params,[A|Args],UL) :-
         member(P=AN,Params),
         entity_label(A,AN),
         !,
         params_args(Doms,Params,Args,UL).
-params_args([P=Dom|Doms],Params,Args,[AN|UL]) :-
+params_args([P=_|Doms],Params,Args,[AN|UL]) :-
         member(P=AN,Params),
         !,
         params_args(Doms,Params,Args,UL).
@@ -404,6 +480,21 @@ params_args([P=_|Doms],Params,Args,[P|UL]) :-
         !,
         params_args(Doms,Params,Args,UL).
 
+/** <module> compositional class generation
+
+---+ Synopsis
+
+  See:
+  http://www.berkeleybop.org/obo/quickterm/GO
+
+---+ Details
+
+ See also
+
+  * ontol_restful.pro
+  * ontol_webpages.pro
+
+*/
 
 
             

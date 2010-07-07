@@ -401,6 +401,7 @@ ontol_page_actual([ontology_entry,ID],Params):-
 ontol_page_actual([quickterm,S],Params):-
         emit_content_type('text/html'),
         preload_ont(S,Params),
+        debug(ontol_rest,' Params= ~w',[Params]),
         (   member(template=T,Params)
         ->  true
         ;   T=''),
@@ -411,11 +412,21 @@ ontol_page_actual([quickterm,S],Params):-
         ->  template_resolve_args(T,Params,Template,UL),
             debug(ontol_rest,'template= ~w commit=~w',[Template,Commit]),
             (   UL=[]
-            ->  template_request(Template,Msg,[commit(Commit),
+            ->  findall(Opt,
+                        (   member(P,[subtemplate,name,comment,def,def_xref]),
+                            member(P=V,Params),
+                            V\='',
+                            Opt=..[P,V]),
+                        Opts),
+                %findall(subtemplate(W),
+                %        member(subtemplate=W,Params),
+                %        Opts),
+                template_request(Template,Msg,[commit(Commit),
                                 % HARDCODE ALERT!
-                                               subfile('/Users/cjm/cvs/go/ontology/editors/xp_submit/go_xp_submit.obo'),
-                                               addfile('/Users/cjm/cvs/go/ontology/editors/xp_submit/go_xp_add.obo'),
-                                               delfile('/Users/cjm/cvs/go/ontology/editors/xp_submit/go_xp_del.obo')
+                                               subfile('/users/cjm/cvs/go/ontology/editors/xp_submit/go_xp_submit.obo'),
+                                               addfile('/users/cjm/cvs/go/ontology/editors/xp_submit/go_xp_add.obo'),
+                                               delfile('/users/cjm/cvs/go/ontology/editors/xp_submit/go_xp_del.obo') |
+                                              Opts
                                               ]),
                 emit_page(quickterm_results(T,S,Msg),Params)
             ;   emit_page(quickterm_unresolved(T,S,UL),Params))

@@ -20,7 +20,9 @@
            entity_contributor/2,
            entity_comment/2,
            entity_example/2,
-           entity_created/2,
+           entity_created/2, % DEPRECATED
+           entity_created_by/2,
+           entity_creation_date/2,
            entity_description/2,
            entity_description_type/3,
            entity_xref/2,
@@ -38,7 +40,9 @@
            entity_pair_is_non_univocal/2,
            entity_pair_is_non_univocal/3,
            entity_query/2,
-           synonym_type_desc/3
+           synonym_type_desc/3,
+
+           current_time_iso_full/1
           ]).
 
 % metadata on the data predicates used in this module
@@ -103,8 +107,27 @@ id_localid(ID,Local) :- concat_atom([_|L],':',ID),concat_atom(L,':',Local).
 
 %% entity_created(?Entity,?Date)
 % true if Entity created on Date
-% Date is in form YYYY-MM-DD
+% Date is in form YYYY-MM-DD.
+% DEPRECATED - use entity_creation_date/2
 :- extensional(entity_created/2).
+
+%% entity_created_by(?Entity,?PersonAtom)
+:- extensional(entity_created_by/2).
+
+%% entity_creation_date(?Entity,?DateAtom)
+% Date must conform to ISO-8601
+:- extensional(entity_creation_date/2).
+
+%% current_time_iso_full(?Now)
+% returns UTC time in ISO 8601 e.g.
+% 2010-07-07T04:01:37Z
+% (conforms to oboedit output)
+current_time_iso_full(D) :-
+        get_time(T),
+        format_time(atom(XA),'%z',T), % offset
+        atom_number(XA,X),S is X*36, % assume [+/-]hh00
+        TAdj is T-S,                   % apply offset to get UTC
+        format_time(atom(D),'%FT%TZ',TAdj).
 
 :- extensional(entity_description/2).
 :- extensional(entity_description_type/3).

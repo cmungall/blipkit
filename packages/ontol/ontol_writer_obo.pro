@@ -426,7 +426,7 @@ stanza(ID,StanzaType) =>
    tagnodenl(proper_form_of(ID,X),proper_form_of,X) where proper_form_of(ID,X),
    tvpairnl(lexical_category,X) where lexical_category(ID,X),
    tvpairnl(comment,X) forall_unfiltered class_comment(ID,X),
-   tvpairnl(example,X) forall_unfiltered entity_example(ID,X),
+   tvpairnl(example,X) forall_unfiltered entity_example(ID,X), % DEPRECATED/UNSUPPORTED?
    tagnodenl(true,subset,X) forall_unfiltered entity_partition(ID,X),
    synonym(ID,X) forall_unfiltered entity_synonym(ID,X),
    tvpairnl(xref,X) forall_unfiltered entity_xref(ID,X),
@@ -451,6 +451,8 @@ stanza(ID,StanzaType) =>
    inst_rel(ID,R,X) forall inst_rel(ID,R,X), % annotation object properties
    inst_sv(ID,R,V,DT) forall_unfiltered inst_sv(ID,R,V,DT), % annotation datatype properties
    logicalformula(ID,Formula,Lang) forall_unfiltered logicalformula(ID,Formula,Lang), % annotation datatype properties
+   tvpairnl(created_by,X) where entity_created_by(ID,X),
+   tvpairnl(creation_date,X) where entity_creation_date(ID,X),
    newline.
 
 axiom(subclass(A,B)) =>

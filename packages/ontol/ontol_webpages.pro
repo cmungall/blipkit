@@ -3,12 +3,22 @@
 :- use_module(bio(metadata_db)).
 :- use_module(bio(dbmeta)).
 :- use_module(bio(serval)).
+:- use_module(bio(quickterm)).
 :- use_module(bio(bioprolog_util)).
 
 
+has_info(ID) :-
+        entity_label(ID,_).
+has_info(IDs) :-
+        member(ID,IDs),
+        entity_label(ID,_).
 
 downloadbar(ID)=>
- 'Download: [', downloadfmt(ID,Fmt) forall download(Fmt), ']'.
+ if(has_info(ID),
+    then:
+   ['Download: [', downloadfmt(ID,Fmt) forall download(Fmt), ']'],
+    else: []).
+
 
 downloadfmt(ID,Fmt) =>
  call(id_url(ID,Fmt,URL)),
@@ -46,7 +56,6 @@ mappings_entry_page =>
 basic(ID) =>
   outer(ID,
         span(downloadbar(ID),
-%             h2('Class Information'),
 	     entity_info(ID))).
 
 multiple2(IDs) =>
@@ -65,7 +74,7 @@ entity_info(ID) =>
 	    tdpair('Instance of',hlink(X)) forall_unique inst_of(ID,X),                     
 	    tdpair('Subset',X) forall_unique entity_partition(ID,X),
 	    tdpair('Definition',[Def,' ',
-				 hlink(X) forall_unique def_xref(ID,X)]) forall_unique def(ID,Def),                     
+				 bestlink(X) forall_unique def_xref(ID,X)]) forall_unique def(ID,Def),                     
 	    tdpair('Comment',X) forall_unique entity_comment(ID,X),                     
 	    tdpair('Xref',[hlink_with_id(X),
 			   hlinklist([X,ID],compare) where knowsabout(X)
@@ -261,8 +270,9 @@ basicrow(ID) =>
      td(data(X) forall_unique def(ID,X))).
 
 % ----------------------------------------
-% quickterm
+% QUICKTERM
 % ----------------------------------------
+
 quickterm('',S) =>
   call(ensure_loaded(bio(quickterm))),
   outer(['QuickTerm Request: ',S],
@@ -285,77 +295,105 @@ quickterm(T,S) =>
             div(class=chooser,
                 h4('Template: ',T),
                 p(Desc) where qtt_description(T,Desc),
-                form(input(type=hidden,
-                           name=template,
-                           value=T),
-                     input(type=hidden,
-                           name=request,
-                           value=true),
-                     
-                     div(A,':',
-                         input(class=term,
-                               type=text,
-                               name=A,
-                               id=target,
-                               size=30,
-                               style='outline: #3875D7 solid 1px;'),
-                         '(',Dom,')') forall (qtt_arg_type(T,A,Dom)),
-                                              
-                     html:br,
-                     input(type=checkbox,
-                           name=commit,
-                           value=true),
-                     'Commit',
-                     input(name=submit,type=submit,value=submit)),
+                quickterm_form(T),
                 html:br))).
+
+quickterm_form_input(P,Size,Desc) =>
+ getparam(P,V,''),
+ tr(th(P),
+    td(input(type=text,
+             size=Size,
+             name=P,
+             style='outline: #3875D7 solid 1px;',
+             value=V)),
+    td(i(Desc))).
+
+quickterm_form(T) =>
+ form(input(type=hidden,
+            name=template,
+            value=T),
+      input(type=hidden,
+            name=request,
+            value=true),
+      
+      if(qtt_wraps(T,_),
+         [input(type=checkbox,
+                name=subtemplate,
+                value=W),W,html:br] forall qtt_wraps(T,W)),
+      
+      div(A,':',
+          getparam(A,Val,''),
+          input(class=term,
+                type=text,
+                name=A,
+                value=Val,
+                id=A,
+                size=30,
+                style='outline: #3875D7 solid 1px;'),
+          '(',Dom,')') forall (qtt_arg_type(T,A,Dom)),
+
+      if(\+qtt_wraps(T,_),
+           then:
+         [
+          h4('Optional arguments'),
+          table(quickterm_form_input(name,20,'Name (optional - a default name with standard syntax will be chosen if you leave this blank)'),
+                quickterm_form_input(def,50,'Definition (optional - a standard textual def with genus-differentia syntax is chosen by default)'),
+                quickterm_form_input(def_xref,10,'Definition Xref (optional)'),
+                quickterm_form_input(comment,50,'Comment (optional)'))
+         ],
+          else: []),
+
+      html:br,
+      input(type=checkbox,
+            name=commit,
+            value=true),
+      'Commit',
+      input(name=submit,type=submit,value=submit)).
 
 quickterm_results(T,S,Msgs) =>
   outer(['QuickTerm Request: ',S,' ',T],
-        div(h2(hlink(S)),
-            quickterm_result_msgs(Msgs))).
+        div(h2(hlink([quickterm,S])),
+            quickterm_result_msgs(Msgs),
+            quickterm_form(T))).
 
 quickterm_unresolved(T,S,UL) =>
   outer(['QuickTerm Request: ',S,' ',T,' FAIL'],
         div(h2(hlink('FAILED. Could not resolve some terms')),
-            ul(li('Unresolved: ',X) forall member(X,UL)))).
-
-/*            
-            if( ( member(ok(_,_,_),Msgs);
-                  Msgs=ok(_,_,_) ),
-               then:[
-                     if(member(error(_,_),Msgs),
-                        then:p('There were problems with some requests, but you can still commit the others'),
-                        else:[]),
-                     p('Use the back button to go to the previous page and select commit')
-                     ],
-               else:[
-                     h4('Problems exist: You may not commit these results')
-                     ]))).
-*/
+            ul(li('Unresolved: ',X) forall member(X,UL)),
+            quickterm_form(T))).
 
 quickterm_result_msgs(Msgs) =>
  if(is_list(Msgs),
-    then: [quickterm_result_msgs(Msg) forall member(Msg,Msgs)],
+    then: [h2('This is a multi-part request. Below are individual reports:'),
+           quickterm_result_msgs(Msg) forall member(Msg,Msgs)],
     else: [quickterm_result_msg(Msgs)]).
+
+
+
 
 quickterm_result_msg(error(E)) =>
   call( E=.. [Type|Args]),
   h3('Error: ',Type),
-  ul(li(A,[' ',AN where entity_label(A,AN)]) forall member(A,Args)).
+  ul(li(A,[' ',AN where entity_label(A,AN)]) forall member(A,Args)),
+  p('Try again with different values').
+
 
 
 quickterm_result_msg(ok(ID,Status,Msg)) =>
   if(Status=committed,
      then: [
             h3('Request Granted, ID=',ID),  
-            p('This ID has been committed to the submission ontology. The ID is stable and can be used in annotation'),
+            p('This ID has been committed to the submission ontology. The ID is stable and can be used in annotation. ',
+              'You can use the form below to submit other similar terms'),
             h4('What happens next?'),
             p('Within 1 hour your request will be visible in CVS. It will not be added to the main ontology until seen
              by a curator.')
            ],
      else: [
             h3('Request valid but not committed'),
-            p('This request is valid. You can go ahead and add commit this. Use the back button and select commit.')
+            
+            p('This request is valid. You can go ahead and add commit this by selecting the commit box below.',
+              'This will submit a term with the ID ',ID)
            ]),
   h4('Raw OBO Format:'),
   pre(noesc(Msg)).
@@ -658,11 +696,10 @@ hlink([X|L]) =>
   
 hlink(X) =>
  if(parse_id_idspace(X,'Image',Local),
-    then:a(href=Local,img(height=80,src=Local)),
+    then: a(href=Local,img(height=80,src=Local)),
     else: in(Params,
              [call(id_params_url(X,Params,URL)),
-              a(href=URL,if(entity_label(X,Label),then:Label,else:X))
-             ])).
+              a(href=URL,if(entity_label(X,Label),then:Label,else:X))])).
 
 hlink_with_id(X) =>
  if(parse_id_idspace(X,'Image',Local),
@@ -681,6 +718,17 @@ hlink(X,Context) =>
 %hlink(X) =>
 % call(id_url(X,URL)),
 % a(href=URL,if(entity_label(X,Label),then:Label,else:X)).
+
+bestlink(ID) =>
+ if((id_idspace(ID,S),ont_idspace(_,S)),
+    then: hlink(ID),
+    else: extlink(ID)).
+
+extlink(ID) =>
+ if(id_exturl(ID,U),
+    then: a(href=U,U),
+    else: [ID]).
+
 
 hlinklist(Xs,Title) =>
  call(concat_atom(Xs,'+',X)),

@@ -341,13 +341,16 @@ getparam_as_num(S,P,Num):-
 dgetparam(S,P,V,Default):- (getparam(S,P,V) -> true ; V=Default).
 ngetparam(S,P,V):- getparam(S,P,V,_S2),! ; V=null.
 ngetparam(S,P,V,S2):- getparam(S,P,V,S2),! ; V=null,S2=S.
+
 % (+PL,+P,?V) d
 % (+PL,+P,?V,?PLout) d
 getparam(S,P,V):- getparam(S,P,V,_).
 getparam([[P,V]|L],P,V,L):- !.
+getparam([P=V|L],P,V,L):- !.  % also allow N=V pairs
 getparam([H|L],P,V,[H|L2]):-
         !,
         getparam(L,P,V,L2).
+
 % (+PL,+P,?VL) d
 % (+PL,+P,?VL,?PLout) d
 lgetparam(S,P,VL):- lgetparam(S,P,VL,_).
@@ -563,6 +566,7 @@ write_sterm(D,X,F):-
         !,
         write_sterm(D,X,L).
 write_sterm(D,_X,getparam(P,V,Def)):-
+        debug(ontol_rest,'fetching ~w from ~w',[P,D]),
         dgetparam(D,P,V,Def).
 write_sterm(D,_X,lgetparam(P,V)):-
         lgetparam(D,P,V).
