@@ -102,7 +102,6 @@ p.toTop a:hover, p.toTop a:active { background: #3875D7; color: #fff; }
 }
 
 .treetbl li { 
-    line-style:none;
     width:240px;
     height:20px;
     padding:10px;

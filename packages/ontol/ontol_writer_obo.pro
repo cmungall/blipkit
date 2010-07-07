@@ -8,6 +8,7 @@
                              write_property/2,
                              write_inst/2,
 			     write_axiom/2,
+			     write_retract_axiom/2,
                              write_cdef/2,
                              write_cdef/3,
                              obo_format_option/1
@@ -209,6 +210,11 @@ write_axiom(obo,Ax):-
         user:ensure_loaded(bio(ontol_db)),   % serval runs in user space...
         user:ensure_loaded(bio(metadata_db)),   % serval runs in user space... TODO; inherit this?
         write_sterm([],xml([]),axiom(Ax)).
+
+write_retract_axiom(obo,Ax):-
+        user:ensure_loaded(bio(ontol_db)),   % serval runs in user space...
+        user:ensure_loaded(bio(metadata_db)),   % serval runs in user space... TODO; inherit this?
+        write_sterm([],xml([]),retract_axiom(Ax)).
 
 synonym_scope_upcase(Class,Syn,Scope):-
         entity_synonym_scope(Class,Syn,Scope0),
@@ -450,6 +456,13 @@ stanza(ID,StanzaType) =>
 axiom(subclass(A,B)) =>
   openstanza('Term'),
   tagnodenl(id(A),id,A),
+  tagnodenl(subclass(A,B),is_a,B),
+  newline.
+
+retract_axiom(subclass(A,B)) =>
+  openstanza('Term'),
+  tagnodenl(id(A),id,A),
+  '-',
   tagnodenl(subclass(A,B),is_a,B),
   newline.
   

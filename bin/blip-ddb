@@ -1,5 +1,5 @@
 #!/bin/sh
 export BLIP_CONFIG="config_ddb"
-blip "$@"
+`dirname $0/`/blip "$@"
 
 

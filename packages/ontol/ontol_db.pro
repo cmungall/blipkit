@@ -352,6 +352,7 @@ subclassX(A,B) :-
 	subclassX(A,B,[]).
 
 subclassX(A,B,VL) :-
+        %debug(subclassX,'testing subclass(~w,~w) visited: ~w',[A,B,VL]),
 	(   class_cdef(A,A1)
 	;   A1=A),
 	(   class_cdef(B,B1)
@@ -409,10 +410,18 @@ class_cdef(ID,cdef(G,Diffs)):-
         genus(ID,G),
         setof(R=To,differentium(ID,R,To),Diffs). 
 
+%% cdef_placement(+CDef,?EquivClasses,?NRParents,?NRChildren,?RedundantSubClassPairs)
 cdef_placement(CDef,Equiv,NRParents,NRChildren,Redundant) :-
-	solutions(Parent,subclassX(CDef,Parent),Parents),
+        debug(cdef_placement,'finding parents of ~w',[CDef]),
+	solutions(Parent,(class_cdef(Parent,ParentCDef),
+                          subclassX(CDef,ParentCDef)),Parents),
+        debug(cdef_placement,'finding equivs of ~w',[CDef]),
 	solutions(Parent,(member(Parent,Parents),subclassX(Parent,CDef)),Equiv),
-	solutions(Child,subclassX(Child,CDef),Children),
+        debug(cdef_placement,'finding children of ~w',[CDef]),
+	solutions(Child,(class(Child),
+                         subclassX(Child,CDef)),Children),
+        debug(cdef_placement,'   children = ~w',[Children]),
+        debug(cdef_placement,'finding redundant subclass/2 facts introduced by ~w',[CDef]),
 	solutions(Child-Parent,(member(Parent,Parents),subclass(Child,Parent),member(Child,Children)),Redundant),
 	solutions(Parent,(member(Parent,Parents),\+((subclass(P2,Parent),member(P2,Parents)))),NRParents),
 	solutions(Child,(member(Child,Children),\+((subclass(Child,C2),member(C2,Children)))),NRChildren).

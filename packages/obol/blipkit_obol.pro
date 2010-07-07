@@ -16,6 +16,7 @@
 :- use_module(library(oset)).
 :- use_module(library(porter_stem),[]).
 :- use_module(token_match).
+:- use_module(quickterm).
 :- use_module(bio(mode)).
 :- use_module(bio(io)).
 :- use_module(bio(ontol_db)).
@@ -686,6 +687,37 @@ write_synonyms(ID,Syns):-
             writeln(IDCDefPairs),
             show_supplementary_info(IDCDefPairs,[]))).
 
+% remember to run using:
+% blip-ddb -u blipkit_obol
+:- blip('obol-quickterm',
+        'quickterm template',
+        [
+         term(idspace,Ont),
+         term(template,T),
+         atom(subfile,NFile),
+         atom(addfile,AFile),
+         atom(delfile,DFile),
+         bool(commit,CommitX)
+        ],
+        _,
+        (
+         (   nonvar(CommitX),
+             CommitX=1
+         ->  Commit=true
+         ;   Commit=false),
+         Opts=[idspace(Ont),
+               commit(Commit),
+               addfile(AFile),
+               subfile(NFile),
+               delfile(DFile)],
+         (   nonvar(NFile)
+         ->  load_biofile(NFile)
+         ;   true),
+         (   nonvar(AFile)
+         ->  load_biofile(AFile)
+         ;   true),
+         template_request(T,Msg,Opts),
+         writeln(msg=Msg))).
 
 :- blip('obol-suggest',
         'suggest xps based on necessary conditions only',

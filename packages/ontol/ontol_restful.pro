@@ -23,6 +23,7 @@
 :- use_module(bio(ontol_writer_dot)).
 :- use_module(bio(metadata_db)).
 :- use_module(bio(io)).
+:- use_module(bio(quickterm)).
 :- use_module(bio(bioprolog_util),[solutions/3]).
 :- use_module(bio(blipkit_ontol)).
 :- use_module(bio(safe_interpreter),[safe/1]).
@@ -69,6 +70,7 @@ idspace_url_format('NIF_Investigation',URL,Fmt) :- idspace_url_format('PKB',URL,
 idspace_url_format(snap,URL,Fmt) :- idspace_url_format(bfo,URL,Fmt).
 idspace_url_format(span,URL,Fmt) :- idspace_url_format(bfo,URL,Fmt).
 idspace_url_format(ncithesaurus,URL,Fmt) :- idspace_url_format('NCIt',URL,Fmt). % tmp
+idspace_url_format('GO','http://www.geneontology.org/ontology/obo_format_1_2/gene_ontology_ext.obo',obo).
 idspace_url_format(IDSpace,URL,obo) :-
         sformat(URL,'http://purl.org/obo/obo/~w.obo',[IDSpace]).
 
@@ -226,12 +228,17 @@ preload_ont_plus_dependencies(IDSpace,Params):-
         forall(member(X,Xs),
                preload_ont(X,Params)).
 
+:- multifile ontol_page_hook/2.
+
 % load all imported ontologies
 ontol_page(Path,Params) :-
         forall(member(import=Ont,Params),
                preload_ont_plus_dependencies(Ont,Params)),
         ontol_page_actual(Path,Params).
 
+ontol_page_actual(Path,Params):-
+        ontol_page_hook(Path,Params),
+        !.
         
 ontol_page_actual(Path,Params):-
         \+ is_list(Path),
@@ -390,6 +397,28 @@ ontol_page_actual([ontology_entry,ID],Params):-
             ->  emit_page(ontology_filtered(ID,S,L),Params)
             ;   emit_page(noresults(ID,S),Params))
         ;   emit_page(ontology_entry(ID),Params)).
+
+ontol_page_actual([quickterm,S],Params):-
+        emit_content_type('text/html'),
+        preload_ont(S,Params),
+        (   member(template=T,Params)
+        ->  true
+        ;   T=''),
+        (   member(submit=_,Params),
+            member(commit=Commit,Params)
+        ->  template_resolve_args(T,Params,Template),
+            debug(ontol_rest,'template= ~w commit=~w',[Template,Commit]),
+            template_request(Template,Msg,[commit(Commit),
+                                           % HARDCODE ALERT!
+                                           subfile('/Users/cjm/cvs/go/ontology/editors/xp_submit/go_xp_submit.obo'),
+                                           addfile('/Users/cjm/cvs/go/ontology/editors/xp_submit/go_xp_add.obo'),
+                                           delfile('/Users/cjm/cvs/go/ontology/editors/xp_submit/go_xp_del.obo')
+                                           ]),
+            debug(ontol_rest,'  requested, resp=~w',[Msg]),
+            emit_page(quickterm_results(T,S,Msg),Params),
+            debug(ontol_rest,'  emitted page',[])
+        ;   emit_page(quickterm(T,S),Params)).
+
 
 ontol_page_actual([ontology,ID],Params):-
         emit_content_type('text/html'),
