@@ -260,13 +260,157 @@ basicrow(ID) =>
      td(hlink(ID)),
      td(data(X) forall_unique def(ID,X))).
 
+% ----------------------------------------
+% quickterm
+% ----------------------------------------
+quickterm('',S) =>
+  call(ensure_loaded(bio(quickterm))),
+  outer(['QuickTerm Request: ',S],
+        div(h2(hlink(S)),
+            h3('QuickTerm Request: ',S),
+            div(class=chooser,
+                p('Select a template'),
+                form(id=template_selection,
+                     select(name=template,
+                             option(value=T,T) forall (quickterm_template(T))
+                            ),
+                     input(name=submit,type=submit,value=submit))))).
+
+
+quickterm(T,S) =>
+  call(ensure_loaded(bio(quickterm))),
+  outer(['QuickTerm Request: ',S,' template: ',T],
+        div(h2(hlink([quickterm,S])),
+            h3('QuickTerm Request in ',S),
+            div(class=chooser,
+                h4('Template: ',T),
+                p(Desc) where qtt_description(T,Desc),
+                form(input(type=hidden,
+                           name=template,
+                           value=T),
+                     
+                     div(A,':',
+                         input(class=term,
+                               type=text,
+                               name=A,
+                               id=target,
+                               size=30,
+                               style='outline: #3875D7 solid 1px;'),
+                         '(',Dom,')') forall (qtt_arg_type(T,A,Dom)),
+                                              
+                     html:br,
+                     input(type=checkbox,
+                           name=commit,
+                           value=true),
+                     'Commit',
+                     input(name=submit,type=submit,value=submit)),
+                html:br))).
+
+quickterm_results(T,S,Msgs) =>
+  outer(['QuickTerm Request: ',S,' ',T],
+        div(h2(hlink(S)),
+            quickterm_result_msgs(Msgs))).
+
+quickterm_unresolved(T,S,UL) =>
+  outer(['QuickTerm Request: ',S,' ',T,' FAIL'],
+        div(h2(hlink('FAILED. Could not resolve some terms')),
+            ul(li('Unresolved: ',X) forall member(X,UL)))).
+
+/*            
+            if( ( member(ok(_,_,_),Msgs);
+                  Msgs=ok(_,_,_) ),
+               then:[
+                     if(member(error(_,_),Msgs),
+                        then:p('There were problems with some requests, but you can still commit the others'),
+                        else:[]),
+                     p('Use the back button to go to the previous page and select commit')
+                     ],
+               else:[
+                     h4('Problems exist: You may not commit these results')
+                     ]))).
+*/
+
+quickterm_result_msgs(Msgs) =>
+ if(is_list(Msgs),
+    then: [quickterm_result_msgs(Msg) forall member(Msg,Msgs)],
+    else: [quickterm_result_msg(Msgs)]).
+
+quickterm_result_msg(error(E)) =>
+  call( E=.. [Type|Args]),
+  h3('Error: ',Type),
+  ul(li(A,[' ',AN where entity_label(A,AN)]) forall member(A,Args)).
+
+
+quickterm_result_msg(ok(ID,Status,Msg)) =>
+  if(Status=committed,
+     then: [
+            h3('Request Granted, ID=',ID),  
+            p('This ID has been committed to the submission ontology. The ID is stable and can be used in annotation'),
+            h4('What happens next?'),
+            p('Within 1 hour your request will be visible in CVS. It will not be added to the main ontology until seen
+             by a curator.')
+           ],
+     else: [
+            h3('Request valid but not committed'),
+            p('This request is valid. You can go ahead and add commit this. Use the back button and select commit.')
+           ]),
+  h4('Raw OBO Format:'),
+  pre(noesc(Msg)).
+
+              
+
+% ----------------------------------------
+% tree browing2 TODO
+% ----------------------------------------
+ontology_browsable_tree2(S) =>
+  outer(['Browse: ',S],
+        div(h2(hlink(S)),
+            div(class=treeview,
+                ul(browser_node2(ID) forall (class(ID),id_idspace(ID,S),
+                                            \+((subclass(ID,P),id_idspace(P,S)))))))).
+
+browser_node2(ID) =>
+  call(sformat(OpenEltID,'open-~w',[ID])),
+  call(id_url(open_node2/ID,OpenURL)),
+  call(sformat(JS,'JavaScript:replaceContents(document.getElementById(\'~w\'),\'~w\');',[OpenEltID,OpenURL])),
+  li(id=OpenEltID,
+     span(class=treetbl_left,
+          if(subclass(_,ID),
+             then: [html:input(type=image,
+                               onClick=JS,
+                               src='http://amigo.berkeleybop.org/amigo/images/plus.png',
+                               alt=open)
+                   ],
+             else: [img(src='http://amigo.berkeleybop.org/amigo/images/dot.png')]
+            ),
+          hlink(ID)),
+     browser_node_info2(ID)).
+
+browser_open_node2(ID) =>
+  call(sformat(CloseEltID,'open-~w',[ID])),
+  call(id_url(open_node2/ID,CloseURL)),
+  % TODO: close
+  call(sformat(_JS,'JavaScript:replaceContents(document.getElementById(\'~w\'),\'~w\');',[CloseEltID,CloseURL])),
+  li(span(id=CloseEltID,
+          span(class=treetbl_left,
+               img(src='http://amigo.berkeleybop.org/amigo/images/minus.gif'),
+               hlink(ID)),
+          browser_node_info2(ID),
+          ul(browser_node(Y) forall (subclass(Y,ID))))).
+
+browser_node_info2(ID) =>
+  span(class=treetbl_right,
+       data(X) where def(ID,X)).
+
+% ----------------------------------------
+% tree browing
+% ----------------------------------------
 ontology_browsable_tree(S) =>
   outer(['Browse: ',S],
         div(h2(hlink(S)),
             div(class=treeview,
                 ul(browser_node(ID) forall (class(ID),id_idspace(ID,S),
                                             \+((subclass(ID,P),id_idspace(P,S)))))))).
-
 
 
 browser_node(ID) =>
@@ -304,6 +448,9 @@ browser_node_info(ID) =>
        data(X) where def(ID,X)).
 
 
+% ----------------------------------------
+% entry point for an ontology
+% ----------------------------------------
 ontology_entry(S) =>
   outer(['Ontology ',S],
         div(h2(hlink(S)),
@@ -646,6 +793,13 @@ javascript('http://yui.yahooapis.com/2.3.1/build/yahoo-dom-event/yahoo-dom-event
 javascript('http://amigo.geneontology.org/amigo/js/all.js').
 javascript('/amigo2/js/obo.js').
 javascript('/amigo2/js/dojo.js').
+% for autocomplete
+javascript('http://amigo.berkeleybop.org/amigo/js/com/jquery-1.4.2.min.js').
+javascript('http://amigo.berkeleybop.org/amigo/js/org/bbop/amigo.js').
+javascript('http://amigo.berkeleybop.org/amigo/js/org/bbop/amigo/go_meta.js').
+javascript('http://amigo.berkeleybop.org/amigo/js/org/bbop/amigo/opensearch.js').
+javascript('http://amigo.berkeleybop.org/amigo/js/org/bbop/amigo/ui/autocomplete.js').
+
 
 css('#front-nav ul { margin: 0 }
    #front-nav li { background: #e9effa; color: #3875D7; margin: 1em 200px; border: 1px dotted #006; text-align: center; }
@@ -675,13 +829,16 @@ outer(N,P) =>
                           html:meta(name=html_url, content='http://amigo.geneontology.org/amigo',
                                     %link(href='http://amigo.geneontology.org/amigo/css/formatting.css', rel=stylesheet, type='text/css'),
                                     link(href='/amigo2/css/formatting.css', rel=stylesheet, type='text/css'),
+                                    link(href='http://amigo.berkeleybop.org/amigo/js/org/bbop/amigo/ui/css/autocomplete.css', rel=stylesheet, type='text/css'),
                                     link(href='http://rfam.sanger.ac.uk/static/css/wp.css', rel=stylesheet, type='text/css'),
 				    script(type='text/javascript', src=X) forall_unique javascript(X),
 				    html:style(type='text/css',CSS) forall_unique css(CSS),
                                     script(type='text/javascript',
                                            'var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
                                           document.write(unescape("%3Cscript src=\'" + gaJsHost + "google-analytics.com/ga.js\' type=\'text/javascript\'%3E%3C/script%3E"));'),
-                                   script(type='text/javascript',
+                                    script(type='text/javascript',
+                                           'jQuery(document).ready(function(){ new org.bbop.amigo.ui.autocomplete({id:"target", narrow:"true", search_type:"term", ontology: "biological_process", completion_type:"completion"}); })'),
+                                    script(type='text/javascript',
                                           'try {
                                            var pageTracker = _gat._getTracker("UA-11782828-2");
                                            pageTracker._trackPageview();
