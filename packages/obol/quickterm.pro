@@ -37,6 +37,7 @@ template(regulation(X),
           arguments= [target=biological_process],
           cdef= cdef('GO:0065007',[regulates=X]),
           name= ['regulation of ',name(X)],
+          synonyms= ['regulation of ',synonym(X)],
           def= ['Any process that modulates the frequency, rate or extent of ',name(X),'.']
          ]).
 template(negative_regulation(X),
@@ -46,6 +47,7 @@ template(negative_regulation(X),
           arguments= [target=biological_process],
           cdef= cdef('GO:0065007',[negatively_regulates=X]),
           name= ['negative regulation of ',name(X)],
+          synonyms= ['negative regulation of ',synonym(X)],
           def= ['Any process that stops, prevents or reduces the frequency, rate or extent of ',name(X),'.']
          ]).
 template(positive_regulation(X),
@@ -55,6 +57,7 @@ template(positive_regulation(X),
           arguments= [target=biological_process],
           cdef= cdef('GO:0065007',[positively_regulates=X]),
           name= ['positive regulation of ',name(X)],
+          synonyms= ['positive regulation of ',synonym(X)],
           def= ['Any process that activates or increases the frequency, rate or extent of ',name(X),'.']
          ]).
 
@@ -62,10 +65,34 @@ template(involved_in(P,W),
          [
           description= 'processes involved in other processes',
           ontology= 'GO',
+          requires= ['http://www.geneontology.org/scratch/xps/biological_process_xp_self.obo'],
           arguments= [part=biological_process,whole=biological_process],
           cdef= cdef(P,[part_of=W]),
           name= [name(P),' involved in ',name(W)],
-          synonyms= [[syn(P),' of ',syn(W)]],
+          synonyms= [[synonym(P),' of ',synonym(W)]],
+          def= ['Any ',name(P),' that is involved in ',name(W),'.']
+         ]).
+
+template(takes_place_in(P,C),
+         [
+          description= 'processes occurring in parts of the cell',
+          ontology= 'GO',
+          requires= ['http://www.geneontology.org/scratch/xps/biological_process_xp_cellular_component.obo'],
+          arguments= [process=biological_process,location=cellular_component],
+          cdef= cdef(P,['OBO_REL:occurs_in'=C]),
+          name= [name(P),' in ',name(C)],
+          synonyms= [[synonym(P),' in ',synonym(C)]],
+          def= ['Any ',name(P),' that takes place in ',name(C),'.']
+         ]).
+
+template(part_of_cell_component(P,W),
+         [
+          description= 'cell components part of other cell components',
+          ontology= 'GO',
+          arguments= [part=cellular_component,whole=cellular_component],
+          cdef= cdef(P,[part_of=W]),
+          name= [name(W),' ',name(P)],
+          synonyms= [[synonym(P),' of ',synonym(W)]],
           def= ['Any ',name(P),' that is involved in ',name(W),'.']
          ]).
 
@@ -174,7 +201,10 @@ template_request(MultiTemplate,Msgs,Opts) :-
         ;   true).
 
 
-
+template_request_2(Template,Msgs,Opts) :-
+        template_lookup(Template,requires,URLs),
+        maplist(load_biofile,URLs),
+        fail.
 template_request_2(MultiTemplate,Msgs,Opts) :-
         template_lookup(MultiTemplate,wraps,Templates),
         !,
@@ -275,6 +305,8 @@ new_facts_error(New,Facts,cannot_generate_def) :-
         \+ member(_:def(New,_),Facts).
 new_facts_error(New,Facts,cannot_generate_logical_def) :- 
         \+ member(_:genus(New,_),Facts).
+new_facts_error(New,Facts,cannot_generate_logical_def) :- 
+        \+ member(_:differentium(New,_,_),Facts).
 
 % ----------------------------------------
 % IDs
