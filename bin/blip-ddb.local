@@ -1,3 +1,3 @@
 #!/bin/sh
 export BLIP_CONFIG="bioconf-cgi:config_ddb"
-blip "$@"
+`dirname $0`/blip "$@"
