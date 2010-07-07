@@ -406,17 +406,17 @@ ontol_page_actual([quickterm,S],Params):-
         ;   T=''),
         (   member(submit=_,Params),
             member(commit=Commit,Params)
-        ->  template_resolve_args(T,Params,Template),
+        ->  template_resolve_args(T,Params,Template,UL),
             debug(ontol_rest,'template= ~w commit=~w',[Template,Commit]),
-            template_request(Template,Msg,[commit(Commit),
-                                           % HARDCODE ALERT!
-                                           subfile('/Users/cjm/cvs/go/ontology/editors/xp_submit/go_xp_submit.obo'),
-                                           addfile('/Users/cjm/cvs/go/ontology/editors/xp_submit/go_xp_add.obo'),
-                                           delfile('/Users/cjm/cvs/go/ontology/editors/xp_submit/go_xp_del.obo')
-                                           ]),
-            debug(ontol_rest,'  requested, resp=~w',[Msg]),
-            emit_page(quickterm_results(T,S,Msg),Params),
-            debug(ontol_rest,'  emitted page',[])
+            (   UL=[]
+            ->  template_request(Template,Msg,[commit(Commit),
+                                % HARDCODE ALERT!
+                                               subfile('/Users/cjm/cvs/go/ontology/editors/xp_submit/go_xp_submit.obo'),
+                                               addfile('/Users/cjm/cvs/go/ontology/editors/xp_submit/go_xp_add.obo'),
+                                               delfile('/Users/cjm/cvs/go/ontology/editors/xp_submit/go_xp_del.obo')
+                                              ]),
+                emit_page(quickterm_results(T,S,Msg),Params)
+            ;   emit_page(quickterm_unresolved(T,S,UL),Params))
         ;   emit_page(quickterm(T,S),Params)).
 
 

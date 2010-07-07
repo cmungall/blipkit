@@ -1,8 +1,10 @@
 :- module(quickterm,
           [
            quickterm_template/1,
+           qtt_arg_type/3,
+           qtt_description/2,
            template_request/3,
-           template_resolve_args/3
+           template_resolve_args/4
           ]).
 
 :- use_module(bio(io)).
@@ -19,16 +21,11 @@ regrel(positively_regulates).
 % ----------------------------------------
 % TEMPLATES
 % ----------------------------------------
-
-quickterm_template(T) :-
-        template(TT,_),
-        functor(TT,T,_).
-
-
 template(all_regulation(X),
          [
+          description= 'generates 3 regulation terms',
           ontology= 'GO',
-          arguments= [biological_process],
+          arguments= [target=biological_process],
           wraps= [regulation(X),
                   negative_regulation(X),
                   positive_regulation(X)]
@@ -36,7 +33,8 @@ template(all_regulation(X),
 template(regulation(X),
          [
           ontology= 'GO',
-          arguments= [biological_process],
+          private= true,
+          arguments= [target=biological_process],
           cdef= cdef('GO:0065007',[regulates=X]),
           name= ['regulation of ',name(X)],
           def= ['Any process that modulates the frequency, rate or extent of ',name(X),'.']
@@ -44,7 +42,8 @@ template(regulation(X),
 template(negative_regulation(X),
          [
           ontology= 'GO',
-          arguments= [biological_process],
+          private= true,
+          arguments= [target=biological_process],
           cdef= cdef('GO:0065007',[negatively_regulates=X]),
           name= ['negative regulation of ',name(X)],
           def= ['Any process that stops, prevents or reduces the frequency, rate or extent of ',name(X),'.']
@@ -52,7 +51,8 @@ template(negative_regulation(X),
 template(positive_regulation(X),
          [
           ontology= 'GO',
-          arguments= [biological_process],
+          private= true,
+          arguments= [target=biological_process],
           cdef= cdef('GO:0065007',[positively_regulates=X]),
           name= ['positive regulation of ',name(X)],
           def= ['Any process that activates or increases the frequency, rate or extent of ',name(X),'.']
@@ -60,8 +60,9 @@ template(positive_regulation(X),
 
 template(involved_in(P,W),
          [
+          description= 'processes involved in other processes',
           ontology= 'GO',
-          arguments= [biological_process,biological_process],
+          arguments= [part=biological_process,whole=biological_process],
           cdef= cdef(P,[part_of=W]),
           name= [name(P),' involved in ',name(W)],
           synonyms= [[syn(P),' of ',syn(W)]],
@@ -71,6 +72,22 @@ template(involved_in(P,W),
 % ----------------------------------------
 % TEMPLATE LOOKUP
 % ----------------------------------------
+
+
+quickterm_template(T) :-
+        template(TT,_),
+        functor(TT,T,_),
+        \+ template_lookup(T,private,true).
+
+
+qtt_arg_type(T,A,Dom) :-
+        template_lookup(T,arguments,AL),
+        member(A=Dom,AL).
+
+qtt_description(T,Desc) :-
+        template_lookup(T,description,Desc).
+
+        
 
 template_lookup(T,Key,Val) :-
         atom(T), % allow either template name or template term
@@ -139,7 +156,9 @@ template_request(MultiTemplate,Msgs,Opts) :-
         ->  atom_concat(NF,'-mutex',Mutex),
             tell(Mutex),
             format('~w.~n',[MultiTemplate]),
-            told
+            told,
+            sformat(Cmd,'chmod 777 ~w',[Mutex]),
+            shell(Cmd)
         ;   true),
         (   member(subfile(NF),Opts),
             exists_file(NF)
@@ -151,7 +170,7 @@ template_request(MultiTemplate,Msgs,Opts) :-
         ;   true),
         template_request_2(MultiTemplate,Msgs,Opts),
         (   nonvar(Mutex)
-        ->  delete_file(Mutex)
+        ->  catch(delete_file(Mutex),_,true)
         ;   true).
 
 
@@ -334,21 +353,24 @@ tokens_translate(X,_,_) :-
 % ----------------------------------------
 % HTTP HELPER
 % ----------------------------------------
-template_resolve_args(T,Params,Template) :-
-        debug(ontol_rest,'lookup: ~w',[T]),
+template_resolve_args(T,Params,Template,UnresolvedList) :-
         template_lookup(T,arguments,ArgDomains),
-        debug(ontol_rest,'doms: ~w',[ArgDomains]),
-        params_args(1,ArgDomains,Params,Args),
+        params_args(ArgDomains,Params,Args,UnresolvedList),
         Template=..[T|Args].
 
-params_args(_,[],_,[]).
-params_args(Num,[_|Doms],Params,[A|Args]) :-
-        concat_atom([arg,Num],P),
-        debug(ontol_rest,'  checking: ~w in ~w',[P,Params]),
+params_args([],_,[],[]).
+params_args([P=Dom|Doms],Params,[A|Args],UL) :-
         member(P=AN,Params),
         entity_label(A,AN),
-        Num2 is Num+1,
-        params_args(Num2,Doms,Params,Args).
+        !,
+        params_args(Doms,Params,Args,UL).
+params_args([P=Dom|Doms],Params,Args,[AN|UL]) :-
+        member(P=AN,Params),
+        !,
+        params_args(Doms,Params,Args,UL).
+params_args([P=_|Doms],Params,Args,[P|UL]) :-
+        !,
+        params_args(Doms,Params,Args,UL).
 
 
 

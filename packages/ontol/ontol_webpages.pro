@@ -278,20 +278,26 @@ quickterm('',S) =>
 
 
 quickterm(T,S) =>
-  outer(['QuickTerm Request: ',S,' ',T],
-        div(h2(hlink(S)),
-            h3('QuickTerm Request: ',S,' ',T),
+  call(ensure_loaded(bio(quickterm))),
+  outer(['QuickTerm Request: ',S,' template: ',T],
+        div(h2(hlink([quickterm,S])),
+            h3('QuickTerm Request in ',S),
             div(class=chooser,
-                p('Template: ',T),
+                h4('Template: ',T),
+                p(Desc) where qtt_description(T,Desc),
                 form(input(type=hidden,
                            name=template,
                            value=T),
-                     input(class=term,
-                           type=text,
-                           name=arg1,
-                           id=target,
-                           size=30,
-                           style='outline: #3875D7 solid 1px;'),
+                     
+                     div(A,':',
+                         input(class=term,
+                               type=text,
+                               name=A,
+                               id=target,
+                               size=30,
+                               style='outline: #3875D7 solid 1px;'),
+                         '(',Dom,')') forall (qtt_arg_type(T,A,Dom)),
+                                              
                      html:br,
                      input(type=checkbox,
                            name=commit,
@@ -301,10 +307,14 @@ quickterm(T,S) =>
                 html:br))).
 
 quickterm_results(T,S,Msgs) =>
-  call(debug(ontol_rest,'QTR. Msgs=~w',[Msgs])),
   outer(['QuickTerm Request: ',S,' ',T],
         div(h2(hlink(S)),
             quickterm_result_msgs(Msgs))).
+
+quickterm_unresolved(T,S,UL) =>
+  outer(['QuickTerm Request: ',S,' ',T,' FAIL'],
+        div(h2(hlink('FAILED. Could not resolve some terms')),
+            ul(li('Unresolved: ',X) forall member(X,UL)))).
 
 /*            
             if( ( member(ok(_,_,_),Msgs);
@@ -325,8 +335,11 @@ quickterm_result_msgs(Msgs) =>
     then: [quickterm_result_msgs(Msg) forall member(Msg,Msgs)],
     else: [quickterm_result_msg(Msgs)]).
 
-quickterm_result_msg(error(Msg)) =>
-  h3('Error: '),pre(noesc(Msg)).
+quickterm_result_msg(error(E)) =>
+  call( E=.. [Type|Args]),
+  h3('Error: ',Type),
+  ul(li(A,[' ',AN where entity_label(A,AN)]) forall member(A,Args)).
+
 
 quickterm_result_msg(ok(ID,Status,Msg)) =>
   if(Status=committed,
