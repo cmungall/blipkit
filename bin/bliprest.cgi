@@ -56,10 +56,16 @@ sub run_blip_rest {
 	    }
         }
     }
+    my $EXEC = 'blip.local';
+
+    # HACK
+    if ($path =~ /quickterm/) {
+        $EXEC = 'blip-ddb.local';
+    }
 
     my $wait = 1;
     while ($wait) {
-        my @processes = split(/\n/,`ps auxwww | grep blip.local`);
+        my @processes = split(/\n/,`ps auxwww | grep $EXEC`);
         if (@processes < 4) {
             $wait = 0;
         }
@@ -83,7 +89,7 @@ sub run_blip_rest {
     open(CW,">$cmdf");
     print STDERR "ontol_rest '$path' $qs\n";
     print CW "ontol-rest -set_data_cache $DATA_CACHE -debug load -debug ontol_rest '$path' $qs\n";
-    my $ok = open(P,"ulimit -t $ULIMIT; cat $cmdf | $PATH_TO_BLIP/blip.local read 2> $errf |");
+    my $ok = open(P,"ulimit -t $ULIMIT; cat $cmdf | $PATH_TO_BLIP/$EXEC read 2> $errf |");
     my @lines = <P>;
     $ok &&= close(P);
     my $payload = join('',@lines);

@@ -405,7 +405,9 @@ ontol_page_actual([quickterm,S],Params):-
         ->  true
         ;   T=''),
         (   member(submit=_,Params),
-            member(commit=Commit,Params)
+            (   member(commit=Commit,Params)
+            ->  true
+            ;   Commit=false)
         ->  template_resolve_args(T,Params,Template,UL),
             debug(ontol_rest,'template= ~w commit=~w',[Template,Commit]),
             (   UL=[]
