@@ -414,7 +414,11 @@ class_cdef(ID,cdef(G,Diffs)):-
 cdef_placement(CDef,Equiv,NRParents,NRChildren,Redundant) :-
         debug(cdef_placement,'finding parents of ~w',[CDef]),
 	solutions(Parent,(class_cdef(Parent,ParentCDef),
-                          subclassX(CDef,ParentCDef)),Parents),
+                          subclassX(CDef,ParentCDef)),InferredParents),
+        (   InferredParents=[]
+        ->  CDef=cdef(Parent,_),
+            Parents=[Parent]    % default to genus
+        ;   Parents=InferredParents),
         debug(cdef_placement,'finding equivs of ~w',[CDef]),
 	solutions(Parent,(member(Parent,Parents),subclassX(Parent,CDef)),Equiv),
         debug(cdef_placement,'finding children of ~w',[CDef]),

@@ -409,7 +409,9 @@ ontol_page_actual([quickterm,S],Params):-
             (   member(commit=Commit,Params)
             ->  true
             ;   Commit=false)
-        ->  template_resolve_args(T,Params,Template,UL),
+        ->  forall(qtt_external(T,ExtOnt),
+                   preload_ont(ExtOnt,Params)),
+            template_resolve_args(T,Params,Template,UL),
             debug(ontol_rest,'template= ~w commit=~w',[Template,Commit]),
             (   UL=[]
             ->  findall(Opt,

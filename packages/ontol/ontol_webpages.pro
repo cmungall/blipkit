@@ -273,23 +273,45 @@ basicrow(ID) =>
 % QUICKTERM
 % ----------------------------------------
 
+quickterm_outer(N,P) =>
+ html:html(
+           head(title(N),
+                html:meta('http-equiv'='content-type', content='text/html; charset=utf-8',
+                          html:meta(name=html_url, 
+                                    link(href='/amigo2/css/formatting.css', rel=stylesheet, type='text/css'),
+                                    link(href='http://amigo.berkeleybop.org/amigo/js/org/bbop/amigo/ui/css/autocomplete.css', rel=stylesheet, type='text/css'),
+				    script(type='text/javascript', src=X) forall_unique javascript(X),
+				    html:style(type='text/css',CSS) forall_unique css(CSS)
+                                    %script(type='text/javascript',
+                                    %       'jQuery(document).ready(function(){ new org.bbop.amigo.ui.autocomplete({id:"target", narrow:"true", search_type:"term", ontology: "biological_process", completion_type:"completion"}); })')
+                                    ))),
+           
+           html:body(div(id=header, a(class='logo floatR', href='search.cgi',
+                                      img(src='http://amigo.geneontology.org/amigo/images/logo-sm.png', alt='AmiGO logo', title='AmiGO front page')),
+                         h1(id=top, a(href='http://www.geneontology.org/', title='GO website', 'the Gene Ontology'))),
+                     
+                     div(class=contents,
+                         P)
+                    )).
+
+
 quickterm('',S) =>
   call(ensure_loaded(bio(quickterm))),
-  outer(['QuickTerm Request: ',S],
+  quickterm_outer(['QuickTerm Request: ',S],
         div(h2(hlink(S)),
             h3('QuickTerm Request: ',S),
             div(class=chooser,
                 p('Select a template'),
                 form(id=template_selection,
                      select(name=template,
-                             option(value=T,T) forall (quickterm_template(T))
+                             option(value=T,T) forall (valid_qtt(T,S))
                             ),
                      input(name=submit,type=submit,value=proceed))))).
 
 
 quickterm(T,S) =>
   call(ensure_loaded(bio(quickterm))),
-  outer(['QuickTerm Request: ',S,' template: ',T],
+  quickterm_outer(['QuickTerm Request: ',S,' template: ',T],
         div(h2(hlink([quickterm,S])),
             h3('QuickTerm Request in ',S),
             div(class=chooser,
@@ -351,13 +373,13 @@ quickterm_form(T) =>
       input(name=submit,type=submit,value=submit)).
 
 quickterm_results(T,S,Msgs) =>
-  outer(['QuickTerm Request: ',S,' ',T],
+  quickterm_outer(['QuickTerm Request: ',S,' ',T],
         div(h2(hlink([quickterm,S])),
             quickterm_result_msgs(Msgs),
             quickterm_form(T))).
 
 quickterm_unresolved(T,S,UL) =>
-  outer(['QuickTerm Request: ',S,' ',T,' FAIL'],
+  quickterm_outer(['QuickTerm Request: ',S,' ',T,' FAIL'],
         div(h2(hlink('FAILED. Could not resolve some terms')),
             ul(li('Unresolved: ',X) forall member(X,UL)),
             quickterm_form(T))).

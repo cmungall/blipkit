@@ -1,9 +1,10 @@
 :- module(quickterm,
           [
-           quickterm_template/1,
+           valid_qtt/2,
            qtt_arg_type/3,
            qtt_description/2,
            qtt_wraps/2,
+           qtt_external/2,
            template_request/3,
            template_resolve_args/4
           ]).
@@ -38,7 +39,10 @@ regrel(positively_regulates).
 
 template(all_regulation(X),
          [
-          description= 'generates 3 regulation terms',
+          description= 'Select all three subtemplates to generate
+           terms for regulation, negative regulations and positive
+           regulation. Names, synonyms and definitions are all
+           generated automatically',
           ontology= 'GO',
           arguments= [target=biological_process],
           wraps= [regulation(X),
@@ -111,15 +115,70 @@ template(part_of_cell_component(P,W),
           def= ['Any ',name(P),' that is part of a ',name(W),'.']
          ]).
 
+template(protein_binding(X),
+         [
+          description= 'binding to a protein',
+          ontology= 'GO',
+          externals= ['PRO'],
+          requires= ['http://www.geneontology.org/scratch/xps/molecular_function_xp_protein.obo'],
+          arguments= [target='PRO'],
+          cdef= cdef('GO:0005488',['OBO_REL:results_in_binding_of'=X]),
+          name= [name(X),' binding'],
+          synonyms= [[synonym(X),' binding']],
+          def= ['Interacting selectively and non-covalently with ',name(X),'.']
+         ]).
+
+template(metazoan_development(X),
+         [
+          description= 'development of an animal anatomical structure',
+          ontology= 'GO',
+          externals= ['UBERON'],
+          requires= ['http://www.geneontology.org/scratch/xps/biological_process_xp_uber_anatomy.obo'],
+          arguments= [target='UBERON'],
+          cdef= cdef('GO:0032502',['OBO_REL:results_in_complete_development_of'=X]),
+          name= [name(X),' development'],
+          synonyms= [[synonym(X),' development']],
+          def= ['The process whose specific outcome is the progression of ',refname(X),' over time, from its formation to the mature structure.']
+                %def([' A ',name(X),' is '],X,'.')
+         ]).
+
+template(metazoan_morphologenesis(X),
+         [
+          description= 'morphogenesis of an animal anatomical structure',
+          ontology= 'GO',
+          externals= ['UBERON'],
+          requires= ['http://www.geneontology.org/scratch/xps/biological_process_xp_uber_anatomy.obo'],
+          arguments= [target='UBERON'],
+          cdef= cdef('GO:0009653',['OBO_REL:results_in_morphogenesis_of'=X]),
+          name= [name(X),' morphogenesis'],
+          synonyms= [[synonym(X),' morphogenesis']],
+          def= ['The developmental process by which ',refname(X),' is generated and organized.']
+         ]).
+
+
+template(abnormal_morphology(A),
+         [
+          ontology= 'HP',
+          description= 'Abnormal X morphology',
+          externals= ['FMA','PATO'],
+          requires= ['HP_XP'],
+          arguments= [target='FMA'],
+          cdef= cdef('PATO:0000051',['OBO_REL:inheres_in'=A]),
+          name= ['Abnormal ',name(A),' morphology'],
+          def= ['Any morphological abnormality of a ',name(A),'.']
+         ]).
+
 % ----------------------------------------
 % TEMPLATE LOOKUP
 % ----------------------------------------
 
 
-quickterm_template(T) :-
+valid_qtt(T,S) :-
         template(TT,_),
         functor(TT,T,_),
-        \+ template_lookup(T,private,true).
+        \+ template_lookup(T,private,true),
+        template_lookup(T,ontology,S).
+
 
 
 qtt_arg_type(T,A,Dom) :-
@@ -133,7 +192,10 @@ qtt_wraps(T,X) :-
         template_lookup(T,wraps,L),
         member(XT,L),
         functor(XT,X,_).
-        
+
+qtt_external(T,O) :-
+        template_lookup(T,externals,L),
+        member(O,L).
 
 template_lookup(T,Key,Val) :-
         atom(T), % allow either template name or template term
@@ -255,8 +317,9 @@ template_request(MultiTemplate,Msgs,Opts) :-
         ->  catch(delete_file(Mutex),_,true)
         ;   true).
 
-
 template_request_2(Template,_Msgs,_Opts) :-
+        % loading everything in requires
+        % (currently leaves externals up to caller.... TODO)
         template_lookup(Template,requires,URLs),
         maplist(load_biofile,URLs),
         fail.
@@ -272,18 +335,22 @@ template_request_2(Template,error(term_with_same_logical_definition_exists(X)),_
         template_lookup(Template,cdef,CDef),
         class_cdef(X,CDef),
         !.
+template_request_2(Template,error(genus_may_not_match_differentia_term(G)),_) :-
+        template_lookup(Template,cdef,cdef(G,DL)),
+        member(_=G,DL),
+        !.
 template_request_2(Template,Msg,Opts) :-
         generate_id(Template,New,Opts),
         findall(Fact,generate_fact(Template,New,Fact,Opts),Facts),
         request_term_from_facts(Template,New,Facts,Msg,Opts).
 
-request_term_from_facts(_Template,New,Facts,error(Errs),_Opts) :-
-        setof(Err,new_facts_error(New,Facts,Err),Errs),
+request_term_from_facts(_Template,New,Facts,error(Err),_Opts) :-
+        new_facts_error(New,Facts,Err),
         !.
 request_term_from_facts(Template,New,Facts,Msg,Opts) :-
         template_lookup(Template,cdef,CDef),
         debug(quickterm,'placement: ~w',[CDef]),
-        cdef_placement(CDef,_Equivs,NRParents,NRChildren,RedundantSubclassPairs),
+        cdef_placement(CDef,Equivs,NRParents,NRChildren,RedundantSubclassPairs),
         debug(quickterm,'  placement: P:~w C:~w R:~w',[NRParents,NRChildren,RedundantSubclassPairs]),
         findall(ontol_db:subclass(New,Parent),member(Parent,NRParents),PFacts),
         findall(ontol_db:subclass(Child,New),member(Child,NRChildren),CFacts),
@@ -292,10 +359,14 @@ request_term_from_facts(Template,New,Facts,Msg,Opts) :-
         %facts_json(New,NewFacts,DeleteFacts,JSON,Opts),
         write_obo(New,NewFacts,DeleteFacts,Files,Opts),
         collect_files(Files,OboAtom),
-        (   member(commit(true),Opts)
-        ->  commit_files(Files,Opts),
-            Msg=ok(New,committed,OboAtom)
-        ;   Msg=ok(New,uncommitted,OboAtom)).
+        (   Equivs=[]
+        ->  (   member(commit(true),Opts)
+            ->  commit_files(Files,Opts),
+                Msg=ok(New,committed,OboAtom)
+            ;   Msg=ok(New,uncommitted,OboAtom))
+        ;   Equivs=[Equiv|_], % take the first one arbitrarily
+            Msg=error(reasoner_inferred_equivalence_to_existing_class(Equiv))).
+
 
 commit_files(files(N,A,D),Opts) :-
         member(subfile(NF),Opts),
@@ -358,6 +429,9 @@ write_facts(File,Facts) :-
 
 
 % check
+new_facts_error(New,Facts,term_with_same_name_exists(X)) :- 
+        member(_:entity_label(New,Name),Facts),
+        entity_label(X,Name).
 new_facts_error(New,Facts,cannot_generate_name) :- 
         \+ member(_:entity_label(New,_),Facts).
 new_facts_error(New,Facts,cannot_generate_def) :- 
@@ -434,11 +508,22 @@ tokens_translate([Tok|Toks],[TokX|ToksX],[S1|S2],Opts) :-
 tokens_translate(name(X),Name,name,_) :-
         entity_label(X,Name),
         !.
+tokens_translate(refname(X),Phrase,name,_) :-
+        entity_label(X,Name),
+        (   starts_with_vowel(Name)
+        ->  atom_concat('an ',Name,Phrase)
+        ;   atom_concat('a ',Name,Phrase)),
+        !.
 tokens_translate(synonym(X),Name,Scope,_) :-
         !,
         (   entity_label(X,Name),
             Scope=name
         ;   entity_synonym_scope(X,Name,Scope)).
+tokens_translate(def(Prefix,X,Suffix),DefSentence,def,Opts) :-
+        !,
+        (   def(X,Def)
+        ->  tokens_translate([Prefix,Def,Suffix],DefSentence,_,Opts)
+        ;   DefSentence='').
 tokens_translate(X,X,exact,_) :-
         atom(X),
         !.
@@ -456,6 +541,11 @@ combine_scopes(Scopes,ScopeCombined) :-
             forall(member(S,L),S=ScopeCombined)
         ->  true
         ;   ScopeCombined=related).
+
+starts_with_vowel(A) :-
+        sub_atom(A,0,1,_,X),
+        member(X,[a,e,i,o,u]). % h?
+
 
 
 % ----------------------------------------
