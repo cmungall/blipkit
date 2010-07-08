@@ -473,6 +473,29 @@ ontol_page_actual([open_node,ID],Params):-
         emit_content_type('text/html'),
         emit_page(browser_open_node(ID),Params).
 
+ontol_page_actual([tree2,Ont],Params):-
+        debug(ontol_rest,' params=~w',[Params]),
+        emit_content_type('text/html'),
+        preload_ont(Ont,Params),
+        emit_page(ontology_browsable_tree2(Ont),Params).
+
+ontol_page_actual([open_node2,ID,DepthA],Params):-
+        preload(ID,Params),
+        %emit_content_type('text/html'),
+        atom_number(DepthA,Depth),
+        Depth2 is Depth+1,
+        emit_json(browser_subnodes_json(Depth2,ID,open),Params).
+
+ontol_page_actual([xxxopen_node2,ID,DepthA],Params):-
+        preload(ID,Params),
+        %emit_content_type('application/json'),
+        emit_content_type('text/html'),
+        atom_number(DepthA,Depth),
+        Depth2 is Depth+1,
+        emit_page(browser_node2(Depth2,ID,open),Params).
+%emit_page(browser_subnodes_json(Depth2,ID,open),Params).
+
+
 ontol_page_actual([query,Ont],Params):-
         debug(ontol_rest,' params=~w',[Params]),
         (   member(query=QA,Params)
@@ -553,6 +576,11 @@ emit_page(Page,Params):-
         user:consult(bio(ontol_webpages)),
         % X=xml([]),
         write_sterm(Params,Page).
+
+emit_json(Page,Params):-
+        user:consult(bio(ontol_webpages)),
+        emit_content_type('application/json'),
+        write_sterm(Params,xml([]),Page).
 
 load_mods:-
         serval:ensure_loaded(bio(metadata_db)),

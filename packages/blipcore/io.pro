@@ -249,7 +249,9 @@ file_from_url(Px,URL):-
         !,
         sformat(Cmd,'~w -q -O \'~w.tmp\' \'~w\' && mv \'~w.tmp\' \'~w\'',[Wget,Px,URL,Px,Px]),
         debug(load,'Executing ~w',[Cmd]),
-        shell(Cmd),
+        (   shell(Cmd)
+        ->  true
+        ;   debug(load,' FAILED: ~w',[Cmd])),
         delete_file(Lock).
 
 age_exceeds_threshold(Age):-

@@ -13,8 +13,9 @@ user:file_search_path(obo_metadata_local, 'http://obo.cvs.sourceforge.net/viewvc
 % TODO: use git submodules intsead!!
 user:file_search_path(library,'/users/cjm/cvs/').
 
-
-user:max_cached_file_age_seconds(MaxAge):- MaxAge is 3600 * 100. % ~4 days
+% avoid costly downloads during CGI process
+% (assume separate process runs with caching)
+user:max_cached_file_age_seconds(MaxAge):- MaxAge is 3600 * 300. % ~12 days
 
 
 % allow alternate suffixes on prolog fact files (default is .pl)

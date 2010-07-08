@@ -46,6 +46,7 @@
 %:- use_module(library('http/xpce_httpd')).
 :- use_module(library('http/thread_httpd')).
 :- use_module(library('http/http_session')).
+:- use_module(library('http/json')).
 :- use_module(bio(mode)).
 :- use_module(bio(bioprolog_util),
               [solutions/3,
@@ -655,6 +656,16 @@ write_sterm(D,X,if(C,then:Then)):-
         (C
         ->  write_sterm(D,X,Then)
         ;   true).
+write_sterm(D,X,esc(G)):-
+        !,
+        with_output_to(atom(Body),
+                       write_sterm(D,X,G)),
+        xmlnode(X,Body).
+write_sterm(D,X,json_atom(G)):-
+        !,
+        with_output_to(atom(Body),
+                       write_sterm(D,X,G)),
+        json_write(user_output,Body).
 write_sterm(_D,X,data(Body)):-
         !,
         xmlnode(X,Body).
@@ -786,6 +797,8 @@ builtin_element(img).
 builtin_element(script).
 
 builtin_element(table).
+builtin_element(tbody).
+builtin_element(thead).
 builtin_element(tr).
 builtin_element(td).
 builtin_element(th).

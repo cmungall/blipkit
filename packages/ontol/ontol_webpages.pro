@@ -279,7 +279,7 @@ quickterm_outer(N,P) =>
                 html:meta('http-equiv'='content-type', content='text/html; charset=utf-8',
                           html:meta(name=html_url, 
                                     link(href='/amigo2/css/formatting.css', rel=stylesheet, type='text/css'),
-                                    link(href='http://amigo.berkeleybop.org/amigo/js/org/bbop/amigo/ui/css/autocomplete.css', rel=stylesheet, type='text/css'),
+                                    %link(href='http://amigo.berkeleybop.org/amigo/js/org/bbop/amigo/ui/css/autocomplete.css', rel=stylesheet, type='text/css'),
 				    script(type='text/javascript', src=X) forall_unique javascript(X),
 				    html:style(type='text/css',CSS) forall_unique css(CSS)
                                     %script(type='text/javascript',
@@ -423,47 +423,79 @@ quickterm_result_msg(ok(ID,Status,Msg)) =>
               
 
 % ----------------------------------------
+% tree browing3 TODO
+% ----------------------------------------
+
+ontology_browsable_tree3(S) =>
+ call(solutions(ID,
+                (   class(ID),
+                    id_idspace(ID,S),
+                    \+((subclass(ID,P),id_idspace(P,S)))),
+                Roots)),
+  outer(['Browse: ',S],
+        div(h2(hlink(S)),
+            tree_browser_tree(S,[Roots]))).
+
+
+% ----------------------------------------
 % tree browing2 TODO
 % ----------------------------------------
+
 ontology_browsable_tree2(S) =>
   outer(['Browse: ',S],
         div(h2(hlink(S)),
-            div(class=treeview,
-                ul(browser_node2(ID) forall (class(ID),id_idspace(ID,S),
-                                            \+((subclass(ID,P),id_idspace(P,S)))))))).
+            table(id=browsetbl,
+                  border=1,
+                  tbody(id=browsetbl_tbody,
+                        browser_node2(1,ID,open) forall (class(ID),id_idspace(ID,S),
+                                                         \+((subclass(ID,P),id_idspace(P,S)))))
+                 ))).
 
-browser_node2(ID) =>
+% table row
+browser_node2(Depth,ID,Open) =>
   call(sformat(OpenEltID,'open-~w',[ID])),
-  call(id_url(open_node2/ID,OpenURL)),
-  call(sformat(JS,'JavaScript:replaceContents(document.getElementById(\'~w\'),\'~w\');',[OpenEltID,OpenURL])),
-  li(id=OpenEltID,
-     span(class=treetbl_left,
-          if(subclass(_,ID),
-             then: [html:input(type=image,
-                               onClick=JS,
-                               src='http://amigo.berkeleybop.org/amigo/images/plus.png',
-                               alt=open)
-                   ],
-             else: [img(src='http://amigo.berkeleybop.org/amigo/images/dot.png')]
-            ),
-          hlink(ID)),
-     browser_node_info2(ID)).
-
-browser_open_node2(ID) =>
-  call(sformat(CloseEltID,'open-~w',[ID])),
-  call(id_url(open_node2/ID,CloseURL)),
+  call(id_url(open_node/ID,CloseURL)),
   % TODO: close
   call(sformat(_JS,'JavaScript:replaceContents(document.getElementById(\'~w\'),\'~w\');',[CloseEltID,CloseURL])),
-  li(span(id=CloseEltID,
-          span(class=treetbl_left,
-               img(src='http://amigo.berkeleybop.org/amigo/images/minus.gif'),
-               hlink(ID)),
-          browser_node_info2(ID),
-          ul(browser_node(Y) forall (subclass(Y,ID))))).
+  tr(id=OpenEltID,
+     browser_node2_cols(Depth,ID,Open)),
+  call(DepthPlus1 is Depth+1),
+  if(Open=open,
+     then: [browser_node2(DepthPlus1,Y,close) forall subclass(Y,ID)],
+     else: []
+    ).
+
+
+browser_node2_cols(Depth,ID,Open) =>
+  call(sformat(OpenEltID,'open-~w',[ID])),
+  call(id_url(open_node2/ID/Depth,OpenURL)),
+  call(sformat(JS,'JavaScript:addRowsToTBody(document.getElementById(\'browsetbl_tbody\'),document.getElementById(\'~w\'),\'~w\');',[OpenEltID,OpenURL])),
+  call(sformat(CloseEltID,'open-~w',[ID])),
+  call(Dist is 22-Depth),
+  td('.') forall between(1,Depth,_),
+  td(if(subclass(_,ID),
+        then: [html:input(type=image,
+                          onClick=JS,
+                          src='/amigo2/images/plus.png',
+                          alt=open)
+              ],
+        else: [img(src='/amigo2/images/dot.png')]
+       )),
+  td(colspan=Dist,
+     hlink(ID)),
+  browser_node_info2(ID).
+
+browser_subnodes_json(Depth,ID,Open) =>
+ call(DepthPlus1 is Depth+1),
+ '[',
+ [json_atom(browser_node2_cols(DepthPlus1,Y,close)),
+  ', '] forall subclass(Y,ID),
+ ']'.
+
 
 browser_node_info2(ID) =>
-  span(class=treetbl_right,
-       data(X) where def(ID,X)).
+ td(x),
+ td(data(X) where def(ID,X)).
 
 % ----------------------------------------
 % tree browing
@@ -909,8 +941,8 @@ outer(N,P) =>
                                     script(type='text/javascript',
                                            'var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
                                           document.write(unescape("%3Cscript src=\'" + gaJsHost + "google-analytics.com/ga.js\' type=\'text/javascript\'%3E%3C/script%3E"));'),
-                                    script(type='text/javascript',
-                                           'jQuery(document).ready(function(){ new org.bbop.amigo.ui.autocomplete({id:"target", narrow:"true", search_type:"term", ontology: "biological_process", completion_type:"completion"}); })'),
+%                                    script(type='text/javascript',
+%                                           'jQuery(document).ready(function(){ new org.bbop.amigo.ui.autocomplete({id:"target", narrow:"true", search_type:"term", ontology: "biological_process", completion_type:"completion"}); })'),
                                     script(type='text/javascript',
                                           'try {
                                            var pageTracker = _gat._getTracker("UA-11782828-2");

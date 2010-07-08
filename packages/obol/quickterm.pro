@@ -161,25 +161,33 @@ template(abnormal_morphology(A),
           ontology= 'HP',
           description= 'Abnormal X morphology',
           externals= ['FMA','PATO'],
-          requires= ['HP_XP'],
+          requires= ['http://compbio.charite.de/svn/hpo/trunk/human-phenotype-ontology_xp.obo'],
           arguments= [target='FMA'],
           cdef= cdef('PATO:0000051',['OBO_REL:inheres_in'=A]),
           name= ['Abnormal ',name(A),' morphology'],
           def= ['Any morphological abnormality of a ',name(A),'.']
          ]).
 
+template(metazoan_location_specific_cell(C,A),
+         [
+          ontology= 'CL',
+          description= 'A cell type differentiated by its anatomical location (animals)',
+          externals= ['UBERON'],
+          arguments= [cell=C,location='UBERON'],
+          cdef= cdef(C,[part_of=A]),
+          name= [name(A),' ',name(C)],
+          def= ['Any ',name(C),' that is part of a ',name(A),'.']
+         ]).
+
 % ----------------------------------------
 % TEMPLATE LOOKUP
 % ----------------------------------------
-
 
 valid_qtt(T,S) :-
         template(TT,_),
         functor(TT,T,_),
         \+ template_lookup(T,private,true),
         template_lookup(T,ontology,S).
-
-
 
 qtt_arg_type(T,A,Dom) :-
         template_lookup(T,arguments,AL),
@@ -248,7 +256,7 @@ generate_facts(Template,New,[ontol_db:def(New,Def),
         ->  true
         ;   DX='OBOL:automatic').
 
-generate_facts(Template,New,[metadata_db:entity_comment(New,X)],Opts) :-
+generate_facts(_,New,[metadata_db:entity_comment(New,X)],Opts) :-
         member(comment(X),Opts).
 
 generate_facts(Template,New,[ontol_db:genus(New,Genus)],_) :-

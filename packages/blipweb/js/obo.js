@@ -34,6 +34,40 @@ function replaceContents(e, url){
 	        });
 }
 
+function replaceElement(e, url){
+    dojo.xhrGet({url: url,
+		 load: function(o) { 
+                     //e.innerHTML = o;
+                     //e.insertBefore("foo");
+                     //e.appendChild("foo");
+                     return o;
+                 },
+                 error: function(o) {
+                     alert("Could not retrieve from "+url);
+                 },
+	        });
+}
+
+function addRowsToTBody(tb, e, url){
+    //nr.innerHTML = "<td colspan=5>xxxx</td>";
+    //tb.insertBefore(nr,e.nextElementSibling);
+    dojo.xhrGet({url: url,
+		 load: function(o) { 
+                     rowlist = eval(o);
+                     for (i in rowlist) {
+                         row = document.createElement('tr');
+                         tb.insertBefore(row,e.nextElementSibling);
+                         row.innerHTML += rowlist[i];
+                     }
+                     //tb.insertBefore(nr,e.nextElementSibling);
+                     return o;
+                 },
+                 error: function(o) {
+                     alert("Could not retrieve from "+url);
+                 },
+	        });
+}
+
 function toggleTable(div_id, showLabel, hideLabel){
 
     var detailsDiv = document.getElementById(div_id);
