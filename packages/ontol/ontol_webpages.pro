@@ -469,7 +469,7 @@ browser_node2(Depth,ID,Open) =>
 browser_node2_cols(Depth,ID,Open) =>
   call(sformat(OpenEltID,'open-~w',[ID])),
   call(id_url(open_node2/ID/Depth,OpenURL)),
-  call(sformat(JS,'JavaScript:addRowsToTBody(document.getElementById(\'browsetbl_tbody\'),document.getElementById(\'~w\'),\'~w\');',[OpenEltID,OpenURL])),
+  call(sformat(JS,'JavaScript:addRowsToTBody(\'browsetbl_tbody\',\'~w\',\'~w\');',[OpenEltID,OpenURL])),
   call(sformat(CloseEltID,'open-~w',[ID])),
   call(Dist is 22-Depth),
   td('.') forall between(1,Depth,_),
@@ -488,8 +488,10 @@ browser_node2_cols(Depth,ID,Open) =>
 browser_subnodes_json(Depth,ID,Open) =>
  call(DepthPlus1 is Depth+1),
  '[',
- [json_atom(browser_node2_cols(DepthPlus1,Y,close)),
-  ', '] forall subclass(Y,ID),
+ [call(sformat(OpenEltID,'open-~w',[Y])),
+  '{"id":',json_atom(OpenEltID),', ',
+  '"html":',json_atom(browser_node2_cols(DepthPlus1,Y,close)),
+  '}, '] forall subclass(Y,ID),
  ']'.
 
 

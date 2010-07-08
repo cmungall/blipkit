@@ -48,16 +48,20 @@ function replaceElement(e, url){
 	        });
 }
 
-function addRowsToTBody(tb, e, url){
+function addRowsToTBody(tbid, eid, url){
+    tb = document.getElementById(tbid);
+    e = document.getElementById(eid);
     //nr.innerHTML = "<td colspan=5>xxxx</td>";
     //tb.insertBefore(nr,e.nextElementSibling);
     dojo.xhrGet({url: url,
 		 load: function(o) { 
-                     rowlist = eval(o);
-                     for (i in rowlist) {
+                     rowdatalist = eval(o);
+                     for (i in rowdatalist) {
                          row = document.createElement('tr');
                          tb.insertBefore(row,e.nextElementSibling);
-                         row.innerHTML += rowlist[i];
+                         rowdata = rowdatalist[i];
+                         row.innerHTML += rowdata.html;
+                         row.id = rowdata.id;
                      }
                      //tb.insertBefore(nr,e.nextElementSibling);
                      return o;
