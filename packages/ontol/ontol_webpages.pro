@@ -423,34 +423,34 @@ quickterm_result_msg(ok(ID,Status,Msg)) =>
               
 
 % ----------------------------------------
-% tree browing2 TODO
+% tree browing
 % ----------------------------------------
 
-ontology_browsable_tree2(S) =>
+ontology_browsable_tree(S) =>
   outer(['Browse: ',S],
         div(h2(hlink(S)),
             %relation_toggler,
             table(id=browsetbl,
                   border=1,
                   tbody(id=browsetbl_tbody,
-                        browser_node2(1,ID,open) forall (class(ID),id_idspace(ID,S),
+                        browser_node(1,ID,open) forall (class(ID),id_idspace(ID,S),
                                                          \+((subclass(ID,P),id_idspace(P,S)))))
                  ))).
 
 % table row
-browser_node2(Depth,ID,Open) =>
+browser_node(Depth,ID,Open) =>
   call(sformat(OpenEltID,'open-~w',[ID])),
   tr(id=OpenEltID,
-     browser_node2_cols(Depth,ID,Open)),
+     browser_node_cols(Depth,ID,Open)),
   call(DepthPlus1 is Depth+1),
   if(Open=open,
-     then: [browser_node2(DepthPlus1,Y,close) forall subclass(Y,ID)],
+     then: [browser_node(DepthPlus1,Y,close) forall subclass(Y,ID)],
      else: []
     ).
 
-browser_node2_cols(Depth,ID,Open) =>
+browser_node_cols(Depth,ID,Open) =>
   call(sformat(OpenEltID,'open-~w',[ID])),
-  call(id_url(open_node2/ID/Depth,OpenURL)),
+  call(id_url(open_node/ID/Depth,OpenURL)),
   call(sformat(OpenJS,'JavaScript:clickTreeBrowserNode(\'browsetbl_tbody\',\'~w\',\'~w\');',[OpenEltID,OpenURL])),
   call(sformat(CloseEltID,'~w-close',[OpenEltID])),
   call((   Open=open
@@ -472,7 +472,7 @@ browser_node2_cols(Depth,ID,Open) =>
        )),
   td(colspan=Dist,
      span(hlink(ID))),
-  browser_node_info2(ID).
+  browser_node_info(ID).
 
 % TODO - make more elegant in serval
 browser_subnodes_json(Depth,ID) =>
@@ -480,30 +480,32 @@ browser_subnodes_json(Depth,ID) =>
  '[',
  [call(sformat(OpenEltID,'open-~w',[Y])),
   '{"id":',json_atom(OpenEltID),', ',
-  '"html":',json_atom(browser_node2_cols(DepthPlus1,Y,close)),
+  '"html":',json_atom(browser_node_cols(DepthPlus1,Y,close)),
   '}, '] forall subclass(Y,ID),
  ']'.
 
 
-browser_node_info2(ID) =>
+browser_node_info(ID) =>
  td(''),
  td(span(class=textdef, data(X)) where def(ID,X)).
 
 relation_toggler =>
+ call(solutions(R,restriction(_,R,_),Rs)),
  in(Params,call(params_drels_crels(Params,DRels,_CRels))),
- a(id=relation_toggler,
+ a(id=relation_form_toggler,
    href='#',
    onClick='toggleTable(\'relation_form\',\'Show relation controller\',\'Hide\');return false;',
    'Show relation controller'),
  form(id=relation_form,
       style='display:none',
-      ul(li(checkbox(rel,R,(member(R,DRels);DRels=[];DRels=[all])),
+      ul(li(checkbox(rel,R),
             hlink(R)) forall_unique member(R,Rs))).
 
 
 % ----------------------------------------
-% tree browing
+% tree browing OLD
 % ----------------------------------------
+/*
 ontology_browsable_tree(S) =>
   outer(['Browse: ',S],
         div(h2(hlink(S)),
@@ -545,7 +547,7 @@ browser_open_node(ID) =>
 browser_node_info(ID) =>
   span(class=treetbl_right,
        data(X) where def(ID,X)).
-
+*/
 
 % ----------------------------------------
 % entry point for an ontology

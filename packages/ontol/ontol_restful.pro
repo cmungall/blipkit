@@ -462,6 +462,7 @@ ontol_page_actual([metadata,ID],Params):-
         load_bioresource(obo_meta_xp),
         emit_page(ontology_metadata(ID),Params).
 
+/*
 ontol_page_actual([tree,Ont],Params):-
         debug(ontol_rest,' params=~w',[Params]),
         emit_content_type('text/html'),
@@ -472,14 +473,15 @@ ontol_page_actual([open_node,ID],Params):-
         preload(ID,Params),
         emit_content_type('text/html'),
         emit_page(browser_open_node(ID),Params).
+*/
 
-ontol_page_actual([tree2,Ont],Params):-
+ontol_page_actual([tree,Ont],Params):-
         debug(ontol_rest,' params=~w',[Params]),
         emit_content_type('text/html'),
         preload_ont(Ont,Params),
-        emit_page(ontology_browsable_tree2(Ont),Params).
+        emit_page(ontology_browsable_tree(Ont),Params).
 
-ontol_page_actual([open_node2,ID,DepthA],Params):-
+ontol_page_actual([open_node,ID,DepthA],Params):-
         preload(ID,Params),
         %emit_content_type('text/html'),
         atom_number(DepthA,Depth),
