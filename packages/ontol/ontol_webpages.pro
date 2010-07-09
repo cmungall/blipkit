@@ -423,27 +423,13 @@ quickterm_result_msg(ok(ID,Status,Msg)) =>
               
 
 % ----------------------------------------
-% tree browing3 TODO
-% ----------------------------------------
-
-ontology_browsable_tree3(S) =>
- call(solutions(ID,
-                (   class(ID),
-                    id_idspace(ID,S),
-                    \+((subclass(ID,P),id_idspace(P,S)))),
-                Roots)),
-  outer(['Browse: ',S],
-        div(h2(hlink(S)),
-            tree_browser_tree(S,[Roots]))).
-
-
-% ----------------------------------------
 % tree browing2 TODO
 % ----------------------------------------
 
 ontology_browsable_tree2(S) =>
   outer(['Browse: ',S],
         div(h2(hlink(S)),
+            %relation_toggler,
             table(id=browsetbl,
                   border=1,
                   tbody(id=browsetbl_tbody,
@@ -454,9 +440,6 @@ ontology_browsable_tree2(S) =>
 % table row
 browser_node2(Depth,ID,Open) =>
   call(sformat(OpenEltID,'open-~w',[ID])),
-  call(id_url(open_node/ID,CloseURL)),
-  % TODO: close
-  call(sformat(_JS,'JavaScript:replaceContents(document.getElementById(\'~w\'),\'~w\');',[CloseEltID,CloseURL])),
   tr(id=OpenEltID,
      browser_node2_cols(Depth,ID,Open)),
   call(DepthPlus1 is Depth+1),
@@ -465,27 +448,34 @@ browser_node2(Depth,ID,Open) =>
      else: []
     ).
 
-
 browser_node2_cols(Depth,ID,Open) =>
   call(sformat(OpenEltID,'open-~w',[ID])),
   call(id_url(open_node2/ID/Depth,OpenURL)),
-  call(sformat(JS,'JavaScript:addRowsToTBody(\'browsetbl_tbody\',\'~w\',\'~w\');',[OpenEltID,OpenURL])),
-  call(sformat(CloseEltID,'open-~w',[ID])),
+  call(sformat(OpenJS,'JavaScript:clickTreeBrowserNode(\'browsetbl_tbody\',\'~w\',\'~w\');',[OpenEltID,OpenURL])),
+  call(sformat(CloseEltID,'~w-close',[OpenEltID])),
+  call((   Open=open
+       ->  Img='/amigo2/images/minus.gif',
+           OnClick=''
+       ;   Img='/amigo2/images/plus.png',
+           OnClick=OpenJS)),
   call(Dist is 22-Depth),
-  td('.') forall between(1,Depth,_),
+  td(' ') forall between(1,Depth,_),
   td(if(subclass(_,ID),
-        then: [html:input(type=image,
-                          onClick=JS,
-                          src='/amigo2/images/plus.png',
+        then: [html:input(id=CloseEltID,
+                          class=openme,
+                          type=image,
+                          onclick=OnClick,
+                          src=Img,
                           alt=open)
               ],
         else: [img(src='/amigo2/images/dot.png')]
        )),
   td(colspan=Dist,
-     hlink(ID)),
+     span(hlink(ID))),
   browser_node_info2(ID).
 
-browser_subnodes_json(Depth,ID,Open) =>
+% TODO - make more elegant in serval
+browser_subnodes_json(Depth,ID) =>
  call(DepthPlus1 is Depth+1),
  '[',
  [call(sformat(OpenEltID,'open-~w',[Y])),
@@ -496,8 +486,20 @@ browser_subnodes_json(Depth,ID,Open) =>
 
 
 browser_node_info2(ID) =>
- td(x),
- td(data(X) where def(ID,X)).
+ td(''),
+ td(span(class=textdef, data(X)) where def(ID,X)).
+
+relation_toggler =>
+ in(Params,call(params_drels_crels(Params,DRels,_CRels))),
+ a(id=relation_toggler,
+   href='#',
+   onClick='toggleTable(\'relation_form\',\'Show relation controller\',\'Hide\');return false;',
+   'Show relation controller'),
+ form(id=relation_form,
+      style='display:none',
+      ul(li(checkbox(rel,R,(member(R,DRels);DRels=[];DRels=[all])),
+            hlink(R)) forall_unique member(R,Rs))).
+
 
 % ----------------------------------------
 % tree browing

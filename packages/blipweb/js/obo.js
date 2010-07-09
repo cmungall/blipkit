@@ -1,4 +1,5 @@
 
+
 function fetch_graph_image(base_url, form) {
     var url = base_url + '&'; // assumes already '?'
     for (i=0; i<form.rel.length; i++) {
@@ -48,21 +49,48 @@ function replaceElement(e, url){
 	        });
 }
 
-function addRowsToTBody(tbid, eid, url){
-    tb = document.getElementById(tbid);
-    e = document.getElementById(eid);
+function closeChildren(tbid,e) {
+    var tb = document.getElementById(tbid);
+    for (var i in e.opened_nodes) {
+        var ch = e.opened_nodes[i];
+        closeChildren(tbid,ch);
+        tb.removeChild(ch);
+    }
+}
+
+function clickTreeBrowserNode(tbid, eid, url){
+    //window.history.forward(1);
+    //window.location.hash += eid;
+    var tb = document.getElementById(tbid);
+    var e = document.getElementById(eid);
+    var c = document.getElementById(eid+"-close");
+    if (e.state == "open") {
+        //alert("already open: "+e.foo);
+        closeChildren(tbid,e);
+        c.src = "/amigo2/images/plus.png";
+        e.state = "closed";
+        return;
+    }
+    e.state="open";
+    e.opened_nodes = [];
+
     //nr.innerHTML = "<td colspan=5>xxxx</td>";
     //tb.insertBefore(nr,e.nextElementSibling);
     dojo.xhrGet({url: url,
 		 load: function(o) { 
                      rowdatalist = eval(o);
                      for (i in rowdatalist) {
-                         row = document.createElement('tr');
+                         var row = document.createElement('tr');
                          tb.insertBefore(row,e.nextElementSibling);
                          rowdata = rowdatalist[i];
                          row.innerHTML += rowdata.html;
                          row.id = rowdata.id;
+                         row.parent=eid;
+                         e.opened_nodes.push(row);
                      }
+                     c.src = "/amigo2/images/minus.gif";
+                     //alert(c.onclick);
+                     //c.onclick = "";
                      //tb.insertBefore(nr,e.nextElementSibling);
                      return o;
                  },

@@ -484,16 +484,7 @@ ontol_page_actual([open_node2,ID,DepthA],Params):-
         %emit_content_type('text/html'),
         atom_number(DepthA,Depth),
         Depth2 is Depth+1,
-        emit_json(browser_subnodes_json(Depth2,ID,open),Params).
-
-ontol_page_actual([xxxopen_node2,ID,DepthA],Params):-
-        preload(ID,Params),
-        %emit_content_type('application/json'),
-        emit_content_type('text/html'),
-        atom_number(DepthA,Depth),
-        Depth2 is Depth+1,
-        emit_page(browser_node2(Depth2,ID,open),Params).
-%emit_page(browser_subnodes_json(Depth2,ID,open),Params).
+        emit_json(browser_subnodes_json(Depth2,ID),Params).
 
 
 ontol_page_actual([query,Ont],Params):-

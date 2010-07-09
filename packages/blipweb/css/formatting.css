@@ -321,3 +321,7 @@ img.pie { margin: 20px auto; }
 #imgform { border: 2px dashed #000; background: #eee; }
 
 .tagval_table {width: 60%}
+
+.textdef { 
+    font-size: 75%;
+}
