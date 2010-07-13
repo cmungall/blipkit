@@ -407,6 +407,8 @@ template_request(Template,error('Lock owned by someone else - try in 5 mins'),Op
 
 % lock Mutex and proceed to next step
 template_request(MultiTemplate,Msgs,Opts) :-
+        
+        % lock
         template_xp_submit_file(MultiTemplate,submit,NF,Opts),
         atom_concat(NF,'-mutex',Mutex),
         tell(Mutex),
@@ -427,8 +429,9 @@ template_request(MultiTemplate,Msgs,Opts) :-
 
         % loading everything in requires
         % (currently leaves externals up to caller.... TODO)
-        template_lookup(MultiTemplate,requires,ReqURLs),
-        maplist(load_biofile,ReqURLs),
+        (   template_lookup(MultiTemplate,requires,ReqURLs)
+        ->  maplist(load_biofile,ReqURLs)
+        ;   true),
 
         % now do the real deal...
         template_request_2(MultiTemplate,Msgs,Opts),

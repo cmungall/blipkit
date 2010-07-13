@@ -493,7 +493,7 @@ browser_node_info(ID) =>
 
 relation_toggler =>
  call(solutions(R,restriction(_,R,_),Rs)),
- in(Params,call(params_drels_crels(Params,DRels,_CRels))),
+ %in(Params,call(params_drels_crels(Params,DRels,_CRels))),
  a(id=relation_form_toggler,
    href='#',
    onClick='toggleTable(\'relation_form\',\'Show relation controller\',\'Hide\');return false;',
