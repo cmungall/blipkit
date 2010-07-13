@@ -128,6 +128,7 @@ template(protein_binding(X),
           def= ['Interacting selectively and non-covalently with ',name(X),'.']
          ]).
 
+% TODO: merge plant/metazoan
 template(metazoan_development(X),
          [
           description= 'development of an animal anatomical structure',
@@ -155,6 +156,33 @@ template(metazoan_morphologenesis(X),
           def= ['The developmental process by which ',refname(X),' is generated and organized.']
          ]).
 
+template(plant_development(X),
+         [
+          description= 'development of a plant anatomical structure',
+          ontology= 'GO',
+          externals= ['PO'],
+          requires= ['http://www.geneontology.org/scratch/xps/biological_process_xp_plant_anatomy.obo'],
+          arguments= [target='UBERON'],
+          cdef= cdef('GO:0032502',['OBO_REL:results_in_complete_development_of'=X]),
+          name= [name(X),' development'],
+          synonyms= [[synonym(X),' development']],
+          def= ['The process whose specific outcome is the progression of ',refname(X),' over time, from its formation to the mature structure.']
+                %def([' A ',name(X),' is '],X,'.')
+         ]).
+
+template(plant_morphologenesis(X),
+         [
+          description= 'morphogenesis of a plant animal anatomical structure',
+          ontology= 'GO',
+          externals= ['PO'],
+          requires= ['http://www.geneontology.org/scratch/xps/biological_process_xp_plant_anatomy.obo'],
+          arguments= [target='UBERON'],
+          cdef= cdef('GO:0009653',['OBO_REL:results_in_morphogenesis_of'=X]),
+          name= [name(X),' morphogenesis'],
+          synonyms= [[synonym(X),' morphogenesis']],
+          def= ['The developmental process by which ',refname(X),' is generated and organized.']
+         ]).
+
 
 template(abnormal_morphology(A),
          [
@@ -168,6 +196,18 @@ template(abnormal_morphology(A),
           def= ['Any morphological abnormality of a ',name(A),'.']
          ]).
 
+template(entity_quality(E,Q),
+         [
+          ontology= 'HP',
+          description= 'basic EQ template',
+          externals= ['FMA','PATO'],
+          requires= ['http://compbio.charite.de/svn/hpo/trunk/human-phenotype-ontology_xp.obo'],
+          arguments= [entity='FMA', quality='PATO'],
+          cdef= cdef(Q,['OBO_REL:inheres_in'=E]),
+          name= [name(Q),' ',name(E)],
+          def= ['Any ',name(E),' that is ',name(Q)]
+         ]).
+
 template(metazoan_location_specific_cell(C,A),
          [
           ontology= 'CL',
@@ -178,6 +218,71 @@ template(metazoan_location_specific_cell(C,A),
           name= [name(A),' ',name(C)],
           def= ['Any ',name(C),' that is part of a ',name(A),'.']
          ]).
+
+template(cell_by_surface_marker(C,P),
+         [
+          ontology= 'CL',
+          description= 'A cell type differentiated by proteins or complexes on the plasma membrane',
+          externals= ['PRO','GO'],
+          arguments= [cell=C,membrane_part=['PRO','GO:0032991']],
+          cdef= cdef(C,[has_plasma_membrane_part=P]),
+          properties = [multivalued(has_plasma_membrane_part),
+                        any_cardinality(has_plasma_membrane_part)],
+          name= [names(P),' ',name(C)],
+          def= ['Any ',name(C),' that has ',names(P),' on the plasma membrane']
+         ]).
+
+template(structural_protein_complex(X,Y),
+         [
+          description= 'protein complex defined structurally',
+          ontology= 'GO',
+          externals= ['PRO'],
+          %requires= ['http://www.geneontology.org/scratch/xps/cellular_component_xp_protein.obo'],
+          arguments= [unit1='PRO',unit2='PRO'],
+          cdef= cdef('GO:0043234',[has_part=X,has_part=Y]),
+          name= [name(X),'-',name(Y),' complex'],
+          synonyms= [[synonym(X),'-',synonym(Y),' complex']],
+          def= ['Any protein complex consisting of a',name(X),' and a ',name(Y),'.']
+         ]).
+
+template(metazoan_location_specific_anatomical_structure(X,Y),
+         [
+          description= 'location-specific anatomical structure',
+          ontology= 'UBERON',
+          arguments= [part='UBERON',whole='UBERON'],
+          cdef= cdef(P,[part_of=W]),
+          name= [name(W),' ',name(P)],
+          synonyms= [[synonym(P),' of ',synonym(W)]],
+          def= ['Any ',name(P),' that is part of a ',name(W),'.']
+         ]).
+
+% ----------------------------------------
+% CONFIG
+% ----------------------------------------
+
+ontology_repository('GO',cvs,'ext.geneontology.org:/share/go/cvs').
+ontology_repository('CL',cvs,'obo.cvs.sourceforge.net:/cvsroot/obo').
+ontology_repository('UBERON',git,'github.com:cmungall/uberon.git').
+ontology_repository('HP',svn,'https://compbio.charite.de/svn/hpo/trunk').
+
+ontology_xp_submit_path('GO','go/ontology/editors/xp_submit','go_xp').
+ontology_xp_submit_path('CL','obo/ontology/anatomy/cell/xp_submit','CL_xp').
+ontology_xp_submit_path('UBERON','uberon/xp_submit','UBERON_xp').
+ontology_xp_submit_path('HP','hpo/xp_submit','HP_xp').
+
+% ----------------------------------------
+% extracting directory path
+% ----------------------------------------
+
+% TODO - use this
+template_xp_submit_file(Template,Type,File,Opts) :-
+        template_lookup(Template,ontology,Ont),
+        ontology_xp_submit_path(Ont,Dir,Name),
+        (   member(ontology_dir(Prefix),Opts)
+        ->  true
+        ;   Prefix='/users/cjm/cvs'),
+        concat_atom([Prefix,'/',Dir,'/',Name,'_',Type,'.obo'],File).
+
 
 % ----------------------------------------
 % TEMPLATE LOOKUP
@@ -195,6 +300,9 @@ qtt_arg_type(T,A,Dom) :-
 
 qtt_description(T,Desc) :-
         template_lookup(T,description,Desc).
+
+qtt_ontology(T,Ont) :-
+        template_lookup(T,ontology,Ont).
 
 qtt_wraps(T,X) :-
         template_lookup(T,wraps,L),
@@ -287,9 +395,8 @@ generate_fact(Template,New,Fact,Opts) :-
 %     if Template is a wrapper then subtemplates must be explicitly selected
 
 % First check to make sure Mutex not owned
-template_request(_,error('Lock owned by someone else - try in 5 mins'),Opts) :-
-        member(subfile(NF),Opts),
-        nonvar(NF),
+template_request(Template,error('Lock owned by someone else - try in 5 mins'),Opts) :-
+        template_xp_submit_file(Template,submit,NF,Opts),
         atom_concat(NF,'-mutex',Mutex),
         exists_file(Mutex),
         time_file(Mutex,MT),
@@ -300,38 +407,39 @@ template_request(_,error('Lock owned by someone else - try in 5 mins'),Opts) :-
 
 % lock Mutex and proceed to next step
 template_request(MultiTemplate,Msgs,Opts) :-
-        (   member(subfile(NF),Opts),
-            nonvar(NF)
-        ->  atom_concat(NF,'-mutex',Mutex),
-            tell(Mutex),
-            format('~w.~n',[MultiTemplate]),
-            told,
-            sformat(Cmd,'chmod 777 ~w',[Mutex]),
-            shell(Cmd)
-        ;   true),
-        
-        (   member(subfile(NF),Opts),
-            nonvar(NF),
-            exists_file(NF)
+        template_xp_submit_file(MultiTemplate,submit,NF,Opts),
+        atom_concat(NF,'-mutex',Mutex),
+        tell(Mutex),
+        format('~w.~n',[MultiTemplate]),
+        told,
+        sformat(Cmd,'chmod 777 ~w',[Mutex]),
+        shell(Cmd),
+
+        % make sure previous submissions have been loaded,
+        % so as to avoid duplicate requests
+        (   exists_file(NF)
         ->  load_biofile(NF)
         ;   true),
-        (   member(addfile(AF),Opts),
-            nonvar(AF),
-            exists_file(AF)
+        template_xp_submit_file(MultiTemplate,add,AF,Opts),
+        (   exists_file(AF)
         ->  load_biofile(AF)
         ;   true),
+
+        % loading everything in requires
+        % (currently leaves externals up to caller.... TODO)
+        template_lookup(MultiTemplate,requires,ReqURLs),
+        maplist(load_biofile,ReqURLs),
+
+        % now do the real deal...
         template_request_2(MultiTemplate,Msgs,Opts),
+
+        % unlock system
         (   nonvar(Mutex)
         ->  catch(delete_file(Mutex),_,true)
         ;   true).
 
-template_request_2(Template,_Msgs,_Opts) :-
-        % loading everything in requires
-        % (currently leaves externals up to caller.... TODO)
-        template_lookup(Template,requires,URLs),
-        maplist(load_biofile,URLs),
-        fail.
 template_request_2(MultiTemplate,Msgs,Opts) :-
+        % wrapper templates
         template_lookup(MultiTemplate,wraps,Templates),
         !,
         findall(Msg,(member(Template,Templates),
@@ -364,28 +472,28 @@ request_term_from_facts(Template,New,Facts,Msg,Opts) :-
         findall(ontol_db:subclass(Child,New),member(Child,NRChildren),CFacts),
         flatten([Facts,PFacts,CFacts],NewFacts),
         findall(ontol_db:subclass(X,Y),member(X-Y,RedundantSubclassPairs),DeleteFacts),
-        %facts_json(New,NewFacts,DeleteFacts,JSON,Opts),
         write_obo(New,NewFacts,DeleteFacts,Files,Opts),
         collect_files(Files,OboAtom),
         (   Equivs=[]
         ->  (   member(commit(true),Opts)
-            ->  commit_files(Files,Opts),
+            ->  commit_files(Template,Files,Opts),
                 Msg=ok(New,committed,OboAtom)
             ;   Msg=ok(New,uncommitted,OboAtom))
         ;   Equivs=[Equiv|_], % take the first one arbitrarily
             Msg=error(reasoner_inferred_equivalence_to_existing_class(Equiv))).
 
 
-commit_files(files(N,A,D),Opts) :-
-        member(subfile(NF),Opts),
+commit_files(Template,files(N,A,D),Opts) :-
+        template_xp_submit_file(Template,submit,NF,Opts),
+        template_xp_submit_file(Template,add,AF,Opts),
+        template_xp_submit_file(Template,del,DF,Opts),
+        !,
         append_to(N,NF),
-        member(addfile(AF),Opts),
         append_to(A,AF),
-        member(delfile(DF),Opts),
-        append_to(D,DF),
-        !.
-commit_files(_,Opts) :-
+        append_to(D,DF).
+commit_files(_,_,Opts) :-
         throw(error(must_specify_files_in_opts(Opts))).
+
 
 append_to(A,F) :-
         append(F),
@@ -427,7 +535,10 @@ write_obo(New,NewFacts,DeleteFacts,files(NFile,AFile,DFile),_Opts) :-
                write_retract_axiom(obo,subclass(A,B))),
         told.
 
-        
+write_date_as_comment :-
+        current_time_iso_full(D),
+        format('! Submission-date: ~w~n~n',[D]).
+
 
 write_facts(File,Facts) :-
         open(File,write,IO,[]),
@@ -452,13 +563,13 @@ new_facts_error(New,Facts,cannot_generate_logical_def) :-
 % ----------------------------------------
 % IDs
 % ----------------------------------------
-generate_id(_,ID,Opts) :-
-        (   member(idspace(S),Opts)
+generate_id(T,ID,Opts) :-
+        (   member(idspace(S),Opts),
+            nonvar(S)
         ->  true
-        ;   true),
-        (   var(S)
-        ->  S='GO'
-        ;   true),
+        ;   qtt_ontology(T,S)
+        ->  true
+        ;   S='GO'),
         (   member(idnum_min(Num),Opts)
         ->  true
         ;   Num=2000001),
@@ -568,6 +679,11 @@ params_args([],_,[],[]).
 params_args([P=_|Doms],Params,[A|Args],UL) :-
         member(P=AN,Params),
         entity_label(A,AN),
+        !,
+        params_args(Doms,Params,Args,UL).
+params_args([P=_|Doms],Params,[A|Args],UL) :-
+        member(P=AN,Params),
+        entity_synonym_scope(A,AN,exact),
         !,
         params_args(Doms,Params,Args,UL).
 params_args([P=_|Doms],Params,Args,[AN|UL]) :-

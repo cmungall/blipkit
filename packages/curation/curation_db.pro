@@ -11,6 +11,7 @@
 	   curation_statement_nr/4,
            curation_lca/4,
 	   curation_subject_property_value/4,
+           curation_isoform/2,
            negative_curation_statement/4,
            curation_qualifier/3,
            curation_evidence/2,
@@ -68,10 +69,14 @@ curation_statement(C,S,Ob) :-
 :- extensional(negative_curation_statement/4).
 
 %% curation_qualifier(?Curation,?Type,?QualifierValue)
+% col 4 in GAF
 :- extensional(curation_qualifier/3).
 
-%% curation_subject_property_value(?SubjectClass,?Property,?Value)
+%% curation_subject_property_value(?Curation,?SubjectClass,?Property,?Value)
+% col16 in GAF
 :- extensional(curation_subject_property_value/4).
+
+:- extensional(curation_isoform/2).
 
 
 %% curation_evidence(?Curation,?Evidence)

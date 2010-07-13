@@ -251,7 +251,8 @@ file_from_url(Px,URL):-
         debug(load,'Executing ~w',[Cmd]),
         (   shell(Cmd)
         ->  true
-        ;   debug(load,' FAILED: ~w',[Cmd])),
+        ;   debug(load,' FAILED: ~w',[Cmd]),
+            fail),
         delete_file(Lock).
 
 age_exceeds_threshold(Age):-

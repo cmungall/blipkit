@@ -322,7 +322,9 @@ quickterm(T,S) =>
 
 quickterm_form_input(P,Size,Desc) =>
  getparam(P,V,''),
- tr(th(P),
+ tr(th(if(is_list(P),
+          then: join(' or ',P),
+          else: P)),
     td(input(type=text,
              size=Size,
              name=P,
