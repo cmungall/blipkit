@@ -636,17 +636,27 @@ idspace_references_reflexive(S,Ref) :-
 	class(Ref),
 	id_idspace(Ref,S).
 
+%% idspace_mireot(+IDSpace,?RefEntity)
+% true if RefEntity is referenced directly or indirectly from an entity in IDSpace
 idspace_mireot(SX,Ref) :-
         idspace_mireot(SX,Ref,_).
-idspace_mireot(SX,Ref,SY) :-
+
+%% idspace_mireot(+IDSpace,?RefEntity,+RefEntityIDSpace)
+%
+% idspace_mireot/2 with the additional constraint that directly referenced entities must come from RefEntityIDSpace.
+% if RefEntityIDSpace is var, then the constraint is that the directly referenced entity does not come from IDSpace.
+% TODO: change this?
+idspace_mireot(SX,Ref,SRef) :-
 	solutions(X,(class(X),
                      id_idspace(X,SX),
                      parent(X,Y),
-                     id_idspace(Y,SY),
-                     SY\=SX),
+                     id_idspace(Y,SRef),
+                     SRef\=SX),
                   Xs),
 	member(X,Xs),
-        bf_parentRT(X,Ref).
+        bf_parentRT(X,Ref),
+        id_idspace(Ref,SRef),
+        SRef\=SX.
 
 
 

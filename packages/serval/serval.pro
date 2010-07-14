@@ -356,6 +356,9 @@ getparam([H|L],P,V,[H|L2]):-
 % (+PL,+P,?VL,?PLout) d
 lgetparam(S,P,VL):- lgetparam(S,P,VL,_).
 lgetparam([],_,[],[]).
+lgetparam([P=V|L],P,[V|VL],L2):-
+        !,
+        lgetparam(L,P,VL,L2).
 lgetparam([[P,V]|L],P,[V|VL],L2):-
         !,
         lgetparam(L,P,VL,L2).

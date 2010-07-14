@@ -974,4 +974,13 @@ ontol_stat(S,pct_xp_defined,Pct) :-
 	ontol_stat(S,num_classes,Tot),
 	Pct is floor((Num/Tot)*100 + 0.5).
 
+cannot_entail_subclass_in(A,B,S) :-
+        differentium(A,_,AX),
+        id_idspace(AX,S),
+        subclassT(A,B),
+        differentium(B,_,BX),
+        id_idspace(BX,S),
+        class_cdef(A,AD),
+        class_cdef(B,BD),
+        \+ subclassXT(AD,BD).
 

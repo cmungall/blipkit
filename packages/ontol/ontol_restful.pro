@@ -411,9 +411,18 @@ ontol_page_actual([quickterm,S],Params):-
             ;   Commit=false)
         ->  forall(qtt_external(T,ExtOnt),
                    preload_ont(ExtOnt,Params)),
-            template_resolve_args(T,Params,Template,UL),
-            debug(ontol_rest,'template= ~w commit=~w',[Template,Commit]),
-            (   UL=[]
+            (   member(username=UserIn,Params),
+                atom_alphanumeric(UserIn,User)
+            ->  true
+            ;   User=''),
+            (   User='',
+                Commit\=false
+            ->  UserErrs=[must_supply_alphanumeric_username]
+            ;   UserErrs=[]),
+            template_resolve_args(T,Params,Template,ValueErrs),
+            flatten([UserErrs,ValueErrs],Errs),
+            debug(ontol_rest,'template= ~w commit=~w // Errs=~w',[Template,Commit,Errs]),
+            (   Errs=[]
             ->  findall(Opt,
                         (   member(P,[subtemplate,name,comment,def,def_xref]),
                             member(P=V,Params),
@@ -424,14 +433,11 @@ ontol_page_actual([quickterm,S],Params):-
                 %        member(subtemplate=W,Params),
                 %        Opts),
                 template_request(Template,Msg,[commit(Commit),
-                                % HARDCODE ALERT!
-                                               subfile('/users/cjm/cvs/go/ontology/editors/xp_submit/go_xp_submit.obo'),
-                                               addfile('/users/cjm/cvs/go/ontology/editors/xp_submit/go_xp_add.obo'),
-                                               delfile('/users/cjm/cvs/go/ontology/editors/xp_submit/go_xp_del.obo') |
+                                               username(User) |
                                               Opts
                                               ]),
                 emit_page(quickterm_results(T,S,Msg),Params)
-            ;   emit_page(quickterm_unresolved(T,S,UL),Params))
+            ;   emit_page(quickterm_errors(T,S,Errs),Params))
         ;   emit_page(quickterm(T,S),Params)).
 
 
@@ -596,6 +602,17 @@ fmt_ct_exec(owl,'text/xml',go2owl).
 fmt_ct_exec(owl2,'text/xml','blip.local io-convert -to owl2 -f obo -u ontol_bridge_to_owl2_and_iao -i').
 fmt_ct_exec(obox,'text/xml',go2xml).
 fmt_ct_exec(chado,'text/xml',go2chadoxml).
+
+atom_alphanumeric(In,Alpha) :-
+        downcase_atom(In,Dn),
+        atom_chars(Dn,Chars),
+        findall(Char,
+                (   member(Char,Chars),
+                    (   (   Char@>='a',Char@=<'z')
+                    ;   (   Char@>='0',Char@=<'9'))),
+                AlphaChars),
+        atom_chars(Alpha,AlphaChars).
+
 
 
 /** <module> 

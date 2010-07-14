@@ -49,6 +49,8 @@ alias cell="ov -r cell"
 alias qcell="oq -r cell"
 alias chebi="ov -r chebi"
 alias qchebi="oq -r chebi"
+alias goche="ov -r goche"
+alias qgoche="oq -r goche"
 alias plant="ov -r plant_anatomy"
 alias qplant="oq -r plant_anatomy"
 alias plantdev="ov -r plant_development"
@@ -223,3 +225,5 @@ alias obol-cell="obol -r ubo -r relationship -r spatial -r caro -r xchebi -r go"
 #alias obol-worm-phenotype="obol -r ubo -r relationship -r spatial -r worm_anatomy -r xchebi -r cell -r pato -r go"
 
 alias obol-reasoner-go-cell="blip-ddb -r implied/go -r implied/pato -r implied/cell -r implied/xchebi ontol-reasoner"
+
+export NCI=http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl

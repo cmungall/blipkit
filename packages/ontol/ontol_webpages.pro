@@ -341,10 +341,19 @@ quickterm_form(T) =>
             value=true),
       
       if(qtt_wraps(T,_),
-         [input(type=checkbox,
-                name=subtemplate,
-                value=W),W,html:br] forall qtt_wraps(T,W)),
-      
+         [lgetparam(subtemplate,STs),
+          if(member(W,STs),
+             then:
+            input(type=checkbox,
+                  checked=yes,
+                  name=subtemplate,
+                  value=W),
+             else:
+            input(type=checkbox,
+                  name=subtemplate,
+                  value=W)),
+          W,
+          html:br] forall (qtt_wraps(T,W))),
       div(A,':',
           getparam(A,Val,''),
           input(class=term,
@@ -372,7 +381,20 @@ quickterm_form(T) =>
             name=commit,
             value=true),
       'Commit',
-      input(name=submit,type=submit,value=submit)).
+      input(name=submit,type=submit,value=submit),
+
+      html:br,
+      getparam(username,User,''),
+      'Username: ',
+      input(type=text,
+            size=20,
+            name=username,
+            style='outline: #3875D7 solid 1px;',
+            value=User),
+      i(' (must be filled in if submit is selected)'),
+
+      html:br).
+
 
 quickterm_results(T,S,Msgs) =>
   quickterm_outer(['QuickTerm Request: ',S,' ',T],
@@ -380,11 +402,19 @@ quickterm_results(T,S,Msgs) =>
             quickterm_result_msgs(Msgs),
             quickterm_form(T))).
 
-quickterm_unresolved(T,S,UL) =>
+quickterm_errors(T,S,Errs) =>
   quickterm_outer(['QuickTerm Request: ',S,' ',T,' FAIL'],
-        div(h2(hlink('FAILED. Could not resolve some terms')),
-            ul(li('Unresolved: ',X) forall member(X,UL)),
+        div(h2('FAILED'),
+            h3('There was a problem with this request'),
+            ul(li(quickterm_error(X)) forall member(X,Errs)),
+            p('Please correct this and try again'),
             quickterm_form(T))).
+
+quickterm_error(no_match(X)) => 'No ontology class found with name or exact synonym: ',i(X).
+quickterm_error(not_in_domain(X,D)) => 'The specified value ',b(X),' ',i(hlink(X)),' is not in the domain: ',i(D).
+quickterm_error(constraint_violation(D,G)) => 'Constraint rule violated: ',i(D),' Debug info: ',pre(data(G)).
+quickterm_error(X) => 'Error: ',data(X).
+
 
 quickterm_result_msgs(Msgs) =>
  if(is_list(Msgs),
@@ -417,7 +447,10 @@ quickterm_result_msg(ok(ID,Status,Msg)) =>
             h3('Request valid but not committed'),
             
             p('This request is valid. You can go ahead and add commit this by selecting the commit box below.',
-              'This will submit a term with the ID ',ID)
+              'This will submit a term with the ID ',b(ID),
+              if(entity_label(ID,Name),
+                 then: [' and name ',i(Name)],
+                 else: []))
            ]),
   h4('Raw OBO Format:'),
   pre(noesc(Msg)).

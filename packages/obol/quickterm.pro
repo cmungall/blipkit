@@ -44,7 +44,10 @@ template(all_regulation(X),
            regulation. Names, synonyms and definitions are all
            generated automatically',
           ontology= 'GO',
+          obo_namespace= biological_process,
           arguments= [target=biological_process],
+          constraints= [[description='Cannot make "regulation of regulation of X" terms',
+                        rule= (\+genus(X,'GO:0065007'))]],
           wraps= [regulation(X),
                   negative_regulation(X),
                   positive_regulation(X)]
@@ -52,8 +55,10 @@ template(all_regulation(X),
 template(regulation(X),
          [
           ontology= 'GO',
+          obo_namespace= biological_process,
           private= true,
           arguments= [target=biological_process],
+          constraint= (\+genus(X,'GO:0065007')),
           cdef= cdef('GO:0065007',[regulates=X]),
           name= ['regulation of ',name(X)],
           synonyms= ['regulation of ',synonym(X)],
@@ -62,6 +67,7 @@ template(regulation(X),
 template(negative_regulation(X),
          [
           ontology= 'GO',
+          obo_namespace= biological_process,
           private= true,
           arguments= [target=biological_process],
           cdef= cdef('GO:0065007',[negatively_regulates=X]),
@@ -72,6 +78,7 @@ template(negative_regulation(X),
 template(positive_regulation(X),
          [
           ontology= 'GO',
+          obo_namespace= biological_process,
           private= true,
           arguments= [target=biological_process],
           cdef= cdef('GO:0065007',[positively_regulates=X]),
@@ -84,6 +91,7 @@ template(involved_in(P,W),
          [
           description= 'processes involved in other processes',
           ontology= 'GO',
+          obo_namespace= biological_process,
           requires= ['http://www.geneontology.org/scratch/xps/biological_process_xp_self.obo'],
           arguments= [part=biological_process,whole=biological_process],
           cdef= cdef(P,[part_of=W]),
@@ -96,6 +104,7 @@ template(takes_place_in(P,C),
          [
           description= 'processes occurring in parts of the cell',
           ontology= 'GO',
+          obo_namespace= biological_process,
           requires= ['http://www.geneontology.org/scratch/xps/biological_process_xp_cellular_component.obo'],
           arguments= [process=biological_process,location=cellular_component],
           cdef= cdef(P,['OBO_REL:occurs_in'=C]),
@@ -108,6 +117,7 @@ template(part_of_cell_component(P,W),
          [
           description= 'cell components part of other cell components',
           ontology= 'GO',
+          obo_namespace= biological_process,
           arguments= [part=cellular_component,whole=cellular_component],
           cdef= cdef(P,[part_of=W]),
           name= [name(W),' ',name(P)],
@@ -119,6 +129,7 @@ template(protein_binding(X),
          [
           description= 'binding to a protein',
           ontology= 'GO',
+          obo_namespace= biological_process,
           externals= ['PRO'],
           requires= ['http://www.geneontology.org/scratch/xps/molecular_function_xp_protein.obo'],
           arguments= [target='PRO'],
@@ -133,6 +144,7 @@ template(metazoan_development(X),
          [
           description= 'development of an animal anatomical structure',
           ontology= 'GO',
+          obo_namespace= biological_process,
           externals= ['UBERON'],
           requires= ['http://www.geneontology.org/scratch/xps/biological_process_xp_uber_anatomy.obo'],
           arguments= [target='UBERON'],
@@ -147,6 +159,7 @@ template(metazoan_morphologenesis(X),
          [
           description= 'morphogenesis of an animal anatomical structure',
           ontology= 'GO',
+          obo_namespace= biological_process,
           externals= ['UBERON'],
           requires= ['http://www.geneontology.org/scratch/xps/biological_process_xp_uber_anatomy.obo'],
           arguments= [target='UBERON'],
@@ -160,6 +173,7 @@ template(plant_development(X),
          [
           description= 'development of a plant anatomical structure',
           ontology= 'GO',
+          obo_namespace= biological_process,
           externals= ['PO'],
           requires= ['http://www.geneontology.org/scratch/xps/biological_process_xp_plant_anatomy.obo'],
           arguments= [target='UBERON'],
@@ -174,6 +188,7 @@ template(plant_morphologenesis(X),
          [
           description= 'morphogenesis of a plant animal anatomical structure',
           ontology= 'GO',
+          obo_namespace= biological_process,
           externals= ['PO'],
           requires= ['http://www.geneontology.org/scratch/xps/biological_process_xp_plant_anatomy.obo'],
           arguments= [target='UBERON'],
@@ -187,6 +202,7 @@ template(plant_morphologenesis(X),
 template(abnormal_morphology(A),
          [
           ontology= 'HP',
+          obo_namespace= medical_genetics,
           description= 'Abnormal X morphology',
           externals= ['FMA','PATO'],
           requires= ['http://compbio.charite.de/svn/hpo/trunk/human-phenotype-ontology_xp.obo'],
@@ -199,6 +215,7 @@ template(abnormal_morphology(A),
 template(entity_quality(E,Q),
          [
           ontology= 'HP',
+          obo_namespace= medical_genetics,
           description= 'basic EQ template',
           externals= ['FMA','PATO'],
           requires= ['http://compbio.charite.de/svn/hpo/trunk/human-phenotype-ontology_xp.obo'],
@@ -211,6 +228,7 @@ template(entity_quality(E,Q),
 template(metazoan_location_specific_cell(C,A),
          [
           ontology= 'CL',
+          obo_namespace= cell,
           description= 'A cell type differentiated by its anatomical location (animals)',
           externals= ['UBERON'],
           arguments= [cell=C,location='UBERON'],
@@ -222,6 +240,7 @@ template(metazoan_location_specific_cell(C,A),
 template(cell_by_surface_marker(C,P),
          [
           ontology= 'CL',
+          obo_namespace= cell,
           description= 'A cell type differentiated by proteins or complexes on the plasma membrane',
           externals= ['PRO','GO'],
           arguments= [cell=C,membrane_part=['PRO','GO:0032991']],
@@ -236,6 +255,7 @@ template(structural_protein_complex(X,Y),
          [
           description= 'protein complex defined structurally',
           ontology= 'GO',
+          obo_namespace= cellular_component,
           externals= ['PRO'],
           %requires= ['http://www.geneontology.org/scratch/xps/cellular_component_xp_protein.obo'],
           arguments= [unit1='PRO',unit2='PRO'],
@@ -245,10 +265,11 @@ template(structural_protein_complex(X,Y),
           def= ['Any protein complex consisting of a',name(X),' and a ',name(Y),'.']
          ]).
 
-template(metazoan_location_specific_anatomical_structure(X,Y),
+template(metazoan_location_specific_anatomical_structure(P,W),
          [
           description= 'location-specific anatomical structure',
           ontology= 'UBERON',
+          obo_namespace= uberon,
           arguments= [part='UBERON',whole='UBERON'],
           cdef= cdef(P,[part_of=W]),
           name= [name(W),' ',name(P)],
@@ -333,10 +354,19 @@ template_lookup(Template,Key,Val) :-
 
 generate_facts(_,New,[ontol_db:class(New)],_).
 
+generate_facts(_,New,[metadata_db:entity_partition(New,unvetted)],_).
+
 generate_facts(_,New,[metadata_db:entity_creation_date(New,D)],_) :-
         current_time_iso_full(D).
 
-generate_facts(_,New,[metadata_db:entity_created_by(New,obol)],_).
+generate_facts(_,New,[metadata_db:entity_created_by(New,User)],Opts) :-
+        (   member(username(User),Opts)
+        ->  true
+        ;   User=obol).
+
+generate_facts(Template,New,[metadata_db:entity_resource(New,NS)],_) :-
+        template_lookup(Template,obo_namespace,NS).
+
 
 generate_facts(Template,New,[metadata_db:entity_label(New,Name)],Opts) :-
         (   member(name(Name),Opts)
@@ -346,7 +376,7 @@ generate_facts(Template,New,[metadata_db:entity_label(New,Name)],Opts) :-
 
 generate_facts(Template,New,[metadata_db:entity_synonym(New,Syn),
                              metadata_db:entity_synonym_scope(New,Syn,Scope),
-                             metadata_db:entity_synonym_xref(New,Syn,'OBOL:automatic')
+                             metadata_db:entity_synonym_xref(New,Syn,'GOC:obol')
                              ],Opts) :-
         template_lookup(Template,synonyms,SynsT),
         generate_text(SynsT,Syn,Scope,Opts),
@@ -362,7 +392,7 @@ generate_facts(Template,New,[ontol_db:def(New,Def),
             generate_text(DefT,Def,Opts)),
         (   member(def_xref(DX),Opts)
         ->  true
-        ;   DX='OBOL:automatic').
+        ;   DX='GOC:obol').
 
 generate_facts(_,New,[metadata_db:entity_comment(New,X)],Opts) :-
         member(comment(X),Opts).
@@ -526,14 +556,18 @@ write_obo(New,NewFacts,DeleteFacts,files(NFile,AFile,DFile),_Opts) :-
         forall(member(Fact,NewFacts),
                assert(Fact)),
         tell(NFile),
+        format('subsetdef: ~w "~w"~n',[unvetted,unvetted]),
+        write_date_as_comment,
         write_class(obo,New),
         told,
         tell(AFile),
+        write_date_as_comment,
         forall((member(_:subclass(A,B),NewFacts),
                 A\=New),
                write_axiom(obo,subclass(A,B))),
         told,
         tell(DFile),
+        write_date_as_comment,
         forall(member(_:subclass(A,B),DeleteFacts),
                write_retract_axiom(obo,subclass(A,B))),
         told.
@@ -549,19 +583,25 @@ write_facts(File,Facts) :-
                format(IO,'~q.~n',[Fact])),
         close(IO).
 
+% ----------------------------------------
+% FACT CHECKING
+% ----------------------------------------
 
-% check
+% basic check
 new_facts_error(New,Facts,term_with_same_name_exists(X)) :- 
         member(_:entity_label(New,Name),Facts),
         entity_label(X,Name).
 new_facts_error(New,Facts,cannot_generate_name) :- 
         \+ member(_:entity_label(New,_),Facts).
+new_facts_error(New,Facts,cannot_generate_obo_namespace) :- 
+        \+ member(_:entity_resource(New,_),Facts).
 new_facts_error(New,Facts,cannot_generate_def) :- 
         \+ member(_:def(New,_),Facts).
 new_facts_error(New,Facts,cannot_generate_logical_def) :- 
         \+ member(_:genus(New,_),Facts).
 new_facts_error(New,Facts,cannot_generate_logical_def) :- 
         \+ member(_:differentium(New,_,_),Facts).
+
 
 % ----------------------------------------
 % IDs
@@ -590,20 +630,6 @@ get_next_id(S,Num,ID) :-
 make_id(S,Num,ID) :-
         % assumes Num has most significant digit above zero, no padding required
         concat_atom([S,':',Num],ID).
-
-% ----------------------------------------
-% JSON MESSAGES
-% ----------------------------------------
-
-facts_json(New,NewFacts,DelFacts,[new=NewTVs,delete=DelTVs],Opts) :-
-        findall(TV,(member(Fact,NewFacts),
-                    fact_json(New,Fact,TV,Opts)),
-                NewTVs),
-        findall(TV,(member(Fact,DelFacts),
-                    fact_json(New,Fact,TV,Opts)),
-                DelTVs).
-
-fact_json(_,_:Ax,T=V,_) :- Ax=..[T|V].
 
 % ----------------------------------------
 % TEXT GENERATION
@@ -673,10 +699,15 @@ starts_with_vowel(A) :-
 % ----------------------------------------
 % RESOLVING PARAMETERS
 % ----------------------------------------
-template_resolve_args(T,Params,Template,UnresolvedList) :-
+template_resolve_args(T,Params,Template,Errs) :-
         template_lookup(T,arguments,ArgDomains),
         params_args(ArgDomains,Params,Args,UnresolvedList),
-        Template=..[T|Args].
+        debug(ontol_rest,'args=~w // u=~w',[Args,UnresolvedList]),
+        Template=..[T|Args],    % unify
+        debug(ontol_rest,'template=~w',[Template]),
+        template_params_validate(T,Args,ArgDomains,DomainErrs),
+        constraint_violations(Template,CErrs),
+        flatten([UnresolvedList,DomainErrs,CErrs],Errs).
 
 params_args([],_,[],[]).
 params_args([P=_|Doms],Params,[A|Args],UL) :-
@@ -689,13 +720,46 @@ params_args([P=_|Doms],Params,[A|Args],UL) :-
         entity_synonym_scope(A,AN,exact),
         !,
         params_args(Doms,Params,Args,UL).
-params_args([P=_|Doms],Params,Args,[AN|UL]) :-
+params_args([P=_|Doms],Params,[''|Args],[no_match(AN)|UL]) :-
         member(P=AN,Params),
         !,
         params_args(Doms,Params,Args,UL).
-params_args([P=_|Doms],Params,Args,[P|UL]) :-
+params_args([P=_|Doms],Params,[''|Args],[missing_parameter(P)|UL]) :-
         !,
         params_args(Doms,Params,Args,UL).
+
+template_params_validate(_,[],[],[]).
+template_params_validate(_,[],_,[program_logic_err]).
+template_params_validate(_,_,[],[program_logic_err]).
+template_params_validate(_,[PV|PVs],[_=Dom|Doms],Errs) :-
+        value_in_domain(PV,Dom),
+        !,
+        template_params_validate(_,PVs,Doms,Errs).
+template_params_validate(_,[PV|PVs],[_=Dom|Doms],[not_in_domain(PV,Dom)|Errs]) :-
+        !,
+        template_params_validate(_,PVs,Doms,Errs).
+
+value_in_domain(V,Dom) :-
+        id_idspace(V,Dom),
+        !.
+value_in_domain(V,Dom) :-
+        belongs(V,Dom),
+        !.
+
+constraint_violations(T,Errs) :-
+        template_lookup(T,constraints,Constrs),
+        debug(ontol_rest,'Constrs: ~w',[Constrs]),
+        !,
+        findall(constraint_violation(Desc,Rule),
+                (   member(Constr,Constrs),
+                    member(description=Desc,Constr),
+                    member(rule=Rule,Constr),
+                    debug(ontol_rest,'  Rule: ~w',[Rule]),
+                    \+ Rule),
+                Errs).
+constraint_violations(_,[]).
+
+
 
 /** <module> compositional class generation
 
