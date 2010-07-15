@@ -354,8 +354,6 @@ template_lookup(Template,Key,Val) :-
 
 generate_facts(_,New,[ontol_db:class(New)],_).
 
-generate_facts(_,New,[metadata_db:entity_partition(New,unvetted)],_).
-
 generate_facts(_,New,[metadata_db:entity_creation_date(New,D)],_) :-
         current_time_iso_full(D).
 
@@ -556,7 +554,7 @@ write_obo(New,NewFacts,DeleteFacts,files(NFile,AFile,DFile),_Opts) :-
         forall(member(Fact,NewFacts),
                assert(Fact)),
         tell(NFile),
-        format('subsetdef: ~w "~w"~n',[unvetted,unvetted]),
+        %format('subsetdef: ~w "~w"~n',[unvetted,unvetted]), -- we must assume this is in ontology
         write_date_as_comment,
         write_class(obo,New),
         told,
