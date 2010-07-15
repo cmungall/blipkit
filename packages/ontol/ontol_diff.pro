@@ -3,8 +3,8 @@
            optimize_diff/0,
            src_subclass/3,
            src_subclassT/3,
-	   uniq_subclass/4,
-           uniq_subclass_with_defs/6,
+	   uniq_subclass/3,
+           uniq_subclass_with_defs/5,
            diff_label/5,
            diff_def/5
 	   ]).
@@ -18,24 +18,31 @@ optimize_diff :-
         table_pred(src_subclassT/3),
         materialize_index(uniq_subclass_r(1,0,1)).
 
+class_in(X,S) :-
+        fact_clausesource(class(X),S).
+
 src_subclass(S,X,Y) :-
         subclass(X,Y),
         fact_clausesource(subclass(X,Y),S).
 
-src_subclassT(S,X,Y) :-
-        src_subclass(S,X,Y).
-src_subclassT(S,X,Y) :-
-        src_subclass(S,X,Z),
-        src_subclassT(S,Z,Y).
 
 % direct unless inferred db is used
-uniq_subclass(X,Y,'UNIQUE',S) :-
+uniq_subclass_r(X,Y,S) :-
         src_subclass(S,X,Y),
+        X\=Y,
 	fact_clausesource(class(X),S2),
 	S2\=S,
 	fact_clausesource(class(Y),S2),
 	\+ src_subclass(S2,X,Y).
 
+
+uniq_subclass(X,Y,S) :-
+        uniq_subclass_r(X,Y,S),
+        \+ ((src_subclass(S,X,Z),
+             X\=Z,
+             class_in(Z,S2),
+             S\=S2,
+             uniq_subclass_r(Z,Y,S))).
 
 /*
 uniq_subclass(X,Y,Info,S) :-
@@ -47,10 +54,6 @@ uniq_subclass(X,Y,Info,S) :-
         src_subclassT(S2,X,Y),
         sformat(Info,'INDIRECT_in_~w',[S2]).
 
-  uniq_subclass(X,Y,'UNIQUE',S) :-
-        uniq_subclass_r(X,Y,S),
-        \+ ((uniq_subclass_r(X,Z,S),
-             uniq_subclass_r(Z,Y,S))).
 
 % redundant
 uniq_subclass_r(X,Y,S) :-
@@ -65,8 +68,45 @@ uniq_subclass_r(X,Y,S) :-
 
   */
 
-uniq_subclass_with_defs(X,Y,Info,S,DX,DY) :-
-        uniq_subclass(X,Y,Info,S),
+% ----------------------------------------
+% NON-PRE-REASONED: REASONING WITHIN SOURCE
+% ----------------------------------------
+
+src_subclassT(S,X,Y) :-
+        src_subclass(S,X,Y).
+src_subclassT(S,X,Y) :-
+        src_subclass(S,X,Z),
+        src_subclassT(S,Z,Y).
+
+% ----------------------------------------
+% NON-PRE-REASONED: MOST DIRECT
+% ----------------------------------------
+
+% most direct comparable inferred link
+src_subclassTC(S1,S2,X,Y) :-
+        src_subclass(S1,X,Y),
+        class_in(Y,S2),
+        S2\=S1.
+src_subclassTC(S1,S2,X,Y) :-
+        src_subclass(S1,X,Z),
+        \+ class_in(Z,S2),      % not comparable
+        S2\=S1,
+        src_subclassTC(S1,S2,Z,Y).
+
+uniq_subclassTC(X,Y,S1) :-
+	class_in(X,S2),
+	class_in(X,S1),
+        S1\=S2,
+        src_subclassTC(S1,S2,X,Y), % most direct comparable
+        \+ src_subclassT(S2,X,Y).
+
+
+% ----------------------------------------
+% DEFS
+% ----------------------------------------
+
+uniq_subclass_with_defs(X,Y,S,DX,DY) :-
+        uniq_subclass(X,Y,S),
         (   def(X,DX),
             fact_clausesource(def(X,DX),S)
         ->  true

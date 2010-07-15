@@ -40,6 +40,11 @@ idspace_confmod('ZFA',ontol_config_zfa).
 idspace_confmod('XAO',ontol_config_xao).
 idspace_confmod('NCBITaxon',ontol_config_ncbi_taxonomy).
 idspace_confmod('NIF_GrossAnatomy',ontol_config_nif).
+idspace_confmod('CHEBI',ontol_config_default).
+idspace_confmod('GOCHE',ontol_config_goche).
+
+idspace_import_confmod('CHEBI','GOCHE',ontol_config_goche).
+idspace_import_confmod('GOCHE','CHEBI',ontol_config_goche).
 
 
 % maps an ontology (e.g. biological_process) onto an IDspace (e.g. GO) via
@@ -71,6 +76,7 @@ idspace_url_format(snap,URL,Fmt) :- idspace_url_format(bfo,URL,Fmt).
 idspace_url_format(span,URL,Fmt) :- idspace_url_format(bfo,URL,Fmt).
 idspace_url_format(ncithesaurus,URL,Fmt) :- idspace_url_format('NCIt',URL,Fmt). % tmp
 idspace_url_format('GO','http://www.geneontology.org/ontology/obo_format_1_2/gene_ontology_ext.obo',obo).
+idspace_url_format('GOCHE','http://www.geneontology.org/scratch/obol_results/goche.obo',obo).
 idspace_url_format(IDSpace,URL,obo) :-
         sformat(URL,'http://purl.org/obo/obo/~w.obo',[IDSpace]).
 
@@ -193,11 +199,14 @@ preload_ont(IDSpace,Params):-   % ont is NOT specified on param list
         % some ontologies trigger the loading of species configurations
         % for graph drawing. we only do this in situations where a single
         % ontology is loaded. if there is an import, then we only go with the
-        % default configuration
+        % default configuration.
+        % allow for the situation where specific combos are allowed via idspace_import_confmod/3
         (   \+ member(import=_,Params)
         ->  forall(idspace_confmod(IDSpace,Mod),
                    consult(bio(Mod)))
-        ;   true),
+        ;   forall((member(import=Import,Params),
+                    idspace_import_confmod(IDSpace,Import,Mod)),
+                   consult(bio(Mod)))),
         % TODO: check if this is registered
         debug(ontol_rest,'Loading IDSpace ~w',[IDSpace]),
         % E.g. CL --> http://purl.org/obo/obo/CL
@@ -314,7 +323,21 @@ ontol_page_actual([png,IDs],Params):-
         debug(ontol_rest,' multiple IDs (will cluster)=~w',[IDs]),
         emit_content_type('image/png'),
         % treat xrefs like normal relations - useful for comparing two ontologies side-by-side
-	ensure_loaded(bio(ontol_manifest_relation_from_xref)),
+        (   IDs=[_,_|_]
+	->  ensure_loaded(bio(ontol_manifest_relation_from_xref))
+        ;   true),
+
+        % this is a bit of a hack as we can't bypass info into the graph structure;
+        % ontol_config_default handles this
+        forall(member(focus=Focus,Params),
+               assert(user:focus(Focus))),
+        forall(member(Focus,IDs),
+               assert(user:focus(Focus))),
+        forall(member(focus=Focus,Params),
+               assert(user:graphviz_color_node(Focus,yellow))),
+        forall(member(Focus,IDs),
+               assert(user:graphviz_color_node(Focus,yellow))),
+        
 	forall(member(ID,IDs),
 	       preload(ID,Params)),
         params_drels_crels(Params,AllRels,CRels),

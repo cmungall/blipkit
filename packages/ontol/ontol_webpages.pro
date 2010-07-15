@@ -129,6 +129,7 @@ multiple(IDs) =>
 % shows each ID in its own column
 multiple_entity_info(IDs) =>
   div(class=floatL,
+      h3('Comparison table'),
       table(class='comparison_table',
 	    multirow('ID',data(ID),true,ID,IDs),
 	    multirow('Link',hlink(ID),true,ID,IDs),
@@ -159,6 +160,7 @@ multiple_entity_info(IDs) =>
 	    multirow(hlink(R),[hlink(X)],restriction(ID,R,X),ID,IDs) forall_unique (member(R,Rs)),
 	    html:br),
       call(concat_atom(IDs,'+',IDListAtom)),
+      call(debug(ontol_rest,'IDs=~w IDLA=~w',[IDs,IDListAtom])),
       graphimg(IDListAtom,img)).
 
 
@@ -728,12 +730,14 @@ wikipedia_info(_ID,Page) =>
 				     member(Body,Results))),
      noesc('<!-- The code to extract wikipedia entries was kindly provided by the Rfam group -->')).
 
+
+% ----------------------------------------
+% IMAGES
+% ----------------------------------------
+
 images_box(ID) =>
  div(id=images,
      img(src=URL,'') forall id_imgurl(ID,URL)).
-
-graphimg(ID) =>
- graphimg(ID,floatR).
 
 class_imgurl(ID,Hidden,ImgURL) :-
         sformat(ImgURL,'/obo/~w.png?~w',[ID,Hidden]).
@@ -742,10 +746,16 @@ embedded_graph_img(ID,Hidden) =>
  call(class_imgurl(ID,Hidden,ImgURL)),
  img(id=main_img,
      src=ImgURL).
-       
+
+graphimg(ID) =>
+ graphimg(ID,floatR).
+
+
+% ID is an atom - either a single ID or a list atom ('ID1+ID2...IDn')
 graphimg(ID,CssClass) =>
  in(Params,call(params_hidden(Params,Hidden))),
  %call(sformat(ImgUrlAll,'/obo/~w.png?rel=all',[ID])),
+ call(sformat(ImgUrl,'/obo/~w.png?',[ID])),
  call(solutions(R,restriction(_,R,_),Rs)),
  in(Params,call(params_drels_crels(Params,DRels,CRels))),
  span(class=CssClass,
@@ -773,6 +783,10 @@ graphimg(ID,CssClass) =>
            html:input(type=button,
                       onClick=JSAll,
                       value='Show All'))).
+
+% ----------------------------------------
+% 
+% ----------------------------------------
 
 class_parents(ID) =>
   ul(li(hlink(R),' ',hlink(X)) forall_unique parent(ID,R,X)).

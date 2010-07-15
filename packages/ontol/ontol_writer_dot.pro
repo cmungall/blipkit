@@ -13,6 +13,9 @@
 :- use_module(bio(graphviz)).
 :- use_module(bio(bioprolog_util)).
 
+
+:- dynamic user:graphviz_color_node/2.
+
 :- multifile user:image_display_exec/1.
 :- dynamic user:image_display_exec/1.
 
@@ -51,6 +54,12 @@ user:graphviz_ontol_param(node(Node),label=''):-
 	\+ entity_label(Node,_),
 	genus(Node,_).
 
+user:graphviz_ontol_param(node(Node),style=filled):-
+        user:graphviz_color_node(Node,_).
+user:graphviz_ontol_param(node(Node),fillcolor=Col):-
+        user:graphviz_color_node(Node,Col).
+
+
 % see http://www.graphviz.org/doc/info/attrs.html
 %user:graphviz_ontol_param(graph,prop(style=filled)).
 %user:graphviz_ontol_param(node(_),fillcolor=red).
@@ -59,30 +68,6 @@ user:graphviz_ontol_param(node(_),fontname=helvetica).
 %user:graphviz_ontol_param(node(_),fontname='/System/Library/Fonts/Courier.dfont'). % OS X only!!
 user:graphviz_ontol_param(node(_),fontsize=14).
 %user:graphviz_ontol_param(edge(_,_,_,_),weight=100).
-user:graphviz_ontol_param(edge(_,_,is_a,_),arrowhead=empty).
-user:graphviz_ontol_param(edge(_,_,is_a,_),color=green).
-user:graphviz_ontol_param(edge(_,_,po,_),color=blue).
-user:graphviz_ontol_param(edge(_,_,'OBO_REL:part_of',_),color=blue).
-user:graphviz_ontol_param(edge(_,_,'OBO_REL:part_of',_),label='PO').
-user:graphviz_ontol_param(edge(_,_,integral_part_of,_),arrowtail=diamond).
-user:graphviz_ontol_param(edge(_,_,integral_part_of,_),color=blue).
-user:graphviz_ontol_param(edge(_,_,only_part_of,_),arrowhead=empty).
-user:graphviz_ontol_param(edge(_,_,only_part_of,_),arrowtail=diamond).
-user:graphviz_ontol_param(edge(_,_,only_part_of,_),color=blue).
-user:graphviz_ontol_param(edge(_,_,has_part,_),arrowhead=diamond).
-user:graphviz_ontol_param(edge(_,_,has_part,_),color=blue).
-user:graphviz_ontol_param(edge(_,_,df,_),arrowhead=open).
-user:graphviz_ontol_param(edge(_,_,df,_),color=red).
-user:graphviz_ontol_param(edge(_,_,followed_by,_),color=red).
-%user:graphviz_ontol_param(edge(_,_,xref,_),color=grey).
-user:graphviz_ontol_param(edge(_,_,xref,_),weight=1000).
-%user:graphviz_ontol_param(edge(_,_,xref,_),arrowhead=open).
-user:graphviz_ontol_param(edge(_,_,'OBO_REL:results_in_complete_development_of',_),color=grey).
-user:graphviz_ontol_param(edge(_,_,'OBO_REL:homologous_to',_),color=grey).
-user:graphviz_ontol_param(edge(_,_,'OBO_REL:homologous_to',_),weight=1000).
-user:graphviz_ontol_param(edge(_,_,'OBO_REL:homologous_to',_),penwidth=4).
-user:graphviz_ontol_param(edge(_,_,'OBO_REL:homologous_to',_),arrowhead=empty).
-user:graphviz_ontol_param(edge(_,_,'OBO_REL:homologous_to',_),label='H').
 user:graphviz_ontol_param(edge(_,_,_,_),fontname='/System/Library/Fonts/Times.dfont'). % OS X only!!
 
 dotpath(Dot):-
