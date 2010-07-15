@@ -186,25 +186,27 @@ pageify(Template,Goal,MaxItems) =>
 
  
 
-xps(ID) =>
-  outer(['xps in ',ID],
-        [h1('Cross product set ',hlink(ID)),
-         table(tr(th('Term'),
-                  th('Genus'),
-                  th(colspan=2,'Differentia')),
-               gdrow(X) forall_unique genus(X,_))]).
+xps(S) =>
+  outer(['xps in ',S],
+        [h1('Cross product set ',hlink(S)),
+         table(class=gd_table,
+               tr(th(align=left,'Term'),
+                  th(align=left,'Genus'),
+                  th(align=left,colspan=2,'Differentia')),
+               gdrow(X) forall_unique (genus(X,_),
+                                       id_idspace(X,S)))]).
+
 
 gdrow(ID) =>
   call((solutions(R-X,differentium(ID,R,X),Diffs),
         length(Diffs,NumDiffs),
         _NumRows is NumDiffs-1,
         Diffs=[R1-X1|DiffsRest])),
-  tr(
-     td(rowspan=NumDiffs,hlink(ID)),
+  tr(td(rowspan=NumDiffs,hlink(ID)),
      td(rowspan=NumDiffs,hlink(X) forall_unique genus(ID,X)),
-     td(hlink(R1)),
+     td(i(hlink(R1))),
      td(hlink(X1))),
-  tr(td(''),td(''),td(hlink(R)),td(hlink(X))) forall_unique member(R-X,DiffsRest).
+  tr(td(i(hlink(R))),td(hlink(X))) forall_unique member(R-X,DiffsRest).
 
 
 basic_search_form =>
