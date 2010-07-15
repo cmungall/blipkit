@@ -198,15 +198,20 @@ xps(S) =>
 
 
 gdrow(ID) =>
-  call((solutions(R-X,differentium(ID,R,X),Diffs),
+  if((solutions(R-X,differentium(ID,R,X),Diffs),
         length(Diffs,NumDiffs),
         _NumRows is NumDiffs-1,
-        Diffs=[R1-X1|DiffsRest])),
-  tr(td(rowspan=NumDiffs,hlink(ID)),
-     td(rowspan=NumDiffs,hlink(X) forall_unique genus(ID,X)),
-     td(i(hlink(R1))),
-     td(hlink(X1))),
-  tr(td(i(hlink(R))),td(hlink(X))) forall_unique member(R-X,DiffsRest).
+        Diffs=[R1-X1|DiffsRest]),
+     then:
+    [
+     tr(td(rowspan=NumDiffs,hlink(ID)),
+        td(rowspan=NumDiffs,hlink(X) forall_unique genus(ID,X)),
+        td(i(hlink(R1))),
+        td(hlink(X1))),
+     tr(td(i(hlink(R))),td(hlink(X))) forall_unique member(R-X,DiffsRest)
+    ],
+     else: []).
+
 
 
 basic_search_form =>
