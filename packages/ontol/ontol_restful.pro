@@ -421,6 +421,32 @@ ontol_page_actual([ontology_entry,ID],Params):-
             ;   emit_page(noresults(ID,S),Params))
         ;   emit_page(ontology_entry(ID),Params)).
 
+/*
+ontol_page_actual([quickterm,S,login],Params):-
+        member(submit=_,Params),
+        !,
+        format('Content-type: text/html~n',[]),
+        format('Set-Cookie: foo=bar~n~n',[]),
+        emit_page(quickterm_login(S),Params).
+ontol_page_actual([quickterm,S,login],Params):-
+        
+        emit_content_type('text/html'),
+        emit_page(quickterm_login(S),Params).
+*/
+
+
+template_user_err(T,'',Params,must_supply_username_for_commit) :-
+        member(commit=Commit,Params),
+        Commit\=false.
+template_user_err(T,U,Params,incorrect_password) :-
+        U\='',
+        \+ ((member(password=P,Params),
+             template_check_user_password(T,U,P))).
+template_user_err(T,U,Params,no_permission_for_this_template) :-
+        member(commit=Commit,Params),
+        Commit\=false,
+        \+ qtt_permitted_user(T,U).
+
 ontol_page_actual([quickterm,S],Params):-
         emit_content_type('text/html'),
         preload_ont(S,Params),
@@ -438,12 +464,12 @@ ontol_page_actual([quickterm,S],Params):-
                 atom_alphanumeric(UserIn,User)
             ->  true
             ;   User=''),
-            (   User='',
-                Commit\=false
-            ->  UserErrs=[must_supply_alphanumeric_username]
-            ;   UserErrs=[]),
-            template_resolve_args(T,Params,Template,ValueErrs),
-            flatten([UserErrs,ValueErrs],Errs),
+
+            % VALIDATE
+            (   template_user_err(T,User,Params,Err)
+            ->  Errs=[Err]
+            ;   template_resolve_args(T,Params,Template,Errs)),
+
             debug(ontol_rest,'template= ~w commit=~w // Errs=~w',[Template,Commit,Errs]),
             (   Errs=[]
             ->  findall(Opt,

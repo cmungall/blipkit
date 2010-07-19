@@ -283,6 +283,9 @@ basicrow(ID) =>
 % ----------------------------------------
 
 quickterm_outer(N,P) =>
+  quickterm_outer(N,P,'').
+
+quickterm_outer(N,P,JS) =>
  html:html(
            head(title(N),
                 html:meta('http-equiv'='content-type', content='text/html; charset=utf-8',
@@ -290,7 +293,8 @@ quickterm_outer(N,P) =>
                                     link(href='/amigo2/css/formatting.css', rel=stylesheet, type='text/css'),
                                     %link(href='http://amigo.berkeleybop.org/amigo/js/org/bbop/amigo/ui/css/autocomplete.css', rel=stylesheet, type='text/css'),
 				    script(type='text/javascript', src=X) forall_unique javascript(X),
-				    html:style(type='text/css',CSS) forall_unique css(CSS)
+				    html:style(type='text/css',CSS) forall_unique css(CSS),
+                                    script(type='text/javascript',JS)
                                     %script(type='text/javascript',
                                     %       'jQuery(document).ready(function(){ new org.bbop.amigo.ui.autocomplete({id:"target", narrow:"true", search_type:"term", ontology: "biological_process", completion_type:"completion"}); })')
                                     ))),
@@ -400,6 +404,13 @@ quickterm_form(T) =>
             name=username,
             style='outline: #3875D7 solid 1px;',
             value=User),
+      'Password: ',
+      getparam(password,Pass,''),
+      input(type=password,
+            size=20,
+            name=password,
+            style='outline: #3875D7 solid 1px;',
+            value=Pass),
       i(' (must be filled in if submit is selected)'),
 
       html:br).
@@ -454,9 +465,9 @@ quickterm_result_msg(ok(ID,Status,Msg)) =>
            ],
      else: [
             h3('Request valid but not committed'),
-            
-            p('This request is valid. You can go ahead and add commit this by selecting the commit box below.',
-              'This will submit a term with the ID ',b(ID),
+            p('Note that the IDs below are ',b('NOT'),' finalized - they are not granted until you commit.'),
+            p('You can go ahead and add commit this by selecting the commit box below and then submitting the form.',
+              'This will add the term to the submission ontology and reserve the ID ',b(ID),
               if(entity_label(ID,Name),
                  then: [' and name ',i(Name)],
                  else: []))
@@ -464,7 +475,37 @@ quickterm_result_msg(ok(ID,Status,Msg)) =>
   h4('Raw OBO Format:'),
   pre(noesc(Msg)).
 
-              
+
+/*
+quickterm_login(S)=>
+  quickterm_outer(['Login to: ',S],
+                  div(h2('Login to ',S),
+                      form(
+                           html:br,
+                           getparam(username,User,''),
+                           'Username: ',
+                           input(type=text,
+                                 size=20,
+                                 name=username,
+                                 style='outline: #3875D7 solid 1px;',
+                                 value=User),
+                           html:br,
+                           'Password: ',
+                           input(type=password,
+                                 size=20,
+                                 name=password,
+                                 style='outline: #3875D7 solid 1px;',
+                                 value=User),
+                           html:br,
+                           input(name=submit,type=submit,value=submit),
+                           html:br))).
+
+quickterm_login_success(U,P) =>
+  quickterm_outer(['Login successful'],
+*/                  
+
+                           
+
 
 % ----------------------------------------
 % tree browing

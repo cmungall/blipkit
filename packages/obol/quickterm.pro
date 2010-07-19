@@ -1,10 +1,12 @@
 :- module(quickterm,
           [
+           template_check_user_password/3,
            valid_qtt/2,
            qtt_arg_type/3,
            qtt_description/2,
            qtt_wraps/2,
            qtt_external/2,
+           qtt_permitted_user/2,
            template_request/3,
            template_resolve_args/4
           ]).
@@ -14,11 +16,30 @@
 :- use_module(bio(ontol_writer)).
 :- use_module(bio(ontol_writer_obo)).
 :- use_module(bio(metadata_db)).
+:- use_module(library(crypt)).
 
-% TODO
-regrel(regulates).
-regrel(negatively_regulates).
-regrel(positively_regulates).
+% ----------------------------------------
+% AUTHENTICATION
+% ----------------------------------------
+
+:- multifile user_password/2.
+:- multifile user_ontology_group/2.
+
+template_check_user_password(T,U,P) :-
+        template_users_file(T,UF,[]),
+        consult(UF),
+        crypt(P,Codes),
+        atom_codes(PE,Codes),
+        user_password(U,PE).
+
+template_users_file(Template,File,Opts) :-
+        template_lookup(Template,ontology,Ont),
+        ontology_xp_submit_path(Ont,Dir,Name),
+        (   member(ontology_dir(Prefix),Opts)
+        ->  true
+        ;   Prefix='/users/cjm/cvs'),
+        concat_atom([Prefix,'/',Dir,'/user.pro'],File).
+
 
 % ----------------------------------------
 % TEMPLATES
@@ -39,6 +60,7 @@ regrel(positively_regulates).
 
 template(all_regulation(X),
          [
+          access= [admin],
           description= 'Select all three subtemplates to generate
            terms for regulation, negative regulations and positive
            regulation. Names, synonyms and definitions are all
@@ -267,6 +289,7 @@ template(structural_protein_complex(X,Y),
 
 template(metazoan_location_specific_anatomical_structure(P,W),
          [
+          access= [anyone],
           description= 'location-specific anatomical structure',
           ontology= 'UBERON',
           obo_namespace= uberon,
@@ -333,6 +356,24 @@ qtt_wraps(T,X) :-
 qtt_external(T,O) :-
         template_lookup(T,externals,L),
         member(O,L).
+
+% liberal access
+qtt_permitted_user(T,U) :-
+        template_lookup(T,access,L),
+        member(anyone,L).
+% restricted to group
+qtt_permitted_user(T,U) :-
+        template_lookup(T,access,L),
+        member(G,L),
+        qtt_ontology(T,O),
+        user_ontology_group(U,O,G).
+% default is to permit everyone in a group
+%qtt_permitted_user(T,U) :-
+%        qtt_ontology(T,O),
+%        \+ template_lookup(T,access,_),
+%        user_ontology_group(U,O,_).
+
+
 
 template_lookup(T,Key,Val) :-
         atom(T), % allow either template name or template term
