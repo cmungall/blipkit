@@ -435,7 +435,7 @@ ontol_page_actual([quickterm,S,login],Params):-
 */
 
 
-template_user_err(T,'',Params,must_supply_username_for_commit) :-
+template_user_err(_,'',Params,must_supply_username_for_commit) :-
         member(commit=Commit,Params),
         Commit\=false.
 template_user_err(T,U,Params,incorrect_password) :-
@@ -449,7 +449,8 @@ template_user_err(T,U,Params,no_permission_for_this_template) :-
 
 ontol_page_actual([quickterm,S],Params):-
         emit_content_type('text/html'),
-        preload_ont(S,Params),
+        %preload_ont(S,Params),
+        load_editors_file(S),
         debug(ontol_rest,' Params= ~w',[Params]),
         (   member(template=T,Params)
         ->  true

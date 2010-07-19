@@ -1,5 +1,6 @@
 :- module(quickterm,
           [
+           load_editors_file/1,
            template_check_user_password/3,
            valid_qtt/2,
            qtt_arg_type/3,
@@ -34,7 +35,7 @@ template_check_user_password(T,U,P) :-
 
 template_users_file(Template,File,Opts) :-
         template_lookup(Template,ontology,Ont),
-        ontology_xp_submit_path(Ont,Dir,Name),
+        ontology_xp_submit_path(Ont,Dir,_),
         (   member(ontology_dir(Prefix),Opts)
         ->  true
         ;   Prefix='/users/cjm/cvs'),
@@ -314,6 +315,16 @@ ontology_xp_submit_path('CL','obo/ontology/anatomy/cell/xp_submit','CL_xp').
 ontology_xp_submit_path('UBERON','uberon/xp_submit','UBERON_xp').
 ontology_xp_submit_path('HP','hpo/xp_submit','HP_xp').
 
+ontology_editors_file('GO','go/ontology/editors/gene_ontology_write.obo').
+
+load_editors_file(Ont) :-
+        ontology_editors_file(Ont,Path),
+        (   member(ontology_dir(Prefix),[])
+        ->  true
+        ;   Prefix='/users/cjm/cvs'),
+        concat_atom([Prefix,'/',Path],File),
+        load_biofile(File).
+
 % ----------------------------------------
 % extracting directory path
 % ----------------------------------------
@@ -358,7 +369,7 @@ qtt_external(T,O) :-
         member(O,L).
 
 % liberal access
-qtt_permitted_user(T,U) :-
+qtt_permitted_user(T,_) :-
         template_lookup(T,access,L),
         member(anyone,L).
 % restricted to group
