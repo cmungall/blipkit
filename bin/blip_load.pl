@@ -24,7 +24,7 @@ user:file_search_path(bio, blipkit(graph)).
 user:file_search_path(bio, blipkit(ontol)).
 user:file_search_path(bio, blipkit(ontol/conf)).
 user:file_search_path(bio, blipkit(geo)).
-user:file_search_path(bio, blipkit(pheno)).
+user:file_search_path(bio, blipkit(phenotype)).
 user:file_search_path(bio, blipkit(phylo)).
 user:file_search_path(bio, blipkit(rdft)).
 user:file_search_path(bio, blipkit(sb)).

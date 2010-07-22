@@ -1120,7 +1120,7 @@ go:go_rule(A1,A) :-
          term(index_goal,IndexGoal),
          atom(cache_file,CacheFile,''),
          bool(pre_reasoned,IsPreReasoned),
-         number(num_genes,NumGenes),
+         number([num_genes,num_entities],NumGenes),
          number(max_p,MaxP,0.01)],
         InIDs,
         (   
@@ -1485,6 +1485,7 @@ blipkit:trusted_command('ontol-rest').
                    ontol_page(Path,Params)))).
 
 eqatom_param(A,P=V):-    concat_atom([P,V],'=',A),!.
+eqatom_param(A,P=V):-    concat_atom([P|L],'=',A),!,concat_atom(L,'=',V).
 eqatom_param(A,A).
 
 

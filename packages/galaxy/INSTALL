@@ -1,0 +1,30 @@
+INSTALL
+=======
+
+ONTO-Toolkit requires:
+
+1. Galaxy (latest version recommended):
+
+	http://main.g2.bx.psu.edu/
+
+2. Thea
+
+	http://github.com/vangelis/thea
+
+3. SWI-Prolog (required by Thea)
+
+   http://swi-prolog.org
+	
+After installing the required software:
+
+1. copy tools to '$GALAXY_HOME/tools/'
+
+  cp -pr tools/* $GALAXY_HOME/tools/
+
+2. Copy the test data files to '$GALAXY_HOME/test-data/'
+
+3. Adapt your 'tool_conf.xml' file by adding the 'Thea-Galaxy' section:
+
+  TODO
+
+4. Restart your Galaxy instance.

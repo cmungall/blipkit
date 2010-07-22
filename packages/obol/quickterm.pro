@@ -178,7 +178,7 @@ template(metazoan_development(X),
                 %def([' A ',name(X),' is '],X,'.')
          ]).
 
-template(metazoan_morphologenesis(X),
+template(metazoan_morphogenesis(X),
          [
           description= 'morphogenesis of an animal anatomical structure',
           ontology= 'GO',
@@ -207,7 +207,7 @@ template(plant_development(X),
                 %def([' A ',name(X),' is '],X,'.')
          ]).
 
-template(plant_morphologenesis(X),
+template(plant_morphogenesis(X),
          [
           description= 'morphogenesis of a plant animal anatomical structure',
           ontology= 'GO',

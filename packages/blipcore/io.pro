@@ -505,7 +505,7 @@ load_special(rdfs,File):-
 load_special(rdfurl,File):-
         !,
         load_special(owl,url(File)).
-load_special(owl,File):-
+load_special(rdfowl,File):-
         !,
         ensure_loaded(library('semweb/rdf_db')),
         ensure_loaded(library('semweb/rdf_http_plugin')),
@@ -564,24 +564,14 @@ load_special(owl_nobridge,File):-
         ensure_loaded(library('semweb/rdf_http_plugin')),
         rdf_load(File,[namespaces(NSList)]),
 	register_namespaces(NSList).
-%        forall((member(NS=Full,NSList),NS\=[]),
-%               catch(rdf_register_ns(NS,Full),_E,true)).
-load_special(thea,File):-
-        !,
-        ensure_loaded(bio('thea/owl_as2rdf')),
-        ensure_loaded(bio('thea/owl_parser')),
-        load_biofile(owl_parser:pro,File),
-        owl_generate_rdf(_).
-load_special(thea_owl,File):-
-        !,
-        ensure_loaded(bio(thea_wrapper)),
-        thea_parse(File).
 load_special(owlpl,File):-
         !,
         ensure_loaded(library('thea2/owl2_io')),
         ensure_loaded(library('thea2/owl2_util')),
         load_axioms(File,owlpl).
 load_special(thea2_owl,File):-
+        load_special(owl,File).
+load_special(owl,File):-
         !,
         ensure_loaded(library('thea2/owl2_from_rdf')),
         owl_parse_rdf(File).

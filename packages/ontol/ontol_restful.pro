@@ -111,9 +111,17 @@ id_params_url(X,Params,FullURL) :-
         params_hidden(Params,Extra), 
         sformat(FullURL,'~w?~w',[URL,Extra]). % TODO -- what if we have params already?
 
+%% params_hidden(+Params,?Extra)
 params_hidden(Params,Extra) :-
-        findall(PA,(member(import=Ont,Params),sformat(PA,'import=~w',[Ont])),PAs),
+        findall(PA,(hidden(P),
+                    member(P=V,Params),
+                    sformat(PA,'~w=~w',[P,V])),
+                PAs),
         concat_atom(PAs,'&',Extra).
+
+hidden(import).
+hidden('GALAXY_URL').
+
 
 knowsabout(ID) :-
 	parse_id_idspace(ID,S,_),

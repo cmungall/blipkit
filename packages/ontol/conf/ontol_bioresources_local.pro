@@ -99,7 +99,7 @@ user:bioresource(mgi_gene,'/users/cjm/obd/data/phenotype_annotation/MGI/source_f
 user:bioresource(ogms,local('ogms-read-only/src/ontology/ogms.obo'),obo).
 
 
-user:bioresource(cell,obo_local('anatomy/cell_type/cell.obo'),obo).
+user:bioresource(cell,obo_local('anatomy/cell_type/cell.edit.obo'),obo).
 user:bioresource(hemo_CL,obo_local('anatomy/cell_type/hemo_CL.obo'),obo).
 user:bioresource(cdo,obo_local('anatomy/cell_type/cdo.obo'),obo).
 user:bioresource(cell2,obo_local('anatomy/cell_type/cell_cjm.obo'),obo).

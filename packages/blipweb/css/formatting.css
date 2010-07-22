@@ -329,3 +329,5 @@ img.pie { margin: 20px auto; }
 .textdef { 
     font-size: 75%;
 }
+
+.galaxy {border: 1px dashed; background: #dff; }

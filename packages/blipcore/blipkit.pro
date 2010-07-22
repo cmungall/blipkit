@@ -257,8 +257,13 @@ blip(C,Desc,Opts,Files,Action):-
         _,
 	true).
 
+blipkit:example('blip sed -rule "line(ID,FullName):-line(ID,First,Last),concat_atom([First,Last],-,FullName)"',
+                'processes a 3 column file into a 2 column file').
+opt_description(rule,'A prolog rule of the form: "line(OutArgs) :- line(InArgs....),Goals').
+opt_description(rulefile,'As -rule, but load from a file').
+
 :- blip('sed',
-        'process input file according to rule',
+        'process input file according to rule or rulefile. analagous to unix sed',
         [term(rule,Rule),
 	 atom(rulefile,RuleFile)],
         Args,

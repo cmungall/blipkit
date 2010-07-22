@@ -1,0 +1,22 @@
+README
+======
+
+Galaxy configuration for using blip. This is basically wrappers around
+the most commonly used tasks provided by the Blip toolit.
+
+For installing this collection of tools:
+
+	see the file INSTALL
+
+This is largely based on onto-toolkit by Erick Antezana
+
+DEPENDENCIES
+============
+
+1. Galaxy (latest version is recommended):
+
+	http://main.g2.bx.psu.edu/
+
+2. Blip
+
+	http://blipkit.org

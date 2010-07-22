@@ -26,7 +26,8 @@
            lgetparam/4,
            submit_param/2,
            userlog/1,
-
+           escape_param/2,
+           
            op(800,xfy,forall),
            op(800,xfy,forall_unique),
            op(800,xfy,where),
@@ -570,8 +571,9 @@ write_sterm(D,X,F):-
         !,
         write_sterm(D,X,L).
 write_sterm(D,_X,getparam(P,V,Def)):-
-        debug(ontol_rest,'fetching ~w from ~w',[P,D]),
-        dgetparam(D,P,V,Def).
+        debug(ontol_rest,'fetching ~q from ~q (def: ~w)',[P,D,Def]),
+        dgetparam(D,P,V,Def),
+        debug(ontol_rest,'  val: ~w',[V]).        
 write_sterm(D,_X,lgetparam(P,V)):-
         lgetparam(D,P,V).
 write_sterm(D,_X,getparam(P,V)):-

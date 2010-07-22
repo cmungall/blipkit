@@ -46,10 +46,10 @@ write_curation_statement(A,S,_Rel,To):-
                           atom_concat('taxon:',TaxID,Taxon)),
                  Date - (entity_created(A,ISO_Date),
                          concat_atom(Toks,':',ISO_Date),
-                         concat_atom(Toks,,Date)),
+                         concat_atom(Toks,Date)),
                  SourceDB - entity_publisher(A,SourceDB),
                  PVAtom - pv_atom(ToExp,A,PVAtom),
-                 IsoForm - curation_isform(A,IsoForm)
+                 IsoForm - curation_isoform(A,IsoForm)
                ],
         findall(Val,(member(Pair,Pairs),flatten_colpair(Pair,Val)),Vals),
         atom_codes(Tab,"\t"),
@@ -68,7 +68,7 @@ ontology_aspect(cellular_component,'C').
 pv_atom(C,Ann,PVA) :-
         findall(PV,
                 (   curation_subject_property_value(Ann,C,P,V),
-                    sformat('~w(~w)',[P,V])),
+                    sformat(PV,'~w(~w)',[P,V])),
                 PVs),
         concat_atom(PVs,',',PVA).
 

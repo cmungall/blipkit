@@ -45,6 +45,7 @@ sub run_blip_rest {
     foreach my $p (@params) {
         next if $reserved{$p};
         foreach my $v ($q->param($p)) {
+            #$v = $q->escapeHTML($v);
             $qs .= ' -param ';
 	    if ($p eq 'keywords') {
                 $qs .= "$p";

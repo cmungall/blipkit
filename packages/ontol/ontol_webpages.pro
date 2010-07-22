@@ -17,7 +17,30 @@ downloadbar(ID)=>
  if(has_info(ID),
     then:
    ['Download: [', downloadfmt(ID,Fmt) forall download(Fmt), ']'],
+    else: []),
+ getparam('GALAXY_URL',GURL,''),
+ if(GURL\='',
+    then: div(class=galaxy,
+              p('Welcome, Galaxy User!'),
+              ul(li(galaxy_form(GURL,obo,ID)),
+                 li(galaxy_form(GURL,owl,ID)),
+                 li(galaxy_form(GURL,owl2,ID)))),
     else: []).
+
+galaxy_form(GURL,Fmt,ID) =>
+ %call(escape_param(GURL,GURL_Esc)),
+ call(concat_atom([GURL,'&','URL=http://berkeleybop.org/obo/',Fmt,'/',ID],Action)),
+ div(id=galaxy_form,
+     form(method=post,
+          action=Action,
+          enctype='multipart/form-data',
+          name='galaxyform',
+          input(type=hidden,
+                name=id,
+                value=ID), % required?
+          b(Fmt),
+          input(name=submit,type=submit,value='Export to Galaxy'))).
+
 
 
 downloadfmt(ID,Fmt) =>
