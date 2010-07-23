@@ -21,7 +21,10 @@
 	   entity_pair_label_match/2,
 	   entity_pair_label_match/3,
 	   atom_search/5,
-	   corpus_search/6
+	   corpus_search/6,
+
+           term_split/6,
+           term_ends_with/6
 	   ]).
 
 :- use_module(metadata_db).
@@ -267,6 +270,26 @@ corpus_search_ic(_QueryTemplate,TermTemplate,Goal,HitLabel-HitToks,Sim,Stemmed) 
 %        Sim is ICI/ICU,
 %	Sim > 0.5.
 
+% ----------------------------------------
+% obol-ish stuff
+% ----------------------------------------
+
+label_split(T,A,B) :-
+        atom_concat(A,' ',Ax),
+        atom_concat(Ax,B,T).
+
+term_split(E,A,B,S1,S2,S3) :-
+        entity_label_scope(E,EN,S1),
+        entity_label_scope(A,AN,S2),
+        label_split(EN,AN,BN),
+        entity_label_scope(B,BN,S3).
+
+term_ends_with(E,S,SN,Tail,S1,S2) :-
+        atom_concat(' ',Tail,Tail_ws),
+        entity_label_scope(E,EN,S1),
+        atom_concat(SN,Tail_ws,EN),
+        entity_label_scope(S,SN,S2).
+        
 
 
 /** <module> 

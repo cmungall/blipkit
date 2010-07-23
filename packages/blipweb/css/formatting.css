@@ -330,4 +330,6 @@ img.pie { margin: 20px auto; }
     font-size: 75%;
 }
 
-.galaxy {border: 1px dashed; background: #dff; }
+.galaxy {padding: 10px; border: 1px dashed; background: #dff; }
+
+input {outline: #3875D7 solid 1px;}

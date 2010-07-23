@@ -694,4 +694,4 @@ promote_annotation_by_xp(G,C,C_specific) :-
 	subclassT(C_specific,C),
 	curation_statement(Ann,G,_,_).
 
-
+        
