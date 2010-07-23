@@ -90,6 +90,13 @@ materialize_indexes_to_file(Terms,File) :-
 	close(IO).
 
 :- module_transparent materialize_index_to_stream/2.
+materialize_index_to_stream(M:Term,IO) :-
+        !,
+	materialize_index(M:Term),
+	functor(Term,Pred,Arity),
+	functor(Goal,Pred,Arity),
+	forall(M:Goal,
+	       format(IO,'~q.~n',[M:Goal])).
 materialize_index_to_stream(Term,IO) :-
 	materialize_index(Term),
 	functor(Term,Pred,Arity),

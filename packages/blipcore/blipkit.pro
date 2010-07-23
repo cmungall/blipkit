@@ -75,6 +75,7 @@ main:-
          bool(import_all,ImportAll),
          terms(sqlbind,SQLBinds),
          terms(index,Indexes),
+         atom(index_file,IndexFile),
          atoms([pregoal,pre],PreGoals),
          atoms(endgoal,EndGoal),
          atoms([spy],SpyPoints),
@@ -155,8 +156,10 @@ main:-
         ->  ensure_loaded(bio(ontol_db)),
             ontol_db:import_all_ontologies
         ;   true),
-	forall(member(Index,Indexes),
-	       materialize_index(Index)),
+        (   nonvar(IndexFile)
+        ->  materialize_indexes_to_file(Indexes,IndexFile)
+	;   forall(member(Index,Indexes),
+                   materialize_index(Index))),
         maplist(remove_duplicates,DeDupeList),
 
         % global variable alert!
@@ -742,6 +745,7 @@ show_term(Opts,T):-
         member(isLabel(1),Opts),
         atom(T),
         entity_label(T,Label),
+        Label\=T,
         !,
         write(T-Label).
 show_term(Opts,L):-
