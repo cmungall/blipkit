@@ -26,6 +26,14 @@ is_chebi(chebi_lite).
 is_chebi(chebi).
 is_chebi('CHEBI').
 
+edge_src(edge(X,Y,_R,_),'ChEBI') :-
+        fact_clausesource(subclass(X,Y),S),
+        is_chebi(S).
+edge_src(edge(X,Y,_R,_),'GO') :-
+        fact_clausesource(subclass(X,Y),S),
+        \+ is_chebi(S).
+
+/*
 ontol_db:restriction(X,'ChEBI',Y) :-
         %fact_clausesource(subclass(X,Y),S),
         %debug(ontol_rest,'FACTSRC: ~w',[S]),
@@ -35,6 +43,8 @@ ontol_db:restriction(X,'ChEBI',Y) :-
 ontol_db:restriction(X,'GO',Y) :-
         fact_clausesource(subclass(X,Y),S),
         \+ is_chebi(S).
+*/
+
 
 user:graphviz_ontol_param(node(_),style=filled).
 user:graphviz_ontol_param(node(_),shape=box).
@@ -62,24 +72,37 @@ user:graphviz_ontol_param(node(X),fillcolor=C):-
         \+class_in(X,goche),
         combo_color(chebi,C).
 
-user:graphviz_ontol_param(edge(_,_,is_a,_),color=white).
+%user:graphviz_ontol_param(edge(_,_,is_a,_),color=white).
 
 %user:graphviz_ontol_param(edge(_,_,R,_),penwidth=3):-
 %        R\=is_a.
 
-user:graphviz_ontol_param(edge(_,_,'ChEBI',_),color=C):-
+user:graphviz_ontol_param(E,color=C):-
+        edge_src(E,'ChEBI'),
         combo_color(chebi,C).
-
-user:graphviz_ontol_param(edge(_,_,'GO',_),color=C):-
+user:graphviz_ontol_param(E,color=C):-
+        edge_src(E,'GO'),
         combo_color(goche,C).
 
-user:graphviz_ontol_param(edge(_,_,_,_),override(label='')).
 
-user:graphviz_ontol_param(edge(X,Y,_,_),weigth=1005) :-
-        restriction(X,'ChEBI',Y),
-        restriction(X,'GO',Y).
+%user:graphviz_ontol_param(E,override(label=S)) :-
+%        edge_src(E,S).
+%user:graphviz_ontol_param(edge(_,_,is_a,_),override(label='')).
 
-user:graphviz_ontol_param(edge(X,Y,_,_),penwidth=4) :-
-        restriction(X,'ChEBI',Y),
-        restriction(X,'GO',Y).
+user:graphviz_ontol_param(E,override(label='GO/ChEBI')) :-
+        edge_src(E,'ChEBI'),
+        edge_src(E,'GO').
+
+user:graphviz_ontol_param(E,override(label=S)) :-
+        edge_src(E,S),
+        \+ ((edge_src(E,S2),
+            S2\=S)).
+
+user:graphviz_ontol_param(E,weigth=1005) :-
+        edge_src(E,'ChEBI'),
+        edge_src(E,'GO').
+
+user:graphviz_ontol_param(E,penwidth=4) :-
+        edge_src(E,'ChEBI'),
+        edge_src(E,'GO').
 

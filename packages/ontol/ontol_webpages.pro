@@ -13,6 +13,7 @@ has_info(IDs) :-
         member(ID,IDs),
         entity_label(ID,_).
 
+
 downloadbar(ID)=>
  if(has_info(ID),
     then:
@@ -20,12 +21,12 @@ downloadbar(ID)=>
     else: []),
  getparam('GALAXY_URL',GURL,''),
  if(GURL\='',
-    then: div(class=galaxy,
-              p('Welcome, Galaxy User!'),
-              ul(li(galaxy_form(GURL,obo,ID)),
-                 li(galaxy_form(GURL,owl,ID)),
-                 li(galaxy_form(GURL,owl2,ID)))),
-    else: []).
+    div(class=galaxy,
+        p('Galaxy users: you can export this subset in different formats'),
+        ul(li(galaxy_form(GURL,obo,ID)),
+           li(galaxy_form(GURL,owl,ID)),
+           li(galaxy_form(GURL,owl2,ID))))).
+
 
 galaxy_form(GURL,Fmt,ID) =>
  %call(escape_param(GURL,GURL_Esc)),
@@ -57,6 +58,11 @@ entry_page =>
  outer('OBO',
        [h2('Ontologies'),
         div(class=floatL,
+            getparam('GALAXY_URL',GURL,''),
+            if(GURL\='',
+               div(class=galaxy,
+                   h3('Welcome Galaxy user!'),
+                   p('Find the class in the desired ontology and then export a subset to Galaxy'))),
             table(class='tagval_table',
                   tdpair(Ont,
                          [hlink(X),' ',
@@ -242,6 +248,11 @@ basic_search_form =>
   form(input(type=textfield,
              name=search_term,
              value=Val),
+       in(S,
+          if(getparam(S,HP,HV),
+             input(type=hidden,
+                   name=HP,
+                   value=HV))) forall (hidden(HP)),
        input(name=submit,type=submit,value=search)).
 
 ontology(Ont) =>
@@ -1010,6 +1021,10 @@ help_page =>
               search via URLs such as ',
               a(href='http://amigo.berkeleybop.org/cgi-bin/obo/stoc?query=ethmoid','this
               one'))),
+
+          div(h3('Galaxy Integration'),
+
+              p('This web interface also serves as a data source for the Berkeley Galaxy Service')),
           
           div(h3('Advanced queries'),
 

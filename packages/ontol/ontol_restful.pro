@@ -13,7 +13,8 @@
            parse_id_idspace/2,
            parse_id_idspace/3,
            id_exturl/2,
-           ontol_page/2
+           ontol_page/2,
+           hidden/1
           ]).
 
 :- use_module(bio(serval)).

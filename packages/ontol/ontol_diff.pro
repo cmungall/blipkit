@@ -1,7 +1,9 @@
 :- module(ontol_diff,
 	  [
            optimize_diff/0,
+           class_in/2,
            src_subclass/3,
+           src_subclassRT/3,
            src_subclassT/3,
 	   uniq_subclass/3,
            uniq_subclass_with_defs/5,
@@ -72,6 +74,12 @@ uniq_subclass_r(X,Y,S) :-
 % NON-PRE-REASONED: REASONING WITHIN SOURCE
 % ----------------------------------------
 
+src_subclassRT(S,X,Y) :-
+        src_subclassT(S,X,Y).
+src_subclassRT(S,X,X) :-
+        class_in(X,S).
+
+        
 src_subclassT(S,X,Y) :-
         src_subclass(S,X,Y).
 src_subclassT(S,X,Y) :-

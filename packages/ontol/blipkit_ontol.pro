@@ -661,6 +661,7 @@ map_field(Label,ID):-
 map_field(X,X).
 
 blipkit:trusted_command('ontol-query').
+blipkit:opt_description(mireot,'An IDSpace for a source ontology used to build a minimal MIREOT ontology').
 user:opt_insecure(queryfile).
 user:opt_insecure(query).
 :- blip('ontol-query',
@@ -1487,6 +1488,20 @@ blipkit:trusted_command('ontol-rest').
 eqatom_param(A,P=V):-    concat_atom([P,V],'=',A),!.
 eqatom_param(A,P=V):-    concat_atom([P|L],'=',A),!,concat_atom(L,'=',V).
 eqatom_param(A,A).
+
+/*
+:- blip('gaf-filter',
+        'GAFs',
+        [atom(taxon,Taxon)]
+       Files,
+        (   (   nonvar(Taxon)
+            ->  load_bioresources(taxonomy)
+            ;   true),
+	    ensure_loaded(bio(process_streams)),
+	    forall(member(File,Files),
+		   process_file_lines(Rule,File)))).
+*/            
+       
 
 
 /** <module> simple interface to blip module functionality
