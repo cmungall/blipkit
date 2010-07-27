@@ -33,7 +33,7 @@ web_search_wikipedia(S,[Body],_Opts):-
         sformat(Cmd,'scrape-wikipedia.pl "~w" > ~w',[S,Out]),
         debug(wikipedia,'cmd: ~w ',[Cmd]),
         shell(Cmd),             % TODO: timeout
-        open(Out,read,IO,[]),
+        open(Out,read,IO,[encoding(octet)]),
         read_stream_to_codes(IO,Codes),
         atom_codes(Body,Codes),
         close(IO).
