@@ -22,6 +22,7 @@ index_goal(G, SG) :-
         index_goal(G,SG,'').
 
 index_goal(_, _, CacheFile) :-
+        debug(enrichment,' checking cache ~w',[CacheFile]),
 	file_name_extension(Base, _Ext, CacheFile),
 	file_name_extension(Base, qlf, QlfFile),
         exists_file(QlfFile),

@@ -134,7 +134,7 @@ curation_statementT(C,S,R,Ob,ObDirect):-
         % seq scan through annotations first..
         curation_statement(C,S,R,ObDirect),
         %debug(curation_db,'checking ~w',[curation_statement(C,S,R,ObDirect)]),
-        parentRT(ObDirect,Ob).
+        bf_parentRT(ObDirect,Ob).
 %%subclassRT(ObDirect,Ob).
 
 %curation_statementT(C,S,R,Ob,ObDirect):-

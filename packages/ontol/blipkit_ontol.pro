@@ -1120,6 +1120,8 @@ go:go_rule(A1,A) :-
         [atom(idfile,IDFile),
          term(index_goal,IndexGoal),
          atom(cache_file,CacheFile,''),
+         atoms(ontology,OntFiles),
+         atoms(gaf,GafFiles),
          bool(pre_reasoned,IsPreReasoned),
          number([num_genes,num_entities],NumGenes),
          number(max_p,MaxP,0.01)],
@@ -1128,14 +1130,16 @@ go:go_rule(A1,A) :-
             ensure_loaded(bio(enrichment)),
             ensure_loaded(bio(curation_db)),
             ensure_loaded(bio(tabling)),
+            maplist(load_biofile(obo),OntFiles),
+            maplist(load_biofile(go_assoc),GafFiles),
             table_pred(ontol_db:parentT/2),
-            format('# indexing...~n'),
+            debug(enrichment,'indexing... cachefile: ~w',[CacheFile]),
             (   var(IndexGoal)
             ->  (   IsPreReasoned=1
                 ->  index_goal((curation_db:curation_statement(_,I,_,A1),go:go_rule(A1,A))-I-A,
                                (go:go_rule(AX,AY))-AX-AY,
                                CacheFile)
-                ;   index_goal(curation_db:curation_statementT(_,I,_,A1)-I-A1,
+                ;   index_goal((curation_db:curation_statementT(_,I,_,A1))-I-A1,
                                parent(AX,AY)-AX-AY,
                                CacheFile))
             ;   IndexGoal=G-SG,

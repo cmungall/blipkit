@@ -575,7 +575,11 @@ load_special(owl,File):-
         !,
         ensure_loaded(library('thea2/owl2_from_rdf')),
         owl_parse_rdf(File).
-load_special(thea2_owl_i,File):-
+load_special(owl2obo,File):-
+        !,
+        ensure_loaded(bio(ontol_bridge_from_owl2)),
+        load_special(owl,File).
+load_special(owl_i,File):-
         !,
         ensure_loaded(library('thea2/owl2_from_rdf')),
         owl_parse_rdf(File,[imports(true)]).

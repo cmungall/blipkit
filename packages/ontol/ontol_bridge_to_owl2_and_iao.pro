@@ -27,6 +27,20 @@ owl2_model:annotationProperty(P) :- ap_label(P,_).
 owl2_model:annotationAssertion('http://www.w3.org/2000/01/rdf-schema#label',P,literal(lang(en,N))) :- ap_label(P,N).
 
 % ----------------------------------------
+% MACROS
+% ----------------------------------------
+
+owl2_model:annotationAssertion('http://purl.obolibrary.org/obo/IAO_0000425',UA,UX) :-
+        uri_oboid(UA,A),
+        expand_assertion_to(A,X),
+        native_to_literal(X,UX).
+
+owl2_model:annotationAssertion('http://purl.obolibrary.org/obo/IAO_0000424',UA,UX) :-
+        uri_oboid(UA,A),
+        expand_expression_to(A,X),
+        native_to_literal(X,UX).
+
+% ----------------------------------------
 % METADATA
 % ----------------------------------------
 

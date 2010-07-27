@@ -184,6 +184,10 @@ searchterm_entities(S,L):-
 emit_content_type(CT):-
         format('Content-type: ~w~n~n', [CT]).
 
+emit_content_type_text_html:-
+        emit_content_type('text/html; charset=utf-8').
+
+
 preload(ID,Params):-
         concat_atom([IDSpace,_LocalID],':',ID),
         preload_ont(IDSpace,Params).
@@ -266,7 +270,7 @@ ontol_page_actual(Path,Params):-
 
 ontol_page_actual([],Params):-
         %load_bioresource(obo_meta),
-        emit_content_type('text/html'),
+        emit_content_type_text_html,
         emit_page(entry_page,Params).
 
 % remove trailing slash
@@ -277,14 +281,14 @@ ontol_page_actual(L,Params):-
 
 ontol_page_actual([mappings],Params):-
         load_bioresource(obo_meta_xp),
-        emit_content_type('text/html'),
+        emit_content_type_text_html,
         emit_page(mappings_entry_page,Params).
 
 ontol_page_actual([''],Params):-
         ontol_page_actual([],Params).
 
 ontol_page_actual([help],Params):-
-        emit_content_type('text/html'),
+        emit_content_type_text_html,
         emit_page(help_page,Params).
 
 ontol_page_actual([Last],Params):-
@@ -304,7 +308,7 @@ ontol_page_actual([IDListAtom],Params):-
 	!,
 	forall(member(ID,IDs),
 	       preload(ID,Params)),
-	emit_content_type('text/html'),
+	emit_content_type_text_html,
 	emit_page(multiple(IDs),Params).
         	
 ontol_page_actual([ID],Params):-
@@ -314,7 +318,7 @@ ontol_page_actual([ID],Params):-
         ;   ID2=ID),
         (   redirect(ID2,Type,URL)
         ->  format('HTTP/1.1 ~w~nStatus: ~w~nLocation: ~w~n~n',[Type,Type,URL])
-        ;   emit_content_type('text/html'),
+        ;   emit_content_type_text_html,
             emit_page(basic(ID2),Params)).
         
 ontol_page_actual([''|L],Params):-
@@ -405,7 +409,7 @@ ontol_page_actual([Fmt,ID],Params):-
 
 ontol_page_actual([revlinks,ID],Params):-
         debug(ontol_rest,'revlinks ~w',[ID]),
-        emit_content_type('text/html'),
+        emit_content_type_text_html,
         preload(ID,Params),
         preload_revlinks(ID,Params),
         emit_page(what_links_here_table(ID),Params).
@@ -413,7 +417,7 @@ ontol_page_actual([revlinks,ID],Params):-
 ontol_page_actual([meta_search,ID],Params):-
         ensure_loaded(bio(web_search_expander)),
         debug(ontol_rest,'metasearch ~w',[ID]),
-        emit_content_type('text/html'),
+        emit_content_type_text_html,
         preload(ID,Params),
         findall(Type-URL,
                 create_search_url(ID,Type,URL),
@@ -421,7 +425,7 @@ ontol_page_actual([meta_search,ID],Params):-
         emit_page(meta_search_urls_table(Pairs),Params).
 
 ontol_page_actual([ontology_entry,ID],Params):-
-        emit_content_type('text/html'),
+        emit_content_type_text_html,
         debug(ontol_rest,'ontology entry ~w',[ID]),
         (   member(search_term=S,Params),
             preload_ont(ID,Params)
@@ -439,7 +443,7 @@ ontol_page_actual([quickterm,S,login],Params):-
         emit_page(quickterm_login(S),Params).
 ontol_page_actual([quickterm,S,login],Params):-
         
-        emit_content_type('text/html'),
+        emit_content_type_text_html,
         emit_page(quickterm_login(S),Params).
 */
 
@@ -457,7 +461,7 @@ template_user_err(T,U,Params,no_permission_for_this_template) :-
         \+ qtt_permitted_user(T,U).
 
 ontol_page_actual([quickterm,S],Params):-
-        emit_content_type('text/html'),
+        emit_content_type_text_html,
         %preload_ont(S,Params),
         load_editors_file(S),
         debug(ontol_rest,' Params= ~w',[Params]),
@@ -501,7 +505,7 @@ ontol_page_actual([quickterm,S],Params):-
 
 
 ontol_page_actual([ontology,ID],Params):-
-        emit_content_type('text/html'),
+        emit_content_type_text_html,
         preload_ont(ID,Params),
         (   member(search_term=S,Params)
         ->  (   searchterm_entities(S,L)
@@ -510,7 +514,7 @@ ontol_page_actual([ontology,ID],Params):-
         ;   emit_page(ontology(ID),Params)).
 
 ontol_page_actual([ontology_table,ID],Params):-
-        emit_content_type('text/html'),
+        emit_content_type_text_html,
         preload_ont(ID,Params),
         emit_page(ontology_table(ID),Params).
 
@@ -521,7 +525,7 @@ ontol_page_actual([new,Local],Params):-
         ontol_page_actual([ID],Params).
 
 ontol_page_actual([metadata,ID],Params):-
-        emit_content_type('text/html'),
+        emit_content_type_text_html,
         preload_ont(ID,Params),
         %load_bioresource(obo_meta),
         load_bioresource(obo_meta_xp),
@@ -530,25 +534,25 @@ ontol_page_actual([metadata,ID],Params):-
 /*
 ontol_page_actual([tree,Ont],Params):-
         debug(ontol_rest,' params=~w',[Params]),
-        emit_content_type('text/html'),
+        emit_content_type_text_html,
         preload_ont(Ont,Params),
         emit_page(ontology_browsable_tree(Ont),Params).
 
 ontol_page_actual([open_node,ID],Params):-
         preload(ID,Params),
-        emit_content_type('text/html'),
+        emit_content_type_text_html,
         emit_page(browser_open_node(ID),Params).
 */
 
 ontol_page_actual([tree,Ont],Params):-
         debug(ontol_rest,' params=~w',[Params]),
-        emit_content_type('text/html'),
+        emit_content_type_text_html,
         preload_ont(Ont,Params),
         emit_page(ontology_browsable_tree(Ont),Params).
 
 ontol_page_actual([open_node,ID,DepthA],Params):-
         preload(ID,Params),
-        %emit_content_type('text/html'),
+        %emit_content_type_text_html,
         atom_number(DepthA,Depth),
         Depth2 is Depth+1,
         emit_json(browser_subnodes_json(Depth2,ID),Params).
@@ -566,7 +570,7 @@ ontol_page_actual([query,Ont],Params):-
         debug(ontol_rest,' SA=~w',[SA]),
         ontol_page_actual([query,Ont,QA,SA],Params).
 ontol_page_actual([query,Ont,QueryAtom,SelectAtom],Params):-
-        emit_content_type('text/html'),
+        emit_content_type_text_html,
         debug(ontol_rest,'QueryAtom=~w',[QueryAtom]),
         (   listatom_ids(Ont,Onts)
         ->  forall(member(O1,Onts),preload_ont(O1,Params))
@@ -587,18 +591,18 @@ ontol_page_actual([query,Ont,QueryAtom,SelectAtom],Params):-
 
 
 ontol_page_actual([xps,S],Params):-
-        emit_content_type('text/html'),
+        emit_content_type_text_html,
         preload_ont_plus_dependencies(S,Params),
         emit_page(xps(S),Params).
 
 ontol_page_actual([statements,S],Params):-
-        emit_content_type('text/html'),
+        emit_content_type_text_html,
         preload_ont(S,Params),
         %preload_ont_plus_dependencies(S,Params),
         emit_page(ontology_statements(S),Params).
 
 ontol_page_actual([relationships,Ont,R],Params):-
-        emit_content_type('text/html'),
+        emit_content_type_text_html,
         preload_ont(Ont,Params),
         emit_page(ontology_relationships(Ont,R),Params).
 

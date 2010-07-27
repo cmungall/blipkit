@@ -186,4 +186,53 @@ go_oxoacid_ref(X,C,Conj,GuessConj) :-
             ->  true
             ;   GuessConj='CANNOT_GUESS_CONJUGATE')).
 
+quick_def(X,Tail,C) :-
+        genus_label(Tail),
+        term_ends_with(X,C,CN,Tail,SX1,SX2),
+        is_exact(SX1),
+        is_exact(SX2),
+        % we don't trust IUPAC-sourced "exact" synonyms;
+        % see e.g. aminde/azadine
+        \+ ((SX2=exact,
+             entity_synonym_type(C,CN,'IUPAC_NAME'))).
 
+
+% chebi should be inferred
+% go is not
+justify_subclass(X,Y,CX,R,CY) :-
+        subclass(X,Y),
+        id_idspace(X,'GO'),
+        quick_def(X,Tail,CX),
+        quick_def(Y,Tail,CY),
+        min_parent(CX,R,CY).
+
+no_justify_subclass(X,Y,CX,CY) :-
+        subclass(X,Y),
+        id_idspace(X,'GO'),
+        quick_def(X,Tail,CX),
+        quick_def(Y,Tail,CY),
+        \+ parent(CX,_,CY).
+
+        
+min_parent(X,subclass,Y) :- subclass(X,Y).
+min_parent(X,R,Y) :- restriction(X,R,Y),\+subclass(X,Y).
+
+new_subclass(X,Y,CX,R,CY) :-
+        quick_def(X,Tail,CX),
+        min_parent(CX,R,CY),
+        CX\=CY,
+        quick_def(Y,Tail,CY),
+        id_idspace(X,'GO'),
+        %debug(chebi,' ~w ~w',[X,Y]),
+        \+ subclassT(X,Y).
+
+new_subclass_nr(X,Y,CX,R,CY) :-
+        new_subclass(X,Y,CX,R,CY),
+        \+ ((new_subclass(X,Z,_,_,_),
+             new_subclass(Z,Y,_,_,_))).
+
+             
+
+
+
+        
