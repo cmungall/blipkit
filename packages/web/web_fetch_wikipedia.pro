@@ -29,10 +29,15 @@ web_fetch:search_term_to_url(wikipedia,S,URLFull,_):-
         atom_concat('http://en.wikipedia.org/wiki/',Q,URLFull).
 
 web_search_wikipedia(S,[Body],_Opts):-
-        tmp_file(wiki,Out),
-        sformat(Cmd,'scrape-wikipedia.pl "~w" > ~w',[S,Out]),
-        debug(wikipedia,'cmd: ~w ',[Cmd]),
-        shell(Cmd),             % TODO: timeout
+        (   concat_atom(['wp-',S,'.html'],FN),
+            expand_file_search_path(data_cache(FN),Out)
+        ->  true
+        ;   tmp_file(wiki,Out)),
+        (   exists_file(Out)
+        ->  true
+        ;   sformat(Cmd,'scrape-wikipedia.pl "~w" > ~w',[S,Out]),
+            debug(wikipedia,'cmd: ~w ',[Cmd]),
+            shell(Cmd)),         % TODO: timeout
         open(Out,read,IO,[encoding(octet)]),
         read_stream_to_codes(IO,Codes),
         atom_codes(Body,Codes),
