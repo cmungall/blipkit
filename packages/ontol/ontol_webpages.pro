@@ -325,13 +325,12 @@ quickterm_outer(N,P,JS) =>
                 html:meta('http-equiv'='content-type', content='text/html; charset=utf-8',
                           html:meta(name=html_url, 
                                     link(href='/amigo2/css/formatting.css', rel=stylesheet, type='text/css'),
-                                    %link(href='http://amigo.berkeleybop.org/amigo/js/org/bbop/amigo/ui/css/autocomplete.css', rel=stylesheet, type='text/css'),
-				    script(type='text/javascript', src=X) forall_unique javascript(X),
-				    html:style(type='text/css',CSS) forall_unique css(CSS),
-                                    script(type='text/javascript',JS)
-                                    %script(type='text/javascript',
-                                    %       'jQuery(document).ready(function(){ new org.bbop.amigo.ui.autocomplete({id:"target", narrow:"true", search_type:"term", ontology: "biological_process", completion_type:"completion"}); })')
-                                    ))),
+                                    link(href='http://amigo.berkeleybop.org/obo/js/jquery/css/redmond/jquery-ui.custom.css', rel=stylesheet, type='text/css'),
+                                    script_js('http://amigo.berkeleybop.org/obo/js/jquery/js/jquery.js'),
+                                    script_js('http://amigo.berkeleybop.org/obo/js/jquery/js/jquery-ui.custom.js'),
+                                    script_js('http://amigo.berkeleybop.org/obo/js/autocomplete.js'),
+				    html:style(type='text/css',CSS) forall_unique css(CSS)
+                                   ))),
            
            html:body(div(id=header, a(class='logo floatR', href='search.cgi',
                                       img(src='http://amigo.geneontology.org/amigo/images/logo-sm.png', alt='AmiGO logo', title='AmiGO front page')),
@@ -402,8 +401,14 @@ quickterm_form(T) =>
           W,
           html:br] forall (qtt_wraps(T,W))),
       div(A,':',
+          % autocomplete only works for obo namespaces, not id spaces:
+          if(belongs(_,Dom),
+             script(type='text/javascript',
+                    'jQuery(document).ready(function(){ new org.obo.autocomplete("',
+                    A,'", "label", "',Dom,'"); });')),
           getparam(A,Val,''),
-          input(class=term,
+          input(id=A,
+                class=term,
                 type=text,
                 name=A,
                 value=Val,
@@ -1035,16 +1040,14 @@ help_page =>
            html:hr)).
 
 
-javascript('http://yui.yahooapis.com/2.3.1/build/yahoo-dom-event/yahoo-dom-event.js').
-javascript('http://amigo.geneontology.org/amigo/js/all.js').
+%javascript('http://yui.yahooapis.com/2.3.1/build/yahoo-dom-event/yahoo-dom-event.js').
+%javascript('http://amigo.geneontology.org/amigo/js/all.js').
 javascript('/amigo2/js/obo.js').
-javascript('/amigo2/js/dojo.js').
+%javascript('/amigo2/js/dojo.js').
 % for autocomplete
-javascript('http://amigo.berkeleybop.org/amigo/js/com/jquery-1.4.2.min.js').
-javascript('http://amigo.berkeleybop.org/amigo/js/org/bbop/amigo.js').
-javascript('http://amigo.berkeleybop.org/amigo/js/org/bbop/amigo/go_meta.js').
-javascript('http://amigo.berkeleybop.org/amigo/js/org/bbop/amigo/opensearch.js').
-javascript('http://amigo.berkeleybop.org/amigo/js/org/bbop/amigo/ui/autocomplete.js').
+
+script_js(X) =>
+  html:script(type='text/javascript', src=X).
 
 
 css('#front-nav ul { margin: 0 }
@@ -1075,9 +1078,8 @@ outer(N,P) =>
                           html:meta(name=html_url, content='http://amigo.geneontology.org/amigo',
                                     %link(href='http://amigo.geneontology.org/amigo/css/formatting.css', rel=stylesheet, type='text/css'),
                                     link(href='/amigo2/css/formatting.css', rel=stylesheet, type='text/css'),
-                                    link(href='http://amigo.berkeleybop.org/amigo/js/org/bbop/amigo/ui/css/autocomplete.css', rel=stylesheet, type='text/css'),
                                     link(href='http://rfam.sanger.ac.uk/static/css/wp.css', rel=stylesheet, type='text/css'),
-				    script(type='text/javascript', src=X) forall_unique javascript(X),
+				    script(type='text/javascript', src=X) forall javascript(X),
 				    html:style(type='text/css',CSS) forall_unique css(CSS),
                                     script(type='text/javascript',
                                            'var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
