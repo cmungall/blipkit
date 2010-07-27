@@ -185,7 +185,7 @@ emit_content_type(CT):-
         format('Content-type: ~w~n~n', [CT]).
 
 emit_content_type_text_html:-
-        set_stream(user_output,encoding(octet)),
+        set_stream(user_output,encoding(utf8)),
         emit_content_type('text/html; charset=utf-8').
 
 
