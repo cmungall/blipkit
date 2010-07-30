@@ -41,6 +41,8 @@ gross_anatomical(Whole that contained_by(Cell)) --> [intracellular],gross_anatom
 % use 'portion of tissue' as genus for now, but change to 'developing structure' later
 gross_anatomical(C that develops_into(MC)) --> [presumptive],gross_anatomical(MC),{class_label_exact(C,'portion of tissue')}.
 
+% mesenchyme derived from head mesoderm
+gross_anatomical(X that develops_from(Y)) --> gross_anatomical5(X),[derived,from],gross_anatomical(Y).
 
 
 % X lumen

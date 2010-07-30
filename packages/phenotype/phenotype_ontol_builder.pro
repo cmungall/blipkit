@@ -115,17 +115,22 @@ abduced_subclass_nr(A,B) :-
 	     B2\=B,
 	     abduced_subclass_primary(B2,B))).
 
-
+%% abduced_equiv(A,B)
+% true if A and B are equivalent based on abduced subclass
 abduced_equiv(A,B) :-
 	abduced_subclassT(A,B),
 	A\=B,
-	abduced_subclassT(B,A).
+	abduced_subclassT(B,A). % cycle
 
-abduced_equiv(A,B) :-
+abduced_equiv(A,B) :- % equiv cdefs
 	newclass_cdef(A,X),
 	newclass_cdef(B,X),
 	A\=B.
 
+%% canonical_equiv(?Canonical,?X)
+% true if X and Canonical are equivalent, and Canonical is the canonical
+% member of that equivset
+%
 % for any set formed by equivalent pairs,
 % choose one member as the 'canonical'
 canonical_equiv(Canonical,X) :-
@@ -178,6 +183,8 @@ newclass_cdef(ID,CDef) :-
 newclass_cdef(ID,CDef) :-
 	newclass_cdef_xref(ID,CDef,_).
 
+% make a new class for any pair of classes with the same name
+% this will have a union([A,B]) skolem ID
 newclass_xref_pair(ID,A,B) :-
 	class(A),
 	is_phenoclass(A),

@@ -81,6 +81,7 @@ main:-
          atoms([spy],SpyPoints),
          atoms(debug,Debugs),
          terms(goal,Goals,true),
+         terms(fdl,FDLs,true),
          atoms(goalfile,GoalFiles,true),
          term([format,from,f],Format),
          atoms([i,input],InputFileL),
@@ -177,6 +178,8 @@ main:-
         forall(member(File,ConsultFileL),
               ensure_loaded(File)),
         forall(member(Goal,Goals),Goal),
+        forall(member(Goal,FDLs),
+               forall(Goal,true)),
         forall(member(GoalFile,GoalFiles),process_goalfile(GoalFile)),
         (Trace=1->trace;true),
         (   FileL=[Cmd|FileL2]

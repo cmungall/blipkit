@@ -74,6 +74,7 @@ materialize_index_to_path(Term,Dir) :-
 materialize_indexes_to_file(Terms,File) :-
 	exists_file(File),
 	!,
+        debug(index, 'using existing index file: ~w', [File]),
 	% clear existing intensional predicate
 	forall(member(Term,Terms),
 	       (   functor(Term,Pred,Arity),
@@ -116,9 +117,9 @@ rewrite_goal_with_index_list(M, CalledGoal, Ix, [A|Args]) :-
 	rewrite_goal_with_index_list(M, CalledGoal, Ix2, Args).
 
 %% rewrite_goal_with_index_list(+Mod, +CalledGoal, +ArgNum:int, +IndexMe:int) is det
-rewrite_goal_with_index(_, _, _, 0). % no index
 rewrite_goal_with_index(M, CalledGoal, Ix, 1) :-
 	debug(index, '  index ~w', [Ix]),
+        !,
 	CalledGoal=..[CalledPred|Args],
 	length(Args,Arity),
 	predicate_storedname(CalledPred, StoredPred, Ix),
@@ -134,6 +135,7 @@ rewrite_goal_with_index(M, CalledGoal, Ix, 1) :-
 	;   true),
 	RewrittenGoal = ( CalledGoal :- nonvar(IxVar), !, IxGoal),
 	M:assert(RewrittenGoal).
+rewrite_goal_with_index(_, _, _, _). % no index
 
 %% reorder_args(+Ix:int, ?IxVar, +Args1:list, +Args2:list) is det
 reorder_args(Ix, IxVar, Args1, Args2) :-

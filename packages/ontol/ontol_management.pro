@@ -5,7 +5,8 @@
 	   merge_class/3,
 	   
            is_nondangling/1,
-           remove_dangling_facts/0
+           remove_dangling_facts/0,
+           remove_redundant_facts/0
 	   ]
 	 ).
 
@@ -14,14 +15,30 @@
 :- use_module(bio(metadata_db)).
 :- use_module(bio(bioprolog_util)). 
 
+%% merge_equivalent_classes
+% assumes pre-reasoned ontology
 merge_equivalent_classes :-
+        merge_equivalent_classes_semidet,
+        !.
+merge_equivalent_classes.
+
+% todo - group into equivsets
+merge_equivalent_classes_semidet :-
 	setof(A-B,
-	      (	  subclass(A,B),
-		  A@<B,
-		  subclass(B,A)),
+	      (	  equivalent_class(A,B),
+		  A@<B),
 	      Pairs),
 	forall(member(A-B,Pairs),
 	       merge_class(A,B)).
+/*
+% note: this won't work on pre-reasoned db
+iterative_merge_equivalent_classes :-
+        merge_equivalent_classes_semidet,
+        !,
+        iterative_merge_equivalent_classes.
+iterative_merge_equivalent_classes.
+*/
+
 
 %% merge_class(+Src,+Tgt) is det
 merge_class(Src,Tgt) :-
@@ -35,6 +52,10 @@ merge_class(Src,Tgt,Opts) :-
 	% merging axioms about Src
 	merge_class_axiom(subclass(Src,X),subclass(Tgt,X),Opts),
 	merge_class_axiom(restriction(Src,R,X),restriction(Tgt,R,X),Opts),
+        % allow creation of new..
+        (   \+class(Tgt)
+        ->  assert(class(Tgt))
+        ;   true),
 	(   \+ genus(Tgt,_)
 	->  merge_class_axiom(genus(Src,X),genus(Tgt,X),Opts),
 	    merge_class_axiom(differentium(Src,R,X),differentium(Tgt,R,X),Opts)
@@ -49,6 +70,7 @@ merge_class(Src,Tgt,Opts) :-
 	merge_class_axiom(entity_synonym_scope(Src,X,Sc),entity_synonym_scope(Tgt,X,Sc),Opts),
 	merge_class_axiom(entity_synonym_scope(Src,X,Sc),entity_synonym_scope(Tgt,X,Sc),Opts),
 	merge_class_axiom(entity_synonym(Src,X),entity_synonym(Tgt,X),Opts),
+	merge_class_axiom(entity_resource(Src,X),entity_resource(Tgt,X),Opts),
 	merge_class_axiom(entity_xref(Src,X),entity_xref(Tgt,X),Opts),
 	retractall(class(Src)),
 	%assert(entity_obsolete(Src,class)),
@@ -76,6 +98,12 @@ invalid(restriction(X,_,X)).
 is_nondangling(X):- class(X).
 is_nondangling(X):- property(X).
 is_nondangling(X):- inst(X).
+
+remove_redundant_facts :-
+        is_redundant(F),
+	retractall(F),
+	fail.
+remove_redundant_facts.        
 
 remove_dangling_facts :-
 	dangling_fact(F),

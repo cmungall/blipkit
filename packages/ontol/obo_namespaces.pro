@@ -2,6 +2,7 @@
 
 % new
 :- rdf_register_ns('IDO','http://purl.obolibrary.org/obo/IDO_',[force(true)]).
+:- rdf_register_ns('FLU','http://purl.obolibrary.org/obo/FLU_',[force(true)]).
 
 :- rdf_register_ns('MA','http://purl.org/obo/owl/MA#MA_',[force(true)]).
 :- rdf_register_ns('AAO','http://purl.org/obo/owl/AAO#AAO_',[force(true)]).

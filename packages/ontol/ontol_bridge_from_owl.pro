@@ -125,7 +125,6 @@ ontol_db:import_directive(URI):-
         rdf_has(Ont,owl:imports,URI),
         debug(ontol_imports,'~w imports ~w',[Ont,URI]).
 
-
 ontol_db:ontology(ID,N,Desc):-
         rdf_has(ID1, rdf:type, owl:'Ontology'),
         literal_to_native(ID1,ID2),

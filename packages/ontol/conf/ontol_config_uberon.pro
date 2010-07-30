@@ -1,6 +1,9 @@
 :- use_module(bio(metadata_db)).
 :- use_module(bio(ontol_db)).
 
+:- [ontol_config_default].
+
+        
 :- multifile user:graphviz_ontol_param/2.
 
 ont_col('MA',lemonchiffon).
@@ -15,8 +18,10 @@ xont_col(O,C) :- ont_col(O,C),\+ \+((class(X),id_idspace(X,O))).
 
 user:graphviz_ontol_param(display_relation(uberon),part_of).
 user:graphviz_ontol_param(display_relation(uberon),develops_from).
-user:graphviz_ontol_param(edge(X,_,is_a,_),penwidth=3) :- id_idspace(X,'UBERON').
-user:graphviz_ontol_param(edge(X,_,is_a,_),weight=50) :- id_idspace(X,'UBERON').
+%user:graphviz_ontol_param(edge(X,_,is_a,_),penwidth=3) :- id_idspace(X,'UBERON').
+%user:graphviz_ontol_param(edge(X,_,is_a,_),weight=50) :- id_idspace(X,'UBERON').
+user:graphviz_ontol_param(edge(X,_,_,_),penwidth=3) :- id_idspace(X,'UBERON').
+user:graphviz_ontol_param(edge(X,_,_,_),weight=50) :- id_idspace(X,'UBERON').
 user:graphviz_ontol_param(node(_),style=filled).
 user:graphviz_ontol_param(node(X),fillcolor=C):- id_idspace(X,O),ont_col(O,C).
 

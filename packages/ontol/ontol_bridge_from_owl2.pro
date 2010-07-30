@@ -61,6 +61,18 @@ ontol_db:inst(X) :- uri_oboid(U,X),owl2_model:classAssertion(_,U),\+suppress_ent
 % these are intended to be extended in specific modules
 metadata_db:entity_label(X,Label) :- uri_oboid(U,X),owl2_model:labelAnnotation_value(U,Label).
 
+metadata_db:idspace_uri(Local,Global):-
+        used_idspace(Local),
+        rdf_db:ns(Local,Global).
+
+used_idspace(Local) :-
+        setof(Local,
+              ID^Res^(metadata_db:entity_resource(ID,Res),
+                      metadata_db:id_idspace(ID,Local)),
+              Locals),
+        member(Local,Locals).
+
+
 % ----------------------------------------
 % RELATION AXIOMS
 % ----------------------------------------

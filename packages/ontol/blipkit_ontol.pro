@@ -14,6 +14,7 @@
 :- use_module(bio(ontol_writer)).
 :- use_module(bio(ontol_writer_text)).
 :- use_module(bio(ontol_writer_obo)).
+:- use_module(bio(ontol_reasoner)).
 :- use_module(bio(graph)).
 :- use_module(bio(io)).
 

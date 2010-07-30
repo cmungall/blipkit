@@ -449,6 +449,28 @@ cdef_label(cdef(G,Diffs),Label):-
 %    corresponds to owl:equivalentClass
 :- extensional(equivalent_class/2).
 
+/*
+%% class_equivalence_set(?Class,?ClassSet)
+% true if Class is in ClassSet
+class_equivalence_set(C,S) :-
+        equivalent_class(C,_),
+	expand_equivset([C],[],[],S).
+	
+expand_equivset([ID|IDs],DoneIDs,Ancs,AncsFinal) :-
+	setof(XID,(equivalent_class(ID,XID),
+                   \+member(XID,IDs),
+                   \+member(XID,DoneIDs)),Parents),
+	!,
+	ord_union(Parents,IDs,NextIDs),
+	ord_union(Ancs,Parents,AncsNew),
+	expand_equivset(NextIDs,[ID|DoneIDs],AncsNew,AncsFinal).
+expand_equivset([ID|IDs],DoneIDs,Ancs,AncsFinal) :-
+	!,
+	expand_equivset(IDs,[ID|DoneIDs],Ancs,AncsFinal).
+expand_equivset([],_,Ancs,Ancs).
+*/
+
+
 %% subclassN(?Name,?SuperTermName) is nondet.
 %  combines entity_label/2 and subclass/2
 subclassN(Nc,Np):-

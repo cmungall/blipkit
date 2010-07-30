@@ -289,15 +289,18 @@ nontrivial(genus_differentia).
 nontrivial(differentia).
 nontrivial(genus).
 
+redundant_fact(Fact) :-
+        assertable(Fact),
+        Fact,
+        debug(reasoner,'testing_for_redundancy: ~w',[Fact]),
+                                %entailable_acyclic(Fact),
+        entailed_by(Fact,Rule),
+        \+ nontrivial(Rule),
+        debug(reasoner,'** redundant[~w]: ~w',[Rule,Fact]).
+
+% deprecated - use ontol_management
 retractall_redundant:-
-        forall( (assertable(Fact),
-                 Fact,
-                 debug(reasoner,'testing_for_redundancy: ~w',[Fact]),
-                 %entailable_acyclic(Fact),
-		 entailed_by(Fact,Rule),
-		 \+ nontrivial(Rule),
-                 debug(reasoner,'** redundant[~w]: ~w',[Rule,Fact]),
-                 debug(reasoner,'  retracting: ~w',[Fact])),
+        forall( redundant_fact(Fact),
                 retractall(Fact)).
 
 retractall_entailed:-
@@ -614,6 +617,7 @@ subclass(X,Y) <- class(Y), differentium(Y,R1,To1), \+ genus(Y,_), restriction(X,
 subclass(X,Y) <- genus(X,Y) :: genus/given.
 restriction(X,R,Y) <- differentium(X,R,Y) :: differentium/given.
 
+equivalent_class(X,Y) <- equivalent_class(Y,X) :: equiv_class/equiv_sym.
 equivalent_class(X,Y) <- subclass(X,Y),subclass(Y,X),Y\=X :: equiv_class/given.
 subclass(X,Y) <- equivalent_class(X,Y), Y\=X :: equiv_class_inv/given.
 equivalent_class(X,Y) <- is_functional(R),restriction(A,R,X),restriction(A,R,Y) :: functional/given.

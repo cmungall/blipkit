@@ -18,6 +18,7 @@
 	   entity_pair_nlp_subset_of/3,
 	   entity_pair_nlp_subset_of_cross_idspace/3,
 	   entity_pair_nlp_match/7,
+           index_entity_pair_label_match/0,
 	   entity_pair_label_match/2,
 	   entity_pair_label_match/3,
 	   atom_search/5,
@@ -178,6 +179,8 @@ entity_pair_nlp_subset_of_cross_idspace(A,B,S) :-
 	AO\=BO.
 
 	
+index_entity_pair_label_match :-
+        materialize_index(entity_nlabel_scope_stemmed(1,1,-,-)).
 
 entity_pair_label_match(A,B) :-
 	entity_pair_label_match(A,B,true).

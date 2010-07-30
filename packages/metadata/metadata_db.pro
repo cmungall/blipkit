@@ -7,6 +7,7 @@
            id_localid/2,
            partition/1,
            entity_label/2,
+           entity_label_or_exact_synonym/2,
            entity_label_or_synonym/2,
            entity_label_scope/3,
            same_label_as/2,
@@ -154,6 +155,11 @@ entity_consider_or_replaced_by(E,X):- entity_replaced_by(E,X).
 
 entity_label_or_synonym(E,L):- entity_synonym(E,L).
 entity_label_or_synonym(E,L):- entity_label(E,L).
+
+entity_label_or_exact_synonym(E,L):- entity_synonym_scope(E,L,exact).
+entity_label_or_exact_synonym(E,L):- entity_label(E,L).
+
+
 
 %% same_label_as(?X,?Y)
 % true if X and Y share the same label or synonym.
