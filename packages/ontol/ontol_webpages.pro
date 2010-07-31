@@ -319,7 +319,7 @@ basicrow(ID) =>
 quickterm_outer(N,P) =>
   quickterm_outer(N,P,'').
 
-quickterm_outer(N,P,JS) =>
+quickterm_outer(N,P,_JS) =>
  html:html(
            head(title(N),
                 html:meta('http-equiv'='content-type', content='text/html; charset=utf-8',
@@ -564,14 +564,51 @@ ontology_browsable_tree(S) =>
 % table row
 browser_node(Depth,ID,Open) =>
   call(sformat(OpenEltID,'open-~w',[ID])),
+  % show the node as a single row
   tr(id=OpenEltID,
      browser_node_cols(Depth,ID,Open)),
   call(DepthPlus1 is Depth+1),
+  % if the node is open, show children (recursive)
   if(Open=open,
      then: [browser_node(DepthPlus1,Y,close) forall subclass(Y,ID)],
      else: []
-    ).
+    ),
+  call(solutions(R,restriction(_,R,ID),Rs)),
+  % non-subclass children - we treat these as subclasses of class expressions
+  tr(id=OpenRelEltID,
+     browser_node_cols(Depth,R/ID,close)) forall (member(R,Rs),
+                                                  sformat(OpenRelEltID,'open-~w',[R/ID])).
 
+
+% class expression
+browser_node_cols(Depth,R/ID,Open) =>
+  call(sformat(OpenEltID,'open-~w',[R/ID])),
+  call(id_url(open_node/R/ID/Depth,OpenURL)),
+  call(sformat(OpenJS,'JavaScript:clickTreeBrowserNode(\'browsetbl_tbody\',\'~w\',\'~w\');',[OpenEltID,OpenURL])),
+  call(sformat(CloseEltID,'~w-close',[OpenEltID])),
+  call((   Open=open
+       ->  Img='/amigo2/images/minus.gif',
+           OnClick=''
+       ;   Img='/amigo2/images/plus.png',
+           OnClick=OpenJS)),
+  call(Dist is 22-Depth),
+  td(' ') forall between(1,Depth,_),
+  td('',
+     if(restriction(_,R,ID),
+        then: [html:input(id=CloseEltID,
+                          class=openme,
+                          type=image,
+                          onclick=OnClick,
+                          src=Img,
+                          alt=open)
+              ],
+        else: [img(src='/amigo2/images/dot.png')]
+       )),
+  td(colspan=Dist,
+     i(R),' ',span(hlink(ID))),
+  browser_node_info(ID).
+
+% named class
 browser_node_cols(Depth,ID,Open) =>
   call(sformat(OpenEltID,'open-~w',[ID])),
   call(id_url(open_node/ID/Depth,OpenURL)),
@@ -598,15 +635,37 @@ browser_node_cols(Depth,ID,Open) =>
      span(hlink(ID))),
   browser_node_info(ID).
 
-% TODO - make more elegant in serval
+% return a json list consisting of id/html keys
+% this is used to expand table
 browser_subnodes_json(Depth,ID) =>
  call(DepthPlus1 is Depth+1),
  '[',
- [call(sformat(OpenEltID,'open-~w',[Y])),
-  '{"id":',json_atom(OpenEltID),', ',
-  '"html":',json_atom(browser_node_cols(DepthPlus1,Y,close)),
-  '}, '] forall subclass(Y,ID),
+ browser_subnodes_json_2(DepthPlus1,Y) forall subclass(Y,ID),
  ']'.
+
+% class expression
+browser_subnodes_json(Depth,R,ID) =>
+ call(DepthPlus1 is Depth+1),
+ '[',
+ browser_subnodes_json_2(DepthPlus1,Y) forall restriction(Y,R,ID),
+ ']'.
+
+% TODO - make more elegant in serval
+browser_subnodes_json_2(Depth,ID) =>
+ call(sformat(OpenEltID,'open-~w',[ID])),
+ call(solutions(R,restriction(_,R,ID),Rs)),
+ ['{"id":',json_atom(OpenRelEltID),', ',
+ '"html":',json_atom(browser_node_cols(Depth,R/ID,close)),
+ '}, '] forall (member(R,Rs),
+                sformat(OpenRelEltID,'open-~w',[R/ID])),
+ '{"id":',json_atom(OpenEltID),', ',
+ '"html":',json_atom(browser_node_cols(Depth,ID,close)),
+ '}, '.
+
+
+
+ 
+ 
 
 
 browser_node_info(ID) =>
@@ -1043,7 +1102,7 @@ help_page =>
 %javascript('http://yui.yahooapis.com/2.3.1/build/yahoo-dom-event/yahoo-dom-event.js').
 %javascript('http://amigo.geneontology.org/amigo/js/all.js').
 javascript('/amigo2/js/obo.js').
-%javascript('/amigo2/js/dojo.js').
+javascript('/amigo2/js/dojo.js').
 % for autocomplete
 
 script_js(X) =>

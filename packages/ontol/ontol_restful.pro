@@ -532,19 +532,6 @@ ontol_page_actual([metadata,ID],Params):-
         load_bioresource(obo_meta_xp),
         emit_page(ontology_metadata(ID),Params).
 
-/*
-ontol_page_actual([tree,Ont],Params):-
-        debug(ontol_rest,' params=~w',[Params]),
-        emit_content_type_text_html,
-        preload_ont(Ont,Params),
-        emit_page(ontology_browsable_tree(Ont),Params).
-
-ontol_page_actual([open_node,ID],Params):-
-        preload(ID,Params),
-        emit_content_type_text_html,
-        emit_page(browser_open_node(ID),Params).
-*/
-
 ontol_page_actual([tree,Ont],Params):-
         debug(ontol_rest,' params=~w',[Params]),
         emit_content_type_text_html,
@@ -553,10 +540,16 @@ ontol_page_actual([tree,Ont],Params):-
 
 ontol_page_actual([open_node,ID,DepthA],Params):-
         preload(ID,Params),
-        %emit_content_type_text_html,
         atom_number(DepthA,Depth),
         Depth2 is Depth+1,
         emit_json(browser_subnodes_json(Depth2,ID),Params).
+
+% class expression
+ontol_page_actual([open_node,R,ID,DepthA],Params):-
+        preload(ID,Params),
+        atom_number(DepthA,Depth),
+        Depth2 is Depth+1,
+        emit_json(browser_subnodes_json(Depth2,R,ID),Params).
 
 
 ontol_page_actual([query,Ont],Params):-
