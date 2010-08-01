@@ -186,7 +186,8 @@ entity_pair_label_match(A,B) :-
 	entity_pair_label_match(A,B,true).
 entity_pair_label_match(A,B,Stemmed) :-
 	entity_nlabel_scope_stemmed(A,N,_ScA,Stemmed),
-	entity_nlabel_scope_stemmed(B,N,_ScB,Stemmed).
+	entity_nlabel_scope_stemmed(B,N,_ScB,Stemmed),
+        A\=B.
 
 
 index_labels(Stemmed) :-

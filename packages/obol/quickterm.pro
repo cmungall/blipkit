@@ -651,6 +651,10 @@ new_facts_error(New,Facts,cannot_generate_logical_def) :-
         \+ member(_:genus(New,_),Facts).
 new_facts_error(New,Facts,cannot_generate_logical_def) :- 
         \+ member(_:differentium(New,_,_),Facts).
+new_facts_error(New,Facts,def_xref_non_conformant) :- 
+        member(_:def_xref(New,X),Facts),
+        \+ concat_atom([_,_],:,X).
+
 
 
 % ----------------------------------------

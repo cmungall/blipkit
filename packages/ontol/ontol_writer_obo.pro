@@ -431,6 +431,7 @@ stanza(ID,StanzaType) =>
    synonym(ID,X) forall_unfiltered entity_synonym(ID,X),
    tvpairnl(xref,X) forall_unfiltered entity_xref(ID,X),
    tagnodenl(subclass(ID,X),is_a,X) forall_unfiltered subclass(ID,X),
+   tagnodenl(equivalent_to(ID,X),equivalent_to,X) forall_unfiltered equivalent_class(ID,X),
    relationship_tag(relationship,ID,T,X) forall_unfiltered restriction(ID,T,X),
    relationship_tag(relationship,ID,T,X,A3) forall_unfiltered restriction(ID,T,X,A3),
    relationship_tag(relationship,ID,T,X,A3,A4) forall_unfiltered restriction(ID,T,X,A3,A4),

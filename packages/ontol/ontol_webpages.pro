@@ -426,7 +426,10 @@ quickterm_form(T) =>
                 quickterm_form_input(def_xref,10,'Definition Xref (optional)'),
                 quickterm_form_input(comment,50,'Comment (optional)'))
          ],
-          else: []),
+          else:
+        [
+         quickterm_form_input(def_xref,10,'Definition Xref (optional)')
+        ]),
 
       html:br,
       input(type=checkbox,
@@ -606,7 +609,8 @@ browser_node_cols(Depth,R/ID,Open) =>
        )),
   td(colspan=Dist,
      i(R),' ',span(hlink(ID))),
-  browser_node_info(ID).
+  td(''),
+  td(span(class=textdef,'Anything that stands in a ',hlink(R),' relation to a ',hlink(ID))).
 
 % named class
 browser_node_cols(Depth,ID,Open) =>
