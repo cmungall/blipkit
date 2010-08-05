@@ -43,6 +43,7 @@ ontol_db:parentT(X,R,Y) <- term0(XI,X,_,_),link_implied(XI,RI,YI),term0(YI,Y,_,_
 %:- abolish(ontol_db:parentT/2). % TODO is_a/subclass
 ontol_db:parentT(X,Y) <- term0(XI,X,_,_),link_implied(XI,_,YI),term0(YI,Y,_,_). % todo: enforce proper / non-reflexive?
 ontol_db:parentRT(X,Y) <- term0(XI,X,_,_),link_implied(XI,_,YI),term0(YI,Y,_,_).
+ontol_db:bf_parentRT(X,Y) <- term0(XI,X,_,_),link_implied(XI,_,YI),term0(YI,Y,_,_).
 
 %:- abolish(ontol_db:subclass/2).
 ontol_db:subclass(X,Y) <- parent0(X,is_a,Y).

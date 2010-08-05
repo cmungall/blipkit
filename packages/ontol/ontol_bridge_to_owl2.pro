@@ -101,7 +101,8 @@ owl2_model:disjointProperties([UA,UB]) :-
 owl2_model:subClassOf(UA,UB) :-
 	uri_oboid(UA,A),uri_oboid(UB,B),
         subclass(A,B),
-        class(A).
+        class(A),
+        A\=B.
 
 owl2_model:subClassOf(UA,Expr):-
 	uri_oboid(UA,A),

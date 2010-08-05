@@ -1343,11 +1343,19 @@ blipkit:example('blip -i ~/ontologies/biopax-level2.owl ontol-schema  -local bio
             serql_server,
             prolog)).
 
+:- blip('dbpedia',
+        'query DBPredia endpoints',
+        [bool(write_prolog,IsProlog)],
+        [Q],
+        (   ensure_loaded(bio(sparql_util)),
+            forall(dbpedia_query_links(Q,Row,1000,[]),
+		   show_factrow([isProlog(IsProlog)],Row)))).
+
 blipkit:example('blip ontol-sparql-remote "SELECT * WHERE {  ?x rdf:type <http://dbpedia.org/ontology/AnatomicalStructure> }"',
 		'remote sparql query (defaults to dbpedia)').
 blipkit:trusted_command('ontol-sparql-remote').
 :- blip('ontol-sparql-remote',
-        'ontology querying using Sparql',
+        'ontology querying using iterative Sparql',
         [atom(host,Host,'dbpedia.org'),
 	 atom(path,Path,'/sparql/'),
 	 atom(port,Port,80),
@@ -1355,8 +1363,8 @@ blipkit:trusted_command('ontol-sparql-remote').
 	 number(offset,Offset,1000),
 	 bool(write_prolog,IsProlog)],
         [Q],
-        (   ensure_loaded(serql(sparql_client)),
-	    ensure_loaded(serql(no_entailment)),
+        (   ensure_loaded(semweb(sparql_client)),
+	    %ensure_loaded(serql(no_entailment)),
 	    ensure_loaded(bio(sparql_util)),
 	    sparql_set_server([host(Host),port(Port),path(Path)]),
 	    forall(iterative_sparql_query(Q,Row,Offset,[limit(Limit)]),

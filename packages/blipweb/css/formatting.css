@@ -1,4 +1,4 @@
-* { margin: 0; border: 0; padding: 0; }
+* { margin: 0; padding: 0; }
 
 body { margin: 5px 0; font: 1em/1.4 verdana, arial, helvetica, sans-serif; color: #000; background: #fff; }
 
@@ -326,7 +326,13 @@ img.pie { margin: 20px auto; }
 .gd_table td {border-bottom: 1px solid}
 
 .textdef { 
-    font-size: 75%;
+    font-size: 75%; 
+    width: 10000px;
+    white-space: nowrap;
+}
+
+#browsetbl td {
+    white-space: nowrap;
 }
 
 .galaxy {padding: 10px; border: 1px dashed; background: #dff; }

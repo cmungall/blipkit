@@ -6,12 +6,20 @@
 	   ]).
 
 
-:- use_module(serql(sparql_client)).
-:- use_module(serql(no_entailment)).
+:- use_module(semweb(sparql_client)).
+%:- use_module(semweb(no_entailment)).
 
+% ----------------------------------------
+% SPARQL ENDPOINTS
+% ----------------------------------------
+
+%% iterative_sparql_query(+SparqlAtom,?Row,+Limit,+Opts) :-
+% some sparql servers impose a LIMIT. this circumvents this by performing iterative queries.
+% may not be 100% reliable as order may change..?
 iterative_sparql_query(Q,Row,Limit,Opts) :-
 	iterative_sparql_query(Q,Rows,0,Limit,Opts),
-	member(Row,Rows).
+	member(Row,Rows),
+        debug(sparql,'Row: ~w',[Row]).
 
 iterative_sparql_query(_,[],Offset,_,Opts) :-
 	member(max_offset(Max),Opts),
@@ -33,22 +41,59 @@ iterative_sparql_query(Q,AllRows,Offset,Limit,Opts) :-
 	    iterative_sparql_query(Q,NextRows,NextOffset,Limit,Opts),
 	    append(Rows,NextRows,AllRows)).
 
+% ----------------------------------------
+% DBPEDIA SPECIFIC UTILS
+% ----------------------------------------
+
 dbpedia_query_links(A,Row,Limit,Opts) :-
 	(   atom_concat('http://',_,A)
 	->  URL=A
 	;   atom_concat('http://dbpedia.org/resource/',A,URL)),
 	debug(dbpedia,'focus: ~w',[A]),
 	sparql_set_server([host('dbpedia.org'),port(80),path('/sparql/')]),
-	sparql_query_links(URL,Row,Limit,Opts).
+	sparql_query_links(URL,Row,Limit,[sameAs('http://dbpedia.org/property/redirect')|Opts]).
 
-sparql_query_links(A,row(A,P,O),Limit,Opts) :-
+% ----------------------------------------
+% QUERY+REDIRECTS
+% ----------------------------------------
+% can use owl:sameAs, dbpedia:redirect etc to perform extra queries
+% - may be better to do this directly in SPARQL..?
+% - ideally entailment on the server would cover this, but its not how most work
+sparql_query_links(A,row(A2,P,O),Limit,Opts) :-
+        member(sameAs(EqP),Opts),
+        % redirect source
+	triple_sparql(A,EqP,_,Q),
+	iterative_sparql_query(Q,row(A2),Limit,Opts),
+        direct_sparql_query_links(A2,row(A2,P,O),Limit,Opts).
+sparql_query_links(A,row(A,P,O2),Limit,Opts) :-
+        member(sameAs(EqP),Opts),
+        % redirect results
+        direct_sparql_query_links(A,row(A,P,O),Limit,Opts),
+        atom(O), % don't follow labels etc
+	triple_sparql(O,EqP,_,Q),
+	iterative_sparql_query(Q,row(O2),Limit,Opts).
+sparql_query_links(A,row(S,P,O),Limit,Opts) :-
+        direct_sparql_query_links(A,row(S,P,O),Limit,Opts).
+
+% ----------------------------------------
+% DIRECT QUERIES
+% ----------------------------------------
+
+% outward
+direct_sparql_query_links(A,row(A,P,O),Limit,Opts) :-
 	triple_sparql(A,_,_,Q),
 	iterative_sparql_query(Q,row(P,O),Limit,Opts).
-sparql_query_links(A,row(S,P,A),Limit,Opts) :-
+% inward
+direct_sparql_query_links(A,row(S,P,A),Limit,Opts) :-
 	triple_sparql(_,_,A,Q),
 	iterative_sparql_query(Q,row(S,P),Limit,Opts).
+        
 
+% ----------------------------------------
+% PROLOG TO SPARQL
+% ----------------------------------------
 
+% simplistic pl2sparql
 triple_sparql(S,P,O,Q) :-
 	sparql_term(S,Sx,s),
 	sparql_term(P,Px,p),
@@ -70,7 +115,5 @@ traverse_over(A,Prop,Row,Limit,Opts) :-
 	    traverse_over(X,Prop,Row,Limit,Opts)
 	;   member(row(A,Prop,X),Rows),
 	    traverse_over(X,Prop,Row,Limit,Opts)).
-
-
 
             

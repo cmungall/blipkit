@@ -1,5 +1,6 @@
 :- module(ontol_management,
 	  [
+           iterative_merge_equivalent_classes/0,
 	   merge_equivalent_classes/0,
 	   merge_class/2,
 	   merge_class/3,
@@ -28,7 +29,7 @@ merge_equivalent_classes.
 % we assume reasoning has been done, but if not, infer symmetric relationship
 ec_sym(A,B) :- equivalent_class(A,B).
 ec_sym(A,B) :- equivalent_class(B,A).
-
+ec_sym(A,B) :- class_cdef(A,D),class(A),class_cdef(B,D),class(B),A\=B.
 
 % todo - group into equivsets
 merge_equivalent_classes_semidet :-
@@ -36,16 +37,19 @@ merge_equivalent_classes_semidet :-
 	      (	  ec_sym(A,B),
 		  A@<B),
 	      Pairs),
+        length(Pairs,NumPairs),
+        debug(merge,'number of pairs to merge: ~w',[NumPairs]),
 	forall(member(A-B,Pairs),
 	       merge_class(A,B)).
-/*
+
 % note: this won't work on pre-reasoned db
 iterative_merge_equivalent_classes :-
+        debug(merge,'iterative merge...',[]),
         merge_equivalent_classes_semidet,
         !,
         iterative_merge_equivalent_classes.
 iterative_merge_equivalent_classes.
-*/
+
 
 
 %% merge_class(+Src,+Tgt) is det
@@ -74,6 +78,9 @@ merge_class(Src,Tgt,Opts) :-
 	->  merge_class_axiom(def(Src,X),def(Tgt,X),Opts),
 	    merge_class_axiom(def_xref(Src,X),def_xref(Tgt,X),Opts)
         ;   true), % keep existing def
+	(   \+ entity_resource(Tgt,_)
+	->  merge_class_axiom(entity_resource(Src,X),entity_resource(Tgt,X),Opts)
+        ;   true), % keep existing 
         (   \+ entity_label(Tgt,_)
         ->  merge_class_axiom(entity_label(Src,X),entity_label(Tgt,X),Opts)
         ;   (   entity_label(Src,Label),
@@ -83,8 +90,7 @@ merge_class(Src,Tgt,Opts) :-
 	merge_class_axiom(entity_synonym_scope(Src,X,Sc),entity_synonym_scope(Tgt,X,Sc),Opts),
 	merge_class_axiom(entity_synonym_type(Src,X,Sc),entity_synonym_type(Tgt,X,Sc),Opts),
 	merge_class_axiom(entity_synonym(Src,X),entity_synonym(Tgt,X),Opts),
-	merge_class_axiom(entity_resource(Src,X),entity_resource(Tgt,X),Opts),
-	merge_class_axiom(entity_alternate_identifier(Src,X),entity_alternate_identifier(Tgt,X),Opts),
+        merge_class_axiom(entity_alternate_identifier(Src,X),entity_alternate_identifier(Tgt,X),Opts),
 	merge_class_axiom(entity_xref(Src,X),entity_xref(Tgt,X),Opts),
 	retractall(class(Src)),
 	%assert(entity_obsolete(Src,class)),

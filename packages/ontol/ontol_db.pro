@@ -668,6 +668,7 @@ idspace_mireot(SX,Ref) :-
 % idspace_mireot/2 with the additional constraint that directly referenced entities must come from RefEntityIDSpace.
 % if RefEntityIDSpace is var, then the constraint is that the directly referenced entity does not come from IDSpace.
 % TODO: change this?
+%
 idspace_mireot(SX,Ref,SRef) :-
 	solutions(X,(class(X),
                      id_idspace(X,SX),
@@ -676,7 +677,7 @@ idspace_mireot(SX,Ref,SRef) :-
                      SRef\=SX),
                   Xs),
 	member(X,Xs),
-        bf_parentRT(X,Ref),
+        bf_parentRT(X,Ref), % no need to table
         id_idspace(Ref,SRef),
         SRef\=SX.
 

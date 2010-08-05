@@ -26,12 +26,24 @@ ontol_db:def(X,D) :-
 ontol_db:def_xref(C,C) :-
 	class(C).
 
+% why two? ontology one may be pre-calulcated transitive closure / entailed
+%  precursor = develops_from
+precursor('http://dbpedia.org/ontology/precursor').
+precursor('http://dbpedia.org/property/precursor').
+
+
 ontol_db:restriction(Post,develops_from,Pre) :-
 	user:rdf(PreX,'http://dbpedia.org/property/givesriseto',PostX),
 	wpxref_url(Post,PostX),
 	wpxref_url(Pre,PreX).
 
-
+% links may not be asserted bidirectionally - let's be sure
+ontol_db:restriction(Post,develops_from,Pre) :-
+        precursor(Rel),
+        user:rdf(PostX,Rel,PreX),
+        wpxref_url(Post,PostX),
+        wpxref_url(Pre,PreX).
+         
 metadata_db:entity_label(C,S) :-
 	dbpedia(U),
 	wpxref_url(C,U),

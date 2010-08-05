@@ -104,7 +104,8 @@ retract_temporary_facts:- !.
 sweep(Rules):-
         debug(reasoner,'sweep: ~w',[Rules]),
         nb_setval(facts_added,0),
-        maplist(apply_rule,Rules).
+        forall(member(Rule,Rules),
+               apply_rule(Rule)).
 
 %threaded_sweep(Rules):-
 %        forall(member(Rule,Rules),
@@ -115,6 +116,7 @@ apply_rule((Head <- Body :: RuleName - _)):-
         Rule = (Body,\+ Head), % exclude facts that have already been prolog-asserted
         debug(reasoner,'applying: ~w ',[RuleName]),
         %%%(   RuleName=relation_intersection->trace;true),
+        % todo - experiment with iterating through using forall/2
         (   findall(Head,Rule,Heads),
             Heads\=[]
         ->  %statistics,
@@ -124,7 +126,8 @@ apply_rule((Head <- Body :: RuleName - _)):-
             %statistics,
             length(NewFacts,NumNewFacts),
             debug(reasoner,'num new facts, sorted: ~w',[NumNewFacts]),
-            maplist(add_fact(RuleName),NewFacts),
+            forall(member(NewFact,NewFacts),
+                   add_fact(RuleName,NewFact)),
             nb_setval(facts_added,1)
         ;   true).
 
@@ -463,11 +466,16 @@ show_explanation(_Format,IsRecursive,Fact,RuleName):-
         writeln(Text),
         nl.
 
+is_redundant(equivalent_class(X,X)).
 is_redundant(subclass(X,X)).
 is_redundant(subclass(X,Y)):-
         subclass(X,Z),X\=Z,subclass(Z,Y),Z\=Y.
 is_redundant(restriction(X,R,Y)):-
         restriction(X,R,Z),X\=Z,restriction(Z,R,Y),Z\=Y.
+is_redundant(restriction(X,R,Y)):- % under
+        restriction(X,R,Z),X\=Z,subclass(Z,Y),Z\=Y.
+is_redundant(restriction(X,R,Y)):- % over
+        subclass(X,Z),X\=Z,restriction(Z,R,Y),Z\=Y.
 
 %% explanation(+Fact,?RuleName,?Text) is nondet
 explanation(Fact,RuleName,Text):-

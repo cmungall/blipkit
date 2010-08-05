@@ -125,6 +125,8 @@ entity_info(ID) =>
 	    tdpair(hlink(R),hlink(X)) forall_unique restriction(ID,R,X),                     
 	    ''),
       class_children(ID),
+      %table(tbody(id=browsetbl_tbody,
+      %            browser_node(1,ID,open))),
       meta_search_button(ID),
       div(id=what_links_here,
 	  call(id_url(ID,revlinks,RevURL)),
@@ -555,13 +557,26 @@ quickterm_login_success(U,P) =>
 
 ontology_browsable_tree(S) =>
   outer(['Browse: ',S],
-        div(h2(hlink(S)),
+        div(%style='width:10000px',
+            %style='overflow-x: scroll',
+            h2(hlink(S)),
             %relation_toggler,
             table(id=browsetbl,
-                  border=1,
                   tbody(id=browsetbl_tbody,
                         browser_node(1,ID,open) forall (class(ID),id_idspace(ID,S),
                                                          \+((subclass(ID,P),id_idspace(P,S)))))
+                 ))).
+
+ontology_browsable_tree(S,OpenNodes) =>
+  outer(['Browse: ',S],
+        div(%style='width:10000px',
+            %style='overflow-x: scroll',
+            h2(hlink(S)),
+            %relation_toggler,
+            table(id=browsetbl,
+                  tbody(id=browsetbl_tbody,
+                        browser_node(1,ID,open) forall (member(ID,OpenNodes),id_idspace(ID,S),
+                                                         \+((member(P,OpenNodes),subclass(ID,P),id_idspace(P,S)))))
                  ))).
 
 % table row
@@ -594,8 +609,9 @@ browser_node_cols(Depth,R/ID,Open) =>
            OnClick=''
        ;   Img='/amigo2/images/plus.png',
            OnClick=OpenJS)),
-  call(Dist is 22-Depth),
+  call(Dist is 21-Depth),
   td(' ') forall between(1,Depth,_),
+  td(''),
   td('',
      if(restriction(_,R,ID),
         then: [html:input(id=CloseEltID,
@@ -666,10 +682,6 @@ browser_subnodes_json_2(Depth,ID) =>
  '"html":',json_atom(browser_node_cols(Depth,ID,close)),
  '}, '.
 
-
-
- 
- 
 
 
 browser_node_info(ID) =>
