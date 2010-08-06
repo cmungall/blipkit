@@ -28,7 +28,7 @@ iterative_sparql_query(_,[],Offset,_,Opts) :-
 iterative_sparql_query(Q,AllRows,Offset,Limit,Opts) :-
 	sformat(Q2,'~w LIMIT ~w OFFSET ~w',[Q,Limit,Offset]),
 	debug(sparql,'  query: ~w',[Q2]),
-	findall(Row,sparql_query(Q2,Row,Opts),Rows),
+        sparql_query_results(Q2,Rows,Opts),
 	length(Rows,NumRows),
 	debug(sparql,'    rows: ~w',[NumRows]),
 	% sometimes something less than the full complement is returned.
@@ -40,6 +40,25 @@ iterative_sparql_query(Q,AllRows,Offset,Limit,Opts) :-
 	;   NextOffset is Offset+Limit,
 	    iterative_sparql_query(Q,NextRows,NextOffset,Limit,Opts),
 	    append(Rows,NextRows,AllRows)).
+
+sparql_query_results(Q,Rows,Opts) :-
+        findall(Row,sparql_query(Q,Row,Opts),Rows).
+
+safe_sparql_query(Q,Rows,Opts) :-
+        catch(sparql_query_results(Q,Rows,Opts),
+              _,
+              fail),
+        !.
+safe_sparql_query(Q,Rows,Opts) :-
+        sleep(5),
+        catch(sparql_query_results(Q,Rows,Opts),
+              _,
+              fail),
+        !.
+safe_sparql_query(Q,Rows,Opts) :-
+        sleep(60),
+        sparql_query_results(Q,Rows,Opts).
+
 
 % ----------------------------------------
 % DBPEDIA SPECIFIC UTILS
