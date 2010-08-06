@@ -8,10 +8,12 @@
 
 
 has_info(ID) :-
-        entity_label(ID,_).
+        entity_label(ID,_),
+        subclass(ID,_).
 has_info(IDs) :-
         member(ID,IDs),
-        entity_label(ID,_).
+        entity_label(ID,_),
+        subclass(ID,_).
 
 
 downloadbar(ID)=>
@@ -125,6 +127,8 @@ entity_info(ID) =>
 	    tdpair(hlink(R),hlink(X)) forall_unique restriction(ID,R,X),                     
 	    ''),
       class_children(ID),
+      if(id_idspace(ID,Ont),
+         div('View in tree',hlink([tree,Ont,ID]))),
       %table(tbody(id=browsetbl_tbody,
       %            browser_node(1,ID,open))),
       meta_search_button(ID),
@@ -563,7 +567,7 @@ ontology_browsable_tree(S) =>
             %relation_toggler,
             table(id=browsetbl,
                   tbody(id=browsetbl_tbody,
-                        browser_node(1,ID,open) forall (class(ID),id_idspace(ID,S),
+                        browser_node(1,ID,[ID]) forall (class(ID),id_idspace(ID,S),
                                                          \+((subclass(ID,P),id_idspace(P,S)))))
                  ))).
 
@@ -575,20 +579,23 @@ ontology_browsable_tree(S,OpenNodes) =>
             %relation_toggler,
             table(id=browsetbl,
                   tbody(id=browsetbl_tbody,
-                        browser_node(1,ID,open) forall (member(ID,OpenNodes),id_idspace(ID,S),
-                                                         \+((member(P,OpenNodes),subclass(ID,P),id_idspace(P,S)))))
+                        browser_node_path(1,ID,OpenNodes) forall (member(ID,OpenNodes),id_idspace(ID,S),
+                                                                  \+((member(P,OpenNodes),subclass(ID,P),id_idspace(P,S)))))
                  ))).
 
 % table row
-browser_node(Depth,ID,Open) =>
+browser_node(Depth,ID,OpenNodes) =>
   call(sformat(OpenEltID,'open-~w',[ID])),
   % show the node as a single row
+  call((member(ID,OpenNodes)
+       ->  Open=open
+       ;   Open=close)),
   tr(id=OpenEltID,
      browser_node_cols(Depth,ID,Open)),
   call(DepthPlus1 is Depth+1),
   % if the node is open, show children (recursive)
   if(Open=open,
-     then: [browser_node(DepthPlus1,Y,close) forall subclass(Y,ID)],
+     then: [browser_node(DepthPlus1,Y,OpenNodes) forall subclass(Y,ID)],
      else: []
     ),
   call(solutions(R,restriction(_,R,ID),Rs)),
@@ -596,6 +603,18 @@ browser_node(Depth,ID,Open) =>
   tr(id=OpenRelEltID,
      browser_node_cols(Depth,R/ID,close)) forall (member(R,Rs),
                                                   sformat(OpenRelEltID,'open-~w',[R/ID])).
+
+browser_node_path(Depth,ID,OpenNodes) =>
+  if((subclass(Y,ID),member(Y,OpenNodes)),
+     then:[
+           call(sformat(OpenEltID,'open-~w',[ID])),
+           tr(id=OpenEltID,
+              browser_node_cols(Depth,ID,close)),
+           call(DepthPlus1 is Depth+1),
+           browser_node_path(DepthPlus1,Y,OpenNodes) forall (subclass(Y,ID),member(Y,OpenNodes))
+          ],
+     else: [browser_node(Depth,ID,[ID])]
+    ).
 
 
 % class expression

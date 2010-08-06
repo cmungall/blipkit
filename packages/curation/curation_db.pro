@@ -278,6 +278,7 @@ class_conditional_prob(A,B,ProbAGivenB):-
 % A and B are classes.
 % here p(A) is the probability of a gene being annotated to A,
 % and p(A|B) is the probability of a gene being annotated to A given that it is annotated to B
+% TODO: hypergeometric, must be against background
 class_conditional_prob(A,B,CountAandB,CountB,ProbAGivenB):-
         class(A),
         class(B),
@@ -289,7 +290,6 @@ class_conditional_prob(A,B,CountAandB,CountB,ProbAGivenB):-
         ProbAGivenB is CountAandB/CountB.
 
 
-        
 
 %% class_prob(?Class,?Prob)
 class_prob(C,P):-

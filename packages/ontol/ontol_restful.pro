@@ -128,6 +128,18 @@ knowsabout(ID) :-
 	parse_id_idspace(ID,S,_),
 	\+ \+ inst_sv(_,namespace,S,_).
 	       
+remove_pro_files(F) :-
+        atom_concat(F,'.pro',X),
+        exists_file(X),
+        delete_file(X),
+        fail.
+remove_pro_files(F) :-
+        atom_concat(F,'.qlf',X),
+        exists_file(X),
+        delete_file(X),
+        fail.
+remove_pro_files(_).
+
 
 
 id_wikipage(ID,Page):- def_xref(ID,X),xref_wikipage(X,Page).
@@ -400,13 +412,15 @@ ontol_page_actual([json,ID],Params):-
 ontol_page_actual([Fmt,ID],Params):-
         fmt_ct_exec(Fmt,CT,Exec),
         emit_content_type(CT),
-        tmp_file(owl,F),
+        tmp_file(obo,F),
         tell(F),
         write_obo(ID,Params),
         told,
         sformat(Cmd,'~w ~w',[Exec,F]),
         debug(ontol_rest,'executing: ~w',[Cmd]),
-        shell(Cmd).
+        shell(Cmd),
+        remove_pro_files(F).
+
 
 ontol_page_actual([revlinks,ID],Params):-
         debug(ontol_rest,'revlinks ~w',[ID]),
@@ -537,6 +551,13 @@ ontol_page_actual([tree,Ont],Params):-
         emit_content_type_text_html,
         preload_ont(Ont,Params),
         emit_page(ontology_browsable_tree(Ont),Params).
+
+ontol_page_actual([tree,Ont,Open],Params):-
+        debug(ontol_rest,' params=~w',[Params]),
+        emit_content_type_text_html,
+        preload_ont(Ont,Params),
+        solutions(P,subclassRT(Open,P),OpenNodes),
+        emit_page(ontology_browsable_tree(Ont,OpenNodes),Params).
 
 ontol_page_actual([open_node,ID,DepthA],Params):-
         preload(ID,Params),
