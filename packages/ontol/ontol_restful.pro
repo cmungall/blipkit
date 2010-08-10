@@ -77,6 +77,7 @@ idspace_url_format(snap,URL,Fmt) :- idspace_url_format(bfo,URL,Fmt).
 idspace_url_format(span,URL,Fmt) :- idspace_url_format(bfo,URL,Fmt).
 idspace_url_format(ncithesaurus,URL,Fmt) :- idspace_url_format('NCIt',URL,Fmt). % tmp
 idspace_url_format('GO','http://www.geneontology.org/ontology/obo_format_1_2/gene_ontology_ext.obo',obo).
+idspace_url_format('upheno','http://obo.cvs.sourceforge.net/viewvc/obo/obo/ontology/phenotype/phenotype_xp/uberpheno/uberpheno-full.obo',obo).
 idspace_url_format('GOCHE','http://www.geneontology.org/scratch/obol_results/goche.obo',obo).
 idspace_url_format(IDSpace,URL,obo) :-
         sformat(URL,'http://purl.org/obo/obo/~w.obo',[IDSpace]).
