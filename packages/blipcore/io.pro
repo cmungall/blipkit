@@ -34,7 +34,10 @@
 
 :- multifile user:bioresource/2,user:bioresource/3,user:bioresource/4.
 :- multifile user:uri_resolution/2.
+
+:- dynamic user:max_cached_file_age_seconds/1.
 :- multifile user:max_cached_file_age_seconds/1.
+
 :- multifile
         user:show_db_summary/1.
 
@@ -209,7 +212,7 @@ download_url2(URL,Px):-         % not locked
                     %touch_file(Timestamp),
                     format(user_error,'Cannot access ~w -- Using cached file ~w which is ~ws old~n',[URL,Px,Age])) % URL inaccessable
                 
-            ;   debug(load,'File ~w exists, has content, and is recent. using as-is',[Px])) % 
+            ;   debug(load,'Timestamp File ~w exists, has content, and a recent checked showed the external site to have identical comments to cached version. using as-is',[Px])) % 
 
         ;   file_from_url(Px,URL)). % cache stale or non-existent: download
 
@@ -419,10 +422,7 @@ load_biofile(Fmt,InputFileIn):-
                 PrologTime < Before),
 	    PrologTime >= InputTime
 	->  load_factfile(PrologFile,Mod)
-	;   access_file(PrologFile, write)
-	->  convert_and_load(Fmt,InputFile,PrologFile)
-	;   throw(cannot_write_to(PrologFile))
-        ).
+	;   convert_and_load(Fmt,InputFile,PrologFile)).
 
 % hook
 user:recompile_all_biofiles:- fail.
@@ -437,6 +437,7 @@ parse_and_load(Fmt,InputFile):-
         !,
         get_module_by_format(Fmt,Mod),
         % TODO: collect duplicated code
+        % TODO: allow all derived files to go in a separate location
         file_name_extension(Base, _Ext, InputFile),
         file_name_extension(Base, pro, PrologFile),
         debug(load,'Checking for cached : ~w',[PrologFile]),
@@ -463,12 +464,29 @@ parse_and_load(Fmt,File):-
 % convert_and_load(+Fmt,+InputFile,+PrologFile)
 %  uses external parser
 % todo: allow custom directory
+convert_and_load(_,_,PrologFile):-
+        \+ access_file(PrologFile, write),
+        access_file(PrologFile, read),
+        get_time(T1),
+        time_file(PrologFile,T2),
+        TD is T1-T2,
+        debug(load,'cannot write to ~w; current file age: ~w',[PrologFile,TD]),
+        TD<360,
+        debug(load,'  -- within threshold. using older file:',[PrologFile]),
+        !.
+convert_and_load(Fmt,InputFile,PrologFile):-
+        \+ access_file(PrologFile, write),
+        print_message(error,cannot_write_to(PrologFile)),
+        tmp_file(cvt,Prefix),
+        atom_concat(Prefix,'.pro',TmpPlFile),
+        debug(load,'cannot write to ~w; using: ~w',[PrologFile,TmpPlFile]),
+        !,
+        setup_call_cleanup(true,
+                           convert_and_load(Fmt,InputFile,TmpPlFile),
+                           delete_file(TmpPlFile)).
 convert_and_load(Fmt,InputFile,PrologFile):-
         debug(load,'converting: ~w fmt: ~w',[InputFile,Fmt]),
         get_module_by_format(Fmt,Mod),
-        (   access_file(PrologFile, write)
-        ->  true
-        ;   throw(cannot_write_to(PrologFile))),
         (   file_to_prolog_cmd(Fmt,InputFile,PrologFile,CmdTokens)
         ->  true
         ;   throw(cannot_convert_fmt(Fmt))),

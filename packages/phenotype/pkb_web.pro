@@ -48,19 +48,12 @@ foreach(Template, Goal, In, Rest) :-
 :- multifile http:location/3.
 :- dynamic   http:location/3.
 
-http:location(www, /, []).
-http:location(pkb, '/pkb', []).
-http:location(script, www(script), []).
-http:location(css, www(css), []).
+http:location(www,         /,                  []).
+http:location(pkb,         '/pkb',             []).
+http:location(script,      www(script),        []).
+http:location(css,         www(css),           []).
+http:location(cliopatria,  pkb(clio),	       [priority(5)]).
 
-background:-
-        thread_get_message(_).
-
-start_server :-
-        start_server(9000).
-
-start_server(Port) :-
-        http_server(http_dispatch, [port(Port)]).
 
 % ----------------------------------------
 % HANDLERS
@@ -105,6 +98,7 @@ param(organism,  [zero_or_more]).
 param(entity,    []).
 param(action,    [optional(true)]).
 
+
 % TODO
 :- html_resource(script('tabber.js'),
 	[	requires([
@@ -112,6 +106,18 @@ param(action,    [optional(true)]).
                          ])
 	]).	
 
+% ----------------------------------------
+% MAIN
+% ----------------------------------------
+
+background:-
+        thread_get_message(_).
+
+start_server :-
+        start_server(9000).
+
+start_server(Port) :-
+        http_server(http_dispatch, [port(Port)]).
 
 % ----------------------------------------
 % GENERAL UTILS
@@ -648,13 +654,13 @@ example_subsumer(_) -->
 
 	    
 
-
+/*
 comparison_table(F1,F2) -->
 	old_comparison_table(F1,F2).
+*/
 
 comparison_table_lcs_rows([],_) --> [].
 comparison_table_lcs_rows([Pair|Pairs],PairsDone) -->
-	{debug(phenotype,'foo',[])},
 	comparison_table_lcs_row(Pair,PairsDone),
 	comparison_table_lcs_rows(Pairs,[Pair|PairsDone]).
 
@@ -888,7 +894,7 @@ phenoquery(Request) :-
                         ]),
         PQ=(E,Q,D,W),
         debug(phenotype,'Query=~w',[PQ]),
-        findall(Org-P,
+        solutions(Org-P,
                 (   organism_phenotype_quad(Org,P,PQ1),
                     phenotype_subsumed_by(PQ1,PQ)),
                 OrgPs),
@@ -1946,6 +1952,7 @@ display_label(C,C).
                   
  % HTTP UTIL
 
+% TODO - use path_info instead?
 request_path_local(Request,Loc,X) :-
         memberchk(path(ReqPath), Request),
 	http_location_by_id(Loc, Me),

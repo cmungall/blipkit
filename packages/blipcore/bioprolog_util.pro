@@ -140,11 +140,11 @@ load_factfile(PlFile,Mod):-
 	(   exists_file(QlfFile),
 	    time_file(QlfFile, QlfTime),
 	    time_file(PlFile, PlTime),
-            debug(load,'Found qlf file: ~w; checking times (pro,qlf): ~w, ~w',[QlfFile,PlTime,QlfTime]),
+            debug(load,'Found qlf file: ~w; checking times (pro,qlf): ~f, ~f',[QlfFile,PlTime,QlfTime]),
 	    QlfTime >= PlTime,
             % now check version are in sync
             % see email to swi-prolog list, 2005-12-06
-            debug(load,'checking qlf version: ~w',[QlfFile]),
+            debug(load,'qlf more recent; checking qlf version: ~w',[QlfFile]),
             %'$qlf_info'(QlfFile,V,V,_,_),
             V=fake,             % no longer works, at least in pl.5.6.34
             debug(load,'qlf version: ~w',[V])
@@ -152,7 +152,8 @@ load_factfile(PlFile,Mod):-
 	;   access_file(QlfFile, write)
 	->  debug(load,'Recompiling ~w',[QlfFile]),
             qcompile(PlFile),Mod:load_files([QlfFile])
-	;   Mod:load_files(PlFile)   % can't write qlf file
+	;   debug(load,'cannot write to ~w; using ~w (may be slower to load)',[QlfFile,PlFile]),
+            Mod:load_files(PlFile)
 	),
 	statistics(cputime, CpuNew),
         Time is CpuNew - CpuOld,
@@ -636,6 +637,11 @@ unground_list(N,[_|L]):-
         N1 is N-1,
         unground_list(N1,L).
 
+%% pred_to_unground_term(+PredSpec,?Term) is det
+% translates a predicate specification into an unground term
+% e.g. foo/2 ==> foo(_,_)
+%
+% PredSpec can be Mod:P/A or P/A
 pred_to_unground_term(Mod:P/A,Mod:Term):-
         !,
         pred_to_unground_term(P/A,Term).

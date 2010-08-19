@@ -6,7 +6,8 @@
 :- use_module(bio(rdb_util)).
 :- use_module(bio(sql_compiler)).
 :- use_module(library(odbc)).
-%:- use_module(bio(sql_compiler)).
+:- use_module(bio(sql_bulkloader)).
+:- use_module(bio(sql_compiler)).
 
 blipkit:example('blip -debug load -r enscore/mm_enscore -u blipkit_sql sql-metadata',
                 'generate SQL schema metadata in prolog; see also sql/sql_schemas/...').
@@ -146,6 +147,21 @@ unify_bindings_projection_to_query(L,_):-
         (   
             ensure_loaded(bio(sql_schema_creator)),
 	    maplist(convert_module,Mods))).
+
+:- blip('sql-dump',
+        'writes contents of blip db module to SQL dump',
+        [atom(dir,Dir,'.'),
+         atom(dbms,DBMS,pg),
+         atom(metadata,Metadata,dbmeta),
+         atoms(schema,Schemas),
+         number(varchar_size,VCS,-1)
+         ],
+        Mods,
+        (   maplist(load_schema_defs,Schemas),
+            write_dump(Dir,Mods,[metadata(Metadata),dbms(DBMS),varchar_size(VCS)]))).
+
+
+            
 
 /** <module>   
   @author Chris Mungall

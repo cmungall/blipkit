@@ -316,15 +316,19 @@ ontology_xp_submit_path('UBERON','uberon/xp_submit','UBERON_xp').
 ontology_xp_submit_path('HP','hpo/xp_submit','HP_xp').
 
 ontology_editors_file('GO','go/ontology/editors/gene_ontology_write.obo').
+ontology_editors_file('UBERON','uberon/uberon_edit_qt.obo'). % symlink
 
 load_editors_file(Ont) :-
         ontology_editors_file(Ont,Path),
+        !,
         (   member(ontology_dir(Prefix),[])
         ->  true
         ;   Prefix='/users/cjm/cvs'),
         concat_atom([Prefix,'/',Path],File),
         load_biofile(File).
-
+load_editors_file(Ont) :-
+        throw(error(no_editors_file(Ont))).
+             
 % ----------------------------------------
 % extracting directory path
 % ----------------------------------------

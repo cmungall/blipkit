@@ -19,6 +19,7 @@
            pred_query_findall/5,
            db_fact/2,
            db_facts/2,
+           delete_all_facts/1,
            insert_facts/1,
            insert_facts/2,
            insert_fact/1,
@@ -333,6 +334,10 @@ merge_ids(MP,ID,StaleID):-
                           insert_fact(FMod:FFact2)))).
 
 delete_fact(Mod,Fact):- retractall(Mod:Fact).
+
+delete_all_facts(Mod):-
+        db_facts(Mod,Facts),
+        maplist(delete_fact(Mod),Facts).
 
 assert_if_unique(Fact):-
         Fact,

@@ -1421,7 +1421,7 @@ parent_cycle(ID,X,P):-
 
 
 
-%% subclass_lca(+IDs,?LCA) is semidet
+%% subclass_lca(+IDs:list,?LCA) is semidet
 subclass_lca(IDs,LCA):-
         setof(A,
               minimal_spanning_node(ontol_db:subclassRT,IDs,A),

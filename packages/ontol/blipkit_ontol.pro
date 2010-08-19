@@ -1478,6 +1478,38 @@ unfolds_owl_to_thea(File,URLs,_Parsed):-
         debug(ontol,'  Imports: ~w',[URLs]).
         %unfolds_owl_to_thea(URLs,[File|Parsed]).
 
+blipkit:example('blip-ddb -r obo_metadata ontol-refresh-cache -set_data_cache /local/blip_cache',
+                'refresh contents of cache used by ontol_restful').
+:- blip('ontol-refresh-cache',
+        'refresh contents of blip data_cache using ontology metadata',
+        [number(age_threshold,MaxAge,3600)],
+        _,
+        (   solutions(Ont,
+                      (   inst_sv(X,namespace,Ont,_),
+                          \+ inst_sv(X,is_obsolete,_,_)),
+                      Onts),
+            assert(user:max_cached_file_age_seconds(MaxAge)),
+            forall(member(Ont,Onts),
+                   refresh_ont(Ont)))).
+
+refresh_ont(Ont) :-
+        ensure_loaded(bio(ontol_restful)),
+        ensure_loaded(bio(dbmeta)),
+        idspace_url_format(Ont,URL,Fmt),
+        catch(load_biofile(Fmt,url(URL)),
+              _,
+              true),
+        (   dynamic_db(ontol_db)
+        ->  delete_all_facts(ontol_db)
+        ;   true),
+        (   dynamic_db(metadata_db)
+        ->  delete_all_facts(metadata_db)
+        ;   true),
+        !.
+refresh_ont(_,_).
+
+
+
 
 blipkit:trusted_command('ontol-rest').
 :- blip('ontol-rest',

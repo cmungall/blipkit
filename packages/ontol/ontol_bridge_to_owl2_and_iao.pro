@@ -59,6 +59,11 @@ owl2_model:annotationAssertion('http://purl.obolibrary.org/obo/IAO_0000118',UA,U
         entity_synonym(A,X),
         native_to_literal(X,UX).
 
+owl2_model:annotationAssertion('http://purl.obolibrary.org/obo/IAO_0100001',UA,UX) :-
+        uri_oboid(UA,A),
+        entity_replaced_by(A,X),
+        native_to_literal(X,UX).
+
 /*
 owl2_model:annotation( annotationAssertion('http://purl.obolibrary.org/obo/IAO_0000118',UA,UX), 'http://purl.org/dc/elements/1.1/source', US ) :-
         uri_oboid(UA,A),

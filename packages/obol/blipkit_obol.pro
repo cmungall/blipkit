@@ -150,6 +150,7 @@ generate_and_write_textdef(ID,CDef) :-
         ;   N='?'),
         debug(obol,'Class: ~w ~w ~w',[ID,N,CDef]),
         cdef_to_textdef_via_cfg(CDef,TextDef),
+       
         !,
         format('[Term]~nid: ~w ! ~w~n',[ID,N]),
         format('def: "~w" [OBOL:automatic]~n',[TextDef]),
@@ -159,7 +160,7 @@ generate_and_write_textdef(ID,_) :-
         (   class(ID,N)
         ->  true
         ;   N='?'),
-        format('! No textdef for ~w "~w"',[ID,N]).
+        format('! No textdef for ~w "~w"~n',[ID,N]).
 
 :- blip('obol-generate-names',
         'given an xp, generate names using grammar',

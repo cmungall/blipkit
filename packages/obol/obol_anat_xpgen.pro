@@ -18,4 +18,12 @@ gross_anatomical(A that part_of(B)) -->
 	continuant(B),
         continuant(A).
 
+def(gross_anatomical(A that 'part_of'(B))) -->
+        ['A'],continuant(A),[that,is,part,of,a],continuant(B),['[Obol].'].
+def(gross_anatomical(A that has_quality(B))) -->
+        ['Any'],continuant(A),[that,has,the,quality,of,being],quality(B),['[Obol].'].
+
+quality(S) --> terminal(S).
+
+
 

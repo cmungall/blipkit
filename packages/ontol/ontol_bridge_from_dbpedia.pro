@@ -16,12 +16,13 @@ wpxref_url(X,URL) :-
 	atom_concat('Wikipedia:',Page,X),
 	atom_concat('http://dbpedia.org/resource/',Page,URL).
 wpxref_url(X,URL) :-
+        atom(URL),
 	atom_concat('http://dbpedia.org/resource/',Page,URL),
 	atom_concat('Wikipedia:',Page,X).
 
 ontol_db:class(X) :- dbpedia(U),wpxref_url(X,U).
 ontol_db:def(X,D) :-
-	user:rdf(U,'http://dbpedia.org/property/abstract',literal(lang(en,D))),
+	user:rdf(U,'http://dbpedia.org/ontology/abstract',literal(lang(en,D))),
 	wpxref_url(X,U).
 ontol_db:def_xref(C,C) :-
 	class(C).

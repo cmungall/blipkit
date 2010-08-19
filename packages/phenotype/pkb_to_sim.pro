@@ -8,6 +8,7 @@
 :- use_module(bio(index_util)).
 :- use_module(bio(pkb_db)).
 
+% multisets - each attribute set is an ordered collection of property values; e.g. [Q,E]
 simmatrix_multiset:feature_attx(O,As) :-
 	organism_phenotype(O,P),
 	setof(A,

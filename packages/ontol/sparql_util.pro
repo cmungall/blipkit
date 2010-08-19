@@ -51,12 +51,14 @@ safe_sparql_query(Q,Rows,Opts) :-
         !.
 safe_sparql_query(Q,Rows,Opts) :-
         sleep(5),
+        print_message(error,attempt(2)),
         catch(sparql_query_results(Q,Rows,Opts),
               _,
               fail),
         !.
 safe_sparql_query(Q,Rows,Opts) :-
         sleep(60),
+        print_message(error,attempt(3)),
         sparql_query_results(Q,Rows,Opts).
 
 
@@ -64,6 +66,7 @@ safe_sparql_query(Q,Rows,Opts) :-
 % DBPEDIA SPECIFIC UTILS
 % ----------------------------------------
 
+%% dbpedia_query_links(+A,?Row,+Limit,+Opts) is nondet
 dbpedia_query_links(A,Row,Limit,Opts) :-
 	(   atom_concat('http://',_,A)
 	->  URL=A

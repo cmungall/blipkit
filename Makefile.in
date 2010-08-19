@@ -129,3 +129,6 @@ dist:
 	swipl -f tools/pldoc_modules_std.pro -g "doc_latex('$*.pro','$*.tex',[stand_alone(false)]),halt" -t "halt(1)"
 .txt.tex:
 	swipl -f tools/pldoc_modules_std.pro -g "doc_latex('$*.txt','$*.tex',[stand_alone(false)]),halt" -t "halt(1)"
+
+packages/%_sql.pro: packages/%_db.pro
+	bin/pldoc2plsql.pl $< > $@

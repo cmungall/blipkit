@@ -11,115 +11,10 @@
            graph_display/3
            ]).
 
+% pldoc at end of file
+
 :- use_module(bio(bioprolog_util),[solutions/3]).
 
-%% graph_to_dot_atom(+Graph,?Atom)
-% translate a graph to an atom in dot syntax
-graph_to_dot_atom(G,A):-
-        dot(G,Toks,[]),
-        concat_atom(Toks,' ',A).
-
-% ----------------------------------------
-% transforms
-% ----------------------------------------
-
-%% graph_nest(+Graph,?NestGraph,+ContainmentRelations:list) is det
-%
-% given a graph term and a set of edge labels, translate the graph such that
-% edges of the designated type are translated to subgraphs (clusters in graphviz)
-%
-% For example, in an anatomical ontology, the partOf relation can be used
-% as a containment relation such that organ boxes and located in the organism box
-%
-% The relation used should not have multiple parents, otherwise the results
-% are unpredictable.
-%
-% @see http://wiki.geneontology.org/index.php/OBO-Edit:Experimental_Graphviz_Views
-graph_nest(G,GX,Relations):-
-        G=graph(_,_,Elts),
-        findall(A-B,(member(E,Elts),E=edge(A,B,Atts),member(label=Label,Atts),member(Label,Relations)),NestPairs),
-        graph_nest_pairs(G,GX,NestPairs).
-
-%% graph_nest_pairs(+Graph,?NestGraph,+NestPairs:list) is det
-% 
-% use NestPairs to nest the graph
-% 
-% @see graph_nest/3
-graph_nest_pairs(graph(G,Atts,Elts),graph(G,[compound=true|Atts],EltsX),NestPairs):-
-        
-        % collect all edges, removing those that will turn into cluster nestings
-        findall(E,(member(E,Elts),E=edge(A,B,_),\+ member(A-B,NestPairs)),Edges),
-        
-        % collect all nodes that are neither cluster members nor clusters (these will be children of root graph)
-        findall(N,(member(N,Elts),N=node(A,_), \+ member(_-A,NestPairs), \+ member(A-_,NestPairs)),Nodes),
-
-        % find roots of cluster hierarchy (these will be subgraph roots)
-        solutions(X,(member(_-X,NestPairs),\+ member(X-_,NestPairs)),Roots),
-
-        % unifies with a list of subgraph clusters and nodes
-        findall(SubGraph,
-                (   member(X,Roots),
-                    subgraph(X,Elts,NestPairs,SubGraph)),
-                SubGraphs),
-
-        maplist(fix_edge_for_cluster(NestPairs),Edges,EdgesX),
-
-        % put it all together
-        flatten([Nodes,EdgesX,SubGraphs],EltsX).
-
-        
-
-% succeed once if this node should be transformed into a cluster
-% TODO: if the nest hierarchy is not a strict tree, either throw and
-% exception OR duplicate the repeating nodes with different IDs, and
-% add an equivalence arc between them
-subgraph(X,OrigElts,NestPairs,subgraph(cluster(X),Atts,SubGraphs)):-
-        findall(SubGraph,
-                (   member(Child-X,NestPairs),
-                    subgraph(Child,OrigElts,NestPairs,SubGraph)),
-                SubGraphs),
-        SubGraphs\=[],
-        !,
-        %atom_concat('cluster_',X,Cluster),
-        member(node(X,Atts),OrigElts).
-
-% no child nodes: terminal
-subgraph(X,OrigElts,_,N):-
-        N=node(X,_),
-        member(N,OrigElts).
-
-% edges between clusters must be declared with lhead and ltail
-fix_edge_for_cluster(NestPairs,Edge,EdgeX):-
-        Edge=edge(A,B,Atts),
-        member(_-A,NestPairs), % A is a cluster
-        member(_-B,NestPairs), % B is a cluster
-        !,                      % between two clusters
-        arbitary_terminal(A,NestPairs,AX),
-        arbitary_terminal(B,NestPairs,BX),
-        EdgeX=edge(AX,BX,[ltail=cluster(A),lhead=cluster(B)|Atts]).
-fix_edge_for_cluster(NestPairs,Edge,EdgeX):-
-        Edge=edge(A,B,Atts),
-        member(_-A,NestPairs), % A is a cluster
-        \+ member(_-B,NestPairs), % B is a terminal [redundant check]
-        !,                      % between a cluster and a terminal
-        arbitary_terminal(A,NestPairs,AX),
-        EdgeX=edge(AX,B,[ltail=cluster(A)|Atts]).
-fix_edge_for_cluster(NestPairs,Edge,EdgeX):-
-        Edge=edge(A,B,Atts),
-        member(_-B,NestPairs), % B is a cluster
-        \+ member(_-A,NestPairs), % A is a terminal [redundant check]
-        !,                      % between a terminal and a cluster 
-        arbitary_terminal(B,NestPairs,BX),
-        EdgeX=edge(A,BX,[lhead=cluster(B)|Atts]).
-fix_edge_for_cluster(_,Edge,Edge). % between a terminal and a terminal
-
-
-arbitary_terminal(A,NestPairs,A):-
-        \+ member(_-A,NestPairs),
-        !.
-arbitary_terminal(A,NestPairs,AX):-
-        member(Child-A,NestPairs),
-        arbitary_terminal(Child,NestPairs,AX).
 
 
 % ----------------------------------------
@@ -199,6 +94,16 @@ safe_char(C):- C @>= 'A', C @=< 'Z',!.
 safe_char(C):- C @>= '0', C @=< '9',!. % '0
 safe_char('_').
 
+% ----------------------------------------
+% EXPORTED UTILITY PREDICATES
+% ----------------------------------------
+
+%% graph_to_dot_atom(+GraphTerm,?Atom)
+% translate a graph to an atom in dot syntax
+graph_to_dot_atom(G,A):-
+        dot(G,Toks,[]),
+        concat_atom(Toks,' ',A).
+
 %% graph_to_dot_file(+GraphTerm,+File) is det
 %
 % translate Graph to dot and write to File
@@ -209,7 +114,8 @@ graph_to_dot_file(GraphTerm,File):-
 %
 % @param Fmt see dot documentation. E.g. png
 %
-% translate Graph to dot, translate to an image format and write to File
+% translate Graph to dot, translate to an image format and write to File.
+% if File is var, write to user_output
 graph_to_dot_file(GraphTerm,Fmt,File):-
         (nonvar(Fmt) -> true ; Fmt=dot),
         (   nonvar(File) -> true ; tmp_file(Fmt,FileBase),concat_atom([FileBase,Fmt],'.',File)),
@@ -227,7 +133,8 @@ graph_to_dot_file(GraphTerm,Fmt,File):-
 
 
 %% graph_display(+GraphTerm,+Cmd)
-%   displays a graph using Cmd
+%   displays a graph using Cmd.
+%   e.g. 'open' or 'xv'
 graph_display(GraphTerm,DisplayCmd):-
         graph_display(GraphTerm,png,DisplayCmd).
 
@@ -241,66 +148,113 @@ graph_display(GraphTerm,Fmt,DisplayCmd):-
 
 
 % ----------------------------------------
-% TESTS
+% GRAPH DATA STRUCTURE TRANSFORMATIONS
 % ----------------------------------------
-unittest:testg(graph(basic,[],
-                   [node(a,[label=a]),
-                    node(b),
-                    edge(a,b,[label=r])
-                   ])).
-unittest:testg(graph(nested,[compound=true],
-                   [
-                    subgraph(cluster_s1,[label=s1],
-                             [node(a,[label=a]),
-                              node(b)]),
-                    subgraph(cluster_s2,[label=s2],
-                             [node(x,[label=x]),
-                              node(y)]),
-                    edge(a,b,[label=r]),
-                    edge(x,y,[label=r]),
-                    edge(a,s1,[label=r,lhead=s1])
-                   ])).
-unittest:testg(graph(unnested,[],
-                   [node(entity,[label=entity,shape=box]),
-                    node(process,[]),
-                    node(continuant,[label=continuant]),
-                    node(cell,[]),
-                    node(chemical,[]),
-                    node(cysteine,[color=blue]),
-                    node(cysteine_biosynthesis,[color=red]),
-                    edge(process,entity,[label=contained_by]),
-                    edge(continuant,entity,[label=contained_by]),
-                    edge(chemical,continuant,[label=contained_by]),
-                    edge(cell,continuant,[label=contained_by]),
-                    edge(cysteine_biosynthesis,process,[label=contained_by]),
-                    edge(cysteine,chemical,[label=contained_by]),
-                    edge(process,continuant,[label=has_participant]),
-                    edge(cysteine_biosynthesis,cysteine,[label=outputs])
-                   ])).
+% primarily to make nesting easier
 
-unittest(test(basic,
-            [],
-            (   ensure_loaded(bio(dotwriter)),
-                forall((   unittest:testg(G),
-                           graph_to_dot_atom(G,A)),
-                            writeln(A))),
-            true)).
+%% graph_nest(+Graph,?NestGraph,+ContainmentRelations:list) is det
+%
+% given a graph term and a set of edge labels, translate the graph such that
+% edges of the designated type are translated to subgraphs (clusters in graphviz)
+%
+% For example, in an anatomical ontology, the partOf relation can be used
+% as a containment relation such that organ boxes and located in the organism box
+%
+% The relation used should not have multiple parents, otherwise the results
+% are unpredictable.
+%
+% @see http://wiki.geneontology.org/index.php/OBO-Edit:Experimental_Graphviz_Views
+graph_nest(G,GX,Relations):-
+        G=graph(_,_,Elts),
+        findall(A-B,(member(E,Elts),E=edge(A,B,Atts),member(label=Label,Atts),member(Label,Relations)),NestPairs),
+        graph_nest_pairs(G,GX,NestPairs).
 
-unittest(test(dot,
-            [],
-            (   ensure_loaded(bio(dotwriter)),
-                forall(   unittest:testg(G),
-                          graph_display(G,png,open))),
-            true)).
+%% graph_nest_pairs(+Graph,?NestGraph,+NestPairs:list) is det
+% 
+% use NestPairs to nest the graph
+% 
+% @see graph_nest/3
+graph_nest_pairs(graph(G,Atts,Elts),graph(G,[compound=true|Atts],EltsX),NestPairs):-
+        
+        % collect all edges, removing those that will turn into cluster nestings
+        findall(E,(member(E,Elts),E=edge(A,B,_),\+ member(A-B,NestPairs)),Edges),
+        
+        % collect all nodes that are neither cluster members nor clusters (these will be children of root graph)
+        findall(N,(member(N,Elts),N=node(A,_), \+ member(_-A,NestPairs), \+ member(A-_,NestPairs)),Nodes),
 
-unittest(test(transform,
-            [],
-            (   ensure_loaded(bio(dotwriter)),
-                forall((   unittest:testg(G),
-                           graph_nest(G,GX,[contained_by]),
-                           graph_to_dot_atom(GX,A)),
-                       writeln(A))),
-            true)).
+        % find roots of cluster hierarchy (these will be subgraph roots)
+        solutions(X,(member(_-X,NestPairs),\+ member(X-_,NestPairs)),Roots),
+
+        % unifies with a list of subgraph clusters and nodes
+        findall(SubGraph,
+                (   member(X,Roots),
+                    subgraph(X,Elts,NestPairs,SubGraph)),
+                SubGraphs),
+
+        maplist(fix_edge_for_cluster(NestPairs),Edges,EdgesX),
+
+        % put it all together
+        flatten([Nodes,EdgesX,SubGraphs],EltsX).
+
+        
+
+% succeed once if this node should be transformed into a cluster
+% TODO: if the nest hierarchy is not a strict tree, either throw and
+% exception OR duplicate the repeating nodes with different IDs, and
+% add an equivalence arc between them
+subgraph(X,OrigElts,NestPairs,subgraph(cluster(X),Atts,SubGraphs)):-
+        findall(SubGraph,
+                (   member(Child-X,NestPairs),
+                    subgraph(Child,OrigElts,NestPairs,SubGraph)),
+                SubGraphs),
+        SubGraphs\=[],
+        !,
+        %atom_concat('cluster_',X,Cluster),
+        member(node(X,Atts),OrigElts).
+
+% no child nodes: terminal
+subgraph(X,OrigElts,_,N):-
+        N=node(X,_),
+        member(N,OrigElts).
+
+% edges between clusters must be declared with lhead and ltail;
+% furthermore, these must be between terminal (non-cluster) nodes.
+% there are 3 cases to be considered:
+%  * cluster to cluster
+%  * cluster to terminal
+%  * terminal to cluster
+fix_edge_for_cluster(NestPairs,Edge,EdgeX):-
+        Edge=edge(A,B,Atts),
+        member(_-A,NestPairs), % A is a cluster
+        member(_-B,NestPairs), % B is a cluster
+        !,                      % edge is between two clusters
+        select_random_terminal_node(A,NestPairs,AX),
+        select_random_terminal_node(B,NestPairs,BX),
+        EdgeX=edge(AX,BX,[ltail=cluster(A),lhead=cluster(B)|Atts]).
+fix_edge_for_cluster(NestPairs,Edge,EdgeX):-
+        Edge=edge(A,B,Atts),
+        member(_-A,NestPairs), % A is a cluster
+        \+ member(_-B,NestPairs), % B is a terminal [redundant check]
+        !,                      % between a cluster and a terminal
+        select_random_terminal_node(A,NestPairs,AX),
+        EdgeX=edge(AX,B,[ltail=cluster(A)|Atts]).
+fix_edge_for_cluster(NestPairs,Edge,EdgeX):-
+        Edge=edge(A,B,Atts),
+        member(_-B,NestPairs), % B is a cluster
+        \+ member(_-A,NestPairs), % A is a terminal [redundant check]
+        !,                      % between a terminal and a cluster 
+        select_random_terminal_node(B,NestPairs,BX),
+        EdgeX=edge(A,BX,[lhead=cluster(B)|Atts]).
+fix_edge_for_cluster(_,Edge,Edge). % between a terminal and a terminal
+
+
+select_random_terminal_node(A,NestPairs,A):-
+        \+ member(_-A,NestPairs),
+        !.
+select_random_terminal_node(A,NestPairs,AX):-
+        member(Child-A,NestPairs),
+        select_random_terminal_node(Child,NestPairs,AX).
+
 
 
 /** <module> maps graph structures to dot format
@@ -344,6 +298,27 @@ programs 'dot' and 'neatto'
   ==
   GraphTerm = graph(Name,Terms)
        Term = node(ID,Props) | edge(ID1,ID2,Props)
+  ==
+
+  Props = [P1=V1, ..., Pn=Vn]
+
+  where each properties is specified by the graphviz spec
+  
+  ---+ Nesting
+
+  Graphviz allows nesting of boxes. This module allows easy
+  construction of nested diagrams by allowing a simple graph data
+  structure to be transformed into a nested structure by specifying
+  one of the edge labels to be a nesting label.  See graph_nest/3
+
+  For example, =|graph_nest(G,G2,[inside])|= holds for:
+
+  ==
+  G = graph(mygraph,[node(n1,[]), ..., edge(n1,n2,inside),edge(n1,n3,adj),..])
+  ==
+
+  ==
+  G2 = graph(mygraph,[subgraph(cluster(n2),[node(n1,[]), ..., edge(n1,n3,adj),..]), ...])
   ==
   
   ---+ Dependencies

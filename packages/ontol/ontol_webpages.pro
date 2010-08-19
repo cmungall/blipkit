@@ -110,6 +110,9 @@ entity_info(ID) =>
 	    tdpair('Xref',[hlink_with_id(X),
 			   hlinklist([X,ID],compare) where knowsabout(X)
 			  ]) forall_unique entity_xref(ID,X),                     
+	    tdpair('Alt ID',[hlink_with_id(X),
+                             hlinklist([X,ID],compare) where knowsabout(X)
+                            ]) forall_unique entity_alternate_identifier(ID,X),                     
 	    tdpair('', hlinklist([ID|Xs],'compare all')) where setof(X,(entity_xref(ID,X),knowsabout(X)),Xs),
 	    tdpair(hlink(R),X) forall_unique inst_sv(ID,R,X,_),                     
 	    tdpair(hlink(R),hlink(X)) forall_unique inst_rel(ID,R,X),                     

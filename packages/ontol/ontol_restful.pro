@@ -1,5 +1,6 @@
 :- module(ontol_restful,
           [
+           idspace_url_format/3,
            ont_idspace/2,
            id_url/2,
            id_url/3,
@@ -479,16 +480,19 @@ template_user_err(T,U,Params,no_permission_for_this_template) :-
 ontol_page_actual([quickterm,S],Params):-
         emit_content_type_text_html,
         %preload_ont(S,Params),
+        debug(ontol_rest,' Loading editors file: ~w',[S]),
         load_editors_file(S),
-        debug(ontol_rest,' Params= ~w',[Params]),
+        debug(ontol_rest,' Quickterm Params= ~w',[Params]),
         (   member(template=T,Params)
         ->  true
         ;   T=''),
+        debug(ontol_rest,' selected template = ~w',[T]),
         (   member(submit=submit,Params),
             (   member(commit=Commit,Params)
             ->  true
             ;   Commit=false)
-        ->  forall(qtt_external(T,ExtOnt),
+        ->  debug(ontol_rest,' submitting [commit= ~w]',[Commit]),
+            forall(qtt_external(T,ExtOnt),
                    preload_ont(ExtOnt,Params)),
             (   member(username=UserIn,Params),
                 atom_alphanumeric(UserIn,User)
@@ -517,7 +521,8 @@ ontol_page_actual([quickterm,S],Params):-
                                               ]),
                 emit_page(quickterm_results(T,S,Msg),Params)
             ;   emit_page(quickterm_errors(T,S,Errs),Params))
-        ;   emit_page(quickterm(T,S),Params)).
+        ;   debug(ontol_rest,' ( not a commit)',[]),
+            emit_page(quickterm(T,S),Params)).
 
 
 ontol_page_actual([ontology,ID],Params):-
