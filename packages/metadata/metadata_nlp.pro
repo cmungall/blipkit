@@ -23,6 +23,7 @@
 	   entity_pair_label_match/3,
 	   atom_search/5,
 	   corpus_search/6,
+           label_query_results/3,
 
            term_split/6,
            term_ends_with/6
@@ -193,7 +194,7 @@ entity_pair_label_match(A,B,Stemmed) :-
 index_labels(Stemmed) :-
 	debug(nlp,'indexing [stemmed:~w]',[Stemmed]),
 	generate_term_indexes(Label,Token,
-			      entity_label_token_stemmed(_,Label,Token,Stemmed)).
+			      metadata_nlp:entity_label_token_stemmed(_,Label,Token,Stemmed)).
 
 % DON'T USE THIS!! only use if each entity has a single label
 index_labeled_entities(Stemmed) :-
@@ -213,7 +214,7 @@ index_corpus_by_labels(Stemmed):-
 	debug(nlp,'calculating freqs [stemmed:~w]',[Stemmed]),
 	retractall(simmatrix:template(_,_,_)),
         assert(simmatrix:template(Entity,Token,
-				  entity_label_token_stemmed(Entity,_,Token,Stemmed))),
+				  metadata_nlp:entity_label_token_stemmed(Entity,_,Token,Stemmed))),
 	materialize_index(simmatrix:attribute_feature_count(1,1)).
 
 index_corpus_by_labels(Entity,Term,Goal,Stemmed):-
@@ -273,6 +274,34 @@ corpus_search_ic(_QueryTemplate,TermTemplate,Goal,HitLabel-HitToks,Sim,Stemmed) 
 %        simmatrix:vector_sumIC(HitAV,ICU),
 %        Sim is ICI/ICU,
 %	Sim > 0.5.
+
+
+% NEW
+label_query_results(QueryLabel,Stemmed,MaxScorePairsDesc) :-
+        setof(Tok,term_token_stemmed(QueryLabel,Tok,Stemmed),QueryToks),
+        setof(Score-E,MatchLabel^match_entity_by_toks(QueryToks,E,MatchLabel,Stemmed,Score),Pairs),
+        setof(MaxScore-E,aggregate(max(Score),member(Score-E,Pairs),MaxScore),MaxScorePairs),
+        reverse(MaxScorePairs,MaxScorePairsDesc).
+
+
+match_entity_by_label(QueryLabel,E,MatchLabel,Stemmed,Score) :-
+        setof(Tok,term_token_stemmed(QueryLabel,Tok,Stemmed),QueryToks),
+        match_entity_by_toks(QueryToks,E,MatchLabel,Stemmed,Score).
+
+match_entity_by_toks(QueryToks,E,MatchLabel,Stemmed,Score) :-
+        entity_label_token_list_stemmed(E,MatchLabel,MatchToks,Stemmed),
+        ord_intersection(QueryToks,MatchToks,IToks),
+        IToks\=[],
+        length(QueryToks,QLen),
+        length(MatchToks,MLen),
+        length(IToks,ILen),
+        MLen is max(QLen,MLen),
+        Score is ILen/MLen.
+
+entity_label_token_list_stemmed(E,Label,Toks,Stemmed) :-
+        setof(Tok,entity_label_token_stemmed(E,Label,Tok,Stemmed),Toks).
+
+        
 
 % ----------------------------------------
 % obol-ish stuff

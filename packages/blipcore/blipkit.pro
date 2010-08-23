@@ -287,7 +287,19 @@ opt_description(rulefile,'As -rule, but load from a file').
 	    forall(member(File,Files),
 		   process_file_lines(Rule,File)))).
 
+:- blip('labelify',
+        'add tables',
+        [],
+        Files,
+        (   Rule=( (Head :- Row,Row=..L,maplist(blipkit:labelify,L,L2),Head=..L2) ),
+            !,
+	    debug(sed,'rule: ~w',[Rule]),
+	    ensure_loaded(bio(process_streams)),
+	    forall(member(File,Files),
+		   process_file_lines(Rule,File)))).
 
+labelify(X,X2) :- entity_label(X,L),!,concat_atom([X,L],'-',X2).
+labelify(X,X).
 
 :- blip('io-extract',
         'chains',
@@ -525,6 +537,7 @@ draw_source_dependencies(Sources,_ToFormat,_OutFile) :- % TODO
             forall((SynPred,entity_synonym(ID,Syn)),
                    (   writecols([ID|Rest]),
                        nl)))).
+
 
 :- blip('map-ids',
         'maps forward identifiers',

@@ -885,6 +885,7 @@ file_to_prolog_cmd('annotation-obo',go2prolog). %
 file_to_prolog_cmd(go,'go2prolog -p go_ont').
 file_to_prolog_cmd(obo_xml,go2prolog).
 file_to_prolog_cmd(go_xref,'go2prolog -p go_xref').
+file_to_prolog_cmd(pthr,'pthr2phylo_db.pl').
 %file_to_prolog_cmd(gff,gff2p).
 file_to_prolog_cmd(fasta,fasta2p).
 file_to_prolog_cmd(blast,'search2p -f blast').

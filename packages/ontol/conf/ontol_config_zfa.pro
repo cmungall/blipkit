@@ -1,3 +1,4 @@
+:- [ontol_config_default].
 
 :- multifile user:graphviz_ontol_param/2.
 user:graphviz_ontol_param(containment_relation('zebrafish_anatomical_ontology'),part_of).

@@ -9,6 +9,25 @@
 rqoc('PATO:0001238').
 mqoc('PATO:0001237').
 
+qop(Q) :- subclassT(Q,'PATO:0001236').
+qoc(Q) :- subclassT(Q,'PATO:0001241').
+
+is_process(P) :- belongs(P,biological_process).
+is_process(P) :- belongs(P,molecular_function).
+is_continuant(C) :- \+ is_process(C).
+
+simple_property_range_violation(P,Q,X) :-
+        differentium(P,'OBO_REL:inheres_in',X),
+        genus(P,Q),
+        qop(Q),
+        \+ is_process(X).
+simple_property_range_violation(P,Q,X) :-
+        differentium(P,'OBO_REL:inheres_in',X),
+        genus(P,Q),
+        qoc(Q),
+        \+ is_continuant(X).
+
+
 % remember to load full MP + PATO
 
 missing_differentium(towards,C):-

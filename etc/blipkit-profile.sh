@@ -33,8 +33,16 @@ alias zf="ov -r zebrafish_anatomy"
 alias qzf="oq -r zebrafish_anatomy"
 alias tao="ov -r teleost_anatomy"
 alias qtao="oq -r teleost_anatomy"
+alias hao="ov -r hao"
+alias qhao="oq -r hao"
 alias tto="ov -r teleost_taxonomy"
 alias qtto="oq -r teleost_taxonomy"
+alias spdo="ov -r spider_anatomy"
+alias qspdp="oq -r spider_anatomy"
+alias mosq="ov -r mosquito_anatomy"
+alias qmosq="oq -r mosquito_anatomy"
+alias tick="ov -r tick_anatomy"
+alias qtick="oq -r tick_anatomy"
 alias qpato2="oq -r pato2"
 alias pato2="ov -r pato2"
 alias pato="ov -r pato"
@@ -147,7 +155,7 @@ alias qptx="oq -r plant_trait -r plant_trait_xp -r plant_anatomy -r go -r pato -
 alias diseasex='ov -r disease_xp -showxp'
 alias qdiseasex='oq -r disease_xp -showxp'
 
-export MULTIANAT_R='-r xenopus_anatomy -r mouse_anatomy -r gemina_anatomy -r amphibian_anatomy -r cell -r fly_anatomy -r zebrafish_anatomy -r fma_downcase -r brenda -r bila -r miaa -r nif_downcase -r emapa -r ehdaa -r ehdaa2 -r hog -r wpanat'
+export MULTIANAT_R='-r xenopus_anatomy -r mosquito_anatomy -r tick_anatomy -r spider_anatomy -r hao -r mouse_anatomy -r gemina_anatomy -r amphibian_anatomy -r cell -r fly_anatomy -r zebrafish_anatomy -r fma_downcase -r brenda -r bila -r miaa -r nif_downcase -r emapa -r ehdaa -r ehdaa2 -r hog -r wpanat'
 alias multianat="blip ontol-query $MULTIANAT_R -showxrefs -showsyns -showdefs"
 
 alias uberalles='blip -r uberon_with_isa -r xenopus_anatomy -r mouse_anatomy -r gemina_anatomy -r amphibian_anatomy -r cell -r fly_anatomy -r zebrafish_anatomy -r fma_downcase -r bila -r miaa'

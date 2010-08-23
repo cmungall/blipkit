@@ -39,6 +39,8 @@ logNCr(N,R,_):-
 :- arithmetic_function(logNCr/2).
 
 %% hypergeometric(Vx,Vn,VM,VN,R)
+%
+%
 % @param Vx: number in sample that have quality     (also: k)
 % @param Vn: total in sample
 % @param VM number in population that have quality (also: D)
@@ -57,10 +59,10 @@ hypergeometric(Vx,Vn,VM,VN,R):-
 % in a sample of n genes,
 % then we can calculate the probability of that observation, using the hypergeometric distribution
 %
-% @param Vx: number in sample that have quality     (also: k)
-% @param Vn: total in sample
-% @param VM M: number in population that have quality (e.g. GO term) (also: D)
-% @param VN N: total population (e.g. total number of genes)
+% @param Vx: number in sample that have quality     (also: k)                        | k
+% @param Vn: total in sample                                                         | n
+% @param VM M: number in population that have quality (e.g. GO term) (also: D)       | m
+% @param VN N: total population (e.g. total number of genes)                         | N
 p_value_by_hypergeometric(Vx,Vn,VM,VN,P):-
         Min is min(VM,Vn),
         sumof(HG,(between(Vx,Min,Vi),

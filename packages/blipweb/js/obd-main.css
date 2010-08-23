@@ -522,3 +522,9 @@ a.tt:hover span.bottom{
 	color: #548912;
     background: url(/images/bubble.gif) no-repeat bottom;
 }
+
+.axiom_ontology_list {
+    font-size: 9px;
+    font-style: italic;
+    color: #888888;
+}

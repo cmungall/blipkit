@@ -60,6 +60,7 @@ user:file_search_path(pir, local(pir)).
 user:file_search_path(obol2, home(obol2)).
 user:file_search_path(obolr, go(scratch/obol_results)).
 user:file_search_path(uberon, local(uberon)).
+user:file_search_path(obolrel, local('obo-relations')).
 
 % --OBO Ontologies--
 user:bioresource(caro,obo_local('anatomy/caro/caro.obo'),obo).
@@ -67,6 +68,7 @@ user:bioresource(spatial,obo_local('anatomy/caro/spatial.obo'),obo).
 user:bioresource(caro_extra,obo_local('anatomy/caro/caro_extra.obo'),obo).
 user:bioresource(relationship,obo_local('OBO_REL/ro.obo'),obo).
 user:bioresource(ro_proposed,obo_local('OBO_REL/ro_proposed_edit.obo'),obo).
+user:bioresource(ro2,obolrel('src/ontology/ro.owl'),owl).
 user:bioresource(biological_role,obolr('biological_role.obo'),obo).
 user:bioresource(goche,obolr('goche.obo'),obo).
 user:bioresource(chebi,obo_local('chemical/chebi.obo'),obo).
@@ -166,12 +168,12 @@ user:bioresource(fma1,local('fma-conversion/fma-part-slim.obo'),obo).
 user:bioresource(fma_downcase,local('fma-conversion/fma_downcase.obo'),obo).
 user:bioresource(fma_stemmed,local('FMA/fma_obo_stemmed.obo'),obo).
 user:bioresource(efo,'/users/cjm/tmp/efo.obo',obo).
-user:bioresource(hao,'/users/cjm/tmp/hao.obo',obo).
+user:bioresource(hao,local('obo-svn/ontologies/HAO/hao.obo'),obo).
 user:bioresource(hog,url('http://bgee.unil.ch/bgee/download/HOG.obo'),obo).
 user:bioresource(hog_stages,url('http://bgee.unil.ch/bgee/download/stages.obo'),obo).
 
 user:bioresource(fungal_anatomy,obo_local('anatomy/gross_anatomy/microbial_gross_anatomy/fungi/fungal_anatomy.obo'),obo).
-user:bioresource(tick_anatomy,[obo(tick_anatomy)]).
+user:bioresource(tick_anatomy,uberon('tick_anatomy_with_syns.obo'),obo).
 user:bioresource(flytest,'/Users/cjm/tmp/NB_CARO_dev.obo',obo).
 user:bioresource(fly_anatomy,obo_local('anatomy/gross_anatomy/animal_gross_anatomy/fly/fly_anatomy.obo'),obo).
 user:bioresource(fly_anatomy_xp,obo_local('anatomy/gross_anatomy/animal_gross_anatomy/fly/fly_anatomy_XP.obo'),obo).
@@ -184,6 +186,7 @@ user:bioresource(adult_mouse,obo_local('anatomy/gross_anatomy/animal_gross_anato
 user:bioresource(mouse_anatomy,obo_local('anatomy/gross_anatomy/animal_gross_anatomy/mouse/adult_mouse_anatomy.obo'),obo).
 user:bioresource(emap,obo_local('anatomy/gross_anatomy/animal_gross_anatomy/mouse/EMAP.obo'),obo).
 user:bioresource(emapa,obo_local('anatomy/gross_anatomy/animal_gross_anatomy/mouse/EMAPA.obo'),obo).
+user:bioresource(spider_anatomy,obo_local('anatomy/gross_anatomy/animal_gross_anatomy/spider/spider_comparative_biology.obo'),obo).
 user:bioresource(zebrafish_anatomy,obo_local('anatomy/gross_anatomy/animal_gross_anatomy/fish/zebrafish_anatomy.obo'),obo).
 user:bioresource(zebrafish_anatomy_pre,obo_local('anatomy/gross_anatomy/animal_gross_anatomy/fish/preversion.zfish.obo'),obo).
 user:bioresource(zebrafish_stages,obo_local('anatomy/gross_anatomy/animal_gross_anatomy/fish/zebrafishstages.obo'),obo).

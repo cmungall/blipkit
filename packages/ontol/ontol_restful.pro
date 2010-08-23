@@ -39,6 +39,7 @@ idspace_confmod('UBERON',ontol_config_uberon).
 idspace_confmod('OBI',ontol_config_obi).
 idspace_confmod('FBdv',ontol_config_fbdv).
 idspace_confmod('ZFA',ontol_config_zfa).
+idspace_confmod('FBbt',ontol_config_zfa). % todo - generic anatomy config?
 idspace_confmod('XAO',ontol_config_xao).
 idspace_confmod('NCBITaxon',ontol_config_ncbi_taxonomy).
 idspace_confmod('NIF_GrossAnatomy',ontol_config_nif).
@@ -92,6 +93,7 @@ listatom_ids(IDListAtom,IDs):-
         atom(IDListAtom),
 	concat_atom(IDs,'+',IDListAtom),
 	IDs = [_,_|_].
+
 
 % lists
 id_url(Xs,Fmt,URL):- is_list(Xs),!,concat_atom(Xs,'+',X),id_url(X,Fmt,URL).

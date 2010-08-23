@@ -89,7 +89,9 @@ sub run_blip_rest {
     my $payload = join('',@lines);
     if (!$ok || !$payload) {
         open(F,$errf);
-        $payload .= "Content-type: text/html\n\n<h2>Encountered an error</h2>\n<pre>".join('',<F>)."</pre>";
+        $payload .= "Content-type: text/html\n\n<h2>There is a problem with the system</h2><p>please try again later</p>\n<!-- ".
+            join('',<F>).
+            " -->";
         close(F);
     }
     print STDERR `cat $errf`; # TODO - too much info?

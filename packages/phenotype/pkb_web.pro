@@ -15,6 +15,8 @@
 :- use_module(bio(tabling),[table_pred/1]).
 :- use_module(bio(genome_db)).
 :- use_module(bio(metadata_db)).
+:- use_module(bio(metadata_nlp)).
+:- use_module(bio(index_util)).
 :- use_module(bio(homol_db)).
 :- use_module(bio(dotwriter)).
 
@@ -212,17 +214,6 @@ page_header(Title) -->
 		  \query_box])).
 
 
-query_box -->
-	html(form(id(search),
-		  ['Search:',
-		   textarea([rows(1),
-			     cols(25),
-			     name(query)],
-			    []),
-		   input([type(submit),
-			  name(search),
-			  value(search)],
-			 [])])).
 
 db_summary -->
         {aggregate(count,O,organism(O),OC)},
@@ -251,6 +242,53 @@ organism_cluster_treeview(_Request) :-
 			     ])).
 
 % ----------------------------------------
+% SEARCH
+% ----------------------------------------
+
+query_box -->
+	html(form([id(search),
+                   action(location_by_id(search))],
+		  ['Search:',
+		   input([type(textfield),
+                          size(25),
+                          name(query)],
+                         []),
+		   input([type(submit),
+			  name(search),
+			  value(search)],
+			 [])])).
+
+
+%TODO
+search(Request) :-
+        http_parameters(Request,
+                        [
+                         query(S)
+                        ],
+                        [
+                         attribute_declarations(param)
+                        ]),
+	nonvar(S),
+	!,
+        debug(phenotype,'  indexing if required...',[]),
+        materialize_index(metadata_nlp:entity_label_token_stemmed(0,0,1,0)),
+        debug(phenotype,'  query: ~w',[S]),
+        label_query_results(S,true,ScoreEntityPairs),
+        findall(Org,(member(_-Org,ScoreEntityPairs),organism(Org)),Orgs),
+        findall(Class,(member(_-Class,ScoreEntityPairs),class(Class)),Classes),
+        reply_html_page([ title(['OBD-PKB: Search Results for ',S]),
+                          link([rel=stylesheet,type='text/css',href='/pkb/js/obd-main.css'],[]),
+                          script([type='text/javascript',src='/pkb/js/sorttable.js'],[]),
+                          \html_receive(js)
+                        ],
+                        [ \page_header('Main'),
+                          h1(['Search: ',S]),
+                          \organisms_summary(Orgs),
+                          \used_class_info_table(Classes)
+                        ]).
+
+
+% ----------------------------------------
 % ORGANISMS
 % ----------------------------------------
 
@@ -263,6 +301,7 @@ all_organisms(Request) :-
                         [
                          attribute_declarations(param)
                         ]),
+        % TODO - see above; redunant
 	nonvar(S),
 	!,
         debug(phenotype,'  query: ~w',[S]),
@@ -861,6 +900,31 @@ organism_phenotype_row(Org,P,Map) -->
                  td(\class_info(Type)),
                  \phenotype_cols(P,Map)
                  ])).
+
+% tryptichs
+organism_phenotype_match_rows(L) --> multi(organism_phenotype_match_row,L).
+
+organism_phenotype_match_header -->
+        html(tr([th('LCS'),
+                 th('Score'),
+                 th('Org A'),
+                 th('Phenotype A'),
+                 th('Org B'),
+                 th('Phenotype B')
+                 ])).
+
+organism_phenotype_match_row(match(Org1,Org2,Match)) -->
+        {debug(phenotype,'match=~w',[Match])},
+        {Match= Score-lcs(LCS,S1s,S2s)},                             
+        !,
+        html(tr([td(\phenotype_lcs_info(LCS)),
+                 td(Score),
+                 td(\organism_href(Org1)),
+                 td(\phenotype_infos(S1s)),
+                 td(\organism_href(Org2)),
+                 td(\phenotype_infos(S2s))
+                 ])).
+
 
 % ----------------------------------------
 % PHENOTYPES
@@ -1503,6 +1567,29 @@ used_classes(_Request) :-
                                  Rows])
                         ]).
 
+used_class_info_table(Classes) -->
+  html([h2('Classes used in phenotype descriptions'),
+        table(class('sortable std_table'),
+              [tr([th('Ontology'),th('Superclass'),th('Class'),th('Phenotypes')]),
+               \used_class_info_rows(Classes)])]).
+
+used_class_info_rows([]) --> [].
+used_class_info_rows([C|Cs]) -->
+        used_class_info_row(C),used_class_info_rows(Cs).
+                          
+% this should replace the above...
+used_class_info_row(C) -->
+        {class_ontology(C,Ont),
+         NumPhenotypes='',
+         solutions(\class_info(Super),
+                   (   subClassOf(C,Super),
+                       class(Super)),
+                   SuperClassCol)},
+        html(tr([td(Ont),
+                 td(SuperClassCol),
+                 td(\class_info(C)),
+                 td(NumPhenotypes)])).
+
 % TOP-LEVEL
 browse_hierarchy(Request) :-
         http_parameters(Request,
@@ -1542,6 +1629,10 @@ superclass_list(Class) -->
         {solutions(li(\class_info(Super)),subClassOf(Class,Super),List)},
         html(ul(List)).
 
+equivalentclass_list(Class) -->
+        {solutions(li(\class_info(Super)),equivalent_to(Class,Super),List)},
+        html(ul(List)).
+
 subclass_list(Class) -->
         {solutions(li(\class_info(Sub)),subClassOf(Sub,Class),List),
          debug(phenotype,'sc ~w => ~w',[Class,List])},
@@ -1570,6 +1661,16 @@ view_class(_Request,Class) :-
         solutions(Org-P-Aspect,lookup_organism_by_inferred_class(Class,Org,P,Aspect),OrgPsA),
         solutions(P-Aspect,member(_-P-Aspect,OrgPsA),Map),
         solutions(Org-P,member(Org-P-_,OrgPsA),OrgPs),
+        solutions(Org,member(Org-P,OrgPs),Orgs),
+        length(OrgPs,NumOrgPs),
+        (   NumOrgPs>75
+        ->  Matches=[]
+        ;   solutions(match(Org1,Org2,Match),
+                      (   member(Org1,Orgs),
+                          member(Org2,Orgs),
+                          Org1@<Org2,
+                          phenotype_lcs_organism_pair(Class,Org1,Org2,Match)),
+                      Matches)),
         debug(phenotype,'fetching class assertions for ~q',[Class]),
         solutions(tr([td(\entity_info(I)),
 		      td(\class_info(AssertedClass))]),
@@ -1595,12 +1696,21 @@ view_class(_Request,Class) :-
                                ]),
                          h3('Parent classes'),
                          \superclass_list(Class),
+                         h3('Equivalent classes'),
+                         \equivalentclass_list(Class),
                          div(class(tabber),
                              [div(class(tabbertab),
                                 [h2('Phenotypes'),
                                  table(class('sortable std_table'),
                                        [\organism_phenotype_tblhdr,
                                         \organism_phenotype_rows(OrgPs,Map)
+                                       ])
+                                ]),
+                              div(class(tabbertab),
+                                [h2('Macthes'),
+                                 table(class('sortable std_table'),
+                                       [\organism_phenotype_match_header,
+                                        \organism_phenotype_match_rows(Matches)
                                        ])
                                 ]),
                               div(class(tabbertab),
@@ -1814,14 +1924,16 @@ rel_uri(has_part,'http://www.obofoundry.org/ro/ro.owl#has_part').
 
 axiom_infos(E) -->
         {solutions(li(\axiom_info(A)),axiom_directly_about(A,E),L)},
-        html(ul(L)).
+        html([p(['Axioms directly about ',\class_info(E)]),
+              \tooltip(['All OWL axioms that describe the entity with URI ',E,'.',
+                       '(Note that this view is mainly for debugging purposes)']),
+              ul(L)]).
 axiom_infos_references(E) -->
         {solutions(li(\axiom_info(A)),axiom_directly_references(A,E),L)},
-        html(ul(L)).
-
-        
-
-
+        html([p(['Axioms referencing ',\class_info(E)]),
+              \tooltip(['All OWL axioms that use the entity with URI ',E,'.',
+                       '(Note that this view is mainly for debugging purposes)']),
+             ul(L)]).
 
 
 subclass_tree(OpenClasses) -->
@@ -1847,15 +1959,24 @@ subclass_tree(Class,OpenClasses) -->
 
 axiom_info(A) -->
         {A=..[P|L]},
-        html([P,'( ',\axiom_args(L),' )']).
-
-axiom_info_old(A) -->
-        {A=..[P|L],
-         findall(\entity_info(E),member(E,L),EL)},
-        html([P,'( ',span(class(args),EL),' )']).
+        html([P,'( ',\axiom_args(L),' ) ',
+              \axiom_ontology_info(A)]).
 
 axiom_args([A]) --> html(\entity_info(A)).
 axiom_args([A|L]) --> html([\entity_info(A), ', ', \axiom_args(L)]).
+
+axiom_ontology_info(A) -->
+        {setof(O,ontologyAxiom(O,A),Os)},
+        !,
+        html(span([class=axiom_ontology_list],
+                  [ontology_list(Os)])).
+axiom_ontology_info(_) --> [].
+
+ontology_list(Onts) -->
+        multi(div(\ontology_href(X)),X,Onts).
+
+ontology_href(X) --> [X].
+
 
 % ----------------------------------------
 % REDIRECTION
@@ -1957,6 +2078,13 @@ request_path_local(Request,Loc,X) :-
         memberchk(path(ReqPath), Request),
 	http_location_by_id(Loc, Me),
 	atom_concat(Me, X, ReqPath).
+
+% ----------------------------------------
+% AUTOCOMPLETE
+% ----------------------------------------
+% taken from ClioPatria
+% todo: refactor into general lib
+
 
 % ----------------------------------------
 % GENERIC UTIL

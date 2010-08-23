@@ -759,6 +759,22 @@ attribute(5, homolset, taxon_id, integer).
 attribute(6, homolset, type_id, integer).
 attribute(7, homolset, description, string).
 
+%% gene_product_phylotree(?ID:integer, ?GENE_PRODUCT_ID:integer, ?PHYLOTREE_ID:integer) is nondet.
+% maps to sql table
+relation(gene_product_phylotree, 3).
+attribute(1, gene_product_phylotree, id, integer).
+attribute(2, gene_product_phylotree, gene_product_id, integer).
+attribute(3, gene_product_phylotree, phylotree_id, integer).
+
+%% phylotree(?ID:integer, ?SYMBOL:string, ?DBXREF_ID:integer, ?TARGET_GENE_PRODUCT_ID:integer, ?TAXON_ID:integer, ?TYPE_ID:integer, ?DESCRIPTION:string) is nondet.
+% maps to sql table
+relation(phylotree, 7).
+attribute(1, phylotree, id, integer).
+attribute(2, phylotree, name, string).
+attribute(3, phylotree, dbxref_id, integer).
+
+
+
 /** <module> - GO Database Schema Mapping
 
   ---+ Synopsis

@@ -50,7 +50,8 @@
 	   organism_match_all_score_values/3,
 	   organism_pair_combined_score_value/4,
 	   phenotype_pair_score_value/4,
-	   
+	   phenotype_lcs_organism_pair/4,
+           
 	   entity_phenotype/2
            ]).
 
@@ -163,6 +164,15 @@ organism_pair_combined_score_value(F1,F2,S,0) :-
 	\+ organism_pair_score_value(F1,F2,S,_).
 
 :- extensional(phenotype_pair_score_value/4).
+
+%% phenotype_lcs_organism_pair(+P,F1,F2,SV)
+% which organism_pairs have P in their LCS
+phenotype_lcs_organism_pair(P,F1,F2,SV) :-
+        organism_pair_score_value(F1,F2,minimal_LCS_simJ-avg_simJ,Pairs-_),
+        member(SV,Pairs),
+        SV= _-lcs(Classes,_,_),
+        member(Class,Classes),
+        entailed(subClassOfReflexive(Class,P)).
 
 inferred_organism_role_disease(Model,model,D) :-
 	inferred_organism_role_disease(Model,model,D,avg_IC+maxIC).

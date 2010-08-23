@@ -147,6 +147,7 @@ user:bioresource(taxonomy_stemmed,ontdir('ncbi_taxonomy_stemmed.obo'),obo).
 user:bioresource(gotax,'/users/cjm/cvs/go/quality_control/annotation_checks/taxon_checks/taxon_go_triggers.obo',obo).
 user:bioresource(taxslim,'/users/cjm/cvs/go/quality_control/annotation_checks/taxon_checks/ncbi_taxon_slim.obo',obo).
 
+% Genome-wide association catalog
 user:bioresource(gwas,url('http://www.genome.gov/admin/gwascatalog.txt'),tbl(gwas)).
 
 

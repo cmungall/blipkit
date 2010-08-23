@@ -25,6 +25,9 @@
            list_min/2,
            list_max/2,
            list_avg/2,
+           read_file_to_rows/3,
+           read_file_to_rows/4,
+           read_file_to_db/3,
            time_goal/2,
            n_time_goal/3,
            n_times/2,
@@ -503,6 +506,56 @@ rem_at_end([X|R],C,Cs,TailCs,Out) :-
             TailCs = [C|NewTailCs],
             rem_at_end(R,C,Cs,NewTailCs,Out)
         ).
+
+% todo - rewrite less hacky
+:- dynamic row/1.
+read_file_to_rows(File,Cols,Rows) :-
+        read_file_to_rows(File,Cols,Rows,row).
+read_file_to_rows(File,Cols,Rows,RowPred) :-
+        retractall(row(_)),
+        open(File,read,In,[]),
+	repeat,
+	(   at_end_of_stream(In)
+	->  !
+	;   read_line_to_codes(In, Codes),
+	    atom_codes(A,Codes),
+	    concat_atom(Vals,'\t',A),
+            findall(X,
+                    (   member(Col,Cols),
+                        nth1(Col,Vals,X)),
+                    Xs),
+            Row=..[RowPred|Xs],
+            assert(row(Row)),
+	    fail
+	),
+        close(In),
+        findall(Row,row(Row),Rows),
+        retractall(row(_)).
+
+read_file_to_db(File,Cols,RowPred) :-
+        read_file_to_db(File,Cols,RowPred,user).
+read_file_to_db(File,Cols,RowPred,Mod) :-
+        debug(read,'Reading: ~w',[File]),
+        open(File,read,In,[]),
+	repeat,
+	(   at_end_of_stream(In)
+	->  !
+	;   read_line_to_codes(In, Codes),
+	    atom_codes(A,Codes),
+	    concat_atom(Vals,'\t',A),
+            findall(X,
+                    (   member(Col,Cols),
+                        nth1(Col,Vals,X)),
+                    Xs),
+            Row=..[RowPred|Xs],
+            Mod:assert(Row),
+	    fail
+	),
+        debug(read,'DONE - Read: ~w',[File]),
+        close(In).
+
+
+
 
 %% time_goal(+Goal,?Time)
 %  calls Goal and unifies Time with the cputime taken

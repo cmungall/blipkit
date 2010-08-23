@@ -94,6 +94,14 @@ multiple2(IDs) =>
        span(downloadbar(IDs),       
 	    entity_info(ID) forall_unique (member(ID,IDs)))).
 
+known_xref_set(ID,XsLim) :-
+        setof(X,(entity_xref(ID,X),knowsabout(X)),Xs),
+        length(Xs,Len),
+        (   Len>10
+        ->  solutions(X,(between(1,10,N),nth1(N,Xs,X)),XsLim)
+        ;   XsLim=Xs).
+                      
+
 entity_info(ID) =>
   div(class=floatL,
       table(class='tagval_table',
@@ -113,8 +121,8 @@ entity_info(ID) =>
 	    tdpair('Alt ID',[hlink_with_id(X),
                              hlinklist([X,ID],compare) where knowsabout(X)
                             ]) forall_unique entity_alternate_identifier(ID,X),                     
-	    tdpair('', hlinklist([ID|Xs],'compare all')) where setof(X,(entity_xref(ID,X),knowsabout(X)),Xs),
-	    tdpair(hlink(R),X) forall_unique inst_sv(ID,R,X,_),                     
+	    tdpair('', hlinklist([ID|Xs],'compare all')) where known_xref_set(ID,Xs),
+	    tdpair(hlink(R),X) forall_unique inst_sv(ID,R,X,_),
 	    tdpair(hlink(R),hlink(X)) forall_unique inst_rel(ID,R,X),                     
 	    tdpair([i(b(X)),' Synonym'],
 		   [Synonym,
@@ -132,8 +140,6 @@ entity_info(ID) =>
       class_children(ID),
       if(id_idspace(ID,Ont),
          div('View in tree',hlink([tree,Ont,ID]))),
-      %table(tbody(id=browsetbl_tbody,
-      %            browser_node(1,ID,open))),
       meta_search_button(ID),
       div(id=what_links_here,
 	  call(id_url(ID,revlinks,RevURL)),
@@ -155,8 +161,14 @@ meta_search_button(ID) =>
                 value='Meta-Search')).
 
 multirow(Col,Val,Goal,Var,List) =>
- tr(th(Col),
-    td([Val] forall_unique [html:p]/Goal) forall member(Var,List)).
+ if( (\+ \+ (member(Var,List),Goal)),
+     then:
+   tr(th(Col),
+      td(style='min-width:300px;',
+         [Val] forall_unique [html:p]/Goal) forall member(Var,List)),
+     else:
+   []).
+
 
 % show multiple IDs together
 multiple(IDs) =>
@@ -169,7 +181,7 @@ multiple_entity_info(IDs) =>
   div(class=floatL,
       h3('Comparison table'),
       table(class='comparison_table',
-	    multirow('ID',data(ID),true,ID,IDs),
+	    multirow('ID',b(data(ID)),true,ID,IDs),
 	    multirow('Link',hlink(ID),true,ID,IDs),
 	    multirow('ID Space',hlink(X),parse_id_idspace(ID,X),ID,IDs),
 	    multirow('Name',Name,metadata_db:entity_label(ID,Name),ID,IDs),
@@ -196,6 +208,7 @@ multiple_entity_info(IDs) =>
 	    multirow('is_a',hlink(X),subclass(ID,X),ID,IDs),
 	    call(solutions(R,(member(ID,IDs),restriction(ID,R,_)),Rs)),
 	    multirow(hlink(R),[hlink(X)],restriction(ID,R,X),ID,IDs) forall_unique (member(R,Rs)),
+            multirow('',b(data(ID)),true,ID,IDs),
 	    html:br),
       call(concat_atom(IDs,'+',IDListAtom)),
       call(debug(ontol_rest,'IDs=~w IDLA=~w',[IDs,IDListAtom])),
@@ -564,9 +577,7 @@ quickterm_login_success(U,P) =>
 
 ontology_browsable_tree(S) =>
   outer(['Browse: ',S],
-        div(%style='width:10000px',
-            %style='overflow-x: scroll',
-            h2(hlink(S)),
+        div(h2(hlink(S)),
             %relation_toggler,
             table(id=browsetbl,
                   tbody(id=browsetbl_tbody,
@@ -576,9 +587,7 @@ ontology_browsable_tree(S) =>
 
 ontology_browsable_tree(S,OpenNodes) =>
   outer(['Browse: ',S],
-        div(%style='width:10000px',
-            %style='overflow-x: scroll',
-            h2(hlink(S)),
+        div(h2(hlink(S)),
             %relation_toggler,
             table(id=browsetbl,
                   tbody(id=browsetbl_tbody,
@@ -646,7 +655,7 @@ browser_node_cols(Depth,R/ID,Open) =>
         else: [img(src='/amigo2/images/dot.png')]
        )),
   td(colspan=Dist,
-     i(R),' ',span(hlink(ID))),
+     b('|'),i(R),' ',span(hlink(ID))),
   td(''),
   td(span(class=textdef,'Anything that stands in a ',hlink(R),' relation to a ',hlink(ID))).
 

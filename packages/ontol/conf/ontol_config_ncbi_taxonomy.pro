@@ -1,3 +1,5 @@
+:- [ontol_config_default].
+
 :- multifile user:graphviz_ontol_param/2.
 
 user:graphviz_ontol_param(node(_),style=filled).

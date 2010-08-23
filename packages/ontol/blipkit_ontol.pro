@@ -1041,6 +1041,22 @@ show_ontol_subset_by_tree(pro,Tree,_Opts):-
 show_ontol_subset_by_tree(owl,_,_Opts):-
         throw(error(not_implemented)).
 
+:- blip('mireot-by-annotations',
+        'extracts mireoted subset based on annotations',
+        [atoms([gaf],GAFs)],
+        _,
+        (   
+            ensure_loaded(bio(curation_db)),
+            maplist(load_biofile(go_assoc),GAFs),
+            solutions(X,curation_statement(_,_,_,X),Xs),
+            solutions(ID,(member(X,Xs),
+                          bf_parentRT(X,ID)),
+                      IDs),
+            forall(member(ID,IDs),
+                   write_class(obo,ID,[])),
+            solutions(P,property(P),Ps),
+            forall(member(P,Ps),
+                   write_property(obo,P)))).
 
 :- blip('ontol-reasoner',
         'reasons over ontology via forward-chaining, finding full deductive closure',
@@ -1163,7 +1179,7 @@ go:go_rule(A1,A) :-
             forall((member(P-C-Stat,Stats),
                     P<MaxP),
                    show_factrow([isLabel(1)],hit(P,C,Stat))))).
-
+        
 
 
 :- blip('curation-fmatch-simj',
@@ -1478,7 +1494,7 @@ unfolds_owl_to_thea(File,URLs,_Parsed):-
         debug(ontol,'  Imports: ~w',[URLs]).
         %unfolds_owl_to_thea(URLs,[File|Parsed]).
 
-blipkit:example('blip-ddb -r obo_metadata ontol-refresh-cache -set_data_cache /local/blip_cache',
+blipkit:example('blip-ddb -debug load -r obo_meta ontol-refresh-cache -set_data_cache /local/blip_cache',
                 'refresh contents of cache used by ontol_restful').
 :- blip('ontol-refresh-cache',
         'refresh contents of blip data_cache using ontology metadata',

@@ -15,6 +15,8 @@ user:file_search_path(library,'/users/cjm/cvs/').
 
 % avoid costly downloads during CGI process
 % (assume separate process runs with caching)
+:- dynamic user:max_cached_file_age_seconds/1.
+:- multifile user:max_cached_file_age_seconds/1.
 user:max_cached_file_age_seconds(MaxAge):- MaxAge is 3600 * 300. % ~12 days
 
 

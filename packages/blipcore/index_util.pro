@@ -15,6 +15,7 @@
 :- module_transparent materialize_index_to_path/2.
 :- module_transparent materialize_indexes_to_path/2.
 
+:- dynamic is_indexed/2.
 
 %% materialize_index(+Term) is det
 % materialize and index a set of facts, using first-argument indexing.
@@ -31,7 +32,12 @@ materialize_index(Term) :-
 	!,
 	materialize_index(M, Term).
 materialize_index(M, Term) :-
+        index_util:is_indexed(M,Term),
+	debug(index, '  already indexed ~w:~w', [M, Term]),
+        !.
+materialize_index(M, Term) :-
 	debug(index, 'indexing ~w:~w', [M, Term]),
+        !,
 	Term=..[CalledPred, _|IxArgsRest],
 	IxArgs=[1|IxArgsRest],  % always index the first argument - this is the default index
 	length(IxArgs, Arity),
@@ -43,7 +49,10 @@ materialize_index(M, Term) :-
 	rewrite_goal_with_index_list(M, CalledGoal, 1, IxArgs),
 	DefaultGoal = ( CalledGoal :- StoredGoal ),
 	M:assert(DefaultGoal),
-	M:compile_predicates([CalledPred/Arity]).
+	M:compile_predicates([CalledPred/Arity]),
+        assert(index_util:is_indexed(M,Term)),
+	debug(index, 'done indexing ~w:~w', [M, Term]).
+
 
 materialize_indexes_to_path(Terms,Dir) :-
 	forall(member(Term,Terms),
