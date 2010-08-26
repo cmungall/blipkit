@@ -290,11 +290,12 @@ ontology(Ont) =>
 %        [ul(li(hlink(X)) forall class(X))]).
 
 ontology_filtered(Ont,S,L) =>
-  outer(Ont,
-        [h1(hlink(Ont),' filter:',S),
+  outer([Ont,' search: ',S],
+        [h1(hlink(Ont),' search term:',S),
          basic_search_form,
          h3('Fetch: ',downloadfmt(Ont,metadata)),
-         table(basicrow(X) forall member(X,L))]).
+         table(id=browsetbl,
+               basicrow(X) forall member(X,L))]).
 
 ontology_query(Ont,Query,Results) =>
   outer([Ont,' ',Query],
@@ -327,12 +328,25 @@ noresults(Ont,S) =>
          basic_search_form,
          h2('Your search produced no results')]).
 
+% ID/Name and def (experimental: image)
 basicrow(ID) =>
   tr(td(if(id_idspace(ID,S),
            then: S,
            else: '-')),
      td(hlink(ID)),
+     td(image_tooltip(ID)),
      td(data(X) forall_unique def(ID,X))).
+
+image_tooltip(ID) =>
+ if(class_thumbnail(ID,ImgURL),
+    then:
+   tooltip(img,[html:hr,
+                img(src=ImgURL),
+                html:hr]),
+    else:
+   []).
+
+
 
 % ----------------------------------------
 % QUICKTERM
@@ -930,7 +944,7 @@ wikipedia_info(_ID,Page) =>
 
 images_box(ID) =>
  div(id=images,
-     img(src=URL,'') forall id_imgurl(ID,URL)).
+     img(src=URL,'') forall_unique id_imgurl(ID,URL)).
 
 class_imgurl(ID,Hidden,ImgURL) :-
         sformat(ImgURL,'/obo/~w.png?~w',[ID,Hidden]).
@@ -1219,6 +1233,17 @@ outer(N,P) =>
 % ========================================
 % utility (general)
 % ========================================
+
+tooltip(Label,Info) =>
+ a(href='#',
+   class=tt,
+   Label,
+   span(class=tooltip,
+        span(class=top,''),
+        span(class=middle,Info),
+        span(class=bottom,''))).
+
+
 
 tdpair(Tag,Val) =>
  doc:'amigo style tag:val in table list',

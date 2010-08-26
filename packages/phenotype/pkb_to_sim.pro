@@ -1,7 +1,7 @@
 :- module(pkb_to_sim,
 	  []).
 
-:- use_module(library('thea2/owl2_tbox_reasoner')).
+:- use_module(library('thea2/owl2_graph_reasoner')).
 :- use_module(library('thea2/owl2_model')).
 :- use_module(bio(simmatrix_multiset),[]).
 :- use_module(bio(tabling)).
@@ -16,16 +16,20 @@ simmatrix_multiset:feature_attx(O,As) :-
 	      As).
 
 
+% HOOK: simmatrix
+%  use the basic tbox reasoner.
+%  lump all phenotype elements for an organism together
+
 :- module_transparent simmatrix:generate_term_indexes_hook/1.
 :- multifile simmatrix:generate_term_indexes_hook/1.
 simmatrix:generate_term_indexes_hook(organism_phenotype) :-
 	ensure_loaded(bio(simmatrix)),
-	%materialize_index(owl2_model:equivalent_to(1,1)),
-	table_pred(owl2_tbox_reasoner:subClassOfT/3), % helps?
-	table_pred(owl2_tbox_reasoner:subClassOfT/2),
+	materialize_index(owl2_model:equivalent_to(1,1)),
+	%table_pred(owl2_tbox_reasoner:subClassOfT/3), % helps?
+	%table_pred(owl2_tbox_reasoner:subClassOfT/2),
 	simmatrix:generate_term_indexes(O,A,
 					(   pkb_db:organism_phenotype(O,P),
 					    pkb_db:phenotype_property_value(P,_,A1),
-					    owl2_tbox_reasoner:subClassOfRT(A1,A))).
+					    owl2_graph_reasoner:class_ancestor_over(A1,A,_))).
 	
 

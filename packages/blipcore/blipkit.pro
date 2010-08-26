@@ -263,6 +263,54 @@ blip(C,Desc,Opts,Files,Action):-
         _,
 	true).
 
+:- blip('index-file',
+        'indexes predicate(s) for all facts in a file, materializes the index',
+        [atom(source_format,SrcFmt),
+         terms(spec,IndexSpecs),
+         bool(force,Force),
+         atom(loc,IxFile),
+         atom(suffix,Suffix,'_ix.pro')
+         ],
+        [SrcFile],
+        (   (   var(IxFile)
+            ->  atom_concat(SrcFile,Suffix,IxFile)
+            ;   true),
+            (   Force=1
+            ->  Opts=[force(true)]
+            ;   Opts=[]),
+            create_index_file_from_source_file(SrcFile,SrcFmt,IxFile,IndexSpecs,Opts))).
+
+create_index_file_from_source_file(SrcFile,SrcFmt,IxFile,IndexSpecs,Opts) :-
+        member(force(Force),Opts),
+        Force,
+        !,
+        (   exists_file(IxFile)
+        ->  delete_file(IxFile)
+        ;   true),
+        debug(index,'forcing index of',[SrcFile]),
+        load_biofile(SrcFmt,SrcFile),
+        materialize_indexes_to_file(IndexSpecs,IxFile).
+create_index_file_from_source_file(SrcFile,SrcFmt,IxFile,IndexSpecs,_) :-
+        exists_file(IxFile),
+        time_file(SrcFile,SrcTime),
+        time_file(IxFile,IxTime),
+        SrcTime>IxTime,
+        !,
+        debug(index,'~w more recent than ~w - reindexing',[SrcFile,IxFile]),
+        load_biofile(SrcFmt,SrcFile),
+        delete_file(IxFile),
+        materialize_indexes_to_file(IndexSpecs,IxFile).
+create_index_file_from_source_file(_,_,IxFile,_,_) :-
+        exists_file(IxFile),
+        !,
+        debug(index,'current index ~w is good',[IxFile]).
+create_index_file_from_source_file(SrcFile,SrcFmt,IxFile,IndexSpecs,_) :-
+        \+ exists_file(IxFile),
+        debug(index,' creating new index: ~w',[IxFile]),
+        load_biofile(SrcFmt,SrcFile),
+        materialize_indexes_to_file(IndexSpecs,IxFile).
+
+
 blipkit:example('blip sed -rule "line(ID,FullName):-line(ID,First,Last),concat_atom([First,Last],-,FullName)"',
                 'processes a 3 column file into a 2 column file').
 opt_description(rule,'A prolog rule of the form: "line(OutArgs) :- line(InArgs....),Goals').
@@ -289,14 +337,17 @@ opt_description(rulefile,'As -rule, but load from a file').
 
 :- blip('labelify',
         'add tables',
-        [],
+        [bool(read_prolog,ReadProlog)],
         Files,
         (   Rule=( (Head :- Row,Row=..L,maplist(blipkit:labelify,L,L2),Head=..L2) ),
             !,
 	    debug(sed,'rule: ~w',[Rule]),
 	    ensure_loaded(bio(process_streams)),
+            (   ReadProlog=1
+            ->  IsPl=true
+            ;   IsPl=false),
 	    forall(member(File,Files),
-		   process_file_lines(Rule,File)))).
+		   process_file_lines(Rule,File,[pl(IsPl)])))).
 
 labelify(X,X2) :- entity_label(X,L),!,concat_atom([X,L],'-',X2).
 labelify(X,X).

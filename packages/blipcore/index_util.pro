@@ -114,7 +114,7 @@ materialize_index_to_stream(Term,IO) :-
 	forall(Goal,
 	       format(IO,'~q.~n',[Goal])).
 
-	
+
 
 
 

@@ -55,8 +55,9 @@ generate_all(Goal) :-
 
 generate_selected(Goal) :-
 	setof(F1-F2,fp(F1,F2),Pairs),
+        length(Pairs,NumPairs),
 	member(F1-F2,Pairs),
-	debug(foo,'test: ~w vs ~w',[F1,F2]),
+	debug(foo,'test: ~w vs ~w // of ~w',[F1,F2,NumPairs]),
 	Goal=feature_pair_attx_pair_LCS_IC(F1,F2,_S1,_S2,LCS,IC),
 	debug(foo,'  **comparing: ~w vs ~w',[F1,F2]),
 	Goal,

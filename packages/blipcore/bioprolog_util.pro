@@ -835,9 +835,9 @@ aggregate_by(AggFunc,Var,Goal,AggVal):-
 	findall(Val,member(_-Val,TCs),Vals),
 	aggregate(AggFunc,Vals,AggVal).
 
-aggregate(max,L,X):- list_max(L,X).
-aggregate(min,L,X):- list_min(L,X).
-aggregate(avg,L,X):- list_avg(L,X).
+%aggregate(max,L,X):- list_max(L,X).
+%aggregate(min,L,X):- list_min(L,X).
+%aggregate(avg,L,X):- list_avg(L,X).
 
 
 % optimized version of above

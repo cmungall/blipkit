@@ -8,6 +8,7 @@
 
 :- use_module(library('thea2/owl2_model')).
 :- use_module(library('thea2/owl2_basic_reasoner')).
+:- use_module(library('thea2/owl2_tbox_reasoner')).
 :- use_module(pkb_db).
 %:- use_module(phenotype_db).
 :- use_module(phenoblast_writer_dot).
@@ -21,11 +22,12 @@
 :- use_module(bio(dotwriter)).
 
 % pkb uses generic phenotype model
+% TODO - retire
 :- use_module(phenotype_db,
-              [method_feature_pair_phenosim/4, % typically pre-computed
+              [
                phenotype_subsumed_by/2, % required for queries
-               atomic_subsumed_by_lca/3,
-               phenotype_frequency/2
+               atomic_subsumed_by_lca/3
+               %phenotype_frequency/2
               ]).
 
 % the following manifests subclass/2 and restriction/2 from Thea, required for phenotype subsumption tests.
@@ -380,6 +382,20 @@ organisms_by_label_index_page :-
                           \db_summary,
                           ul(LetterList)]).
 
+  
+% split list because too many orgs
+organisms_by_label_index-->
+        {findall(Letter,
+                 (   between(1,26,N),
+                     Code is N+64,
+                     atom_codes(Letter,[Code])),
+                 Letters)},
+        {findall(li(a(href(location_by_id(all_organisms)+'?'+'letter='+Letter),Letter)),
+                 member(Letter,Letters),
+                 LetterList)},
+        html(div(class(organisms_summary),
+                 ul(LetterList))).
+
 
 action_on_selected_organisms(compare,Orgs) :-
         debug(phenotype,'comparing: ~w',[Orgs]),
@@ -552,6 +568,18 @@ organisms_summary(Orgs) -->
 		 ])).
 
 
+
+
+
+
+organism_type_href(OrgType) -->
+        {display_label(OrgType,Label)},
+        html(a(href(location_by_id(view_organism_type) + encode(OrgType)),Label)).
+
+organism_pair_href(Org,Hit) -->
+        html(a(href(location_by_id(view_organism_pair) + encode(Org) + ' ' + encode(Hit)),
+	       b('[VIEW]'))).
+%	       img([height='16px',src='/images/compare.gif'],''))).
 
 
 
@@ -778,6 +806,7 @@ lcs_IC_tooltip(IC) -->
 
 	
 
+/*
 old_comparison_table(F1,F2) -->
 	 !,
         {method_feature_pair_phenosim(postcomposed,F1,F2,Results), % TODO
@@ -831,30 +860,7 @@ ic_match_pair_list(L)--> multi(ic_match_pair,L).
 ic_match_pair(IC-M) -->
 	html(tr([td(IC),td(\class_info(M))])).
 
-% split list because too many orgs
-organisms_by_label_index-->
-        {findall(Letter,
-                 (   between(1,26,N),
-                     Code is N+64,
-                     atom_codes(Letter,[Code])),
-                 Letters)},
-        {findall(li(a(href(location_by_id(all_organisms)+'?'+'letter='+Letter),Letter)),
-                 member(Letter,Letters),
-                 LetterList)},
-        html(div(class(organisms_summary),
-                 ul(LetterList))).
-
-
-
-
-organism_type_href(OrgType) -->
-        {display_label(OrgType,Label)},
-        html(a(href(location_by_id(view_organism_type) + encode(OrgType)),Label)).
-
-organism_pair_href(Org,Hit) -->
-        html(a(href(location_by_id(view_organism_pair) + encode(Org) + ' ' + encode(Hit)),
-	       b('[VIEW]'))).
-%	       img([height='16px',src='/images/compare.gif'],''))).
+*/  
 
 
 % ----------------------------------------
@@ -895,30 +901,34 @@ organism_phenotype_row(Org,P,Map) -->
             ;   TypeLabel=Type)
         ;   Type='',TypeLabel=''
         },
-        {organism_description(Org,Desc) -> true ; Desc=''},
-        html(tr([td([a(href(location_by_id(view_organism) + encode(Org)),Label),' ',p([id(Org),class(def)],Desc)]),
+        {organism_description(Org,Desc)
+        ->  Info= \tooltip(Desc)
+        ;   Info=''},
+        html(tr([ %td([a(href(location_by_id(view_organism) + encode(Org)),Label),' ',p([id(Org),class(def)],Desc)]),
+                 td([\organism_href(Org),Info]),
                  td(\class_info(Type)),
                  \phenotype_cols(P,Map)
                  ])).
 
-% tryptichs
+% triptychs for class-centric view
 organism_phenotype_match_rows(L) --> multi(organism_phenotype_match_row,L).
 
 organism_phenotype_match_header -->
-        html(tr([th('LCS'),
-                 th('Score'),
-                 th('Org A'),
+        html(tr([th('Common Phenotype'),
+                 th('Pairwise Similarity'),
+                 th('Organism A'),
                  th('Phenotype A'),
-                 th('Org B'),
+                 th('Organism B'),
                  th('Phenotype B')
                  ])).
 
 organism_phenotype_match_row(match(Org1,Org2,Match)) -->
         {debug(phenotype,'match=~w',[Match])},
-        {Match= Score-lcs(LCS,S1s,S2s)},                             
+        {Match= Score-lcs(LCS,S1s,S2s)},
+        {sformat(ScoreAtom,'~3f',[Score])},
         !,
         html(tr([td(\phenotype_lcs_info(LCS)),
-                 td(Score),
+                 td(ScoreAtom),
                  td(\organism_href(Org1)),
                  td(\phenotype_infos(S1s)),
                  td(\organism_href(Org2)),
@@ -945,6 +955,7 @@ all_phenotypes(_Request) :-
 
 % TOP-LEVEL - query by phenotype expression
 % phenoquery?bearer=E&....
+% TODO - use new model
 phenoquery(Request) :-
         http_parameters(Request,
                         [
@@ -1511,7 +1522,7 @@ class_hrefs_indented(Cs,CMap) :-
                   (   member(C,Cs),
                       \+ ((member(C2,Cs),
                            C2\=C,
-                           subsumed_by(C,C2)))),
+                           atomic_subsumed_by(C,C2)))),
                   RootCs),
         class_hrefs_indented(RootCs,Cs,'',CMap).
 
@@ -1567,6 +1578,7 @@ used_classes(_Request) :-
                                  Rows])
                         ]).
 
+% PHENO-SPECIFIC - hook?
 used_class_info_table(Classes) -->
   html([h2('Classes used in phenotype descriptions'),
         table(class('sortable std_table'),
@@ -1590,6 +1602,10 @@ used_class_info_row(C) -->
                  td(\class_info(C)),
                  td(NumPhenotypes)])).
 
+% ----------------------------------------
+% TREE BROWSING
+% ----------------------------------------
+
 % TOP-LEVEL
 browse_hierarchy(Request) :-
         http_parameters(Request,
@@ -1611,7 +1627,7 @@ browse_hierarchy(Request) :-
 
 ontol_selectbox(Param,Class) -->
         {debug(phenotype,' param(~w)=~w',[Param,Class]),
-         %solutions(SuperClass,subsumed_by(Class,SuperClass),SuperClasses),
+         %solutions(SuperClass,atomic_subsumed_by(Class,SuperClass),SuperClasses),
          solutions(SuperClass,(subClassOf(Class,SuperClass),class(SuperClass)),SuperClasses),
          solutions(SubClass,(subClassOf(SubClass,Class),class(SubClass)),SubClasses),
          append(SuperClasses,[Class|SubClasses],AllClasses),
@@ -1624,6 +1640,11 @@ ontol_selectbox(Param,Class) -->
                  Opts)},
         html(select([name(Param)],
                     Opts)).
+
+% ----------------------------------------
+% GENERIC OWL
+% ----------------------------------------
+% move to owl/thea/clio...?
 
 superclass_list(Class) -->
         {solutions(li(\class_info(Super)),subClassOf(Class,Super),List)},
@@ -1707,11 +1728,26 @@ view_class(_Request,Class) :-
                                        ])
                                 ]),
                               div(class(tabbertab),
-                                [h2('Macthes'),
+                                [h2('Matches'),
+                                 p('Scroll down for documentation. Click column headings to sort.'),
                                  table(class('sortable std_table'),
                                        [\organism_phenotype_match_header,
                                         \organism_phenotype_match_rows(Matches)
-                                       ])
+                                       ]),
+                                 div([id=info,class=infoBox],
+                                     [
+                                      h3('Documentation: Phenotype Pairs for a focus class'),
+                                      p(['This view shows pairwise phenotypic similarity for the ontology class ',
+                                         \class_info(Class),'. Each row shows a pair of phenotypes found in a pair of ',
+                                         'organisms. These two phenotypes will be united by their relationship to ',\class_info(Class),'. ',
+                                         'The degree to which the two phenotypes are related is given by the pairwise similarity score. ',
+                                         'The ',a(href='http://en.wikipedia.org/wiki/Jaccard_index','Jacard Similarity'),' metric is used. ',
+                                         'Note that whilst two individual phenotypes might be closely related, it does not mean the entire phenotypic profile pair ',
+                                         'for the organism pair is closely related. The purpose of this view is to allow you to focus on particular aspects of ',
+                                         'phenotypic similarity.']),
+                                      p(['Note that this page will show no results if (a) there is only a single organism with a phenotype related to ',\class_info(Class),
+                                         ' or (b) the class selected is so high level that there too high a number of combinatorial pairings to show'])
+                                     ])
                                 ]),
                               div(class(tabbertab),
                                   [h2('Info'),
@@ -1892,6 +1928,7 @@ class_info_r(Class) -->
         % generic class expression
         entity_info(Class).
 
+% PKB SPECIFIC - obol hook?
 % e.g. nitrated protein
 class_info_simple_gd(X,'http://ontology.neuinfo.org/NIF/Backend/BIRNLex-OBO-UBO.owl#birnlex_17',Y) -->
 	!,
@@ -2063,6 +2100,8 @@ entity_info(A) -->
 % OTHER
 % ----------------------------------------
 
+% mixture of pkb-specific and owl-specific
+
 display_label(C,Label) :- species_label(C,Label),!.
 display_label(C,Label) :- labelAnnotation_value(C,Label),!. % TODO - speed this up
 display_label(C,Label) :- entity_label(C,Label),!. % TODO - unify
@@ -2106,7 +2145,7 @@ multi(Goals) -->
         html(Goals).
 
 % ----------------------------------------
-% LOGIC
+% PHENOTYPE LOGIC
 % ----------------------------------------
 
 class_ontology(C,O) :- concat_atom([Base,_],'#',C),concat_atom(Parts,'/',Base),reverse(Parts,[O|_]),!.
@@ -2114,29 +2153,9 @@ class_ontology(_,unknown).
 
 % TODO: this recapitulates some phenoblast logic, and does not take parthood into account
 
-/*
-% post-coord
-lookup_organism_by_inferred_class(Class,Org,P,Aspect) :-
-        organism_phenotype_quad(Org,P,PQ),
-        class_quad_aspect(C2,PQ,Aspect),
-	debug(temp,'cqa ~w ~w ~w',[C2,PQ,Aspect]),
-        subsumed_by(C2,Class).
-% pre-coord
-lookup_organism_by_inferred_class(Class,Org,P,phenotype) :-
-        organism_phenotype(Org,P),
-        subsumed_by(P,Class).
-xxxlookup_organism_by_inferred_class(Whole,Org,P,w) :-
-        organism_phenotype_quad(Org,P,PQ),
-        class_quad_aspect(Part,PQ,e),
-	entailed(subClassOfReflexive(Part,Part2)),
-	subClassOf(Part2,someValuesFrom(_,Whole1)),
-	entailed(subClassOfReflexive(Whole1,Whole)).
-        %entailed(subClassOf(Part,someValuesFrom(_,Whole))). % TODO - loop?
-*/
-
 lookup_organism_by_inferred_class(Class,Org,P,Aspect) :-
 	debug(temp,'  lookup: ~w',[Class]),
-	subsumed_by(SubClass,Class),
+	atomic_subsumed_by(SubClass,Class),
 	debug(temp,'    subclass: ~w',[SubClass]),
 	lookup_organism_by_asserted_class(SubClass,Org,P,Aspect).
 lookup_organism_by_inferred_class(Class,Org,P,Aspect) :-
@@ -2156,17 +2175,25 @@ lookup_organism_by_asserted_class(P,Org,P,phenotype) :-
 
 :- table_pred(lookup_organism_by_asserted_class/4).
 
+% ----------------------------------------
+% OWL/PHENO
+% ----------------------------------------
 
 % TODO: move to phenotype_db? (but this uses ontol_db model..)
-subsumed_by(X,Y) :- entailed(subClassOf(X,Y)).
-subsumed_by(X,X).
+% note: uses same pred name as simmatrix_multi
+atomic_subsumed_by(X,Y) :- entailed(subClassOf(X,Y)).
+atomic_subsumed_by(X,X).
 
-:- table_pred(subsumed_by/2).
+% this is currently too slow...
+%atomic_subsumed_by(X,Y) :- subClassOfRT(X,Y).
 
-proper_subsumed_by(X,Y) :- subsumed_by(X,Y),X\=Y.
+:- table_pred(atomic_subsumed_by/2).
+
+proper_subsumed_by(X,Y) :- atomic_subsumed_by(X,Y),X\=Y.
 
 %% subsumed_by_lca_set(+Classes:list,?AncClasses:list)
 % nr set of atomic ancestors
+% TODO - use new model
 subsumed_by_lca_set(Cs,CAs) :-
         solutions(A,
                   (   member(C,Cs),

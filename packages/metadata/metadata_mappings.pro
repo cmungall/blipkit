@@ -58,6 +58,10 @@ bpuri_id(X,ID) :-
 mapid(ID,ID) :- concat_atom([_,_],':',ID),!.
 mapid(N,ID) :- concat_atom(Toks,'_',N),concat_atom(Toks,' ',N2),entity_label(ID,N2),!.
 
+
+
+
+
 % TODO - move
 u3(U,S,T) :-
 	entity_xref(U,S),
@@ -134,4 +138,3 @@ relt(_,_,'NO_REL') :- !.
 
 	
 
-	

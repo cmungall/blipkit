@@ -81,6 +81,7 @@ generate_term_index(Base,Template,Goal) :-
                        Num2 is Num+1,
                        nb_setval(n,Num2)))),
         nb_getval(n,Max),
+        debug(sim,'generated ~w ix; num=~w',[Base,Max]),
         index_countvar(Base,CountVar),
         nb_setval(CountVar,Max).
 

@@ -28,16 +28,18 @@
 % An attx is a conjunction of attributes, represented as a prolog set.
 % A set [A1,A2,...,An] has the interpretation A1^An^...^An.
 :- multifile feature_attx/2.
-:- multifile subsumed_by/2.
+:- multifile atomic_subsumed_by/2.
 
 :- multifile simmatrix_multiset:index_hook/1.
 
+%% create_sim_index(File)
+% materializes indexes to File
 create_sim_index(File) :-
 	var(File),
 	!.
 create_sim_index(File) :-
 	index_hooks,
-	table_pred(subsumed_by/2),
+	table_pred(atomic_subsumed_by/2),
 	table_pred(attribute_pair_cs/2),
 	table_pred(attribute_pair_LCS/2),
 	table_pred(attx_frequency/2), % doubles the speed
@@ -96,11 +98,11 @@ attribute_pair_LCS(A1,A2,CS) :-
 	attribute_pair_cs(A1,A2,CS),
 	\+ ((attribute_pair_cs(A1,A2,CS_2),
 	     CS_2\=CS,
-	     subsumed_by(CS_2,CS))).
+	     atomic_subsumed_by(CS_2,CS))).
 
 attribute_pair_cs(A1,A2,CS) :-
-	subsumed_by(A1,CS),
-	subsumed_by(A2,CS).
+	atomic_subsumed_by(A1,CS),
+	atomic_subsumed_by(A2,CS).
 
 %% attx_subsumed_by(+SX,+SY) is semidet
 % true if SY subsumes SX.
@@ -108,7 +110,7 @@ attribute_pair_cs(A1,A2,CS) :-
 attx_subsumed_by(SX,SY) :-
 	forall(member(B,SY),
 	       (   member(A,SX),
-		   subsumed_by(A,B))). % hook
+		   atomic_subsumed_by(A,B))). % hook
 
 %% attributes_extract_nr(+As:list,?AsNR:list)
 % remove all redundant attributes
@@ -121,8 +123,8 @@ attributes_extract_nr(As,AsNR) :-
 attribute_redundant_with_set(A,As) :-
 	member(A2,As),
 	A2\=A,
-	subsumed_by(A2,A),
-	\+ subsumed_by(A,A2).
+	atomic_subsumed_by(A2,A),
+	\+ atomic_subsumed_by(A,A2).
 
 
 %% feature_subsumed_by_attx(?F,+S:set)
@@ -164,7 +166,7 @@ attx_IC(S,IC) :-
 
 attx_atomic_subsumer(X,P) :-
 	member(A,X),
-	subsumed_by(A,P).
+	atomic_subsumed_by(A,P).
 
 attx_atomic_subsumers(X,Ps) :-
 	setof(P,attx_atomic_subsumer(X,P),Ps).

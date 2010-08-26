@@ -5,6 +5,7 @@
            id_url/2,
            id_url/3,
            id_imgurl/2,
+           class_thumbnail/2,
            id_params_url/3,
            id_params_url/4,
            params_hidden/2,
@@ -60,6 +61,20 @@ id_imgurl(ID,URL) :-
         parse_id_idspace(ID,'CHEBI'),
         id_localid(ID,Num),
         atom_concat('http://www.ebi.ac.uk/chebi/displayImage.do?defaultImage=true&imageIndex=0&chebiId=',Num,URL).
+id_imgurl(ID,URL) :-
+        class_thumbnail(ID,URL).
+
+class_thumbnail(ID,URL) :-
+        (   def_xref(ID,URL)
+        ;   entity_xref(ID,URL)),
+        sub_atom(URL,_,4,_,Suffix),
+        downcase_atom(Suffix,Suffix2),
+        img_suffix(Suffix2).
+
+img_suffix('.png').
+img_suffix('.gif').
+img_suffix('.jpg').
+
 
 ont_refs(Ont,Ont2):-
         inst_sv(Ont,xrefs_to,A),
@@ -80,6 +95,7 @@ idspace_url_format(span,URL,Fmt) :- idspace_url_format(bfo,URL,Fmt).
 idspace_url_format(ncithesaurus,URL,Fmt) :- idspace_url_format('NCIt',URL,Fmt). % tmp
 idspace_url_format('GO','http://www.geneontology.org/ontology/obo_format_1_2/gene_ontology_ext.obo',obo).
 idspace_url_format('upheno','http://obo.cvs.sourceforge.net/viewvc/obo/obo/ontology/phenotype/phenotype_xp/uberpheno/uberpheno-full.obo',obo).
+idspace_url_format('UBERON_IMG','http://github.com/cmungall/uberon/raw/master/uberon-thumbnail-xrefs.obo',obo).
 idspace_url_format('GOCHE','http://www.geneontology.org/scratch/obol_results/goche.obo',obo).
 idspace_url_format(IDSpace,URL,obo) :-
         sformat(URL,'http://purl.org/obo/obo/~w.obo',[IDSpace]).

@@ -759,6 +759,9 @@ class_from_pheno(N,AN) :-
 	atom_concat('abnormal ',N1,N),
 	atom_concat(AN,' morphology',N1).
 class_from_pheno(N,AN) :-
+	atom_concat('abnormal ',N1,N),
+	atom_concat(AN,' function',N1).
+class_from_pheno(N,AN) :-
 	atom_concat('Abnormality of the ',AN,N).
 class_from_pheno(N,AN) :-	% abnormal caput
 	concat_atom([abnormal,AN],' ',N).
@@ -783,8 +786,9 @@ class_from_bp(N,AN) :-
 uberon_mpxp_write :-
 	setof(MP-N,(class(MP,N),phenotype_class(MP)),MPNs),
 	member(MP-N,MPNs),
-	\+ \+ ((differentium(MP,_,EMAP),
-		id_idspace(EMAP,'EMAP'))), % TEMPORARY - find replacements for EMAPs
+        \+ genus(MP,_),         % undefined
+	%\+ \+ ((differentium(MP,_,EMAP),
+	%	id_idspace(EMAP,'EMAP'))), % TEMPORARY - find replacements for EMAPs
 	%\+ genus(MP,_), % undefined
 	debug(phenotype,'pc: ~w ~w',[MP,N]),
 	class_from_pheno(N,AN),
