@@ -221,9 +221,9 @@
            inst_ofRT/2.
 
 
-%**************************************
-%*              ONTOLOGIES            *
-%**************************************
+% ----------------------------------------
+% ONTOLOGIES            
+% ----------------------------------------
 
 %%  ontology(?Ontology) is nondet.
 % e.g. ontology('GO')
@@ -274,9 +274,9 @@ import_ontologies([File|Files],Parsed):-
         append(Xs,Files,Next),
         import_ontologies(Next,[File|Parsed]).
 
-%**************************************
-%*              CLASSES               *
-%**************************************
+% ----------------------------------------
+% CLASSES
+% ----------------------------------------
 
 %%  class(?Class) is nondet.
 % class declaration - true if Class is a class
@@ -526,9 +526,9 @@ property_intersection_elements(R,L):- setof(X,property_intersection_element(R,X)
 property_union_elements(R,L):- setof(X,property_union_element(R,X),L).
 
 
-%**************************************
-%*              RELATIONS                *
-%***************************************
+% ----------------------------------------
+% RELATIONS
+% ----------------------------------------
 
 %% relation(?Rel)
 % deprecated: disjunction of property/1 and slot/1
@@ -754,9 +754,9 @@ obsolete_class(Class,Name):- entity_label(Class,Name),entity_obsolete(Class,clas
 :- multifile idspace/2.
 idspace(S,URI):- metadata_db:idspace_uri(S,URI).
 
-%**************************************
-%*              INSTANCES                *
-%***************************************
+% ----------------------------------------
+% INSTANCES
+% ----------------------------------------
 
 %%  inst(?Instance) is nondet.
 % true if Instance is declared to be an instance of some class
