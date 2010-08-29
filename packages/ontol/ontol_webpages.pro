@@ -87,12 +87,12 @@ mappings_entry_page =>
 basic(ID) =>
   outer(ID,
         span(downloadbar(ID),
-	     entity_info(ID))).
+             entity_info(ID))).
 
 multiple2(IDs) =>
  outer(IDs,
        span(downloadbar(IDs),       
-	    entity_info(ID) forall_unique (member(ID,IDs)))).
+            entity_info(ID) forall_unique (member(ID,IDs)))).
 
 known_xref_set(ID,XsLim) :-
         setof(X,(entity_xref(ID,X),knowsabout(X)),Xs),
@@ -174,7 +174,7 @@ multirow(Col,Val,Goal,Var,List) =>
 multiple(IDs) =>
  outer(IDs,
        span(downloadbar(IDs),       
-	    multiple_entity_info(IDs))).
+            multiple_entity_info(IDs))).
 
 % shows each ID in its own column
 multiple_entity_info(IDs) =>
@@ -277,12 +277,14 @@ basic_search_form =>
                    value=HV))) forall (hidden(HP)),
        input(name=submit,type=submit,value=search)).
 
+% everything in the ontology
 ontology(Ont) =>
   outer(Ont,
         [h1(hlink(Ont)),
          basic_search_form,
          h3('Fetch: ',downloadfmt(Ont,metadata)),
-         table(basicrow(ID) forall class(ID),
+         table(id=browsetbl,
+               basicrow(ID) forall class(ID),
                basicrow(ID) forall property(ID),
                basicrow(ID) forall (inst(ID),entity_label(ID,_))
               )
@@ -334,17 +336,38 @@ basicrow(ID) =>
            then: S,
            else: '-')),
      td(hlink(ID)),
+     td(relation_tooltip(ID)),
+     td(xp_tooltip(ID)),
      td(image_tooltip(ID)),
      td(data(X) forall_unique def(ID,X))).
 
 image_tooltip(ID) =>
  if(class_thumbnail(ID,ImgURL),
     then:
-   tooltip(img,[html:hr,
+   tooltip('[I]',[html:hr,
                 img(src=ImgURL),
                 html:hr]),
     else:
    []).
+
+relation_tooltip(ID) =>
+   tooltip('[R]',
+           [html:hr,
+            table(
+                  tr(td(R),td(hlink(X))) forall parent(ID,R,X)
+                 ),
+            html:hr]).
+
+xp_tooltip(ID) =>
+  if(genus(ID,G),
+     tooltip('[=]',
+             [html:hr,
+              table(
+                    tr(td(hlink(G)),td(i(and))),
+                    tr(td(R),td(hlink(X))) forall differentium(ID,R,X)
+                   ),
+              html:hr])).
+
 
 
 
@@ -671,6 +694,9 @@ browser_node_cols(Depth,R/ID,Open) =>
   td(colspan=Dist,
      b('|'),i(R),' ',span(hlink(ID))),
   td(''),
+  td(''),
+  td(''),
+  td(''),
   td(span(class=textdef,'Anything that stands in a ',hlink(R),' relation to a ',hlink(ID))).
 
 % named class
@@ -731,6 +757,9 @@ browser_subnodes_json_2(Depth,ID) =>
 
 browser_node_info(ID) =>
  td(''),
+ td(relation_tooltip(ID)),
+ td(xp_tooltip(ID)),
+ td(image_tooltip(ID)),
  td(span(class=textdef, data(X)) where def(ID,X)).
 
 relation_toggler =>
