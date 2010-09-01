@@ -71,7 +71,7 @@ ontol_writer:write_class(text,ID,Opts):-
             member(ID,FocusIDs)->  write(' *** ')
         ;   true),
         (   member(with_synonyms(1),Opts)
-        ->  forall(synonym(ID,SynType,Syn),
+        ->  forall(entity_synonym_scope(ID,Syn,SynType),
                    format(' [SYNONYM: "~w" (~w)]',[Syn,SynType]))
         ;   true),
         (   member(showsubsets(1),Opts)

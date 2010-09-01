@@ -8,6 +8,7 @@
 	   entity_label_token/3,
 	   entity_label_token_stemmed/4,
 	   entity_nlabel_scope_stemmed/4,
+           term_tokenset_stemmed/3,
 	   token_syn/2,
 	   corpus_label_token/1,
 	   corpus_label_token_frequency/2,
@@ -23,6 +24,7 @@
 	   entity_pair_label_match/3,
 	   atom_search/5,
 	   corpus_search/6,
+           entity_label_token_list_stemmed/4,
            label_query_results/3,
 
            term_split/6,
@@ -41,7 +43,16 @@ term_token(A,T) :-
 
 term_token_stemmed(A,T) :-
 	term_token_stemmed(A,T,true).
+
 term_token_stemmed(A,T,true) :-
+        % acronym
+        \+ ((sub_atom(A,_,1,_,C),
+             C@>='a',
+             C@=<'z')),
+        !,
+        term_token_stemmed(A,T,false).
+term_token_stemmed(A,T,true) :-
+        % not acronym
 	term_token(A,T1),
 	porter_stem(T1,T).
 term_token_stemmed(A,T,false) :-
@@ -92,14 +103,30 @@ entity_nlabel_scope_stemmed(E,A,Scope,St) :-
 	entity_label_scope(E,L,Scope),
 	\+ exclude_entity(E),
 	debug(nlp,'calculating nlabel ~w "~w" (~w)',[E,L,Scope]),
-	dehyphenate(L,L2), % nd
-	setof(Tok,term_token_stemmed(L2,Tok,St),Toks),
-	maplist(token_syn_refl,Toks,Toks2), % nondet
-	sort(Toks2,Toks3), % need to sort again, synsets may introduce re-ordering
-	concat_atom(Toks3,'',A).
+        term_nlabel_stemmed(L,A,St).
 
+% HOOK
 :- multifile exclude_entity/1.
 
+%% term_nlabel_stemmed(+Term:atom,?NLabel:atom,+Stemmed:bool) 
+%
+% translates a term such as 'foo bar two hippocampi' to a label like
+% '2barfoohippocamp'
+% this is used for exact matching, but is not useful for finding labels
+% nested inside larger labels or blocks of text
+term_nlabel_stemmed(Term,NLabel,St) :-
+        term_tokenset_stemmed(Term,Toks,St),
+	concat_atom(Toks,'',NLabel).
+
+%% term_tokenset_stemmed(+Term:atom,?Toks:list,+Stemmed:boolean)
+% 
+% translates a term such as 'foo bar two hippocampi' to a set such as
+% [2,bar,foo,hippocamp]
+term_tokenset_stemmed(Term,Toks,St) :-
+	dehyphenate(Term,TermNoHyphen), % nd
+        setof(Tok,term_token_stemmed(TermNoHyphen,Tok,St),Toks_1),
+	maplist(token_syn_refl,Toks_1,Toks_2), % normalize using synsets - nondet (MAKE DET?)
+	sort(Toks_2,Toks).  % need to sort again, synsets may introduce re-ordering
 
 dehyphenate(X,X).
 dehyphenate(X,Y) :- concat_atom(L,'-',X),L\=[_],concat_atom(L,'',Y).
@@ -121,21 +148,44 @@ synset(['12','12th',twelfth,'XII']).
 synset(['13','13th',thirteenth,'XIII']).
 synset(['20','20th',twentyth,'XX']).
 
+synset([caudal,posterior]).
+synset([rostral,anterior]).
+synset([dorsal,superior]).
+synset([ventral,inferior]).
+
 % eliminate prepositions. assumes we flatten without spaces
-synset([of,'']).
-synset(['-','']).
-synset(['/','']).
-synset([':','']).
+synset(['',P]) :- prep(P).
+synset(['',a]).
+synset(['',an]).
+synset(['',the]).
+synset(['','-']).
+synset(['','/']).
+synset(['',':']).
+
 
 :- multifile synset_hook/1.
 synset(X) :- synset_hook(X).
 
+prep(of).
+prep(to).
+prep(by).
+
+
+/*
+  NONDET
 % consider indexing
 token_syn(T,S) :- synset(L),member(T,L),member(S,L),T\=S.
 token_syn(T,S) :- relational_adj(T,S,_,_).
 token_syn(T,S) :- relational_adj(S,T,_,_).
+*/
 
-token_syn_refl(T,S) :- token_syn(T,S).
+% DET
+token_syn(T,S) :- relational_adj(T,S,_,_),!.
+token_syn(T,S) :- relational_adj(S,T,_,_),!.
+token_syn(T,S) :- synset([S|L]),member(T,L).
+
+% reflexive
+token_syn_refl(T,S) :- token_syn(T,S),!.
 token_syn_refl(T,T) :- nonvar(T).
 
 corpus_label_token(T) :-
@@ -143,6 +193,7 @@ corpus_label_token(T) :-
 corpus_label_token_stemmed(T,Stemmed) :-
 	entity_label_token_stemmed(_,T,Stemmed).
 
+% consider using simmatrix instead
 corpus_label_token_frequency(T,Freq) :-
 	aggregate(count,E,entity_label_token(E,T),Freq).
 corpus_label_token_stemmed_frequency(T,Freq,Stemmed) :-
@@ -202,7 +253,6 @@ index_labeled_entities(Stemmed) :-
 	generate_term_indexes(E,Token,
 			      entity_label_token_stemmed(E,_,Token,Stemmed)).
 
-	
 
 % index is per-label rather than per-entity
 index_corpus_by_labels(Stemmed):-
@@ -217,14 +267,20 @@ index_corpus_by_labels(Stemmed):-
 				  metadata_nlp:entity_label_token_stemmed(Entity,_,Token,Stemmed))),
 	materialize_index(simmatrix:attribute_feature_count(1,1)).
 
+%% index_corpus_by_labels(Entity,Term,Goal,Stemmed)
+%
+% e.g. index_corpus_by_labels(Gene,Rif,gene_rif(_,Gene,_,_,Rif),true)
+%
+% main index is constructed from ontology
 index_corpus_by_labels(Entity,Term,Goal,Stemmed):-
 	!,
 	debug(nlp,'indexing [stemmed:~w]',[Stemmed]),
+        % generate initial index using ontology
 	generate_term_indexes(Label,Token,
 			      entity_label_token_stemmed(_,Label,Token,Stemmed)),
 	debug(nlp,'force cache...',[]),
 	findall(F,feature_vector(F,_),_),
-	% for frequencies we count by entity, not label
+	% for frequencies we count by entity (e.g. class), not label
 	debug(nlp,'calculating freqs [stemmed:~w]',[Stemmed]),
 	retractall(simmatrix:template(_,_,_)),
         assert(simmatrix:template(Entity,Token,
@@ -276,31 +332,52 @@ corpus_search_ic(_QueryTemplate,TermTemplate,Goal,HitLabel-HitToks,Sim,Stemmed) 
 %	Sim > 0.5.
 
 
-% NEW
+% NEW (slow)
+
+%% label_query_results(+QueryLabel,+Stemmed,?MaxScorePairsDesc:list)
 label_query_results(QueryLabel,Stemmed,MaxScorePairsDesc) :-
-        setof(Tok,term_token_stemmed(QueryLabel,Tok,Stemmed),QueryToks),
+        % query -> tokens
+        term_tokenset_stemmed(QueryLabel,QueryToks,Stemmed),
+        
+        % find all match entities
         setof(Score-E,MatchLabel^match_entity_by_toks(QueryToks,E,MatchLabel,Stemmed,Score),Pairs),
+
+        % aggregate matches by best score for each entity
         setof(MaxScore-E,aggregate(max(Score),member(Score-E,Pairs),MaxScore),MaxScorePairs),
+
+        % Descending order
         reverse(MaxScorePairs,MaxScorePairsDesc).
 
-
-match_entity_by_label(QueryLabel,E,MatchLabel,Stemmed,Score) :-
-        setof(Tok,term_token_stemmed(QueryLabel,Tok,Stemmed),QueryToks),
-        match_entity_by_toks(QueryToks,E,MatchLabel,Stemmed,Score).
-
 match_entity_by_toks(QueryToks,E,MatchLabel,Stemmed,Score) :-
+        % search database of entities
         entity_label_token_list_stemmed(E,MatchLabel,MatchToks,Stemmed),
+
+        % find tokens in common - must have at least one
         ord_intersection(QueryToks,MatchToks,IToks),
         IToks\=[],
+
+        % here we now assume the query is a sentence; for now
+        % we do not care baout its length
+        length(MatchToks,MLen),
+        length(IToks,ILen),
+        Score is ILen/MLen.
+        
+        /*
         length(QueryToks,QLen),
         length(MatchToks,MLen),
         length(IToks,ILen),
         MLen is max(QLen,MLen),
         Score is ILen/MLen.
-
+        */
+        
 entity_label_token_list_stemmed(E,Label,Toks,Stemmed) :-
         setof(Tok,entity_label_token_stemmed(E,Label,Tok,Stemmed),Toks).
 
+
+%% match_entity_by_label(+QueryLabel,?E,?MatchLabel,+Stemmed,?Score)
+match_entity_by_label(QueryLabel,E,MatchLabel,Stemmed,Score) :-
+        term_tokenset_stemmed(QueryLabel,QueryToks,Stemmed),
+        match_entity_by_toks(QueryToks,E,MatchLabel,Stemmed,Score).
         
 
 % ----------------------------------------
@@ -329,7 +406,8 @@ term_ends_with(E,S,SN,Tail,S1,S2) :-
 
   ---+ Synopsis
 
-  
+
+  look for occurrences of class labels in definitions
 ==
   blip-findall -debug nlp -u metadata_nlp -r cell -goal "index_corpus_by_labels(false)" "corpus_search(E,Def,def(E,Def),Hit,Sim,false),class(E,N)" -select "match(E,N,Def,Hit,Sim)"
 ==
@@ -339,6 +417,21 @@ term_ends_with(E,S,SN,Tail,S1,S2) :-
   blip-findall -debug nlp -u metadata_nlp -r omim -r human_phenotype -r uberon -r pato -r go -goal "index_corpus_by_labels(E,Def,def(E,Def),false)" "corpus_search(E,Def,def(E,Def),Hit,Sim,true),class(E,N)" -select "match(E,N,Def,Hit,Sim)"
 ==
 
+
+  ==
+blip-findall -debug index -index "metadata_db:entity_label_token_list_stemmed(1,0,0,0)" -u metadata_nlp -i generifs_basic.pro  -r cell "gene_rif(_,GID,P,_,Rif),label_query_results(Rif,true,Pairs),member(Sc-X,Pairs),Sc>0.75" -select "m(Rif,Sc,X)" -label
+  ==
+
+  ==
+blip-findall -debug index -index "metadata_db:entity_label_token_list_stemmed(1,0,0,0)" -u metadata_nlp -i generifs_basic.pro  -r nif_downcase "gene_rif(_,GID,P,_,Rif),label_query_results(Rif,true,Pairs),member(Sc-X,Pairs),Sc>0.75" -select "m(Rif,Sc,X)" -label
+  ==
+
+  search for gene/protein labels
+  ==
+blip-findall -debug index -index "metadata_db:entity_label_token_list_stemmed(1,0,0,0)" -u metadata_nlp -i generifs_basic.pro  -r protein -r gene/10090 "gene_rif('NCBITaxon:10090',GID,P,_,Rif),label_query_results(Rif,true,Pairs),member(Sc-X,Pairs),Sc>0.95" -select "m(Rif,Sc,X)" -label
+  ==
+
+  
 ---+ Details
 
 

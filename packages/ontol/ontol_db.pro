@@ -139,6 +139,8 @@
            combine_relation_pair/3,
            inferred_parent/2,           
            inferred_parent_via/3,
+           inferred_parent_dist/3,
+           inferred_parent_dist_via/4,
 	   strict_subclass/2,
 	   cdef_label/2,
            class_cdef/2,
@@ -791,6 +793,7 @@ inst_ofRT(Inst,Class):-
 %   See also inst_rel/4 to time-indexed relations
 :- extensional(inst_rel/3).
 
+% DEPRECATED - all relations are now binary
 :- extensional(inst_rel/4).
 :- extensional(inst_rel/5).
 :- extensional(inst_rel/6).
@@ -815,6 +818,10 @@ inst_sv(ID,S,V):-
         inst_sv(ID,S,V,_).
 inst_sv(ID,S,PID):-
         inst_rel(ID,S,PID).
+
+% ----------------------------------------
+% OTHER
+% ----------------------------------------
 
 %% class_instrule(?Class,?HeadVars,?PrologRuleBody)
 % Class(HeadVars) :- Body is a rule for instantiating Class
@@ -841,6 +848,7 @@ inst_sv(ID,S,PID):-
 :- extensional(entailed_by/3).
 
 %% logicalformula(?ID,?FormulaAtom,?Language) is nondet.
+% DEPRECATED
 :- extensional(logicalformula/3).
 
 %% class_label(?Class,?Label,?Type)
@@ -960,7 +968,7 @@ bf_set_parentRT(IDs,PID) :-
 
 %% inferred_parent(+EntityID,?InferredParentID) is nondet
 inferred_parent(ID,PID) :-
-        inferred_parent(ID,PID,_).
+        inferred_parent_via_rev(ID,PID,_).
 
 %% inferred_parent(+EntityID,?InferredParentID,?Over) is nondet
 inferred_parent_via(ID,PID,Over) :-
@@ -1008,6 +1016,42 @@ combine_relation_pair(R,subclass,R) :- all_some(R).
 combine_relation_pair(R,R,R) :- is_transitive(R).
 combine_relation_pair(R1,R2,R) :- holds_over_chain(R,[R1,R2]).
 combine_relation_pair(R1,R2,R) :- equivalent_to_chain(R,[R1,R2]).
+
+% same with distances
+
+inferred_parent_dist(ID,PID,Dist) :-
+        inferred_parent_dist_via_rev(ID,PID,Dist,_).
+
+%% inferred_parent_dist(+EntityID,?InferredParentID,?Dist,?Over) is nondet
+inferred_parent_dist_via(ID,PID,Dist,Over) :-
+        inferred_parent_dist_via_rev(ID,PID,Dist,OverRev),
+        reverse(OverRev,Over).
+
+inferred_parent_dist_via_rev(ID,PID,Dist,Over) :-
+        (   var(ID)
+        ->  class(ID)
+        ;   true),
+	entity_reldists_closure([ID-[]-0],[],[],L),
+	member(PID-Over-Dist,L).
+
+%% entity_reldists_closure(+ScheduledCCPairs,+Visited,+AccumulatedResults,?FinalResults)
+entity_reldists_closure([Class-Conns-CurDist|ScheduledCCPairs],Visited,ResultCCPairs,FinalCCPairs) :-
+        NextDist is CurDist+1,
+	setof(Parent-NewConns-NextDist,
+              (   entity_parent_chain(Class,Parent,Conns,NewConns),
+                  \+ord_memberchk(Parent-NewConns-NextDist,Visited)),
+              NextCCPairs),
+	!,
+	ord_union(ResultCCPairs,NextCCPairs,ResultCCPairsNew),
+        ord_union(ScheduledCCPairs,NextCCPairs,NewScheduledCCPairs),
+	entity_reldists_closure(NewScheduledCCPairs,[Class-Conns-NextDist|Visited],ResultCCPairsNew,FinalCCPairs).
+entity_reldists_closure([CCD|ScheduledCCPairs],Visited,ResultCCPairs,FinalCCPairs) :-
+	!,
+        % Class has no parents
+	entity_reldists_closure(ScheduledCCPairs,[CCD|Visited],ResultCCPairs,FinalCCPairs).
+entity_reldists_closure([],_,ResultCCPairs,ResultCCPairs).
+
+
 
 % -----------------------------------
 % BACKWARD CHAINING REASONING

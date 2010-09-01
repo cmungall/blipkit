@@ -16,6 +16,8 @@
 
   @s1 Description
 
+  DEPRECATED?
+  
 **/
 
 
@@ -25,6 +27,7 @@
 :- use_module(tokenizer).
 :- use_module(bio(mode)).
 :- use_module(bio(ontol_db)).
+:- use_module(bio(metadata_db)).
 
 :- multifile rpattern/5.
 rpattern(_,_,_,_,_):- fail.
@@ -95,7 +98,7 @@ store_cdef1(C,ID):-             % cdef maps to named class
         cdef_ont(C,O),
         cdef_to_name(C,S),
         (   class(ID,S)
-        ;   synonym(ID,exact,S)),   % must be exact
+        ;   entity_synonym(ID,exact,S)),   % must be exact
         belongs(ID,O),
         !.
 % combine these two clauses??

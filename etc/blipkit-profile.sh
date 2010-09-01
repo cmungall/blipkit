@@ -143,6 +143,8 @@ alias qbrenda="oq -r brenda"
 alias sao="ov -r sao -u ontol_manifest_metadata_from_sao"
 alias qsao="oq -r sao -u ontol_manifest_metadata_from_sao"
 
+alias hgene="ov -r gene/9606"
+alias qhgene="oq -r gene/9606"
 alias mgi="ov -r gene/10090"
 alias qmgi="oq -r gene/10090"
 

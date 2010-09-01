@@ -113,7 +113,6 @@ user:file_search_path(ncbigene(Family,Species),url(X),gzip(gene_info)) :-
 user:bioresource(ncbi_gene_info,url('ftp://ftp.ncbi.nih.gov/gene/DATA/gene_info.gz'),gzip(gene_info)).
 user:bioresource(ncbi_generifs,url('ftp://ftp.ncbi.nih.gov/gene/GeneRIF/generifs_basic.gz'),gzip(gene_rif)).
 user:bioresource(homologene,url('ftp://ftp.ncbi.nih.gov/pub/HomoloGene/current/homologene.data'),homoltbl).
-user:bioresource(gene(Tax),obo_cvs(Path),obo) :- sformat(Path,'genomic-proteomic/gene/genes-~w.obo',[Tax]).
 
 user:bioresource(iproclass,url('ftp://ftp.pir.georgetown.edu/databases/iproclass/iproclass.tb.gz'),iproclass).
 

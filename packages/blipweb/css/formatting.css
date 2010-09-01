@@ -370,18 +370,18 @@ a.tt:hover span.tooltip{
 a.tt:hover span.top{
 	display: block;
 	padding: 30px 8px 0;
-    background: url(/images/bubble.gif) no-repeat top;
+    background: url(/amigo2/images/bubble.gif) no-repeat top;
 }
 a.tt:hover span.middle{ /* different middle bg for stretch */
 	display: block;
 	padding: 0 8px; 
-	background: url(/images/bubble_filler.gif) repeat bottom; 
+	background: url(/amigo2/images/bubble_filler.gif) repeat bottom; 
 }
 a.tt:hover span.bottom{
 	display: block;
 	padding:3px 8px 10px;
 	color: #548912;
-    background: url(/images/bubble.gif) no-repeat bottom;
+    background: url(/amigo2/images/bubble.gif) no-repeat bottom;
 }
 
 .axiom_ontology_list {

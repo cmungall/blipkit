@@ -136,6 +136,7 @@ user:bioresource(brenda,url('http://purl.obofoundry.org/obo/obo-all/brenda/brend
 
 user:bioresource(iao_om,url('http://purl.obolibrary.org/obo/iao/dev/ontology-metadata.owl'),owl).
 
+user:bioresource(gene(Tax),obo_local(Path),obo) :- sformat(Path,'genomic-proteomic/gene/genes-~w.obo',[Tax]).
 
 
 % XP

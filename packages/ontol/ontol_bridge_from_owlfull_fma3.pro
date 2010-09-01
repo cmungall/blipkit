@@ -104,6 +104,8 @@ prop_term(is_transitive,X,is_transitive(X)).
 prop_term(subrelation_of(Y),X,subclass(X,Y)).
                 
 allowed_relation(RI,R):- allowed_relation(RI,R,_).
+% NEW: allow any
+allowed_relation(RI,R):- rdf_has(RI,rdf:type,owl:'ObjectProperty'),concat_atom([_,R],'#',RI).
 
 %allowed_relation('http://sig.biostr.washington.edu/fma3.0#regional_part',has_regional_part,[subrelation_of(has_part)]).
 allowed_relation('http://sig.biostr.washington.edu/fma3.0#regional_part_of',regional_part_of,[subrelation_of(part_of)]).

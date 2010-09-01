@@ -5,6 +5,7 @@
 	   lookup_class_by_ontology/2,
 	   lookup_property/2]).
 :- use_module(bio(ontol_db)).
+:- use_module(bio(metadata_db)).
 :- use_module(bio(macros_lookup)).
 
 %% query_classes(+QueryTerms:list,?CIDs:list,?Unresolved:list)
@@ -48,7 +49,7 @@ query_classes(CIDs,Opts,NoIDs) :-
                     ID,
                     class(ID),
                     [N - class(ID,N),
-                     N - synonym(ID,_,N),
+                     N - entity_synonym(ID,N),
                      N - def(ID,N)]).
 
 :- lookup_predicate(class_by_ontology,

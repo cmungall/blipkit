@@ -106,7 +106,7 @@ itemset_attribute_enrichment(FSampleMembers,StatsSorted,DBSize):-
         sort(AttributeStats2,StatsSorted).
 
 
-%annotations_attribute_probability(FAttributePairs,DBSize,CorrectionFactor,FSampleSize,Attribute,CPValue):-
+%% annotations_attribute_probability(FAttributePairs,DBSize,CorrectionFactor,FSampleSize,Attribute,CPValue)
 annotations_attribute_probability(DBSize,CorrectionFactor,FSampleMembers,FSampleSize,Attribute,CPValue,Stats):-
         debug(enrichment,'attribute: ~w',[Attribute]),
         %solutions(F,member(F-Attribute,FAttributePairs),FSampleAnnotatedMembers),

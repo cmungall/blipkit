@@ -22,7 +22,7 @@ feature_pair_category_pair_ci(F1,F2,S1,S2,Sc) :-
 	organism_category(F1,S1),
 	organism_category(F2,S2).
 
-	
+
 
 % only compare two features if they are good matches for the species
 compare_feature_pair(F1,F2,Rank,Len) :-

@@ -636,13 +636,13 @@ generate_synonyms(ID,CDef,Opts,Syns):-
                       debug(obol,'syn: ~w',[Syn]),
                       \+ class(ID,Syn), % exclude name from synonyms list
                       (   member(synonym_policy(showall),Opts)
-                      ;   \+ synonym(ID,_,Syn))),
+                      ;   \+ entity_synonym(ID,_,Syn))),
                   Syns).
 
 
 write_synonyms(ID,Syns):-
         forall(member(Syn,Syns),
-               (   (   synonym(ID,_,Syn)
+               (   (   entity_synonym(ID,_,Syn)
                    ->  Xref=''
                    ;   Xref='OBOL:automatic'),
                    format('synonym: "~w" EXACT [~w]~n',[Syn,Xref]))).
@@ -924,7 +924,7 @@ show_regmatch_id(ID):-
 blipkit:example('obol mine-adjectives -r obol_av -u ontol_bridge_from_av_noun -r disease -r fma disease_ontology',
                 'finds potential adjective-noun pairs in DO via stemming').
 :- blip('mine-adjectives',
-        'finds relational adjectives and associated noun via stemming. Writes adj-noun-ont-stem-adjSourceClass',
+        'finds relational adjectives and associated noun via stemming. Writes adj-noun-ont-stem-adjSourceClass.',
         [],
         Onts,
         (   findall(WordDn-Ont,(class(Class,Word),belongs(Class,Ont),contains_no_whitespace(Word),downcase_atom(Word,WordDn)),WordOntPairs),
@@ -933,7 +933,7 @@ blipkit:example('obol mine-adjectives -r obol_av -u ontol_bridge_from_av_noun -r
             debug(nlp,'Finding adjectives',[]),
             forall((   belongs(Class,Ont),
                        member_or_not_applicable(Ont,Onts),
-                       class_by_name_or_synonym(Label,Class)),
+                       entity_label_or_synonym(Class,Label)),
                    mine_and_show_adjectives(Class,Label,WTermPairs)))).
 
 member_or_not_applicable(_,[]):- !.

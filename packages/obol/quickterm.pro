@@ -64,7 +64,7 @@ template(all_regulation(X),
           access= [admin],
           description= 'Select all three subtemplates to generate
            terms for regulation, negative regulations and positive
-           regulation. Names, synonyms and definitions are all
+           regulation (for biological processes). Names, synonyms and definitions are all
            generated automatically',
           ontology= 'GO',
           obo_namespace= biological_process,
@@ -104,6 +104,58 @@ template(positive_regulation(X),
           obo_namespace= biological_process,
           private= true,
           arguments= [target=biological_process],
+          cdef= cdef('GO:0065007',[positively_regulates=X]),
+          name= ['positive regulation of ',name(X)],
+          synonyms= ['positive regulation of ',synonym(X)],
+          def= ['Any process that activates or increases the frequency, rate or extent of ',name(X),'.']
+         ]).
+
+% this is pretty dumb .. just cloned the RoBP list. we could make the domain a union, ...
+template(all_regulation_of_mf(X),
+         [
+          access= [admin],
+          description= 'Select all three subtemplates to generate
+           terms for regulation, negative regulations and positive
+           regulation (for molecular functions). Names, synonyms and definitions are all
+           generated automatically',
+          ontology= 'GO',
+          obo_namespace= biological_process,
+          arguments= [target=molecular_function],
+          constraints= [[description='Cannot make "regulation of regulation of X" terms',
+                        rule= (\+genus(X,'GO:0065007'))]],
+          wraps= [regulation_of_mf(X),
+                  negative_regulation_of_mf(X),
+                  positive_regulation_of_mf(X)]
+         ]).
+template(regulation_of_mf(X),
+         [
+          ontology= 'GO',
+          obo_namespace= biological_process,
+          private= true,
+          arguments= [target=molecular_function],
+          constraint= (\+genus(X,'GO:0065007')),
+          cdef= cdef('GO:0065007',[regulates=X]),
+          name= ['regulation of ',name(X)],
+          synonyms= ['regulation of ',synonym(X)],
+          def= ['Any process that modulates the frequency, rate or extent of ',name(X),'.']
+         ]).
+template(negative_regulation_of_mf(X),
+         [
+          ontology= 'GO',
+          obo_namespace= biological_process,
+          private= true,
+          arguments= [target=molecular_function],
+          cdef= cdef('GO:0065007',[negatively_regulates=X]),
+          name= ['negative regulation of ',name(X)],
+          synonyms= ['negative regulation of ',synonym(X)],
+          def= ['Any process that stops, prevents or reduces the frequency, rate or extent of ',name(X),'.']
+         ]).
+template(positive_regulation_of_mf(X),
+         [
+          ontology= 'GO',
+          obo_namespace= biological_process,
+          private= true,
+          arguments= [target=molecular_function],
           cdef= cdef('GO:0065007',[positively_regulates=X]),
           name= ['positive regulation of ',name(X)],
           synonyms= ['positive regulation of ',synonym(X)],
