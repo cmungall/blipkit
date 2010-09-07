@@ -6,6 +6,7 @@
            compare_feature_pair/4,
 	   attribute_feature_count/2,
 	   attribute_information_content/2,
+           feature_exists/1,
            feature_pair_ci/3,
            feature_pair_cu/3,
 	   feature_pair_subset_of/3,
@@ -18,6 +19,8 @@
            feature_pair_cossim/3,
            feature_pair_avgICCS/3,
            feature_pair_avgICCS/4,
+           feature_pair_pval_hyper/3,
+           feature_pair_pval_hyper/7,
            feature_pair_all_scores/3,
            feature_vector/2,
            feature_matches/2,
@@ -28,6 +31,7 @@
           ]).
 
 :- use_module(bio(bioprolog_util),[solutions/3]).
+:- use_module(bio(stats_distributions)). % hypergeometric
 
 :- dynamic feature_ix/2.
 :- dynamic attribute_ix/2.
@@ -90,6 +94,9 @@ index_countvar(attribute_ix,attribute_count).
 
 %% feature_count(?NumFeatures:int)
 feature_count(X) :- nb_getval(feature_count,X).
+
+feature_exists(X) :- feature_ix(X,_).
+
 
 %% attribute_count(?NumAttributes:int)
 attribute_count(X) :- nb_getval(attribute_count,X).
@@ -394,6 +401,19 @@ feature_pair_attribute_maxIC_set(F1,F2,A,MaxIC,AM) :-
         AVI is AV1 /\ AV2,
         vector_maxIC_attributes(AVI,MaxIC,AM).
 
+% NOTE: this makes more sense comparing attributes
+%  by their features
+feature_pair_pval_hyper(F1,F2,P) :-
+        feature_pair_pval_hyper(F1,F2,_,_,_,_,P).
+feature_pair_pval_hyper(F1,F2,Vk,Vn,Vm,VN,P) :-
+        feature_vector(F1,AV1),
+        feature_vector(F2,AV2),
+        AV_Common = AV1 /\ AV2,
+        Vk is popcount(AV_Common),
+        Vn is popcount(AV1),
+        Vm is popcount(AV2),
+        attribute_count(VN),
+        p_value_by_hypergeometric(Vk,Vn,Vm,VN,P).
 
 feature_pair_all_scores(F1,F2,Scores) :-
         feature_ix(F1,_),

@@ -65,10 +65,15 @@ hypergeometric(Vx,Vn,VM,VN,R):-
 % @param VN N: total population (e.g. total number of genes)                         | N
 p_value_by_hypergeometric(Vx,Vn,VM,VN,P):-
         Min is min(VM,Vn),
-        sumof(HG,(between(Vx,Min,Vi),
-                  hypergeometric(Vi,Vn,VM,VN,HG)),
-              P).
+        aggregate(sum(HG),
+                  Vi,
+                  (   between(Vx,Min,Vi),
+                      hypergeometric(Vi,Vn,VM,VN,HG)),
+                  P).
 :- arithmetic_function(p_value_by_hypergeometric/4).
+
+
+
 
 % -------------------- TESTS --------------------
 % regression tests to ensure behaviour of module is correct;

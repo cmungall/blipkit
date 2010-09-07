@@ -155,7 +155,8 @@
            subclass_lca/2,
            class_pair_subclass_lca/3,
            
-           inst_ofRT/2
+           inst_ofRT/2,
+           inst_ofRT/3
           ]).
 
 % metadata on the data predicates used in this module
@@ -220,7 +221,8 @@
            
            % experimental
 
-           inst_ofRT/2.
+           inst_ofRT/2,
+           inst_ofRT/3.
 
 
 % ----------------------------------------
@@ -786,6 +788,18 @@ inst_ofRT(Inst,Class):-
         subclassRT(SubClass,Class),
         inst_of(Inst,SubClass).
 
+inst_ofRT(Inst,Rel,Class):-
+        inst_of(Inst,DirectClass),
+        parentT(DirectClass,Rel,Class).
+%inst_ofRT(Inst,Rel,Class):-
+%        inst(Inst),
+%        inferred_parent_via(Inst,Class,Chain),
+%        collapse_inst_chain(Chain,Rel).
+
+collapse_inst_chain([instance_of],subclass).
+collapse_inst_chain([instance_of,R],R).
+
+
 
 %%  inst_rel(?Instance,?Relation,?ToInstance) is nondet.
 % true if Instance stands in Relation to ToInstance
@@ -982,11 +996,27 @@ inferred_parent_via_rev(ID,PID,Over) :-
 	entity_relations_closure([ID-[]],[],[],L),
 	member(PID-Over,L).
 
+%% visited_parent_via(+Parent,+NewConns:list,+Visited:list) is semidet
+% visit check: we want to avoid cycles. visiting the same node is
+% potentially fine as we want different paths through X,
+% e.g. A-po-X-df-B vs A-isa-X-df-B.  however, we need to avoid cycles
+% e.g. A r-s B, A r-s-r-s B, A r-s-r-s-r-s B
+visited_parent_via(Parent,NewConns,Visited) :-
+        ord_memberchk(Parent-NewConns,Visited),
+        !.
+% only check the first connection
+% (remember head of connection list is the one connecting to the parent)
+visited_parent_via(Parent,[Conn|_],Visited) :-
+        ord_memberchk(Parent-[Conn|_],Visited),
+        !.
+
 %% entity_relations_closure(+ScheduledCCPairs,+Visited,+AccumulatedResults,?FinalResults)
 entity_relations_closure([Class-Conns|ScheduledCCPairs],Visited,ResultCCPairs,FinalCCPairs) :-
+        debug(parentT,'next: ~w',[Class]),
+        % extend to immediate parents
 	setof(Parent-NewConns,
               (   entity_parent_chain(Class,Parent,Conns,NewConns),
-                  \+ord_memberchk(Parent-NewConns,Visited)),
+                  \+visited_parent_via(Parent,NewConns,Visited)),
               NextCCPairs),
 	!,
 	ord_union(ResultCCPairs,NextCCPairs,ResultCCPairsNew),
@@ -1010,6 +1040,7 @@ combine_relation_pairs([ConnPrev|InConns],ConnNext,NewConns) :-
 combine_relation_pairs(InConns,ConnNext,[ConnNext|InConns]). % top of stack
 
 % composition table A B -> C
+combine_relation_pair(instance_of,subclass,instance_of).
 combine_relation_pair(subclass,subclass,subclass).
 combine_relation_pair(subclass,R,R) :- all_some(R).
 combine_relation_pair(R,subclass,R) :- all_some(R).

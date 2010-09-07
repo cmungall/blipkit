@@ -24,7 +24,6 @@
 :- use_module(bio(ontol_lookup)).
 :- use_module(bio(av_db)).
 :- use_module(bio(tokenizer)).
-:- use_module(bio(regmatch)). % to be deprecated..
 :- use_module(bio(ontol_writer)).
 :- use_module(bio(ontol_writer_obo)).
 :- use_module(bio(ontol_writer_text)).
@@ -34,8 +33,6 @@ blipkit:example('obol av -w translation',
                 'looks up a word in the obol AV').
 blipkit:example('obol av -u av_bridge_from_wn -w translation',
                 'looks up a word in the obol AV and a wordnet db with an av view layer').
-blipkit:example('obol -r go regmatch-onts',
-                'obol in simple regular-grammar mode; requires patterns encoded - see regmatch.pro').
 
 blipkit:opt_description(word,'single token').
 blipkit:opt_description(stem,'perform stemming - NOT YET IMPLEMENTED - only works on basicnlp').
@@ -872,53 +869,6 @@ cdef_diff(ID):-
 
 
 % to be deprecated..
-
-blipkit:example('obol -r ubo -r relationship -r spatial -r go -r mouse_anatomy -r cell -r xchebi -r fly_anatomy -r plant_anatomy -r zebrafish_anatomy -i go_xp_cell.obo regmatch-onts -module regmatch_go_cell biological_process',
-                'uses basic rule-based matching').
-:- blip('regmatch-onts',
-        'parses ontologies using regular grammar matching',
-        [
-         atoms(module,Modules)
-         ],
-        Onts1,
-        (   load_bioresource(obol_av),
-            ensure_loaded(bio(regmatch)),
-            forall(member(Module,Modules),
-                   regmatch:ensure_loaded(bio(Module))),
-            (   Onts1=[]
-            ->  setof(Ont,ID^belongs(ID,Ont),Onts)
-            ;   Onts=Onts1),
-            forall(member(Ont,Onts),
-                   show_regmatch_ontology(Ont)))).
-            %show_all_properties,
-            %show_anon_classes)).
-            
-
-show_regmatch_ontology(Ont):-
-        forall(belongs(ID,Ont),
-               show_regmatch_id(ID)).
-
-show_regmatch_id(ID):-
-        genus(ID,_),
-        !.                      % already have it
-show_regmatch_id(ID):-
-        class(ID,N),
-        !,
-        (   regmatch_name_to_cdef(N,C)
-        ->  store_cdef(C,ID,_)
-        ;   true),
-        write_class(obo,ID).
-show_regmatch_id(ID):-
-        property(ID,_),
-        !,
-        write_property(obo,ID).
-show_regmatch_id(ID):-
-        throw(error(not_class_or_property(ID))).
-
-%show_regmatch_id(ID):-
-%        % no parse
-%        write_class(obo,ID).
-
 
 
 blipkit:example('obol mine-adjectives -r obol_av -u ontol_bridge_from_av_noun -r disease -r fma disease_ontology',

@@ -402,9 +402,9 @@ quickterm_outer(N,P,_JS) =>
 
 quickterm('',S) =>
   call(ensure_loaded(bio(quickterm))),
-  quickterm_outer(['QuickTerm Request: ',S],
+  quickterm_outer(['TermGenie Request: ',S],
         div(h2(hlink(S)),
-            h3('QuickTerm Request: ',S),
+            h3('TermGenie Request: ',S),
             div(class=chooser,
                 p('Select a template'),
                 form(id=template_selection,
@@ -416,9 +416,9 @@ quickterm('',S) =>
 
 quickterm(T,S) =>
   call(ensure_loaded(bio(quickterm))),
-  quickterm_outer(['QuickTerm Request: ',S,' template: ',T],
+  quickterm_outer(['TermGenie Request: ',S,' template: ',T],
         div(h2(hlink([quickterm,S])),
-            h3('QuickTerm Request in ',S),
+            h3('TermGenie Request in ',S),
             div(class=chooser,
                 h4('Template: ',T),
                 p(Desc) where qtt_description(T,Desc),
@@ -518,13 +518,13 @@ quickterm_form(T) =>
 
 
 quickterm_results(T,S,Msgs) =>
-  quickterm_outer(['QuickTerm Request: ',S,' ',T],
+  quickterm_outer(['TermGenie Request: ',S,' ',T],
         div(h2(hlink([quickterm,S])),
             quickterm_result_msgs(Msgs),
             quickterm_form(T))).
 
 quickterm_errors(T,S,Errs) =>
-  quickterm_outer(['QuickTerm Request: ',S,' ',T,' FAIL'],
+  quickterm_outer(['TermGenie Request: ',S,' ',T,' FAIL'],
         div(h2('FAILED'),
             h3('There was a problem with this request'),
             ul(li(quickterm_error(X)) forall member(X,Errs)),

@@ -2,7 +2,9 @@
 	  [
 	   iterative_sparql_query/4,
 	   dbpedia_query_links/4,
-	   sparql_query_links/4
+	   sparql_query_links/4,
+           neurocommons_describe/2,
+           neurocommons_query_links/4
 	   ]).
 
 
@@ -60,6 +62,33 @@ safe_sparql_query(Q,Rows,Opts) :-
         sleep(60),
         print_message(error,attempt(3)),
         sparql_query_results(Q,Rows,Opts).
+
+% ----------------------------------------
+% DESCRIBE
+% ----------------------------------------
+
+sparql_describe(URI,R,Opts) :-
+        concat_atom(['DESCRIBE',' ','<',URI,'>'],Q),
+        sparql_query(Q,R,Opts).
+
+% ----------------------------------------
+% NEUROCOMMONS SPECIFIC UTILS
+% ----------------------------------------
+neurocommons_describe(URI,R) :-
+        sparql_set_server([host('sparql.obodev.neurocommons.org'),port(80),path('/sparql/')]),
+        % virtuoso returns n3 by default - todo add support in sparql_client
+        sparql_describe(URI,R,[search([format='application/rdf+xml'])]).
+
+%% neurocommons_query_links(+A,?Row,+Limit,+Opts) is nondet
+neurocommons_query_links(A,Row,Limit,Opts) :-
+	(   A=obo(URL)
+	->  true
+	;   atom_concat('__',URL,A) % e.g. __nodeID://1000164413
+        ->  true
+        ;   URL=A),
+	debug(neurocommons,'focus: ~w',[A]),
+	sparql_set_server([host('sparql.obodev.neurocommons.org'),port(80),path('/sparql/')]),
+	sparql_query_links(URL,Row,Limit,Opts).
 
 
 % ----------------------------------------

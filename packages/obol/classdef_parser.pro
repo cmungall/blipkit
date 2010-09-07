@@ -1,21 +1,5 @@
 /* -*- Mode: Prolog -*- */
 /**
-  @author Chris Mungall
-  @version @cvskw $Revision: 1.12 $
-  @date @cvskw $Date: 2007/07/27 05:00:49 $
-  @license @link(url='http://www.fsf.org/licensing/licenses/lgpl.html')|LGPL|
-
-  @s1|Name| regmatch - simple regular grammar matches
-
-  @s1 Synopsis
-
-  @cl
-  :- use_module(regmatchname).
-
-  @/cl
-
-  @s1 Description
-
 **/
 
 
