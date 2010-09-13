@@ -1,11 +1,13 @@
 :- module(pkb_from_owl,[]).
 
 :- use_module(library('thea2/owl2_model')).
-:- use_module(library('thea2/owl2_basic_reasoner')).
+:- use_module(library('thea2/owl2_reasoner')).
+:- use_module(library('thea2/owl2_graph_reasoner')).
 :- use_module(pkb_db).
 :- use_module(bio(tabling)).
 
-:- table_pred(owl2_basic_reasoner:entailed/1).
+%:- table_pred(owl2_reasoner:reasoner_ask/1).
+:- graph_reasoner_memoize.
 
 literal_text(literal(type(_,X)),X).
 
@@ -17,11 +19,11 @@ pkb_db:species_label('http://ontology.neuinfo.org/NIF/BiomaterialEntities/NIF-Or
 pkb_db:species_label('http://ontology.neuinfo.org/NIF/BiomaterialEntities/NIF-Organism.owl#birnlex_160',rat). 
 foo('0').
 
-pkb_db:organism(Org) :- entailed(classAssertion('http://ontology.neuinfo.org/NIF/BiomaterialEntities/NIF-Organism.owl#birnlex_2',Org)). % Organism
-pkb_db:organism(Org) :- entailed(subClassOf(Org,'http://ontology.neuinfo.org/NIF/BiomaterialEntities/NIF-Organism.owl#birnlex_516')). % human
+pkb_db:organism(Org) :- reasoner_ask(classAssertion('http://ontology.neuinfo.org/NIF/BiomaterialEntities/NIF-Organism.owl#birnlex_2',Org)). % Organism
+pkb_db:organism(Org) :- reasoner_ask(subClassOf(Org,'http://ontology.neuinfo.org/NIF/BiomaterialEntities/NIF-Organism.owl#birnlex_516')). % human
 
-pkb_db:organism_species(Org,Species) :- species_label(Species,_),entailed(subClassOfReflexive(Org,Species)).
-pkb_db:organism_species(Org,Species) :- species_label(Species,_),entailed(classAssertion(Species,Org)).
+pkb_db:organism_species(Org,Species) :- species_label(Species,_),reasoner_ask(subClassOfReflexive(Org,Species)).
+pkb_db:organism_species(Org,Species) :- species_label(Species,_),reasoner_ask(classAssertion(Species,Org)).
 
 :- table_pred(pkb_db:organism/1).
 
@@ -44,12 +46,12 @@ pkb_db:organism_description(Org,Desc) :-
 pkb_db:disease(D) :-
         equivalent_to(_,intersectionOf(L)),
         member(someValuesFrom('http://ontology.neuinfo.org/NIF/Backend/BIRNLex-OBO-UBO.owl#birnlex_17', D),L),
-        entailed(subClassOf(D,'http://ontology.neuinfo.org/NIF/Dysfunction/NIF-Dysfunction.owl#birnlex_12796')).
+        reasoner_ask(subClassOf(D,'http://ontology.neuinfo.org/NIF/Dysfunction/NIF-Dysfunction.owl#birnlex_12796')).
 
 pkb_db:organism_role_disease(O,Role,D) :-
         equivalent_to(O1,intersectionOf(L)),
         member(someValuesFrom('http://ontology.neuinfo.org/NIF/Backend/BIRNLex-OBO-UBO.owl#birnlex_17', D),L),
-        entailed(subClassOf(D,'http://ontology.neuinfo.org/NIF/Dysfunction/NIF-Dysfunction.owl#birnlex_12796')),
+        reasoner_ask(subClassOf(D,'http://ontology.neuinfo.org/NIF/Dysfunction/NIF-Dysfunction.owl#birnlex_12796')),
         (   O1=O,
 	    Role=canonical
         ;   classAssertion(O1,O),
@@ -66,6 +68,10 @@ pkb_db:disease_description(Disease,Desc) :-
                              Disease,
                              DescLiteral),
         literal_text(DescLiteral,Desc).
+
+% ----------------------------------------
+% INSTANCE LEVEL PHENOTYPES
+% ----------------------------------------
 
 % phenotype attached directly to organism
 % here the quad is a 4-tuple of *individuals*. this is then later used by organism_phenotype/2
@@ -142,6 +148,10 @@ opq(O,P,PQ) :-
 	->  nullableClassAssertion(D,NestedD1)
 	;   D=(-)).
 
+% ----------------------------------------
+% CLASS LEVEL PHENOTYPES
+% ----------------------------------------
+
 % class-level (e.g. Human With Parkinsons)
 opq(Org,P,PQ) :-
 	PQ = (E,Q,D,W),
@@ -152,7 +162,7 @@ opq(Org,P,PQ) :-
         equivalent_to(P,PCE),
         PCE=intersectionOf(CEL),
         select(Q,CEL,DiffL),        
-        entailed(subClassOf(Q,'http://purl.org/obo/owl/PATO#PATO_0000001')),
+        reasoner_ask(subClassOf(Q,'http://purl.org/obo/owl/PATO#PATO_0000001')),
 	\+ has_number_of(Q),
         differentiae_bearer(DiffL,E,W),
         %class(E),
@@ -177,7 +187,6 @@ opq(Org,P,PQ) :-
 	PQ = (E,Q,-,W).
 
 has_number_of('http://purl.org/obo/owl/PATO#PATO_0001555').
-
 
 differentiae_bearer(DiffL,E,-) :-
         member(someValuesFrom('http://purl.org/obo/owl/obo#inheres_in',E),DiffL),

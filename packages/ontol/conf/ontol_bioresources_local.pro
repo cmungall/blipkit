@@ -148,6 +148,10 @@ user:bioresource(worm_phenotype_xp,obo_local('phenotype/worm_phenotype_xp.obo'),
 %user:bioresource(go_xp_chebi,obo_local('cross_products/go_chebi_xp/GO_to_ChEBI.obo'),obo).
 %user:bioresource(ro_ucdhsc,obo_local('cross_products/go_chebi_xp/ro_ucdhsc.obo'),obo).
 
+% UBERPHENO
+user:bioresource(upheno,obo_local('phenotype/phenotype_xp/uberpheno/uberpheno-basic.obo'),obo).
+
+
 user:bioresource(go_xp_all,'/users/cjm/cvs/go/scratch/xps/go_xp_all-merged.obo',obo).
 user:bioresource(cc_xp_self,'/users/cjm/cvs/go/scratch/xps/cellular_component_xp_self-imports.obo',obo).
 

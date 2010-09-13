@@ -7,10 +7,9 @@
           ]).
 
 :- use_module(library('thea2/owl2_model')).
-:- use_module(library('thea2/owl2_basic_reasoner')).
-:- use_module(library('thea2/owl2_tbox_reasoner')).
+:- use_module(library('thea2/owl2_reasoner')).
+:- use_module(library('thea2/owl2_graph_reasoner')).
 :- use_module(pkb_db).
-%:- use_module(phenotype_db).
 :- use_module(phenoblast_writer_dot).
 :- use_module(bio(bioprolog_util),[solutions/3]).
 :- use_module(bio(tabling),[table_pred/1]).
@@ -32,7 +31,9 @@
 
 % the following manifests subclass/2 and restriction/2 from Thea, required for phenotype subsumption tests.
 % it is assumed you are using Thea/OWL for pkb_web and pkb_db
-:- use_module(pkb_to_phenotype).
+% DEPRECATED - todo - check entity_label
+%:- use_module(pkb_to_phenotype).
+metadata_db:entity_label(X,V) :- owl2_model:labelAnnotation_value(X,V).
 
 :- use_module(library('http/thread_httpd')).
 :- use_module(library('http/http_dispatch')).
@@ -48,6 +49,11 @@ foreach(Template, Goal, In, Rest) :-
 
 % todo: test if safe..
 %:- table_pred(owl2_basic_reasoner:entailed/1).
+%:- table_pred(owl2_reasoner:reasoner_ask/2).
+:- table_pred(owl2_graph_reasoner:class_descendant/2).
+:- table_pred(owl2_graph_reasoner:class_ancestor/2).
+:- initialization(initialize_reasoner(graph_reasoner,_,[])).
+
 
 :- multifile http:location/3.
 :- dynamic   http:location/3.
@@ -1666,7 +1672,7 @@ view_class(Request) :-
 
 % redirect
 view_class(Request,Class) :-
-        entailed(subClassOf(Class,'http://ontology.neuinfo.org/NIF/Backend/BIRNLex-OBO-UBO.owl#birnlex_2')),
+        reasoner_ask(subClassOf(Class,'http://ontology.neuinfo.org/NIF/Backend/BIRNLex-OBO-UBO.owl#birnlex_2')),
         \+ organism(Class),
         !,
         debug(phenotype,'rerouting to ~w',[Class]),
@@ -1686,7 +1692,8 @@ view_class(_Request,Class) :-
         length(OrgPs,NumOrgPs),
         (   NumOrgPs>75
         ->  Matches=[]
-        ;   solutions(match(Org1,Org2,Match),
+        ;   debug(phenotype,'Finding matches (NumOrgPs=~w)',[NumOrgPs]),
+            solutions(match(Org1,Org2,Match),
                       (   member(Org1,Orgs),
                           member(Org2,Orgs),
                           Org1@<Org2,
@@ -1695,7 +1702,7 @@ view_class(_Request,Class) :-
         debug(phenotype,'fetching class assertions for ~q',[Class]),
         solutions(tr([td(\entity_info(I)),
 		      td(\class_info(AssertedClass))]),
-                  (   entailed(classAssertion(Class,I)),
+                  (   reasoner_ask(classAssertion(Class,I)),
                       classAssertion(AssertedClass,I)),
                   InstRows),
 	length(InstRows,NumRows),
@@ -2160,7 +2167,7 @@ lookup_organism_by_inferred_class(Class,Org,P,Aspect) :-
 	lookup_organism_by_asserted_class(SubClass,Org,P,Aspect).
 lookup_organism_by_inferred_class(Class,Org,P,Aspect) :-
 	debug(temp,'  lookup: ~w',[Class]),
-	entailed(subClassOf(SubClass,someValuesFrom(_,Class))),
+	reasoner_ask(subClassOf(SubClass,someValuesFrom(_,Class))),
 	debug(temp,'    [r]subclass: ~w',[SubClass]),
 	lookup_organism_by_asserted_class(SubClass,Org,P,Aspect).
 
@@ -2181,7 +2188,7 @@ lookup_organism_by_asserted_class(P,Org,P,phenotype) :-
 
 % TODO: move to phenotype_db? (but this uses ontol_db model..)
 % note: uses same pred name as simmatrix_multi
-atomic_subsumed_by(X,Y) :- entailed(subClassOf(X,Y)).
+atomic_subsumed_by(X,Y) :- reasoner_ask(subClassOf(X,Y)).
 atomic_subsumed_by(X,X).
 
 % this is currently too slow...

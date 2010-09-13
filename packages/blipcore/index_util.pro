@@ -3,7 +3,10 @@
 :- module(index_util,[
 		      materialize_index/1,
 		      materialize_index/2,
+                      materialize_index_to_file/2,
+                      materialize_index_to_file/3,
 		      materialize_indexes_to_file/2,
+		      materialize_indexes_to_file/3,
 		      materialize_index_to_stream/2,
 		      materialize_goal_to_file/2,
 		      materialize_goals_to_file/2
@@ -70,6 +73,14 @@ materialize_index_to_path(Term,Dir) :-
 	absolute_file_name(DirAbs/FileName,AbsFilePath),
 	materialize_indexes_to_file([Term],AbsFilePath).
 
+materialize_index_to_file(Term,File) :-
+        materialize_indexes_to_file([Term],File).
+
+materialize_index_to_file(Term,File,Opts) :-
+        materialize_indexes_to_file([Term],File,Opts).
+
+
+
 %% materialize_indexes_to_file(+Terms:list,+File) is det
 %
 % if File does not exist, materializes a set of indexes
@@ -81,6 +92,14 @@ materialize_index_to_path(Term,Dir) :-
 % step is still called. Thus there is only a benefit to
 % using this when Terms contains intensional predicates.
 materialize_indexes_to_file(Terms,File) :-
+        materialize_indexes_to_file(Terms,File,[]).
+materialize_indexes_to_file(Terms,File,Opts) :-
+        select(force(true),Opts,Opts2),
+        exists_file(File),
+        !,
+        delete_file(File),
+        materialize_indexes_to_file(Terms,File,Opts2).
+materialize_indexes_to_file(Terms,File,_Opts) :-
 	exists_file(File),
 	!,
         debug(index, 'using existing index file: ~w', [File]),
@@ -93,7 +112,7 @@ materialize_indexes_to_file(Terms,File) :-
 	forall(member(Term,Terms),
 	       materialize_index(Term)).
 
-materialize_indexes_to_file(Terms,File) :-
+materialize_indexes_to_file(Terms,File,_Opts) :-
 	open(File,write,IO),
 	forall(member(Term,Terms),
 	       materialize_index_to_stream(Term,IO)),

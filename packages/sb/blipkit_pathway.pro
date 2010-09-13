@@ -18,7 +18,7 @@ blipkit:opt_description(diagram,'full[default] OR event OR event(Opts). Opts = r
 
 
 blipkit:example('blip -r go -r reactome/Homo_sapiens pathway-viz -n "Mitotic Prometaphase"  -to display',
-                'visualize pathway').
+                'visualize pathway. Name is Reactome name. Generates png and displays it (default display option is text)').
 blipkit:example('blip -r go -r reactome/Homo_sapiens pathway-viz -id GO:0050796 -show participants -show xrefs -show subevents',
                 'textual info on pathway').
 blipkit:example('blip -r reactome/Homo_sapiens pathway-viz -n "TCR signaling" -diagram event -to display',

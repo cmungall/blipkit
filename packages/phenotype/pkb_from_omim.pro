@@ -19,7 +19,7 @@ pkb_db:organism(Org) :- organism_variant_gene(Org,_).
 % requires omim2gene
 pkb_db:organism_variant_gene(O,G) :-
 	organism_disease(O,D),
-	disorder2gene(D,G).
+	disorder2ncbigene(D,G).
 
 /*
 pkb_db:organism_variant_gene(O,G) :-

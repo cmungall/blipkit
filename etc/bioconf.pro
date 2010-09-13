@@ -33,6 +33,7 @@ user:file_search_path(amigo_src,'/users/cjm/cvs/bioprolog/apps/obol/src').
 user:file_search_path(amigo_conf,'/users/cjm/obol2/conf').
 
 user:file_search_path(biowarehouse,'/users/cjm/cvs/biowarehouse').
+user:file_search_path(phenotype_commons,'/users/cjm/cvs/phenotype-commons/annotations').
 
 
 :- discontiguous user:bioresource/2, user:bioresource/3, user:bioresource/4.
@@ -129,11 +130,9 @@ user:bioresource(pthr(N),url(Path),nhx):- nonvar(N),concat_atom(['http://amigo.b
 % --OBDPatoData--
 
 % old..
-user:bioresource(fly_instances,datadir('phenotype/fb_inst.pro'),pro,ontol_db).
-user:bioresource(pheno_fly,datadir('phenotype/fb_inst.pro'),pro,ontol_db).
-user:bioresource(zfin_instances,datadir('phenotype/zfin_inst.pro'),pro,ontol_db).
-user:bioresource(pheno_zfin,datadir('phenotype/zfin_inst.pro'),pro,ontol_db).
-user:bioresource(organism,datadir('phenotype/organism.pro'),pro,ontol_db).
+user:bioresource(mgi_genotype_phenotype,phenotype_commons('MGI/genotype_phenotype.rpt'),tbl(g2p)).
+user:bioresource(mgi_gene_phenotype,phenotype_commons('MGI/gene_phenotype.rpt'),tbl(g2p)).
+user:bioresource(omim_phenotype,phenotype_commons('Human/disorder_phenotype.txt'),tbl(g2p)).
 
 % --NCBI--
 user:bioresource(taxnames,home('Data/ncbitax/names.dmp'),ncbitaxname).

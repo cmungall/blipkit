@@ -56,9 +56,11 @@
            ]).
 
 :- use_module(library('thea2/owl2_model')).
-:- use_module(library('thea2/owl2_basic_reasoner'),
-              [entailed/1       % for organism_inferred_type/2
-              ]).
+:- use_module(library('thea2/owl2_reasoner')).
+% TODO - replace with graph_reasoner
+%:- use_module(library('thea2/owl2_basic_reasoner'),
+%              [entailed/1       % for organism_inferred_type/2
+%              ]).
 :- use_module(bio(bioprolog_util),[solutions/3]).
 
 :- use_module(phenotype_db).
@@ -172,7 +174,7 @@ phenotype_lcs_organism_pair(P,F1,F2,SV) :-
         member(SV,Pairs),
         SV= _-lcs(Classes,_,_),
         member(Class,Classes),
-        entailed(subClassOfReflexive(Class,P)).
+        reasoner_ask(reflexiveSubClassOf(Class,P)).
 
 inferred_organism_role_disease(Model,model,D) :-
 	inferred_organism_role_disease(Model,model,D,avg_IC+maxIC).

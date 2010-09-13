@@ -75,6 +75,7 @@ main:-
          bool(import_all,ImportAll),
          terms(sqlbind,SQLBinds),
          terms(index,Indexes),
+         terms(multifile,MultifileDirectives),
          atom(index_file,IndexFile),
          atoms([pregoal,pre],PreGoals),
          atoms(endgoal,EndGoal),
@@ -119,6 +120,7 @@ main:-
         %          die('You must set up a bioconf.pro file!'))),
         (Guitracer=1->guitracer;true),
         forall(member(PreGoal,PreGoals),PreGoal),
+        maplist(multifile,MultifileDirectives),
         forall(member(SetVar,SetVars),
                (   concat_atom([Var,Value],'=',SetVar),
                    nb_setval(Var,Value))),
@@ -657,6 +659,56 @@ draw_source_dependencies(Sources,_ToFormat,_OutFile) :- % TODO
 	    forall((Goal,Where),
 		   show_factrow(Opts,Goal)))).
 
+:- blip('sim-all',
+        'calculates similarity using the simmatrix module; all by all from 2 files',
+        [
+	 bool(label,IsLabel),
+         bool(write_prolog,IsProlog),
+	 atom(metric,Metric),
+	 term(fa_pred,Pred),
+	 number(min_score, MinScore, 0.5),
+	 number(min_overlap, MinOverlap, 20)
+	],
+	FileL,
+        (   
+            maplist(load_biofile,FileL),
+            ensure_loaded(bio(simmatrix)),
+	    Opts=[isProlog(IsProlog),
+                  isLabel(IsLabel)],
+	    ensure_loaded(bio(index_util)),
+            Term =.. [Pred,A,B],
+	    generate_term_indexes(A,B,Term),
+	    (   var(Metric)
+	    ->	Goal=feature_pair_ci_cu_simj(F1,F2,CI,_,S),
+		Where= (CI>MinOverlap, S>MinScore)
+	    ;   (   Metric=maxIC
+                ->  Goal=compare_feature_pair(F1,F2,S-_Attrs,[metric(Metric)]),
+                    Where= (S>MinScore)
+                ;   Goal=compare_feature_pair(F1,F2,S,[metric(Metric)]),
+                    Where= (S>MinScore))),
+	    forall((pick_feature_pair(F1,F2,Pred),
+                    %feature_exists(F1),
+                    %feature_exists(F2),
+                    %id_idspace(F1,S1),
+                    %id_idspace(F2,S2),
+                    %S1@<S2,
+                    %F1\=F2,
+                    Goal,
+                    Where),
+		   show_factrow(Opts,Goal)))).
+
+pick_feature_pair(F1,F2,Pred) :-
+        feature_exists(F1),
+        feature_exists(F2),
+        F1 @< F2,
+        \+ features_from_same_source(F1,F2,Pred).
+
+features_from_same_source(F1,F2,Pred) :-
+        !,
+        Term1 =.. [Pred,F1,_],
+        Term2 =.. [Pred,F2,_],
+        clause_source(Term1,S),
+        clause_source(Term2,S).
 
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

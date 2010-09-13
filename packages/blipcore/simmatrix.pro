@@ -483,6 +483,9 @@ compare_feature_pair_by_metric(F1,F2,AllScore,L,Opts) :-
         member(score(MainMetric,MainScore),Scores),
         AllScore=MainScore*Scores.
 
+compare_feature_pair_by_metric(F1,F2,MaxIC-MaxICAttrs,maxIC,_Opts) :-
+        !,
+        feature_pair_maxIC_attributes(F1,F2,MaxIC,MaxICAttrs).
 compare_feature_pair_by_metric(F1,F2,Score,simj,_Opts) :-
         !,
         feature_pair_simj(F1,F2,Score).
@@ -545,6 +548,7 @@ vector_sumIC(AV,SumIC) :-
         maplist(attribute_information_content,AL,ICs),
         sumlist(ICs,SumIC).
 
+% given a vector of attributes, find the max IC of all attributes
 vector_maxIC(AV,MaxIC) :-
         vector_attributes(AV,AL),
         maplist(attribute_information_content,AL,ICs),
@@ -572,15 +576,12 @@ list_pair_matches([_|AL],[_|ICs],MaxIC,MaxAL) :-
 
 
 
-%% vector_attributes(+AV:int,?AL:list)
-% True if AV is an integer bit vector with the attributes in AL set
-vector_attributes(AV,AL) :-
-        vector_attributes(AV,AL,0).
 
-% in theory we could make this faster; eg lookup table for every 8 bits..?
-% for sparse arrays most often zeros
-vector_attributes(0,[],_) :- !.
-vector_attributes(AV,AL,Pos) :-
+vector_attributes_lo(AV,AL) :-
+        vector_attributes_lo(AV,AL,0).
+
+vector_attributes_lo(0,[],_) :- !.
+vector_attributes_lo(AV,AL,Pos) :-
         NextBit is AV /\ 1,
         AVShift is AV >> 1,
         NextPos is Pos+1,
@@ -588,7 +589,31 @@ vector_attributes(AV,AL,Pos) :-
         ->  attribute_ix(Att,Pos),
             AL=[Att|AL2]
         ;   AL=AL2),
-        vector_attributes(AVShift,AL2,NextPos).
+        !,
+        vector_attributes_lo(AVShift,AL2,NextPos).
+
+%% vector_attributes(+AV:int,?AL:list)
+% True if AV is an integer bit vector with the attributes in AL set
+vector_attributes(AV,AL) :-
+        vector_attributes(AV,AL,16).
+
+vector_attributes(AV,AL,Window) :-
+        Mask is 2**Window -1,
+        vector_attributes(AV,ALx,0,Window,Mask),
+        flatten(ALx,AL).
+
+vector_attributes(0,[],_,_,_) :- !.
+vector_attributes(AV,AL,Pos,Window,Mask) :-
+        !,
+        NextBit is AV /\ Mask,
+        AVShift is AV >> Window,
+        NextPos is Pos+Window,
+        (   NextBit=0
+        ->  vector_attributes(AVShift,AL,NextPos,Window,Mask)
+        ;   vector_attributes_lo(NextBit,ALNew,Pos),
+            AL=[ALNew|AL2],
+            vector_attributes(AVShift,AL2,NextPos,Window,Mask)).
+        
 
         
 

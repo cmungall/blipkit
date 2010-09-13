@@ -436,18 +436,19 @@ parentT1(ID,[T|TL],IDp,Via):-
             parentT1(IDz,TL,IDp,Via)).
 
 
-
+% parentRT/4
 parentRT(ID,[],ID,_).
 parentRT(ID,TL,IDp,Via):- parentT(ID,TL,IDp,Via).
-
-%% parentRT(?Class,?ParentClass) is nondet.
-% reflexive transitive parent/2. See parentRT/3
-parentRT(ID,IDp):- parentRT(ID,_,IDp).
 
 %% parentRT(?Class,?Relation,?ParentClass) is nondet.
 % reflexive transitive parent/3
 parentRT(ID,R,ID) :- is_reflexive(R).
+parentRT(ID,subclass,ID).
 parentRT(ID,TL,IDp):- parentT(ID,TL,IDp).
+
+%% parentRT(?Class,?ParentClass) is nondet.
+% reflexive transitive parent/2. See parentRT/3
+parentRT(ID,IDp):- parentRT(ID,_,IDp).
 
 
 
