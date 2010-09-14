@@ -6,12 +6,16 @@
            compare_feature_pair/4,
 	   attribute_feature_count/2,
 	   attribute_information_content/2,
+           feature_attribute/2,
+           feature_attributeset/2,
            feature_exists/1,
            feature_pair_ci/3,
            feature_pair_cu/3,
 	   feature_pair_subset_of/3,
            feature_pair_simj/3,
 	   feature_pair_ci_cu_simj/5,
+           feature_pair_simj_of_f1/3,
+           feature_pair_simj_of_f2/3,
            feature_pair_simGIC/3,
 	   feature_pair_simICratio/3,
            feature_pair_maxIC/3,
@@ -37,6 +41,8 @@
 :- dynamic attribute_ix/2.
 :- dynamic feature_vector_cached/2.
 :- dynamic template/3.
+:- dynamic feature_attribute/2.
+:- dynamic feature_attributeset_cached/2.
 :- dynamic feature_pair_score_cached/3.
 :- dynamic attribute_subsumer_vector_cached/2. % new
 
@@ -153,6 +159,8 @@ all_by_all :- true.
 generate_term_indexes(Feature,Attribute,Goal) :-
         retractall(simmatrix:template(_,_,_)),
         assert(simmatrix:template(Feature,Attribute,Goal)),
+        retractall(simmatrix:feature_attribute/2),
+        forall(Goal,assert(simmatrix:feature_attribute(Feature,Attribute))),
         retractall(simmatrix:feature_vector_cached/2),
 	debug(sim,'generating feature ix',[]),
         generate_term_index(feature_ix,Feature,Goal),
@@ -208,6 +216,8 @@ av_subsumes_feature(AV,F) :-
 	VI is FV /\ AV,
 	VI = AV.
 
+
+
 %% feature_pair_ci(?F1,?F2,?Num:int)
 % intersection of attribute values:
 % | attrs(F1) ∩ attrs(F2) |
@@ -258,6 +268,20 @@ feature_pair_simj(F1,F2,Sim) :-
 
 feature_pair_ci_cu_simj(F1,F2,CI,CU,Sim) :-
         feature_pair_cu(F1,F2,CU),
+	CU > 0,
+        feature_pair_ci(F1,F2,CI),
+        Sim is CI/CU.
+
+feature_pair_simj_of_f1(F1,F2,Sim) :-
+        feature_vector(F1,AV),
+        CU is popcount(AV),
+	CU > 0,
+        feature_pair_ci(F1,F2,CI),
+        Sim is CI/CU.
+
+feature_pair_simj_of_f2(F1,F2,Sim) :-
+        feature_vector(F2,AV),
+        CU is popcount(AV),
 	CU > 0,
         feature_pair_ci(F1,F2,CI),
         Sim is CI/CU.
@@ -315,6 +339,14 @@ feature_pair_simNRGIC(F1,F2,Sim) :-
 %% feature_pair_maxIC(?F1,?F2,-Max:float)
 % Max[IC(a)] : a ∈ A1 ∩ A2
 feature_pair_maxIC(F1,F2,MaxIC) :-
+        feature_attributeset(F1,AL1),
+        feature_attributeset(F2,AL2),
+        ord_intersection(AL1,AL2,AL_Both),
+        maplist(attribute_information_content,AL_Both,ICs),
+        max_list(ICs,MaxIC).
+
+/*
+old___feature_pair_maxIC(F1,F2,MaxIC) :-
         feature_vector(F1,AV1),
         feature_vector(F2,AV2),
         AVI is AV1 /\ AV2,
@@ -322,14 +354,25 @@ feature_pair_maxIC(F1,F2,MaxIC) :-
         % a list of attributes. maybe bitvectors don't buy us much for
         % this metric? use prolog sets instead?
         vector_maxIC(AVI,MaxIC).
+*/
 
 %% feature_pair_maxIC_attributes(?F1,?F2,-Max:float,-Attributes:List)
 % Max[IC(a)] : a ∈ A1 ∩ A2
-feature_pair_maxIC_attributes(F1,F2,MaxIC,AL) :-
+feature_pair_maxIC_attributes(F1,F2,MaxIC,MaxAL) :-
+        feature_attributeset(F1,AL1),
+        feature_attributeset(F2,AL2),
+        ord_intersection(AL1,AL2,AL_Both),
+        maplist(attribute_information_content,AL_Both,ICs),
+        max_list(ICs,MaxIC),
+        list_pair_matches(AL_Both,ICs,MaxIC,MaxAL).
+
+/*
+old___feature_pair_maxIC_attributes(F1,F2,MaxIC,AL) :-
         feature_vector(F1,AV1),
         feature_vector(F2,AV2),
         AVI is AV1 /\ AV2,
         vector_maxIC_attributes(AVI,MaxIC,AL).
+*/
 
 feature_pair_maxIC_nr_attributes(F1,F2,MaxIC,AL_nr) :-
         feature_pair_maxIC_attributes(F1,F2,MaxIC,AL),
@@ -395,6 +438,7 @@ feature_pair_avgICCS(F1,F2,Sim,AL) :-
 % if Att is in A(F1) then find the best att A2(s) in A(F2) with its IC.
 % there may be multiple such attributes, which is why we use a list
 feature_pair_attribute_maxIC_set(F1,F2,A,MaxIC,AM) :-
+        % TODO - fix this to use sets  and ord_intersection
         simmatrix:feature_attribute_direct(F1,A), % data unit-clause
         attribute_subsumer_vector(A,AV1), % derived from attribute_subsumer
         feature_vector(F2,AV2),
@@ -527,6 +571,21 @@ feature_vector(F,V) :-
         sumlist(Nums,V),
         assert(feature_vector_cached(F,V)).
 
+feature_attributeset(F,AL) :-
+        var(F),
+        !,
+        feature_exists(F),
+        feature_attributeset(F,AL).
+feature_attributeset(F,AL) :-
+        nonvar(F),
+        feature_attributeset_cached(F,AL),
+        !.
+feature_attributeset(F,AL) :-
+        setof(A,feature_attribute(F,A),AL),
+        assert(feature_attributeset_cached(F,AL)).
+
+
+
 % attribute_subsumer_vector(+Att,-AttSubsumerVector:int)
 % maps an attribute to an integer bitvector for all subsuming (parent) attributes
 attribute_subsumer_vector(A,ASV) :-
@@ -554,6 +613,7 @@ vector_maxIC(AV,MaxIC) :-
         maplist(attribute_information_content,AL,ICs),
         max_list(ICs,MaxIC).
 
+% DEPRECATED
 % vector_maxIC_attributes(+AV:int, ?MaxIC:float, ?MaxAL:list)
 % as vector_maxIC/2, but include all attributes with IC matching MaxIC
 vector_maxIC_attributes(AV,MaxIC,MaxAL) :-
@@ -572,11 +632,35 @@ list_pair_matches([_|AL],[_|ICs],MaxIC,MaxAL) :-
 
         
 
+%% vector_attributes(+AV:int,?AL:list)
+% True if AV is an integer bit vector with the attributes in AL set
+vector_attributes(AV,AL) :-
+        vector_attributes(AV,AL,16).
+
+vector_attributes(AV,AL,Window) :-
+        Mask is 2**Window -1,
+        vector_attributes(AV,ALx,0,Window,Mask),
+        flatten(ALx,AL).
+
+%% vector_attributes(+AV:int,?AL:list,+Pos,+Window,+Mask) is det
+% Mask must = Window^2 -1 (not checked)
+% shifts AV down Window bits at a time. If there are any bits in the window,
+% use vector_attributes_lo/2 to get the attribute list from this window.
+% note resulting list must be flattened.
+% todo: difference list impl?
+vector_attributes(0,[],_,_,_) :- !.
+vector_attributes(AV,AL,Pos,Window,Mask) :-
+        !,
+        NextBit is AV /\ Mask,
+        AVShift is AV >> Window,
+        NextPos is Pos+Window,
+        (   NextBit=0
+        ->  vector_attributes(AVShift,AL,NextPos,Window,Mask)
+        ;   vector_attributes_lo(NextBit,ALNew,Pos),
+            AL=[ALNew|AL2],
+            vector_attributes(AVShift,AL2,NextPos,Window,Mask)).
         
-
-
-
-
+% as vector_attributes/2, but checks one bit at a time
 vector_attributes_lo(AV,AL) :-
         vector_attributes_lo(AV,AL,0).
 
@@ -591,29 +675,6 @@ vector_attributes_lo(AV,AL,Pos) :-
         ;   AL=AL2),
         !,
         vector_attributes_lo(AVShift,AL2,NextPos).
-
-%% vector_attributes(+AV:int,?AL:list)
-% True if AV is an integer bit vector with the attributes in AL set
-vector_attributes(AV,AL) :-
-        vector_attributes(AV,AL,16).
-
-vector_attributes(AV,AL,Window) :-
-        Mask is 2**Window -1,
-        vector_attributes(AV,ALx,0,Window,Mask),
-        flatten(ALx,AL).
-
-vector_attributes(0,[],_,_,_) :- !.
-vector_attributes(AV,AL,Pos,Window,Mask) :-
-        !,
-        NextBit is AV /\ Mask,
-        AVShift is AV >> Window,
-        NextPos is Pos+Window,
-        (   NextBit=0
-        ->  vector_attributes(AVShift,AL,NextPos,Window,Mask)
-        ;   vector_attributes_lo(NextBit,ALNew,Pos),
-            AL=[ALNew|AL2],
-            vector_attributes(AVShift,AL2,NextPos,Window,Mask)).
-        
 
         
 
