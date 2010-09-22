@@ -6,9 +6,9 @@
            start_server/1
           ]).
 
-:- use_module(library('thea2/owl2_model')).
-:- use_module(library('thea2/owl2_reasoner')).
-:- use_module(library('thea2/owl2_graph_reasoner')).
+:- use_module(library(thea2/owl2_model)).
+:- use_module(library(thea2/owl2_reasoner)).
+:- use_module(library(thea2/owl2_graph_reasoner)).
 :- use_module(pkb_db).
 :- use_module(phenoblast_writer_dot).
 :- use_module(bio(bioprolog_util),[solutions/3]).
@@ -35,12 +35,13 @@
 %:- use_module(pkb_to_phenotype).
 metadata_db:entity_label(X,V) :- owl2_model:labelAnnotation_value(X,V).
 
-:- use_module(library('http/thread_httpd')).
-:- use_module(library('http/http_dispatch')).
-:- use_module(library('http/html_write')).
-:- use_module(library('http/html_head')).
-:- use_module(library('http/http_parameters')).
+:- use_module(library(http/thread_httpd)).
+:- use_module(library(http/http_dispatch)).
+:- use_module(library(http/html_write)).
+:- use_module(library(http/html_head)).
+:- use_module(library(http/http_parameters)).
 
+% ditched?
 :- op(800, xfy, foreach).
 foreach(Template, Goal, In, Rest) :-
         findall(Val,(Goal,phrase(Template,Val,[])),Vals),
@@ -54,6 +55,9 @@ foreach(Template, Goal, In, Rest) :-
 :- table_pred(owl2_graph_reasoner:class_ancestor/2).
 :- initialization(initialize_reasoner(graph_reasoner,_,[])).
 
+% ----------------------------------------
+% LOCATIONS
+% ----------------------------------------
 
 :- multifile http:location/3.
 :- dynamic   http:location/3.
@@ -83,7 +87,7 @@ http:location(cliopatria,  pkb(clio),	       [priority(5)]).
 :- http_handler(pkb('compare/'), view_organism_pair, [prefix]).
 :- http_handler(pkb('phenoblast/'), phenoblast, [prefix]).
 :- http_handler(pkb(phenoquery), phenoquery, []).
-:- http_handler(pkb(search), search, []).
+:- http_handler(pkb(search_results_page), search_results_page, []).
 :- http_handler(pkb('disease/'), view_disease, [prefix]).
 :- http_handler(pkb('diseases/'), all_diseases, [prefix]).
 :- http_handler(pkb('class/'), view_class, [prefix]).
@@ -93,8 +97,6 @@ http:location(cliopatria,  pkb(clio),	       [priority(5)]).
 :- http_handler(pkb(images), images_dir, [prefix]).
 :- http_handler('/images/', implicit_images_dir, [prefix]).
 %:- http_handler('/bubble.gif', implicit_images_dir, [prefix]).
-
-
 
 
 param(title,     [optional(true)]).
@@ -133,6 +135,7 @@ start_server(Port) :-
 % GENERAL UTILS
 % ----------------------------------------
 
+% TODO - replace
 js_dir(Request) :-
 	http_location_by_id(js_dir, ResRoot),
 	memberchk(path(Path), Request),
@@ -232,6 +235,7 @@ db_summary -->
                     tr([td('Phenotypes'),td(PC)]),
                     tr([td('Annotations'),td(OPC)])])).
 
+% TODO - this is for viewing cluster analysis of organisms
 organism_cluster_treeview(_Request) :-
         reply_html_page([ title('OBD-PKB: Organism Clustering'),
                           link([rel=stylesheet,type='text/css',href='/pkb/js/obd-main.css'],[]),
@@ -254,8 +258,8 @@ organism_cluster_treeview(_Request) :-
 % ----------------------------------------
 
 query_box -->
-	html(form([id(search),
-                   action(location_by_id(search))],
+	html(form([id(search_results_page),
+                   action(location_by_id(search_results_page))],
 		  ['Search:',
 		   input([type(textfield),
                           size(25),
@@ -267,8 +271,8 @@ query_box -->
 			 [])])).
 
 
-%TODO
-search(Request) :-
+% currently only searches organisms and classes
+search_results_page(Request) :-
         http_parameters(Request,
                         [
                          query(S)
@@ -281,7 +285,9 @@ search(Request) :-
         debug(phenotype,'  indexing if required...',[]),
         materialize_index(metadata_nlp:entity_label_token_stemmed(0,0,1,0)),
         debug(phenotype,'  query: ~w',[S]),
-        label_query_results(S,true,ScoreEntityPairs),
+        (   label_query_results(S,true,ScoreEntityPairs)
+        ->  true
+        ;   ScoreEntityPairs=[]),
         findall(Org,(member(_-Org,ScoreEntityPairs),organism(Org)),Orgs),
         findall(Class,(member(_-Class,ScoreEntityPairs),class(Class)),Classes),
         reply_html_page([ title(['OBD-PKB: Search Results for ',S]),
@@ -318,6 +324,7 @@ all_organisms(Request) :-
 		      sub_atom(N,_,_,_,S)),
 		  Orgs),
 	all_organisms_page(Orgs).
+% e.g. all orgs beginning 'A'
 all_organisms(Request) :-
         http_parameters(Request,
                         [ letter(Letters)
@@ -336,6 +343,7 @@ all_organisms(Request) :-
                   Orgs),
         !,
         all_organisms_page(Orgs).
+% action on selected orgs
 all_organisms(Request) :-
         http_parameters(Request,
                         [ action(Action),
@@ -347,6 +355,7 @@ all_organisms(Request) :-
         Orgs=[_|_],
         !,
         action_on_selected_organisms(Action,Orgs).
+% show A-Z
 all_organisms(_Request) :-
         debug(phenotype,'  counting orgs',[]),
         aggregate(count,Org,organism(Org),N),
@@ -388,7 +397,6 @@ organisms_by_label_index_page :-
                           \db_summary,
                           ul(LetterList)]).
 
-  
 % split list because too many orgs
 organisms_by_label_index-->
         {findall(Letter,
@@ -638,10 +646,12 @@ view_organism_pair(Request) :-
                         ],
                         [
                          \page_header('Comparison'),
-                         \comparison_table(Q,S)
+                         \org_pairwise_comparison_table(Q,S)
                         ]).
 
-comparison_table(F1,F2) -->
+% PAIRWISE comparisons
+% DEPENDS: minimal_LCS_simJ-avg_simJ
+org_pairwise_comparison_table(F1,F2) -->
 	 !,
         {debug(phenotype,'compare: ~q, ~q',[F1,F2]),
 	 organism_pair_score_value(F1,F2,minimal_LCS_simJ-avg_simJ,Pairs-AvgSim),
@@ -659,7 +669,7 @@ comparison_table(F1,F2) -->
 			th(' '),
 			th(width='40%',
 			   \organism_href(F2))]),
-		    \comparison_table_lcs_rows(Pairs,[])]),
+		    \org_pairwise_comparison_table_lcs_rows(Pairs,[])]),
 	      div([id=info,class=infoBox],
 		  [
 		   h3('Documentation'),
@@ -725,19 +735,18 @@ example_subsumer(_) -->
 	html(' (umm, guess I chose a bad example here, I can\'t find any subsumers which is odd. Sorry about that, bear with me...)').
 
 
-	    
 
 /*
-comparison_table(F1,F2) -->
-	old_comparison_table(F1,F2).
+org_pairwise_comparison_table(F1,F2) -->
+	old_org_pairwise_comparison_table(F1,F2).
 */
 
-comparison_table_lcs_rows([],_) --> [].
-comparison_table_lcs_rows([Pair|Pairs],PairsDone) -->
-	comparison_table_lcs_row(Pair,PairsDone),
-	comparison_table_lcs_rows(Pairs,[Pair|PairsDone]).
+org_pairwise_comparison_table_lcs_rows([],_) --> [].
+org_pairwise_comparison_table_lcs_rows([Pair|Pairs],PairsDone) -->
+	org_pairwise_comparison_table_lcs_row(Pair,PairsDone),
+	org_pairwise_comparison_table_lcs_rows(Pairs,[Pair|PairsDone]).
 
-comparison_table_lcs_row(Pair,PairsDone) -->
+org_pairwise_comparison_table_lcs_row(Pair,PairsDone) -->
 	{Pair=Sim-lcs(LCS,S1s,S2s),
 	 (   member(S1,S1s),
 	     member(S2,S2s),
@@ -813,7 +822,7 @@ lcs_IC_tooltip(IC) -->
 	
 
 /*
-old_comparison_table(F1,F2) -->
+old_org_pairwise_comparison_table(F1,F2) -->
 	 !,
         {method_feature_pair_phenosim(postcomposed,F1,F2,Results), % TODO
 	 member(bestmatches(P1Xs,P2Xs),Results),
@@ -834,7 +843,7 @@ old_comparison_table(F1,F2) -->
                    Sections])).
 
 % show pairwise matches in a graphviz display
-old_comparison_table(F1,F2) -->
+old_org_pairwise_comparison_table(F1,F2) -->
         {method_feature_pair_phenosim(psimj,F1,F2,_), % TODO
 	 !,
 	 feature_pair_to_dotgraph(F1,F2,G),
@@ -850,10 +859,10 @@ old_comparison_table(F1,F2) -->
 		 ])).
 
 % symmetry - TODO
-old_comparison_table(F1,F2) -->
+old_org_pairwise_comparison_table(F1,F2) -->
         {method_feature_pair_phenosim(psimj,F2,F1,_)}, % TODO - better symm
 	!,
-	comparison_table(F2,F1).
+	org_pairwise_comparison_table(F2,F1).
 
 feature_pair_subsumers(F1,F2) -->
 	{method_feature_pair_phenosim(simj_all,F1,F2,Rs),
@@ -1077,15 +1086,18 @@ phenotype_info(P) -->
         html(div(\class_info(P))).
 
 
+%% getscore(+Score:term, +ScoreVals:list, ?Val) is det
+% defaults to zero
 getscore(S,SVs,V) :- getscore(S,SVs,V,0).
 
 getscore(S,SVs,V,_) :- member(S-V,SVs),!.
 getscore(_,_,Def,Def) :- !.
 
+% ad-hoc combo of maxIC and avg_IC and min_LCS_simJ
 combine_scores(SVs,Score) :-
 	getscore(maxIC,SVs,Score1),
 	getscore(avg_IC,SVs,Score2),
-	getscore(minimal_LCS_simJ-avg_simJ,SVs,_-AvgSimJ),
+	getscore(minimal_LCS_simJ-avg_simJ,SVs,_-AvgSimJ,0-0),
 	Score is Score1+Score2+AvgSimJ.
 
 similar_organisms_table(Org) -->
@@ -1116,19 +1128,21 @@ similar_organisms_table(Org) -->
 
 organism_similarity_matchrows(L) --> multi(organism_similarity_matchrow,L).
 
+% for upheno analysis, map to avg_IC and best_LCS
 organism_similarity_matchrow(Combined-hit(Org,Hit,SVs)) -->
 	{
 	 organism_species(Hit,Sp),
 	 getscore(maxIC,SVs,MaxIC),
-	 getscore(best_LCS,SVs,[BestLCS|_]),
+	 %getscore(best_LCS,SVs,[BestLCS|_]),
+	 getscore(best_LCS,SVs,BestLCSs),
 	 getscore(avg_IC,SVs,AvgIC),
-	 getscore(minimal_LCS_simJ-avg_simJ,SVs,_-AvgSimJ)
+	 getscore(minimal_LCS_simJ-avg_simJ,SVs,_-AvgSimJ,0-0)
 	},
         html(tr([td(\organism_href(Hit)),
                  td(\organism_type_href(Sp)),
                  td(MaxIC),
-                 %td(\multi(entity_info,BestLCSs)),
-		 td(\phenotype_info(BestLCS)),
+                 td(\multi(entity_info,BestLCSs)),
+		 %td(\phenotype_info(BestLCS)),
                  td(AvgIC),
                  td(AvgSimJ),
                  td(Combined),

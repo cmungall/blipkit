@@ -330,7 +330,7 @@ xsd(DataType) => if(concat_atom([xsd,_],':',DataType),
                     else: ['xsd:',data(DataType)]).
 
 def(Class,Def)=>
-  call(findall(X,def_xref(Class,X),Xs)),
+  call(solutions(X,def_xref(Class,X),Xs)),
   tag(def),quoted(Def),xrefs(Xs),
   newline.
 % sometimes we have a def_xref but no def text (e.g. wikipedia)
@@ -342,7 +342,7 @@ synonym(Class,Syn)=>
   tag(synonym),quoted(Syn),
   [' ',Scope] where ontol_writer_obo:synonym_scope_upcase(Class,Syn,Scope),
   [' ',Type] where entity_synonym_type(Class,Syn,Type),
-  call(findall(X,entity_synonym_xref(Class,Syn,X),Xs)),
+  call(solutions(X,entity_synonym_xref(Class,Syn,X),Xs)),
   xrefs(Xs),
   newline.
 inst_sv(ID,R,V,DataType)=>

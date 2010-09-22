@@ -824,6 +824,17 @@ show_findall(Opts,WhereAtom,SelectAtom,PredAtom):-
 %% show_factrow(+Opts,+Term)
 %   writes a predicate out as a tab delimited line, with predicate name as first column
 % @param Opts isLabel(1)
+% @param Opts isProlog(1)
+
+show_factrow(_,T) :-
+        var(T),
+        print_message(warning,blip(attempt_to_write_var(T))),
+        !.
+show_factrow(Opts,(T1,T2)):-
+        % conjunctions
+        !,
+        show_factrow(Opts,T1),
+        show_factrow(Opts,T2).
 show_factrow(Opts,T):-
         member(isProlog(1),Opts), !,
         writeq(T),write('.'),
@@ -833,12 +844,11 @@ show_factrow(Opts,T):-
         (   member(noNewline(1),Opts)
         ->  true
         ;   nl).
-
-
 show_factrow(Opts,T):-
         T=..L,
         show_terms(Opts,L),
         nl.
+
 show_terms(_Opts,[]).
 show_terms(Opts,[H]):-
         !,
@@ -853,6 +863,7 @@ show_terms(Opts,[H|L]):-
 show_term(Opts,T):-
         member(isLabel(1),Opts),
         member(isUseTabs(1),Opts),
+        \+ is_list(T),
         \+ member(isHeader(1),Opts),
         !,
         (   atom(T),
@@ -871,15 +882,28 @@ show_term(Opts,L):-
         member(isLabel(1),Opts),
         is_list(L),
         L=[_|_],
-        maplist(entity_label,L,L2),
         !,
-        write(L-L2).
+        write('[ '),
+        forall(member(T,L),
+               (   show_term(Opts,T),
+                   write(' '))),
+        write(']').
+        %maplist(entity_label,L,L2),
+        %!,
+        %write(L-L2).
 show_term(Opts,Term):-
         member(isLabel(1),Opts),
         Term=(H,Rest),
         !,
         show_term(Opts,H),
         write(','),
+        show_term(Opts,Rest).
+show_term(Opts,Term):-
+        member(isLabel(1),Opts),
+        Term=(H-Rest),
+        !,
+        write(H),
+        write('-'),
         show_term(Opts,Rest).
 show_term(_,T):- write(T).
 

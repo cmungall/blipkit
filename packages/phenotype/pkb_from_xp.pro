@@ -6,7 +6,14 @@
 :- use_module(bio(metadata_db)).
 :- use_module(bio(ontol_db)).
 
-%% TODO: use has_part
+/*
+
+  populates phenotype_quad/2 based on ontol_db logical definitions.
+
+  assumes organism_phenotype/2 will be populated separately
+  
+  */
+
 pkb_db:phenotype_quad(P,(E,Q,D,W)) :-
         genus(P,Q),
         (   differentium(P,'OBO_REL:inheres_in',E)

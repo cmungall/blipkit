@@ -145,9 +145,11 @@ disease_gene(D,G) :- disease_gene_variant(D,G,_).
 :- extensional(organism_pair_score_value/4).
 :- extensional(organism_pair_all_scores/3).
 
+organism_pair_score_value_symm(O1,O2,S,V) :- organism_pair_score_value(O1,O2,S,V).
+
 %% organism_match_all_score_values(+O1,?O2,?SVs:list) is semidet
 organism_match_all_score_values(O1,O2,SVs) :-
-	setof(S-V,organism_pair_score_value(O1,O2,S,V),SVs).
+	setof(S-V,organism_pair_score_value_symm(O1,O2,S,V),SVs).
 
 %% organism_pair_combined_score_value(F1,F2,ScoreExpr,V)
 % ScoreExpr is a mathematic expr e.g. avg_IC+maxIC

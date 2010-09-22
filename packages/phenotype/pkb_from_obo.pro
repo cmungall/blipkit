@@ -1,13 +1,22 @@
 :- module(pkb_from_obo,[]).
 
 :- use_module(pkb_db).
-:- use_module(phenotype_db).
+%:- use_module(phenotype_db).
 :- use_module(bio(tabling)).
 :- use_module(bio(metadata_db)).
 :- use_module(bio(ontol_db)).
 :- use_module(bio(genome_db)).
 
 :- multifile metadata_db:entity_label/2.
+
+% ASSUMED FACTS:
+% g2p/2
+feature_phenotype(F,P) :- g2p(F,P).
+
+% ----------------------------------------
+% SPECIES
+% ----------------------------------------
+% harcoded metadata for now
 
 pkb_db:species(S) :- species_label(S,_).
 pkb_db:species_label('NCBITaxon:7955',zebrafish). 
@@ -17,12 +26,24 @@ foo('0').
 
 metadata_db:entity_label(S,L) :- species_label(S,L).
 
+% ----------------------------------------
+% GENES
+% ----------------------------------------
+% assumes ontol_db representation of gene set using SO
+% (e.g. gene/9606)
+% only genes with phenotypes
+
 genome_db:gene(G) :-
 	inst_ofRT(G,'SO:0000704'), entity_label(G,_), \+ \+ feature_phenotype(G,_).
 genome_db:gene_symbol(G,L) :-
 	inst_ofRT(G,'SO:0000704'), entity_label(G,L), \+ \+ feature_phenotype(G,_).
 
-% MODs only...
+% ----------------------------------------
+% ORGANISMS
+% ----------------------------------------
+% MODs only, not OMIM
+% for every gene, manifest a representative organism that bears the mutated version of that gene
+
 pkb_db:organism_variant_gene(Org,G) :-
 	gene(G),
 	atom_concat(G,'-mutant',Org).
@@ -58,6 +79,11 @@ pkb_db:organism_phenotype(Org,P) :-
 pkb_db:phenotype_quad(P,P) :-
 	feature_phenotype(_,P),
 	P=(_,_,_,_).
+
+% ----------------------------------------
+% DISEASES
+% ----------------------------------------
+% use ontol_db representation of omim
 
 pkb_db:disease_gene_variant(O,G,any) :-
 	restriction(O,associated_with,OG),

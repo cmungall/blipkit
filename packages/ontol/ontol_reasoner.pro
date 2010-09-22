@@ -112,33 +112,44 @@ sweep(Rules):-
 %               thread_create(sweep(Rule),Thread,[alias(Rule)])),
 
 % this way is often faster, but has stack problems with FMA
-apply_rule((Head <- Body :: RuleName - _)):-
+foo___apply_rule((Head <- Body :: RuleName - _)):-
         Rule = (Body,\+ Head), % exclude facts that have already been prolog-asserted
         debug(reasoner,'applying: ~w ',[RuleName]),
-        %%%(   RuleName=relation_intersection->trace;true),
         % todo - experiment with iterating through using forall/2
         (   findall(Head,Rule,Heads),
             Heads\=[]
         ->  %statistics,
             length(Heads,NumNewFactsWithDupes),
             debug(reasoner,'num new facts with dupes: ~w',[NumNewFactsWithDupes]),
-            sort(Heads,NewFacts),
+            %sort(Heads,NewFacts), % TOO MUCH STACK
+            NewFacts=Heads,
             %statistics,
-            length(NewFacts,NumNewFacts),
-            debug(reasoner,'num new facts, sorted: ~w',[NumNewFacts]),
+            %length(NewFacts,NumNewFacts),
+            %debug(reasoner,'num new facts, sorted: ~w',[NumNewFacts]),
             forall(member(NewFact,NewFacts),
                    add_fact(RuleName,NewFact)),
             nb_setval(facts_added,1)
         ;   true).
+
+apply_rule((Head <- Body :: RuleName - _)):-
+        Rule = (Body,\+ Head), % exclude facts that have already been prolog-asserted
+        debug(reasoner,'applying: ~w ',[RuleName]),
+        forall(Rule,
+               add_fact(RuleName,Head)).
 
 add_fact(RuleName,(Fact,Facts)):-
         !,
         add_fact(RuleName,Fact),
         add_fact(RuleName,Facts).
 add_fact(RuleName,Fact):-
+        \+ Fact,
+        !,
+        nb_setval(facts_added,1),
         debug(reasoner_detail,'adding: ~w',[Fact]),
         assert(ontol_db:Fact),
         assert(ontol_db:entailed_by(Fact,RuleName)).
+add_fact(_,_). % exists
+
 
 /* ----------------------------------------
    UTIL

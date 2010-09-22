@@ -9,6 +9,7 @@
            feature_attribute/2,
            feature_attributeset/2,
            feature_exists/1,
+           attribute_exists/1,
            feature_pair_ci/3,
            feature_pair_cu/3,
 	   feature_pair_subset_of/3,
@@ -23,8 +24,12 @@
            feature_pair_cossim/3,
            feature_pair_avgICCS/3,
            feature_pair_avgICCS/4,
+           feature_pair_nr_ICatt_pairs/4,
+           feature_pair_nr_independent_atts/4,
            feature_pair_pval_hyper/3,
            feature_pair_pval_hyper/7,
+           attribute_pair_pval_hyper/3,
+           attribute_pair_pval_hyper/7,
            feature_pair_all_scores/3,
            feature_vector/2,
            feature_matches/2,
@@ -40,6 +45,7 @@
 :- dynamic feature_ix/2.
 :- dynamic attribute_ix/2.
 :- dynamic feature_vector_cached/2.
+:- dynamic attribute_vector_cached/2.
 :- dynamic template/3.
 :- dynamic feature_attribute/2.
 :- dynamic feature_attributeset_cached/2.
@@ -68,10 +74,18 @@ write_indexes :-
 
 
 %% generate_term_index(+Base,+Template,+Goal)
+%
 % for every unique value of Template for Goal,
 % assign an integer, commencing with 0.
 % 
 % Base = attribute_ix | feature_ix.
+%
+% e.g. generate_term_index(feature_ix,G,g2p(G,P))
+%   generates: feature_ix(G,GID:int)
+%
+% e.g. generate_term_index(attribute_ix,P,g2p(G,P))
+%   generates: attribute_ix(P,PID:int)
+%
 % the dynamic fact-predicate Base/2 is populated after
 % generate_term_index/3 succeeds. This maps an arbitrary term
 % (recommended to be an atom) to a position in a vector, i.e.
@@ -102,6 +116,7 @@ index_countvar(attribute_ix,attribute_count).
 feature_count(X) :- nb_getval(feature_count,X).
 
 feature_exists(X) :- feature_ix(X,_).
+attribute_exists(X) :- attribute_ix(X,_).
 
 
 %% attribute_count(?NumAttributes:int)
@@ -374,10 +389,110 @@ old___feature_pair_maxIC_attributes(F1,F2,MaxIC,AL) :-
         vector_maxIC_attributes(AVI,MaxIC,AL).
 */
 
+%% feature_pair_maxIC_nr_attributes(+F1,+F2,?MaxIC,?AL_nr:list)
 feature_pair_maxIC_nr_attributes(F1,F2,MaxIC,AL_nr) :-
         feature_pair_maxIC_attributes(F1,F2,MaxIC,AL),
         nr_subset(AL,AL_nr).
 
+%% feature_pair_nr_ICatt_pairs(+F1,+F2,SumIC:float,?Pairs:list)
+feature_pair_nr_ICatt_pairs(F1,F2,SumIC,SortedPairs) :-
+        feature_attributeset(F1,AL1),
+        feature_attributeset(F2,AL2),
+        ord_intersection(AL1,AL2,AL_Both),
+        nr_subset(AL_Both,AL_nr),
+        setof(IC-A,
+              (   member(A,AL_nr),
+                  attribute_information_content(A,IC)),
+              Pairs),
+        reverse(Pairs,SortedPairs),
+        findall(IC,member(IC-_,Pairs),ICs),
+        sumlist(ICs,SumIC).
+
+%% feature_pair_sumIC_ind_attributes(F1,F2,SumIC,SortedPairs)
+% 
+% calculate the sum of the ICs of the independent set of
+% attributes shared by F1 and F2. The SumIC can be translated
+% to a p-value.
+%
+% the set of independent attributes in common may include
+% conjunctions of more than one attribute: e.g.
+%
+% [forelimb,hindlimb],[kidney],...
+%
+% here we treat forelimb and hindlimb as a conjunction, e.g.
+% the phenotype co-manifests.
+feature_pair_nr_independent_atts(F1,F2,SumIC,SortedPairs) :-
+        feature_attributeset(F1,AL1),
+        feature_attributeset(F2,AL2),
+        ord_intersection(AL1,AL2,AL_Both),
+        nr_subset(AL_Both,AL_nr),
+        debug(sim,'  NR ~w',[AL_nr]),
+        combine_correlated_attributes(AL_nr,AL_independent),
+        debug(sim,'  NR_Indep: ~w',[AL_independent]),
+        setof(IC-A,
+              (   member(A,AL_independent),
+                  attributeset_information_content(A,IC)),
+              Pairs),
+        reverse(Pairs,SortedPairs),
+        findall(IC,member(IC-_,Pairs),ICs),
+        sumlist(ICs,SumIC).
+
+attributeset_information_content([A],IC) :-
+        !,
+        attribute_information_content(A,IC).
+attributeset_information_content(Atts,IC) :-
+        attributeset_feature_vector(Atts,FV),
+        NumFA is popcount(FV),
+        feature_count(NumF),
+        IC is -(log(NumFA/NumF)/log(2)).
+
+attributeset_feature_vector([A|Atts],V_Out) :-
+        attribute_vector(A,FV),
+        attributeset_feature_vector(Atts,FV,V_Out).
+
+attributeset_feature_vector([],V,V).
+attributeset_feature_vector([A|Atts],V_In,V_Out) :-
+        attribute_vector(A,FV),
+        V_Next is FV /\ V_In,
+        attributeset_feature_vector(Atts,V_Next,V_Out).
+
+        
+
+% given a set of atts, a1, a2, ..., an
+% make a list of conjunction sets (represented as lists),
+% c1, .., cm where each
+% set c is a set of correlated attributes [a1, ..], where
+% each member of the list is correlated with one other
+combine_correlated_attributes(Atts,ConjAtts) :-
+        findall([A],member(A,Atts),ConjAttsSeed),
+        iteratively_combine_correlated_attributes(ConjAttsSeed,ConjAtts).
+iteratively_combine_correlated_attributes(Atts,AttsOut) :-
+        debug(sim,'  combining ~w',[Atts]),
+        select(A1,Atts,Atts2),
+        select(A2,Atts2,Atts3),
+        is_correlated(A1,A2,A3),
+        debug(sim,'   ~w + ~w ==> ~w',[A1,A2,A3]),
+        !,
+        iteratively_combine_correlated_attributes([A3|Atts3],AttsOut).
+iteratively_combine_correlated_attributes(Atts,Atts).
+
+is_correlated(Set1,Set2,SetJ) :-
+        member(A1,Set1),
+        member(A2,Set2),
+        correlated_attribute(A1,A2),
+        append(Set1,Set2,SetJ).
+
+correlated_attribute(A1,A2) :-
+        attribute_pair_pval_hyper(A1,A2,Vk,_Vn,_Vm,_VN,P),
+        %debug(sim,'   ~w',[attribute_pair_pval_hyper(A1,A2,Vk,_Vn,_Vm,_VN,P)]),
+        P < 0.0001, % HARCODE ALERT
+        Vk > 2.
+
+
+        
+%% nr_subset(+AL_In:list,:AL_NR:lsit) is det
+% true if AL_NR is the non-redundant subset of AL_In.
+% requires attribute_subsumer/2
 nr_subset(AL1,AL2) :-
         findall(A,
                 (   member(A,AL1),
@@ -557,7 +672,7 @@ compare_feature_pair_by_ci(F1,F2,Score,ci,_Opts) :-
 feature_vector(F,V) :-
         var(F),
         !,
-        feature_ix(F,_),        % 
+        feature_ix(F,_),        % ground F then calculate
         feature_vector(F,V).
         
 feature_vector(F,V) :-
@@ -584,6 +699,51 @@ feature_attributeset(F,AL) :-
         setof(A,feature_attribute(F,A),AL),
         assert(feature_attributeset_cached(F,AL)).
 
+
+%% attribute_vector(?Attribute:atom,-AttributeVector:int)
+%
+% relationship between a Attribute and a vector of binary attribute values,
+% representing features with this attribute,
+% encoded as a large int (the GMP library is required).
+%
+% The attribute vector has a bit set at position N (i.e. 2**N) if the feature N has the attribute
+% (where the mapping between the feature and N is in feature_ix/2).
+% 
+% this is calculated for a attribute a as: ∑ [f ∈ af(a)] 2**ix(f)
+% (where ix is the index function and af returns the set of features for a attribute)
+attribute_vector(A,V) :-
+        var(A),
+        !,
+        attribute_ix(A,_),        % ground A then calculate
+        attribute_vector(A,V).
+        
+attribute_vector(A,V) :-
+        nonvar(A),
+        attribute_vector_cached(A,V),
+        !.
+
+attribute_vector(A,V) :-        % A is ground, value is not yet cached
+        template(Feature,A,Goal), % get features for this attribute
+        % ∑ [f ∈ af(a)] 2**ix(f)
+        solutions(Num,(Goal,feature_ix(Feature,AI),Num is 2**AI),Nums),
+        sumlist(Nums,V),
+        assert(attribute_vector_cached(A,V)).
+
+%% attribute_pair_pval_hyper(+A1,+A2,?P:float)
+%
+% calculates correlation between two attributes based
+% on shared features
+attribute_pair_pval_hyper(A1,A2,P) :-
+        attribute_pair_pval_hyper(A1,A2,_,_,_,_,P).
+attribute_pair_pval_hyper(A1,A2,Vk,Vn,Vm,VN,P) :-
+        attribute_vector(A1,FV1),
+        attribute_vector(A2,FV2),
+        FV_Common = FV1 /\ FV2,
+        Vk is popcount(FV_Common),
+        Vn is popcount(FV1),
+        Vm is popcount(FV2),
+        attribute_count(VN),
+        p_value_by_hypergeometric(Vk,Vn,Vm,VN,P).
 
 
 % attribute_subsumer_vector(+Att,-AttSubsumerVector:int)
