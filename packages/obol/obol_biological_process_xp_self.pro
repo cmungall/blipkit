@@ -42,6 +42,8 @@ induction(P) --> [induction],{class_label_exact(P,'biological regulation')}.
 positive_regulation_like(P) --> positive_regulation(P).
 positive_regulation_like(P) --> induction(P).
 
+test_process(P that part_of(SuperProcess)) --> process5(P),[involved,in],process(SuperProcess).
+
 % should these be differentiated? integral part of?
 % during sometimes used when not a direct part (pheromone-dependent signal transduction during conjugation with cellular fusion)
 process(P that part_of(SuperProcess)) --> process5(P),[involved,in],process(SuperProcess).

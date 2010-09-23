@@ -26,6 +26,7 @@
            feature_pair_avgICCS/4,
            feature_pair_nr_ICatt_pairs/4,
            feature_pair_nr_independent_atts/4,
+           feature_pair_nr_independent_atts_corrected/6,
            feature_pair_pval_hyper/3,
            feature_pair_pval_hyper/7,
            attribute_pair_pval_hyper/3,
@@ -437,6 +438,32 @@ feature_pair_nr_independent_atts(F1,F2,SumIC,SortedPairs) :-
         findall(IC,member(IC-_,Pairs),ICs),
         sumlist(ICs,SumIC).
 
+feature_pair_nr_independent_atts_corrected(F1,F2,N1,N2,SumIC,SortedPairs) :-
+        feature_attributeset(F1,AL1),
+        feature_attributeset(F2,AL2),
+        ord_intersection(AL1,AL2,AL_Both),
+        AL_Both\=[],
+        length(AL1,N1),
+        length(AL2,N2),
+        debug(sim,'  size: ~w',[N1*N2]),
+        nr_subset(AL_Both,AL_nr),
+        debug(sim,'  NR ~w',[AL_nr]),
+        combine_correlated_attributes(AL_nr,AL_independent),
+        debug(sim,'  NR_Indep: ~w',[AL_independent]),
+        length(AL_independent,N3),
+        CorrectionFactor is N3/(sqrt(N1) * sqrt(N2)),
+        CorrectionOffset is -log(CorrectionFactor)/log(2),
+        solutions(IC-A,
+                  (   member(A,AL_independent),
+                      attributeset_information_content(A,IC_Raw),
+                      IC is IC_Raw - CorrectionOffset,
+                                %debug(sim,'    A: ~w = ~w - ~w',[A,IC_Raw,CorrectionOffset]),
+                      IC>0),
+                  Pairs),
+        reverse(Pairs,SortedPairs),
+        findall(IC,member(IC-_,Pairs),ICs),
+        sumlist(ICs,SumIC).
+
 attributeset_information_content([A],IC) :-
         !,
         attribute_information_content(A,IC).
@@ -466,29 +493,42 @@ attributeset_feature_vector([A|Atts],V_In,V_Out) :-
 combine_correlated_attributes(Atts,ConjAtts) :-
         findall([A],member(A,Atts),ConjAttsSeed),
         iteratively_combine_correlated_attributes(ConjAttsSeed,ConjAtts).
+
 iteratively_combine_correlated_attributes(Atts,AttsOut) :-
         debug(sim,'  combining ~w',[Atts]),
-        select(A1,Atts,Atts2),
-        select(A2,Atts2,Atts3),
-        is_correlated(A1,A2,A3),
-        debug(sim,'   ~w + ~w ==> ~w',[A1,A2,A3]),
+        select(ASet1,Atts,Atts2),
+        select(ASet2,Atts2,Atts3),
+        combine_asets_if_correlated(ASet1,ASet2,ASet3),
+        % new: make sure everything in group is correlated. greedy
+        forall( (member(A1,ASet3), member(A2,ASet3), A1 @< A2),
+                correlated_attribute_pair(A1,A2)),
+        debug(sim,'   ~w + ~w ==> ~w',[ASet1,ASet2,ASet3]),
         !,
-        iteratively_combine_correlated_attributes([A3|Atts3],AttsOut).
-iteratively_combine_correlated_attributes(Atts,Atts).
+        iteratively_combine_correlated_attributes([ASet3|Atts3],AttsOut).
+iteratively_combine_correlated_attributes(Atts,Atts) :- !.
 
-is_correlated(Set1,Set2,SetJ) :-
+combine_asets_if_correlated(Set1,Set2,SetJ) :-
         member(A1,Set1),
         member(A2,Set2),
-        correlated_attribute(A1,A2),
+        correlated_attribute_pair(A1,A2),
         append(Set1,Set2,SetJ).
 
-correlated_attribute(A1,A2) :-
+% more split groups increases chance of groups being filtered when ICs for groups are corrected
+correlated_attribute_pair(A1,A2) :-
         attribute_pair_pval_hyper(A1,A2,Vk,_Vn,_Vm,_VN,P),
         %debug(sim,'   ~w',[attribute_pair_pval_hyper(A1,A2,Vk,_Vn,_Vm,_VN,P)]),
-        P < 0.0001, % HARCODE ALERT
+        P < 0.000001, % HARCODE ALERT. 
         Vk > 2.
 
+/*
+attribute_correction_factor(N) :-
+        aggregate(count,A,attribute_used_at_least_twice(A),N).
 
+attribute_used_at_least_twice(A) :-
+        attribute_vector(A,V),
+        N is popcount(V),
+        N > 1.
+*/
         
 %% nr_subset(+AL_In:list,:AL_NR:lsit) is det
 % true if AL_NR is the non-redundant subset of AL_In.
@@ -758,8 +798,10 @@ attribute_subsumer_vector(A,ASV) :-
 %% feature_avcount(?F:atom,-Num:int)
 % true if F has Num attributes set
 feature_avcount(F,Num) :-
-        feature_vector(F,V),
-        Num is popcount(V).
+        %feature_vector(F,V),
+        %Num is popcount(V).
+        feature_attributeset(F,AL),
+        length(AL,Num).
 
 % todo: use prolog sets?
 vector_sumIC(AV,SumIC) :-

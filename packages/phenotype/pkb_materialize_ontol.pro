@@ -111,3 +111,16 @@ c_label(X) -->
 c_label(X) -->
 	[X].
 
+
+
+% ----------------------------------------
+% ZFIN GENES
+% ----------------------------------------
+
+gene_zpo(G,P) :-
+        class_cdef(P,cdef(Q,DL)),
+        member(inheres_in=E,DL),
+        (   member(towards=D,DL)
+        ;   D='-'),
+        g2p(G,E,Q,_,D,_,_,_). % TODO - correct order
+        

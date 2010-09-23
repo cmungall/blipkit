@@ -129,11 +129,12 @@ user:bioresource(pthr(N),url(Path),nhx):- nonvar(N),concat_atom(['http://amigo.b
 
 % --OBDPatoData--
 
-% old..
+% NEW
 user:bioresource(mgi_genotype_phenotype,phenotype_commons('MGI/genotype_phenotype.rpt'),tbl(g2p)).
 user:bioresource(mgi_gene_phenotype,phenotype_commons('MGI/gene_phenotype.rpt'),tbl(g2p)).
 user:bioresource(omim_phenotype,phenotype_commons('Human/disorder_phenotype.txt'),tbl(g2p)).
 user:bioresource(mgi_genotype_gene,phenotype_commons('MGI/genotype_gene.rpt'),tbl(genotype_gene)).
+user:bioresource(zfin_gene_phenotype,phenotype_commons('ZFIN/gene_phenotype.rpt'),tbl(g2p)).
 
 % --NCBI--
 user:bioresource(taxnames,home('Data/ncbitax/names.dmp'),ncbitaxname).

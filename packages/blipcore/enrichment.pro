@@ -85,7 +85,7 @@ itemset_attribute_enrichment(FSampleMembers,StatsSorted,DBSize):-
         setof(Attribute,F^item_attribute(F,Attribute),
               Attributes),
         debug(enrichment,'Found all attributes used',[]),
-	% bonferoni for attributees with >1 annotation
+	% bonferoni for attributes with >1 annotation
         setof(Attribute,(member(Attribute,Attributes),
                          attribute_used_twice(Attribute)),
               MAttributes),

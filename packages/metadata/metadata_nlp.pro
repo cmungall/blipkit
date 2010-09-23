@@ -28,6 +28,8 @@
            label_query_results/3,
 
            term_split/6,
+           term_split_over/7,
+           term_split_over_strict/4,
            term_ends_with/6
 	   ]).
 
@@ -384,15 +386,36 @@ match_entity_by_label(QueryLabel,E,MatchLabel,Stemmed,Score) :-
 % obol-ish stuff
 % ----------------------------------------
 
+%% label_split(T,A,B)
+% e.g. label_split('foo bar',foo,bar).
 label_split(T,A,B) :-
         atom_concat(A,' ',Ax),
         atom_concat(Ax,B,T).
 
+%% term_split(E,A,B,S1,S2,S3)
+% e.g term_split(x:foo_bar,x:foo,x:bar,exact,exact,exact)
 term_split(E,A,B,S1,S2,S3) :-
         entity_label_scope(E,EN,S1),
         entity_label_scope(A,AN,S2),
         label_split(EN,AN,BN),
         entity_label_scope(B,BN,S3).
+
+term_split_over(E,A,B,W,S1,S2,S3) :-
+        concat_atom([' ',W,' '],W_padded),
+        entity_label_scope(E,EN,S1),
+        concat_atom([AN,BN],W_padded,EN),
+        entity_label_scope(A,AN,S2),
+        entity_label_scope(B,BN,S3).
+
+term_split_over_strict(E,A,B,W) :-
+        term_split_over(E,A,B,W,S1,S2,S3),
+        is_exact(S1),
+        is_exact(S2),
+        is_exact(S3).
+
+is_exact(exact).
+is_exact(label).
+
 
 term_ends_with(E,S,SN,Tail,S1,S2) :-
         atom_concat(' ',Tail,Tail_ws),

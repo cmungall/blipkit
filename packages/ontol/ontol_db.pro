@@ -872,7 +872,7 @@ inst_sv(ID,S,PID):-
 % see class/2 and synonym/3
 class_label(ID,N,exact):-  class(ID,N).
 class_label(ID,N,T):-
-        synonym(ID,T1,N),  %downcase_atom(N1,N),
+        entity_synonym_scope(ID,N,T1),  %downcase_atom(N1,N),
         (   T1=''
         ->  T=related
         ;   T=T1).

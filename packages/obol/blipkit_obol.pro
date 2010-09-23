@@ -16,6 +16,7 @@
 :- use_module(library(oset)).
 :- use_module(library(porter_stem),[]).
 :- use_module(token_match).
+:- use_module(classdef_parser).
 :- use_module(quickterm).
 :- use_module(bio(mode)).
 :- use_module(bio(io)).
@@ -311,7 +312,6 @@ subclass_lca(X,Y,A) :-
         ],
         QAtoms,
         (   load_bioresource(obol_av),
-            ensure_loaded(bio(classdef_parser)),
             preprocess_tokens(PreProcessMethod),
             Opts=[parse_rule(ParseRule),
                   xp_policy(XPPolicy),
