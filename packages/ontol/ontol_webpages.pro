@@ -127,7 +127,7 @@ entity_info(ID) =>
 	    tdpair([i(b(X)),' Synonym'],
 		   [Synonym,
 		    i(' type:',b(T)) forall_unique entity_synonym_type(ID,T,Synonym)
-		   ]) forall_unique synonym(ID,X,Synonym),
+		   ]) forall_unique entity_synonym_scope(ID,Synonym,X),
 	    tdpair('Disjoint from',hlink(X)) forall_unique disjoint_from(ID,X),                     
 	    tdpair('Domain',hlink(X)) forall_unique property_domain(ID,X),                     
 	    tdpair('Range',hlink(X)) forall_unique property_range(ID,X),                     
@@ -193,12 +193,12 @@ multiple_entity_info(IDs) =>
 	    multirow('Xref',hlink_with_id(X),entity_xref(ID,X),ID,IDs),
 	    %multirow(hlink(R),X,inst_sv(ID,R,X,_),ID,IDs),                     
 	    %multirow(hlink(R),X,inst_rel(ID,R,X),ID,IDs),
-	    call(solutions(X,(member(ID,IDs),synonym(ID,X,_)),Xs)),
+	    call(solutions(X,(member(ID,IDs),entity_synonym_scope(ID,_,X)),Xs)),
 	    multirow([i(X),' synonym'],
 		     [Synonym,
 		      i(' type:',b(T)) forall_unique entity_synonym_type(ID,T,Synonym),
 		      ' '
-		     ],synonym(ID,X,Synonym),ID,IDs) forall_unique member(X,Xs),
+		     ],entoty+synonym_scope(ID,Synonym,X),ID,IDs) forall_unique member(X,Xs),
 	    multirow('Disjoint from',hlink(X),disjoint_from(ID,X),ID,IDs),
 	    multirow('Domain',hlink(X),property_domain(ID,X),ID,IDs),                     
 	    multirow('Range',hlink(X),property_range(ID,X),ID,IDs),                     

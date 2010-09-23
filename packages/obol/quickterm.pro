@@ -369,6 +369,7 @@ ontology_xp_submit_path('HP','hpo/xp_submit','HP_xp').
 
 ontology_editors_file('GO','go/ontology/editors/gene_ontology_write.obo').
 ontology_editors_file('UBERON','uberon/uberon_edit_qt.obo'). % symlink
+ontology_editors_file('HP','hpo/human-phenotype-ontology.obo').
 
 load_editors_file(Ont) :-
         ontology_editors_file(Ont,Path),

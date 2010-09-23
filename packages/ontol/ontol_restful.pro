@@ -31,6 +31,7 @@
 :- use_module(bio(blipkit_ontol)).
 :- use_module(bio(safe_interpreter),[safe/1]).
 
+idspace_confmod(upheno,ontol_config_upheno).
 idspace_confmod('PATO',ontol_config_pato).
 idspace_confmod('FMA',ontol_config_fma).
 idspace_confmod('MA',ontol_config_ma).
