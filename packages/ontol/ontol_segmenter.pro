@@ -13,6 +13,7 @@
 ontology_segment(InNodes,OutNodes,Opts):-
         ontology_segment(InNodes,_,OutNodes,Opts).
 %% ontology_segment(+InNodes,?Edges,?OutNodes,?Opts)
+% OutNodes = DEPRECATED
 ontology_segment(InNodes,Edges,OutNodes,Opts):-
         debug(ontol,'Segmenting: ~w Opts: ~w',[InNodes,Opts]),
         (   member(relations(Rels),Opts),
@@ -42,6 +43,8 @@ ontology_segment(InNodes,Edges,OutNodes,Opts):-
         ;   member(collapse_predicate(CP),Opts)
         ->  collapse_edgelist_via_pred(Edges1,Edges,CP)
         ;   Edges=Edges1),
+        OutNodes=[].
+/*
         debug(ontol_segment,'Converting edges to trees: ~w',[Edges]),
         edgelist_to_trees(Edges,Trees),
         debug(ontol_segment,'Converted edges to trees: ~w',[Trees]),
@@ -50,6 +53,7 @@ ontology_segment(InNodes,Edges,OutNodes,Opts):-
                       tree_node_ids(Tree,OutNodes1),
                       member(OutNode,OutNodes1)),
                   OutNodes).
+*/
 
 collapse_edgelist_via_pred(L,L,fail):- !.
 collapse_edgelist_via_pred(EdgesIn,EdgesOut,Pred):-

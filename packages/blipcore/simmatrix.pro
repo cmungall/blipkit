@@ -27,6 +27,7 @@
            feature_pair_nr_ICatt_pairs/4,
            feature_pair_nr_independent_atts/4,
            feature_pair_nr_independent_atts_corrected/6,
+           attributeset_pair_csumIC_atts/6,
            feature_pair_pval_hyper/3,
            feature_pair_pval_hyper/7,
            attribute_pair_pval_hyper/3,
@@ -441,6 +442,9 @@ feature_pair_nr_independent_atts(F1,F2,SumIC,SortedPairs) :-
 feature_pair_nr_independent_atts_corrected(F1,F2,N1,N2,SumIC,SortedPairs) :-
         feature_attributeset(F1,AL1),
         feature_attributeset(F2,AL2),
+        attributeset_pair_csumIC_atts(AL1,AL2,N1,N2,SumIC,SortedPairs).
+
+attributeset_pair_csumIC_atts(AL1,AL2,N1,N2,SumIC,SortedPairs) :-
         ord_intersection(AL1,AL2,AL_Both),
         AL_Both\=[],
         length(AL1,N1),
@@ -496,6 +500,7 @@ combine_correlated_attributes(Atts,ConjAtts) :-
 
 iteratively_combine_correlated_attributes(Atts,AttsOut) :-
         debug(sim,'  combining ~w',[Atts]),
+        % TODO: pick *best* pairing
         select(ASet1,Atts,Atts2),
         select(ASet2,Atts2,Atts3),
         combine_asets_if_correlated(ASet1,ASet2,ASet3),
@@ -517,7 +522,7 @@ combine_asets_if_correlated(Set1,Set2,SetJ) :-
 correlated_attribute_pair(A1,A2) :-
         attribute_pair_pval_hyper(A1,A2,Vk,_Vn,_Vm,_VN,P),
         %debug(sim,'   ~w',[attribute_pair_pval_hyper(A1,A2,Vk,_Vn,_Vm,_VN,P)]),
-        P < 0.000001, % HARCODE ALERT. 
+        P < 0.000001, % HARCODE ALERT. TODO - use overlap as well
         Vk > 2.
 
 /*

@@ -5,7 +5,6 @@
 %:- multifile http:location/3.
 %:- dynamic   http:location/3.
 
-
 :- use_module(library('http/http_dispatch')).
 :- use_module(library(pldoc)).
 :- use_module(library(settings)).

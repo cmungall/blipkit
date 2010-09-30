@@ -25,11 +25,17 @@ simmatrix_multiset:feature_attx(O,As) :-
 simmatrix:generate_term_indexes_hook(organism_phenotype) :-
 	ensure_loaded(bio(simmatrix)),
 	materialize_index(owl2_model:equivalent_to(1,1)),
-	%table_pred(owl2_tbox_reasoner:subClassOfT/3), % helps?
-	%table_pred(owl2_tbox_reasoner:subClassOfT/2),
+	table_pred(owl2_graph_reasoner:class_ancestor_over/3),
+        debug(foo,'getting org-atts (directed)',[]),
+        setof(O-P,pkb_to_sim:organism_phenoprop(O,P),OPs),
+        debug(foo,'DONE getting org-atts (directed)',[]),
 	simmatrix:generate_term_indexes(O,A,
-					(   pkb_db:organism_phenotype(O,P),
-					    pkb_db:phenotype_property_value(P,_,A1),
-					    owl2_graph_reasoner:class_ancestor_over(A1,A,_))).
-	
+					(   member(O-A1,OPs),
+                                            owl2_graph_reasoner:class_ancestor_over(A1,A,_))).
+
+organism_phenoprop(O,A) :-
+        pkb_db:organism_phenotype(O,P),
+        pkb_db:phenotype_property_value(P,_,A).
+
+					    
 

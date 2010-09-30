@@ -10,8 +10,10 @@
 
 simmatrix_multiset:atomic_subsumed_by(X,Y) :-
 	%subClassOfRT(X,Y),
-        class_ancestor_over(X,Y,_),
-	\+ exclude(Y).
+        class_ancestor_over(X,Y1,_),
+	\+ exclude(Y1),
+        Y=Y1.                   % hack - table class_ancestor_over/3 for all Y
+
 
 exclude(Class) :-
 	atom(Class),

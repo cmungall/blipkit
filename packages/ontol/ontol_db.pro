@@ -130,6 +130,7 @@
            parentRT/2,
            parentRT/3,
            parentRT/4,
+           ancestor_or_descendant_of/2,
 	   idspace_references/2,
 	   idspace_references_reflexive/2,
            idspace_mireot/2,
@@ -451,6 +452,8 @@ parentRT(ID,TL,IDp):- parentT(ID,TL,IDp).
 parentRT(ID,IDp):- parentRT(ID,_,IDp).
 
 
+ancestor_or_descendant_of(X,Y) :- parentT(X,Y).
+ancestor_or_descendant_of(X,Y) :- parentT(Y,X).
 
 %%  belongs(?Entity,?Ontology) is nondet.
 %  true if Entity belongs to Ontology - equivalent to entity_resource/2
@@ -975,6 +978,8 @@ bf_set_parentRT(IDs,PID) :-
 	member(PID,PIDs).
 bf_set_parentRT(IDs,PID) :-
 	member(PID,IDs). % TODO - unique results only
+
+
 
 % ----------------------------------------
 % GRAPH INFERENCE

@@ -15,6 +15,7 @@
 :- module_transparent materialize_index/1.
 :- module_transparent materialize_index/2.
 :- module_transparent materialize_indexes_to_file/2.
+:- module_transparent materialize_indexes_to_file/3.
 :- module_transparent materialize_index_to_path/2.
 :- module_transparent materialize_indexes_to_path/2.
 

@@ -933,17 +933,36 @@ iterate_over_file(F,P):-
             fail),
         close(IO).
 
-:- blip('doc-server-DEPRECATED',
+:- use_module(library('http/http_dispatch')).
+%:- use_module(library(pldoc)).
+:- use_module(library(settings)).
+
+:- setting(http:prefix, atom,'/blipdoc/', prefix).
+
+:- http_handler(pldoc('module'),
+                http_redirect(moved, pldoc_object),
+                []).
+
+:- blip('pldoc-server',
         'use tools/pldoc-server instead',
         [number(port,Port,4000),
+         number(workers,Workers,1),
+         atom(root,Root,'blipdoc'),
+         terms(opts,ServerOpts),
          bool([bg,background],Bg)],
         Files,
-        (   doc_server(Port),
+        (   ensure_loaded(library(pldoc)),
+            doc_server(Port,[workers(Workers),prefix(Root),root(Root)|ServerOpts]),
+            findall(File,(member(File,Files),
+                          \+ exclude_file(File)),
+                    OKFiles),
+            maplist(compile,OKFiles),
+            compile(bio(sql_compiler)), % seems to be necessary...?
             (   Bg=1
             ->  background
             ;   true),
-            maplist(compile,Files),
-            prolog_shell)).
+            prolog
+        )).
 
 background:-
         repeat,

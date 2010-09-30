@@ -268,7 +268,9 @@ user:bioresource(ubo,obo_local('upper_bio_ontology/ubo.obo'),obo).
 %user:bioresource(bfo,obo_cvs('upper_bio_ontology/bfo.obo'),obo).
 user:bioresource(bfo,[obo(bfo)]).
 user:bioresource(bfo2_obo,home('cvs/bfo/src/ontology/bfo2-classes.obo'),obo).
-user:bioresource(bfo2_rel,home('cvs/bfo/src/ontology/bfo2-relations.obo'),obo).
+user:bioresource(bfo2_owl,home('cvs/bfo/src/ontology/bfo2-classes.owl'),owl).
+user:bioresource(bfo2_rel_obo,home('cvs/bfo/src/ontology/bfo2-relations.obo'),obo).
+user:bioresource(bfo2_rel_owl,home('cvs/bfo/src/ontology/bfo2-relations.owl'),owl).
 user:bioresource(dolcelite,ontdir('upper/DolceLite/DOLCE-Lite_397.owl'),owl).
 user:bioresource(sumo,ontdir('upper/SUMO/SUMO.owl'),owl).
 user:bioresource(sumo_pro,ontdir('upper/SUMO/SUMO.pro'),pro,ontol_db).

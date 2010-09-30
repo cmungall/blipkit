@@ -3,6 +3,7 @@
 :- use_module(bio(ontol_db)).
 :- use_module(bio(metadata_db)).
 :- use_module(bio(index_util)).
+:- use_module(library(thea2/owl2_graph_reasoner)).
 
 % hacky: model organism or instance or class
 organism_category(F,SL) :-
@@ -16,7 +17,7 @@ organism_category(F,SL) :-
 	->  SL=inst
 	;   SL=class).
 
-
+% score + categories (human,mouse,etc) for a pair
 feature_pair_category_pair_ci(F1,F2,S1,S2,Sc) :-
 	feature_pair_ci_cu_simj(F1,F2,_,_,Sc),
 	organism_category(F1,S1),
@@ -25,7 +26,7 @@ feature_pair_category_pair_ci(F1,F2,S1,S2,Sc) :-
 
 
 % only compare two features if they are good matches for the species
-compare_feature_pair(F1,F2,Rank,Len) :-
+comparable_feature_pair(F1,F2,Rank,Len) :-
 	feature_pair_category_pair_ci(F1,F2,S1,S2,Sc),
 	setof(ScX-F2X,
 	      feature_pair_category_pair_ci(F1,F2X,S1,S2,ScX),
@@ -38,11 +39,11 @@ compare_feature_pair(F1,F2,Rank,Len) :-
 
 % standardize direction, no dupes, at least 1
 fp(F1,F2) :-
-	compare_feature_pair(F1,F2,_,_),
+	comparable_feature_pair(F1,F2,_,_),
 	F1 @< F2.
 
 fp(F1,F2) :-
-	compare_feature_pair(F2,F1,_,_),
+	comparable_feature_pair(F2,F1,_,_),
 	F1 @< F2.
 
 :- multifile cached_feature_pair_attx_pair_LCS_IC/5.
@@ -66,4 +67,5 @@ generate_selected(Goal) :-
 
 prepare(File) :-
 	create_sim_index(File),
-	materialize_index(compare_feature_pair(1,0,0,0)).
+	materialize_index(comparable_feature_pair(1,0,0,0)),
+        graph_reasoner_memoize.

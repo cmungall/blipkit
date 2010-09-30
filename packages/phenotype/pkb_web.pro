@@ -900,9 +900,10 @@ organism_phenotype_tblhdr --> html(tr([th('Organism'),
                                        th('Type'),
                                        th('Phenotype'),
                                        th('Anatomical Context'),
-                                       th('Entity'),
                                        th('Bearer'),
-                                       th('Property')])).
+                                       th('Property'),
+                                       th('Depends on')
+                                      ])).
         
 organism_phenotype_rows([],_) --> [].
 organism_phenotype_rows([Org-P|T],Map) --> !,html([\organism_phenotype_row(Org,P,Map),\organism_phenotype_rows(T,Map)]).

@@ -5,6 +5,9 @@
 	   feature_nr_attx/2,
 	   attx_frequency/2,
 	   attx_prob/2,
+           distinct_feature/1,
+           feature_count/1,
+           atomic_attr/1,
 	   feature_pair_attx_pair_LCS/5,
 	   feature_pair_attx_pair_LCS_IC/6,
 	   feature_pair_attx_pair_LCS_simJ/6,
@@ -48,7 +51,7 @@ create_sim_index(File) :-
 	%table_pred(attx_subsumed_by/2),
 	materialize_indexes_to_file([feature_attx(1,0),
 				     feature_nr_attx(1,0),
-				     feature(1),
+				     distinct_feature(1),
 				     feature_count(1),
 				     atomic_attr(1)
 				    %attribute_pair_LCS(1,0,0) % optional?
@@ -70,15 +73,20 @@ index_hooks :-
 index_hooks.
 
 %% feature_nr_attx(F,Attx)
-% as feature_attx/2, but remove redundant attxs
+% as feature_attx/2, but remove redundant attxs.
+% many annotations may have redundancies; e.g. [big eye, big left eye]
+% the intent is to make subsequent pairwise comparisons faster, by first eliminating redundancy.
 feature_nr_attx(F,Attx) :-
 	setof(Attx,feature_attx(F,Attx),Attxs),
+	debug(sim,'  extracting NR from atts for ~w',[F]),
 	attxs_extract_nr(Attxs,AttxsNR),
+	debug(sim,'  DONE extracting NR from atts for ~w',[F]),
 	member(Attx,AttxsNR).
 
 attxs_extract_nr(Attxs,AttxsNR) :-
 	setof(Attx,
 	      (	  member(Attx,Attxs),
+                  debug(sim,'     TESTING: ~w',[Attx]),
 		  \+ attx_redundant_with_attx_set(Attx,Attxs)),
 	      AttxsNR).
 
@@ -133,6 +141,11 @@ feature_subsumed_by_attx(F,S) :-
 	feature_nr_attx(F,S1),
 	attx_subsumed_by(S1,S).
 
+feature_subsumed_by_attx_chk(F,S) :-
+        distinct_feature(F),
+        nonvar(S),
+        \+ \+ feature_subsumed_by_attx(F,S).
+
 
 %% attx_frequency(+S:set,?Freq:int)
 % number of features that satisfy S.
@@ -141,14 +154,14 @@ feature_subsumed_by_attx(F,S) :-
 % for example: multiple individuals with PD have repeating phenotypes.
 % for now, we push responsibility on the user to do accurate grouping
 attx_frequency(S,Freq) :-
-	aggregate(count,F,feature_subsumed_by_attx(F,S),Freq).
+	aggregate(count,F,feature_subsumed_by_attx_chk(F,S),Freq).
 
-feature(F) :-
+distinct_feature(F) :-
 	setof(F,S^feature_attx(F,S),Fs),
 	member(F,Fs).
 
 feature_count(Freq) :-
-	aggregate(count,F,feature(F),Freq).
+	aggregate(count,F,distinct_feature(F),Freq).
 
 atomic_attr(A) :-
 	setof(A,F^AX^(feature_nr_attx(F,AX),member(A,AX)),As),
@@ -288,8 +301,8 @@ feature_pair_all_LCS_avg_simJ(F1,F2,RevScores,AvgSimJ) :-
 % ScoreLCSPairs is a list of SimJ-s(LCS,X1_List,X2_List) pairs
 %
 feature_pair_minimal_LCS_set_by_simJ(F1,F2,RevScores,AvgSimJ) :-
-	feature(F1),
-	feature(F2),
+	distinct_feature(F1),
+	distinct_feature(F2),
 	F1\=F2,
 	setof(LCS,SimJ^S1^S2^feature_pair_attx_best_LCS_simJ(F1,F2,LCS,SimJ,S1,S2),MinimalLCSs),
 	length(MinimalLCSs,NumLCSs1),

@@ -158,6 +158,7 @@ closure_to_edgelist_delta(R,X,Edges,D,_):- % invert direction
 closure_to_edgelist_delta(R,X,Edges,down(Down)):-
         (is_list(X)-> L=X ; L=[X]),
         closure_to_edgelist(R,L,Edges1),
+        debug(graph,'Extending edges dist: ~w',[Down]),
         extend_edgelist(R,L,Edges2,Down),
         append(Edges1,Edges2,Edges).
 closure_to_edgelist_delta(R,X,Edges,up(Up)):-
@@ -202,6 +203,7 @@ edgelist_to_trees(Edges,Nodes):-
 
 %% edgelist_to_tree(+R,+FromID,+Edges,?Tree,+CheckedNodes) 
 edgelist_to_tree(R,ID,Edges,node(R,ID,Nodes),CheckedNodes):-
+        debug(graph,'  e2t=~w',[ID]),
         solutions(CID,member(edge(CID,ID,_),Edges),CIDs), % all nodes with parent=FromID
         findall(Node,
                 (   member(CID,CIDs),
