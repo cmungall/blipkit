@@ -491,21 +491,23 @@ user:opt_insecure(output).
 :- blip('io-diff',
         'compares two files at the prolog fact level',
         [atom(db,Mod,user),
+         bool(label,IsLabel),
          term(match,MatchGoal,_)],
         FileL,
         (   
             (   var(Mod), \+FileL=[]
             ->  throw(option_error('Must specify a module with -db for these files: ~w',[FileL]))
             ;   true),
+            Opts=[isLabel(IsLabel)],
             forall(member(File,FileL),
                    load_factfile(File,Mod)),
-            forall((db_facts(Mod,AllFacts),
-                    findall(Fact,(member(Fact,AllFacts),
-                                  Fact=MatchGoal),
-                            Facts)),
-                   io_diff(Mod,Facts)))).
+            db_facts(Mod,AllFacts),
+            findall(Fact,(member(Fact,AllFacts),
+                          Fact=MatchGoal),
+                    Facts),
+            io_diff(Mod,Facts,Opts))).
 
-io_diff(Mod,Facts):-
+io_diff(Mod,Facts,Opts):-
         findall(File-Fact,(member(Fact,Facts),
                            clause(Mod:Fact,_,ClauseID),
                            clause_property(ClauseID,file(File))),
@@ -518,10 +520,13 @@ io_diff(Mod,Facts):-
             sort(Facts1,Facts1S),
             sort(Facts2,Facts2S),
             compare_two_lists(Facts1S,Facts2S,UL1,UL2),
+            format('Comparing: ~w vs ~w~n',[File1,File2]),
             forall(member(U,UL1),
-                   format('Unmatched [1] ~w~n',[U])),
+                   (   format('Unmatched [1]: '),
+                       show_factrow(Opts,U))),
             forall(member(U,UL2),
-                   format('Unmatched [2] ~w~n',[U])),
+                   (   format('Unmatched [2]: '),
+                       show_factrow(Opts,U))),
             nl
         ;   throw(error(files('must be sourced from two files; you had: ',Files)))).
 
@@ -933,15 +938,18 @@ iterate_over_file(F,P):-
             fail),
         close(IO).
 
+
+
+% TODO: move to separate module - otherwise conflicts with pldoc_web
+/*
 :- use_module(library('http/http_dispatch')).
 %:- use_module(library(pldoc)).
 :- use_module(library(settings)).
-
 :- setting(http:prefix, atom,'/blipdoc/', prefix).
-
 :- http_handler(pldoc('module'),
                 http_redirect(moved, pldoc_object),
                 []).
+*/
 
 :- blip('pldoc-server',
         'use tools/pldoc-server instead',
@@ -954,7 +962,7 @@ iterate_over_file(F,P):-
         (   ensure_loaded(library(pldoc)),
             doc_server(Port,[workers(Workers),prefix(Root),root(Root)|ServerOpts]),
             findall(File,(member(File,Files),
-                          \+ exclude_file(File)),
+                          \+ exclude_file_from_pldoc(File)),
                     OKFiles),
             maplist(compile,OKFiles),
             compile(bio(sql_compiler)), % seems to be necessary...?
@@ -963,6 +971,10 @@ iterate_over_file(F,P):-
             ;   true),
             prolog
         )).
+
+exclude_file_from_pldoc(File):- sub_atom(File,_,_,_,'/attic/').
+exclude_file_from_pldoc(File):- sub_atom(File,_,_,_,'blipkit.pro').
+
 
 background:-
         repeat,

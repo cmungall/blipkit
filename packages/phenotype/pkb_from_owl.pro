@@ -19,13 +19,22 @@ pkb_db:species_label('http://ontology.neuinfo.org/NIF/BiomaterialEntities/NIF-Or
 pkb_db:species_label('http://ontology.neuinfo.org/NIF/BiomaterialEntities/NIF-Organism.owl#birnlex_160',rat). 
 foo('0').
 
-pkb_db:organism(Org) :- reasoner_ask(classAssertion('http://ontology.neuinfo.org/NIF/BiomaterialEntities/NIF-Organism.owl#birnlex_2',Org)). % Organism
-pkb_db:organism(Org) :- reasoner_ask(subClassOf(Org,'http://ontology.neuinfo.org/NIF/BiomaterialEntities/NIF-Organism.owl#birnlex_516')). % human
-
-pkb_db:organism_species(Org,Species) :- species_label(Species,_),reasoner_ask(subClassOfReflexive(Org,Species)).
-pkb_db:organism_species(Org,Species) :- species_label(Species,_),reasoner_ask(classAssertion(Species,Org)).
+pkb_db:organism(Org) :-
+        reasoner_ask(classAssertion('http://ontology.neuinfo.org/NIF/BiomaterialEntities/NIF-Organism.owl#birnlex_2',Org)). % Organism
+pkb_db:organism(Org) :-
+        equivalent_to(Org,intersectionOf(L)),
+        member('http://ontology.neuinfo.org/NIF/BiomaterialEntities/NIF-Organism.owl#birnlex_516',L). % human
+/*
+        class(Org), % hack - make sure this is nonvar for reasoning...
+        sub_atom(Org,_,_,_,'NDPO'),
+        reasoner_ask(subClassOf(Org,'http://ontology.neuinfo.org/NIF/BiomaterialEntities/NIF-Organism.owl#birnlex_516')). % human
+*/
 
 :- table_pred(pkb_db:organism/1).
+
+pkb_db:organism_species(Org,Species) :- organism(Org),reasoner_ask(subClassOf(Org,Species)),species_label(Species,_).
+pkb_db:organism_species(Org,Species) :- organism(Org),reasoner_ask(classAssertion(Species,Org)),species_label(Species,_).
+
 
 pkb_db:organism_label(Org,X) :- organism(Org),labelAnnotation_value(Org,X).
 

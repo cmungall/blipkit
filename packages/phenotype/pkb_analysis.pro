@@ -63,7 +63,7 @@ generate_selected(Goal) :-
 	debug(foo,'  **comparing: ~w vs ~w',[F1,F2]),
 	Goal,
 	debug(foo,'     **result: ~w :: ~w',[IC,LCS]),
-	IC >= 3.5.
+	IC >= 2.5.
 
 prepare(File) :-
 	create_sim_index(File),
