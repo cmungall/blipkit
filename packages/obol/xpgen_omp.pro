@@ -8,7 +8,10 @@
 :- multifile term_label/3.
 :- multifile term_textdef/3.
 
-:- initialization load_biofile(ontol_db:pro,'conf/mireot_omp-ontol_db.pro'),user:optimize_generate_cdef.
+:- initialization
+        absolute_file_name(blipkit('obol/conf/mireot_omp-ontol_db.pro'),F),
+        load_biofile(ontol_db:pro,F),
+        user:optimize_generate_cdef.
 
 user:optimize_generate_cdef :-
         table_pred(ontol_db:subclassRT/2),
