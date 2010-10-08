@@ -157,7 +157,8 @@ rewrite_goal_with_index(M, CalledGoal, Ix, 1) :-
 	StoredGoal=..[StoredPred|Args],
 	predicate_ixname(CalledPred, IxPred, Ix),
 	IxGoal=..[IxPred|ReorderedArgs],
-	forall(M:StoredGoal, M:assert(IxGoal)), % todo: uniquify?
+	forall(M:StoredGoal,
+                 assert_unique(M,IxGoal)),
 	M:compile_predicates([IxPred/Arity]),
 	(   Ix=1
 	->  M:abolish(CalledPred/Arity)
@@ -165,6 +166,13 @@ rewrite_goal_with_index(M, CalledGoal, Ix, 1) :-
 	RewrittenGoal = ( CalledGoal :- nonvar(IxVar), !, IxGoal),
 	M:assert(RewrittenGoal).
 rewrite_goal_with_index(_, _, _, _). % no index
+
+assert_unique(M,T) :-
+        ground(T),
+        M:T,
+        !.
+assert_unique(M,T) :-
+        M:assert(T).
 
 %% reorder_args(+Ix:int, ?IxVar, +Args1:list, +Args2:list) is det
 reorder_args(Ix, IxVar, Args1, Args2) :-
