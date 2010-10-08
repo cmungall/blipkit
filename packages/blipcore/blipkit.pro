@@ -840,8 +840,10 @@ show_factrow(Opts,(T1,T2)):-
         !,
         show_factrow(Opts,T1),
         show_factrow(Opts,T2).
-show_factrow(Opts,T):-
-        member(isProlog(1),Opts), !,
+show_factrow(Opts,T):-          % write prolog syntax facts
+        member(isProlog(1),Opts),
+        \+member(isUseTabs(1),Opts),
+        !,
         writeq(T),write('.'),
         (   member(isLabel(1),Opts)
         ->  T=..[_|L],write(' % '),show_terms(Opts,L)
@@ -854,6 +856,8 @@ show_factrow(Opts,T):-
         show_terms(Opts,L),
         nl.
 
+% show a list of terms separated by tabs on one line
+% this is typically a prolog fact transformed into a list via ..=/2
 show_terms(_Opts,[]).
 show_terms(Opts,[H]):-
         !,
@@ -861,11 +865,16 @@ show_terms(Opts,[H]):-
 show_terms(Opts,[H|L]):-
         !,
         show_term(Opts,H),
-        atom_codes(Del,[9]),
+        atom_codes(Del,[9]), % tab
         write(Del),
         show_terms(Opts,L).
 
-show_term(Opts,T):-
+show_term(Opts,T):-             % Pl+Tabular
+        member(isProlog(1),Opts),
+        member(isUseTabs(1),Opts),
+        !,
+	format('~q',[T]).
+show_term(Opts,T):-             % Label+Tabular
         member(isLabel(1),Opts),
         member(isUseTabs(1),Opts),
         \+ is_list(T),
@@ -876,14 +885,14 @@ show_term(Opts,T):-
         ->  true
 	;   Label=''),
 	format('~w\t~w',[T,Label]).
-show_term(Opts,T):-
+show_term(Opts,T):-             % Label+atom, not tabular or pl
         member(isLabel(1),Opts),
         atom(T),
         entity_label(T,Label),
         Label\=T,
         !,
         write(T-Label).
-show_term(Opts,L):-
+show_term(Opts,L):-             % show a list in pl-like syntax
         member(isLabel(1),Opts),
         is_list(L),
         L=[_|_],
@@ -896,21 +905,21 @@ show_term(Opts,L):-
         %maplist(entity_label,L,L2),
         %!,
         %write(L-L2).
-show_term(Opts,Term):-
+show_term(Opts,Term):-          % pl-like syntax for (a,b)
         member(isLabel(1),Opts),
         Term=(H,Rest),
         !,
         show_term(Opts,H),
         write(','),
         show_term(Opts,Rest).
-show_term(Opts,Term):-
+show_term(Opts,Term):-          % pl-like syntax for key-val pairs
         member(isLabel(1),Opts),
         Term=(H-Rest),
         !,
         write(H),
         write('-'),
         show_term(Opts,Rest).
-show_term(_,T):- write(T).
+show_term(_,T):- write(T).      % default - just write it
 
 
 opt_description(pred,'Name of predicate - defaults to process_line/1').

@@ -1,7 +1,7 @@
 *~
 \#*
 .\#*
-Makefile
+./Makefile
 *.old
 *.qlf
 config.log

@@ -193,24 +193,30 @@ user:generate_cdef/1.
 :- blip('obol-generate-xps',
         'generate cross-products. Relies on generate_cdef/1 being declared.',
         [
+         boolean(optimize,IsOptimize),
          atom(idspace,IDSpace,'test:'),
          atom(parse_rule,ParseRule,term_label),
          atom(xp_policy,XPPolicy,show),
-         atom(synonym_policy,SynonymPolicy,hide)
+         atom(synonym_policy,SynonymPolicy,name)
         ],
         _,
         (   load_bioresource(obol_av),
             ensure_loaded(bio(classdef_parser)),
+            preprocess_tokens(pre),
+            (   IsOptimize=1
+            ->  user:optimize_generate_cdef
+            ;   true),
             Opts=[parse_rule(ParseRule),
                   xp_policy(XPPolicy),
-                  def_policy(hide),
+                  def_policy(show),
                   synonym_policy(SynonymPolicy)],
             solutions(CDef,(class(X),class_cdef(X,CDef)),ExistingCDefs),
             solutions(X-CDef,(class(X),class_cdef(X,CDef)),ClassCDefPairs),
-            solutions(CDef,(
-                            generate_cdef(CDef1),
-                            normalize_cdef(CDef1,CDef)),
-                      CDefs),
+            debug(obol,'generating...',[]),
+            solutions(CDef,generate_cdef(CDef),CDefs1),
+            debug(obol,'normalizing...',[]),
+            maplist(normalize_cdef,CDefs1,CDefs),
+            debug(obol,'writing...',[]),
             forall((member(CDef,CDefs),member(ID-CDef,ClassCDefPairs)),
                    write_cdef(obo,ID,CDef)),
             format('! new classes~n'),
@@ -537,7 +543,7 @@ show_compare_xp(ID,_CDef,_Opts):-
         class_cdef(ID,CDefCurrent),
         !,
         show_classdef_label(ID,'CURRENT ',CDefCurrent).
-show_compare_xp(_,_,_):-
+show_compare_xp(_,_,_) :-
         format(user_error,'! no existing xp def~n',[]).
 
 show_classdef_extra(ID,CDef,Opts):-
@@ -545,7 +551,11 @@ show_classdef_extra(ID,CDef,Opts):-
         debug(obol,'showing new synonyms for ~w',[ID]),
         generate_synonyms(ID,CDef,Opts,Syns),
         debug(obol,'syns: ~w',[Syns]),
-        write_synonyms(ID,Syns).
+        (   member(synonym_policy(name),Opts)
+        ->  Syns=[Name|Syns2],
+            format('name: ~w~n',[Name]),
+            write_synonyms(ID,Syns2)
+        ;   write_synonyms(ID,Syns)).
 show_classdef_extra(ID,CDef,Opts):-
         % \+ def(ID,_), show all for now
         \+ member(parse_rule(def),Opts),  % too explosive
@@ -633,13 +643,13 @@ generate_synonyms(ID,CDef,Opts,Syns):-
                       debug(obol,'syn: ~w',[Syn]),
                       \+ class(ID,Syn), % exclude name from synonyms list
                       (   member(synonym_policy(showall),Opts)
-                      ;   \+ entity_synonym(ID,_,Syn))),
+                      ;   \+ entity_synonym(ID,Syn))),
                   Syns).
 
 
 write_synonyms(ID,Syns):-
         forall(member(Syn,Syns),
-               (   (   entity_synonym(ID,_,Syn)
+               (   (   entity_synonym(ID,Syn)
                    ->  Xref=''
                    ;   Xref='OBOL:automatic'),
                    format('synonym: "~w" EXACT [~w]~n',[Syn,Xref]))).

@@ -15,12 +15,14 @@ my $ignore_hdr;
 my $list2p;
 my $keylist2p;
 my $use_filename;
+my $no_quote;
 @ARGV = map {if (/^\-f(\d+)/) {("-f", $1)}else{$_}} @ARGV;
 GetOptions("fields|f=s"=>\$fields,
 	   "delimiter|d=s"=>\$delimiter,
 	   "newline=s"=>\$newline,
            "predicate|p=s"=>\$pred,
            "use_filename"=>\$use_filename,
+           "no_quote|n"=>\$no_quote,
            "cols|c=s"=>\$cols,
            "prefix=s%"=>$prefixcolh,
            "pre=s@"=>\@pre,
@@ -86,6 +88,7 @@ exit 0;
 
 sub pquote {
     my $s = shift;
+    return $s if $no_quote;
     $s='' unless defined $s;
     if ($list2p && $s =~ /\[(.*)]/) {
 	my @elts = split(/,\s*/,$1);
