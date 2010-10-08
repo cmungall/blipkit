@@ -200,7 +200,7 @@ user:generate_cdef/1.
          atom(synonym_policy,SynonymPolicy,name)
         ],
         _,
-        (   load_bioresource(obol_av),
+        (   %load_bioresource(obol_av),
             ensure_loaded(bio(classdef_parser)),
             preprocess_tokens(pre),
             (   IsOptimize=1
