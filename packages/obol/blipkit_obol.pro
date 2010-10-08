@@ -700,11 +700,14 @@ write_synonyms(ID,Syns):-
 :- blip('obol-quickterm',
         'quickterm template',
         [
+         terms(arg,Args),
          term(idspace,Ont),
-         term(template,T),
+         term(template,T), % main request
+         atom(ontology_dir,ODir),
          atom(subfile,NFile),
          atom(addfile,AFile),
          atom(delfile,DFile),
+         number(idnum_min,IDNumMin,1),
          bool(commit,CommitX)
         ],
         _,
@@ -714,10 +717,14 @@ write_synonyms(ID,Syns):-
          ->  Commit=true
          ;   Commit=false),
          Opts=[idspace(Ont),
+               ontology_dir(ODir),
                commit(Commit),
                addfile(AFile),
                subfile(NFile),
-               delfile(DFile)],
+               delfile(DFile),
+               idnum_min(IDNumMin)
+              |
+              Args],
          (   nonvar(NFile)
          ->  load_biofile(NFile)
          ;   true),

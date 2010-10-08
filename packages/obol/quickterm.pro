@@ -287,7 +287,7 @@ template(abnormal_morphology(A),
           def= ['Any morphological abnormality of a ',name(A),'.']
          ]).
 
-template(entity_quality(E,Q),
+template(hpo_entity_quality(E,Q),
          [
           ontology= 'HP',
           obo_namespace= medical_genetics,
@@ -298,6 +298,18 @@ template(entity_quality(E,Q),
           cdef= cdef(Q,['OBO_REL:inheres_in'=E]),
           name= [name(Q),' ',name(E)],
           def= ['Any ',name(E),' that is ',name(Q)]
+         ]).
+
+template(omp_entity_quality(E,Q),
+         [
+          ontology= 'OMP',
+          obo_namespace= omp,
+          description= 'basic EQ template',
+          externals= ['GO','PATO'],
+          arguments= [entity='GO', quality='PATO'],
+          cdef= cdef(Q,['OBO_REL:inheres_in'=E]),
+          name= [name(Q),' of ',name(E)],
+          def= ['Any ',name(Q),' of ',name(E)]
          ]).
 
 template(metazoan_location_specific_cell(C,A),
@@ -357,6 +369,7 @@ template(metazoan_location_specific_anatomical_structure(P,W),
 % CONFIG
 % ----------------------------------------
 
+% not used yet...
 ontology_repository('GO',cvs,'ext.geneontology.org:/share/go/cvs').
 ontology_repository('CL',cvs,'obo.cvs.sourceforge.net:/cvsroot/obo').
 ontology_repository('UBERON',git,'github.com:cmungall/uberon.git').
@@ -366,10 +379,12 @@ ontology_xp_submit_path('GO','go/ontology/editors/xp_submit','go_xp').
 ontology_xp_submit_path('CL','obo/ontology/anatomy/cell/xp_submit','CL_xp').
 ontology_xp_submit_path('UBERON','uberon/xp_submit','UBERON_xp').
 ontology_xp_submit_path('HP','hpo/xp_submit','HP_xp').
+ontology_xp_submit_path('OMP','xp_submit','OMP_xp').
 
 ontology_editors_file('GO','go/ontology/editors/gene_ontology_write.obo').
 ontology_editors_file('UBERON','uberon/uberon_edit_qt.obo'). % symlink
 ontology_editors_file('HP','hpo/human-phenotype-ontology.obo').
+ontology_editors_file('OMP','omp.obo').
 
 load_editors_file(Ont) :-
         ontology_editors_file(Ont,Path),
@@ -390,7 +405,8 @@ load_editors_file(Ont) :-
 template_xp_submit_file(Template,Type,File,Opts) :-
         template_lookup(Template,ontology,Ont),
         ontology_xp_submit_path(Ont,Dir,Name),
-        (   member(ontology_dir(Prefix),Opts)
+        (   member(ontology_dir(Prefix),Opts),
+            nonvar(Prefix)
         ->  true
         ;   Prefix='/users/cjm/cvs'),
         concat_atom([Prefix,'/',Dir,'/',Name,'_',Type,'.obo'],File).
@@ -512,7 +528,9 @@ generate_facts(Template,New,[ontol_db:differentium(New,R,X)],_) :-
 generate_facts(Template,New,[ontol_db:restriction(New,R,X)],Opts) :-
         \+ member(suppress_relationship(true),Opts),
         template_lookup(Template,cdef,cdef(_,DL)),
-        member(R=X,DL).
+        member(R=X,DL),
+        id_idspace(New,DB),
+        id_idspace(X,DB).
 
 % single-valued
 generate_fact(Template,New,Fact,Opts) :-
@@ -606,9 +624,18 @@ request_term_from_facts(_Template,New,Facts,error(Err),_Opts) :-
 request_term_from_facts(Template,New,Facts,Msg,Opts) :-
         template_lookup(Template,cdef,CDef),
         debug(quickterm,'placement: ~w',[CDef]),
-        cdef_placement(CDef,Equivs,NRParents,NRChildren,RedundantSubclassPairs),
+        (   member(suppress_reasoner(true),Opts)
+        ->  Equivs=[],
+            NRParents=[],
+            NRChildren=[],
+            RedundantSubclassPairs=[]
+        ;   cdef_placement(CDef,Equivs,NRParents,NRChildren,RedundantSubclassPairs)),
         debug(quickterm,'  placement: P:~w C:~w R:~w',[NRParents,NRChildren,RedundantSubclassPairs]),
-        findall(ontol_db:subclass(New,Parent),member(Parent,NRParents),PFacts),
+        findall(ontol_db:subclass(New,Parent),
+                (   member(Parent,NRParents),
+                    id_idspace(New,DB),
+                    id_idspace(Parent,DB)),
+                PFacts),
         findall(ontol_db:subclass(Child,New),member(Child,NRChildren),CFacts),
         flatten([Facts,PFacts,CFacts],NewFacts),
         findall(ontol_db:subclass(X,Y),member(X-Y,RedundantSubclassPairs),DeleteFacts),
@@ -739,8 +766,14 @@ get_next_id(S,Num,ID) :-
         make_id(S,Num,ID).
 
 make_id(S,Num,ID) :-
-        % assumes Num has most significant digit above zero, no padding required
+        Num > 999999,
         concat_atom([S,':',Num],ID).
+make_id(S,Num,ID) :-
+                                % assumes 7 digit padding
+        zeropad(Num,Pad),
+        concat_atom([S,':',Pad,Num],ID).
+
+
 
 % ----------------------------------------
 % TEXT GENERATION
@@ -810,6 +843,11 @@ starts_with_vowel(A) :-
 % ----------------------------------------
 % RESOLVING PARAMETERS
 % ----------------------------------------
+
+%% template_resolve_args(+T:atom,+Params:list,?Template,?Errs) :-
+% Params = [A1=V1,...]
+%
+% Template = T(Arg1,Arg2,...)
 template_resolve_args(T,Params,Template,Errs) :-
         template_lookup(T,arguments,ArgDomains),
         params_args(ArgDomains,Params,Args,UnresolvedList),
@@ -869,6 +907,15 @@ constraint_violations(T,Errs) :-
                     \+ Rule),
                 Errs).
 constraint_violations(_,[]).
+
+zeropad(Num,'000000') :- Num < 10,!.
+zeropad(Num,'00000') :- Num < 100,!.
+zeropad(Num,'0000') :- Num < 1000,!.
+zeropad(Num,'000') :- Num < 10000,!.
+zeropad(Num,'00') :- Num < 100000,!.
+zeropad(Num,'0') :- Num < 1000000,!.
+zeropad(Num,'') :- Num < 10000000,!.
+zeropad(Num,'') :- Num > 10000000,!.
 
 
 
