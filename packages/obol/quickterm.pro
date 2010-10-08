@@ -549,6 +549,11 @@ generate_fact(Template,New,Fact,Opts) :-
 %  * subtemplate(ST) - zero or more.
 %     if Template is a wrapper then subtemplates must be explicitly selected
 
+template_request(Template,Msgs,Opts) :-
+        nb_current(is_ontologies_loaded,true),
+        !,
+        template_request_2(Template,Msgs,Opts).
+
 % First check to make sure Mutex not owned
 template_request(Template,error('Lock owned by someone else - try in 5 mins'),Opts) :-
         template_xp_submit_file(Template,submit,NF,Opts),
@@ -587,6 +592,8 @@ template_request(MultiTemplate,Msgs,Opts) :-
         (   template_lookup(MultiTemplate,requires,ReqURLs)
         ->  maplist(load_biofile,ReqURLs)
         ;   true),
+
+        nb_setval(is_ontologies_loaded,true),
 
         % now do the real deal...
         template_request_2(MultiTemplate,Msgs,Opts),
