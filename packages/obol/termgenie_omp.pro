@@ -21,8 +21,7 @@ rate_quality('increased rate').
 rate_quality('decreased rate').
 
 metabolic_process(P) :-
-        %subclassRT(P,'GO:0008152'),
-        subclass(P,'GO:0008152'),
+        subclassRT(P,'GO:0008152'),
         entity_partition(P,gosubset_prok).
 
 generate_all :-
