@@ -16,6 +16,7 @@ my $list2p;
 my $keylist2p;
 my $use_filename;
 my $no_quote;
+my $gzip;
 @ARGV = map {if (/^\-f(\d+)/) {("-f", $1)}else{$_}} @ARGV;
 GetOptions("fields|f=s"=>\$fields,
 	   "delimiter|d=s"=>\$delimiter,
@@ -27,6 +28,7 @@ GetOptions("fields|f=s"=>\$fields,
            "prefix=s%"=>$prefixcolh,
            "pre=s@"=>\@pre,
            "use_hdr"=>\$use_hdr,
+           "gzip"=>\$gzip,
            "ignore_hdr"=>\$ignore_hdr,
            "list2p|l"=>\$list2p,
            "keylist2p|k"=>\$keylist2p,
@@ -49,6 +51,13 @@ if (!$pred && $use_filename) {
     $pred = $ARGV[0];
     $pred =~ s/.*\///;
     $pred =~ s/\..*//;
+}
+
+if (scalar(@ARGV) && $ARGV[0] =~ /\.gz$/) {
+    $gzip = 1;
+}
+if ($gzip) {
+    @ARGV = map { /\.(gz|Z)$/ ? "gzip -dc < $_ |" : $_ } @ARGV;
 }
 
 while(<>) {

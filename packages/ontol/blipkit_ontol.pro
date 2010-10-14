@@ -1058,6 +1058,22 @@ show_ontol_subset_by_tree(owl,_,_Opts):-
             forall(member(P,Ps),
                    write_property(obo,P)))).
 
+:- blip('ontol-collapse-to-slim',
+        'collapses ontology into a subset/slim',
+        [bool(add_root,IsAddRoot),
+         atom([subset,slim],Slim),
+         atom([to,t],ToFormat,obo),
+         atom([o,output],OutFile)],
+        [],
+        (   
+            ensure_loaded(bio(ontol_management)),
+            (   IsAddRoot=1
+            ->  forall(noparent(X),
+                       assert(entity_partition(X,Slim)))
+            ;   true),
+            extract_slim(Slim),
+            write_biofile(ToFormat,OutFile))).
+
 :- blip('ontol-reasoner',
         'reasons over ontology via forward-chaining, finding full deductive closure',
         [atom([to,t],ToFormat),

@@ -135,15 +135,15 @@ dehyphenate(X,Y) :- concat_atom(L,'-',X),L\=[_],concat_atom(L,'',Y).
 
 
 % TODO: allow custom synsets
-synset(['1','1st',first,'I']).
-synset(['2','2nd',second,'II']).
-synset(['3','3rd',third,'III']).
-synset(['4','4th',fourth,'IV']).
-synset(['5','5th',fifth,'V']).
-synset(['6','6th',sixth,'VI']).
-synset(['7','7th',seventh,'VII']).
-synset(['8','8th',eight,'VIII']).
-synset(['9','9th',ninth,'IX']).
+synset(['1','1st',first,'I','01']).
+synset(['2','2nd',second,'II','02']).
+synset(['3','3rd',third,'III','03']).
+synset(['4','4th',fourth,'IV','04']).
+synset(['5','5th',fifth,'V','05']).
+synset(['6','6th',sixth,'VI','06']).
+synset(['7','7th',seventh,'VII','07']).
+synset(['8','8th',eight,'VIII','08']).
+synset(['9','9th',ninth,'IX','09']).
 synset(['10','10th',tenth,'X']).
 synset(['11','11th',eleventh,'XI']).
 synset(['12','12th',twelfth,'XII']).

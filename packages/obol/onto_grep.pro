@@ -280,11 +280,13 @@ show_xref(ID2,ID1,Opts):-
 
 
 show_new_term(ID2,ID1,_Opts):-
+        debug(obol,'hit: ~w',[ID1-ID2]),
         class(ID1,N1),
         class(ID2,N2),
         concat_atom([ID1,ID2],'-',IDx),
         concat_atom(Toks,':',IDx),
         concat_atom(Toks,'_',ID),
+        !,
         format('[Term]~nid: UBERON:~w~nname: ~w~n',[ID,N1]),
         (   solutions(PID-PN,
                       (   xref_subclass(ID1,PID,PN)
@@ -298,7 +300,7 @@ show_new_term(ID2,ID1,_Opts):-
                       Ps)),
 	(   def(ID1,Def)
 	->  format('def: "~w" [~w]~n',[Def,ID1])
-	;   def(ID1,Def)
+	;   def(ID2,Def)
 	->  format('def: "~w" [~w]~n',[Def,ID2])
 	;   true),
         forall(member(PID-PN,Ps),
@@ -312,6 +314,10 @@ show_new_term(ID2,ID1,_Opts):-
         forall(xref_synonym(ID2,S,T),
                format('synonym: "~w" ~w [~w]~n',[S,T,ID2])),
         format('xref: ~w ! ~w~nxref: ~w ! ~w~n~n',[ID2,N2,ID1,N1]).
+
+show_new_term(ID1,ID2,_Opts):-
+        print_message(error,bad_match(ID1,ID2)).
+
 
 xref_synonym(ID,S,T):-
         entity_synonym_scope(ID,S,Td),

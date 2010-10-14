@@ -76,8 +76,22 @@ is_referenced(X) :- differentium(_,_,X).
 
 :- mode write_ontology(+,+) is det.
 write_ontology(obo,O):-
-        forall_distinct(entity_resource(ID,O),
-                        write_entity(obo,ID)).
+        write_all_classes(O),
+        write_all_instances(O),
+        write_all_properties(O).
+
+write_all_classes(O) :-
+        solutions(ID,((class(ID);entity_obsolete(ID,class)),
+                      entity_resource(ID,O)),IDs),
+        maplist(write_entity(obo),IDs).
+write_all_instances(O) :-
+        solutions(ID,((inst(ID);entity_obsolete(ID,instance)),
+                      entity_resource(ID,O)),IDs),
+        maplist(write_entity(obo),IDs).
+write_all_properties(O) :-
+        solutions(ID,((property(ID);entity_obsolete(ID,property)),
+                      entity_resource(ID,O)),IDs),
+        maplist(write_entity(obo),IDs).
         
 :- mode write_header(+) is det.
 write_header(obo):-

@@ -164,6 +164,7 @@ template(positive_regulation_of_mf(X),
 
 template(involved_in(P,W),
          [
+          access= [admin],
           description= 'processes involved in other processes',
           ontology= 'GO',
           obo_namespace= biological_process,

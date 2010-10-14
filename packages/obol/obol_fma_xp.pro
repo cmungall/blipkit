@@ -10,7 +10,6 @@ term_textdef(C) --> def(anatomical_continuant(C)).
 
 def(anatomical_continuant(Part that part_of(Whole))) --> ['A'],terminal(Part),['that is part of a'],terminal(Whole).
 
-% eg Pleura of diaphragmatic surface of middle lobe
 anatomical_continuant(Part that part_of(Whole)) --> anatomical_continuant5(Whole),anatomical_continuant(Part).
 
 % eg blood in aorta

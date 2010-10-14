@@ -144,6 +144,7 @@ anatomical_av(cellular_component).
 anatomical_av(cell).
 
 % todo - use UBO/CARO mappings
+anatomical_ontology(abstract_anatomy).
 anatomical_ontology(plant_structure).
 anatomical_ontology(zebrafish_anatomy).
 anatomical_ontology(teleost_anatomy).

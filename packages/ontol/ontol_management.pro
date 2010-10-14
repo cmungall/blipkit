@@ -10,12 +10,15 @@
            remove_redundant_facts/0,
 
            make_class_obsolete/1,
-           delete_class/1
+           delete_class/1,
+
+           extract_slim/1
 	   ]
 	 ).
 
 :- use_module(ontol_db).
 
+:- use_module(bio(tabling)).
 :- use_module(bio(metadata_db)).
 :- use_module(bio(bioprolog_util)). 
 
@@ -144,6 +147,16 @@ dangling_fact(F) :-
 	\+ ((is_nondangling(A),
 	     is_nondangling(B))).
 dangling_fact(F) :-
+	F=property_domain(A,B),
+	F,
+	\+ ((is_nondangling(A),
+	     is_nondangling(B))).
+dangling_fact(F) :-
+	F=property_range(A,B),
+	F,
+	\+ ((is_nondangling(A),
+	     is_nondangling(B))).
+dangling_fact(F) :-
 	F=restriction(A,R,B),
 	F,
 	\+ ((is_nondangling(A),
@@ -166,8 +179,13 @@ make_class_obsolete(X) :-
         retractall(class(X)),
         assert(metadata_db:entity_obsolete(X,class)).
 
-delete_class(X) :-
+delete_entity(X) :-
         debug(edit,'deleting ~w',[X]),
+        retractall(entity_resource(X,_)),
+        retractall(entity_obsolete(X,_)).
+
+delete_class(X) :-
+        retractall(entity_resource(X,_)),
         retractall(class(X)),
         retractall(subclass(_,X)),
         retractall(subclass(X,_)),
@@ -177,3 +195,34 @@ delete_class(X) :-
         retractall(differentium(X,_,_)),
         retractall(restriction(_,_,X)),
         retractall(restriction(X,_,_)).
+
+extract_slim(S) :-
+        table_pred(ontol_db:parentT/3),
+        findall(X-R-Y,
+                slim_parent(S,X,R,Y),
+                Links),
+        forall((class(X),\+entity_partition(X,S)),
+               delete_class(X)),
+        forall((entity_obsolete(X,_),\+entity_partition(X,S)),
+               delete_entity(X)),
+        retractall(subclass(_,_)),
+        retractall(restriction(_,_,_)),
+        forall(member(X-subclass-Y,Links),
+               assert(subclass(X,Y))),
+        forall((member(X-R-Y,Links),R\=subclass),
+               assert(restriction(X,R,Y))),
+        remove_dangling_facts.
+
+
+slim_parent(S,X,R,Y) :-
+        entity_partition(X,S),
+        parentT(X,R,Y),
+        entity_partition(Y,S),
+        \+ ((parentT(X,R1,Z),
+             entity_partition(Z,S),
+             parentT(Z,R2,Y),
+             ontol_db:combine_relation_pair(R1,R2,R))).
+
+
+                      
+        

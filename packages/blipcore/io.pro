@@ -339,7 +339,14 @@ load_biofile(InputFileIn):- % special case - e.g. mygenome-genome_db.pro
 	sub_atom(X,_,_,E,'-'),
 	sub_atom(X,_,E,0,Mod),
 	\+ sub_atom(Mod,_,_,_,'-'),
+        !,
 	load_biofile(Mod:pro,InputFile).
+load_biofile(InputFileIn):- % special case - gzip
+        expand_bioresource_search_path(InputFileIn,InputFile),
+        file_name_extension(F2, gz, InputFile),
+        file_name_extension(_Base, Fmt, F2),
+        !,
+        load_biofile(gzip(Fmt),InputFile).
 load_biofile(InputFileIn):-
         expand_bioresource_search_path(InputFileIn,InputFile),
         (   file_name_extension(_Base, Fmt, InputFile)
