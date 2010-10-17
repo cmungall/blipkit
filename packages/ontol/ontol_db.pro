@@ -1009,16 +1009,18 @@ inferred_parent_via_rev(ID,PID,Over) :-
 % e.g. A r-s B, A r-s-r-s B, A r-s-r-s-r-s B
 visited_parent_via(Parent,NewConns,Visited) :-
         ord_memberchk(Parent-NewConns,Visited),
+        %debug(parentT,'  visisted: ~w',[Parent-NewConns]),
         !.
 % only check the first connection
 % (remember head of connection list is the one connecting to the parent)
-visited_parent_via(Parent,[Conn|_],Visited) :-
-        ord_memberchk(Parent-[Conn|_],Visited),
+visited_parent_via(Parent,[Conn1,Conn2|_],Visited) :-
+        ord_memberchk(Parent-[Conn1,Conn2|_],Visited),
+        %debug(parentT,'  visisted: ~w // ~w',[Parent-Conn1-Conn2,Visited]),
         !.
 
 %% entity_relations_closure(+ScheduledCCPairs,+Visited,+AccumulatedResults,?FinalResults)
 entity_relations_closure([Class-Conns|ScheduledCCPairs],Visited,ResultCCPairs,FinalCCPairs) :-
-        debug(parentT,'next: ~w',[Class]),
+        debug(parentT,'next: ~w',[Class-Conns]),
         % extend to immediate parents
 	setof(Parent-NewConns,
               (   entity_parent_chain(Class,Parent,Conns,NewConns),

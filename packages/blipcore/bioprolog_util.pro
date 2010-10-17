@@ -759,7 +759,7 @@ oneof(X):- call(X),!.
 call_det(X):- call(X) -> true ; throw(det_pred_failed(X)).
 
 :- module_transparent call_unique/1.
-call_unique(X) :- setof(X,X^X,Xs),member(X,Xs).
+call_unique(X) :- setof(X,X,Xs),member(X,Xs).
 
 
 %% sumof(+Template,+Goal,?Sum)
