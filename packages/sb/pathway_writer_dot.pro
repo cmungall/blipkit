@@ -46,12 +46,15 @@ system:graphviz_pathway_param(node(ID),shape=Shape):- node_shape(ID,Shape).
 system:graphviz_pathway_param(node(_),fontname=helvetica).
 %system:graphviz_pathway_param(node(_),fontname='/System/Library/Fonts/Courier.dfont'). % OS X only!!
 system:graphviz_pathway_param(node(_),fontsize=14).
+system:graphviz_pathway_param(edge(_,_,input),weight=999).
 system:graphviz_pathway_param(edge(_,_,input),arrowhead=none).
 system:graphviz_pathway_param(edge(_,_,input),arrowtail=normal).
 system:graphviz_pathway_param(edge(_,_,input),color=green).
+system:graphviz_pathway_param(edge(_,_,output),weight=999).
 system:graphviz_pathway_param(edge(_,_,output),arrowhead=normal).
 system:graphviz_pathway_param(edge(_,_,output),arrowtail=none).
 system:graphviz_pathway_param(edge(_,_,output),color=blue).
+system:graphviz_pathway_param(edge(_,_,catalyst),weight=999).
 system:graphviz_pathway_param(edge(_,_,catalyst),arrowhead=none).
 system:graphviz_pathway_param(edge(_,_,catalyst),arrowtail=box).
 system:graphviz_pathway_param(edge(_,_,catalyst),color=red).
@@ -61,6 +64,7 @@ system:graphviz_pathway_param(edge(_,_,followed_by),color=blue).
 system:graphviz_pathway_param(edge(_,_,followed_by),arrowtail=crow).
 
 %% pathway_to_dotgraph(+P,+Diagram,?Graph,+Opts)
+%
 % Graph can be used in dotwriter
 %
 % Diagram=full
@@ -72,7 +76,7 @@ system:graphviz_pathway_param(edge(_,_,followed_by),arrowtail=crow).
 %  * event-centric
 %  * optionally shows participants
 %  * Opt=nestp - nests subevent_of/2
-%  * Opt=role(Role) - shows participants that play role. E.g. Role=catalyst
+%  * Opt=role(Role) - shows participants that play role. E.g. Role=catalyst, Role=_ (unbound for all)
 
 pathway_to_dotgraph(P,full,GX,Opts):-
         setof(E,has_subeventRT(P,E),Es),
@@ -205,6 +209,12 @@ snapshot_continuant_guess(M,M) :-
         is_complex(M).
 
 
+%% collect_terms(+Type,+Es:list,?CTerms:list,+Opts:list)
+%
+% collects dot nodes of type Type (currently only continuant)
+%
+% Opts = [role(R)]
+% leave R unbound for all roles
 collect_terms(continuant,Es,CTerms,Opts) :-
         member(role(R),Opts),
         setof(C,E^M^R^(member(E,Es),event_participant_role(E,M,R),snapshot_continuant_guess(M,C)),Cs),        

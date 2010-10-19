@@ -211,6 +211,7 @@ alias qwpx="oq -r worm_phenotype -r worm_phenotype_xp -r worm_anatomy -r go -r p
 alias go-to-class='blip -r so -r go -include "association ontology" -include "feature ontology" -f go_assoc io-convert -u goa_bridge_to_class -u seqfeature_bridge_to_class -u ontol_db -to obo -i'
 alias chaos-to-class='blip -r soxp -include "feature ontology" -f chaos io-convert -u seqfeature_bridge_to_class -u ontol_db -to obo -i'
 
+alias pathviz='blip -r go pathway-viz'
 alias reactome='blip -r reactome/Homo_sapiens -r go pathway-viz'
 
 

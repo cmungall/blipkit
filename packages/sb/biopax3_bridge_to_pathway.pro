@@ -1,4 +1,4 @@
-:- module(biopax3_bridge_to_ontol,[]).
+:- module(biopax3_bridge_to_pathway,[]).
 
 :- use_module(bio(biopax3_db)).
 :- use_module(bio(biopax3_bridge_from_rdf)).
@@ -46,7 +46,6 @@ pathway_db:event(X) :- interaction(X).
 interaction_type(X,control) :- control(X).
 interaction_type(X,catalyst) :- catalysis(X).
 
-
 pathway_db:preceded_by(P2,P1):- PS1 stepProcess P1, PS1 nextStep PS2, PS2 stepProcess P2.
 
 pathway_db:event_catalyst(E,C,CI,Type) :- interaction(CI),controlled(CI,E),controller(CI,C),interaction_type(CI,Type).
@@ -64,9 +63,16 @@ pathway_db:subpathway_of(P,W) :- pathwayComponent(W,P).
 
 pathway_db:located_in(C,L) :- cellularLocation(C,L).
 
+% component/2 is used for what reatome calls components, i.e. has_part
 pathway_db:has_part(W,P,Num) :- component(W,P),componentStoichiometry(W,Stoi),physicalEntity(Stoi,P),stoichiometricCoefficient(Stoi,NumA),atom_number(NumA,Num).
 pathway_db:has_part(W,P,1) :- component(W,P),\+ ((componentStoichiometry(W,Stoi),physicalEntity(Stoi,P))).
 pathway_db:has_part(W,P,1) :- physicalEntity(W,P).
+
+% https://sourceforge.net/apps/mediawiki/biopax/index.php?title=BioPAXRules
+% 2.28 * memberPhysicalEntity – use of this property is not recommended (warning). It is only defined to support legacy data in certain databases.
+%In general, the EntityReference class should be used to create generic groups of physical entities, however there are some cases where this is not possible (e.g., generic Complex
+pathway_db:has_subtype(General,Specific) :- memberPhysicalEntity(General,Specific).
+
 
 pathway_db:is_protein(C) :- biopax3_db:protein(C).
 pathway_db:is_complex(C) :- biopax3_db:complex(C).

@@ -68,6 +68,8 @@
            has_leaf_part/2,
            has_leaf_parts/2,
 
+           has_subtype/2,
+           
            phosphorylation/3,
            dephosphorylation/3,
            autophosphorylation/1,
@@ -457,6 +459,8 @@ modification_target_type(Mod,Tgt,Type) :-
 :- extensional(is_rna/1).
 :- extensional(is_rna_region/1).
 
+%% has_subtype(General,Specific)
+:- extensional(has_subtype/2).
 
 %% has_part(W,P,Num)
 :- extensional(has_part/3).

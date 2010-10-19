@@ -26,6 +26,8 @@
 	   corpus_search/6,
            entity_label_token_list_stemmed/4,
            label_query_results/3,
+           label_query_best_result/4,
+           label_full_parse/3,
 
            term_split/6,
            term_split_over/7,
@@ -39,8 +41,19 @@
 :- use_module(library(porter_stem)).
 :- use_module(bio(av_db)).  % obol dependency - consider moving this
 
+tokenize_atom_wrap(A,TL) :-
+        tokenize_atom(A,TL_1),
+        findall(T,(member(T,TL_1),\+ignore_token(T)),TL).
+
+ignore_token(',').
+ignore_token('.').
+ignore_token('-').
+ignore_token(';').
+ignore_token(':').
+
+
 term_token(A,T) :-
-	tokenize_atom(A,TL),
+	tokenize_atom_wrap(A,TL),
 	member(T,TL).
 
 term_token_stemmed(A,T) :-
@@ -61,7 +74,7 @@ term_token_stemmed(A,T,false) :-
 	term_token(A,T).
 
 term_nth_token(A,N,T) :-
-	tokenize_atom(A,TL),
+	tokenize_atom_wrap(A,TL),
 	nth(N,TL,T).
 
 term_nth_token_stemmed(A,N,T) :-
@@ -337,11 +350,13 @@ corpus_search_ic(_QueryTemplate,TermTemplate,Goal,HitLabel-HitToks,Sim,Stemmed) 
 % NEW (slow)
 
 %% label_query_results(+QueryLabel,+Stemmed,?MaxScorePairsDesc:list)
+% MaxScorePairsDesc = [Score1-Entity1, ...]
 label_query_results(QueryLabel,Stemmed,MaxScorePairsDesc) :-
         % query -> tokens
         term_tokenset_stemmed(QueryLabel,QueryToks,Stemmed),
         
         % find all match entities
+        debug(nlp,'query tokens: ~w',[QueryToks]),
         setof(Score-E,MatchLabel^match_entity_by_toks(QueryToks,E,MatchLabel,Stemmed,Score),Pairs),
 
         % aggregate matches by best score for each entity
@@ -350,27 +365,68 @@ label_query_results(QueryLabel,Stemmed,MaxScorePairsDesc) :-
         % Descending order
         reverse(MaxScorePairs,MaxScorePairsDesc).
 
+label_query_best_result(QueryLabel,Stemmed,Score,E) :-
+        label_query_results(QueryLabel,Stemmed,[Score-E|_]).
+
+label_full_parse(QueryLabel,Stemmed,MatchPairs) :-
+        % query -> tokens
+        term_tokenset_stemmed(QueryLabel,QueryToks,Stemmed),
+        debug(nlp,'query tokens: ~w',[QueryToks]),
+
+        toks_parse_recursive(QueryToks,Stemmed,MatchPairs).
+
+
+
+toks_parse_recursive(QueryToks,Stemmed,[MaxScore-BestE|MatchPairs]) :-  
+
+        % all matches
+        setof(Score-E-MatchToks,MatchLabel^match_entity_by_toks(QueryToks,E,MatchLabel,Stemmed,Score,MatchToks),Matches),
+        !,
+
+        % best match
+        aggregate(max(Score,E-MatchToks),member(Score-E-MatchToks,Matches),max(MaxScore,BestE-BestMatchToks)),
+
+        % carry on with remaining set
+        ord_subtract(QueryToks,BestMatchToks,RemainingToks),
+
+        toks_parse_recursive(RemainingToks,Stemmed,MatchPairs).
+
+toks_parse_recursive(_,_,[]).
+
+
 match_entity_by_toks(QueryToks,E,MatchLabel,Stemmed,Score) :-
+        match_entity_by_toks(QueryToks,E,MatchLabel,Stemmed,Score,_).
+
+match_entity_by_toks(QueryToks,E,MatchLabel,Stemmed,Score,MatchToks) :-
         % search database of entities
         entity_label_token_list_stemmed(E,MatchLabel,MatchToks,Stemmed),
-
+        entity_label_modifier(E,MatchLabel,Mod),
+        entity_additional_modifier(E,Mod2),
+        
         % find tokens in common - must have at least one
         ord_intersection(QueryToks,MatchToks,IToks),
         IToks\=[],
 
         % here we now assume the query is a sentence; for now
         % we do not care baout its length
-        length(MatchToks,MLen),
-        length(IToks,ILen),
-        Score is ILen/MLen.
-        
-        /*
         length(QueryToks,QLen),
         length(MatchToks,MLen),
         length(IToks,ILen),
-        MLen is max(QLen,MLen),
-        Score is ILen/MLen.
-        */
+        Score1 is ILen/MLen, % prop of match
+
+        MaxLen is max(QLen,MLen),
+        Score2 is ILen/MaxLen, % prop of query or match
+        Score is (Score1 + Score2*Score2) * Mod * Mod2.
+
+entity_label_modifier(E,L,M) :- entity_label_scope(E,L,S),scope_modifier(S,M),!.
+
+scope_modifier(label,1).
+scope_modifier(exact,1).
+scope_modifier(narrow,0.8).
+scope_modifier(_,0.5).
+
+entity_additional_modifier(E,0.5) :- entity_obsolete(E,_),!.
+entity_additional_modifier(_,1).
         
 entity_label_token_list_stemmed(E,Label,Toks,Stemmed) :-
         setof(Tok,entity_label_token_stemmed(E,Label,Tok,Stemmed),Toks).
