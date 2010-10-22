@@ -63,6 +63,9 @@
            has_part/3,
            has_partT/2,
            has_partRT/2,
+           has_part_or_subtype/2,
+           has_part_or_subtypeT/2,
+           has_part_or_subtypeRT/2,
 	   part_of/2,
 	   part_ofT/2,
            has_leaf_part/2,
@@ -477,6 +480,17 @@ has_partT(A,B) :- has_part(A,X),has_partT(X,B).
 % reflexive transitive closure of has_partT/2
 has_partRT(A,B) :- has_partT(A,B).
 has_partRT(A,A).
+
+has_part_or_subtype(W,P) :- has_part(W,P).
+has_part_or_subtype(W,P) :- has_subtype(W,P).
+
+has_part_or_subtypeT(W,P) :- has_part_or_subtype(W,P).
+has_part_or_subtypeT(W,P) :- has_part_or_subtype(W,P1),has_part_or_subtypeT(P1,P).
+
+has_part_or_subtypeRT(W,P) :- has_part_or_subtypeT(W,P).
+has_part_or_subtypeRT(W,W).
+
+
 
 %% has_leaf_part(+W,?Parts:set) is det
 % set of all leaf-nodes in the partonomy for W.

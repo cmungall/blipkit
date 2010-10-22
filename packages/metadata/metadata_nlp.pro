@@ -12,14 +12,15 @@
 	   token_syn/2,
 	   corpus_label_token/1,
 	   corpus_label_token_frequency/2,
-	   index_labels/1,
-	   index_labeled_entities/1,
-	   index_corpus_by_labels/1,
-	   index_corpus_by_labels/4,
+	   simindex_labeled_entities/1,
+	   simindex_labels/1,
+	   simindex_corpus_by_labels/1,
+	   simindex_corpus_by_labels/4,
 	   entity_pair_nlp_subset_of/3,
 	   entity_pair_nlp_subset_of_cross_idspace/3,
 	   entity_pair_nlp_match/7,
            index_entity_pair_label_match/0,
+           nlp_index_all/0,
 	   entity_pair_label_match/2,
 	   entity_pair_label_match/3,
 	   atom_search/5,
@@ -245,7 +246,12 @@ entity_pair_nlp_subset_of_cross_idspace(A,B,S) :-
 	id_idspace(B,BO),
 	AO\=BO.
 
-	
+nlp_index_all :-
+	materialize_index(entity_nlabel_scope_stemmed(1,1,-,-)),
+	materialize_index(entity_label_token_stemmed(1,-,1,-)),
+	materialize_index(entity_label_token_list_stemmed(1,-,-,-)).
+
+        
 index_entity_pair_label_match :-
         materialize_index(entity_nlabel_scope_stemmed(1,1,-,-)).
 
@@ -257,22 +263,22 @@ entity_pair_label_match(A,B,Stemmed) :-
         A\=B.
 
 
-index_labels(Stemmed) :-
+simindex_labels(Stemmed) :-
 	debug(nlp,'indexing [stemmed:~w]',[Stemmed]),
 	generate_term_indexes(Label,Token,
 			      metadata_nlp:entity_label_token_stemmed(_,Label,Token,Stemmed)).
 
 % DON'T USE THIS!! only use if each entity has a single label
-index_labeled_entities(Stemmed) :-
+simindex_labeled_entities(Stemmed) :-
 	debug(nlp,'indexing entities [stemmed:~w]',[Stemmed]),
 	generate_term_indexes(E,Token,
 			      entity_label_token_stemmed(E,_,Token,Stemmed)).
 
 
 % index is per-label rather than per-entity
-index_corpus_by_labels(Stemmed):-
+simindex_corpus_by_labels(Stemmed):-
 	!,
-	index_labels(Stemmed),
+	simindex_labels(Stemmed),
 	debug(nlp,'force cache...',[]),
 	findall(F,feature_vector(F,_),_),
 	% for frequencies we count by entity, not label
@@ -282,12 +288,12 @@ index_corpus_by_labels(Stemmed):-
 				  metadata_nlp:entity_label_token_stemmed(Entity,_,Token,Stemmed))),
 	materialize_index(simmatrix:attribute_feature_count(1,1)).
 
-%% index_corpus_by_labels(Entity,Term,Goal,Stemmed)
+%% simindex_corpus_by_labels(Entity,Term,Goal,Stemmed)
 %
-% e.g. index_corpus_by_labels(Gene,Rif,gene_rif(_,Gene,_,_,Rif),true)
+% e.g. simindex_corpus_by_labels(Gene,Rif,gene_rif(_,Gene,_,_,Rif),true)
 %
 % main index is constructed from ontology
-index_corpus_by_labels(Entity,Term,Goal,Stemmed):-
+simindex_corpus_by_labels(Entity,Term,Goal,Stemmed):-
 	!,
 	debug(nlp,'indexing [stemmed:~w]',[Stemmed]),
         % generate initial index using ontology
@@ -488,12 +494,12 @@ term_ends_with(E,S,SN,Tail,S1,S2) :-
 
   look for occurrences of class labels in definitions
 ==
-  blip-findall -debug nlp -u metadata_nlp -r cell -goal "index_corpus_by_labels(false)" "corpus_search(E,Def,def(E,Def),Hit,Sim,false),class(E,N)" -select "match(E,N,Def,Hit,Sim)"
+  blip-findall -debug nlp -u metadata_nlp -r cell -goal "simindex_corpus_by_labels(false)" "corpus_search(E,Def,def(E,Def),Hit,Sim,false),class(E,N)" -select "match(E,N,Def,Hit,Sim)"
 ==
 
     
 ==
-  blip-findall -debug nlp -u metadata_nlp -r omim -r human_phenotype -r uberon -r pato -r go -goal "index_corpus_by_labels(E,Def,def(E,Def),false)" "corpus_search(E,Def,def(E,Def),Hit,Sim,true),class(E,N)" -select "match(E,N,Def,Hit,Sim)"
+  blip-findall -debug nlp -u metadata_nlp -r omim -r human_phenotype -r uberon -r pato -r go -goal "simindex_corpus_by_labels(E,Def,def(E,Def),false)" "corpus_search(E,Def,def(E,Def),Hit,Sim,true),class(E,N)" -select "match(E,N,Def,Hit,Sim)"
 ==
 
 

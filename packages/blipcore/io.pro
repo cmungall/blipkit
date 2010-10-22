@@ -994,6 +994,7 @@ format_module(obo_native,ontol_db).
 format_module(phenosyn,pheno_db).
 format_module(ocelot,ontol_db).
 format_module(sbml,sb_db).
+format_module(pathway_gaf,pathway_db).
 format_module(nhx,phylo_db).
 format_module(nh,phylo_db).
 format_module(fasta,fasta_db).
@@ -1078,6 +1079,7 @@ format_writer(phenotbl,pheno_writer_general).
 format_writer(sb_chadoxml,sb_writer_chadoxml).
 format_writer(sb_dot,sb_writer_dot).
 format_writer(sb_dot2,sb_writer_dot).
+format_writer(pathway_gaf,pathway_writer_gaf).
 format_writer(phylo_chadoxml,phylo_writer_chadoxml).
 
 %% consult_bioconf

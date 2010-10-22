@@ -198,7 +198,7 @@ multiple_entity_info(IDs) =>
 		     [Synonym,
 		      i(' type:',b(T)) forall_unique entity_synonym_type(ID,T,Synonym),
 		      ' '
-		     ],entoty+synonym_scope(ID,Synonym,X),ID,IDs) forall_unique member(X,Xs),
+		     ],entity_synonym_scope(ID,Synonym,X),ID,IDs) forall_unique member(X,Xs),
 	    multirow('Disjoint from',hlink(X),disjoint_from(ID,X),ID,IDs),
 	    multirow('Domain',hlink(X),property_domain(ID,X),ID,IDs),                     
 	    multirow('Range',hlink(X),property_range(ID,X),ID,IDs),                     

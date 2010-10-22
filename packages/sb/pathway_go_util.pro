@@ -3,6 +3,9 @@
 	   event_goxref/2
 	   ]).
 
+:- use_module(bio(metadata_db)).
+:- use_module(pathway_db).
+
 %% event_goxref(?P,?GOClass)
 %
 event_goxref(P,GOID) :-
