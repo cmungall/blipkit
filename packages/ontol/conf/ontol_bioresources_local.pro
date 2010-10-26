@@ -150,6 +150,7 @@ user:bioresource(worm_phenotype_xp,obo_local('phenotype/worm_phenotype_xp.obo'),
 
 % UBERPHENO
 user:bioresource(upheno,obo_local('phenotype/phenotype_xp/uberpheno/uberpheno-basic.obo'),obo).
+user:bioresource(upheno_full,obo_local('phenotype/phenotype_xp/uberpheno/uberpheno-full.obo'),obo).
 
 
 user:bioresource(go_xp_all,'/users/cjm/cvs/go/scratch/xps/go_xp_all-merged.obo',obo).

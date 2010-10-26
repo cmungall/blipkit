@@ -15,6 +15,7 @@
 :- dynamic persist_to/2. % track which predspecs are persisted to which files
 :- dynamic persist_to_stream/2. % track which predspecs are persisted to which streams
 :- dynamic cache_file/1. % track the full set of files to be loaded when ready
+:- dynamic is_tabled/2.
 
 :- multifile memoize_hook/1.
 
@@ -44,6 +45,10 @@ table_pred(P):-
         context_module(M),
         table_pred(P,M).
 table_pred(P,M):-
+        is_tabled(M,P),
+        !,
+        debug(tabling,'already tabled: ~w:~w',[M,P]).
+table_pred(P,M):-
         debug(tabling,'context mod ~w, tabling ~w',[M,P]),
         P = F/Arity,
         functor(T,F,Arity),     % T is term with unground args
@@ -59,6 +64,7 @@ table_pred(P,M):-
         % create a single wrapper clause that mimics the original
         % predicate and calls the implementation predicate
         create_tabled_pred_wrap(T,M),
+        assert(is_tabled(M,P)),
 	!.
 table_pred(P,M):-
 	throw(error(table_pred(P,M))).
@@ -416,6 +422,39 @@ different name. The rewritten clauses will call table_call/5,
 which will check to see if the call is subsumed by a previous call; if
 so, use a dynamic cache to present all solutions; if not, call the
 clauses containing the original code
+
+     ---+++ Example
+
+  The example above will be rewritten as:
+  
+  ==
+  fib(X,V) :-
+    memoization:table_call(fib(X,V), fib_tabled__(X,V), fib_cached__(X,V), fib_called__(X,V), user).
+
+  fib_tabled__(X,V) :-
+     % original clause...
+
+  % after call fib(4,X).
+  fib_cached__(1, 1).
+  fib_cached__(0, 0).
+  fib_cached__(2, 1).
+  fib_cached__(3, 2).
+  fib_cached__(4, 3).
+
+  fib_called__(1, _).
+  fib_called__(0, _).
+  fib_called__(2, _).
+  fib_called__(3, _).
+  fib_called__(4, _).
+
+  %then we call:
+  %?- fib(5,99).
+  %false.
+
+  % adds:
+  fib_called__(5, 99).
+  
+  ==
 
   ---++ Limitations
 
