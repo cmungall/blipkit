@@ -1,4 +1,4 @@
-:- module(restl,
+:- module(webprolog,
           [
            start_server/0,
            start_server/1
@@ -18,7 +18,7 @@
 :- dynamic   http:location/3.
 
 http:location(www, /, []).
-http:location(restl, '/', []).
+http:location(webprolog, '/', []).
 http:location(script, www(script), []).
 http:location(css, www(css), []).
 
@@ -33,9 +33,9 @@ start_server(Port) :-
         http_server(http_dispatch, [port(Port)]).
         %http_server(reply, [port(Port)]).
 
-:- http_handler(restl(.), root, [prefix]).
-:- http_handler(restl('_all_dbs'), all_dbs, []).
-%:- http_handler(restl(js), js_dir, [prefix]).
+:- http_handler(webprolog(.), root, [prefix]).
+:- http_handler(webprolog('_all_dbs'), all_dbs, []).
+%:- http_handler(webprolog(js), js_dir, [prefix]).
 
 % TODO
 param(title,     [optional(true)]).
@@ -46,28 +46,28 @@ param(action,    [optional(true)]).
 
 % put vs get
 root(Request) :-
-        debug(restl,'Req: ~w',[Request]),
+        debug(webprolog,'Req: ~w',[Request]),
         member(method(Method), Request), !,
         root(Method,Request).
 
 % PUT - assert or create
 root(put,Request) :-
         request_path_local(Request,root,Db),
-        debug(restl,'Db: ~w',[Db]),
+        debug(webprolog,'Db: ~w',[Db]),
         put_database(Db,Request).
 
 root(delete,Request) :-
         request_path_local(Request,root,Db),
-        debug(restl,'Db: ~w',[Db]),
+        debug(webprolog,'Db: ~w',[Db]),
         delete_database(Db,Request).
 
 % GET
 root(_,Request) :-
         request_path_local(Request,root,Path),
-        debug(restl,'Path: ~w',[Path]),
+        debug(webprolog,'Path: ~w',[Path]),
         concat_atom([Db|Parts],'/',Path),
         concat_atom(Parts,'/',Q),
-        debug(restl,'Query: ~w for ~w',[Db,Q]),
+        debug(webprolog,'Query: ~w for ~w',[Db,Q]),
         query_database(Db,Q).
 
 query_database(Db,'') :-
@@ -75,11 +75,11 @@ query_database(Db,'') :-
 
 query_database(Db,A) :-
         atom_to_term(A,Q,Bindings),
-        debug(restl,'Query[pl]: ~q bindings: ~w',[Q,Bindings]),
+        debug(webprolog,'Query[pl]: ~q bindings: ~w',[Q,Bindings]),
         db_stream(Db,S),
-        debug(restl,'  s: ~w',[S]),
+        debug(webprolog,'  s: ~w',[S]),
         ipr_query(S,json(Bindings),Q,L),
-        debug(restl,'Results: ~w',[L]),
+        debug(webprolog,'Results: ~w',[L]),
         reply_json(json([results=L])).
 
 put_database(Db,Request) :-
@@ -87,7 +87,7 @@ put_database(Db,Request) :-
         Len>1,
         !,
         http_read_data(Request, Data, [to(atom)]),
-        debug(restl,'Data: ~w',[Data]),
+        debug(webprolog,'Data: ~w',[Data]),
         atom_to_term(Data,Term,_),
         database_assert(Db,Term),
         reply_json(json([ok=true,number_of_facts=1])).
@@ -109,7 +109,7 @@ request_path_local(Request,Loc,X) :-
 database_assert(Db,Term) :-
         db_stream(Db,S),
         !,
-        debug(restl,'Asserting: ~w in ~w',[Term,S]),
+        debug(webprolog,'Asserting: ~w in ~w',[Term,S]),
         ipr_assert(S,Term).
 
 create_database(Db) :-
@@ -120,16 +120,16 @@ create_database(Db) :-
 create_database(Db) :-
         \+ db_stream(Db,_),
         !,
-        debug(restl,'initializing: ~w',[Db]),
+        debug(webprolog,'initializing: ~w',[Db]),
         init_ipr_session(S),
-        debug(restl,'stream: ~w',[S]),
+        debug(webprolog,'stream: ~w',[S]),
         assert(db_stream(Db,S)),
         reply_json(json([ok=true])).
 
 delete_database(Db,_) :-
         db_stream(Db,S),
         !,
-        debug(restl,'killing: ~w',[Db]),
+        debug(webprolog,'killing: ~w',[Db]),
         kill_ipr_session(S),
         retractall(db_stream(Db,S)),
         reply_json(json([ok=true])).
@@ -150,7 +150,7 @@ all_dbs(_) :-
 
   ==
   swipl
-  use_module(restl).
+  use_module(webprolog).
   start_server.
   ==
 
