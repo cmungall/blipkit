@@ -1,9 +1,12 @@
 :- module(interprocess,[
-                        testpr/0,
-                        init_pr/1,
+                        init_ipr_session/1,
+                        kill_ipr_session/1,
                         ipr_assert/2,
+                        ipr_retractall/2,
                         ipr_query/3,
-                        ipr_query/4
+                        ipr_query/4,
+                        list_active_ipr_sessions/0,
+                        kill_all_active_ipr_sessions/0
                         ]).
 
 :- use_module( library(lists) ).
@@ -11,6 +14,8 @@
 
 % Swi declaration:
 :- use_module( library(process) ).   % process_create/3.
+
+:- dynamic active_ipr_session/1.
 
 r_read_lines( Ro, TermLine, Lines ) :-
      read_line_to_codes( Ro, Line ),
@@ -38,11 +43,16 @@ testpr:-
                (   ipr_query(Stream,X,writeln(X),Result),
                    format('result=~w',[Result]))).
 
-%% ipr_query(+Stream,+Goal,?Result) is
+%% ipr_query(+Stream,+Goal,?Results:list) is det
+%
+% calls findall/3 on Goal in slave database
+%
 % Stream = s(In,Out,Err,PID) -- see set_pr_streams/3
 ipr_query(Stream,Goal,Results) :-
         ipr_query(Stream,Goal,Goal,Results).
 
+%% ipr_query(+Stream,+Template,+Goal,?Results:list) is det
+% selects Template from Goal
 ipr_query(Stream,Template,Goal,Result) :-
         Stream = s(Ri,Ro,_Re,_),
         format(Ri,'findall(~q,(~q),L),writeq(L),nl.~n',[Template,Goal]),
@@ -55,41 +65,77 @@ ipr_query(Stream,Template,Goal,Result) :-
         atom_to_term(A,Result,_Bindings).
         
 
+%% ipr_assert(+Stream,+Goal) is det
+% asserts a clause in the slave database
 ipr_assert(Stream,Goal) :-
         Stream = s(Ri,Ro,_Re,_),
         format(Ri,'assert((~q)).~n',[Goal]),
         format(Ri,'~q.~n',[writeln(end)]),
         r_read_lines(Ro,"end",_).
 
-ipr_kill(s(_,_,_,PID)) :-
+ipr_retractall(Stream,Goal) :-
+        Stream = s(Ri,Ro,_Re,_),
+        format(Ri,'retractall((~q)).~n',[Goal]),
+        format(Ri,'~q.~n',[writeln(end)]),
+        r_read_lines(Ro,"end",_).
+
+%% kill_ipr_session(+S)
+% kill slave process
+kill_ipr_session(S) :-
+        debug(interprocess,'halting slave: ~w',[S]),
+        S = s(Ri,_Ro,_Re,PID),
+        format(Ri,'halt.~n',[]),
+        retractall(active_ipr_session(S)),
+        debug(interprocess,'releasing process: ~w',[PID]),
         process_release(PID).
 
 init_process( Ri, Ro, Re ) :-
         init_process( Ri, Ro, Re, _).
 
 init_process( Ri, Ro, Re, PID ) :-
-     Opts = [process(PID),stdin(pipe(Ri)),stdout(pipe(Ro)),stderr(pipe(Re))], 
-     process_create( path(swipl), [], Opts ).
+        Opts = [process(PID),stdin(pipe(Ri)),stdout(pipe(Ro)),stderr(pipe(Re))],
+        debug(interprocess,'creating slave process with opts: ~w',[Opts]),
+        process_create( path(swipl), [], Opts ).
 
-init_pr( S ) :-
+%% init_ipr_session( ?S ) is det
+% create a slave database
+init_ipr_session( S ) :-
         init_process(Ri,Ro,Re,PID),
         set_pr_streams(Ri,Ro,Re),
-        S = s(Ri,Ro,Re,PID).
+        S = s(Ri,Ro,Re,PID),
+        assert(active_ipr_session(S)).
+
+%% set_pr_streams( +In, +Out, +Err ) is det
 set_pr_streams( Ri, Ro, Re ) :-
      set_stream( Ri, buffer(false) ), set_stream( Ri, close_on_abort(true) ),
      set_stream( Ro, buffer(false) ), set_stream( Ro, close_on_abort(true) ),
      set_stream( Re, buffer(false) ), set_stream( Re, close_on_abort(true) ).
+
+list_active_ipr_sessions :-
+        forall(active_ipr_session(S),
+               writeln(S)).
+
+kill_all_active_ipr_sessions :-
+        forall(active_ipr_session(S),
+               kill_ipr_session(S)).
+        
 
 /** <module> interprocess communication between prolog engines
 
   ---+ Synopsis
 
 ==
-init_pr(S),ipr_query(S,_,assert(foo(fred)),_),ipr_query(S,_,assert(foo(jim)),_),ipr_query(S,X,foo(X),L).
+setup_call_cleanup(init_ipr_session(S),
+  (ipr_query(S,_,assert(foo(fred)),_),ipr_query(S,_,assert(foo(jim)),_),ipr_query(S,X,foo(X),L)),
+  kill_ipr_session(S)).
 ==
 
+  using the convenience ipr_assert/2 predicate:
+  
 ==
-init_pr(S),ipr_assert(S,foo(fred)),ipr_assert(S,foo(jim)),ipr_query(S,X,foo(X),L).
+setup_call_cleanup(init_ipr_session(S),
+  (ipr_assert(S,foo(fred)),ipr_assert(S,foo(jim)),ipr_query(S,X,foo(X),L)),
+  kill_ipr_session(S)).
 ==
 
 ---+ Details

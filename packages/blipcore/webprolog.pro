@@ -27,7 +27,7 @@ background:-
         fail.
 
 start_server :-
-        start_server(9000).
+        start_server(9090).
 
 start_server(Port) :-
         http_server(http_dispatch, [port(Port)]).
@@ -55,6 +55,11 @@ root(put,Request) :-
         request_path_local(Request,root,Db),
         debug(restl,'Db: ~w',[Db]),
         put_database(Db,Request).
+
+root(delete,Request) :-
+        request_path_local(Request,root,Db),
+        debug(restl,'Db: ~w',[Db]),
+        delete_database(Db,Request).
 
 % GET
 root(_,Request) :-
@@ -116,11 +121,107 @@ create_database(Db) :-
         \+ db_stream(Db,_),
         !,
         debug(restl,'initializing: ~w',[Db]),
-        init_pr(S),
+        init_ipr_session(S),
         debug(restl,'stream: ~w',[S]),
         assert(db_stream(Db,S)),
         reply_json(json([ok=true])).
 
+delete_database(Db,_) :-
+        db_stream(Db,S),
+        !,
+        debug(restl,'killing: ~w',[Db]),
+        kill_ipr_session(S),
+        retractall(db_stream(Db,S)),
+        reply_json(json([ok=true])).
+delete_database(Db,_) :-
+        reply_json(json([error=no_such_db])).
+
 all_dbs(_) :-
         findall(Db,db_stream(Db,_),Dbs),
         reply_json(json([dbs=Dbs])).
+
+/*
+
+  ---+ Web Prolog Server
+
+  allows remote clients to run prolog sessions via REST calls, receiving json objects
+  
+  ---++ start the server
+
+  ==
+  swipl
+  use_module(restl).
+  start_server.
+  ==
+
+  ---++ Talking to the server
+  
+  do the following from command line in separate terminal. Assume curl or similar tool installed.
+
+  ---+++ initiate a database
+
+  ==
+  $ curl -XPUT "http://127.0.0.1:9090/mydb"
+{"ok":"true"}
+  ==
+
+  ---+++ initiate a database
+
+  ==
+  $ curl -XPUT "http://127.0.0.1:9090/mydb"
+{"ok":"true"}
+  ==
+
+  ---+++ add some facts
+
+  ==
+ $ curl -XPUT --data "isa(dog,mammal)" http://127.0.0.1:9090/mydb
+{"ok":"true", "number_of_facts":1} 
+ $ curl -XPUT --data "isa(mammal,animal)" http://127.0.0.1:9090/mydb
+{"ok":"true", "number_of_facts":1}
+  ==
+
+    ---+++ query the database
+
+  ==
+$ curl "http://127.0.0.1:9090/mydb/isa(X,Y)"
+{
+  "results": [ {"X":"dog", "Y":"mammal"},  {"X":"mammal", "Y":"animal"}]
+}  
+  ==
+  
+  ---+++ now with rules
+  
+  ==
+$ curl -XPUT --data "isaT(X,Y) :- isa(X,Y)" http://127.0.0.1:9090/mydb
+{"ok":"true", "number_of_facts":1}
+$  curl -XPUT --data "isaT(X,Y) :- isa(X,Z),isaT(Z,Y)" http://127.0.0.1:9090/mydb
+{"ok":"true", "number_of_facts":1}
+  ==
+
+  ==
+$ curl "http://127.0.0.1:9090/mydb/isaT(X,Y)"
+{
+  "results": [
+     {"X":"dog", "Y":"mammal"},
+     {"X":"mammal", "Y":"animal"},
+     {"X":"dog", "Y":"animal"}
+  ]
+}  
+  ==
+
+  ---+++ Kill database
+
+  ==
+$ curl -XDELETE http://127.0.0.1:9090/mydb
+  ==
+
+
+  ---+ TODO
+
+  * authentication
+  * use safe_interpreter
+  * kill inactive sessions
+  
+
+*/
