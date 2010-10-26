@@ -165,13 +165,6 @@ all_dbs(_) :-
 {"ok":"true"}
   ==
 
-  ---+++ initiate a database
-
-  ==
-  $ curl -XPUT "http://127.0.0.1:9090/mydb"
-{"ok":"true"}
-  ==
-
   ---+++ add some facts
 
   ==
@@ -212,6 +205,10 @@ $ curl "http://127.0.0.1:9090/mydb/isaT(X,Y)"
 
   ---+++ Kill database
 
+  do this at the end of your session (warning - the server doesnt
+  currently kill inactive sessions, so if you don't do this there will
+  be lots of inactive swipl processes on the server)
+  
   ==
 $ curl -XDELETE http://127.0.0.1:9090/mydb
   ==
