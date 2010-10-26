@@ -133,7 +133,7 @@ delete_database(Db,_) :-
         kill_ipr_session(S),
         retractall(db_stream(Db,S)),
         reply_json(json([ok=true])).
-delete_database(Db,_) :-
+delete_database(_,_) :-
         reply_json(json([error=no_such_db])).
 
 all_dbs(_) :-
