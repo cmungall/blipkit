@@ -627,6 +627,8 @@ restriction(Y,IR,X) <- holds_bidirectionally_for(SR,_,IR),restriction(X,SR,Y),X\
 restriction(X,R,Y) <- holds_bidirectionally_for(SR,R),restriction(X,SR,Y),X\=Y :: holds_bidirectionally_for/given. % DEPRECATED
 restriction(X,RI,Y) <- holds_bidirectionally_for(SR,R),inverse_of(R,RI),restriction(Y,SR,X),X\=Y :: holds_bidirectionally_for/given.  % DEPRECATED
 %restriction(X,R,Y) <- inverse_of(R,RI),restriction(Y,RI,X),X\=Y :: inverse/given.
+
+% note: we don't need to check the all-some condition here
 subclass(X,Y) <- subclass(X,YG),genus(Y,YG),forall(differentium(Y,R,To),restriction(X,R,To)) :: genus_differentia
  - (cdef(Y,YG,and(differentium(Y,_,_)))+(subclass(X,YG),forall(differentium(Y,R,To),restriction(X,R,To)))).
 subclass(X,Y) <- class(Y), differentium(Y,R1,To1), \+ genus(Y,_), restriction(X,R1,To1),forall(differentium(Y,R,To),restriction(X,R,To)) :: differentia_nogenus

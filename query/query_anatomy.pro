@@ -780,6 +780,8 @@ class_from_bp(N,AN) :-
 	atom_concat(AN,' closure',N).
 class_from_bp(N,AN) :-
 	atom_concat(AN,' growth',N).
+class_from_bp(N,AN) :-
+	atom_concat(AN,' induction',N).
 
 
 %% use MP and MP-XP

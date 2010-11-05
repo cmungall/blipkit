@@ -1,10 +1,12 @@
 :- module(interprocess,[
                         init_ipr_session/1,
+                        init_ipr_session/2,
                         kill_ipr_session/1,
                         ipr_assert/2,
                         ipr_retractall/2,
                         ipr_query/3,
                         ipr_query/4,
+                        ipr_call/3,
                         list_active_ipr_sessions/0,
                         kill_all_active_ipr_sessions/0
                         ]).
@@ -18,9 +20,9 @@
 :- dynamic active_ipr_session/1.
 
 r_read_lines( Ro, TermLine, Lines ) :-
-     read_line_to_codes( Ro, Line ),
-     debug(ipr,' Codes: ~s :: ~w',[Line,Line]),
-     r_read_lines_1( Line, TermLine, Ro, Lines ).
+        read_line_to_codes( Ro, Line ),
+        debug(ipr,' Codes: ~s :: ~w',[Line,Line]),
+        r_read_lines_1( Line, TermLine, Ro, Lines ).
 
 r_read_lines_1( eof, _TermLine, _Ro, Lines ) :- !, Lines = [].
 r_read_lines_1( end_of_file, _TermLine, _Ro, Lines ) :- !, Lines = [].
@@ -55,15 +57,33 @@ ipr_query(Stream,Goal,Results) :-
 % selects Template from Goal
 ipr_query(Stream,Template,Goal,Result) :-
         Stream = s(Ri,Ro,_Re,_),
-        format(Ri,'findall(~q,(~q),L),writeq(L),nl.~n',[Template,Goal]),
-        format(Ri,'~q.~n',[writeln(end)]),
-        r_read_lines(Ro,"end",CodesList),
-        debug(ipr,'CodesList: ~w',[CodesList]),
+        % multiple newlines required to stymie y/n prompts
+        format(Ri,'findall(~q,(~q),L_internal__),writeq(L_internal__),nl.~n~n~n~n~n~n~n',[Template,Goal]),
+        flush_output(Ri),
+        format(Ri,'~q.~n',[writeln(end_of_pl_out____)]),
+        flush_output(Ri),
+        r_read_lines(Ro,"end_of_pl_out____",CodesList),
+        debug(ipr,'FinalCodesList: ~w',[CodesList]),
         % may have side-effects; we want the last line output
         reverse(CodesList,[Codes|_]),
         atom_codes(A,Codes),
         atom_to_term(A,Result,_Bindings).
-        
+
+ipr_call(Stream,Goal,Result) :-
+        Stream = s(Ri,Ro,_Re,_),
+        % multiple newlines required to stymie y/n prompts
+        %format(Ri,'forall(~q,true),nl.~n~n~n~n~n~n~n',[Goal]),
+        format(Ri,'(~q,fail);nl.~n~n~n~n~n~n~n',[Goal]),
+        flush_output(Ri),
+        format(Ri,'~q.~n',[writeln(end_of_pl_out____)]),
+        flush_output(Ri),
+        r_read_lines(Ro,"end_of_pl_out____",CodesList),
+        debug(ipr,'CallFinalCodesList: ~w',[CodesList]),
+        % may have side-effects; we want the last line output
+        findall(A,(member(Codes,CodesList),
+                   atom_codes(A,Codes)),
+                Result).
+
 
 %% ipr_assert(+Stream,+Goal) is det
 % asserts a clause in the slave database
@@ -89,21 +109,35 @@ kill_ipr_session(S) :-
         debug(interprocess,'releasing process: ~w',[PID]),
         process_release(PID).
 
+/*
 init_process( Ri, Ro, Re ) :-
         init_process( Ri, Ro, Re, _).
 
 init_process( Ri, Ro, Re, PID ) :-
         Opts = [process(PID),stdin(pipe(Ri)),stdout(pipe(Ro)),stderr(pipe(Re))],
         debug(interprocess,'creating slave process with opts: ~w',[Opts]),
-        process_create( path(swipl), [], Opts ).
+        process_create( path(blip), [], Opts ).
+*/
 
 %% init_ipr_session( ?S ) is det
 % create a slave database
 init_ipr_session( S ) :-
-        init_process(Ri,Ro,Re,PID),
+        init_ipr_session( S, []).
+
+init_ipr_session( S, Opts ) :-
+        POpts = [process(PID),stdin(pipe(Ri)),stdout(pipe(Ro)),stderr(pipe(Re))],
+        debug(interprocess,'creating slave process with opts: ~w',[Opts]),
+        option(exe(Exe), Opts, swipl),
+        option(args(Args), Opts, []),
+        process_create( path(Exe), Args, POpts ),
         set_pr_streams(Ri,Ro,Re),
         S = s(Ri,Ro,Re,PID),
-        assert(active_ipr_session(S)).
+        assert(active_ipr_session(S)),
+        additional_calls(S,Exe).
+
+additional_calls(S,yap) :- ipr_call(S,use_module(dialect/swi),_),!.
+additional_calls(S,_).
+
 
 %% set_pr_streams( +In, +Out, +Err ) is det
 set_pr_streams( Ri, Ro, Re ) :-

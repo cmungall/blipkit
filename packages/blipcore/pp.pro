@@ -1,5 +1,8 @@
 :- module(pp,
-	  []).
+	  [
+           peval/1,
+           peval/2
+           ]).
 
 :- op(900,xfy,:=).
 :- op(800,fx,run).
@@ -53,7 +56,7 @@ peval( G ) :-
 
 %% peval(+Goal, ?SuspendedGoal)
 % perform a pass-through execution of Goal. Goal is partially executed and
-% rewritted as SuspendedGoal. If Goal is wholly executed then SuspendedGoal=true
+% rewritten as SuspendedGoal. If Goal is wholly executed then SuspendedGoal=true
 peval( G, _ ) :-
         info(peval(G)),         % show status
         fail.
@@ -82,14 +85,16 @@ peval( (G1,G2), SG ) :-         % sequential AND
 
 % TODO: collect.. or perhaps we don't need it.. only for findall clauses
 peval( (G1 ; G2), SG ) :-       % parallelizable OR
+        % DEPRECATED
         !,
-        peval(G1,SG1),          % partially execute G1
-        peval(G2,SG2),          % partially execute G2; G1 may be suspended
-        (   SG1=true            % if G1 completed, then
-        ->  SG=SG2              %    unify findal suspended goal with remainder from G2
+        % TODO - need to copy term
+        peval(G1,SG1),     % partially execute G1
+        peval(G2,SG2),     % partially execute G2; G1 may be suspended
+        (   SG1=true       % if G1 completed, then
+        ->  SG=SG2 %    unify findal suspended goal with remainder from G2
         ;   SG2=true            % if G2 completed, then
-        ->  SG=SG1              %    unify findal suspended goal with remainder from G1
-        ;   SG = (SG1;SG2)).    % otherwise OR the partially complete suspended goals
+        ->  SG=SG1 %    unify findal suspended goal with remainder from G1
+        ;   SG = (SG1;SG2)). % otherwise OR the partially complete suspended goals
 
 
 % map(T,G,R,L,Results:list)
@@ -100,6 +105,7 @@ peval( (G1 ; G2), SG ) :-       % parallelizable OR
 %
 % e.g. map(File, wc(File, WC), WC, Files, WCs)
 %    ==> collect(File, wc(File, WC), WC, Files, WCs)
+% e.g. map(X,(R is X+1),R,[1,2,3],RL)
 peval( map(Template, G, Result, InList, ResultList), SGFinal ) :-
         !,
         info(mapping(Template-InList)),
@@ -154,6 +160,7 @@ peval( Uid := run L into Path, SG ) :-
 %   (in future there will be other options besides the filesystem)
 peval( x(Cmd,Args), SG ) :-
         !,
+        debug(pp,' x(~w,~w)',[Cmd,Args]),
         %p(cmd_uid(x(Cmd,Args),Uid)),
         cmd_uid(x(Cmd,Args),Uid),
         bg(Cmd-Args,Uid,Finished),
@@ -240,8 +247,10 @@ goals_to_goal([G|Gs],(G,G2)) :-
 
 info(X) :-  debug(pp_info,'~w',[X]).
 
+% ----------------------------------------
+% TEST WORKFLOW
+% ----------------------------------------
 
-% TEST:
 
 %xc(dir_files(Dir,Files), Files=ls(Dir)).
 dir_files(Dir,Files) :-
@@ -278,6 +287,7 @@ grepcdir(Dir, Arg, TotalC) :-
         map(File, grepc(File, Arg, C), C, Files, Cs),
         p(sumlist(Cs, TotalC)).
 
+% find all instances of 'x' in directory 'foo'
 t :-
         peval(grepcdir(foo,x,N)),
         writeln(n=N).

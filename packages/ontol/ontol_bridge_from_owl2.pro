@@ -218,17 +218,30 @@ assert_implicit_metarelation(R_i,MR,R_t) :-
 % URIs
 
 uri_oboid(RdfID,OboID):-
+        % new IDs
+        nonvar(RdfID),
+        rdf_global_id(obo:ID_With_Underscore,RdfID),
+        concat_atom([NS|Toks],'_',ID_With_Underscore),
+        concat_atom(Toks,'_',Local),
+        concat_atom([NS,Local],':',OboID),
+        !.
+uri_oboid(RdfID,OboID):-
         nonvar(RdfID),
         rdf_global_id(NS:Local,RdfID),
         !,
         concat_atom([NS,Local],':',OboID).
 uri_oboid(RdfID,OboID):-   
         nonvar(OboID),
-        (   atomic(OboID)          % tolerate skolem IDs
-        ->  concat_atom([NS,Local],':',OboID),
-            rdf_db:ns(NS,_),
-            rdf_global_id(NS:Local,RdfID)
-        ;   rdf_bnode(RdfID)),
+        \+ atomic(OboID),           % tolerate skolem IDs
+        !,
+        rdf_bnode(RdfID).
+uri_oboid(RdfID,OboID):-   
+        nonvar(OboID),
+        atomic(OboID),
+        concat_atom([NS,Local],':',OboID),
+        (   rdf_db:ns(NS,_)
+        ->  rdf_global_id(NS:Local,RdfID)
+        ;   concat_atom(['http://purl.obolibrary.org/obo/',NS,'_',Local],RdfID)),
         !.
 uri_oboid(RdfID,OboID):-
         var(RdfID),
@@ -238,47 +251,6 @@ uri_oboid(RdfID,OboID):-
 uri_oboid(X,X):- !.
 
 
-
-% -------------------- TESTS --------------------
-% regression tests to ensure behaviour of module is correct;
-% lines below here are not required for module functionality
-
-unittest(test(load_owl,
-            [],
-            (   ensure_loaded(bio(ontol_db)),
-                ensure_loaded(bio(ontol_bridge_from_owl)),
-                load_bioresource(rdfs),
-                load_bioresource(owl),
-                load_biofile(owl,'sofa.owl'),
-                class(ID,mRNA),
-                class(PID,transcript),
-                subclassT(ID,PID),
-                class(_,exon)),
-            true)).
-
-unittest(test(genus_diff,
-            [],
-            (   ensure_loaded(bio(ontol_db)),
-                ensure_loaded(bio(ontol_bridge_from_owl)),
-                load_bioresource(rdfs),
-                load_bioresource(owl),
-                load_biofile(owl,'llm.owl'),
-                forall(genus(ID,GID),
-                       format('~w genus:~w~n',[ID,GID])),
-                forall(differentium(ID,R,DID),
-                       format('diff ~w == ~w ~w~n',[ID,R,DID])),
-                nl),
-            true)).
-
-unittest(test(wine_test,
-            [],
-            (   ensure_loaded(bio(ontol_db)),
-                ensure_loaded(bio(ontol_bridge_from_owl)),
-                load_bioresource(rdfs),
-                load_bioresource(owl),
-                load_biofile(owl,'wine.owl'),
-                write_biofile(obo,'wine.obo')),
-            true)).
 
 /** <module>  maps to OBO-style ontol_db model from OWL2 using Thea
 

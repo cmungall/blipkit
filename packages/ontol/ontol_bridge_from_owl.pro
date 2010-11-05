@@ -1,6 +1,5 @@
 /* -*- Mode: Prolog -*- */
 
-
 :- module(ontol_bridge_from_owl,
           [
            rdfid_oboid/2,

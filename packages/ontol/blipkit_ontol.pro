@@ -1173,7 +1173,7 @@ go:go_rule(A1,A) :-
                                (go:go_rule(AX,AY))-AX-AY,
                                CacheFile)
                 ;   index_goal((curation_db:curation_statementT(_,I,_,A1))-I-A1,
-                               parent(AX,AY)-AX-AY,
+                               (ontol_db:parentT(AX,AY))-AX-AY,
                                CacheFile))
             ;   IndexGoal=G-SG,
                 index_goal(G,SG,CacheFile)),

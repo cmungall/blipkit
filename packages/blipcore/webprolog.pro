@@ -6,13 +6,13 @@
 
 :- use_module(interprocess).
 
-:- use_module(library('http/thread_httpd')).
-:- use_module(library('http/http_dispatch')).
-:- use_module(library('http/html_write')).
-:- use_module(library('http/html_head')).
-:- use_module(library('http/http_parameters')).
-:- use_module(library('http/http_json')).
-:- use_module(library('http/http_client')).
+:- use_module(library(http/thread_httpd)).
+:- use_module(library(http/http_dispatch)).
+:- use_module(library(http/html_write)).
+:- use_module(library(http/html_head)).
+:- use_module(library(http/http_parameters)).
+:- use_module(library(http/http_json)).
+:- use_module(library(http/http_client)).
 
 :- multifile http:location/3.
 :- dynamic   http:location/3.
@@ -38,11 +38,6 @@ start_server(Port) :-
 %:- http_handler(webprolog(js), js_dir, [prefix]).
 
 % TODO
-param(title,     [optional(true)]).
-param(name,      [length >= 2 ]).
-param(url,       [optional(true),default('http://')]).
-param(open,      [zero_or_more]).
-param(action,    [optional(true)]).
 
 % put vs get
 root(Request) :-
@@ -63,12 +58,27 @@ root(delete,Request) :-
 
 % GET
 root(_,Request) :-
+        debug(webprolog,'R: ~w',[Request]),
+        http_parameters(Request,
+                        [
+                         call(IsCall, [boolean,optional(true),default(false)])
+                        ],
+                        [
+                         attribute_declarations(param)
+                        ]),
         request_path_local(Request,root,Path),
         debug(webprolog,'Path: ~w',[Path]),
         concat_atom([Db|Parts],'/',Path),
         concat_atom(Parts,'/',Q),
-        debug(webprolog,'Query: ~w for ~w',[Db,Q]),
-        query_database(Db,Q).
+        debug(webprolog,'Query: ~w for ~w // ~w',[Db,Q,IsCall]),
+        (   IsCall=true
+        ->  query_database_via_call(Db,Q)
+        ;   query_database(Db,Q)).
+
+
+query_database('','') :-
+        % list all dbs
+        all_dbs(_).
 
 query_database(Db,'') :-
         reply_json(json([db=Db])).
@@ -82,6 +92,14 @@ query_database(Db,A) :-
         debug(webprolog,'Results: ~w',[L]),
         reply_json(json([results=L])).
 
+query_database_via_call(Db,A) :-
+        atom_to_term(A,Q,_Bindings),
+        db_stream(Db,S),
+        debug(webprolog,'  s: ~w',[S]),
+        ipr_call(S,Q,L),
+        debug(webprolog,'CallResults: ~w',[L]),
+        reply_json(json([results=L])).
+
 put_database(Db,Request) :-
         member(content_length(Len),Request),
         Len>1,
@@ -92,8 +110,15 @@ put_database(Db,Request) :-
         database_assert(Db,Term),
         reply_json(json([ok=true,number_of_facts=1])).
         
-put_database(Db,_Request) :-
-        create_database(Db).
+put_database(Db,Request) :-
+        http_parameters(Request,
+                        [
+                         engine(Engine, [optional(true),default(blip)])
+                        ],
+                        [
+                         attribute_declarations(param)
+                        ]),
+        create_database(Db,Engine).
 
 % HTTP UTIL
 
@@ -112,16 +137,16 @@ database_assert(Db,Term) :-
         debug(webprolog,'Asserting: ~w in ~w',[Term,S]),
         ipr_assert(S,Term).
 
-create_database(Db) :-
+create_database(Db,_) :-
         db_stream(Db,_),
         !,
         reply_json(json([error=db_exists])).
 
-create_database(Db) :-
+create_database(Db,Engine) :-
         \+ db_stream(Db,_),
         !,
         debug(webprolog,'initializing: ~w',[Db]),
-        init_ipr_session(S),
+        init_ipr_session(S,[exe(Engine)]), % can also change to exe(swipl)
         debug(webprolog,'stream: ~w',[S]),
         assert(db_stream(Db,S)),
         reply_json(json([ok=true])).
