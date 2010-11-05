@@ -66,7 +66,14 @@ term_token_stemmed(A,T,true) :-
              C@>='a',
              C@=<'z')),
         !,
-        term_token_stemmed(A,T,false).
+        % we still convert to lowercase for matching purposes,
+        % but we don't stem.
+        % this is still not ideal: someone can search with
+        % an acronym, but the porter stemming part may have truncated the acronym
+        % already, so best to stem anyway??
+        % ideally this would be a hook in the porter stemming..
+        downcase_atom(A,A_dn),
+        term_token_stemmed(A_dn,T,false).
 term_token_stemmed(A,T,true) :-
         % not acronym
 	term_token(A,T1),

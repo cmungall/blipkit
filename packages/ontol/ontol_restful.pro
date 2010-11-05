@@ -73,8 +73,11 @@ class_thumbnail(ID,URL) :-
         img_suffix(Suffix2).
 
 img_suffix('.png').
+img_suffix('.PNG').
 img_suffix('.gif').
+img_suffix('.GIF').
 img_suffix('.jpg').
+img_suffix('.JPG').
 
 
 ont_refs(Ont,Ont2):-

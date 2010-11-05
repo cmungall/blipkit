@@ -32,8 +32,8 @@ pkb_db:organism(Org) :-
 
 :- table_pred(pkb_db:organism/1).
 
-pkb_db:organism_species(Org,Species) :- organism(Org),reasoner_ask(subClassOf(Org,Species)),species_label(Species,_).
-pkb_db:organism_species(Org,Species) :- organism(Org),reasoner_ask(classAssertion(Species,Org)),species_label(Species,_).
+pkb_db:organism_species(Org,Species) :- organism(Org),class(Org),reasoner_ask(subClassOf(Org,Species)),species_label(Species,_).
+pkb_db:organism_species(Org,Species) :- organism(Org),\+class(Org),reasoner_ask(classAssertion(Species,Org)),species_label(Species,_).
 
 
 pkb_db:organism_label(Org,X) :- organism(Org),labelAnnotation_value(Org,X).
