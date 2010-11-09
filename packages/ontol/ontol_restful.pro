@@ -541,6 +541,7 @@ ontol_page_actual([quickterm,S],Params):-
                                                username(User) |
                                               Opts
                                               ]),
+                %debug(ontol_rest,'  qt_results=~w~nS: ~w~nM: ~w',[T,S,Msg]),
                 emit_page(quickterm_results(T,S,Msg),Params)
             ;   emit_page(quickterm_errors(T,S,Errs),Params))
         ;   debug(ontol_rest,' ( not a commit)',[]),

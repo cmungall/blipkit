@@ -543,7 +543,7 @@ generate_fact(Template,New,Fact,Opts) :-
 % REQUEST
 % ----------------------------------------
 
-%% template_request(+Template,?Msgs,+Opts)
+%% template_request(+Template,?Msgs:list,+Opts)
 %
 % Opts:
 %  * commit(Bool) - if true then sub add and del files are written
@@ -624,12 +624,15 @@ template_request_2(Template,error(genus_may_not_match_differentia_term(G)),_) :-
 template_request_2(Template,Msg,Opts) :-
         generate_id(Template,New,Opts),
         findall(Fact,generate_fact(Template,New,Fact,Opts),Facts),
-        request_term_from_facts(Template,New,Facts,Msg,Opts).
+        request_term_from_facts(Template,New,Facts,Msg,Opts),
+        !.
+
 
 request_term_from_facts(_Template,New,Facts,error(Err),_Opts) :-
         new_facts_error(New,Facts,Err),
         !.
 request_term_from_facts(Template,New,Facts,Msg,Opts) :-
+        !,
         template_lookup(Template,cdef,CDef),
         debug(quickterm,'placement: ~w',[CDef]),
         (   member(suppress_reasoner(true),Opts)

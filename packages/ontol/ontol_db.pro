@@ -140,6 +140,7 @@
            combine_relation_pair/3,
            inferred_parent/2,           
            inferred_parent_via/3,
+           inferred_child_via/3,
            inferred_parent_dist/3,
            inferred_parent_dist_via/4,
 	   strict_subclass/2,
@@ -990,7 +991,7 @@ bf_set_parentRT(IDs,PID) :-
 inferred_parent(ID,PID) :-
         inferred_parent_via_rev(ID,PID,_).
 
-%% inferred_parent(+EntityID,?InferredParentID,?Over) is nondet
+%% inferred_parent(+EntityID,?InferredParentID,?Over:list) is nondet
 inferred_parent_via(ID,PID,Over) :-
         inferred_parent_via_rev(ID,PID,OverRev),
         reverse(OverRev,Over).
@@ -1001,6 +1002,35 @@ inferred_parent_via_rev(ID,PID,Over) :-
         ;   true),
 	entity_relations_closure([ID-[]],[],[],L),
 	member(PID-Over,L).
+
+%% inferred_child_via(+Entity,?InferredChild,?Over:list) is nondet
+% the chain:
+%  InferredChild r[1] r[2] ... r[n-1] r[n] Entity
+% must be true, where Over = [r[1], ..., r[n]]
+%
+% note that
+% ==
+% inferred_child_via(P,C,L) <==> inferred_parent_via(C,P,L)
+% ==
+% ie the list ordering is preserved, and corresponds to the
+% direction of all-some statements
+inferred_child_via(ID,CID,Over) :-
+        (   var(ID)
+        ->  class(ID)
+        ;   true),
+	entity_inverse_relations_closure([ID-[]],[],[],L),
+	member(CID-Over,L).
+
+%% inferred_child_via_rev(+Entity,?InferredChild,?Over:list) is nondet
+% the chain:
+%  InferredChild r[n] r[n-1] r[n-2] ... r[2] r[1] Entity
+% must be true, where Over = [r[1], ..., r[n]]
+% note that this means the list looks reversed when considering the all-some
+% path
+inferred_child_via_rev(ID,CID,Over) :-
+        inferred_child_via(ID,CID,OverRev),
+        reverse(OverRev,Over).
+
 
 %% visited_parent_via(+Parent,+NewConns:list,+Visited:list) is semidet
 % visit check: we want to avoid cycles. visiting the same node is
@@ -1040,6 +1070,10 @@ entity_parent_chain(Class,Parent,InConns,NewConns) :-
         parent(Class,ConnNext,Parent),
         combine_relation_pairs(InConns,ConnNext,NewConns).
 
+entity_child_chain(Class,Child,InConns,NewConns) :-
+        parent(Child,ConnNext,Class),
+        combine_relation_pairs_rev(InConns,ConnNext,NewConns).
+
 % note that connection list maintained in reverse order
 combine_relation_pairs([ConnPrev|InConns],ConnNext,NewConns) :-
         combine_relation_pair(ConnPrev,ConnNext,NewConn),
@@ -1047,14 +1081,23 @@ combine_relation_pairs([ConnPrev|InConns],ConnNext,NewConns) :-
         combine_relation_pairs(InConns,NewConn,NewConns).
 combine_relation_pairs(InConns,ConnNext,[ConnNext|InConns]). % top of stack
 
+combine_relation_pairs_rev([ConnPrev|InConns],ConnNext,NewConns) :-
+        combine_relation_pair(ConnNext,ConnPrev,NewConn),
+        !,
+        combine_relation_pairs_rev(InConns,NewConn,NewConns).
+combine_relation_pairs_rev(InConns,ConnNext,[ConnNext|InConns]). % top of stack
+
 % composition table A B -> C
 combine_relation_pair(instance_of,subclass,instance_of).
 combine_relation_pair(subclass,subclass,subclass).
 combine_relation_pair(subclass,R,R) :- all_some(R).
 combine_relation_pair(R,subclass,R) :- all_some(R).
 combine_relation_pair(R,R,R) :- is_transitive(R).
+combine_relation_pair(R,Over,R) :- transitive_over(R,Over).
 combine_relation_pair(R1,R2,R) :- holds_over_chain(R,[R1,R2]).
 combine_relation_pair(R1,R2,R) :- equivalent_to_chain(R,[R1,R2]).
+combine_relation_pair(R,R2,R) :- equivalent_to_chain(R,[_,R2]),is_transitive(R2).
+combine_relation_pair(R1,R,R) :- equivalent_to_chain(R,[R1,_]),is_transitive(R1).
 
 % same with distances
 
@@ -1089,6 +1132,24 @@ entity_reldists_closure([CCD|ScheduledCCPairs],Visited,ResultCCPairs,FinalCCPair
         % Class has no parents
 	entity_reldists_closure(ScheduledCCPairs,[CCD|Visited],ResultCCPairs,FinalCCPairs).
 entity_reldists_closure([],_,ResultCCPairs,ResultCCPairs).
+
+%% entity_inverse_relations_closure(+ScheduledCCPairs,+Visited,+AccumulatedResults,?FinalResults)
+entity_inverse_relations_closure([Class-Conns|ScheduledCCPairs],Visited,ResultCCPairs,FinalCCPairs) :-
+        debug(parentT,'next: ~w',[Class-Conns]),
+        % extend to immediate children
+	setof(Child-NewConns,
+              (   entity_child_chain(Class,Child,Conns,NewConns),
+                  \+member(Child,Visited)),
+              NextCCPairs),
+	!,
+	ord_union(ResultCCPairs,NextCCPairs,ResultCCPairsNew),
+        ord_union(ScheduledCCPairs,NextCCPairs,NewScheduledCCPairs),
+	entity_inverse_relations_closure(NewScheduledCCPairs,[Class|Visited],ResultCCPairsNew,FinalCCPairs).
+entity_inverse_relations_closure([Class-_Conns|ScheduledCCPairs],Visited,ResultCCPairs,FinalCCPairs) :-
+	!,
+        % Class has no childs
+	entity_inverse_relations_closure(ScheduledCCPairs,[Class|Visited],ResultCCPairs,FinalCCPairs).
+entity_inverse_relations_closure([],_,ResultCCPairs,ResultCCPairs).
 
 
 

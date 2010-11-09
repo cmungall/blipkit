@@ -18,6 +18,7 @@
 :- module_transparent materialize_indexes_to_file/3.
 :- module_transparent materialize_index_to_path/2.
 :- module_transparent materialize_indexes_to_path/2.
+:- module_transparent materialize_index_to_stream/2.
 
 :- dynamic is_indexed/2.
 
@@ -109,7 +110,8 @@ materialize_indexes_to_file(Terms,File,_Opts) :-
 	       (   functor(Term,Pred,Arity),
 		   abolish(Pred/Arity))),
 	% load cached version:
-	consult(File),
+	load_files([File],[qcompile(auto)]),
+        debug(index, 'loaded: ~w', [File]),
 	forall(member(Term,Terms),
 	       materialize_index(Term)).
 
@@ -119,7 +121,6 @@ materialize_indexes_to_file(Terms,File,_Opts) :-
 	       materialize_index_to_stream(Term,IO)),
 	close(IO).
 
-:- module_transparent materialize_index_to_stream/2.
 materialize_index_to_stream(M:Term,IO) :-
         !,
 	materialize_index(M:Term),

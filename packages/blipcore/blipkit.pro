@@ -169,6 +169,7 @@ main:-
         nb_setval(format,Format),
         
         % tabling-lite
+        % DEPRECATED: use index_util
         maplist(materialize_view,MaterializePreds),
 
         % tabling

@@ -17,7 +17,6 @@ simmatrix_multiset:feature_attx(O,As) :-
 
 
 % HOOK: simmatrix
-%  use the basic tbox reasoner.
 %  lump all phenotype elements for an organism together
 
 :- module_transparent simmatrix:generate_term_indexes_hook/1.
