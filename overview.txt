@@ -12,7 +12,7 @@ one of the packages below.
   * [[phylo][packages/phylo/README.txt]]: Phylogenetic trees. Example predicates: phylonode/1, phylonode_parent/3
   * [[sb][packages/sb/README.txt]]: Systems biology and pathways. Example predicates: event_participant_role/3, reaction_product/2, kinetic_law/2
   * [[metadata][packages/metadata/README.txt]]: Generic cross-schema metadata about entities in the domain. Example predicates: entity_label/2, entity_synonym/2
-  * [[ontol][packages/ontol/README.txt]]: Ontologies. Example predicates: class/1, subclass/2
+  * [[ontol][packages/ontol/README.txt]]: Ontologies. Example predicates: class/1, subclass/2, parentT/3
   * [[curation][packages/curation/README.txt]]: Example predicates: curation_statement/4, curation_evidence/2 
 
 ---++ General Purpose Utility Packages

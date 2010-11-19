@@ -169,6 +169,7 @@ user:bioresource(fma,local('fma-conversion/fma2.obo'),obo).
 user:bioresource(fma_simple,local('fma-conversion/fma2-simple.obo'),obo).
 user:bioresource(fma2,local('fma-conversion/fma2.obo'),obo). % NOW DEFAULT
 user:bioresource(fma3,local('fma-conversion/fma3.obo'),obo).
+user:bioresource(fma3h,local('fma-conversion/bioonto.de/fma1_obo-ontol_db.pro'),ontol_db:pro).
 user:bioresource(fma1,local('fma-conversion/fma-part-slim.obo'),obo).
 %user:bioresource(fma,local('obo-database/conf/fma-part-slim.obo'),obo).
 user:bioresource(fma_downcase,local('fma-conversion/fma_downcase.obo'),obo).

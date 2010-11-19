@@ -250,7 +250,8 @@ file_from_url(Px,URL):-
         ->  true
         ;   Wget=wget),
         !,
-        sformat(Cmd,'~w -q -O \'~w.tmp\' \'~w\' && mv \'~w.tmp\' \'~w\'',[Wget,Px,URL,Px,Px]),
+        % 2010-11-13 : added -N option: don't re-retrieve files unless newer than local
+        sformat(Cmd,'~w -N -q -O \'~w.tmp\' \'~w\' && mv \'~w.tmp\' \'~w\'',[Wget,Px,URL,Px,Px]),
         debug(load,'Executing ~w',[Cmd]),
         (   shell(Cmd)
         ->  true
@@ -303,7 +304,7 @@ copy_file(In,Out):-
 ensure_directory_exists_for(F):-
         file_directory_name(F,Dir),
         ensure_directory_exists(Dir).
-ensure_directory_exists(Dir):-
+ensure_directory_exists(Dir):-  %  make_directory_path/1 in 5.11.9
         (   exists_directory(Dir)
         ->  true
         ;   file_directory_name(Dir,DirUp),

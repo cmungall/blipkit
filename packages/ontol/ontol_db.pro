@@ -65,6 +65,7 @@
            directed_path_over/2,
            id_axiom/2,
            all_some/1,
+           all_some_relationship/3,
            holds_for_all_times/1,
 	   property_relationship/3,
            obsolete/3,
@@ -252,6 +253,7 @@ ontology(ID,ID):-
 :- dynamic ontol_db:import_directive/1.
 :- dynamic already_imported/1.
 import_all_ontologies:-
+        findall(O,ontology(O),_), % hacky way to ensure ontology/1 is set
         findall(X,import_directive(X),Xs),
         import_ontologies(Xs,[]).
         
@@ -259,9 +261,10 @@ import_ontology(X):-
         debug(ontol,'importing "~w"',[X]),
         ensure_loaded(bio(io)),
         % massive hack. TODO!! fix. rdf_load does not appear to accept this
-        (   sub_atom(X,_,_,_,'.obo')
+        (   sub_atom(X,_,_,0,'.obo')
         ->  Fmt=obo
-        ;   Fmt=owl),
+        ;   Fmt=owl2obo),
+        debug(ontol,'fmt: ~w',[Fmt]),
         (   sub_atom(X,0,_,_,'http:')
         ->  io:load_biofile(Fmt,url(X))
         ;   (   sub_atom(X,0,Pos,_,'file:')
@@ -735,6 +738,16 @@ all_some(Rel):-                 % all_some by default
         \+ is_metadata_tag(Rel),
         \+ complement_of(Rel,_).
 
+all_some_relationship(C,R,P) :-
+        parent(C,R,P),
+        all_some(R).
+
+all_some_or_subclass_relationship(C,R,P) :- all_some_relationship(C,R,P).
+all_some_or_subclass_relationship(C,subclass,P) :- subclass(C,P).
+
+
+
+
 %% disjoint_over(?Rel,?RelOver)
 :- extensional(disjoint_over/2).
 
@@ -960,7 +973,7 @@ bf_parentRT(ID,ID) :-
 	class(ID).
 
 ids_ancestors([ID|IDs],DoneIDs,Ancs,AncsFinal) :-
-	setof(XID,parent(ID,XID),Parents),
+	setof(XID,R^all_some_or_subclass_relationship(ID,R,XID),Parents),
 	!,
 	ord_union(Parents,IDs,U),
 	sort(DoneIDs,DoneIDsSorted),
@@ -1067,20 +1080,31 @@ entity_relations_closure([Class-Conns|ScheduledCCPairs],Visited,ResultCCPairs,Fi
 entity_relations_closure([],_,ResultCCPairs,ResultCCPairs).
 
 entity_parent_chain(Class,Parent,InConns,NewConns) :-
-        parent(Class,ConnNext,Parent),
+        all_some_or_subclass_relationship(Class,ConnNext,Parent),
         combine_relation_pairs(InConns,ConnNext,NewConns).
 
 entity_child_chain(Class,Child,InConns,NewConns) :-
-        parent(Child,ConnNext,Class),
+        all_some_or_subclass_relationship(Child,ConnNext,Class),
         combine_relation_pairs_rev(InConns,ConnNext,NewConns).
 
+:- multifile block_chain_hook/2.
+% block_chain_hook(part_of,has_part).
+
 % note that connection list maintained in reverse order
+combine_relation_pairs([ConnPrev|_],ConnNext,_) :-
+        block_chain_hook(ConnPrev,ConnNext),
+        !,
+        fail.
 combine_relation_pairs([ConnPrev|InConns],ConnNext,NewConns) :-
         combine_relation_pair(ConnPrev,ConnNext,NewConn),
         !,
         combine_relation_pairs(InConns,NewConn,NewConns).
 combine_relation_pairs(InConns,ConnNext,[ConnNext|InConns]). % top of stack
 
+combine_relation_pairs_rev([ConnPrev|_],ConnNext,_) :-
+        block_chain_hook(ConnNext,ConnPrev),
+        !,
+        fail.
 combine_relation_pairs_rev([ConnPrev|InConns],ConnNext,NewConns) :-
         combine_relation_pair(ConnNext,ConnPrev,NewConn),
         !,
@@ -1224,7 +1248,7 @@ subclassX_2(A,cdef(BG,BDs),VL) :-
 % N+S conditions, class < rel-expr
 subclassX_2(A,BR=BV,VL) :-
 	class(A),
-	parent(A,AR,AV),
+	all_some_relationship(A,AR,AV),
 	\+ member(AV,VL),
 	subclassX_2(AR=AV,BR=BV,[AV|VL]).
         %% parent_overT(R,A,V). -- TODO

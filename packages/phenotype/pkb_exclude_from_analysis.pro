@@ -15,6 +15,8 @@ exclude('http://purl.org/obo/owl/PATO#PATO_0001237'). % quality of single physic
 exclude('http://purl.org/obo/owl/PATO#PATO_0001238'). % quality of related physical entities
 exclude('http://purl.org/obo/owl/PATO#PATO_0001241'). % physical object quality
 exclude('http://purl.org/obo/owl/PATO#PATO_0000069'). % deviation(from_normal)
-exclude(X) :- ontologyAxiom(O,class(X)),\+((subClassOf(X,Y),ontologyAxiom(O,class(Y)))). % exclude root classes
+exclude(X) :- % exclude root classes. a root class is a class that has no superclass in the same ontology
+        forall(ontologyAxiom(O,class(X)), % note some classes are multiply declared - a single intra-ontology subclass is sufficient for non-root status
+               \+((subClassOf(X,Y),ontologyAxiom(O,class(Y))))).
 exclude(someValuesFrom(_,X)) :- exclude(X).
 %exclude(someValuesFrom(_,someValuesFrom(_,_))). % nesting too deep

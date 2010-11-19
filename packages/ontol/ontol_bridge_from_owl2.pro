@@ -74,6 +74,24 @@ used_idspace(Local) :-
 
 
 % ----------------------------------------
+% ONTOLOGY AXIOMS
+% ----------------------------------------
+ontol_db:ontology(Ont) :-
+        % we want to ensure that this is set once, in the root
+        % of the import chain
+        \+ nb_current(owl_ontology,_),
+        !,
+        owl2_model:ontology(Ont), % if multiple onts loaded, this will be arbitrary
+        \+ ontologyImport(_,Ont), % root of chain
+        nb_setval(owl_ontology,Ont).
+ontol_db:ontology(Ont) :-
+        nb_current(owl_ontology,Ont).
+
+ontol_db:import_directive(URI):-
+        ontologyImport(_,URI).
+
+
+% ----------------------------------------
 % RELATION AXIOMS
 % ----------------------------------------
 ontol_db:is_transitive(X) :- uri_oboid(U,X),transitiveProperty(U).
@@ -218,7 +236,7 @@ assert_implicit_metarelation(R_i,MR,R_t) :-
 % URIs
 
 uri_oboid(RdfID,OboID):-
-        % new IDs
+        % new IDs; e.g. obo:FLU_nnnnnnn
         nonvar(RdfID),
         rdf_global_id(obo:ID_With_Underscore,RdfID),
         concat_atom([NS|Toks],'_',ID_With_Underscore),

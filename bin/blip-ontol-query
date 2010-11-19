@@ -1,4 +1,3 @@
-#!/usr/bin/sh
-
-blip ontol-query $0
+#!/bin/sh
+blip ontol-query "$@"
 

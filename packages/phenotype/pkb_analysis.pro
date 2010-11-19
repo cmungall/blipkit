@@ -66,6 +66,8 @@ generate_selected(Goal) :-
 	IC >= 2.5.
 
 prepare(File) :-
+        graph_reasoner_memoize,
 	create_sim_index(File),
-	materialize_index(comparable_feature_pair(1,0,0,0)),
-        graph_reasoner_memoize.
+	materialize_index(comparable_feature_pair(1,0,0,0)).
+
+

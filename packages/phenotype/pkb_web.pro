@@ -637,17 +637,31 @@ organism_href(Org) -->
 % /view_organism_pair/Q+S
 view_organism_pair(Request) :-
         request_path_local(Request,view_organism_pair,OrgPairAtom),
+	http_parameters(Request,
+			[ format(Fmt,
+                              [optional(true),
+                               default(html)])
+                        ]),
         concat_atom([Q,S],' ',OrgPairAtom),
         debug(phenotype,'comparing ~w vs ~w~n',[Q,S]),
+        view_organism_pair(Q,S,Fmt).
+
+view_organism_pair(Q,S,html) :-
         reply_html_page([ title(['Organism Phenotype Comparison']),
                           link([rel=stylesheet,type='text/css',href='/pkb/js/obd-main.css'],[]),
                           script([type='text/javascript',src='/pkb/js/sorttable.js'],[])
-
                         ],
                         [
                          \page_header('Comparison'),
                          \org_pairwise_comparison_table(Q,S)
                         ]).
+
+view_organism_pair(Q,S,tsv) :-
+        format('Content-type: text/plain;~n~n'),
+        phrase(html(pre(\org_pairwise_comparison_table_tsv(Q,S))), Toks),
+        maplist(write,Toks).
+
+
 
 % PAIRWISE comparisons
 % DEPENDS: minimal_LCS_simJ-avg_simJ
@@ -720,6 +734,18 @@ org_pairwise_comparison_table(F1,F2) -->
 		   ''
 		  ])]).
 
+org_pairwise_comparison_table_tsv(F1,F2) -->
+	 !,
+        {debug(phenotype,'compare: ~q, ~q',[F1,F2]),
+	 organism_pair_score_value(F1,F2,minimal_LCS_simJ-avg_simJ,Pairs-AvgSim),
+	 Pairs=[TopSim-lcs(TopLCS,TopX1,TopX2)|_],
+	 TopLCS=[TopLCS_1|TopLCS_Rest],
+	 debug(phenotype,'avgSim: ~w',[AvgSim])},
+        html([pre(
+                  \org_pairwise_comparison_table_lcs_rows_tsv(Pairs,[])
+                 )]).
+
+
 
 example_sim(_,TopX,TopX) -->
 	!,
@@ -775,6 +801,44 @@ org_pairwise_comparison_table_lcs_row(Pair,PairsDone) -->
 			   ]),
 		  td(\hi_phenotype_infos(S2IsBest,S2s))]),
 	      tr(td(colspan(3),p('')))]).
+
+% TSV
+org_pairwise_comparison_table_lcs_rows_tsv([],_) --> [].
+org_pairwise_comparison_table_lcs_rows_tsv([Pair|Pairs],PairsDone) -->
+	org_pairwise_comparison_table_lcs_row_tsv(Pair,PairsDone),
+	org_pairwise_comparison_table_lcs_rows_tsv(Pairs,[Pair|PairsDone]).
+
+% TODO: DRY
+org_pairwise_comparison_table_lcs_row_tsv(Pair,PairsDone) -->
+	{Pair=Sim-lcs(LCS,S1s,S2s),
+	 (   member(S1,S1s),
+	     member(S2,S2s),
+	     phenotype_pair_score_value(S1,S2,lcs_IC,LCS_IC)
+	 ->  true
+	 ;   LCS_IC='?'),
+         /*
+	 (   member(_-lcs(_,S1s,_),PairsDone)
+	 ->  S1IsBest=false
+	 ;   S1IsBest=true),
+	 (   member(_-lcs(_,_,S2s),PairsDone)
+	 ->  S2IsBest=false
+	 ;   S2IsBest=true)
+           */
+         true},
+        html(\tsv_row(
+                      [\phenotype_info_txt(LCS),
+                       LCS_IC,
+                       Sim,
+                       \phenotype_infos_txt(S1s),
+                       \phenotype_infos_txt(S2s)])).
+
+% TODO: move
+tsv_row([]) --> html('\n').
+tsv_row([V]) --> html([V,'\n']).
+tsv_row([V|Vs]) --> html([V,'\t']),tsv_row(Vs).
+
+
+        
 
 phenotype_lcs_info([]) --> !, html(i('No match')).
 phenotype_lcs_info([X]) --> !,phenotype_info(X).
@@ -1060,6 +1124,20 @@ hi_phenotype_infos(_,X) --> html(i(\phenotype_infos(X))).
 phenotype_infos([]) --> !,[].
 phenotype_infos([H]) --> !,phenotype_info(H).
 phenotype_infos([H|L]) --> !,phenotype_info(H),html(hr('')),phenotype_infos(L).
+
+phenotype_infos_txt([]) --> !,[].
+phenotype_infos_txt([H]) --> !,phenotype_info_txt(H).
+phenotype_infos_txt([H|L]) --> !,html([\phenotype_info_txt(H),', ',\phenotype_infos_txt(L)]).
+
+phenotype_info_txt( Conjs ) -->
+        {is_list(Conjs)},
+        !,
+        html(['<',
+              \class_info_list_txt(Conjs),
+              '>']).
+phenotype_info_txt( P ) --> class_info_txt( P ).
+
+
 
 
 % todo - rename phenotype_quad_info?
@@ -1904,6 +1982,20 @@ property_href(X) -->
         !,
         html(a(href(location_by_id(view_entity) + encode(X)),Label)).
 
+class_info_list_txt([]) --> [].
+class_info_list_txt([C|L]) --> html([\class_info_txt(C),' ',\class_info_list_txt(L)]).
+
+class_info_txt(Class) -->
+        {atom(Class)},
+        !,
+        {labelAnnotation_value(Class,Label) -> true ; Label=Class},        
+        html(['"',Label,'"']).
+class_info_txt(intersectionOf(L)) -->
+        html(['IntersectionOf(' ,
+              \class_info_list_txt(L),
+              ' )']).
+class_info_txt(someValuesFrom(R,C)) -->
+        html([\class_info_txt(R),' some ',\class_info_txt(C)]).
 
 class_info(Class,true) --> html(b(\class_info(Class))).
 class_info(Class,false) --> html(\class_info(Class)).

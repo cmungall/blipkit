@@ -12,10 +12,34 @@
 
 
 simmatrix_multiset:atomic_subsumed_by(X,Y) :-
-        class_ancestor_over(X,Y1,_),
+        class_ancestor_over(X,Y1,R), % table this
 	\+ exclude(Y1),
-        Y=Y1.                   % hack - table class_ancestor_over/3 for all Y
+        tr_rel_cls(R,Y1,Y).
 
+tr_rel_cls([_,_|_],_,_) :-
+        !,
+        fail.
+%tr_rel_cls([all-R],C,allValuesFrom(R,C)) :-
+%        !.
+tr_rel_cls([all-_],_,_) :-
+        !,
+        fail.
+tr_rel_cls([inst],_,_) :-
+        !,
+        fail.
+tr_rel_cls([irel-_],_,_) :-
+        !,
+        fail.
+tr_rel_cls([some-'http://www.obofoundry.org/ro/ro.owl#has_proper_part'],_,_) :-
+        !,
+        fail.
+% e.g. hippocampus has_part CA2 - CA2 is not a useful ancestor
+tr_rel_cls([some-R],C,someValuesFrom(R,C)) :-
+        use_expr_for_prop(R),
+        !.
+tr_rel_cls(_,C,C).
+
+use_expr_for_prop('http://purl.org/obo/owl/OBO_REL#has_part').
 
 
 % HOOK: simmatrix

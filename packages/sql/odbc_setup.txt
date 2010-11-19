@@ -1,4 +1,4 @@
-        ---+ Setting up ODBC
+---+ Setting up ODBC
 
 SWI-Prolog comes with an excellent ODBC library. Unfortunately,
 setting up ODBC is not as simple as it is for JDBC or DBI.
@@ -34,6 +34,10 @@ That's it!
 OS X:
 
 The free MyODBC driver seems to work fine
+
+Available here:
+
+http://dev.mysql.com/downloads/connector/odbc/5.1.html
 
 ---++ PostreSQL
 
@@ -72,6 +76,10 @@ Type         = MySQL
 IncludeViews = Yes
 port         = 5306
 ==
+
+See
+http://uswest.ensembl.org/info/data/mysql.html
+for latest
 
 You can then do this:
 

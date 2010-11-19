@@ -56,8 +56,9 @@ ontol_db:def(X,Def):-
         %anyPropertyAssertion('IAO:0000115',U,Lit),
         rdf_literal_to_native(Lit,Def).
 
+% note that FLU and others continue to use the oboinowl APs
 metadata_db:entity_obsolete(X,class):-
-	class(X),
+	ontol_db:class(X),
         uri_oboid(U,X),
         subClassOf(U,'http://www.geneontology.org/formats/oboInOwl#ObsoleteClass').
 %        subClassOf(U,'oboInOwl:ObsoleteClass').

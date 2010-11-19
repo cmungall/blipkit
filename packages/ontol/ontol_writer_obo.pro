@@ -96,6 +96,9 @@ write_all_properties(O) :-
 :- mode write_header(+) is det.
 write_header(obo):-
         format('format-version: 1.2~n'),
+        (   ontology(Ont)
+        ->  format('ontology: ~w~n',[Ont])
+        ;   true),
         forall_distinct(idspace(Local,Global),
                         format('idspace: ~w ~w ""~n',[Local,Global])),
         forall_distinct((partition(SubSet),entity_label(SubSet,Label)),

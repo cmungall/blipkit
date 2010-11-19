@@ -42,7 +42,7 @@ create_sim_index(File) :-
 	!.
 create_sim_index(File) :-
 	index_hooks,
-	table_pred(atomic_subsumed_by/2),
+	table_pred(atomic_subsumed_by/2), % assume done??
 	table_pred(attribute_pair_cs/2),
 	table_pred(attribute_pair_LCS/2),
 	table_pred(attx_frequency/2), % doubles the speed
@@ -99,6 +99,9 @@ attx_redundant_with_attx_set(Attx,Attxs) :-
 %% attribute_pair_LCS(+A1,+A2,?LCS)
 % standard LCS between atomic attributes.
 % consider indexing.
+attribute_pair_LCS(A,A,A) :-  % don't waste time with exact matches
+        nonvar(A),
+        !.
 attribute_pair_LCS(A1,A2,CS) :-
 	atomic_attr(A1),
 	atomic_attr(A2),
@@ -106,7 +109,11 @@ attribute_pair_LCS(A1,A2,CS) :-
 	attribute_pair_cs(A1,A2,CS),
 	\+ ((attribute_pair_cs(A1,A2,CS_2),
 	     CS_2\=CS,
-	     atomic_subsumed_by(CS_2,CS))).
+	     atomic_subsumed_by(CS_2,CS),
+             \+ atomic_subsumed_by(CS,CS_2) % cannot determine primary if there are cycles
+             )).
+
+
 
 attribute_pair_cs(A1,A2,CS) :-
 	atomic_subsumed_by(A1,CS),
@@ -423,3 +430,4 @@ attx_i_subsumed_by(SXI,SYI) :-
 	attx_id(SX,SXI),
 	attx_id(SY,SYI),
 	attx_subsumed_by_impl(SX,SY).
+
