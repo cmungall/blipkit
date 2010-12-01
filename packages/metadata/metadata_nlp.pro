@@ -9,6 +9,7 @@
 	   entity_label_token_stemmed/4,
 	   entity_nlabel_scope_stemmed/4,
            term_tokenset_stemmed/3,
+           label_lexical_variant/2,
 	   token_syn/2,
 	   corpus_label_token/1,
 	   corpus_label_token_frequency/2,
@@ -33,7 +34,11 @@
            term_split/6,
            term_split_over/7,
            term_split_over_strict/4,
-           term_ends_with/6
+           term_ends_with/6,
+           label_template_match/2,
+           label_template_match/3,
+           entity_label_template_match/3,
+           entity_label_template_match/5
 	   ]).
 
 :- use_module(metadata_db).
@@ -151,6 +156,16 @@ term_tokenset_stemmed(Term,Toks,St) :-
 	maplist(token_syn_refl,Toks_1,Toks_2), % normalize using synsets - nondet (MAKE DET?)
 	sort(Toks_2,Toks).  % need to sort again, synsets may introduce re-ordering
 
+label_lexical_variant(Term,Variant) :-
+        atomic_list_concat(Toks,' ',Term),
+        maplist(nd_token_syn_refl,Toks,ToksV),
+        atomic_list_concat(ToksV,' ',Variant).
+label_lexical_variant(Term,Variant) :-
+        dehyphenate(Term,Term2), % todo - all possible variations
+        Term2\=Term,
+        label_lexical_variant(Term2,Variant).
+
+
 dehyphenate(X,X).
 dehyphenate(X,Y) :- concat_atom(L,'-',X),L\=[_],concat_atom(L,'',Y).
 
@@ -210,6 +225,15 @@ token_syn(T,S) :- synset([S|L]),member(T,L).
 % reflexive
 token_syn_refl(T,S) :- token_syn(T,S),!.
 token_syn_refl(T,T) :- nonvar(T).
+
+% non-det. also enumerate all possible synset members
+nd_token_syn(T,S) :- relational_adj(T,S,_,_).
+nd_token_syn(T,S) :- relational_adj(S,T,_,_).
+nd_token_syn(T,T2) :- synset(Syns),member(T,Syns),member(T2,Syns),T\=T2.
+
+% reflexive
+nd_token_syn_refl(T,S) :- nd_token_syn(T,S).
+nd_token_syn_refl(T,T) :- nonvar(T).
 
 corpus_label_token(T) :-
 	entity_label_token(_,T).
@@ -469,15 +493,17 @@ term_split(E,A,B,S1,S2,S3) :-
         label_split(EN,AN,BN),
         entity_label_scope(B,BN,S3).
 
-term_split_over(E,A,B,W,S1,S2,S3) :-
+%% term_split_over(+W,?E,?A,?B,?S1,?S2,?S3) is nondet
+% true if E = A W B
+term_split_over(W,E,A,B,S1,S2,S3) :-
         concat_atom([' ',W,' '],W_padded),
         entity_label_scope(E,EN,S1),
         concat_atom([AN,BN],W_padded,EN),
         entity_label_scope(A,AN,S2),
         entity_label_scope(B,BN,S3).
 
-term_split_over_strict(E,A,B,W) :-
-        term_split_over(E,A,B,W,S1,S2,S3),
+term_split_over_strict(W,E,A,B) :-
+        term_split_over(W,E,A,B,S1,S2,S3),
         is_exact(S1),
         is_exact(S2),
         is_exact(S3).
@@ -491,6 +517,34 @@ term_ends_with(E,S,SN,Tail,S1,S2) :-
         entity_label_scope(E,EN,S1),
         atom_concat(SN,Tail_ws,EN),
         entity_label_scope(S,SN,S2).
+
+%% label_template_match(+T,+Toks:list) is nondet
+%% label_template_match(+T,+Toks:list,?Del) is nondet
+% true if T can be split into Toks. Toks can be a mix of ground atoms and variables that will be unified with atoms.
+% Tok can also be a term A/B/C/... which represents an option
+label_template_match(T,Toks) :-
+        label_template_match(T,Toks,_).
+label_template_match(T,[Tok|Toks],Del) :-
+        nonvar(Tok),
+        Tok=A/B,
+        !,
+        (   label_template_match(T,[A|Toks],Del)
+        ;   label_template_match(T,[B|Toks],Del)).
+label_template_match(T,[T],_) :- !.
+label_template_match(T,[Tok|Toks],Del) :-
+        sub_atom(T,0,Pos,_,Tok),
+        Pos1 is Pos+1,
+        sub_atom(T,Pos,1,_,Del),
+        sub_atom(T,Pos1,_,0,Rest),
+        label_template_match(Rest,Toks,Del).
+
+% Example: entity_label_template_match(E,L,[abnormal,X,level/levels])
+entity_label_template_match(E,T,Toks) :-
+        entity_label_template_match(E,T,Toks,_,_).
+entity_label_template_match(E,T,Toks,Del,S) :-
+        entity_label_scope(E,T,S),
+        label_template_match(T,Toks,Del).
+
         
 
 

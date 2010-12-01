@@ -782,6 +782,7 @@ blipkit:example('blip findall bioresource/2 bioresource/3 bioresource/4',
          atom(select,SelectAtom,true),
          bool(label,IsLabel),
          bool(use_tabs,IsUseTabs),
+         bool(no_pred,IsNoPred),
          bool(write_prolog,IsProlog),
          atom(where,WhereAtom,true)],
         PredAtoms,
@@ -789,6 +790,7 @@ blipkit:example('blip findall bioresource/2 bioresource/3 bioresource/4',
             forall(member(File,Consults),
                    consult(File)),
             Opts=[isProlog(IsProlog),
+		  isNoPred(IsNoPred),
 		  isUseTabs(IsUseTabs),
                   isLabel(IsLabel)],
             maplist(show_findall(Opts,WhereAtom,SelectAtom),PredAtoms))).
@@ -852,6 +854,11 @@ show_factrow(Opts,T):-          % write prolog syntax facts
         (   member(noNewline(1),Opts)
         ->  true
         ;   nl).
+show_factrow(Opts,T):-
+        member(isNoPred(1),Opts),
+        T=..[_|L],
+        show_terms(Opts,L),
+        nl.
 show_factrow(Opts,T):-
         T=..L,
         show_terms(Opts,L),

@@ -392,7 +392,55 @@ affected_freq(A,Num) :-
 affected_freq_org(A,Num) :-
 	aggregate(count,O,P^organism_phenotype_affects(O,P,A),Num).
 
+abnormal_level(Ph,ab,C,E) :-
+        genus(Ph,'PATO:0000033'), % concentration
+        differentium(Ph,qualifier,AQ),
+        is_abnormal(AQ),
+        differentium(Ph,'OBO_REL:towards',C),
+        (   differentium(Ph,'OBO_REL:inheres_in',E)
+        ->  true
+        ;   E=''),
+        \+ extra_diff(Ph,_,_).
+
+
+abnormal_process(Ph,ab,C,E) :-
+        genus(Ph,'PATO:0000001'), % quality
+        differentium(Ph,qualifier,AQ),
+        is_abnormal(AQ),
+        differentium(Ph,'OBO_REL:inheres_in',Proc),
+        differentium(Proc,_,C),
+        \+ extra_diff(Ph,_,_).
+
+abnormal_process(Ph,ab,C,E) :-
+        genus(Ph,'PATO:0000001'), % quality
+        differentium(Ph,qualifier,AQ),
+        is_abnormal(AQ),
+        differentium(Ph,'OBO_REL:inheres_in',Proc),
+        id_idspace(Proc,'GO'),
+        differentium(Ph,'OBOL:has_central_participant',E).
+
+extra_diff(X,R,Y) :-
+        differentium(X,R,Y),
+        \+ standard_eqr(R).
+
+standard_eqr('OBO_REL:inheres_in').
+standard_eqr('OBO_REL:towards').
+standard_eqr('qualifier').
+
+static_processual(SP,PP,R) :-
+        abnormal_level(SP,Qual,C,E),
+        abnormal_level(PP,Qual,C,E),
+        inf_rel(SP,PP,R).
+
+inf_rel(SP,PP,<) :- subclass(SP,PP).
+inf_rel(SP,PP,>) :- subclass(PP,SP).
+inf_rel(SP,PP,<<) :- \+subclass(SP,PP),subclassT(SP,PP).
+inf_rel(SP,PP,>>) :- \+subclass(PP,SP),subclassT(PP,SP).
+
 
 
 is_abnormal('PATO:0000460').
+
+
+
 

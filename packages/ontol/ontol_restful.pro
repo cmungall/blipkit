@@ -328,6 +328,36 @@ ontol_page_actual([help],Params):-
         emit_content_type_text_html,
         emit_page(help_page,Params).
 
+% multiple IDs specified as multiple?id=A&id=B&...
+ontol_page_actual([multiple],Params):-
+        findall(ID,member(id=ID,Params),IDs),
+	!,
+	forall(member(ID,IDs),
+	       preload(ID,Params)),
+	emit_content_type_text_html,
+	emit_page(multiple(IDs),Params).
+
+ontol_page_actual([ID_Base],Params):-
+        member(compare=structure,Params),
+        !,
+        id_idspace(ID_Base,Ont),
+        findall(ID,member(id=ID,Params),SelectedIDs),
+        IDs=[ID_Base|SelectedIDs],
+	forall(member(ID,IDs),
+	       preload(ID,Params)),
+	emit_content_type_text_html,
+	emit_page(structural_comparison(IDs,Ont),Params).
+
+ontol_page_actual([ID_Base],Params):-
+        member(compare=_,Params),
+        !,
+        findall(ID,member(id=ID,Params),SelectedIDs),
+        IDs=[ID_Base|SelectedIDs],
+	forall(member(ID,IDs),
+	       preload(ID,Params)),
+	emit_content_type_text_html,
+	emit_page(multiple(IDs),Params).
+
 ontol_page_actual([Last],Params):-
         concat_atom([ID,Fmt],'.',Last),
         !,
@@ -347,7 +377,8 @@ ontol_page_actual([IDListAtom],Params):-
 	       preload(ID,Params)),
 	emit_content_type_text_html,
 	emit_page(multiple(IDs),Params).
-        	
+
+
 ontol_page_actual([ID],Params):-
         preload(ID,Params),
         (   soft_redirect(ID,ID2)

@@ -104,39 +104,44 @@ known_xref_set(ID,XsLim) :-
 
 entity_info(ID) =>
   div(class=floatL,
-      table(class='tagval_table',
-	    tdpair('ID',noesc(ID)),
-	    tdpair('ID Space',hlink(X)) forall parse_id_idspace(ID,X),
-	    tdpair('URL',a(href=X,X)) forall id_exturl(ID,X),
-	    tdpair('Name',Name) forall metadata_db:entity_label(ID,Name),
-	    tdpair('Ontology',Ont) forall_unique belongs(ID,Ont),
-	    tdpair('Instance of',hlink(X)) forall_unique inst_of(ID,X),                     
-	    tdpair('Subset',X) forall_unique entity_partition(ID,X),
-	    tdpair('Definition',[Def,' ',
-				 bestlink(X) forall_unique def_xref(ID,X)]) forall_unique def(ID,Def),                     
-	    tdpair('Comment',X) forall_unique entity_comment(ID,X),                     
-	    tdpair('Xref',[hlink_with_id(X),
-			   hlinklist([X,ID],compare) where knowsabout(X)
-			  ]) forall_unique entity_xref(ID,X),                     
-	    tdpair('Alt ID',[hlink_with_id(X),
-                             hlinklist([X,ID],compare) where knowsabout(X)
-                            ]) forall_unique entity_alternate_identifier(ID,X),                     
-	    tdpair('', hlinklist([ID|Xs],'compare all')) where known_xref_set(ID,Xs),
-	    tdpair(hlink(R),X) forall_unique inst_sv(ID,R,X,_),
-	    tdpair(hlink(R),hlink(X)) forall_unique inst_rel(ID,R,X),                     
-	    tdpair([i(b(X)),' Synonym'],
-		   [Synonym,
-		    i(' type:',b(T)) forall_unique entity_synonym_type(ID,T,Synonym)
-		   ]) forall_unique entity_synonym_scope(ID,Synonym,X),
-	    tdpair('Disjoint from',hlink(X)) forall_unique disjoint_from(ID,X),                     
-	    tdpair('Domain',hlink(X)) forall_unique property_domain(ID,X),                     
-	    tdpair('Range',hlink(X)) forall_unique property_range(ID,X),                     
-	    tdpair('Property',X) forall_unique metaproperty(ID,X),                     
-	    tdpair('Genus',hlink(X)) forall_unique genus(ID,X),                     
-	    tdpair('Differentia',rel(R,X)) forall_unique differentium(ID,R,X),                     
-	    tdpair('is_a',hlink(X)) forall_unique subclass(ID,X),                     
-	    tdpair(hlink(R),hlink(X)) forall_unique restriction(ID,R,X),                     
-	    ''),
+      form(
+           table(class='tagval_table',
+                 tdpair('ID',noesc(ID)),
+                 tdpair('ID Space',hlink(X)) forall parse_id_idspace(ID,X),
+                 tdpair('URL',a(href=X,X)) forall id_exturl(ID,X),
+                 tdpair('Name',Name) forall metadata_db:entity_label(ID,Name),
+                 tdpair('Ontology',Ont) forall_unique belongs(ID,Ont),
+                 tdpair('Instance of',hlink(X)) forall_unique inst_of(ID,X),                     
+                 tdpair('Subset',X) forall_unique entity_partition(ID,X),
+                 tdpair('Definition',[Def,' ',
+                                      bestlink(X) forall_unique def_xref(ID,X)]) forall_unique def(ID,Def),                     
+                 tdpair('Comment',X) forall_unique entity_comment(ID,X),                     
+                 tdpair('Xref',[input(type=checkbox,name=id,value=X),
+                                hlink_with_id(X),
+                                hlinklist([X,ID],compare) where knowsabout(X)
+                               ]) forall_unique entity_xref(ID,X),                     
+                 tdpair('Alt ID',[hlink_with_id(X),
+                                  hlinklist([X,ID],compare) where knowsabout(X)
+                                 ]) forall_unique entity_alternate_identifier(ID,X),                     
+                 tdpair('',[input(name=compare,type=submit,value=compare),
+                            ' click to compare selected to this class']),
+                 %tdpair('', hlinklist([ID|Xs],'compare all')) where known_xref_set(ID,Xs),
+                 tdpair(hlink(R),X) forall_unique inst_sv(ID,R,X,_),
+                 tdpair(hlink(R),hlink(X)) forall_unique inst_rel(ID,R,X),                     
+                 tdpair([i(b(X)),' Synonym'],
+                        [Synonym,
+                         i(' type:',b(T)) forall_unique entity_synonym_type(ID,T,Synonym)
+                        ]) forall_unique entity_synonym_scope(ID,Synonym,X),
+                 tdpair('Disjoint from',hlink(X)) forall_unique disjoint_from(ID,X),                     
+                 tdpair('Domain',hlink(X)) forall_unique property_domain(ID,X),                     
+                 tdpair('Range',hlink(X)) forall_unique property_range(ID,X),                     
+                 tdpair('Property',X) forall_unique metaproperty(ID,X),                     
+                 tdpair('Genus',hlink(X)) forall_unique genus(ID,X),                     
+                 tdpair('Differentia',rel(R,X)) forall_unique differentium(ID,R,X),                     
+                 tdpair('is_a',hlink(X)) forall_unique subclass(ID,X),                     
+                 tdpair(hlink(R),hlink(X)) forall_unique restriction(ID,R,X),                     
+                 '')
+          ),
       class_children(ID),
       if(id_idspace(ID,Ont),
          div('View in tree',hlink([tree,Ont,ID]))),
@@ -214,7 +219,55 @@ multiple_entity_info(IDs) =>
       call(debug(ontol_rest,'IDs=~w IDLA=~w',[IDs,IDListAtom])),
       graphimg(IDListAtom,img)).
 
+% IN-PROGRESS
+structural_comparison(IDs,Ont) =>
+ outer(IDs,
+       span(downloadbar(IDs),       
+            structural_comparison_table(IDs,Ont))).
 
+structural_comparison_table(IDs,Ont) =>
+  call(compare_structure(IDs,Ont,XChildList,ChildPairs,Mappings)),
+  div(class=floatL,
+      h3('Structural Comparison table'),
+      table(class='comparison_table',
+	    multirow('ParentID',data(ID),true,ID,IDs), % TODO - color this
+	    multirow('Parent',hlink(ID),true,ID,IDs), % TODO - top pairs in X
+            multirow(hlink(ChildX),
+                     if(member(mapping(ChildX,Child,ID),Mappings),
+                        then: [hlink(Child)],
+                        else:
+                       if((member(Child-ChildX,ChildPairs),
+                           id_idspace(Child,CompareOnt),
+                           id_idspace(ID,CompareOnt)),
+                          then: [b('N')],
+                          else: ['--'])),
+                     true,
+                     ID,
+                     IDs) forall member(ChildX,XChildList))).
+
+compare_structure(IDs,Ont,CXL,ChildPairs,Mappings) :-
+        %solutions(ID-X,(member(ID,IDs),entity_xref(X,ID),id_idspace(X,Ont)),TopPairs),
+        % all descs for all parents
+        solutions(e(C,R,ID),(member(ID,IDs),parentT(C,R,ID)),ChildRels),
+        % all distinct descs
+        solutions(C,member(e(C,_,_),ChildRels),ChildList),
+        % map between all child terms and all in xref ontology.
+        % - we also want this for 'absent child' terms, so we go C1->X->C (this mappings is reflexive so we get the 'originals')
+        solutions(C-CX,(member(C_1,ChildList),entity_xref(CX,C_1),id_idspace(CX,Ont),entity_xref(CX,C)),ChildPairs_1),
+        % - also include xref ontology
+        solutions(C-CX,(member(CX,ChildList),entity_xref(CX,C),id_idspace(CX,Ont)),ChildPairs_2),
+        % - and add mappings for xref ontology to itself
+        solutions(CX-CX,(member(CX,ChildList),id_idspace(CX,Ont)),ChildPairs_3),
+        flatten([ChildPairs_1,ChildPairs_2,ChildPairs_3],ChildPairs),
+        solutions(CX,member(_-CX,ChildPairs),CXL),
+        solutions(mapping(CX,C,P),(member(C-CX,ChildPairs),member(e(C,R,P),ChildRels)),MappingsX),
+        solutions(mapping(CX,CX,PX),(member(_-CX,ChildPairs),member(e(CX,R,PX),ChildRels)),MappingsSelf),
+        append(MappingsX,MappingsSelf,Mappings).
+        
+        
+        
+                  
+        
 
 
 rel(R,X) =>

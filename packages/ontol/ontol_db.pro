@@ -415,8 +415,11 @@ parentT(ID,IDp):- parentT(ID,_,IDp).
 % transitive parent/3
 % new: now uses inferred_parent_via/3
 parentT(ID,R,PID):-
+        var(PID),
         inferred_parent_via_rev(ID,PID,[R]).
-	%parent_overT(R,ID,PID).
+parentT(ID,R,PID):-
+        \+ var(PID),
+        inferred_child_via_rev(PID,ID,[R]).
 
 %% parentT(?ID,+RelationList,?SuperClass,+ViaRelation) is nondet.
 % DEPRECATED? consider parent_overT/3
@@ -447,8 +450,8 @@ parentRT(ID,TL,IDp,Via):- parentT(ID,TL,IDp,Via).
 
 %% parentRT(?Class,?Relation,?ParentClass) is nondet.
 % reflexive transitive parent/3
-parentRT(ID,R,ID) :- is_reflexive(R).
-parentRT(ID,subclass,ID).
+parentRT(ID,R,ID) :- class(ID),is_reflexive(R).
+parentRT(ID,subclass,ID) :- class(ID). % subclass is reflexive
 parentRT(ID,TL,IDp):- parentT(ID,TL,IDp).
 
 %% parentRT(?Class,?ParentClass) is nondet.
@@ -1117,6 +1120,7 @@ combine_relation_pair(subclass,subclass,subclass).
 combine_relation_pair(subclass,R,R) :- all_some(R).
 combine_relation_pair(R,subclass,R) :- all_some(R).
 combine_relation_pair(R,R,R) :- is_transitive(R).
+combine_relation_pair(R1,R2,R) :- subclassRT(R1,R),subclassRT(R2,R),R1-R2\=R-R,is_transitive(R).
 combine_relation_pair(R,Over,R) :- transitive_over(R,Over).
 combine_relation_pair(R1,R2,R) :- holds_over_chain(R,[R1,R2]).
 combine_relation_pair(R1,R2,R) :- equivalent_to_chain(R,[R1,R2]).
@@ -1358,10 +1362,14 @@ parent_over(subclass,direct,ID,PID):- subclass(ID,PID).
 parent_over(R,Via,ID,PID):-
         subclassRT(ID,XID),
         restriction(XID,R,XID2),
+        all_some(R),
         subclassRT(XID2,PID),
         (   XID=ID
         ->  Via=direct
         ;   Via=subclassRT(XID)).
+parent_over(R,direct,ID,PID):-
+        restriction(ID,R,PID),
+        \+ all_some(R).
 parent_over(instance_of,direct,ID,PID):-
         inst_of(ID,XID2),
         subclassRT(XID2,PID).

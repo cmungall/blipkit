@@ -41,6 +41,12 @@ metadata_db:entity_label(X,V) :- owl2_model:labelAnnotation_value(X,V).
 :- use_module(library(http/html_head)).
 :- use_module(library(http/http_parameters)).
 
+% register clio/thea handlers
+:- multifile cliopatrial:entity_alternate_view/3.
+entity_alternate_view(Obj,organism,URL) :-
+        organism(Obj),
+        http_link_to_id(organism, [organism=Obj],URL).
+
 % ditched?
 :- op(800, xfy, foreach).
 foreach(Template, Goal, In, Rest) :-

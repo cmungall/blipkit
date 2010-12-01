@@ -2,6 +2,9 @@
 % bioconf.pro - bio configuration file for prolog %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+user:file_search_path(home, Home) :-
+	getenv('HOME',Home).
+
 % TODO:
 %  make this more configurable, such that the
 %  this core conf file can be used without all
@@ -126,6 +129,7 @@ user:bioresource(qfo(N),url(Path),gzip(fasta)):- nonvar(N),concat_atom(['ftp://f
 
 % e.g. 10000
 user:bioresource(pthr(N),url(Path),nhx):- nonvar(N),concat_atom(['http://amigo.berkeleybop.org/amigo/panther/PTHR',N,'.tree'],Path).
+user:bioresource(paint(N),Path,nhx):- nonvar(N),concat_atom(['/users/cjm/cvs/go/gene-associations/submission/paint/PTHR',N,'/PTHR',N,'.save.tree'],Path).
 
 % --OBDPatoData--
 

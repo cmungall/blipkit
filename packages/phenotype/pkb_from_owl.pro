@@ -124,6 +124,10 @@ pkb_db:phenotype_quad(P,PQ) :-
 nullableClassAssertion(C,I) :- classAssertion(C,I),!.
 nullableClassAssertion(-,-).
 
+% OLD:
+
+/*
+
 % instance-level
 opq(O,P,PQ) :-
 	PQ = (E,Q,D,W),
@@ -156,6 +160,20 @@ opq(O,P,PQ) :-
         (   propertyAssertion('http://purl.org/obo/owl/obo#towards', Q1, NestedD1)
 	->  nullableClassAssertion(D,NestedD1)
 	;   D=(-)).
+
+*/
+
+
+% ----------------------------------------
+% NEW LEVEL PHENOTYPES
+% ----------------------------------------
+
+opq(O,P,PQ) :-
+        organism(O),
+        propertyAssertion('http://ontology.neuinfo.org/NIF/Backend/BIRNLex-OBO-UBO.owl#birnlex_17',O,PI),
+        classAssertion(P,PI),
+        pc_quad(P,PQ).
+
 
 % ----------------------------------------
 % CLASS LEVEL PHENOTYPES
