@@ -176,8 +176,8 @@ write_cdef(obo,CDef):-
 :- mode write_cdef(+,+) is det.
 write_cdef(obo,ID,CDef):-
         !,
-        %user:ensure_loaded(bio(ontol_db)), % serval runs in user space...
-        %user:ensure_loaded(bio(metadata_db)),   % serval runs in user space... TODO; inherit this?
+        user:ensure_loaded(bio(ontol_db)), % serval runs in user space...
+        user:ensure_loaded(bio(metadata_db)),   % serval runs in user space... TODO; inherit this?
         write_sterm([],xml([]),cdef(ID,CDef)),
         !.
 
@@ -267,7 +267,7 @@ entailment(S) => qualifiers([implied=true,implication_rule=R]) where entailed_by
 %entailment(S) => qualifiers([implied=true]) where entailed_by(S,_).
 
 identifier(Node) =>
-  if( (is_anonymous(Node),
+  if( (ontol_db:is_anonymous(Node),
        ontol_writer_obo:obo_format_option(pheno_syntax),
        genus(Node,Genus)),
       then:

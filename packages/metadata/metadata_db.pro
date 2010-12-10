@@ -10,6 +10,7 @@
            entity_label_or_exact_synonym/2,
            entity_label_or_synonym/2,
            entity_label_scope/3,
+           entity_label_scope_dn/3,
            same_label_as/2,
            same_label_as/5,
            entity_alternate_identifier/2,
@@ -27,6 +28,11 @@
            entity_description/2,
            entity_description_type/3,
            entity_xref/2,
+           one_to_many_xref/3,
+           one_to_many_xref_list/3,
+           many_to_one_xref/3,
+           many_to_one_xref_list/3,
+           many_to_many_xref/3,
            entity_date/2,
            entity_obsolete/2,
            entity_consider/2,
@@ -135,6 +141,41 @@ current_time_iso_full(D) :-
 entity_definition(E,D):- entity_description_type(E,D,definition).
 
 :- extensional(entity_xref/2).
+
+%% entity_xref_idspace(?E,?X,?S) is det
+entity_xref_idspace(E,X,S) :-
+        entity_xref(E,X),
+        id_idspace(X,S),
+        \+ entity_obsolete(E,_).
+
+%% one_to_many_xref(?E,X?,?S) is nondet
+% true if E-X and there is some X2 such that E-X2, and X and X2 are in the same idspace
+one_to_many_xref(E,X,S) :-
+        one_to_many_xref_list(E,Xs,S),
+        member(X,Xs).
+
+%% one_to_many_xref_list(?E,?Xs:set,?S) is nondet
+% all xrefs for E in idspace S, where |set of xrefs| > 1
+one_to_many_xref_list(E,Xs,S) :-
+        setof(X,entity_xref_idspace(E,X,S),Xs),
+        Xs=[_,_|_].
+
+%% many_to_one_xref(?E,?X,?S) is nondet
+many_to_one_xref(E,X,S) :-
+        many_to_one_xref_list(Es,X,S),
+        member(E,Es).
+
+many_to_one_xref_list(Es,X,S) :-
+        setof(E,entity_xref_idspace(E,X,S),Es),
+        Es=[_,_|_].
+
+many_to_many_xref(E,X,S) :-
+        one_to_many_xref(E,X,S),
+        many_to_one_xref(E2,X,S),
+        E2\=E.
+
+
+
 :- extensional(entity_date/2). % todo: 3-ary event-date?
 
 %% entity_obsolete(?Entity,?Predicate) is nondet
@@ -184,6 +225,8 @@ is_exact(label).
 % any kind of label/synonym
 entity_label_scope(E,L,label):- entity_label(E,L).
 entity_label_scope(E,L,T):- entity_synonym_scope(E,L,T).
+entity_label_scope_dn(E,L,T):- entity_synonym_scope(E,L1,T),downcase_atom(L1,L).
+
 
 
 

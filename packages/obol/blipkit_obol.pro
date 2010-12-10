@@ -23,6 +23,7 @@
 :- use_module(bio(ontol_db)).
 :- use_module(bio(metadata_db)).
 :- use_module(bio(ontol_lookup)).
+:- use_module(bio(qobol_mp)).
 :- use_module(bio(av_db)).
 :- use_module(bio(tokenizer)).
 :- use_module(bio(ontol_writer)).
@@ -957,5 +958,38 @@ synonym_match(ID,MatchingID,Label,Label2):-
         class_by_name_or_synonym(Label,MatchingID),
         class_by_name_or_synonym(Label2,MatchingID),
         Label\=Label2.
-        
+
+blipkit:example('obol qobol -ontology MP -tag morphology -tag mp -undefined_only true -export obo',
+                'parses MP using morphology/mp templates, only writing new xps, in obo').
+:- blip('qobol',
+        'quick obol',
+        [options([ontology,tag,export,undefined_only,compare,scope,id,noindex],Opts)],
+        _Onts,
+        (   qobol_prep(Opts),
+            qobol_index(Opts),
+            qobol_process_all(Opts))).
+
+:- blip('qobol-mismatch',
+        'test for mismatches between parse and asserted xp',
+        [options([ontology,tag,noindex],Opts)],
+        _Onts,
+        (   qobol_prep(Opts),
+            qobol_index(Opts),
+            forall(show_class_parse_mismatch(_,Opts),
+                   true))).
+
+blipkit:example('obol qobol-newterms -ontology MP -tag morphology -tag mp -undefined_only true',
+                'generates new term suggestions').
+:- blip('qobol-newterms',
+        'Candidate new terms based on parse',
+        [options([ontology,tag,xtag,undefined_only,subclass,noindex],Opts)],
+        _Onts,
+        (   qobol_prep(Opts),
+            qobol_index(Opts),
+            forall(suggest_term(E,Label,X,NewTerm,Opts),
+                   show_factrow([],
+                                suggest_term(E,Label,X,NewTerm)))
+        )).
+
+
         

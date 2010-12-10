@@ -291,6 +291,16 @@ process_opt(terms,OptL,Vals,_,ArgL,ArgLret):-
         ;   process_opt(terms,OptL,ValsT,_,ArgL2,ArgLret),
             Vals=[Val|ValsT]),
         !.
+process_opt(options,[],[],_,AL,AL):- !.
+process_opt(options,[Opt|OptL],Vals,_,ArgL,ArgLret):-
+        process_opt(atom,[Opt],Val,_,ArgL,ArgL2),
+        !,
+        (   var(Val)
+        ->  process_opt(options,OptL,Vals,_,ArgL2,ArgLret)
+        ;   process_opt(options,[Opt|OptL],ValsT,_,ArgL2,ArgLret),
+            X=..[Opt,Val],
+            Vals=[X|ValsT]).
+        
 % non-bool: has a succeeding argument
 process_opt(Type,OptL,Val,_,ArgL,ArgL2):-
         opt_tag(OptL,Opt),

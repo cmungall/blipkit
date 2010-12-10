@@ -901,6 +901,7 @@ file_to_prolog_cmd(tagval,'tagval2p -reify -m user').
 file_to_prolog_cmd(tagval(NS),X):- atom_concat('tagval2p -m ',NS,X).
 file_to_prolog_cmd(tbl,'tbl2p').
 file_to_prolog_cmd(txt,'tbl2p -use_filename').
+file_to_prolog_cmd(tab,'tbl2p -use_filename').
 file_to_prolog_cmd(tbl(P),X):- atom_concat('tbl2p -p ',P,X).
 file_to_prolog_cmd(idlist,'tbl2p -p id').
 file_to_prolog_cmd(inparanoid_tbl,'tbl2p -p inpara').

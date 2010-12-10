@@ -241,6 +241,7 @@ user:bioresource(birnlex,url('http://purl.org/nbirn/birnlex'),owl).
 
 user:bioresource(nif_anatomy,url('http://nif.nbirn.net/ontology/NIF-Anatomy.owl'),owl).
 user:bioresource(nif_anatomy_obo,uberon('nif_anatomy.obo'),obo).
+user:bioresource('NIF_GrossAnatomy',uberon('nif_anatomy.obo'),obo).
 
 user:bioresource(fly2fma,uberon('fly-to-fma-homology.obo'),obo).
 user:bioresource(zf2fma,uberon('zfa-to-fma-homology.obo'),obo).

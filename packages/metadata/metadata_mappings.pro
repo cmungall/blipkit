@@ -2,6 +2,7 @@
 
 :- module(metadata_mappings,
           [
+           mapping/10,
 	   mapping_source_target/3,
 	   db_mapping_source_target/4,
 	   compare_mapping/8
@@ -53,11 +54,15 @@ bpmapping_asym(M,S,T) :-
 bpuri_id(X,ID) :-
 	concat_atom(L,'/',X),
 	reverse(L,[IDx|_]),
-	mapid(IDx,ID).
+        debug(mapping,'finding ID for: ~w',[IDx]),
+	mapid(IDx,ID),
+        debug(mapping,'mapped ~w ==> ~w',[IDx,ID]).
 
 mapid(ID,ID) :- concat_atom([_,_],':',ID),!.
-mapid(N,ID) :- concat_atom(Toks,'_',N),concat_atom(Toks,' ',N2),entity_label(ID,N2),!.
+mapid(IDx,ID) :- concat_atom([Pre,Local],'#',IDx),mapprefix(Pre,Pre2),concat_atom([Pre2,Local],:,ID),!.
+mapid(N2,ID) :- atom_concat('fma3.0#',N,N2),concat_atom(Toks,'_',N),concat_atom(Toks,' ',N3),entity_label(ID,N3),!.
 
+mapprefix('NIF-GrossAnatomy.owl','NIF_GrossAnatomy').
 
 
 
@@ -138,3 +143,13 @@ relt(_,_,'NO_REL') :- !.
 
 	
 
+mapping(M,'','Automatic','','',S,SN,'',T,TN) :-
+	rdf_has(M,'http://protege.stanford.edu/mappings#source',Sx),
+	bpuri_id(Sx,S),
+	rdf_has(M,'http://protege.stanford.edu/mappings#target',Tx),
+	bpuri_id(Tx,T),
+        class(S,SN),
+        class(T,TN).
+
+
+        

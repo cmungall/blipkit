@@ -226,15 +226,18 @@ structural_comparison(IDs,Ont) =>
             structural_comparison_table(IDs,Ont))).
 
 structural_comparison_table(IDs,Ont) =>
-  call(compare_structure(IDs,Ont,XChildList,ChildPairs,Mappings)),
+  lgetparam(exclude_relation,ExcludeRels),
+  call(compare_structure(IDs,Ont,XChildList,ChildPairs,Mappings,ExcludeRels)),
   div(class=floatL,
       h3('Structural Comparison table'),
       table(class='comparison_table',
 	    multirow('ParentID',data(ID),true,ID,IDs), % TODO - color this
 	    multirow('Parent',hlink(ID),true,ID,IDs), % TODO - top pairs in X
             multirow(hlink(ChildX),
-                     if(member(mapping(ChildX,Child,ID),Mappings),
-                        then: [hlink(Child)],
+                     if(member(mapping(ChildX,Child,ID,R1),Mappings),
+                        then: [hlink(Child),
+                               html:font(size='-2',hlink(R)) forall_unique member(mapping(ChildX,Child,ID,R),Mappings)
+                              ],
                         else:
                        if((member(Child-ChildX,ChildPairs),
                            id_idspace(Child,CompareOnt),
@@ -245,10 +248,10 @@ structural_comparison_table(IDs,Ont) =>
                      ID,
                      IDs) forall member(ChildX,XChildList))).
 
-compare_structure(IDs,Ont,CXL,ChildPairs,Mappings) :-
+compare_structure(IDs,Ont,CXL,ChildPairs,Mappings,ExcludeRels) :-
         %solutions(ID-X,(member(ID,IDs),entity_xref(X,ID),id_idspace(X,Ont)),TopPairs),
         % all descs for all parents
-        solutions(e(C,R,ID),(member(ID,IDs),parentT(C,R,ID)),ChildRels),
+        solutions(e(C,R,ID),(member(ID,IDs),parentT(C,R,ID),\+member(R,ExcludeRels)),ChildRels),
         % all distinct descs
         solutions(C,member(e(C,_,_),ChildRels),ChildList),
         % map between all child terms and all in xref ontology.
@@ -260,8 +263,8 @@ compare_structure(IDs,Ont,CXL,ChildPairs,Mappings) :-
         solutions(CX-CX,(member(CX,ChildList),id_idspace(CX,Ont)),ChildPairs_3),
         flatten([ChildPairs_1,ChildPairs_2,ChildPairs_3],ChildPairs),
         solutions(CX,member(_-CX,ChildPairs),CXL),
-        solutions(mapping(CX,C,P),(member(C-CX,ChildPairs),member(e(C,R,P),ChildRels)),MappingsX),
-        solutions(mapping(CX,CX,PX),(member(_-CX,ChildPairs),member(e(CX,R,PX),ChildRels)),MappingsSelf),
+        solutions(mapping(CX,C,P,R),(member(C-CX,ChildPairs),member(e(C,R,P),ChildRels)),MappingsX),
+        solutions(mapping(CX,CX,PX,R),(member(_-CX,ChildPairs),member(e(CX,R,PX),ChildRels)),MappingsSelf),
         append(MappingsX,MappingsSelf,Mappings).
         
         

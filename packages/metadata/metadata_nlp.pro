@@ -159,12 +159,18 @@ term_tokenset_stemmed(Term,Toks,St) :-
 label_lexical_variant(Term,Variant) :-
         atomic_list_concat(Toks,' ',Term),
         maplist(nd_token_syn_refl,Toks,ToksV),
-        atomic_list_concat(ToksV,' ',Variant).
+        findall(Tok,(member(Tok,ToksV),Tok\=''),ToksV2),
+        atomic_list_concat(ToksV2,' ',Variant).
 label_lexical_variant(Term,Variant) :-
         dehyphenate(Term,Term2), % todo - all possible variations
         Term2\=Term,
         label_lexical_variant(Term2,Variant).
+label_lexical_variant(Term,Variant) :-
+        downcase_atom(Term,X),
+        X\=Term,
+        label_lexical_variant(X,Variant).
 
+        
 
 dehyphenate(X,X).
 dehyphenate(X,Y) :- concat_atom(L,'-',X),L\=[_],concat_atom(L,'',Y).
@@ -530,13 +536,55 @@ label_template_match(T,[Tok|Toks],Del) :-
         !,
         (   label_template_match(T,[A|Toks],Del)
         ;   label_template_match(T,[B|Toks],Del)).
-label_template_match(T,[T],_) :- !.
 label_template_match(T,[Tok|Toks],Del) :-
+        nonvar(Tok),
+        Tok=A+B, % e.g. X+s
+        !,
+        sub_atom(T,0,Pos,_,A),
+        sub_atom(T,Pos,LenB,NumRest,B),
+        (   NumRest > 0
+        ->  Pos2 is Pos+LenB,
+            sub_atom(T,Pos2,_,0,Rest_1),
+            atom_concat(' ',Rest,Rest_1),
+            label_template_match(Rest,Toks,Del)
+        ;   Toks=[]). % last token
+label_template_match(T,[Tok|Toks],Del) :-
+        nonvar(Tok),
+        Tok=opt_plural(A),
+        !,
+        (   label_template_match(T,[plural(A)|Toks],Del) % try and match plural first
+        ;   label_template_match(T,[A|Toks],Del)).
+label_template_match(T,[Tok|Toks],Del) :-
+        nonvar(Tok),
+        Tok=opt(A),
+        !,
+        (   label_template_match(T,[A|Toks],Del) % try and match optional token first
+        *-> true                                 % greedy
+        ;   label_template_match(T,Toks,Del)).
+label_template_match(T,[Tok|Toks],Del) :-
+        nonvar(Tok),
+        Tok=plural(A),
+        !,
+        next_tok(T,Next,Del,Rest),
+        depluralize(Next,A),
+        label_template_match(Rest,Toks,Del).
+label_template_match(T,[T],_) :- !.
+label_template_match('',[],_) :- !.
+label_template_match(T,[Tok|Toks],Del) :-
+        !,
         sub_atom(T,0,Pos,_,Tok),
         Pos1 is Pos+1,
         sub_atom(T,Pos,1,_,Del),
         sub_atom(T,Pos1,_,0,Rest),
         label_template_match(Rest,Toks,Del).
+
+next_tok(T,T,_,'').
+next_tok(T,Tok,Del,Rest) :-
+        sub_atom(T,0,Pos,_,Tok),
+        Pos1 is Pos+1,
+        sub_atom(T,Pos,1,_,Del),
+        sub_atom(T,Pos1,_,0,Rest).
+
 
 % Example: entity_label_template_match(E,L,[abnormal,X,level/levels])
 entity_label_template_match(E,T,Toks) :-
@@ -544,6 +592,15 @@ entity_label_template_match(E,T,Toks) :-
 entity_label_template_match(E,T,Toks,Del,S) :-
         entity_label_scope(E,T,S),
         label_template_match(T,Toks,Del).
+
+depluralize(X,Y) :- entity_synonym_type(E,X,'PLURAL'),entity_label(E,Y),entity_synonym_scope(E,X,exact),!.
+depluralize(X,Y) :- atom_concat(Base,ies,X),atom_concat(Base,y,Y),!.
+depluralize(X,Y) :- atom_concat(Base,ae,X),atom_concat(Base,a,Y),!.
+depluralize(X,Y) :- atom_concat(Y,s,X).
+
+
+plural_suffix_atom(s).
+plural_suffix_atom(e). % e.g. vertebrae
 
         
 
