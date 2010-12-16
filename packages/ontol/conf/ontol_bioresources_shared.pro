@@ -29,6 +29,7 @@ user:bioresource(go_assoc_version(N,V),url(URL),gzip(go_assoc)):-
 
 % ONTOLOGIES
 user:bioresource(go,go('ontology/editors/gene_ontology_write.obo'),obo).
+user:bioresource('GO',go('ontology/editors/gene_ontology_write.obo'),obo).
 user:bioresource(go_public,go('ontology/gene_ontology_edit.obo'),obo).
 
 user:bioresource(obo_download(N),obo_download(Path),obo):- nonvar(N),concat_atom([N,'/',N,'.obo'],Path).

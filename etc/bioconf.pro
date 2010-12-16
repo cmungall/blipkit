@@ -140,6 +140,9 @@ user:bioresource(omim_phenotype,phenotype_commons('Human/disorder_phenotype.txt'
 user:bioresource(mgi_genotype_gene,phenotype_commons('MGI/genotype_gene.rpt'),tbl(genotype_gene)).
 user:bioresource(zfin_gene_phenotype,phenotype_commons('ZFIN/gene_phenotype.txt'),tbl(g2p)).
 
+user:bioresource(omim2gene,biowarehouse('omim/disorder2ncbigene.txt'),txt).
+
+
 % --NCBI--
 user:bioresource(taxnames,home('Data/ncbitax/names.dmp'),ncbitaxname).
 user:bioresource(taxnodes,home('Data/ncbitax/nodes.dmp'),ncbitaxnode).

@@ -769,7 +769,7 @@ generate_id(T,ID,Opts) :-
 
 get_next_id(S,Num,ID) :-
         make_id(S,Num,GenID),
-        class(GenID),
+        term_already_exists(GenID), 
         !,
         Num2 is Num+1,
         get_next_id(S,Num2,ID).
@@ -783,6 +783,12 @@ make_id(S,Num,ID) :-
                                 % assumes 7 digit padding
         zeropad(Num,Pad),
         concat_atom([S,':',Pad,Num],ID).
+
+% paranoid check for all possible ways term could exist
+term_already_exists(ID) :- class(ID).
+term_already_exists(ID) :- entity_label(ID,_).
+term_already_exists(ID) :- entity_obsolete(ID,_).
+
 
 
 

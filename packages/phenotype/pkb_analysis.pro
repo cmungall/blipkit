@@ -17,6 +17,7 @@ organism_category(F,SL) :-
 	->  SL=inst
 	;   SL=class).
 
+/*
 % score + categories (human,mouse,etc) for a pair
 feature_pair_category_pair_ci(F1,F2,S1,S2,Sc) :-
 	feature_pair_ci_cu_simj(F1,F2,_,_,Sc),
@@ -36,6 +37,14 @@ comparable_feature_pair(F1,F2,Rank,Len) :-
 	length(ScoredPairs,Len),
 	Marker is Len/3,
 	Rank < Marker.
+*/
+
+% note: we can probably deprecate this in the future as we now compare ALL.
+% this means 3x comparisons than above, but this probably doesn't matter, as
+% this wasn't filtering out the expensive comparisons anyway.
+comparable_feature_pair(F1,F2,1,1) :-
+	feature_pair_ci_cu_simj(F1,F2,_,_,_).
+
 
 % standardize direction, no dupes, at least 1
 fp(F1,F2) :-
@@ -65,9 +74,21 @@ generate_selected(Goal) :-
 	debug(foo,'     **result: ~w :: ~w',[IC,LCS]),
 	IC >= 2.5.
 
+generate_new(Goal) :-
+	setof(F1-F2,fp(F1,F2),Pairs),
+        length(Pairs,NumPairs),
+	member(F1-F2,Pairs),
+        \+ prev_feature_pair_attx_pair_LCS_IC(F1,F2,_,_,_,_),
+	debug(foo,'test: ~w vs ~w // of ~w',[F1,F2,NumPairs]),
+	Goal=feature_pair_attx_pair_LCS_IC(F1,F2,_S1,_S2,LCS,IC),
+	debug(foo,'  **comparing: ~w vs ~w',[F1,F2]),
+	Goal,
+	debug(foo,'     **result: ~w :: ~w',[IC,LCS]),
+	IC >= 2.5.
+
 prepare(File) :-
         graph_reasoner_memoize,
-	create_sim_index(File),
-	materialize_index(comparable_feature_pair(1,0,0,0)).
+	create_sim_index(File).
+	%materialize_index(comparable_feature_pair(1,0,0,0)).
 
 

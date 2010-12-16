@@ -818,7 +818,7 @@ org_pairwise_comparison_table_lcs_rows_tsv([Pair|Pairs],PairsDone) -->
 	org_pairwise_comparison_table_lcs_rows_tsv(Pairs,[Pair|PairsDone]).
 
 % TODO: DRY
-org_pairwise_comparison_table_lcs_row_tsv(Pair,PairsDone) -->
+org_pairwise_comparison_table_lcs_row_tsv(Pair,_PairsDone) -->
 	{Pair=Sim-lcs(LCS,S1s,S2s),
 	 (   member(S1,S1s),
 	     member(S2,S2s),
@@ -1788,9 +1788,11 @@ view_class(_Request,Class) :-
         solutions(Org-P,member(Org-P-_,OrgPsA),OrgPs),
         solutions(Org,member(Org-P,OrgPs),Orgs),
         length(OrgPs,NumOrgPs),
-        (   NumOrgPs>75
+        debug(phenotype,'num org-pheno pairs ~w',[NumOrgPs]),
+        (   NumOrgPs>10         % set LOW for now
         ->  Matches=[]
         ;   debug(phenotype,'Finding matches (NumOrgPs=~w)',[NumOrgPs]),
+            % TODO: cache this
             solutions(match(Org1,Org2,Match),
                       (   member(Org1,Orgs),
                           member(Org2,Orgs),

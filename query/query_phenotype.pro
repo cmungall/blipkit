@@ -193,7 +193,7 @@ pclasspair_simj_pc(F1,F2,S,Inter) :-
 	debug(pheno,'indexing....',[]),
 	generate_term_indexes(G,T,
 			      (	  pclass(G),
-				  bf_parentRT(G,T))
+				  parentRT(G,T))
 			     ),
 	debug(pheno,'indexed',[]),
 	simmatrix:feature_ix(F1,Ix1),
@@ -206,9 +206,13 @@ pclasspair_simj_pc(F1,F2,S,Inter) :-
 	;   O1=O2),
         feature_pair_simj(F1,F2,S).
 
+% only uses linked terms.
+% useful if we are looking at MP vs HP - we don't expect any overlap where
+% the species-specific AO is concerned
 xpi(G,T) :-
 	pclass_ref(G,T1),
-	bf_parentRT(T1,T).
+	parentRT(T1,T).
+
 generate_xp_indexes(true) :-
 	!,
 	generate_term_indexes(G,T,

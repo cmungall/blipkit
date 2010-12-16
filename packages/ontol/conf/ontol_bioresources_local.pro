@@ -91,7 +91,6 @@ user:bioresource(disease_stemmed,local('disease/DO_stemmed.pro'),pro,ontol_db).
 user:bioresource(disease2gene,url('http://django.nubic.northwestern.edu/fundo/media/data/do_lite.txt'),txt).
 user:bioresource(do_rif,url('http://projects.bioinformatics.northwestern.edu/do_rif/do_rif.human.txt'),do_rif).
 user:bioresource(omim,biowarehouse('omim/omim.obo'),obo).
-user:bioresource(omim2gene,biowarehouse('omim/disorder2ncbigene.txt'),txt).
 user:bioresource(generif,'/users/cjm/cvs/obo-database/build/build-ncbi-gene/generifs_basic.gz',gzip(gene_rif)).
 user:bioresource(ido,obo_cvs('phenotype/infectious_disease.obo'),obo).
 user:bioresource(mgip,'/users/cjm/obd/data/phenotype_annotation/MGI/source_files/gene_mp-curation_db.pro',curation_db:pro).
@@ -100,6 +99,7 @@ user:bioresource(ogms,local('ogms-read-only/src/ontology/ogms.obo'),obo).
 
 
 user:bioresource(cell,obo_local('anatomy/cell_type/cell.edit.obo'),obo).
+user:bioresource('CL',obo_local('anatomy/cell_type/cell.obo'),obo).
 user:bioresource(hemo_CL,obo_local('anatomy/cell_type/hemo_CL.obo'),obo).
 user:bioresource(cdo,obo_local('anatomy/cell_type/cdo.obo'),obo).
 user:bioresource(cell2,obo_local('anatomy/cell_type/cell_cjm.obo'),obo).
@@ -115,10 +115,13 @@ user:bioresource(pato,obo_local('phenotype/quality.obo'),obo).
 user:bioresource(pato2,obo_local('phenotype/quality-revised.obo'),obo).
 user:bioresource(miro,obo_local('phenotype/mosquito_insecticide_resistance.obo'),obo).
 user:bioresource(unit,obo_local('phenotype/unit.obo'),obo).
+user:bioresource('MPATH',obo_local('phenotype/mouse_pathology/mouse_pathology.obo'),obo).
 user:bioresource(mpath,obo_local('phenotype/mouse_pathology/mouse_pathology.obo'),obo).
 user:bioresource(plant_trait_xp,obo_local('phenotype/plant_traits/plant_trait_xp.obo'),obo).
+user:bioresource('MP',obo_local('phenotype/mammalian_phenotype.obo'),obo).
 user:bioresource(mammalian_phenotype,obo_local('phenotype/mammalian_phenotype.obo'),obo).
 user:bioresource(ascomycete_phenotype,obo_local('phenotype/ascomycete_phenotype.obo'),obo).
+user:bioresource('HP','/Users/cjm/cvs/hpo/human-phenotype-ontology.obo',obo).
 user:bioresource(human_phenotype,'/Users/cjm/cvs/hpo/human-phenotype-ontology.obo',obo).
 user:bioresource(human_phenotype_xp,'/Users/cjm/cvs/hpo/human-phenotype-ontology_xp.obo',obo).
 user:bioresource(human_phenotype_xp_nif,obo_local('phenotype/human_phenotype_xp/human_phenotype_xp_nif.obo'),obo).

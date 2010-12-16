@@ -3,6 +3,11 @@
 :- use_module(bio(ontol_db)).
 :- use_module(bio(metadata_db)).
 
+/*
+
+  PURPOSE: determine relationships between static and processual metabolic phenotypes
+
+  */
 
 abnormal_level(Ph,ab,C,E) :-
         genus(Ph,'PATO:0000033'), % concentration
