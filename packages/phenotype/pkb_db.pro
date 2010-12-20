@@ -48,6 +48,7 @@
 	   organism_pair_score_value/4,
 	   organism_pair_all_scores/3,
 	   organism_match_all_score_values/3,
+	   organism_match_all_score_values/4,
 	   organism_pair_combined_score_value/4,
 	   phenotype_pair_score_value/4,
 	   phenotype_lcs_organism_pair/4,
@@ -151,6 +152,9 @@ organism_pair_score_value_symm(O1,O2,S,V) :- organism_pair_score_value(O1,O2,S,V
 organism_match_all_score_values(O1,O2,SVs) :-
 	setof(S-V,organism_pair_score_value_symm(O1,O2,S,V),SVs).
 
+organism_match_all_score_values(O1,O2,SVs,Scores) :-
+	setof(S-V,(member(S,Scores),organism_pair_score_value(O1,O2,S,V)),SVs).
+
 %% organism_pair_combined_score_value(F1,F2,ScoreExpr,V)
 % ScoreExpr is a mathematic expr e.g. avg_IC+maxIC
 % (only addition supported currently)
@@ -186,6 +190,8 @@ inferred_organism_role_disease(Model,model,D,Metric) :-
         solutions(Sc-Model,
                   (   organism_role_disease(Canonical,canonical,D),
                       organism_pair_combined_score_value(Canonical,Model,Metric,Sc),
+                      aggregate(count,P,organism_phenotype(Model,P),NumPs),
+                      NumPs > 2,
                       \+ organism_role_disease(Model,canonical,_)
                   ),
                   L),
@@ -211,6 +217,8 @@ inferred_organism_role_disease_species(Org,model,D,S,IsReciprocal,Metric) :-
         member(Sc-Org,L),
         \+ ((member(Sc2-_,L),
              Sc2 > Sc)),
+        aggregate(count,P,organism_phenotype(Org,P),NumPs),
+        NumPs > 1,
 	% must be reciprocal; i.e. no other disease D2 that for which
 	% Org-D2 is a better match
 	(   organism_disease_species_score(Org,D2,S,Sc2,Metric),

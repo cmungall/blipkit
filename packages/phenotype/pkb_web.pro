@@ -1185,11 +1185,12 @@ combine_scores(SVs,Score) :-
 	Score is Score1+Score2+AvgSimJ.
 
 similar_organisms_table(Org) -->
-	{debug(phenotype,'gettings hits for ~q',[Org]),
+	{debug(phenotype,'getting hits for ~q',[Org]),
 	 solutions(Score-hit(Org,Hit,SVs),
-		   (   organism_match_all_score_values(Org,Hit,SVs),
+		   (   organism_match_all_score_values(Org,Hit,SVs,[maxIC,avg_IC,minimal_LCS_simJ-avg_simJ]),
 		       combine_scores(SVs,Score)), % todo
 		   ScoreHitPairsR),
+         debug(phenotype,'got hits for ~q',[Org]),
          reverse(ScoreHitPairsR,ScoreHitPairs)},
         html(table(class('sortable std_table'),
                    [tr([th('Organism/Type'),
@@ -1225,7 +1226,7 @@ organism_similarity_matchrow(Combined-hit(Org,Hit,SVs)) -->
         html(tr([td(\organism_href(Hit)),
                  td(\organism_type_href(Sp)),
                  td(MaxIC),
-                 td(\multi(entity_info,BestLCSs)),
+                 td(\multi(composite_entity_info,BestLCSs)),
 		 %td(\phenotype_info(BestLCS)),
                  td(AvgIC),
                  td(AvgSimJ),
@@ -2218,6 +2219,9 @@ entity_info(L) -->
 entity_info(A) -->
         {A=..[P|L]},
         html([P,'( ',\axiom_args(L),' )']).
+
+composite_entity_info(E) --> html([' < ',\entity_info(E),'> ']).
+
 
 % ----------------------------------------
 % OTHER
