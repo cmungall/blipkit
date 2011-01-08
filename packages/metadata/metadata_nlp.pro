@@ -44,6 +44,7 @@
 :- use_module(metadata_db).
 :- use_module(bio(simmatrix)).
 :- use_module(bio(index_util)).
+:- use_module(bio(ontol_db)). % consider moving the one dependency on this
 :- use_module(library(porter_stem)).
 :- use_module(bio(av_db)).  % obol dependency - consider moving this
 
@@ -82,9 +83,18 @@ term_token_stemmed(A,T,true) :-
 term_token_stemmed(A,T,true) :-
         % not acronym
 	term_token(A,T1),
-	porter_stem(T1,T).
+	custom_porter_stem(T1,T).
 term_token_stemmed(A,T,false) :-
 	term_token(A,T).
+
+custom_porter_stem(T,S) :-
+        atom_concat(X,eous,T),
+        atom_concat(X,eus,T2),
+        !,
+        porter_stem(T2,S).
+custom_porter_stem(T,S) :-
+        porter_stem(T,S).
+
 
 term_nth_token(A,N,T) :-
 	tokenize_atom_wrap(A,TL),
@@ -128,10 +138,38 @@ entity_label_token_stemmed(E,A,T,false) :-
 %  * canonical token ordering
 %  * removes all whitespaces
 entity_nlabel_scope_stemmed(E,A,Scope,St) :-
-	entity_label_scope(E,L,Scope),
+	entity_label_scope_ext(E,L,Scope),
 	\+ exclude_entity(E),
 	debug(nlp,'calculating nlabel ~w "~w" (~w)',[E,L,Scope]),
         term_nlabel_stemmed(L,A,St).
+
+% consider moving this elsewhere, it introduces a dependency on ontol package.
+% the idea is to make a synonym using a superclass, as some subclasses
+% may use an abbreviated label assuming the parent is implicit. E.g.
+%          is_a FMA:49033 ! Extra-ocular muscle ***
+%            is_a FMA:49035 ! Superior rectus
+entity_label_scope_ext(E,L,Scope) :-
+	entity_label_scope(E,L,Scope).
+entity_label_scope_ext(E,L,Scope) :-
+	entity_label_scope(E,L1,Scope1),
+        subclassT(E,E2),
+        %subclass_dist_2(E,E2),
+	entity_label_scope(E2,L2,Scope2),
+        combine_scope(Scope1,Scope2,Scope),
+        atomic_list_concat([L2,L1],' ',L).
+
+combine_scope(label,label,exact) :- !.
+combine_scope(exact,exact,exact) :- !.
+combine_scope(label,exact,exact) :- !.
+combine_scope(exact,label,exact) :- !.
+combine_scope(_,_,related).
+
+% fairly arbitrary....
+subclass_dist_2(A,B) :- subclass(A,B).
+subclass_dist_2(A,B) :- subclass(A,Z),subclass(Z,B).
+
+
+
 
 % HOOK
 :- multifile exclude_entity/1.
@@ -196,6 +234,7 @@ synset([caudal,posterior]).
 synset([rostral,anterior]).
 synset([dorsal,superior]).
 synset([ventral,inferior]).
+synset([future,presumptive]).
 
 % eliminate prepositions. assumes we flatten without spaces
 synset(['',P]) :- prep(P).

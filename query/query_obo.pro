@@ -677,13 +677,17 @@ near_identical_text_def(X-XN,Y-YN,Diffs,Def,XDef,YDef):-
         findall(YT,(member(YT,YToks),\+member(YT,XToks)),YTs),
         append(XTs,YTs,Diffs).
 
+maprel('http://www.obofoundry.org/ro/ro.owl#proper_part_of',part_of) :- !.
+maprel(R,R).
+
 parent_by_xref(Ont,C,R,P):-
-        belongs(C,Ont),
-        entity_xref(C,CX),
-        parent(CX,R,PX),
-        entity_xref(P,PX),
+        belongs(C,Ont),         % eg uberon
+        entity_xref(C,CX),      % CX = ssAO
+        parent(CX,RX,PX),       % ssAO link
+        entity_xref(P,PX), 
         belongs(P,Ont),
-        \+ parentRT(C,P),
+        \+ parentRT(C,P),       % must not be redundant with ANY link
+        maprel(RX,R),
         debug(query,'~w ~w ~w',[C,R,P]).
 
 parent_by_xref_nr(Ont,C,R,P):-
@@ -691,6 +695,20 @@ parent_by_xref_nr(Ont,C,R,P):-
         member(C-R-P,CRPs),
         \+ ( (member(C-_-P2,CRPs),
               parentT(P2,P))).
+
+% e.g. suggest:  eye gland part_of camera-type eye
+%      asserted: eye gland part_of eye
+parent_by_xref_nr_g(Ont,C,R,P,P2) :-
+        parent_by_xref_nr(Ont,C,R,P),
+        (   parent(C,R,P2),
+            subclassT(P2,P)
+        ->  true
+        ;   entity_xref(P,P2),
+            id_idspace(P2,'CARO')
+        ->  true
+        ;   P2='NO_SUBCLASS_MATCH').
+
+        
 
 subclass_by_xref_confirmed(Ont,C,P):-
         belongs(C,Ont),

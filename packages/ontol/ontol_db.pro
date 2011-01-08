@@ -415,10 +415,12 @@ parentT(ID,IDp):- parentT(ID,_,IDp).
 % transitive parent/3
 % new: now uses inferred_parent_via/3
 parentT(ID,R,PID):-
-        var(PID),
+        \+ ((   \+var(PID),
+                var(ID))),
         inferred_parent_via_rev(ID,PID,[R]).
 parentT(ID,R,PID):-
         \+ var(PID),
+        var(ID),
         inferred_child_via_rev(PID,ID,[R]).
 
 %% parentT(?ID,+RelationList,?SuperClass,+ViaRelation) is nondet.

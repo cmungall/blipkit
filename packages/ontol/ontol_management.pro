@@ -8,7 +8,8 @@
            is_nondangling/1,
            remove_dangling_facts/0,
            remove_redundant_facts/0,
-
+           delete_all_non_gd_xpdefs/0,
+           
            make_class_obsolete/1,
            delete_class/1,
 
@@ -195,6 +196,27 @@ delete_class(X) :-
         retractall(differentium(X,_,_)),
         retractall(restriction(_,_,X)),
         retractall(restriction(X,_,_)).
+
+delete_xpdef(X) :-
+        retractall(genus(X,_)),
+        retractall(differentium(X,_,_)).
+
+delete_all_non_gd_xpdefs :-
+        forall(non_gd(X),
+                delete_xpdef(X)).
+
+non_gd(X) :-
+        genus(X,_),
+        \+ differentium(X,_,_).
+non_gd(X) :-
+        differentium(X,_,_),
+        \+ genus(X,_).
+non_gd(X) :-
+        genus(X,G1),
+        genus(X,G2),
+        G1\=G2.
+
+
 
 extract_slim(S) :-
         table_pred(ontol_db:parentT/3),

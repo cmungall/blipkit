@@ -42,7 +42,8 @@ qobol_prep(_) :-
 qobol_prep_ont('MP') :- prep_mp_all,!.
 qobol_prep_ont('HP') :- prep_hp_all,!.
 qobol_prep_ont('UBERON') :- load_bioresource(uberonp), !.
-qobol_prep_ont(_) :- prep_mp_all,!.
+qobol_prep_ont(Ont) :- load_bioresource(Ont),!.
+%qobol_prep_ont(_) :- prep_mp_all,!.
 
 prep :-
         load_bioresource(obol_av).
@@ -285,6 +286,15 @@ qobol([hp,eav,part,plural,abnormal],
 % ----------------------------------------
 % ANATOMY
 % ----------------------------------------
+
+% requires secreted_by - can get from uberon. e.g.
+% obol -r uberonp -ontology MA -subclass MA:0002450 -tag secretion -undefined_only true -export obo
+qobol([anatomy,ma,fluid,secretion],
+      [X,'fluid/secretion'],
+      G and (secreted_by some X),
+      true,
+      true) :- class(G,'body fluid or substance').
+
 qobol([anatomy,uberon,interdigital],
       [interdigital,region,between,Digit,X,and,Y],
       'interdigital region' and adjacent_to some DX and adjacent_to some DY,
@@ -602,7 +612,13 @@ owl2cdef(X and Y,cdef(X,L)) :- named_term(Y),!,owl2cdef(X,cdef(X,L)).
 owl2cdef(X and Y,cdef(G,L)) :- owl2cdef(X,cdef(G,L1)),owl2cdef(Y,cdef(G,L2)),append(L1,L2,L).
 owl2cdef(R some Y,cdef(_,[R=Y])) :- named_term(Y).
 
+/*
 
+  examples:
+
+  blip-findall  -u qobol_mp -goal prep_mp_all "entity_parsed_expression(E,L,X,fail(in(X,_)),[undefined_only(true),ontology('MP')])" -select "x(E,L,X)" -no_pred  > z
+  
+*/
 
 
 

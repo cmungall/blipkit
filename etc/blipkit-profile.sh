@@ -164,6 +164,9 @@ alias ptx="ov -r plant_trait -r plant_trait_xp -r plant_anatomy -r go -r pato -s
 alias qptx="oq -r plant_trait -r plant_trait_xp -r plant_anatomy -r go -r pato -showxp"
 alias diseasex='ov -r disease_xp -showxp'
 alias qdiseasex='oq -r disease_xp -showxp'
+PHENO_ARGS='-r mammalian_phenotype -r human_phenotype'
+alias pheno='ov $PHENO_ARGS'
+alias qpheno='oq $PHENO_ARGS'
 
 export MULTIANAT_R='-r xenopus_anatomy -r mosquito_anatomy -r tick_anatomy -r spider_anatomy -r hao -r mouse_anatomy -r gemina_anatomy -r amphibian_anatomy -r cell -r fly_anatomy -r zebrafish_anatomy -r fma_downcase -r brenda -r bila -r miaa -r nif_downcase -r emapa -r ehdaa -r ehdaa2 -r hog -r wpanat'
 alias multianat="blip ontol-query $MULTIANAT_R -showxrefs -showsyns -showdefs"

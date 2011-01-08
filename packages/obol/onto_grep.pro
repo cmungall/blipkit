@@ -261,6 +261,7 @@ show_xref(ID2,ID1,Opts):-
             ;   true),
             load_bioresource(obol_av),
 	    ensure_loaded(bio(metadata_nlp)),
+	    materialize_index(ontol_db:subclassT/2),
 	    materialize_index(metadata_nlp:entity_nlabel_scope_stemmed(1,1,0,0)),
 	    materialize_index(metadata_nlp:token_syn(1,0)),
             forall((  belongs(ID1,Ont1),
@@ -333,6 +334,14 @@ xref_subclass(IDx,PID,PN):-
         class(PID,PN),
         belongs(PID,uberon). % TODO
 
+xref_subclass(IDx,PID,PN):-
+        genus(IDx,PIDx),
+        (   class_xref(PID,PIDx)
+        ;   belongs(PIDx,uberon),
+            PID=PIDx),
+        class(PID,PN),
+        belongs(PID,uberon). % TODO
+
 xref_subclassT(IDx,PID,PN):-
         subclassT(IDx,PIDx),
         class_xref(PID,PIDx),
@@ -347,6 +356,14 @@ xref_subclassTnr(IDx,PID,PN):-
 xref_rel(IDx,R,PID,PN):-
         restriction(IDx,R,PIDx),
         class_xref(PID,PIDx),
+        class(PID,PN),
+        belongs(PID,uberon). % TODO
+
+xref_rel(IDx,R,PID,PN):-
+        differentium(IDx,R,PIDx),
+        (   class_xref(PID,PIDx)
+        ;   belongs(PIDx,uberon),
+            PID=PIDx),
         class(PID,PN),
         belongs(PID,uberon). % TODO
 
