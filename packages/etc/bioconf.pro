@@ -131,14 +131,15 @@ user:bioresource(qfo(N),url(Path),gzip(fasta)):- nonvar(N),concat_atom(['ftp://f
 user:bioresource(pthr(N),url(Path),nhx):- nonvar(N),concat_atom(['http://amigo.berkeleybop.org/amigo/panther/PTHR',N,'.tree'],Path).
 user:bioresource(paint(N),Path,nhx):- nonvar(N),concat_atom(['/users/cjm/cvs/go/gene-associations/submission/paint/PTHR',N,'/PTHR',N,'.save.tree'],Path).
 
-% --OBDPatoData--
 
 % NEW
 user:bioresource(mgi_genotype_phenotype,phenotype_commons('MGI/genotype_phenotype.rpt'),tbl(g2p)).
 user:bioresource(mgi_gene_phenotype,phenotype_commons('MGI/gene_phenotype.txt'),tbl(g2p)).
 user:bioresource(omim_phenotype,phenotype_commons('Human/disorder_phenotype.txt'),tbl(g2p)).
 user:bioresource(mgi_genotype_gene,phenotype_commons('MGI/genotype_gene.rpt'),tbl(genotype_gene)).
-user:bioresource(zfin_gene_phenotype,phenotype_commons('ZFIN/gene_phenotype.txt'),tbl(g2p)).
+user:bioresource(zfin_gene_phenotype,phenotype_commons('ZFIN/g2p.txt'),tbl(g2p)).
+user:bioresource(zebrafish_human_orthos,phenotype_commons('ZFIN/zebrafish_human_orthos.txt'),tbl(hom)).
+user:bioresource(mouse_human_orthos,phenotype_commons('Human/mouse_human_orthos.txt'),tbl(hom)).
 
 user:bioresource(omim2gene,biowarehouse('omim/disorder2ncbigene.txt'),txt).
 
@@ -151,8 +152,6 @@ user:bioresource(taxonomy,obo_download('ncbi_taxonomy/ncbi_taxonomy.pro'),pro,on
 user:bioresource(taxonomy_stemmed,ontdir('ncbi_taxonomy_stemmed.obo'),obo).
 %user:bioresource(gotax,'/users/cjm/cvs/go/scratch/go-taxon/TaxonGOLinksFile.obo',obo).
 %user:bioresource(taxslim,'/users/cjm/cvs/go/scratch/go-taxon/ncbitax-slim.obo',obo).
-user:bioresource(gotax,'/users/cjm/cvs/go/quality_control/annotation_checks/taxon_checks/taxon_go_triggers.obo',obo).
-user:bioresource(taxslim,'/users/cjm/cvs/go/quality_control/annotation_checks/taxon_checks/ncbi_taxon_slim.obo',obo).
 
 % Genome-wide association catalog
 user:bioresource(gwas,url('http://www.genome.gov/admin/gwascatalog.txt'),tbl(gwas)).

@@ -72,6 +72,11 @@ used_idspace(Local) :-
               Locals),
         member(Local,Locals).
 
+% some ontologies may have their own ways of indicating this
+metadata_db:entity_obsolete(ID,class):-
+        uri_oboid(Res,ID),
+        annotationAssertion('owl:deprecated',Res,true).
+
 
 % ----------------------------------------
 % ONTOLOGY AXIOMS

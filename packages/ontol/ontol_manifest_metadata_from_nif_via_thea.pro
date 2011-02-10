@@ -83,9 +83,10 @@ ontol_db:def(ID,Def):-
 ontol_db:def_xref(ID,Xref):-
         ontol_db:inst_sv(ID,'nif_obo_annot:hasDefinitionSource',Xref,_).
 
+% some are made obsolete this way:
+% (but DeprecatedClass also used - see the main owl2 mapping)
 metadata_db:entity_obsolete(ID,class):-
         rdfid_oboid(Res,ID),
-        %ontol_db:subclass(Res,'nif_annot:_birnlex_retired_class').
 	subClassOf(Res,'http://ontology.neuinfo.org/NIF/Backend/BIRNLex_annotation_properties.owl#_birnlex_retired_class').
 
 metadata_db:entity_replaced_by(ID,X):-

@@ -62,6 +62,7 @@ user:file_search_path(obolrel, local('obo-relations')).
 
 % --OBO Ontologies--
 user:bioresource(caro,obo_local('anatomy/caro/caro.obo'),obo).
+user:bioresource(aeo,obo_local('anatomy/caro/aeo.obo'),obo).
 user:bioresource(spatial,obo_local('anatomy/caro/spatial.obo'),obo).
 user:bioresource(caro_extra,obo_local('anatomy/caro/caro_extra.obo'),obo).
 user:bioresource(relationship,obo_local('OBO_REL/ro.obo'),obo).
@@ -87,6 +88,8 @@ user:bioresource(chego,go('scratch/obol_results/chego.obo'),obo).
 % --Disease--
 user:bioresource(disease_dn,local('diseaseontology/HumanDO_downcase.obo'),obo).
 user:bioresource(disease,local('diseaseontology/HumanDO.obo'),obo).
+user:bioresource(disease_xp,local('diseaseontology/DO_logical_def.obo'),obo).
+user:bioresource('DOID',local('diseaseontology/DO_logical_def.obo'),obo).
 user:bioresource(disease_stemmed,local('disease/DO_stemmed.pro'),pro,ontol_db).
 user:bioresource(disease2gene,url('http://django.nubic.northwestern.edu/fundo/media/data/do_lite.txt'),txt).
 user:bioresource(do_rif,url('http://projects.bioinformatics.northwestern.edu/do_rif/do_rif.human.txt'),do_rif).
@@ -139,6 +142,10 @@ user:bioresource(iao_om,url('http://purl.obolibrary.org/obo/iao/dev/ontology-met
 
 user:bioresource(gene(Tax),obo_local(Path),obo) :- sformat(Path,'genomic-proteomic/gene/genes-~w.obo',[Tax]).
 
+user:bioresource(gotax,'/users/cjm/cvs/go/quality_control/annotation_checks/taxon_checks/taxon_go_triggers.obo',obo).
+user:bioresource(taxslim,'/users/cjm/cvs/go/quality_control/annotation_checks/taxon_checks/ncbi_taxon_slim.obo',obo).
+user:bioresource(taxunion,'/users/cjm/cvs/go/quality_control/annotation_checks/taxon_checks/taxon_union_terms.obo',obo).
+
 
 % XP
 user:bioresource(mammalian_phenotype_xp,obo_local('phenotype/mammalian_phenotype_xp.obo'),obo).
@@ -179,6 +186,7 @@ user:bioresource(fma_stemmed,local('FMA/fma_obo_stemmed.obo'),obo).
 user:bioresource(efo,'/users/cjm/tmp/efo.obo',obo).
 user:bioresource(hao,local('obo-svn/ontologies/HAO/hao.obo'),obo).
 user:bioresource('HAO',local('obo-svn/ontologies/HAO/hao.obo'),obo).
+user:bioresource(vhog,uberon('vHOG.obo'),obo).
 user:bioresource(hog,url('http://bgee.unil.ch/bgee/download/HOG.obo'),obo).
 user:bioresource(hog_stages,url('http://bgee.unil.ch/bgee/download/stages.obo'),obo).
 
@@ -217,6 +225,7 @@ user:bioresource(full_galen,url('http://www.co-ode.org/galen/full-galen.owl'),ow
 %user:bioresource(galen,url('http://www.cs.man.ac.uk/~horrocks/OWL/Ontologies/galen.owl'),owl).
 %user:bioresource(galen,obo_local('scratch/full-galen-with-names.obo'),obo).
 user:bioresource(galen,uberon('galen.obo'),obo).
+user:bioresource(mesh,uberon('mesh.obo'),obo).
 user:bioresource(vao,home('cvs/phenoscape/vocab/skeletal/obo/skeletalsummary.obo'),obo).
 
 
@@ -262,6 +271,7 @@ user:bioresource(uberon_with_isa,uberon('uberon_edit-with-isa.obo'),obo).
 user:bioresource(uberonp_with_isa,uberon('uberon-with-isa.obo'),obo).
 user:bioresource(fma_xp,uberon('fma_xp.obo'),obo).
 user:bioresource(wpanat,uberon('dbpedia_ontol.obo'),obo).
+user:bioresource(mesh_anatomy,uberon('mesh_anatomy.obo'),obo).
 
 user:bioresource(gemina_anatomy,url('http://gemina.svn.sourceforge.net/viewvc/gemina/trunk/Gemina/ontologies/gemina_anatomy.obo'),obo).
 
@@ -303,7 +313,7 @@ user:bioresource(koala,ontdir('koala.owl'),owl).
 
 % --Other Bio-Ontologies--
 user:bioresource(rex,obo_download('rex/rex.obo'),obo).
-user:bioresource(ncit,obo_download('ncithesaurus/ncithesaurus.pro'),pro).
+user:bioresource(ncit,obo_download('ncithesaurus/ncithesaurus.pro'),ontol_db:pro).
 %user:bioresource(ncit_dn,obo_download('ncithesaurus/ncithesaurus.pro'),pro).
 user:bioresource(pir,pir('PIRSF_ontology-02082005.dag'),dag).
 user:bioresource(pir_uniprot,pir('PIRSF_UniProt_ontology-02082005.dag'),dag).

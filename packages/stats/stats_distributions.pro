@@ -74,7 +74,6 @@ p_value_by_hypergeometric(Vx,Vn,VM,VN,P):-
 
 
 
-
 % -------------------- TESTS --------------------
 % regression tests to ensure behaviour of module is correct;
 % lines below here are not required for module functionality

@@ -20,6 +20,7 @@
            def_xref/2,
            class_xref/2,
            disjoint_from/2,
+           disjoint_fromS/2,
            disjoint_over/2,
            class_disjoint_union_list/2,
            disjoint_from_violation/3,
@@ -403,6 +404,8 @@ parent(ID,subclass,IDp):-
 	genus(ID,IDp).
 parent(ID,T,IDp):-
 	differentium(ID,T,IDp).
+parent(ID,subclass,IDp):-
+	property_intersection_element(ID,IDp).
 parent(ID,equivalent,IDp):-
 	equivalent_class(ID,IDp).
 
@@ -502,6 +505,11 @@ class_comment(Class,Comment):- entity_comment(Class,Comment).  %,class(Class).
 %%  disjoint_from(?Class,?DisjointClass)
 %   true if there is nothing that instantiates both Class and DisjointClass
 :- extensional(disjoint_from/2).
+
+%%  disjoint_fromS(?Class,?DisjointClass)
+% infers symmetric relationships
+disjoint_fromS(X,Y) :- disjoint_from(X,Y).
+disjoint_fromS(X,Y) :- disjoint_from(Y,X).
 
 
 %%  genus(?Class,?Genus) is nondet.
@@ -1199,6 +1207,9 @@ subclassT(X,Y):- subclass(X,Z),subclassT(Z,Y).
 subclassRT(X,X).
 subclassRT(X,Y):- subclassT(X,Y).
 
+subclassU(X,Y) :- subclass(X,Y).
+subclassU(X,Y) :- class_union_element(Y,X).
+
 
 % -----------------------------------
 % FAST REASONING OVER DEFINITIONS
@@ -1478,15 +1489,13 @@ disjoint_from_violation(P1,P2,C):-
 %% disjoint_over_violation(?DR,?X,?Y,?A)
 % true if X is declared to be disjoint with Y over some relation R,
 % and there is some A that stands in relation R to X and Y
-%
-% this is slow - recommended use ontol_reasoner instead
 disjoint_over_violation(DR,X,Y,A):-
         disjoint_over(DR,R),	% e.g. disjoint_over(disconnected_from,part_of)
         (   restriction(X,DR,Y)
         ;   restriction(Y,DR,X)),
         debug(ontol,'testing disjoint_over ~w :: ~w ~w ~w',[R,X,DR,Y]),
-        parent_overRT(R,A,X),
-        parent_overRT(R,A,Y).
+        parentRT(A,R,X),
+        parentRT(A,R,Y).
 
 
 

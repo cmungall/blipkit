@@ -9,6 +9,7 @@
 :- use_module(ontol_bridge_to_owl2).
 
 io:redirect_stdout(owl2(_)).
+io:redirect_stdout(owl2(_,_)).
 io:write_all(owl2,F,_):-
         save_axioms(F,owl).
 io:write_all(owl2_prolog,F,_):-
@@ -18,3 +19,8 @@ io:write_all(owl2(Fmt),F,_):-
         ->  F2=_
         ;   F2=F),
         save_axioms(F2,Fmt).
+io:write_all(owl2(Fmt,Opts),F,_):-
+        (   F=null(_)
+        ->  F2=_
+        ;   F2=F),
+        save_axioms(F2,Fmt,Opts).

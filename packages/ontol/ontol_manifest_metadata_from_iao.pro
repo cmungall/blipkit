@@ -56,6 +56,16 @@ ontol_db:def(X,Def):-
         %anyPropertyAssertion('IAO:0000115',U,Lit),
         rdf_literal_to_native(Lit,Def).
 
+ontol_db:expand_expression_to(X,Def):-
+        uri_oboid(U,X),
+        anyPropertyAssertion('http://purl.obolibrary.org/obo/IAO_0000424',U,Lit),
+        rdf_literal_to_native(Lit,Def).
+
+ontol_db:expand_assertion_to(X,Def):-
+        uri_oboid(U,X),
+        anyPropertyAssertion('http://purl.obolibrary.org/obo/IAO_0000425',U,Lit),
+        rdf_literal_to_native(Lit,Def).
+
 % note that FLU and others continue to use the oboinowl APs
 metadata_db:entity_obsolete(X,class):-
 	ontol_db:class(X),

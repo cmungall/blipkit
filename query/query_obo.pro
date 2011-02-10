@@ -688,6 +688,8 @@ parent_by_xref(Ont,C,R,P):-
         belongs(P,Ont),
         \+ parentRT(C,P),       % must not be redundant with ANY link
         maprel(RX,R),
+        \+ entity_obsolete(C,_),
+        \+ entity_obsolete(P,_),
         debug(query,'~w ~w ~w',[C,R,P]).
 
 parent_by_xref_nr(Ont,C,R,P):-

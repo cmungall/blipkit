@@ -25,6 +25,7 @@
 % todo - move to conf file
 
 node_shape(ID,box):- class(ID),!.
+node_shape(ID,box):- property(ID),!.
 node_shape(_,oval).
 
 user:graphviz_ontol_param(Template,Param,_):- 

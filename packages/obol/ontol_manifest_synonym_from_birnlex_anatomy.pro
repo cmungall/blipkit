@@ -1,4 +1,4 @@
-:- module(ontol_manifest_synonym_from_hpo,
+:- module(ontol_manifest_synonym_from_birnlex_anatomy,
           []).
 
 :- use_module(bio(ontol_db)).
@@ -14,5 +14,7 @@ plsyn(C,S):-
         atom_concat(From,X,N),
         atom_concat(To,X,S).
 
-repl('Regional part of','Segment of').
-repl('Lobe parts of','Segment of').
+repl('regional part of','segment of').
+repl('lobe parts of','segment of').
+repl('predominantly white regional part','white matter layer').
+repl('predominantly gray regional part','grey matter layer').

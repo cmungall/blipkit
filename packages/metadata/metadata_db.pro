@@ -225,7 +225,7 @@ is_exact(label).
 % any kind of label/synonym
 entity_label_scope(E,L,label):- entity_label(E,L).
 entity_label_scope(E,L,T):- entity_synonym_scope(E,L,T).
-entity_label_scope_dn(E,L,T):- entity_synonym_scope(E,L1,T),downcase_atom(L1,L).
+entity_label_scope_dn(E,L,T):- entity_label_scope(E,L1,T),downcase_atom(L1,L).
 
 
 

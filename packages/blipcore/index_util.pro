@@ -159,8 +159,10 @@ rewrite_goal_with_index(M, CalledGoal, Ix, 1) :-
 	predicate_ixname(CalledPred, IxPred, Ix),
 	IxGoal=..[IxPred|ReorderedArgs],
         M:dynamic(IxPred/Arity),
-	forall(M:StoredGoal,
-                 assert_unique(M,IxGoal)),
+	setof(IxGoal,M:StoredGoal,IxFacts),
+        M:maplist(assert,IxFacts),
+	%forall(M:StoredGoal,
+        %         assert_unique(M,IxGoal)),
 	M:compile_predicates([IxPred/Arity]),
 	(   Ix=1
 	->  M:abolish(CalledPred/Arity)
@@ -169,6 +171,7 @@ rewrite_goal_with_index(M, CalledGoal, Ix, 1) :-
 	M:assert(RewrittenGoal).
 rewrite_goal_with_index(_, _, _, _). % no index
 
+% DEPRECATED - too slow
 assert_unique(M,T) :-
         ground(T),
         M:T,

@@ -10,4 +10,4 @@ if [ -z `which swipl` ]; then
   SWIPL=/opt/local/bin/swipl;
 fi
 
-$SWIPL -L0 -G0 -T0 -q -p blipkit=$BLIP_PATH/packages -p library=$BLIP_PATH/packages -p etc=$BLIP_PATH/etc -g "main,halt" -t halt -s $BLIP_PATH/bin/blip_load.pl -- "$@"
+$SWIPL -L0 -G0 -T0 -q -p blipkit=$BLIP_PATH/packages -p library=$BLIP_PATH/packages -g "main,halt" -t halt -s $BLIP_PATH/bin/blip_load.pl -- "$@"

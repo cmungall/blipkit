@@ -259,6 +259,10 @@ file_from_url(Px,URL):-
             fail),
         delete_file(Lock).
 
+age_exceeds_threshold(_):-
+        getenv('BLIPKIT_DISABLE_WGET',_),
+        !,
+        fail.
 age_exceeds_threshold(Age):-
         debug(load,'Testing if age: ~w exceeds threshold',[Age]),
         user:max_cached_file_age_seconds(MaxAge),
@@ -1064,6 +1068,7 @@ format_writer(owl,ontol_writer_owl).
 format_writer(owl2_prolog,ontol_writer_owl2).
 format_writer(owl2,ontol_writer_owl2).
 format_writer(owl2(_),ontol_writer_owl2).
+format_writer(owl2(_,_),ontol_writer_owl2).
 format_writer(thea,ontol_writer_thea_syntax).
 format_writer(thea_owlrdf,ontol_writer_thea_owlrdf).
 format_writer(thea_dlp,ontol_writer_thea_syntax).

@@ -243,12 +243,15 @@ tvpair(Tag,Rel-Val) => tag(Tag),property(Rel),' ',escape_val(Val).
 tvpair(Tag,Val) => tag(Tag),escape_val(Val).
 tvpairnl(Tag,Val) => tvpair(Tag,Val),newline.
 
-escape_val(Val) => noesc(Esc) where ontol_writer_obo:obo_escape(Val,Esc).
+tvpairxrefsnl(Tag,Val,Xrefs) => tag(Tag),quoted(Val),xrefs(Xrefs),newline.
+
+escape_val(Val) => noesc(Esc) where (ontol_writer_obo:obo_escape(Val,Esc)).
 
 quoted(X) => '"',escape_val(X),'"'.
 
 tagnodenl(S,Tag,Node) => tagnode(S,Tag,Node),newline.
 tagnodenl(S,Tag,Rel,Node) => tagnode(S,Tag,Rel,Node),newline.
+
 
 tagnode(S,Tag,Node) =>
  getparam(exclude_dangling,ExcludeDangling,0 ), % todo
@@ -469,6 +472,8 @@ stanza(ID,StanzaType) =>
    inst_rel(ID,R,X) forall inst_rel(ID,R,X), % annotation object properties
    inst_sv(ID,R,V,DT) forall_unfiltered inst_sv(ID,R,V,DT), % annotation datatype properties
    logicalformula(ID,Formula,Lang) forall_unfiltered logicalformula(ID,Formula,Lang), % annotation datatype properties
+   tvpairxrefsnl(expand_assertion_to,X,[]) where expand_assertion_to(ID,X),
+   tvpairxrefsnl(expand_expression_to,X,[]) where expand_expression_to(ID,X),
    tvpairnl(created_by,X) where entity_created_by(ID,X),
    tvpairnl(creation_date,X) where entity_creation_date(ID,X),
    newline.
@@ -530,6 +535,8 @@ anon_inst(ID,Class) =>
 
 :- mode obo_escape(+,?) is det.
 obo_escape(In,Out):-
+        atom(In),
+        \+ sub_atom(In,_,_,_,' '),
         rdf_global_id(NS:Local,In),
         !,
         % lingering URI IDs - convert now
@@ -584,6 +591,7 @@ must_be_escaped('\\').
 must_be_escaped('{').
 must_be_escaped('}').
 must_be_escaped('!').
+must_be_escaped('#').
 
         
 

@@ -152,10 +152,14 @@ entity_label_scope_ext(E,L,Scope) :-
 	entity_label_scope(E,L,Scope).
 entity_label_scope_ext(E,L,Scope) :-
 	entity_label_scope(E,L1,Scope1),
-        subclassT(E,E2),
+        %parentT(E,Rel,E2),
+        %allowed_rel(Rel),
+        %subclassT(E,E2),
         %subclass_dist_2(E,E2),
+        parent_dist_2(E,E2),
 	entity_label_scope(E2,L2,Scope2),
         combine_scope(Scope1,Scope2,Scope),
+        debug(nlp_detail,'~w SYN: ~w + ~w',[E,L1,L2]),
         atomic_list_concat([L2,L1],' ',L).
 
 combine_scope(label,label,exact) :- !.
@@ -167,6 +171,16 @@ combine_scope(_,_,related).
 % fairly arbitrary....
 subclass_dist_2(A,B) :- subclass(A,B).
 subclass_dist_2(A,B) :- subclass(A,Z),subclass(Z,B).
+
+parent_dist_2(A,B) :- allowed_parent(A,B).
+parent_dist_2(A,B) :- allowed_parent(A,Z),allowed_parent(Z,B).
+
+allowed_parent(A,B) :- subclass(A,B).
+allowed_parent(A,B) :- restriction(A,part_of,B).
+
+allowed_rel(subclass).
+allowed_rel(part_of).
+
 
 
 
@@ -570,12 +584,18 @@ term_ends_with(E,S,SN,Tail,S1,S2) :-
 label_template_match(T,Toks) :-
         label_template_match(T,Toks,_).
 label_template_match(T,[Tok|Toks],Del) :-
+        % ----------
+        % A/B : OR condition
+        % ----------
         nonvar(Tok),
         Tok=A/B,
         !,
         (   label_template_match(T,[A|Toks],Del)
         ;   label_template_match(T,[B|Toks],Del)).
 label_template_match(T,[Tok|Toks],Del) :-
+        % ----------
+        % A+B : join ignoring Del
+        % ----------
         nonvar(Tok),
         Tok=A+B, % e.g. X+s
         !,
@@ -588,12 +608,18 @@ label_template_match(T,[Tok|Toks],Del) :-
             label_template_match(Rest,Toks,Del)
         ;   Toks=[]). % last token
 label_template_match(T,[Tok|Toks],Del) :-
+        % ----------
+        % optional plurals
+        % ----------
         nonvar(Tok),
         Tok=opt_plural(A),
         !,
         (   label_template_match(T,[plural(A)|Toks],Del) % try and match plural first
         ;   label_template_match(T,[A|Toks],Del)).
 label_template_match(T,[Tok|Toks],Del) :-
+        % ----------
+        % optional tokens
+        % ----------
         nonvar(Tok),
         Tok=opt(A),
         !,
@@ -601,15 +627,39 @@ label_template_match(T,[Tok|Toks],Del) :-
         *-> true                                 % greedy
         ;   label_template_match(T,Toks,Del)).
 label_template_match(T,[Tok|Toks],Del) :-
+        % ----------
+        % plurals
+        % ----------
         nonvar(Tok),
         Tok=plural(A),
         !,
         next_tok(T,Next,Del,Rest),
         depluralize(Next,A),
         label_template_match(Rest,Toks,Del).
-label_template_match(T,[T],_) :- !.
-label_template_match('',[],_) :- !.
+label_template_match(T,[T],_) :- !.  % MATCH
+label_template_match('',[],_) :- !.  % END - MATCHES
 label_template_match(T,[Tok|Toks],Del) :-
+        % ----------
+        % OPTIMIZATION: Match last token first
+        % ----------        
+        var(Tok),
+        AllToks=[Tok|Toks],
+        Toks\=[],
+        reverse(AllToks,[LastTok|ToksRev]),
+        nonvar(LastTok),
+        reverse(ToksRev,RestToks),
+        !,
+        % more efficient to match LAST token
+        sub_atom(T,Start,_,0,LastTok),
+        Pos1 is Start-1,
+        Pos1>0,
+        sub_atom(T,Pos1,1,_,Del),
+        sub_atom(T,0,Pos1,_,Rest),
+        label_template_match(Rest,RestToks,Del).
+label_template_match(T,[Tok|Toks],Del) :-
+        % ----------
+        % DEFAULT: match next token and carry on processing
+        % ----------        
         !,
         sub_atom(T,0,Pos,_,Tok),
         Pos1 is Pos+1,

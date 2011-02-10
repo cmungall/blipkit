@@ -41,6 +41,7 @@ url_param(retmax).
 %  
 
 % (+,+,?,+)
+% hook
 web_fetch:search_term_to_url(ncbi,S1,URLFull,_):-
         select(service=Service,S1,S),
         url(Service,URL),
@@ -79,6 +80,10 @@ web_fetch_ncbi_db_by_ids(DB,IDs):-
 web_search_ncbi(DB,S,Items):-
         web_search_ncbi(DB,S,Items,[]).
 web_search_ncbi(DB,S,Items,Opts):-
+        (   member(sleep(Sleep),Opts)
+        ->  true
+        ;   Sleep=1),
+        sleep(Sleep),
         convert_search_term(S,SExpanded),
         web_fetch(ncbi,[service=esearch,db=DB,term=SExpanded|Opts],ResultNode),
         apply_xmlpred(web_fetch_ncbi,ResultNode,Items).
@@ -94,14 +99,14 @@ convert_search_term(S,S).
 xmlpred(html,_,[],translate(head)).
 xmlpred(head,_,[],translate(sSearchResult)).
 % eSearchResult/IdList/Id
-xmlpred(eSearchResult,_,[],
-        [let(_C='Count'),
-         let(_RM='RetMax'),
-         let(_RS='RetStart'),
+xmlpred(eSearchResult,_,[count(C)],
+        [let(C=number('Count')),
+         let(_RM=number('RetMax')),
+         let(_RS=number('RetStart')),
         translate('IdList')]).
 xmlpred('IdList',_,[],
         translate('Id')).
-xmlpred('Id',_,ID,
+xmlpred('Id',_,[id(ID)],
         [let(ID='.')]).
 
 %% gilist_to_accmap(+GIs,?Map) is det

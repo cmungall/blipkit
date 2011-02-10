@@ -201,6 +201,8 @@ matches(ID1,ID2,Opts):-
                 debug(obol,'tabled',[])
             ;	true),
             load_bioresource(obol_av),
+	    %materialize_index(ontol_db:subclassT(1,1)),
+            materialize_index(ontol_db:parentT(1,-,-)),
 	    materialize_index(metadata_nlp:entity_nlabel_scope_stemmed(1,1,0,0)),
 	    materialize_index(metadata_nlp:token_syn(1,0)),
 	    debug(obol,'Onts: ~w ~w',[Ont1,Ont2]),
@@ -215,6 +217,8 @@ matches(ID1,ID2,Opts):-
                       ;   Ont1\=Ont2),
                       \+ obsolete_class(ID2,_),
                       debug(obol,'  Candidate match: ~w [~w] ~w [~w]',[ID1,Ont1,ID2,Ont2]),
+                      \+disjoint_from(ID1,ID2),
+                      \+disjoint_from(ID2,ID1),
                       \+ ((ExcludeXrefStrict=1, class_xref(ID2,IDx),belongs(IDx,Ont1))),
                       \+ ((ExcludeXrefStrict=1, class_xref(IDx,ID1),belongs(IDx,Ont2))),
                       \+ ((ExcludeXref=1, (class_xref(ID2,ID1) ; class_xref(ID1,ID2))))),
@@ -245,6 +249,7 @@ show_xref(ID2,ID1,Opts):-
         'align matching classes',
         [
          bool(optimize,IsOptimize),
+         atoms(exclude,Excludes),
          terms(disp,DispOpts),
          %boolean(exclude_xref,ExcludeXref),
          %boolean(exclude_xref_strict,ExcludeXrefStrict),
@@ -261,12 +266,15 @@ show_xref(ID2,ID1,Opts):-
             ;   true),
             load_bioresource(obol_av),
 	    ensure_loaded(bio(metadata_nlp)),
-	    materialize_index(ontol_db:subclassT/2),
+            table_pred(ontol_db:parentT/3),
+	    %materialize_index(ontol_db:subclassT(1,1)),
 	    materialize_index(metadata_nlp:entity_nlabel_scope_stemmed(1,1,0,0)),
 	    materialize_index(metadata_nlp:token_syn(1,0)),
             forall((  belongs(ID1,Ont1),
+                      \+ exclude_class(ID1,Excludes),
                       matches(ID1,ID2,DispOpts),
                       belongs(ID2,Ont2),
+                      \+ exclude_class(ID2,Excludes),
 		      debug(obol,'candidate: ~w',[ID1-ID2]),
                       ID1\=ID2,
                       id_idspace(ID1,S1),
@@ -280,6 +288,10 @@ show_xref(ID2,ID1,Opts):-
                              belongs(ID3,Ont3))),
                       true),
                    show_new_term(ID2,ID1,[newclass(1)|DispOpts])))).
+
+exclude_class(X,Opts) :-
+        member(Y,Opts),
+        parentRT(X,Y).
 
 
 show_new_term(ID2,ID1,_Opts):-

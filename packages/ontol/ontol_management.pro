@@ -12,6 +12,8 @@
            
            make_class_obsolete/1,
            delete_class/1,
+           delete_relation_usage/1,
+           delete_relation_usage_except/1,
 
            extract_slim/1
 	   ]
@@ -186,16 +188,37 @@ delete_entity(X) :-
         retractall(entity_obsolete(X,_)).
 
 delete_class(X) :-
+        forall(Y,genus(Y,X),
+               delete_xpdef(Y)),
+        forall(Y,differentium(Y,_,X),
+               delete_xpdef(Y)),
         retractall(entity_resource(X,_)),
         retractall(class(X)),
         retractall(subclass(_,X)),
         retractall(subclass(X,_)),
-        retractall(genus(_,X)),
+        retractall(genus(_,X)), % redundant with above
         retractall(genus(X,_)),
-        retractall(differentium(_,_,X)),
-        retractall(differentium(X,_,_)),
+        retractall(differentium(_,_,X)), % redundant with above
+        retractall(differentium(X,_,_)), 
         retractall(restriction(_,_,X)),
         retractall(restriction(X,_,_)).
+
+delete_relation_usage(R) :-
+        retractall(restriction(_,R,_)),
+        solutions(X,differentium(X,R,_),Xs),
+        maplist(delete_xpdef,Xs).
+
+delete_relation_usage_except(XRL) :-
+        solutions(R,
+                  (   parent(_,R,_),
+                      R\=subclass,
+                      \+ member(R,XRL),
+                      \+ ((subclass(R,RP),
+                           member(RP,XRL)))
+                  ),
+                  Rs),
+        maplist(delete_relation_usage,Rs).
+
 
 delete_xpdef(X) :-
         retractall(genus(X,_)),
