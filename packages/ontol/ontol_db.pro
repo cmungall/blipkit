@@ -955,14 +955,14 @@ idspace_mireot(SX,Ref) :-
 % TODO: change this?
 %
 idspace_mireot(SX,Ref,SRef) :-
-	solutions(X,(class(X),
+	solutions(Y,(class(X),
                      id_idspace(X,SX),
                      parent(X,Y),
                      id_idspace(Y,SRef),
                      SRef\=SX),
                   Xs),
 	member(X,Xs),
-        bf_parentRT(X,Ref), % no need to table
+        parentRT(X,Ref), % no need to table
         id_idspace(Ref,SRef),
         SRef\=SX.
 

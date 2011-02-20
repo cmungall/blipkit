@@ -81,6 +81,13 @@
 :- extensional(organism_role/2).
 
 %% organism_role_disease(?Org,?Role,?Disease)
+%
+% Role = canonical | model
+%
+% the Role is canonical if this organism is a prototypical
+% instance of a human with the disease.
+%
+% the Role is model if the organism is a model of the disease
 :- extensional(organism_role_disease/3).
 
 organism_disease(O,D) :- organism_role_disease(O,_,D).

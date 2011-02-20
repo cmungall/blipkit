@@ -82,6 +82,7 @@ http:location(cliopatria,  pkb(clio),	       [priority(5)]).
 :- http_handler(pkb(.), root, []).
 :- http_handler(pkb(tree), organism_cluster_treeview, []).
 :- http_handler(pkb(organisms), all_organisms, []).
+:- http_handler(pkb(organisms_with_matches), all_organisms_with_matches, []).
 :- http_handler(pkb(genes), all_genes, []).
 :- http_handler(pkb('gene/'), view_gene, [prefix]).
 :- http_handler(pkb(homologsets), all_homologsets, []).
@@ -361,7 +362,7 @@ all_organisms(Request) :-
         Orgs=[_|_],
         !,
         action_on_selected_organisms(Action,Orgs).
-% show A-Z
+% show A-Z if too many
 all_organisms(_Request) :-
         debug(phenotype,'  counting orgs',[]),
         aggregate(count,Org,organism(Org),N),
@@ -370,6 +371,15 @@ all_organisms(_Request) :-
         ->  organisms_by_label_index_page
         ;   setof(Org,organism(Org),Orgs),
 	    all_organisms_page(Orgs)).
+
+all_organisms_with_matches(_Request) :-
+        debug(phenotype,'  counting orgs',[]),
+        findall(Org,
+                (   organism(Org),
+                    \+ \+ organism_role_disease(Org,canonical,_),
+                    \+ \+ organism_pair_score_value(Org,_,_,_)),
+                Orgs),
+        all_organisms_page(Orgs).
 
 all_organisms_page(Orgs) :-
         reply_html_page([ title('OBD-PKB'),
@@ -401,7 +411,8 @@ organisms_by_label_index_page :-
                         ],
                         [ \page_header('Main'),
                           \db_summary,
-                          ul(LetterList)]).
+                          ul(LetterList),
+                          a(href(location_by_id(all_organisms_with_matches)),'all with matches')]).
 
 % split list because too many orgs
 organisms_by_label_index-->
@@ -678,7 +689,9 @@ org_pairwise_comparison_table(F1,F2) -->
         {debug(phenotype,'compare: ~q, ~q',[F1,F2]),
 	 organism_pair_score_value(F1,F2,minimal_LCS_simJ-avg_simJ,Pairs-AvgSim),
 	 Pairs=[TopSim-lcs(TopLCS,TopX1,TopX2)|_],
-	 TopLCS=[TopLCS_1|TopLCS_Rest],
+	 (   TopLCS=[TopLCS_1|TopLCS_Rest] % old
+         ->  true
+         ;   TopLCS_1=TopLCS),
 	 debug(phenotype,'avgSim: ~w',[AvgSim])},
         html([h2('Organism-Phenotype Pairwise Comparison Table'),
 	      p(i(['Scroll to ',a(href='#info','bottom of table'),' for full description'])),
@@ -748,8 +761,6 @@ org_pairwise_comparison_table_tsv(F1,F2) -->
 	 !,
         {debug(phenotype,'compare: ~q, ~q',[F1,F2]),
 	 organism_pair_score_value(F1,F2,minimal_LCS_simJ-avg_simJ,Pairs-AvgSim),
-	 Pairs=[TopSim-lcs(TopLCS,TopX1,TopX2)|_],
-	 TopLCS=[TopLCS_1|TopLCS_Rest],
 	 debug(phenotype,'avgSim: ~w',[AvgSim])},
         org_pairwise_comparison_table_lcs_rows_tsv(Pairs,[]).
 
@@ -782,11 +793,14 @@ org_pairwise_comparison_table_lcs_rows([Pair|Pairs],PairsDone) -->
 
 org_pairwise_comparison_table_lcs_row(Pair,PairsDone) -->
 	{Pair=Sim-lcs(LCS,S1s,S2s),
+         % hack - old style used list here, new style singletons
 	 (   member(S1,S1s),
 	     member(S2,S2s),
 	     phenotype_pair_score_value(S1,S2,lcs_IC,LCS_IC)
 	 ->  true
-	 ;   LCS_IC='?'),
+	 ;   phenotype_pair_score_value(S1s,S2s,lcs_IC,LCS_IC)
+         ->  true
+         ;   LCS_IC='?'),
 	 (   member(_-lcs(_,S1s,_),PairsDone)
 	 ->  S1IsBest=false
 	 ;   S1IsBest=true),
@@ -848,6 +862,7 @@ org_pairwise_comparison_table_lcs_row_tsv(Pair,_PairsDone) -->
 phenotype_lcs_info([]) --> !, html(i('No match')).
 phenotype_lcs_info([X]) --> !,phenotype_info(X).
 phenotype_lcs_info([X|L]) --> !,phenotype_info(X),phenotype_lcs_info(L).
+phenotype_lcs_info(X) --> !,phenotype_info(X).
 
 sim_expl(1,'A score of 1 indicates an exact match').
 sim_expl(Sim,'This indicates a high degree of similarity') :- Sim>0.75.
@@ -1129,6 +1144,7 @@ hi_phenotype_infos(_,X) --> html(i(\phenotype_infos(X))).
 phenotype_infos([]) --> !,[].
 phenotype_infos([H]) --> !,phenotype_info(H).
 phenotype_infos([H|L]) --> !,phenotype_info(H),html(hr('')),phenotype_infos(L).
+phenotype_infos(H) --> !,phenotype_info(H).
 
 phenotype_infos_txt([]) --> !,[].
 phenotype_infos_txt([H]) --> !,phenotype_info_txt(H).
@@ -1179,15 +1195,18 @@ getscore(_,_,Def,Def) :- !.
 
 % ad-hoc combo of maxIC and avg_IC and min_LCS_simJ
 combine_scores(SVs,Score) :-
-	getscore(maxIC,SVs,Score1),
-	getscore(avg_IC,SVs,Score2),
-	getscore(minimal_LCS_simJ-avg_simJ,SVs,_-AvgSimJ,0-0),
-	Score is Score1+Score2+AvgSimJ.
+	getscore(max_IC,SVs,Score1),
+	getscore(avg_simJ,SVs,Score2),
+        (   number(Score1),
+            number(Score2)
+        ->  Score is Score1+Score2
+        ;   Score=0).
+
 
 similar_organisms_table(Org) -->
 	{debug(phenotype,'getting hits for ~q',[Org]),
 	 solutions(Score-hit(Org,Hit,SVs),
-		   (   organism_match_all_score_values(Org,Hit,SVs,[maxIC,avg_IC,minimal_LCS_simJ-avg_simJ]),
+		   (   organism_match_all_score_values(Org,Hit,SVs,[avg_simJ,max_IC,max_IC_best]),
 		       combine_scores(SVs,Score)), % todo
 		   ScoreHitPairsR),
          debug(phenotype,'got hits for ~q',[Org]),
@@ -1195,18 +1214,18 @@ similar_organisms_table(Org) -->
         html(table(class('sortable std_table'),
                    [tr([th('Organism/Type'),
                         th('Species'),
-                        th([colspan=2],
-			   ['Best Match',
-			    \tooltip('The most specific phenotype description that could be calculated to cover both source and target species.
-				    The information content (IC) of this description is also shown. This is the inverse log of the probability of that
-				    description being observed by chance')]),
                         %th('Overlap'),
-                        th(['AvgIC',
+                        th(['MaxIC',
 			   \tooltip('Average Information Content across minimal Least Common Subsumer set')]),
                         th(['AvgSimJ',
 			    \avg_simj_tooltip]),
                         th(['Combined',
 			    \tooltip('Ad-hoc combination of all scores')]),
+                        th([colspan=3],
+			   ['Best Match',
+			    \tooltip('The most specific phenotype description that could be calculated to cover both source and target species.
+				    The information content (IC) of this description is also shown. This is the inverse log of the probability of that
+				    description being observed by chance')]),
 			th('View')
 			]),
 		    \organism_similarity_matchrows(ScoreHitPairs)])).
@@ -1217,20 +1236,20 @@ organism_similarity_matchrows(L) --> multi(organism_similarity_matchrow,L).
 organism_similarity_matchrow(Combined-hit(Org,Hit,SVs)) -->
 	{
 	 organism_species(Hit,Sp),
-	 getscore(maxIC,SVs,MaxIC),
+	 getscore(max_IC,SVs,MaxIC),
+	 getscore(max_IC_best,SVs,lcs(X,Y,A)),
 	 %getscore(best_LCS,SVs,[BestLCS|_]),
-	 getscore(best_LCS,SVs,BestLCSs),
-	 getscore(avg_IC,SVs,AvgIC),
-	 getscore(minimal_LCS_simJ-avg_simJ,SVs,_-AvgSimJ,0-0)
+	 getscore(avg_simJ,SVs,AvgSimJ)
 	},
         html(tr([td(\organism_href(Hit)),
                  td(\organism_type_href(Sp)),
                  td(MaxIC),
-                 td(\multi(composite_entity_info,BestLCSs)),
-		 %td(\phenotype_info(BestLCS)),
-                 td(AvgIC),
                  td(AvgSimJ),
                  td(Combined),
+                 td(\entity_info(X)),
+                 td(\entity_info(Y)),
+                 td(A),
+                 %td(\multi(composite_entity_info,AvgSimJ)),
                  td(\organism_pair_href(Org,Hit))])
             ).
 

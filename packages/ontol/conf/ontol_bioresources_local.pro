@@ -124,9 +124,9 @@ user:bioresource(plant_trait_xp,obo_local('phenotype/plant_traits/plant_trait_xp
 user:bioresource('MP',obo_local('phenotype/mammalian_phenotype.obo'),obo).
 user:bioresource(mammalian_phenotype,obo_local('phenotype/mammalian_phenotype.obo'),obo).
 user:bioresource(ascomycete_phenotype,obo_local('phenotype/ascomycete_phenotype.obo'),obo).
-user:bioresource('HP','/Users/cjm/cvs/hpo/human-phenotype-ontology.obo',obo).
-user:bioresource(human_phenotype,'/Users/cjm/cvs/hpo/human-phenotype-ontology.obo',obo).
-user:bioresource(human_phenotype_xp,'/Users/cjm/cvs/hpo/human-phenotype-ontology_xp.obo',obo).
+user:bioresource('HP','/Users/cjm/cvs/hpo/src/ontology/human-phenotype-ontology.obo',obo).
+user:bioresource(human_phenotype,'/Users/cjm/cvs/hpo/src/ontology/human-phenotype-ontology.obo',obo).
+user:bioresource(human_phenotype_xp,'/Users/cjm/cvs/hpo/src/ontology/human-phenotype-ontology_xp.obo',obo).
 user:bioresource(human_phenotype_xp_nif,obo_local('phenotype/human_phenotype_xp/human_phenotype_xp_nif.obo'),obo).
 user:bioresource(human_phenotype_xp_uberon,obo_local('phenotype/human_phenotype_xp/human-phenotype-ontology_xp_uberon.obo'),obo).
 user:bioresource(hp_xp_all,obo_local('phenotype/human_phenotype_xp/human-phenotype-ontology_xp-merged.obo'),obo).
@@ -157,6 +157,7 @@ user:bioresource(worm_phenotype_xp,obo_local('phenotype/worm_phenotype_xp.obo'),
 %user:bioresource(ro_ucdhsc,obo_local('cross_products/go_chebi_xp/ro_ucdhsc.obo'),obo).
 
 % UBERPHENO
+user:bioresource(hp_mp,obo_local('phenotype/phenotype_xp/uberpheno/mp_hp-align-equiv.obo'),obo).
 user:bioresource(upheno,obo_local('phenotype/phenotype_xp/uberpheno/uberpheno-basic.obo'),obo).
 user:bioresource(upheno_full,obo_local('phenotype/phenotype_xp/uberpheno/uberpheno-full.obo'),obo).
 
@@ -269,6 +270,7 @@ user:bioresource(uberonp,uberon('uberon.obo'),obo).
 user:bioresource(uber_anatomy,uberon('uberon.obo'),obo).
 user:bioresource(uberon_with_isa,uberon('uberon_edit-with-isa.obo'),obo).
 user:bioresource(uberonp_with_isa,uberon('uberon-with-isa.obo'),obo).
+user:bioresource(uberonp_v,uberon('uberon-with-isa-for-FMA-MA-ZFA.obo'),obo).
 user:bioresource(fma_xp,uberon('fma_xp.obo'),obo).
 user:bioresource(wpanat,uberon('dbpedia_ontol.obo'),obo).
 user:bioresource(mesh_anatomy,uberon('mesh_anatomy.obo'),obo).

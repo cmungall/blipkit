@@ -843,6 +843,11 @@ show_factrow(Opts,(T1,T2)):-
         !,
         show_factrow(Opts,T1),
         show_factrow(Opts,T2).
+show_factrow(Opts,(T1;T2)):-
+        % disjunctions
+        !,
+        show_factrow(Opts,T1),
+        show_factrow(Opts,T2).
 show_factrow(Opts,T):-          % write prolog syntax facts
         member(isProlog(1),Opts),
         \+member(isUseTabs(1),Opts),
