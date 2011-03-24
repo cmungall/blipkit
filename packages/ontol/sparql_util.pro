@@ -68,12 +68,15 @@ safe_sparql_query(Q,Rows,Opts) :-
 % ----------------------------------------
 
 sparql_describe(URI,R,Opts) :-
-        concat_atom(['DESCRIBE',' ','<',URI,'>'],Q),
+        concat_atom(['DEFINE sql:describe-mode "CBD"\nDESCRIBE',' ','<',URI,'>'],Q),
         sparql_query(Q,R,Opts).
 
 % ----------------------------------------
 % NEUROCOMMONS SPECIFIC UTILS
 % ----------------------------------------
+
+%% neurocommons_describe(+URI,?Triple) is nondet
+% example: neurocommons_describe('http://purl.obolibrary.org/obo/IAO_0000301',X)
 neurocommons_describe(URI,R) :-
         sparql_set_server([host('sparql.obodev.neurocommons.org'),port(80),path('/sparql/')]),
         % virtuoso returns n3 by default - todo add support in sparql_client

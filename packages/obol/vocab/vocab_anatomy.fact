@@ -12,7 +12,6 @@ frontal
 common
 contralateral
 bilateral
-aortic
 alimentary
 
 abdominal
@@ -40,7 +39,6 @@ brown
 white
 
 urogenital
-visceral
 vitelline
 
 *noun
@@ -226,7 +224,6 @@ scabellar, scabellum
 rectal, rectum
 prescutal, prescutum
 pleural, pleurum
-pharyngeal, pharynx
 ommatidial, ommatidium
 metathoracic, metathorax
 labral, labrum
@@ -254,6 +251,7 @@ uterine, uterus
 choanal, choana
 facial, face
 humeral, humerus
+buccal, cheek
 
 abdominal, abdomen
 chorionic, chorion
@@ -320,6 +318,11 @@ pupal, pupa
 axonemal, axoneme
 synaptic, synapse
 nervous, nerve
+mesangial, mesangium
+medullary, medulla
+chondrogenic, cartilage
+cartilaginous, cartilage
+cartilagenous, cartilage
 
 neuromuscular, neuromuscle
 spinal, spine
@@ -333,6 +336,8 @@ telenencephalic, telencephalon
 thalamic, thalamus
 hypothalamic, hypothalamus
 glomerular, glomerulus
+palpebral, eyelid
+thymic, thymus
 
 % is this right?
 optic, eye
@@ -340,6 +345,14 @@ ovarian, ovary
 
 respiratory, respiration
 salivary, saliva
+
+% 2nd+3rd one not quite right but exists as
+% a hack for e.g. visceral pouches
+pharyngeal, pharynx
+visceral, pharynx
+branchial, pharynx
+splenic, spleen
+
 
 % TODO - add this to ontology
 /muscle_type

@@ -61,6 +61,8 @@ user:file_search_path(uberon, local(uberon)).
 user:file_search_path(obolrel, local('obo-relations')).
 
 % --OBO Ontologies--
+user:bioresource(goche,go('ontology/editors/goche.obo'),obo).
+
 user:bioresource(caro,obo_local('anatomy/caro/caro.obo'),obo).
 user:bioresource(aeo,obo_local('anatomy/caro/aeo.obo'),obo).
 user:bioresource(spatial,obo_local('anatomy/caro/spatial.obo'),obo).
@@ -69,7 +71,6 @@ user:bioresource(relationship,obo_local('OBO_REL/ro.obo'),obo).
 user:bioresource(ro_proposed,obo_local('OBO_REL/ro_proposed_edit.obo'),obo).
 user:bioresource(ro2,obolrel('src/ontology/ro.owl'),owl).
 user:bioresource(biological_role,obolr('biological_role.obo'),obo).
-user:bioresource(goche,obolr('goche.obo'),obo).
 user:bioresource(chebi,obo_local('chemical/chebi.obo'),obo).
 user:bioresource(so,song('ontology/so.obo'),obo).
 user:bioresource(sequence,song('ontology/so.obo'),obo). % synonym for SO
@@ -108,6 +109,7 @@ user:bioresource(cdo,obo_local('anatomy/cell_type/cdo.obo'),obo).
 user:bioresource(cell2,obo_local('anatomy/cell_type/cell_cjm.obo'),obo).
 user:bioresource(evoc_cell,obo_local('anatomy/cell_type/evoc_cell.obo'),obo).
 %user:bioresource(plant,poc('ontology/OBO_format/plant_ontology.obo'),obo).
+user:bioresource('PO',poc('ontology/OBO_format/po_anatomy.obo'),obo).
 user:bioresource(plant_anatomy,poc('ontology/OBO_format/po_anatomy.obo'),obo).
 user:bioresource(plant_anatomy_xp,poc('ontology/OBO_format/po_anatomy_xp.obo'),obo).
 user:bioresource(plant_development,poc('ontology/OBO_format/po_temporal.obo'),obo).
@@ -188,6 +190,7 @@ user:bioresource(efo,'/users/cjm/tmp/efo.obo',obo).
 user:bioresource(hao,local('obo-svn/ontologies/HAO/hao.obo'),obo).
 user:bioresource('HAO',local('obo-svn/ontologies/HAO/hao.obo'),obo).
 user:bioresource(vhog,uberon('vHOG.obo'),obo).
+user:bioresource(vhog_assoc,uberon('organ_association_vHOG.txt'),tbl(assoc)).
 user:bioresource(hog,url('http://bgee.unil.ch/bgee/download/HOG.obo'),obo).
 user:bioresource(hog_stages,url('http://bgee.unil.ch/bgee/download/stages.obo'),obo).
 
@@ -203,19 +206,25 @@ user:bioresource(worm_development,obo_local('developmental/animal_development/wo
 user:bioresource(mosquito_anatomy,obo_local('anatomy/gross_anatomy/animal_gross_anatomy/mosquito_anatomy.obo'),obo).
 user:bioresource('TGMA',obo_local('anatomy/gross_anatomy/animal_gross_anatomy/mosquito_anatomy.obo'),obo).
 user:bioresource(ehdaa,obo_local('anatomy/gross_anatomy/animal_gross_anatomy/human/human-dev-anat-abstract.obo'),obo).
+user:bioresource('EHDAA',obo_local('anatomy/gross_anatomy/animal_gross_anatomy/human/human-dev-anat-abstract.obo'),obo).
 user:bioresource(ehdaa2,obo_local('anatomy/gross_anatomy/animal_gross_anatomy/human/human-dev-anat-abstract2.obo'),obo).
 user:bioresource('EHDAA2',obo_local('anatomy/gross_anatomy/animal_gross_anatomy/human/human-dev-anat-abstract2.obo'),obo).
 user:bioresource(adult_mouse,obo_local('anatomy/gross_anatomy/animal_gross_anatomy/mouse/adult_mouse_anatomy.obo'),obo). % synonym
 user:bioresource(mouse_anatomy,obo_local('anatomy/gross_anatomy/animal_gross_anatomy/mouse/adult_mouse_anatomy.obo'),obo).
 user:bioresource('MA',obo_local('anatomy/gross_anatomy/animal_gross_anatomy/mouse/adult_mouse_anatomy.obo'),obo).
 user:bioresource(emap,obo_local('anatomy/gross_anatomy/animal_gross_anatomy/mouse/EMAP.obo'),obo).
+user:bioresource('EMAPA',obo_local('anatomy/gross_anatomy/animal_gross_anatomy/mouse/EMAPA.obo'),obo).
 user:bioresource(emapa,obo_local('anatomy/gross_anatomy/animal_gross_anatomy/mouse/EMAPA.obo'),obo).
+user:bioresource(emapaa,uberon('emapaa.obo'),obo).
+user:bioresource(ehdaaa,uberon('ehdaaa.obo'),obo).
 user:bioresource(spider_anatomy,obo_local('anatomy/gross_anatomy/animal_gross_anatomy/spider/spider_comparative_biology.obo'),obo).
+user:bioresource('SPD',obo_local('anatomy/gross_anatomy/animal_gross_anatomy/spider/spider_comparative_biology.obo'),obo).
 user:bioresource(zebrafish_anatomy,obo_local('anatomy/gross_anatomy/animal_gross_anatomy/fish/zebrafish_anatomy.obo'),obo).
 user:bioresource('ZFA',obo_local('anatomy/gross_anatomy/animal_gross_anatomy/fish/zebrafish_anatomy.obo'),obo).
 user:bioresource(zebrafish_anatomy_pre,obo_local('anatomy/gross_anatomy/animal_gross_anatomy/fish/preversion.zfish.obo'),obo).
 user:bioresource(zebrafish_stages,obo_local('anatomy/gross_anatomy/animal_gross_anatomy/fish/zebrafishstages.obo'),obo).
 user:bioresource(teleost_anatomy,obo_local('anatomy/gross_anatomy/animal_gross_anatomy/fish/teleost_anatomy.obo'),obo).
+user:bioresource('TAO',obo_local('anatomy/gross_anatomy/animal_gross_anatomy/fish/teleost_anatomy.obo'),obo).
 user:bioresource(teleost_taxonomy,obo_local('taxonomy/teleost_taxonomy.obo'),obo).
 user:bioresource(xenopus_anatomy,obo_local('anatomy/gross_anatomy/animal_gross_anatomy/frog/xenopus_anatomy.obo'),obo).
 user:bioresource('XAO',obo_local('anatomy/gross_anatomy/animal_gross_anatomy/frog/xenopus_anatomy.obo'),obo).
@@ -227,7 +236,7 @@ user:bioresource(full_galen,url('http://www.co-ode.org/galen/full-galen.owl'),ow
 %user:bioresource(galen,obo_local('scratch/full-galen-with-names.obo'),obo).
 user:bioresource(galen,uberon('galen.obo'),obo).
 user:bioresource(mesh,uberon('mesh.obo'),obo).
-user:bioresource(vao,home('cvs/phenoscape/vocab/skeletal/obo/skeletalsummary.obo'),obo).
+user:bioresource(vao,home('cvs/phenoscape/vocab/skeletal/obo/vertebrate_anatomy_edit.obo'),obo).
 
 
 user:bioresource(worm_anatomy,obo_local('anatomy/gross_anatomy/animal_gross_anatomy/worm/worm_anatomy/WBbt.obo'),obo).
@@ -255,6 +264,7 @@ user:bioresource(birnlex,url('http://purl.org/nbirn/birnlex'),owl).
 user:bioresource(nif_anatomy,url('http://nif.nbirn.net/ontology/NIF-Anatomy.owl'),owl).
 user:bioresource(nif_anatomy_obo,uberon('nif_anatomy.obo'),obo).
 user:bioresource('NIF_GrossAnatomy',uberon('nif_anatomy.obo'),obo).
+user:bioresource('NIF_Cell',uberon('nif_cell.obo'),obo).
 
 user:bioresource(fly2fma,uberon('fly-to-fma-homology.obo'),obo).
 user:bioresource(zf2fma,uberon('zfa-to-fma-homology.obo'),obo).
@@ -267,6 +277,7 @@ user:bioresource('AAO',obo_local('anatomy/gross_anatomy/animal_gross_anatomy/amp
 %user:bioresource('AAO',X,obo):- bioresource(obo(amphibian_anatomy),X,obo).
 user:bioresource(uberon,uberon('uberon_edit.obo'),obo).
 user:bioresource(uberonp,uberon('uberon.obo'),obo).
+user:bioresource(uberons,uberon('uberon-simple.obo'),obo).
 user:bioresource(uber_anatomy,uberon('uberon.obo'),obo).
 user:bioresource(uberon_with_isa,uberon('uberon_edit-with-isa.obo'),obo).
 user:bioresource(uberonp_with_isa,uberon('uberon-with-isa.obo'),obo).

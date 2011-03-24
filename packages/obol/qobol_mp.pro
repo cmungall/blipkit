@@ -33,6 +33,14 @@ qobol_index(_).
 qobol_prep :-
         qobol_prep([]).
 qobol_prep(Opts) :-
+        \+ nb_current(qobol_opts,_),
+        nb_setval(qobol_opts,Opts),
+        debug(qobol,'Setting opts: ~w',[Opts]),
+        (   member(lexical_variant(IsLV),Opts)
+        ->  nb_setval(use_lexical_variants,IsLV)
+        ;   nb_setval(use_lexical_variants,false)),
+        fail.
+qobol_prep(Opts) :-
         member(taxon(_),Opts),
         load_bioresource(gotax),
         load_bioresource(taxslim),
@@ -52,8 +60,10 @@ qobol_prep(_) :-
 
 qobol_prep_ont('MP') :- prep_mp_all,!.
 qobol_prep_ont('HP') :- prep_hp_all,!.
+qobol_prep_ont('MA') :- load_bioresource('MA'),load_bioresource(uberonp), !.
 qobol_prep_ont('UBERON') :- load_bioresource(uberonp), !.
 qobol_prep_ont('GO') :- load_bioresource(go),load_bioresource(goxp(relations_process_xp)),!.
+qobol_prep_ont('CL') :- load_bioresource(cell),!.
 qobol_prep_ont('DOID') :- load_bioresource(disease_xp),load_bioresource(fma),load_bioresource(cell).
 qobol_prep_ont(Ont) :- load_bioresource(Ont),!.
 %qobol_prep_ont(_) :- prep_mp_all,!.
@@ -66,10 +76,11 @@ qobol_prep_ont('GO','UBERON') :-
         !.
 qobol_prep_ont('GO','CHEBI') :-
         load_bioresource(go),
-        load_bioresource(xchebi),
-        load_bioresource(goxp(biological_process_xp_chebi)),
+        load_bioresource(goche),
+        %load_bioresource(goxp(biological_process_xp_chebi)),
         load_bioresource(goxp(relations_process_xp)),
         !.
+
 
 prep :-
         load_bioresource(obol_av).
@@ -382,13 +393,53 @@ qobol([go,bp,in,occurs],
       true,
       in(C,['UBERON'])).
 
+
 qobol([go,bp,generic,occurs],
       [C,P],
       P and occurs_in some C,
       true,
       in(C,['UBERON'])) :- \+ bp_generic(P,_,_,_,_).
 
+% e.g. regulation of transcription by galactose
+qobol([go,bp,by,has_input,chemical],
+      [P,by,C],
+      P and has_input some C,   % TODO - check
+      true,
+      in(C,['CHEBI','PRO'])).
+
+% methionine catabolic process to 3-methylthiopropanoate
+qobol([go,bp,to,has_output,has_input,chemical],
+      [In,P,to,Out],
+      P and has_input some In and has_output some Out,
+      true,
+      in(In,['CHEBI','PRO'])).
+
+% glutamate catabolic process via 2-oxoglutarate
+qobol([go,bp,via,has_output,has_input,chemical],
+      [In,P,via,Via],
+      P and has_input some In and has_intermediate some Via, % TODO
+      true,
+      in(In,['CHEBI','PRO'])).
+
+qobol([go,bp,stimulus,response,chemical],
+      [response,to,C,stimulus],
+      'response to stimulus' and has_input some C,
+      true,
+      in(C,'PRO')).
+qobol([go,bp,stimulus,response,chemical],
+      [response,to,C],
+      'response to chemical stimulus' and has_input some C,
+      true,
+      in(C,'CHEBI')).
+
+qobol([go,bp,homeostasis,chemical],
+      [C,homeostasis],
+      'chemical homeostasis' and has_input some C,
+      true,
+      in(C,'CHEBI')).
+
 % notes: activation has overlap with differentiation and proliferation
+% notes: called bp_generic but also used for mf
 bp_generic(differentiation,'cell differentiation',results_in_acquisition_of_features_of,'CL',cell).
 bp_generic('fate specification','cell fate specification',results_in_specification_of,'CL',cell).
 bp_generic('fate determination','cell fate determination',results_in_specification_of,'CL',cell).
@@ -409,6 +460,11 @@ bp_generic('catabolic process','catabolic process',has_input,['CHEBI','PRO'],che
 bp_generic(biosynthesis,'biosynthetic process',has_output,['CHEBI','PRO'],chemical).
 bp_generic('biosynthetic process','biosynthetic process',has_output,['CHEBI','PRO'],chemical).
 
+bp_generic(transport,transport,results_in_transport_of,['CHEBI','PRO'],chemical).
+bp_generic(transporter,transporter,results_in_transport_of,['CHEBI','PRO'],chemical).
+bp_generic(binding,binding,has_input,['CHEBI','PRO'],chemical).
+bp_generic(secretion,secretion,results_in_transport_of,['CHEBI','PRO'],chemical).
+
 test_bp_generic(AX,BX,X) :-
         bp_generic(_,A,_,_,_),
         bp_generic(_,B,_,_,_),
@@ -425,6 +481,29 @@ test_bp_generic(AX,BX,X) :-
 % ----------------------------------------
 % ANATOMY
 % ----------------------------------------
+
+qobol([anatomy,generic,part],
+      [W,P],
+      P and (part_of some W),
+      true,
+      true).
+
+qobol([cell,generic,part],
+      [W,P],
+      P and (part_of some W),
+      true,
+      (   in(P,'CL'),
+          in(W,'UBERON'))
+      ).
+
+qobol([cell,generic,part],
+      [P,of,opt(the),W],
+      P and (part_of some W),
+      true,
+      (   in(P,'CL'),
+          in(W,'UBERON'))
+      ).
+
 
 % requires secreted_by - can get from uberon. e.g.
 % obol -r uberonp -ontology MA -subclass MA:0002450 -tag secretion -undefined_only true -export obo
@@ -518,8 +597,10 @@ opts_excluded_class(E,Opts) :-
 opts_included_class(E,Opts) :-
         \+ opts_excluded_class(E,Opts).
 
-opts_allowed_scope(exact,_) :- !.
 opts_allowed_scope(label,_) :- !.
+opts_allowed_scope(exact,Opts) :-
+        \+ member(scope(no_exact),Opts),
+        !.
 opts_allowed_scope(Scope,Opts) :-
         member(scope(Scope),Opts).
 
@@ -677,7 +758,9 @@ suggest_term_d(E,Label,X_Repl,NewTerm,Opts) :-
         qobol(CatTags,Toks,X,MatchGoal,ValidGoal),
         category_match(CatTags,Opts),
         entity_label_scope(E,Label_1,Sc),
-        label_lexical_variant(Label_1,Label),
+        (   nb_current(use_lexical_variants,true)
+        ->  label_lexical_variant(Label_1,Label)
+        ;   Label=Label_1),
         debug(qobol,'  Label: ~w',[Label]),
         opts_allowed_scope(Sc,Opts),
         label_template_match(Label,Toks,' '),
@@ -720,13 +803,18 @@ match_cdef(_,_,_,fail(owl2cdef)).
 label_partition(L,S) :- in(L,_,E),entity_partition(E,S).
 
 %% in(+Label,?Ont,?Entity)
+%
+% we need to hack Opts for now
 in(L,Ont) :- in(L,Ont,_).
 %in(L,Ont,E) :- label_lexical_variant(L,LV),entity_label_scope(E,LV,_),check_id_ont(E,Ont),\+entity_obsolete(E,_).
+%in(L,Ont,E) :- nb_getval(qobol_opts,Opts),repl_label(L,E,Opts),E\='?'(_),check_id_ont(E,Ont),\+entity_obsolete(E,_),!. % USE GLOBALS FOR NOW
 in(L,Ont,E) :- repl_label(L,E,[]),E\='?'(_),check_id_ont(E,Ont),\+entity_obsolete(E,_),!.
 
-check_id_ont(ID,Ont) :- id_idspace(ID,Ont),!.
-check_id_ont(ID,Onts) :- member(Ont,Onts),id_idspace(ID,Ont),!.
+check_id_ont(ID,Ont) :- id_idspace_wrap(ID,Ont),!.
+check_id_ont(ID,Onts) :- member(Ont,Onts),id_idspace_wrap(ID,Ont),!.
 
+id_idspace_wrap(ID,Ont) :- id_idspace(ID,Ont),!.
+id_idspace_wrap(ID,'CHEBI') :- id_idspace(ID,'GOCHE'),!. % temp hack!
 
 
 repl_label(L,X,Opts):-
@@ -748,7 +836,9 @@ repl_label_1(X,X,5,_Opts) :- ontol_db:class(X).
 repl_label_1(X,X,5,_Opts) :- ontol_db:property(X).
 repl_label_1(L,X,4,_Opts) :- entity_label(X,L).
 repl_label_1(L,X,Score,Opts) :- downcase_atom(L,Ld),entity_label_scope_dn(X,Ld,Sc),opts_allowed_scope(Sc,Opts),scope_score(Sc,Score).
-repl_label_1(L,X,Score,Opts) :- label_lexical_variant(L,LV),LV\=L,entity_label_scope_dn(X,LV,Sc),opts_allowed_scope(Sc,Opts),scope_score(Sc,ScoreFull),Score is ScoreFull-1.
+%repl_label_1(L,X,Score,Opts) :- nb_current(use_lexical_variants,true),downcase_atom(L,Ld),entity_label_scope_dn(X,Ld,Sc),opts_allowed_scope(Sc,Opts),scope_score(Sc,Score).
+%repl_label_1(L,X,Score,Opts) :- nb_current(use_lexical_variants,false),entity_label_scope(X,L,Sc),opts_allowed_scope(Sc,Opts),scope_score(Sc,Score). % TODO - Opts
+repl_label_1(L,X,Score,Opts) :- nb_current(use_lexical_variants,true),label_lexical_variant(L,LV),LV\=L,entity_label_scope_dn(X,LV,Sc),opts_allowed_scope(Sc,Opts),scope_score(Sc,ScoreFull),Score is ScoreFull-1.
 repl_label_1(L,'?'(L),1,Opts) :- \+member(force(true),Opts).
 
 expr_repl_labels(In,In,_Opts) :- var(In),!.

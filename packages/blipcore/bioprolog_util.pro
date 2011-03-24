@@ -70,6 +70,7 @@
            count_by/4,
 	   aggregate_by/4,
            forall_distinct/2,
+           forall_distinct/3,
            forall_strict/2,
            findmax/4,
            findmax/5,
@@ -857,6 +858,15 @@ user:goal_expansion(forall_distinct(Pre,Post),
                     ;   true
                     )).
 forall_distinct(_,_):- fail.
+
+user:goal_expansion(forall_distinct(Template,Pre,Post),
+                    (   setof(Template,Pre^Pre,PreL)
+                    ->  forall(member(Template,PreL),Post)
+                    ;   true
+                    )).
+forall_distinct(_,_,_):- fail.
+
+
 
 %% forall_strict(+Cond,+Action)
 %   all builtin predicate forall/2, throws an error if Action fails for any Cond

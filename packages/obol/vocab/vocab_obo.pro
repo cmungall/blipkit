@@ -7583,7 +7583,6 @@ adj('immature', 'anatomy').
 adj('brown', 'anatomy').
 adj('white', 'anatomy').
 adj('urogenital', 'anatomy').
-adj('visceral', 'anatomy').
 adj('vitelline', 'anatomy').
 noun('tendon', 'anatomy').
 noun('tissue', 'anatomy').
@@ -7750,7 +7749,6 @@ relational_adj_ra('scabellar', 'scabellum', 'anatomy').
 relational_adj_ra('rectal', 'rectum', 'anatomy').
 relational_adj_ra('prescutal', 'prescutum', 'anatomy').
 relational_adj_ra('pleural', 'pleurum', 'anatomy').
-relational_adj_ra('pharyngeal', 'pharynx', 'anatomy').
 relational_adj_ra('ommatidial', 'ommatidium', 'anatomy').
 relational_adj_ra('metathoracic', 'metathorax', 'anatomy').
 relational_adj_ra('labral', 'labrum', 'anatomy').
@@ -7774,6 +7772,7 @@ relational_adj_ra('phallic', 'phallus', 'anatomy').
 relational_adj_ra('uterine', 'uterus', 'anatomy').
 relational_adj_ra('choanal', 'choana', 'anatomy').
 relational_adj_ra('facial', 'face', 'anatomy').
+relational_adj_ra('buccal', 'cheek', 'anatomy').
 relational_adj_ra('abdominal', 'abdomen', 'anatomy').
 relational_adj_ra('chorionic', 'chorion', 'anatomy').
 relational_adj_ra('commissural', 'commissure', 'anatomy').
@@ -7801,6 +7800,7 @@ relational_adj_ra('glial', 'glia', 'anatomy').
 relational_adj_ra('neurectodermal', 'neurectoderm', 'anatomy').
 relational_adj_ra('hepatic', 'liver', 'anatomy').
 relational_adj_ra('laryngeal', 'larynx', 'anatomy').
+relational_adj_ra('pharyngeal', 'pharynx', 'anatomy').
 relational_adj_ra('syncytial', 'syncytium', 'anatomy').
 relational_adj_ra('retinal', 'retina', 'anatomy').
 relational_adj_ra('pancreatic', 'pancreas', 'anatomy').
@@ -7833,11 +7833,17 @@ relational_adj_ra('scrotal', 'scrotum', 'anatomy').
 relational_adj_ra('gingival', 'gingiva', 'anatomy').
 relational_adj_ra('retroperitoneal', 'retroperitoneum', 'anatomy').
 relational_adj_ra('diencephalic', 'diencephalon', 'anatomy').
+relational_adj_ra('telenencephalic', 'telencephalon', 'anatomy').
+relational_adj_ra('thalamic', 'thalamus', 'anatomy').
+relational_adj_ra('hypothalamic', 'hypothalamus', 'anatomy').
 relational_adj_ra('glomerular', 'glomerulus', 'anatomy').
+relational_adj_ra('palpebral', 'eyelid', 'anatomy').
+relational_adj_ra('thymic', 'thymus', 'anatomy').
 relational_adj_ra('optic', 'eye', 'anatomy').
 relational_adj_ra('ovarian', 'ovary', 'anatomy').
 relational_adj_ra('respiratory', 'respiration', 'anatomy').
 relational_adj_ra('salivary', 'saliva', 'anatomy').
+relational_adj_ra('visceral', 'pharynx', 'anatomy').
 adj('smooth', 'muscle_type').
 adj('striated', 'muscle_type').
 type_token('L1', 'plant_anatomy').

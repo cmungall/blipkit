@@ -10,7 +10,7 @@
 :- use_module(bio(blipkit)).
 :- use_module(bio(tabling)).
 :- use_module(bio(index_util)).
-:- use_module(bio(bioprolog_util),[solutions/3]).
+:- use_module(bio(bioprolog_util),[solutions/3,call_unique/1]).
 
 %% atom_markup(+Atom,?MarkupList,+Opts) is nondet
 % currently greedy: [(a b) c d e f] matches before [a (b c d e f)]
@@ -32,7 +32,7 @@ tokens_markup(Toks,[class(C,LT)|ML],Opts):-
                   \+ member(exclude(C2),Opts),
                   debug(obol, '  better match: ~w',[C2]))),
         debug(obol,'  ~w toks=~w',[C,Toks]),
-        !, % todo : alternatives
+        !, % todo : alternatives - relational_adj
         tokens_markup(Tail,ML,Opts).
 tokens_markup([Tok|Toks],[Tok|ML],Opts):-
         tokens_markup(Toks,ML,Opts).
@@ -49,6 +49,26 @@ class_lindex(C,Toks,Len,Label-Type,Tail):-
             W1Len>3
         ;   true),
         append(HeadToks,Tail,Toks).
+
+:- blip('onto-parse-file',
+        'markup ontology terms per-line in a file',
+        [
+        ],
+        File,
+        (
+         table_pred(class_lindex/5),
+         open(File,read,IO,[]),
+         repeat,
+         (   at_end_of_stream(IO)
+         ->  !
+         ;   
+             read_line_to_codes(IO,Codes),
+             atom_codes(Atom,Codes),
+             rewrite_atom(Atom,Atom2),
+             atom_markup(Atom2,L,[]),
+             format('~q.~n',[Atom-L]),
+             fail
+         ))).
 
 :- blip('onto-grep-phrase',
         'given a phrase, markup ontology terms',
@@ -177,10 +197,12 @@ class_toks(ID,Toks,Type):-
 
         
 %% matches(+ID1,+ID2,+Opts) is semidet
+% uses entity_nlabel_scope_stemmed/4
+% tries both stemmed and unstemmed.
 matches(ID1,ID2,Opts):-
-	entity_nlabel_scope_stemmed(ID1,Lab,Sc1,true),
+	entity_nlabel_scope_stemmed(ID1,Lab,Sc1,_),
 	okscope(Sc1,Opts),
-	entity_nlabel_scope_stemmed(ID2,Lab,Sc2,true),
+	entity_nlabel_scope_stemmed(ID2,Lab,Sc2,_),
 	okscope(Sc2,Opts).
 
 :- blip('onto-exact-align',
@@ -272,10 +294,11 @@ show_xref(ID2,ID1,Opts):-
 	    materialize_index(metadata_nlp:token_syn(1,0)),
             forall((  belongs(ID1,Ont1),
                       \+ exclude_class(ID1,Excludes),
-                      matches(ID1,ID2,DispOpts),
+		      debug(obol,'candidate class: ~w',[ID1]),
+                      call_unique(matches(ID1,ID2,DispOpts)),
                       belongs(ID2,Ont2),
                       \+ exclude_class(ID2,Excludes),
-		      debug(obol,'candidate: ~w',[ID1-ID2]),
+		      debug(obol,'  candidate match: ~w',[ID1-ID2]),
                       ID1\=ID2,
                       id_idspace(ID1,S1),
                       id_idspace(ID2,S2),

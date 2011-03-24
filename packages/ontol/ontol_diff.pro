@@ -6,6 +6,7 @@
            src_subclassRT/3,
            src_subclassT/3,
 	   uniq_subclass/3,
+	   uniq_subclass/5,
            uniq_subclass_with_defs/5,
            diff_label/5,
            diff_def/5
@@ -37,7 +38,41 @@ uniq_subclass_r(X,Y,S) :-
 	fact_clausesource(class(Y),S2),
 	\+ src_subclass(S2,X,Y).
 
+% NR
+uniq_subclass(X,Y,S) :-
+        uniq_subclass_r(X,Y,S),
+        % check that X cannot be replaced by a more general Z
+        \+ ((src_subclass(S,X,Z),
+             X\=Z,
+             src_subclass(S2,X,Z),
+             S\=S2,
+             uniq_subclass_r(Z,Y,S))),
+        % check that Y cannot be replaced by a more specific Z
+        \+ ((src_subclass(S,Z,Y),
+             Z\=Y,
+             src_subclass(S2,Z,Y),
+             S\=S2,
+             uniq_subclass_r(X,Z,S))).
 
+uniq_subclass(X,Y,S,IsR1,IsR2) :-
+        uniq_subclass_r(X,Y,S),
+        is_redundant(X,Y,S,S,IsR1),
+        freeze(S2,S2\=S),
+        is_redundant(X,Y,S,S2,IsR2).
+
+is_redundant(X,Y,S,S2,true) :-
+        is_redundant(X,Y,S,S2),!.
+is_redundant(_,_,_,_,false).
+
+is_redundant(X,Y,S,S2) :-
+        % check that X cannot be replaced by a more general Z
+        \+ ((src_subclass(S2,X,Z),
+             uniq_subclass_r(Z,Y,S))),
+        % check that Y cannot be replaced by a more specific Z
+        \+ ((src_subclass(S2,Z,Y),
+             uniq_subclass_r(X,Z,S))).
+
+        /*
 uniq_subclass(X,Y,S) :-
         uniq_subclass_r(X,Y,S),
         \+ ((src_subclass(S,X,Z),
@@ -45,6 +80,9 @@ uniq_subclass(X,Y,S) :-
              class_in(Z,S2),
              S\=S2,
              uniq_subclass_r(Z,Y,S))).
+
+*/        
+        
 
 /*
 uniq_subclass(X,Y,Info,S) :-

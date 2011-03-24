@@ -591,7 +591,7 @@ must_be_escaped('\\').
 must_be_escaped('{').
 must_be_escaped('}').
 must_be_escaped('!').
-must_be_escaped('#').
+%must_be_escaped('#').
 
         
 

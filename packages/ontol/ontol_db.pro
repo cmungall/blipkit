@@ -923,7 +923,7 @@ referenced_id(ID,RefID):-     genus(ID,RefID).
 % ----------------------------------------
 
 %% idspace_references(?S,?Ref)
-% true if Ref is in the bf_parentRT/2 closure of a class
+% true if Ref is in the parentRT/2 closure of a class
 % in idspace S.
 %
 % this predicate can be used for MIREOTing
@@ -932,7 +932,7 @@ idspace_references(S,Ref) :-
 		 id_idspace(X,S)),
 	      Xs),
 	member(X,Xs),
-	bf_parentRT(X,Ref),
+	parentRT(X,Ref),
 	\+ id_idspace(Ref,S).
 
 %% idspace_references_reflexive(?S,?Ref)
@@ -1125,6 +1125,7 @@ combine_relation_pairs_rev([ConnPrev|InConns],ConnNext,NewConns) :-
 combine_relation_pairs_rev(InConns,ConnNext,[ConnNext|InConns]). % top of stack
 
 % composition table A B -> C
+combine_relation_pair(equivalent_to,R,R).
 combine_relation_pair(instance_of,subclass,instance_of).
 combine_relation_pair(subclass,subclass,subclass).
 combine_relation_pair(subclass,R,R) :- all_some(R).
@@ -1198,7 +1199,10 @@ entity_inverse_relations_closure([],_,ResultCCPairs,ResultCCPairs).
 
 
 %%  subclassT(?Class,?SuperClass) is nondet.
-% transitive form of subclass/2
+% transitive form of subclass/2.
+% may not be cycle-safe.
+%
+% see also: parentT/3
 subclassT(X,Y):- subclass(X,Y).
 subclassT(X,Y):- subclass(X,Z),subclassT(Z,Y).
 
@@ -1409,26 +1413,6 @@ parent_overT(R,ID,PID,[R|Path]) :-
 
 
 
-/*
-parent_overT(T,ID,PID):- parent_overT(T,ID,PID,[_|_]). % discount pure subclass paths
-
-%% parent_overT(+R,?Via,?Class,?ParentClass) is nondet.
-% transitive closure over parent_over/4
-%parent_overT(T,ID,PID,Path):- parent_overT1(T,ID,PID,Path).
-%parent_overT(T,ID,PID,Path):- parent_overT2(T,ID,PID,Path).
-parent_overT(T,ID,PID,[PID]):- parent_over(T,ID,PID).
-parent_overT(T,ID,PID,[IID|Path]):- parent_over(T,ID,IID),parent_overT(T,IID,PID,Path).
-%parent_overT2(T,ID,PID,Path):- subclassRT(ID,IID),parent_overT1(T,IID,XID,Path),subclassRT(XID,PID).
-
-% sub-relations
-parent_overT(R,ID,PID,Path):-
-        nonvar(R),
-        property(R),
-        subclassT(AR,R),
-        %writeln(testing-AR-R-ID-PID),
-        parent_overT(AR,ID,PID,Path).
-*/
-
 %% parent_overT(+R,?Via,?Class,?ParentClass) is nondet.
 % reflexive transitive closure over parent_over/4
 parent_overRT(_,ID,ID).
@@ -1456,16 +1440,6 @@ parent_over_nr(R,ID,PID):- parent_over_nr(R,_,ID,PID).
 parent_over_nr(R,direct,ID,PID):-
         parent(ID,R,PID).
 
-/*
-% experiment with deprecating this:
-parent_over_nr(R,Via,ID,PID):-
-        parent_over(R,Via,ID,PID),
-        \+ (   parent_over(R,ID,IID),
-               (   parent_over(R,IID,PID)
-               ;   subclassT(IID,PID))),
-        \+ (subclassT(ID,IID),parent_over(R,IID,PID)).
-*/
-
 % ----------------------------------------
 % DISJOINT REASONING
 % ----------------------------------------
@@ -1483,6 +1457,7 @@ class_disjoint_union_list(Class,Us):-
 % and C is a subclass/2 of both
 disjoint_from_violation(P1,P2,C):-
         disjoint_from(P1,P2),
+        debug(disjoint,'Checking: ~w ^ ~w = {}',[P1,P2]),
         subclassT(C,P1),
         subclassT(C,P2).
 
@@ -1496,7 +1471,6 @@ disjoint_over_violation(DR,X,Y,A):-
         debug(ontol,'testing disjoint_over ~w :: ~w ~w ~w',[R,X,DR,Y]),
         parentRT(A,R,X),
         parentRT(A,R,Y).
-
 
 
 % -----------------------------------
@@ -1611,11 +1585,16 @@ parent_cycle(ID,X,P):-
 % -----------------------------------
 
 %% subclass_lca(+IDs:list,?LCA) is semidet
-subclass_lca(IDs,LCA):-
-        setof(A,
-              minimal_spanning_node(ontol_db:subclassRT,IDs,A),
-              [LCA]).
-
+subclass_lca(IDs,A):-
+        IDs=[ID|IDs2],
+        setof(A,subclassRT(ID,A),As1),
+        findall(A,(member(A,As1),
+                   \+ ((member(ID2,IDs2),
+                        \+ subclassRT(ID2,A)))),
+                As),
+        select(A,As,As2),
+        \+ ((member(A2,As2),
+             subclassT(A2,A))).
 
 %% class_pair_subclass_lca(+X,+Y,?LCA)
 % true if LCA is a common ancestor of X and Y by subclassRT/2,

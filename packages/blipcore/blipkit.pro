@@ -532,6 +532,7 @@ io_diff(Mod,Facts,Opts):-
         ;   throw(error(files('must be sourced from two files; you had: ',Files)))).
 
 
+
 :- blip('source-viz',
         'visualize source dependencies',
         [term([to,t],ToFormat),

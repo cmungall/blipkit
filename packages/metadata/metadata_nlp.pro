@@ -20,10 +20,17 @@
 	   entity_pair_nlp_subset_of/3,
 	   entity_pair_nlp_subset_of_cross_idspace/3,
 	   entity_pair_nlp_match/7,
+           entity_pair_simple_label_match/3,
            index_entity_pair_label_match/0,
            nlp_index_all/0,
 	   entity_pair_label_match/2,
 	   entity_pair_label_match/3,
+	   entity_pair_label_match/5,
+	   entity_pair_label_match/6,
+           entity_pair_label_best_match/3,
+           entity_pair_label_reciprocal_best_match/3,
+           entity_pair_label_best_intermatch/3,
+           entity_pair_label_reciprocal_best_intermatch/3,
 	   atom_search/5,
 	   corpus_search/6,
            entity_label_token_list_stemmed/4,
@@ -35,6 +42,7 @@
            term_split_over/7,
            term_split_over_strict/4,
            term_ends_with/6,
+           add_synonyms_minus_words/1,
            label_template_match/2,
            label_template_match/3,
            entity_label_template_match/3,
@@ -96,6 +104,7 @@ custom_porter_stem(T,S) :-
         porter_stem(T,S).
 
 
+
 term_nth_token(A,N,T) :-
 	tokenize_atom_wrap(A,TL),
 	nth(N,TL,T).
@@ -134,9 +143,10 @@ entity_label_token_stemmed(E,A,T,false) :-
 %% entity_nlabel_scope_stemmed(?Entity,?Token,?Type,?Stemmed:boolean)
 % performs normalization on labels
 %  * dehyphenate/2
-%  * uses synset/1
+%  * uses synset/1 (which also uses obol relational adjectives)
 %  * canonical token ordering
 %  * removes all whitespaces
+% note that relational adjectives will not work in stemmed mode
 entity_nlabel_scope_stemmed(E,A,Scope,St) :-
 	entity_label_scope_ext(E,L,Scope),
 	\+ exclude_entity(E),
@@ -193,10 +203,25 @@ allowed_rel(part_of).
 % translates a term such as 'foo bar two hippocampi' to a label like
 % '2barfoohippocamp'
 % this is used for exact matching, but is not useful for finding labels
-% nested inside larger labels or blocks of text
+% nested inside larger labels or blocks of text.
+%
+% canonical ordering  fails in certain cases: e.g. 'chordo neural hinge' vs 'chordo neural hinge',
+% so we also provide the same ordering too
 term_nlabel_stemmed(Term,NLabel,St) :-
         term_tokenset_stemmed(Term,Toks,St),
+        debug(nlp,'  term:~w ==> ~w',[Term,Toks]),
 	concat_atom(Toks,'',NLabel).
+% original ordering
+term_nlabel_stemmed(Term,NLabel,St) :-
+	dehyphenate(Term,TermNoHyphen), % nd
+        (   St=true;St=false),
+        findall(Tok,term_token_stemmed(TermNoHyphen,Tok,St),Toks_1),
+        % both with replacements ( if different) and without
+	(   maplist(token_syn_refl,Toks_1,Toks_2),
+            Toks_1\=Toks_2,
+            concat_atom(Toks_2,'',NLabel)
+        ;   concat_atom(Toks_1,'',NLabel)).
+
 
 %% term_tokenset_stemmed(+Term:atom,?Toks:list,+Stemmed:boolean)
 % 
@@ -277,8 +302,7 @@ token_syn(T,S) :- relational_adj(S,T,_,_).
 */
 
 % DET
-token_syn(T,S) :- relational_adj(T,S,_,_),!.
-token_syn(T,S) :- relational_adj(S,T,_,_),!.
+token_syn(T,S) :- relational_adj(T,S,_,_),!.   % ensure noun-form is used preferentially
 token_syn(T,S) :- synset([S|L]),member(T,L).
 
 % reflexive
@@ -287,7 +311,7 @@ token_syn_refl(T,T) :- nonvar(T).
 
 % non-det. also enumerate all possible synset members
 nd_token_syn(T,S) :- relational_adj(T,S,_,_).
-nd_token_syn(T,S) :- relational_adj(S,T,_,_).
+%nd_token_syn(T,S) :- relational_adj(S,T,_,_).
 nd_token_syn(T,T2) :- synset(Syns),member(T,Syns),member(T2,Syns),T\=T2.
 
 % reflexive
@@ -341,16 +365,94 @@ nlp_index_all :-
 	materialize_index(entity_label_token_stemmed(1,-,1,-)),
 	materialize_index(entity_label_token_list_stemmed(1,-,-,-)).
 
+
+entity_pair_simple_label_match(A,B,N) :-
+        entity_label_or_synonym(A,N),
+        entity_label_or_synonym(B,N).
+
         
 index_entity_pair_label_match :-
         materialize_index(entity_nlabel_scope_stemmed(1,1,-,-)).
 
+%% entity_pair_label_match(?A,?B)
+%% entity_pair_label_match(?A,?B,?Stemmed)
+%% entity_pair_label_match(?A,?B,?Stemmed,?ScopeA,?ScopeB)
+%% entity_pair_label_match(?A,?B,?Stemmed,?ScopeA,?ScopeB,?NormalizedLabel)
+%
+% true if A and B share labels/synonyms, and neither are obsolete
 entity_pair_label_match(A,B) :-
 	entity_pair_label_match(A,B,true).
 entity_pair_label_match(A,B,Stemmed) :-
 	entity_nlabel_scope_stemmed(A,N,_ScA,Stemmed),
 	entity_nlabel_scope_stemmed(B,N,_ScB,Stemmed),
-        A\=B.
+        A\=B,
+        \+ entity_obsolete(A,_),
+        \+ entity_obsolete(B,_).
+entity_pair_label_match(A,B,Stemmed,ScA,ScB) :-
+        entity_pair_label_match(A,B,Stemmed,ScA,ScB,_).
+entity_pair_label_match(A,B,Stemmed,ScA,ScB,N) :-
+	entity_nlabel_scope_stemmed(A,N,ScA,Stemmed),
+	entity_nlabel_scope_stemmed(B,N,ScB,Stemmed),
+        A\=B,
+        \+ entity_obsolete(A,_),
+        \+ entity_obsolete(B,_).
+
+entity_pair_label_intermatch(A,B,Stemmed,ScA,ScB) :-
+        entity_pair_label_match(A,B,Stemmed,ScA,ScB),
+        id_idspace(A,SA),
+        id_idspace(B,SB),
+        SA\=SB.
+
+%% entity_pair_label_best_match(A,B,Stemmed)
+%
+% true if A and B share labels, and there is no B'
+% such that B' is a better match for A, where better
+% match is defined in terms of synonym scope
+% (exact syns or labels beat other syns).
+%
+% note that this is asymmetric; a1 may have best match
+% with b1, but b1 may have a better match a2
+entity_pair_label_best_match(A,B,Stemmed) :-
+        entity_pair_label_match(A,B,Stemmed,ScA,ScB),
+        \+ ((entity_pair_label_match(A,B2,Stemmed,ScA2,ScB2),
+             B2\=B,
+             scope_pair_better_than(ScA2,ScB2,ScA,ScB))).
+
+%% entity_pair_label_reciprocal_best_match(A,B,Stemmed)
+%
+% as entity_pair_label_best_match/3, but only holds
+% if base relation holds in both directions
+entity_pair_label_reciprocal_best_match(A,B,Stemmed) :-
+        entity_pair_label_best_match(A,B,Stemmed),
+        entity_pair_label_best_match(B,A,Stemmed).
+
+%% entity_pair_label_reciprocal_best_match(A,B,Stemmed)
+%
+% as entity_pair_label_best_match/3, but A and B must be in different
+% ID spaces
+entity_pair_label_best_intermatch(A,B,Stemmed) :-
+        entity_pair_label_intermatch(A,B,Stemmed,ScA,ScB),
+        \+ ((entity_pair_label_intermatch(A,B2,Stemmed,ScA2,ScB2),
+             B2\=B,
+             scope_pair_better_than(ScA2,ScB2,ScA,ScB))).
+
+%% entity_pair_label_reciprocal_best_intermatch(A,B,Stemmed)
+%
+% as entity_pair_label_best_intermatch/3, (i.e. A and B
+% must be in different ID spaces) but only holds
+% if base relation holds in both directions
+entity_pair_label_reciprocal_best_intermatch(A,B,Stemmed) :-
+        entity_pair_label_best_intermatch(A,B,Stemmed),
+        entity_pair_label_best_intermatch(B,A,Stemmed).
+
+        
+scope_pair_better_than(X1,X2,Y1,Y2) :-
+        scope_better_than(X1,Y1),
+        scope_better_than(X2,Y2).
+
+scope_better_than(X,Y) :-
+        (X=label;X=exact),
+        \+((Y=label;Y=exact)).
 
 
 simindex_labels(Stemmed) :-
@@ -570,6 +672,39 @@ term_split_over_strict(W,E,A,B) :-
 is_exact(exact).
 is_exact(label).
 
+remove_word(N,W,N2) :-
+        atom_concat(Toks,' ',N),
+        select(W,Toks,Toks2),
+        atom_concat(Toks2,' ',N2).
+
+remove_words(N,[],N).
+remove_words(N,[W|WL],N2) :-
+        (   remove_word(N,W,N3)
+        ->  true
+        ;   N3=N),
+        remove_words(N3,WL,N2).
+
+%% add_synonyms_minus_words(+Words:list)
+%
+% used to generate a version of an ontology for
+% a particular context. For example, bone literature may
+% use labels such as 'nasals' rather than nasal bone.
+% we can add synonyms to represent the explicit context here.
+add_synonyms_minus_words(WL) :-
+        findall(s(E,L2,S),
+                (   entity_label_scope(E,L,S1),
+                    (   S1=label
+                    ->  S=exact
+                    ;   S=S1),
+                    remove_words(L,WL,L2)
+                ),Syns),
+        forall(member(s(E,L,S),Syns),
+               assert(metadata_db:entity_label_scope(E,L,S))).
+
+               
+
+        
+        
 
 term_ends_with(E,S,SN,Tail,S1,S2) :-
         atom_concat(' ',Tail,Tail_ws),

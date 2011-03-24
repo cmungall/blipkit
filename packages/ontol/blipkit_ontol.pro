@@ -1043,15 +1043,23 @@ show_ontol_subset_by_tree(owl,_,_Opts):-
 
 :- blip('mireot-by-annotations',
         'extracts mireoted subset based on annotations',
-        [atoms([gaf],GAFs)],
+        [atoms([gaf],GAFs),
+         bool(remove_dangling,IsRD)],
         _,
         (   
             ensure_loaded(bio(curation_db)),
+            ensure_loaded(bio(ontol_management)),
             maplist(load_biofile(go_assoc),GAFs),
-            solutions(X,curation_statement(_,_,_,X),Xs),
+            solutions(X,(   curation_statement(_,_,_,X)
+                        ;   curation_subject_property_value(_,_,_,X)),Xs),
             solutions(ID,(member(X,Xs),
                           bf_parentRT(X,ID)),
                       IDs),
+            (   IsRD=1
+            ->  solutions(C,(class(C),\+member(C,IDs)),Cs),
+                maplist(delete_class,Cs),
+                remove_dangling_facts
+            ;   true),
             forall(member(ID,IDs),
                    write_class(obo,ID,[])),
             solutions(P,property(P),Ps),

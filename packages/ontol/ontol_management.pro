@@ -188,10 +188,12 @@ delete_entity(X) :-
         retractall(entity_obsolete(X,_)).
 
 delete_class(X) :-
-        forall(Y,genus(Y,X),
-               delete_xpdef(Y)),
-        forall(Y,differentium(Y,_,X),
-               delete_xpdef(Y)),
+        forall_distinct(Y,
+                        genus(Y,X),
+                        delete_xpdef(Y)),
+        forall_distinct(Y,
+                        differentium(Y,_,X),
+                        delete_xpdef(Y)),
         retractall(entity_resource(X,_)),
         retractall(class(X)),
         retractall(subclass(_,X)),

@@ -963,7 +963,7 @@ blipkit:example('obol qobol -ontology MP -tag morphology -tag mp -undefined_only
                 'parses MP using morphology/mp templates, only writing new xps, in obo').
 :- blip('qobol',
         'quick obol',
-        [options([ontology,xont,tag,subclass,export,undefined_only,compare,scope,id,noindex],Opts)],
+        [options([ontology,xont,tag,subclass,export,undefined_only,compare,scope,id,lexical_variant,noindex],Opts)],
         _Onts,
         (   qobol_prep(Opts),
             qobol_index(Opts),
