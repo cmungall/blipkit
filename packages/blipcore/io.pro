@@ -1077,6 +1077,8 @@ format_writer(thea_owlrdf,ontol_writer_thea_owlrdf).
 format_writer(thea_dlp,ontol_writer_thea_syntax).
 format_writer(ontol_dot,ontol_writer_dot).
 format_writer(go_assoc,curation_writer_go_assoc).
+format_writer(gene_exhibit,curation_exhibit_bridge).
+format_writer(annotation_exhibit,curation_exhibit_bridge).
 format_writer(instance_table,ontol_writer_instance_table).
 format_writer(chaos,seqfeature_writer_chaos).
 format_writer(seqfeature_dot,seqfeature_writer_dot).

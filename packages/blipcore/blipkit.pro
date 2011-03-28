@@ -783,6 +783,8 @@ blipkit:example('blip findall bioresource/2 bioresource/3 bioresource/4',
          atom(select,SelectAtom,true),
          bool(label,IsLabel),
          bool(use_tabs,IsUseTabs),
+         bool(noid,IsNoId),
+         bool(grid,IsGrid),
          bool(no_pred,IsNoPred),
          bool(write_prolog,IsProlog),
          atom(where,WhereAtom,true)],
@@ -792,6 +794,8 @@ blipkit:example('blip findall bioresource/2 bioresource/3 bioresource/4',
                    consult(File)),
             Opts=[isProlog(IsProlog),
 		  isNoPred(IsNoPred),
+		  isGrid(IsGrid),
+		  isNoId(IsNoId),
 		  isUseTabs(IsUseTabs),
                   isLabel(IsLabel)],
             maplist(show_findall(Opts,WhereAtom,SelectAtom),PredAtoms))).
@@ -888,6 +892,17 @@ show_term(Opts,T):-             % Pl+Tabular
         member(isUseTabs(1),Opts),
         !,
 	format('~q',[T]).
+show_term(Opts,T):-             % Label only
+        member(isLabel(1),Opts),
+        member(isNoId(1),Opts),
+        \+ is_list(T),
+        \+ member(isHeader(1),Opts),
+        !,
+        (   atom(T),
+	    entity_label(T,Label)
+        ->  true
+	;   Label=T),
+	format('~w',[Label]).
 show_term(Opts,T):-             % Label+Tabular
         member(isLabel(1),Opts),
         member(isUseTabs(1),Opts),
@@ -899,6 +914,16 @@ show_term(Opts,T):-             % Label+Tabular
         ->  true
 	;   Label=''),
 	format('~w\t~w',[T,Label]).
+show_term(Opts,L):-             % grid elements are tab delimited
+        select(isGrid(1),Opts,Opts2),
+        is_list(L),
+        !,
+        (   L=[H|T],
+            show_term(Opts2,H),
+            forall(member(X,T),
+                   (   format('\t'),
+                       show_term(Opts2,X)))
+        ;   true).
 show_term(Opts,T):-             % Label+atom, not tabular or pl
         member(isLabel(1),Opts),
         atom(T),
@@ -908,6 +933,15 @@ show_term(Opts,T):-             % Label+atom, not tabular or pl
         write(T-Label).
 show_term(Opts,L):-             % show a list in pl-like syntax
         member(isLabel(1),Opts),
+        is_list(L),
+        !,
+        (   L=[H|T]
+        ->  show_term(Opts,H),
+            forall(member(X,T),
+                   (   write(','),show_term(Opts,X)))
+        ;   true).
+show_term(Opts,L):-             % show a list in pl-like syntax
+        member(isPrologListSyntax(1),Opts),
         is_list(L),
         L=[_|_],
         !,

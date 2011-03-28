@@ -40,6 +40,7 @@ metadata_db:entity_label(X,V) :- owl2_model:labelAnnotation_value(X,V).
 :- use_module(library(http/html_write)).
 :- use_module(library(http/html_head)).
 :- use_module(library(http/http_parameters)).
+:- use_module(library(http/http_json)).
 
 % register clio/thea handlers
 :- multifile cliopatrial:entity_alternate_view/3.
@@ -82,6 +83,7 @@ http:location(cliopatria,  pkb(clio),	       [priority(5)]).
 :- http_handler(pkb(.), root, []).
 :- http_handler(pkb(tree), organism_cluster_treeview, []).
 :- http_handler(pkb(organisms), all_organisms, []).
+:- http_handler(pkb(api/organisms), all_organisms_json, []).
 :- http_handler(pkb(organisms_with_matches), all_organisms_with_matches, []).
 :- http_handler(pkb(genes), all_genes, []).
 :- http_handler(pkb('gene/'), view_gene, [prefix]).
@@ -488,6 +490,71 @@ organism_hrefs(Orgs) -->
         multi(div(\organism_href(X)),X,Orgs).
 
 
+%% JSON %%
+all_organisms_json(_Request) :-
+        %http_read_json(Request, JSONIn),
+        %json_to_prolog(JSONIn, PrologIn),
+        all_organisms_exhibit_json(JSONOut),
+        reply_json(JSONOut).
+
+all_organisms_exhibit_json(JSON) :-
+        findall(Org,
+                organism_label(Org,_),  % ignore duff data lacking labels
+                Orgs),
+        organisms_exhibit_json(Orgs,JSON).
+:- initialization(table_pred(all_organisms_exhibit_json/1)).
+
+organisms_exhibit_json(Orgs,json([items=Items])) :-
+        findall(Item,(member(Org,Orgs),organism_exhibit_json(Org,Item)),Items).
+
+organism_exhibit_json(Org,json(TVs)) :-
+        debug(phenotype,'calculating json for ~w',[Org]),
+        setof(T=V,organism_property_exhibit_json(Org,T,V),TVs).
+
+organism_property_exhibit_json(Org,id,Org).
+organism_property_exhibit_json(Org,label,Label) :-
+        organism_label(Org,Label).
+organism_property_exhibit_json(Org,description,Label) :-
+        organism_description(Org,Label).
+organism_property_exhibit_json(Org,species,Label) :-
+        organism_species(Org,Species),
+        species_label(Species,Label).
+organism_property_exhibit_json(Org,type,Label) :-
+        organism_type(Org,Type),
+        display_label(Type,Label).
+organism_property_exhibit_json(Org,disease,Ds) :-
+        setof(DN,D^(organism_disease(Org,D),display_label(D,DN)),Ds).
+organism_property_exhibit_json(Org,gene,Gs) :-
+        setof(G,organism_variant_gene(Org,G),Gs).
+organism_property_exhibit_json(Org,Ont,Cs) :-
+        setof(CN,C^(organism_to_ontology_class(Org,Ont,C),labelAnnotation_value(C,CN)),Cs).
+
+organism_to_ontology_class(Org,phenotype,P) :-
+        organism_phenotype(Org,P),
+        atom(P).
+organism_to_ontology_class(Org,Cat,Class) :-
+        organism_phenotype(Org,P),
+        phenotype_property_value(P,_,Class),
+        atom(Class),
+        class_phenocategory(Class,Cat).
+
+class_phenocategory(Class,phenotype) :-      atom_concat('http://ccdb.ucsd.edu/NDPO/1.0/NDPO.owl#',_,Class),!.
+class_phenocategory(Class,anatomy) :-      atom_concat('http://ontology.neuinfo.org/NIF/BiomaterialEntities/NIF-GrossAnatomy.owl#',_,Class),!.
+class_phenocategory(Class,cell) :-      atom_concat('http://ontology.neuinfo.org/NIF/BiomaterialEntities/NIF-Cell.owl#',_,Class),!.
+class_phenocategory(Class,quality) :-      atom_concat('http://purl.org/obo/owl/PATO#',_,Class),!.
+class_phenocategory(Class,quality) :-      atom_concat('http://ontology.neuinfo.org/NIF/BiomaterialEntities/NIF-Quality.owl#',_,Class),!.
+class_phenocategory(Class,subcellular) :-      atom_concat('http://ontology.neuinfo.org/NIF/BiomaterialEntities/NIF-Subcellular.owl#',_,Class),!.
+class_phenocategory(Class,molecule) :-      atom_concat('http://ontology.neuinfo.org/NIF/BiomaterialEntities/NIF-Chemical.owl#',_,Class),!.
+class_phenocategory(_,ontology).
+                   
+
+
+%% END OF JSON %%
+
+
+
+        
+        
 
 % TOP-LEVEL: show detail on a specific organism
 % /view_organism/Org
