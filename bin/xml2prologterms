@@ -1,6 +1,6 @@
-#!/usr/bin/swipl -L0 -G0 -T0 -A0 -q -g main -t halt -s
+#!/usr/bin/swipl -L0 -G0 -T0 -q -g main -t halt -s
 
-:- use_module(bio(bioprolog_util)).
+:- use_module(library(blip/blipcore/bioprolog_util)).
 :- use_module(library(sgml)).
 :- use_module(library(sgml_write)).
 

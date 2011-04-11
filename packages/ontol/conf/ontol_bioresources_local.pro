@@ -53,6 +53,7 @@ user:file_search_path(song, local(song)).
 user:file_search_path(poc, local('Poc')).
 user:file_search_path(obo_download, local('obo/website/utils/obo-all')).
 user:file_search_path(obo_metadata_local, local('obo/website/cgi-bin')).
+user:file_search_path(pheno, local('phenotype-ontologies/src/ontology')).
 user:file_search_path(obo_remote, 'http://purl.org/obo').
 user:file_search_path(pir, local(pir)).
 user:file_search_path(obol2, home(obol2)).
@@ -150,7 +151,7 @@ user:bioresource(taxunion,'/users/cjm/cvs/go/quality_control/annotation_checks/t
 
 
 % XP
-user:bioresource(mammalian_phenotype_xp,obo_local('phenotype/mammalian_phenotype_xp.obo'),obo).
+user:bioresource(mammalian_phenotype_xp,pheno('mp/mp-equivalence-axioms.obo'),obo).
 user:bioresource(mammalian_phenotype_xp_nif,obo_local('phenotype/mammalian_phenotype_xp/mammalian_phenotype_xp_nif.obo'),obo).
 user:bioresource(mammalian_phenotype_xp_uberon,obo_local('phenotype/mammalian_phenotype_xp/mammalian_phenotype_xp_uberon.obo'),obo).
 user:bioresource(mp_xp_all,obo_local('phenotype/mammalian_phenotype_xp/mammalian_phenotype_xp-merged.obo'),obo).

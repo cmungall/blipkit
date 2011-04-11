@@ -17,6 +17,7 @@
 :- use_module(bio(dbmeta)).
 :- use_module(bio(blipkit_shell_dcg)).
 :- use_module(bio(tabling)).
+%%%:- use_module(library(http/http_error)).
 
 :- module_transparent blip/5.
 :- multifile
@@ -66,7 +67,19 @@ user:opt_insecure(set_prolog_flag).
 
 blipkit:example('blip -i go_v1.obo -i go_v2.obo -db ontol_db io-diff',
                 'compare two Gene Ontology files').
-                
+
+user:prolog_exception_hook(_,
+                           _, _, _) :-
+        backtrace(99),
+        fail.
+
+
+main_x:-
+        debug,
+        catch(main_2,
+              Err,
+              (   format(user_error,'Err: ~w~n',[Err]),
+                  backtrace(29))).
 main:-
         Opts =
         [bool(trace,Trace),
@@ -800,6 +813,7 @@ blipkit:example('blip findall bioresource/2 bioresource/3 bioresource/4',
                   isLabel(IsLabel)],
             maplist(show_findall(Opts,WhereAtom,SelectAtom),PredAtoms))).
 
+
 show_findall(Opts,WhereAtom,SelectAtom,PredAtom):-
         ensure_loaded(bio(dbmeta)),
         sformat(Atom,'all((~w),(~w),(~w))',[WhereAtom,SelectAtom,PredAtom]),
@@ -995,6 +1009,17 @@ iterate_over_file(F,P):-
             fail),
         close(IO).
 
+:- blip('http-post',
+        'wrapper for http_post/3',
+        [atom(url,URL),
+         atom(ctype,Type,'text/plain')],
+        Items,
+        (   Opts=[],
+            ensure_loaded(library(http/http_client)),
+            forall(member(Item,Items),
+                   (   atom_codes(Item,Codes),
+                       http_post(URL,codes(Type,Codes),Reply,Opts),
+                       writeln(reply=Reply))))).
 
 
 % TODO: move to separate module - otherwise conflicts with pldoc_web

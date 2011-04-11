@@ -75,6 +75,15 @@ mutual_information(K,N,M,Pop,I) :-
         I is log((K/Pop)/((M/Pop)*(N/Pop)))/log(2).
 
 
+:- blip('solr-add',
+        'add a doc to a solr service',
+        [atom([url],URL,'http://localhost:8983/solr'),
+         terms(doc,Docs)],
+        _,
+        (
+         ensure_loaded(bio(solr_util)),
+         solr_add_docs(URL,Docs,_,[]))).
+
 /*
 gtest(K,N,M,Pop,P) :-
         log(K/ ((N*

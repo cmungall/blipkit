@@ -60,6 +60,7 @@ transitive_clause1(T,(THead:- TGoal)):-
 
 transitive(Heads):-
 	throw(error(context_error(nodirective, transitive(Heads)), _)).
+
 /** <module> macros for transitive predicates
 
   ---+ Synopsis
@@ -68,7 +69,7 @@ transitive(Heads):-
   :- use_module(bio(macros_transitive)).
   :- transitive isa/2.  % automatically creates isaT/2, isaRT/2
   
-  isa(a,btcon).
+  isa(a,b).
   isa(b,c).
   isa(c,d).
   isa(c,e).

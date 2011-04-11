@@ -512,6 +512,10 @@ organism_exhibit_json(Org,json(TVs)) :-
         setof(T=V,organism_property_exhibit_json(Org,T,V),TVs).
 
 organism_property_exhibit_json(Org,id,Org).
+organism_property_exhibit_json(Org,url,URL) :-
+        http_location_by_id(view_organism,Base),
+        uri_encoded(path,Org,Org_2),
+        atom_concat(Base,Org_2,URL).
 organism_property_exhibit_json(Org,label,Label) :-
         organism_label(Org,Label).
 organism_property_exhibit_json(Org,description,Label) :-
