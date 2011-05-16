@@ -178,12 +178,13 @@ template(involved_in(P,W),
 
 template(takes_place_in(P,C),
          [
+          access= [admin],
           description= 'processes occurring in parts of the cell',
           ontology= 'GO',
           obo_namespace= biological_process,
           requires= ['http://www.geneontology.org/scratch/xps/biological_process_xp_cellular_component.obo'],
           arguments= [process=biological_process,location=cellular_component],
-          cdef= cdef(P,['OBO_REL:occurs_in'=C]),
+          cdef= cdef(P,[occurs_in=C]),
           name= [name(P),' in ',name(C)],
           synonyms= [[synonym(P),' in ',synonym(C)]],
           def= ['Any ',name(P),' that takes place in ',name(C),'.']
