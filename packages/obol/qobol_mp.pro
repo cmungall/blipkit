@@ -58,8 +58,11 @@ qobol_prep(Opts) :-
 qobol_prep(_) :-
         qobol_prep_ont(_).
 
+qobol_prep_ont(mp) :- prep_mp_all,!.
 qobol_prep_ont('MP') :- prep_mp_all,!.
+qobol_prep_ont(hp) :- prep_hp_all,!.
 qobol_prep_ont('HP') :- prep_hp_all,!.
+qobol_prep_ont('ZFA') :- load_bioresource('ZFA'), !.
 qobol_prep_ont('MA') :- load_bioresource('MA'),load_bioresource(uberonp), !.
 qobol_prep_ont('UBERON') :- load_bioresource(uberonp), !.
 qobol_prep_ont('GO') :- load_bioresource(go),load_bioresource(goxp(relations_process_xp)),!.
@@ -387,12 +390,39 @@ qobol([go,bp,generic,Type],
       true,
       in(C,Ont)) :- bp_generic(P,PClass,R,Ont,Type).
 
-qobol([go,bp,in,occurs],
-      [P,in,C],
+qobol([go,bp,cc,reladj,occurs],
+      [Adj,P],
       P and occurs_in some C,
       true,
-      in(C,['UBERON'])).
+      (   in(P,'GO',PID),
+          in(C,'GO',CID),
+          belongs(PID,biological_process),
+          belongs(CID,cellular_component))) :- reladj(Adj,C).
 
+reladj(mitochondrial,mitochondrion).
+reladj(cytoplasmic,cytoplasm).
+reladj(cytosolic,cytosol).
+reladj(intracellular,intracellular).
+reladj(vacuolar,vacuole).
+
+qobol([go,bp,cc,in,occurs],
+      [P,C],
+      P and occurs_in some C,
+      true,
+      (   in(P,'GO',PID),
+          in(C,'GO',CID),
+          belongs(PID,biological_process),
+          belongs(CID,cellular_component))).
+
+
+qobol([go,bp,cc,generic,occurs],
+      [P,C],
+      P and occurs_in some C,
+      true,
+      (   in(P,'GO',PID),
+          in(C,'GO',CID),
+          belongs(PID,biological_process),
+          belongs(CID,cellular_component))).
 
 qobol([go,bp,generic,occurs],
       [C,P],

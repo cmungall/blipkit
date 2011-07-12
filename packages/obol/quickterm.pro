@@ -172,7 +172,7 @@ template(involved_in(P,W),
           arguments= [part=biological_process,whole=biological_process],
           cdef= cdef(P,[part_of=W]),
           name= [name(P),' involved in ',name(W)],
-          synonyms= [[synonym(P),' of ',synonym(W)]],
+          synonyms= [[synonym(P),' involved in ',synonym(W)]],
           def= ['Any ',name(P),' that is involved in ',name(W),'.']
          ]).
 
@@ -215,6 +215,62 @@ template(protein_binding(X),
           synonyms= [[synonym(X),' binding']],
           def= ['Interacting selectively and non-covalently with ',name(X),'.']
          ]).
+
+template(metabolism_catabolism_biosynthesis(X),
+         [
+          access= [admin],
+          description= 'Select all three subtemplates to generate
+           terms for the "metabolic triad". Names, synonyms and definitions are all
+           generated automatically',
+          ontology= 'GO',
+          externals= ['GOCHE'],
+          requires= ['http://www.geneontology.org/ontology/editors/go_xp_chebi.obo'],
+          obo_namespace= biological_process,
+          arguments= [target='CHEBI'],
+          wraps= [metabolism(X),
+                  catabolism(X),
+                  biosynthesis(X)]
+         ]).
+template(metabolism(X),
+         [
+          description= 'metabolic process',
+          ontology= 'GO',
+          obo_namespace= biological_process,
+          externals= ['GOCHE'],
+          requires= ['http://www.geneontology.org/ontology/editors/go_xp_chebi.obo'],
+          arguments= [target='CHEBI'],
+          cdef= cdef('GO:0008152',['OBO_REL:has_participant'=X]),
+          name= [name(X),' metabolic process'],
+          synonyms= [[synonym(X),' metabolism'], [synonym(X),' metabolic process']],
+          def= ['The chemical reactions and pathways involving ',refname(X),'.']
+         ]).
+template(catabolism(X),
+         [
+          description= 'catabolic process',
+          ontology= 'GO',
+          obo_namespace= biological_process,
+          externals= ['GOCHE'],
+          requires= ['http://www.geneontology.org/ontology/editors/go_xp_chebi.obo'],
+          arguments= [target='CHEBI'],
+          cdef= cdef('GO:0009056',['OBO_REL:has_input'=X]),
+          name= [name(X),' catabolic process'],
+          synonyms= [[synonym(X),' catabolism'], [synonym(X),' catabolic process']],
+          def= ['The chemical reactions and pathways resulting in the breakdown of ',refname(X),'.']
+         ]).
+template(biosynthesis(X),
+         [
+          description= 'biosynthetic process',
+          ontology= 'GO',
+          obo_namespace= biological_process,
+          externals= ['GOCHE'],
+          requires= ['http://www.geneontology.org/ontology/editors/go_xp_chebi.obo'],
+          arguments= [target='CHEBI'],
+          cdef= cdef('GO:0009058',['OBO_REL:has_output'=X]),
+          name= [name(X),' biosynthetic process'],
+          synonyms= [[synonym(X),' biosynthesis'], [synonym(X),' biosynthetic process']],
+          def= ['The chemical reactions and pathways resulting in the formation of ',refname(X),'.']
+         ]).
+
 
 % TODO: merge plant/metazoan
 template(metazoan_development(X),

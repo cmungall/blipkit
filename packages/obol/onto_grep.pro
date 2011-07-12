@@ -12,6 +12,8 @@
 :- use_module(bio(index_util)).
 :- use_module(bio(bioprolog_util),[solutions/3,call_unique/1]).
 
+:- [bio(metadata_nlp_parent_dist2_hook)].
+
 %% atom_markup(+Atom,?MarkupList,+Opts) is nondet
 % currently greedy: [(a b) c d e f] matches before [a (b c d e f)]
 atom_markup(A,L,Opts):-
