@@ -194,7 +194,7 @@ template(part_of_cell_component(P,W),
          [
           description= 'cell components part of other cell components',
           ontology= 'GO',
-          obo_namespace= biological_process,
+          obo_namespace= cellular_component,
           arguments= [part=cellular_component,whole=cellular_component],
           cdef= cdef(P,[part_of=W]),
           name= [name(W),' ',name(P)],
