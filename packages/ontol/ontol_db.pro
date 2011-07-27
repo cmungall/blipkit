@@ -24,6 +24,7 @@
            disjoint_over/2,
            class_disjoint_union_list/2,
            disjoint_from_violation/3,
+           disjoint_from_violation_nr/3,
            disjoint_over_violation/4,
            relation/1,
            property/1,
@@ -71,6 +72,7 @@
 	   property_relationship/3,
            obsolete/3,
            obsolete_class/2,
+           class_or_obsolete_class/1,
            idspace/2,
            inst_of/2,
            inst_rel/3,
@@ -133,6 +135,8 @@
            parentRT/3,
            parentRT/4,
            ancestor_or_descendant_of/2,
+           inherited_relationship/3,
+           nr_inherited_relationship/3,
 	   idspace_references/2,
 	   idspace_references_reflexive/2,
            idspace_mireot/2,
@@ -463,9 +467,17 @@ parentRT(ID,TL,IDp):- parentT(ID,TL,IDp).
 % reflexive transitive parent/2. See parentRT/3
 parentRT(ID,IDp):- parentRT(ID,_,IDp).
 
-
 ancestor_or_descendant_of(X,Y) :- parentT(X,Y).
 ancestor_or_descendant_of(X,Y) :- parentT(Y,X).
+
+inherited_relationship(X,R,Y) :- inherited_relationship(X,R,Y,[X]).
+inherited_relationship(X,R,Y,_) :- parent(X,R,Y),R\=subclass.
+inherited_relationship(X,R,Y,VL) :- subclass(X,X2),\+member(X2,VL),inherited_relationship(X2,R,Y,[X2|VL]).
+
+nr_inherited_relationship(X,R,Y) :- inherited_relationship(X,R,Y),
+        \+ ((inherited_relationship(X,R,Y2),
+             (   parentT(Y2,subclass,Y)
+             ;   parentT(Y2,R,Y)))).
 
 %%  belongs(?Entity,?Ontology) is nondet.
 %  true if Entity belongs to Ontology - equivalent to entity_resource/2
@@ -478,6 +490,11 @@ belongs(X,To):- entity_resource(X,To),entity_obsolete(X,_).
 is_class_or_property_or_inst(X):- class(X),!.
 is_class_or_property_or_inst(X):- property(X),!.
 is_class_or_property_or_inst(X):- inst(X),!.
+
+class_or_obsolete_class(X) :- class(X).
+class_or_obsolete_class(X) :- entity_obsolete(X,class).
+
+
 
 %%  class_xref(?Class,?DBXref) is nondet.
 :- multifile class_xref/2.
@@ -962,9 +979,14 @@ idspace_mireot(SX,Ref,SRef) :-
                      SRef\=SX),
                   Xs),
 	member(X,Xs),
-        parentRT(X,Ref), % no need to table
+        inferred_parent(X,Ref), % no need to table
         id_idspace(Ref,SRef),
         SRef\=SX.
+
+
+idspace_mireot(SX,Ref,Ref) :-
+        class_or_obsolete_class(SX),
+        id_idspace(Ref).
 
 
 % ----------------------------------------
@@ -1133,7 +1155,7 @@ combine_relation_pair(R,subclass,R) :- all_some(R).
 combine_relation_pair(R,R,R) :- is_transitive(R).
 combine_relation_pair(R1,R2,R) :- subclassRT(R1,R),subclassRT(R2,R),R1-R2\=R-R,is_transitive(R).
 combine_relation_pair(R,Over,R) :- transitive_over(R,Over).
-combine_relation_pair(R1,R2,R) :- holds_over_chain(R,[R1,R2]).
+combine_relation_pair(R1,R2,R) :- subclassRT(R1,R1p),subclassRT(R2,R2p),holds_over_chain(R,[R1p,R2p]). % TODO - check speed, apply to equiv chains
 combine_relation_pair(R1,R2,R) :- equivalent_to_chain(R,[R1,R2]).
 combine_relation_pair(R,R2,R) :- equivalent_to_chain(R,[_,R2]),is_transitive(R2).
 combine_relation_pair(R1,R,R) :- equivalent_to_chain(R,[R1,_]),is_transitive(R1).
@@ -1460,6 +1482,14 @@ disjoint_from_violation(P1,P2,C):-
         debug(disjoint,'Checking: ~w ^ ~w = {}',[P1,P2]),
         subclassT(C,P1),
         subclassT(C,P2).
+
+%% disjoint_from_violation_nr(?P1,?P2,?C)
+% non-redundant version of disjoint_from_violation/3
+disjoint_from_violation_nr(P1,P2,C):-
+        disjoint_from_violation(P1,P2,C),
+        \+ ((subclassT(C,C2),
+             disjoint_from_violation(P1,P2,C2))).
+
 
 %% disjoint_over_violation(?DR,?X,?Y,?A)
 % true if X is declared to be disjoint with Y over some relation R,

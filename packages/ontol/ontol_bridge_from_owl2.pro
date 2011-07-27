@@ -12,10 +12,10 @@
 
 :- use_module(bio(ontol_db),[]).
 %:- use_module(bio(rdf_id_util),[rdfid_oboid/2]).
-:- use_module(bio(mode)).
+%:- use_module(bio(mode)).
 :- use_module(bio(bioprolog_util),[solutions/3]).
-:- use_module(library('thea2/owl2_model')).
-:- use_module(library('semweb/rdf_db'),[rdf_global_id/2]).
+:- use_module(library(thea/owl2_model)).
+:- use_module(library(semweb/rdf_db),[rdf_global_id/2]).
 
 :- dynamic implicit_metarelation/3.
 

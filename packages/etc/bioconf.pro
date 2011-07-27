@@ -129,7 +129,11 @@ user:bioresource(qfo(N),url(Path),gzip(fasta)):- nonvar(N),concat_atom(['ftp://f
 
 % e.g. 10000
 user:bioresource(pthr(N),url(Path),nhx):- nonvar(N),concat_atom(['http://amigo.berkeleybop.org/amigo/panther/PTHR',N,'.tree'],Path).
-user:bioresource(paint(N),Path,nhx):- nonvar(N),concat_atom(['/users/cjm/cvs/go/gene-associations/submission/paint/PTHR',N,'/PTHR',N,'.save.tree'],Path).
+user:bioresource(paint(N),Path,paint):- nonvar(N),concat_atom(['/users/cjm/cvs/go/gene-associations/submission/paint/PTHR',N,'/PTHR',N,'.tree'],Path).
+user:bioresource(paintgaf(N),Path,go_assoc):- nonvar(N),concat_atom(['/users/cjm/cvs/go/gene-associations/submission/paint/PTHR',N,'/PTHR',N,'.gaf'],Path).
+
+% EXPR
+user:bioresource(ugx(N),Path,tbl):- nonvar(N),concat_atom(['/users/cjm/cvs/uberon/kb/ugx',N,'.txt'],Path).
 
 
 % NEW
@@ -140,6 +144,9 @@ user:bioresource(mgi_genotype_gene,phenotype_commons('MGI/genotype_gene.rpt'),tb
 user:bioresource(zfin_gene_phenotype,phenotype_commons('ZFIN/g2p.txt'),tbl(g2p)).
 user:bioresource(zebrafish_human_orthos,phenotype_commons('ZFIN/zebrafish_human_orthos.txt'),tbl(hom)).
 user:bioresource(mouse_human_orthos,phenotype_commons('Human/mouse_human_orthos.txt'),tbl(hom)).
+user:bioresource(zebrafish_mouse_orthos,phenotype_commons('ZFIN/mouse_orthos.txt'),tbl(hom,[1,6])).
+
+
 
 user:bioresource(omim2gene,biowarehouse('omim/disorder2ncbigene.txt'),txt).
 

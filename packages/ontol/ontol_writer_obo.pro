@@ -379,6 +379,15 @@ logicalformula(_ID,Formula,Lang)=>
   xrefs([]),
   newline.
 
+relationship_tag(Tag,ID,card(Rel,Min-Max),X)=>
+  relationship_tag(Tag,ID,card(Rel,Min,Max),X).
+relationship_tag(Tag,ID,card(Rel,1,inf),X)=>
+  relationship_tag_2(Tag,ID,Rel,X).
+relationship_tag(Tag,_ID,card(Rel,Min,inf),X)=>
+  tag(Tag),property(Rel),' ',identifier(X),
+  qualifiers([min_cardinality=Min]),
+  id_info_as_comment(X),
+  newline.
 relationship_tag(Tag,_ID,card(Rel,Min,Max),X)=>
   tag(Tag),property(Rel),' ',identifier(X),
   if(Min=Max,
@@ -392,19 +401,24 @@ relationship_tag(Tag,_ID,card(Rel,Q),X)=>
   id_info_as_comment(X),
   newline.
 relationship_tag(Tag,ID,Rel,X)=>
+  if(range_cardinality_restriction(ID,Rel,N,X),
+     then: relationship_tag(Tag,ID,card(Rel,N),X),
+     else: relationship_tag_2(Tag,ID,Rel,X)).
+
+relationship_tag_2(Tag,ID,Rel,X)=>
   tag(Tag),property(Rel),' ',identifier(X),
   qualifiers([id=BNode]) where reification(BNode,restriction(ID,Rel,X)),
   qualifiers([implied=true,implication_rule=S]) where entailed_by(restriction(ID,Rel,X),S),
   id_info_as_comment(X),
   newline.
-relationship_tag(Tag,ID,Rel,X,A3)=>
+relationship_tag_2(Tag,ID,Rel,X,A3)=>
   tag(Tag),property(Rel),' ',identifier(X),' ',A3,
   qualifiers([id=BNode]) where reification(BNode,restriction(ID,Rel,X,A3)),
   qualifiers([implied=true,implication_rule=S]) where entailed_by(restriction(ID,Rel,X,A3),S),
   id_info_as_comment(X),' ',
   id_info_as_comment(A3),
   newline.
-relationship_tag(Tag,ID,Rel,identifier(X),A3,A4)=>
+relationship_tag_2(Tag,ID,Rel,identifier(X),A3,A4)=>
   tag(Tag),property(Rel),' ',identifier(X),' ',A3,' ',A4,
   qualifiers([id=BNode]) where reification(BNode,restriction(ID,Rel,X,A3,A4)),
   qualifiers([implied=true,implication_rule=S]) where entailed_by(restriction(ID,Rel,X,A3,A4),S),
@@ -445,7 +459,7 @@ stanza(ID,StanzaType) =>
    tagnodenl(transitive_form_of(ID,X),transitive_form_of,X) where transitive_form_of(ID,X),
    tagnodenl(proper_form_of(ID,X),proper_form_of,X) where proper_form_of(ID,X),
    tvpairnl(lexical_category,X) where lexical_category(ID,X),
-   tvpairnl(comment,X) forall_unfiltered class_comment(ID,X),
+   tvpairnl(comment,X) where class_comment(ID,X),
    tvpairnl(example,X) forall_unfiltered entity_example(ID,X), % DEPRECATED/UNSUPPORTED?
    tagnodenl(true,subset,X) forall_unfiltered entity_partition(ID,X),
    synonym(ID,X) forall_unfiltered entity_synonym(ID,X),

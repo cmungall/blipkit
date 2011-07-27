@@ -1,3 +1,4 @@
+
 :- module(curation_bridge_to_owl2,
 	  [
            materialize_curations_as_owl/0

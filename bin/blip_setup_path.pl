@@ -29,6 +29,7 @@ user:file_search_path(bio, blipkit(phylo)).
 user:file_search_path(bio, blipkit(rdft)).
 user:file_search_path(bio, blipkit(sb)).
 user:file_search_path(bio, blipkit(sb/conf)).
+user:file_search_path(bio, blipkit(sb/doc)).
 user:file_search_path(bio, blipkit(serval)).
 user:file_search_path(bio, blipkit(sql)).
 user:file_search_path(bio, blipkit(stats)).

@@ -1,6 +1,8 @@
 :- module(annotator,
           [
            test_annotator/1,
+           initialize_annotator/0,
+           sentence_annotate/2,
            annotate_file/1,
            annotate_file2/1
            ]).
@@ -13,14 +15,13 @@
 :- use_module(library(porter_stem)).
 :- use_module(bio(av_db)).  % obol dependency - consider moving this
 
-
 %entity_label_attr(E,N,T) :-
 %        entity_label_or_synonym(E,N,S),
 %        entity_label_token_stemmed(E,N,T,true).
 
 initialize_annotator :-
-        generate_term_indexes(Label,Token,metadata_nlp:entity_label_token_stemmed(_,Label,Token,true)).
-
+        generate_term_indexes(Label,Token,metadata_nlp:entity_label_token_stemmed(_,Label,Token,true)),
+        debug(annotator,'initialized annotator',[]).
 
 %% sentence_wbv(+Sentence:atom,?TokenBitVectorV:integer)
 %
@@ -38,15 +39,20 @@ sentence_tbv(Sentence,V,ToksOrdered) :-
 % given a setence atom, annotate it
 sentence_annotate(Sentence,Ann2) :-
         sentence_tbv(Sentence,QV,SToks),
+	debug(annotator,'   building minspanset for: ~w',[Sentence]),
         nb_setval(minspanset,[]),
+        % note: become much slower?
         forall(feature_vector(E,HV),
                expand_minspanset(QV,E,HV)),
         nb_getval(minspanset,MinSpanSet),
+	debug(annotator,'   built minspanset: ~w',[MinSpanSet]),
         findall(Hit,member(Hit-_,MinSpanSet),Hits),
         sentence_align_hits(SToks,Hits,Ann),
         add_ids(Ann,Ann2).
         %minspanset_stoks_anns(MinSpanSet,SToks,Ann).
 
+% given a list of matches [m(_,_),...], add ids
+% to yield a list [m(IDs,_,_),....]
 add_ids([],[]).
 add_ids([H|T],[H2|T2]) :-
         add_id(H,H2),
@@ -90,13 +96,21 @@ label_to_ann(N,ann(E,N,S)) :-
         !.
 
 %% sentence_align_hits(+SToks:list,+Hits:list,?Path:list) is semidet.
+%
+% given a list of tokens, and a list of matching tokens, find path through setence tokens.
+% note that Hits is a list of matching labels
 sentence_align_hits(SToks,Hits,CombinedPath) :-
+        debug(annotator,'SToks:~w Hits:~w',[SToks,Hits]),
+        % align each hit separately
+        % TODO - use DP here?
         findall(Path,
                 (   member(Hit,Hits),
                     debug(annotator,'ALIGNING:~w',[Hit]),
-                    sentence_align_hit(u,SToks,Hit,Path)),
+                    sentence_align_hit(u,SToks,Hit,Path),
+                    debug(annotator,'    Path:~w',[Path])
+                    ),
                 Paths),
-        debug(annotator,'Paths:~w',[Paths]),
+        debug(annotator,'Pre-zipped Paths:~w',[Paths]),
         zip_hit_paths(Paths,CombinedPath).
 
 zip_hit_paths(Paths,[State|CombinedPath]) :-
@@ -118,6 +132,12 @@ combine_states(L,Ss) :- setof(S,(member(S,L),\+atom(S)),Ss).
 
         
 %% sentence_align_hit(+State,+SToks:list,+Hit,?Path:list) is semidet.
+%
+% Path = [S1, S2, ...], one state for each sentence token
+% Sn = m(InPhrase,Token) | gap(InPhrase,Token) | Token
+%
+% 
+%
 % potentially expensive - using backtracking rather than DP.
 
 %sentence_align_hit(S,[STok|SToks],_,_) :-
@@ -177,21 +197,12 @@ sentence_align_hit(gap(Hit,HToks),[STok|SToks],Hit,[gap(Hit,STok)|Path]) :-
         !,
         sentence_align_hit(gap(Hit,HToks),SToks,Hit,Path).
 
-
-
-
-        
-
-        
-
-        
-        
 %% expand_minspanset(+QV:integer, +Entity:atom, +HV:integer) is det
 %
-% side effect: modifies minspanset nb variable
+% side effect: modifies minspanset nb variable incremenrally
 %
 % QV: query (sentence) token bitvector
-% HV: hit (candidate match) token bitvector
+% HV: hit (candidate match, e.g. term) token bitvector
 %
 % first determine overlap between query and candidate match;
 % currently all tokens in candidate must be subsumed by query.
@@ -201,6 +212,9 @@ sentence_align_hit(gap(Hit,HToks),[STok|SToks],Hit,[gap(Hit,STok)|Path]) :-
 % it, they are removed
 expand_minspanset(QV,E,HV) :-
         IV is HV /\ QV,
+        %debug(annotator_detail,'   ~w : ~w^~w = ~w',[E,QV,HV,IV]),
+        debug(annotator_detail,'   IV = ~w',[IV]),
+        %(   E=deep_to->trace;true),
         expand_minspanset(IV,QV,E,HV).
 
 expand_minspanset(0,_,_,_) :- !. % no overlap, no effect on minspanset
@@ -276,5 +290,6 @@ annotate_file2(File) :-
             format('~q.~n',[p(ID,Term,Ann)]),
             fail
         ).
+
 
        

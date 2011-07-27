@@ -28,9 +28,10 @@ iterative_sparql_query(_,[],Offset,_,Opts) :-
 	Offset >= Max,
 	!.
 iterative_sparql_query(Q,AllRows,Offset,Limit,Opts) :-
+        get_time(T1),
 	sformat(Q2,'~w LIMIT ~w OFFSET ~w',[Q,Limit,Offset]),
 	debug(sparql,'  query: ~w',[Q2]),
-        sparql_query_results(Q2,Rows,Opts),
+        safe_sparql_query(Q2,Rows,Opts),
 	length(Rows,NumRows),
 	debug(sparql,'    rows: ~w',[NumRows]),
 	% sometimes something less than the full complement is returned.
@@ -39,7 +40,9 @@ iterative_sparql_query(Q,AllRows,Offset,Limit,Opts) :-
 	HalfOfOffset is Offset/2,
 	(   NumRows < HalfOfOffset
 	->  AllRows=Rows
-	;   NextOffset is Offset+Limit,
+	;   T2 is T1+10, % TODO - use robots.txt; make this safe for now
+            wait_until(T2),
+            NextOffset is Offset+Limit,
 	    iterative_sparql_query(Q,NextRows,NextOffset,Limit,Opts),
 	    append(Rows,NextRows,AllRows)).
 
@@ -48,11 +51,12 @@ sparql_query_results(Q,Rows,Opts) :-
 
 safe_sparql_query(Q,Rows,Opts) :-
         catch(sparql_query_results(Q,Rows,Opts),
-              _,
-              fail),
+              E,
+              (   print_message(error,E),
+                  fail)),
         !.
 safe_sparql_query(Q,Rows,Opts) :-
-        sleep(5),
+        sleep(10),
         print_message(error,attempt(2)),
         catch(sparql_query_results(Q,Rows,Opts),
               _,
@@ -61,8 +65,26 @@ safe_sparql_query(Q,Rows,Opts) :-
 safe_sparql_query(Q,Rows,Opts) :-
         sleep(60),
         print_message(error,attempt(3)),
-        sparql_query_results(Q,Rows,Opts).
+        catch(sparql_query_results(Q,Rows,Opts),
+              _,
+              fail),
+        !.
+safe_sparql_query(_,[],Opts) :-
+        member(fallible(true),Opts),
+        !.
+safe_sparql_query(Q,_,_) :-
+        throw(error(sparql(Q))),
+        !.
 
+wait_until(T) :-
+        repeat,
+        get_time(T1),
+        debug(sparql,'waiting until ~w >= ~w',[T1,T]),
+        (   T1<T
+        ->  sleep(1),
+            fail
+        ;   !).
+        
 % ----------------------------------------
 % DESCRIBE
 % ----------------------------------------

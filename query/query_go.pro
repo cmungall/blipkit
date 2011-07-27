@@ -450,14 +450,14 @@ atom_chebi(A,exactly(Num,C)):-
 	concat_atom(Toks,' ',A2),
 	atom_chebi(A2,C),
 	!.
-atom_chebi(A,in(C)):-
-	atom_concat(A2,'(in)',A),
-	atom_chebi(A,C),
-	!.
-atom_chebi(A,out(C)):-
-	atom_concat(A2,'(out)',A),
-	atom_chebi(A,C),
-	!.
+%atom_chebi(A,in(C)):-
+%	atom_concat(A2,'(in)',A),
+%	atom_chebi(A,C),
+%	!.
+%atom_chebi(A,out(C)):-
+%	atom_concat(A2,'(out)',A),
+%	atom_chebi(A,C),
+%	!.
 atom_chebi(A,C):-
 	entity_label(C,A),
 	!.
@@ -694,4 +694,27 @@ promote_annotation_by_xp(G,C,C_specific) :-
 	subclassT(C_specific,C),
 	curation_statement(Ann,G,_,_).
 
-        
+%% 
+
+inferred_annot(G,T) :-
+        curation_statement(_,G,_,X),
+        parentT(X,R,T),
+        (   R=subclass;R=part_of).
+
+index_hpp :-
+        ensure_loaded(bio(tabling)),
+        table_pred(ontol_db:parentT/3),
+        table_pred(has_protein_part/3).
+
+
+% infer annotation to CW
+has_protein_part(CW,CP,PP) :-
+        parentT(CW,has_part,CP),
+        \+ subclass(_,CP), % no isoforms
+        belongs(CP,cellular_component),
+        curation_statement(_,PP,_,CP).
+
+has_protein_part_nr(CW,CP,PP) :-
+        has_protein_part(CW,CP,PP),
+        \+ ((inferred_annot(PP,CW))).
+

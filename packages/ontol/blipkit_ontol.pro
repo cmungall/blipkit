@@ -678,6 +678,7 @@ user:opt_insecure(query).
          bool(showsyns,WithSynonyms),
          bool(showcomments,WithComments),
          bool(showisa,ShowIsA),
+         bool(showobsoletes,ShowObs),
          atoms(showrel,ShowRels),
          bool(showxp,ShowXP),
          bool(showsubsets,IsShowSubsets),
@@ -703,6 +704,7 @@ user:opt_insecure(query).
                   showxrefs(ShowXrefs),
                   showinvxrefs(ShowInvXrefs),
                   subsets(Subsets),
+                  showobsoletes(ShowObs),
                   hideid(HideID),
                   showinstances(WithInstances),
 		  showannots(ShowAnnot),
@@ -748,6 +750,12 @@ ontol_run_query(OntolQuery,ID,OutFmt,Opts) :-
                ;   inst(ID)
                ->  write_instance(OutFmt,ID,Opts)
                ;   true)),
+
+        (   memberchk(showobsoletes(1),Opts)
+        ->  forall((member(ID,QIDs),obsolete_class(ID,_)),
+                   write_class(OutFmt,ID,Opts))
+        ;   true),
+
         % write all referenced properties (if obof)
         (   OutFmt=obo
         ->  solutions(R,(member(ID,QIDs),parent(ID,R1,_),property(R1),subclassRT(R1,R)),Rs),

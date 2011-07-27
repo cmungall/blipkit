@@ -40,7 +40,6 @@ metadata_db:entity_label(X,V) :- owl2_model:labelAnnotation_value(X,V).
 :- use_module(library(http/html_write)).
 :- use_module(library(http/html_head)).
 :- use_module(library(http/http_parameters)).
-:- use_module(library(http/http_json)).
 
 % register clio/thea handlers
 :- multifile cliopatrial:entity_alternate_view/3.
@@ -83,8 +82,6 @@ http:location(cliopatria,  pkb(clio),	       [priority(5)]).
 :- http_handler(pkb(.), root, []).
 :- http_handler(pkb(tree), organism_cluster_treeview, []).
 :- http_handler(pkb(organisms), all_organisms, []).
-:- http_handler(pkb(api/organisms), all_organisms_json, []).
-:- http_handler(pkb(organisms_with_matches), all_organisms_with_matches, []).
 :- http_handler(pkb(genes), all_genes, []).
 :- http_handler(pkb('gene/'), view_gene, [prefix]).
 :- http_handler(pkb(homologsets), all_homologsets, []).
@@ -364,7 +361,7 @@ all_organisms(Request) :-
         Orgs=[_|_],
         !,
         action_on_selected_organisms(Action,Orgs).
-% show A-Z if too many
+% show A-Z
 all_organisms(_Request) :-
         debug(phenotype,'  counting orgs',[]),
         aggregate(count,Org,organism(Org),N),
@@ -373,15 +370,6 @@ all_organisms(_Request) :-
         ->  organisms_by_label_index_page
         ;   setof(Org,organism(Org),Orgs),
 	    all_organisms_page(Orgs)).
-
-all_organisms_with_matches(_Request) :-
-        debug(phenotype,'  counting orgs',[]),
-        findall(Org,
-                (   organism(Org),
-                    \+ \+ organism_role_disease(Org,canonical,_),
-                    \+ \+ organism_pair_score_value(Org,_,_,_)),
-                Orgs),
-        all_organisms_page(Orgs).
 
 all_organisms_page(Orgs) :-
         reply_html_page([ title('OBD-PKB'),
@@ -413,8 +401,7 @@ organisms_by_label_index_page :-
                         ],
                         [ \page_header('Main'),
                           \db_summary,
-                          ul(LetterList),
-                          a(href(location_by_id(all_organisms_with_matches)),'all with matches')]).
+                          ul(LetterList)]).
 
 % split list because too many orgs
 organisms_by_label_index-->
@@ -490,75 +477,6 @@ organism_hrefs(Orgs) -->
         multi(div(\organism_href(X)),X,Orgs).
 
 
-%% JSON %%
-all_organisms_json(_Request) :-
-        %http_read_json(Request, JSONIn),
-        %json_to_prolog(JSONIn, PrologIn),
-        all_organisms_exhibit_json(JSONOut),
-        reply_json(JSONOut).
-
-all_organisms_exhibit_json(JSON) :-
-        findall(Org,
-                organism_label(Org,_),  % ignore duff data lacking labels
-                Orgs),
-        organisms_exhibit_json(Orgs,JSON).
-:- initialization(table_pred(all_organisms_exhibit_json/1)).
-
-organisms_exhibit_json(Orgs,json([items=Items])) :-
-        findall(Item,(member(Org,Orgs),organism_exhibit_json(Org,Item)),Items).
-
-organism_exhibit_json(Org,json(TVs)) :-
-        debug(phenotype,'calculating json for ~w',[Org]),
-        setof(T=V,organism_property_exhibit_json(Org,T,V),TVs).
-
-organism_property_exhibit_json(Org,id,Org).
-organism_property_exhibit_json(Org,url,URL) :-
-        http_location_by_id(view_organism,Base),
-        uri_encoded(path,Org,Org_2),
-        atom_concat(Base,Org_2,URL).
-organism_property_exhibit_json(Org,label,Label) :-
-        organism_label(Org,Label).
-organism_property_exhibit_json(Org,description,Label) :-
-        organism_description(Org,Label).
-organism_property_exhibit_json(Org,species,Label) :-
-        organism_species(Org,Species),
-        species_label(Species,Label).
-organism_property_exhibit_json(Org,type,Label) :-
-        organism_type(Org,Type),
-        display_label(Type,Label).
-organism_property_exhibit_json(Org,disease,Ds) :-
-        setof(DN,D^(organism_disease(Org,D),display_label(D,DN)),Ds).
-organism_property_exhibit_json(Org,gene,Gs) :-
-        setof(G,organism_variant_gene(Org,G),Gs).
-organism_property_exhibit_json(Org,Ont,Cs) :-
-        setof(CN,C^(organism_to_ontology_class(Org,Ont,C),labelAnnotation_value(C,CN)),Cs).
-
-organism_to_ontology_class(Org,phenotype,P) :-
-        organism_phenotype(Org,P),
-        atom(P).
-organism_to_ontology_class(Org,Cat,Class) :-
-        organism_phenotype(Org,P),
-        phenotype_property_value(P,_,Class),
-        atom(Class),
-        class_phenocategory(Class,Cat).
-
-class_phenocategory(Class,phenotype) :-      atom_concat('http://ccdb.ucsd.edu/NDPO/1.0/NDPO.owl#',_,Class),!.
-class_phenocategory(Class,anatomy) :-      atom_concat('http://ontology.neuinfo.org/NIF/BiomaterialEntities/NIF-GrossAnatomy.owl#',_,Class),!.
-class_phenocategory(Class,cell) :-      atom_concat('http://ontology.neuinfo.org/NIF/BiomaterialEntities/NIF-Cell.owl#',_,Class),!.
-class_phenocategory(Class,quality) :-      atom_concat('http://purl.org/obo/owl/PATO#',_,Class),!.
-class_phenocategory(Class,quality) :-      atom_concat('http://ontology.neuinfo.org/NIF/BiomaterialEntities/NIF-Quality.owl#',_,Class),!.
-class_phenocategory(Class,subcellular) :-      atom_concat('http://ontology.neuinfo.org/NIF/BiomaterialEntities/NIF-Subcellular.owl#',_,Class),!.
-class_phenocategory(Class,molecule) :-      atom_concat('http://ontology.neuinfo.org/NIF/BiomaterialEntities/NIF-Chemical.owl#',_,Class),!.
-class_phenocategory(_,ontology).
-                   
-
-
-%% END OF JSON %%
-
-
-
-        
-        
 
 % TOP-LEVEL: show detail on a specific organism
 % /view_organism/Org
@@ -760,9 +678,7 @@ org_pairwise_comparison_table(F1,F2) -->
         {debug(phenotype,'compare: ~q, ~q',[F1,F2]),
 	 organism_pair_score_value(F1,F2,minimal_LCS_simJ-avg_simJ,Pairs-AvgSim),
 	 Pairs=[TopSim-lcs(TopLCS,TopX1,TopX2)|_],
-	 (   TopLCS=[TopLCS_1|TopLCS_Rest] % old
-         ->  true
-         ;   TopLCS_1=TopLCS),
+	 TopLCS=[TopLCS_1|TopLCS_Rest],
 	 debug(phenotype,'avgSim: ~w',[AvgSim])},
         html([h2('Organism-Phenotype Pairwise Comparison Table'),
 	      p(i(['Scroll to ',a(href='#info','bottom of table'),' for full description'])),
@@ -832,6 +748,8 @@ org_pairwise_comparison_table_tsv(F1,F2) -->
 	 !,
         {debug(phenotype,'compare: ~q, ~q',[F1,F2]),
 	 organism_pair_score_value(F1,F2,minimal_LCS_simJ-avg_simJ,Pairs-AvgSim),
+	 Pairs=[TopSim-lcs(TopLCS,TopX1,TopX2)|_],
+	 TopLCS=[TopLCS_1|TopLCS_Rest],
 	 debug(phenotype,'avgSim: ~w',[AvgSim])},
         org_pairwise_comparison_table_lcs_rows_tsv(Pairs,[]).
 
@@ -864,14 +782,11 @@ org_pairwise_comparison_table_lcs_rows([Pair|Pairs],PairsDone) -->
 
 org_pairwise_comparison_table_lcs_row(Pair,PairsDone) -->
 	{Pair=Sim-lcs(LCS,S1s,S2s),
-         % hack - old style used list here, new style singletons
 	 (   member(S1,S1s),
 	     member(S2,S2s),
 	     phenotype_pair_score_value(S1,S2,lcs_IC,LCS_IC)
 	 ->  true
-	 ;   phenotype_pair_score_value(S1s,S2s,lcs_IC,LCS_IC)
-         ->  true
-         ;   LCS_IC='?'),
+	 ;   LCS_IC='?'),
 	 (   member(_-lcs(_,S1s,_),PairsDone)
 	 ->  S1IsBest=false
 	 ;   S1IsBest=true),
@@ -933,7 +848,6 @@ org_pairwise_comparison_table_lcs_row_tsv(Pair,_PairsDone) -->
 phenotype_lcs_info([]) --> !, html(i('No match')).
 phenotype_lcs_info([X]) --> !,phenotype_info(X).
 phenotype_lcs_info([X|L]) --> !,phenotype_info(X),phenotype_lcs_info(L).
-phenotype_lcs_info(X) --> !,phenotype_info(X).
 
 sim_expl(1,'A score of 1 indicates an exact match').
 sim_expl(Sim,'This indicates a high degree of similarity') :- Sim>0.75.
@@ -1215,7 +1129,6 @@ hi_phenotype_infos(_,X) --> html(i(\phenotype_infos(X))).
 phenotype_infos([]) --> !,[].
 phenotype_infos([H]) --> !,phenotype_info(H).
 phenotype_infos([H|L]) --> !,phenotype_info(H),html(hr('')),phenotype_infos(L).
-phenotype_infos(H) --> !,phenotype_info(H).
 
 phenotype_infos_txt([]) --> !,[].
 phenotype_infos_txt([H]) --> !,phenotype_info_txt(H).
@@ -1266,18 +1179,15 @@ getscore(_,_,Def,Def) :- !.
 
 % ad-hoc combo of maxIC and avg_IC and min_LCS_simJ
 combine_scores(SVs,Score) :-
-	getscore(max_IC,SVs,Score1),
-	getscore(avg_simJ,SVs,Score2),
-        (   number(Score1),
-            number(Score2)
-        ->  Score is Score1+Score2
-        ;   Score=0).
-
+	getscore(maxIC,SVs,Score1),
+	getscore(avg_IC,SVs,Score2),
+	getscore(minimal_LCS_simJ-avg_simJ,SVs,_-AvgSimJ,0-0),
+	Score is Score1+Score2+AvgSimJ.
 
 similar_organisms_table(Org) -->
 	{debug(phenotype,'getting hits for ~q',[Org]),
 	 solutions(Score-hit(Org,Hit,SVs),
-		   (   organism_match_all_score_values(Org,Hit,SVs,[avg_simJ,max_IC,max_IC_best]),
+		   (   organism_match_all_score_values(Org,Hit,SVs,[maxIC,avg_IC,minimal_LCS_simJ-avg_simJ]),
 		       combine_scores(SVs,Score)), % todo
 		   ScoreHitPairsR),
          debug(phenotype,'got hits for ~q',[Org]),
@@ -1285,18 +1195,18 @@ similar_organisms_table(Org) -->
         html(table(class('sortable std_table'),
                    [tr([th('Organism/Type'),
                         th('Species'),
+                        th([colspan=2],
+			   ['Best Match',
+			    \tooltip('The most specific phenotype description that could be calculated to cover both source and target species.
+				    The information content (IC) of this description is also shown. This is the inverse log of the probability of that
+				    description being observed by chance')]),
                         %th('Overlap'),
-                        th(['MaxIC',
+                        th(['AvgIC',
 			   \tooltip('Average Information Content across minimal Least Common Subsumer set')]),
                         th(['AvgSimJ',
 			    \avg_simj_tooltip]),
                         th(['Combined',
 			    \tooltip('Ad-hoc combination of all scores')]),
-                        th([colspan=3],
-			   ['Best Match',
-			    \tooltip('The most specific phenotype description that could be calculated to cover both source and target species.
-				    The information content (IC) of this description is also shown. This is the inverse log of the probability of that
-				    description being observed by chance')]),
 			th('View')
 			]),
 		    \organism_similarity_matchrows(ScoreHitPairs)])).
@@ -1307,20 +1217,20 @@ organism_similarity_matchrows(L) --> multi(organism_similarity_matchrow,L).
 organism_similarity_matchrow(Combined-hit(Org,Hit,SVs)) -->
 	{
 	 organism_species(Hit,Sp),
-	 getscore(max_IC,SVs,MaxIC),
-	 getscore(max_IC_best,SVs,lcs(X,Y,A)),
+	 getscore(maxIC,SVs,MaxIC),
 	 %getscore(best_LCS,SVs,[BestLCS|_]),
-	 getscore(avg_simJ,SVs,AvgSimJ)
+	 getscore(best_LCS,SVs,BestLCSs),
+	 getscore(avg_IC,SVs,AvgIC),
+	 getscore(minimal_LCS_simJ-avg_simJ,SVs,_-AvgSimJ,0-0)
 	},
         html(tr([td(\organism_href(Hit)),
                  td(\organism_type_href(Sp)),
                  td(MaxIC),
+                 td(\multi(composite_entity_info,BestLCSs)),
+		 %td(\phenotype_info(BestLCS)),
+                 td(AvgIC),
                  td(AvgSimJ),
                  td(Combined),
-                 td(\entity_info(X)),
-                 td(\entity_info(Y)),
-                 td(A),
-                 %td(\multi(composite_entity_info,AvgSimJ)),
                  td(\organism_pair_href(Org,Hit))])
             ).
 

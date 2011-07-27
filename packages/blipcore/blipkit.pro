@@ -163,6 +163,10 @@ main:-
         forall(member(Include,Includes),
                (   concat_atom([IncludeType,IncludeID],'//',Include),
                    add_to_include_list(IncludeID,IncludeType))),
+
+        forall(member(File,ConsultFileL),
+              ensure_loaded(File)),
+
         % bind SQL after all mapping modules are loaded
         (   SQLBinds=[]
         ->  true
@@ -191,8 +195,6 @@ main:-
 	;   forall(member(TablePred,TablePreds),
 		   persistent_table_pred(TablePred,TableFile))),
         
-        forall(member(File,ConsultFileL),
-              ensure_loaded(File)),
         forall(member(Goal,Goals),Goal),
         forall(member(Goal,FDLs),
                forall(Goal,true)),
@@ -366,6 +368,7 @@ opt_description(rulefile,'As -rule, but load from a file').
 		   process_file_lines(Rule,File,[pl(IsPl)])))).
 
 labelify(X,X2) :- entity_label(X,L),!,concat_atom([X,L],'-',X2).
+labelify(X,X2) :- entity_xref(U,X),entity_label(U,L),!,concat_atom([X,L],'-',X2).
 labelify(X,X).
 
 :- blip('io-extract',

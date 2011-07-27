@@ -8,6 +8,7 @@
            is_nondangling/1,
            remove_dangling_facts/0,
            remove_redundant_facts/0,
+           remove_simple_redundant_facts/0,
            delete_all_non_gd_xpdefs/0,
            
            make_class_obsolete/1,
@@ -93,6 +94,10 @@ merge_class(Src,Tgt,Opts) :-
                 entity_label_or_synonym(Tgt,Label)
             ->  true
             ;   merge_class_axiom(entity_label(Src,Label),entity_synonym_scope(Tgt,Label,exact),Opts))), % TODO
+        (   memberchk(add_provenance(true),Opts)
+        ->  forall(entity_synonym(Src,X),
+                   assert(entity_synonym_xref(Tgt,X,Src)))
+        ;   true),
 	merge_class_axiom(entity_synonym_scope(Src,X,Sc),entity_synonym_scope(Tgt,X,Sc),Opts),
 	merge_class_axiom(entity_synonym_type(Src,X,Sc),entity_synonym_type(Tgt,X,Sc),Opts),
 	merge_class_axiom(entity_synonym(Src,X),entity_synonym(Tgt,X),Opts),
@@ -127,11 +132,39 @@ is_nondangling(X):- class(X).
 is_nondangling(X):- property(X).
 is_nondangling(X):- inst(X).
 
+simple_redundant(G) :-
+        G=subclass(A,B),
+        G,
+        subclassT(A,Z),
+        subclassT(Z,B).
+simple_redundant(G) :-
+        G=restriction(A,R,B),
+        G,
+        parentT(A,R,Z),
+        parentT(Z,R,B).
+simple_redundant(G) :-
+        G=restriction(A,R,B),
+        G,
+        subclassT(A,Z),
+        parentT(Z,R,B).
+simple_redundant(G) :-
+        G=restriction(A,R,B),
+        G,
+        parentT(A,R,Z),
+        subclassT(Z,B).
+        
 remove_redundant_facts :-
         is_redundant(F),
 	retractall(F),
 	fail.
 remove_redundant_facts.        
+
+remove_simple_redundant_facts :-
+        simple_redundant(F),
+        debug(ontol,'Removing: ~w',[F]),
+	retractall(F),
+	fail.
+remove_simple_redundant_facts.        
 
 remove_dangling_facts :-
 	dangling_fact(F),
@@ -188,6 +221,7 @@ delete_entity(X) :-
         retractall(entity_obsolete(X,_)).
 
 delete_class(X) :-
+        debug(edit,'deleting class ~w',[X]),
         forall_distinct(Y,
                         genus(Y,X),
                         delete_xpdef(Y)),
@@ -206,7 +240,9 @@ delete_class(X) :-
         retractall(restriction(X,_,_)).
 
 delete_relation_usage(R) :-
+        debug(edit,'deleting restrictions for ~w',[R]),
         retractall(restriction(_,R,_)),
+        debug(edit,'deleting xp defs for ~w',[R]),
         solutions(X,differentium(X,R,_),Xs),
         maplist(delete_xpdef,Xs).
 

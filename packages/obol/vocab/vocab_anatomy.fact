@@ -210,6 +210,9 @@ zygote
 
 *relational_adj_ra
 
+striatal, striatum
+septal, septum
+ulnar, ulna
 metanephric, metanephros
 mesonephric, mesonephros
 pronephric, pronephros
@@ -280,6 +283,7 @@ physiological, physiology
 embryonic, embryo
 epidermal, epidermis
 epithelial, epithelium
+epididymal, epididymis
 glandular, gland
 duodenal, duodenum
 glial, glia
@@ -315,6 +319,7 @@ skeletal, skeleton
 hyphal, hypha
 intestinal, intestine
 pupal, pupa
+pulmonary, lung
 axonemal, axoneme
 synaptic, synapse
 nervous, nerve
@@ -323,6 +328,7 @@ medullary, medulla
 chondrogenic, cartilage
 cartilaginous, cartilage
 cartilagenous, cartilage
+trabecular, trabecula
 
 neuromuscular, neuromuscle
 spinal, spine

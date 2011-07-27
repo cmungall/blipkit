@@ -27,11 +27,25 @@ ontol_db:def(X,D) :-
 ontol_db:def_xref(C,C) :-
 	class(C).
 
+% e.g. anterior spinal to vertebral
+ontol_db:restriction(Post,branch_of,Pre) :-
+	user:rdf(PreX,'http://dbpedia.org/property/branchFrom',PostX),
+	wpxref_url(Post,PostX),
+	wpxref_url(Pre,PreX).
+
+ontol_db:restriction(Post,has_origin,Pre) :-
+	user:rdf(PreX,'http://dbpedia.org/property/origin',PostX),
+	wpxref_url(Post,PostX),
+	wpxref_url(Pre,PreX).
+ontol_db:restriction(Post,has_insertion,Pre) :-
+	user:rdf(PreX,'http://dbpedia.org/property/insertion',PostX),
+	wpxref_url(Post,PostX),
+	wpxref_url(Pre,PreX).
+
 % why two? ontology one may be pre-calulcated transitive closure / entailed
 %  precursor = develops_from
 precursor('http://dbpedia.org/ontology/precursor').
 precursor('http://dbpedia.org/property/precursor').
-
 
 ontol_db:restriction(Post,develops_from,Pre) :-
 	user:rdf(PreX,'http://dbpedia.org/property/givesriseto',PostX),
@@ -50,8 +64,15 @@ metadata_db:entity_label(C,S) :-
 	wpxref_url(C,U),
 	wpurl_label(U,S).
 
+metadata_db:entity_resource(C,dbpedia) :-
+	dbpedia(U),
+	wpxref_url(C,U).
+
+synprop('http://dbpedia.org/property/redirect').
+synprop('http://dbpedia.org/property/wikiPageRedirects').
 metadata_db:entity_synonym(C,S) :-
-	user:rdf(SynURL,'http://dbpedia.org/property/redirect',Canonical),
+        synprop(SynProp),
+	user:rdf(SynURL,SynProp,Canonical),
 	wpxref_url(C,Canonical),
 	wpurl_label(SynURL,S).
 

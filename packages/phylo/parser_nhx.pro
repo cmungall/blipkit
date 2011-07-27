@@ -3,12 +3,15 @@
 
 :- module(parser_nhx,
           [
+           load_trees/1,
+           nhx_trees//1
           ]).
 :- use_module(bio(bioprolog_util)).
 :- use_module(bio(metadata_db)).
 :- use_module(bio(phylo_db)).
 :- [bio(parser_general)].
 
+:- multifile io:parse_stream/2.
 io:parse_stream(nh,IO):-
         io:parse_stream(nhx,IO).
 io:parse_stream(nhx,IO):-

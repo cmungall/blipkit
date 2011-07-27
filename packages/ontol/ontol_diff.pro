@@ -116,7 +116,6 @@ src_subclassRT(S,X,Y) :-
         src_subclassT(S,X,Y).
 src_subclassRT(S,X,X) :-
         class_in(X,S).
-
         
 src_subclassT(S,X,Y) :-
         src_subclass(S,X,Y).
@@ -179,6 +178,12 @@ diff_def(X,L1,L2,S1,S2) :-
         fact_clausesource(def(X,L2),S2),
         S1 @< S2. % asym
 
+% ----------------------------------------
+% EXPORT
+% ----------------------------------------
+
+in_both(X) :- class(X),fact_clausesource(class(X),S1),fact_clausesource(class(X),S2),S1\=S2.
+relevant_to_both(X) :- class(X),\+ \+((subclassRT(X,Y),in_both(Y))),\+ \+((subclassRT(Z,X),in_both(Z))).
 
 
-        
+

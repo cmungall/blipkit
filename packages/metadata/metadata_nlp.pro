@@ -29,6 +29,7 @@
 	   entity_pair_label_match/6,
            entity_pair_label_best_match/3,
            entity_pair_label_reciprocal_best_match/3,
+           entity_pair_label_intermatch/5,
            entity_pair_label_best_intermatch/3,
            entity_pair_label_reciprocal_best_intermatch/3,
 	   atom_search/5,
@@ -65,6 +66,7 @@ ignore_token('.').
 ignore_token('-').
 ignore_token(';').
 ignore_token(':').
+ignore_token('_').
 
 
 term_token(A,T) :-
@@ -160,13 +162,9 @@ entity_nlabel_scope_stemmed(E,A,Scope,St) :-
 %            is_a FMA:49035 ! Superior rectus
 entity_label_scope_ext(E,L,Scope) :-
 	entity_label_scope(E,L,Scope).
-entity_label_scope_ext(E,L,Scope) :-
+entity_label_scope_ext(E,L,mixed-Scope) :-
 	entity_label_scope(E,L1,Scope1),
-        %parentT(E,Rel,E2),
-        %allowed_rel(Rel),
-        %subclassT(E,E2),
-        %subclass_dist_2(E,E2),
-        parent_dist_2(E,E2),
+        parent_entity_hook(E,E2),
 	entity_label_scope(E2,L2,Scope2),
         combine_scope(Scope1,Scope2,Scope),
         debug(nlp_detail,'~w SYN: ~w + ~w',[E,L1,L2]),
@@ -178,18 +176,8 @@ combine_scope(label,exact,exact) :- !.
 combine_scope(exact,label,exact) :- !.
 combine_scope(_,_,related).
 
-% fairly arbitrary....
-subclass_dist_2(A,B) :- subclass(A,B).
-subclass_dist_2(A,B) :- subclass(A,Z),subclass(Z,B).
-
-parent_dist_2(A,B) :- allowed_parent(A,B).
-parent_dist_2(A,B) :- allowed_parent(A,Z),allowed_parent(Z,B).
-
-allowed_parent(A,B) :- subclass(A,B).
-allowed_parent(A,B) :- restriction(A,part_of,B).
-
-allowed_rel(subclass).
-allowed_rel(part_of).
+% see metadata_nlp_parent_dist2_hook.pro for example
+:- multifile parent_entity_hook/2.
 
 
 
@@ -274,6 +262,14 @@ synset([rostral,anterior]).
 synset([dorsal,superior]).
 synset([ventral,inferior]).
 synset([future,presumptive]).
+synset([division,segment]).
+
+% TODO: make this configurable, otherwise too many false positives
+synset(['S',sacral]).
+synset(['L',lumbar]).
+synset(['T',thoracic]).
+synset(['C',cervical]).
+
 
 % eliminate prepositions. assumes we flatten without spaces
 synset(['',P]) :- prep(P).
@@ -414,9 +410,11 @@ entity_pair_label_intermatch(A,B,Stemmed,ScA,ScB) :-
 % with b1, but b1 may have a better match a2
 entity_pair_label_best_match(A,B,Stemmed) :-
         entity_pair_label_match(A,B,Stemmed,ScA,ScB),
+        % there exists no better match to another term B2
         \+ ((entity_pair_label_match(A,B2,Stemmed,ScA2,ScB2),
              B2\=B,
              scope_pair_better_than(ScA2,ScB2,ScA,ScB))).
+
 
 %% entity_pair_label_reciprocal_best_match(A,B,Stemmed)
 %
@@ -445,12 +443,18 @@ entity_pair_label_reciprocal_best_intermatch(A,B,Stemmed) :-
         entity_pair_label_best_intermatch(A,B,Stemmed),
         entity_pair_label_best_intermatch(B,A,Stemmed).
 
-        
 scope_pair_better_than(X1,X2,Y1,Y2) :-
-        scope_better_than(X1,Y1),
-        scope_better_than(X2,Y2).
+        X1-X2 \= Y1-Y2,
+        scope_better_than_or_eq(X1,Y1),
+        scope_better_than_or_eq(X2,Y2).
 
-scope_better_than(X,Y) :-
+scope_better_than_or_eq(X,X) :- !.
+scope_better_than_or_eq(mixed-X,mixed-Y) :-
+        !,
+        scope_better_than_or_eq(X,Y).
+scope_better_than_or_eq(_,mixed-_) :- !.
+scope_better_than_or_eq(mixed-_,_) :- !,fail.
+scope_better_than_or_eq(X,Y) :-
         (X=label;X=exact),
         \+((Y=label;Y=exact)).
 
@@ -781,7 +785,7 @@ label_template_match(T,[Tok|Toks],Del) :-
         AllToks=[Tok|Toks],
         Toks\=[],
         reverse(AllToks,[LastTok|ToksRev]),
-        nonvar(LastTok),
+        atom(LastTok),
         reverse(ToksRev,RestToks),
         !,
         % more efficient to match LAST token

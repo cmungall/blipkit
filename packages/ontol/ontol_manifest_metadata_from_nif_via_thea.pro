@@ -80,6 +80,8 @@ ontol_db:def(ID,Def):-
         ontol_db:inst_sv(ID,'http://www.w3.org/2004/02/skos/core#definition',Def,_).
 ontol_db:def(ID,Def):-
         ontol_db:inst_sv(ID,'nif_annot:birnlexDefinition',Def,_).
+ontol_db:def(ID,Def):-
+        ontol_db:inst_sv(ID,'nif_obo_annot:externallySourcedDefinition',Def,_).
 ontol_db:def_xref(ID,Xref):-
         ontol_db:inst_sv(ID,'nif_obo_annot:hasDefinitionSource',Xref,_).
 

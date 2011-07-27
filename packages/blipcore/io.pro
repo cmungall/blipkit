@@ -535,6 +535,7 @@ load_special(rdfs,File):-
 load_special(rdfurl,File):-
         !,
         load_special(owl,url(File)).
+/*
 load_special(rdfowl,File):-
         !,
         ensure_loaded(library('semweb/rdf_db')),
@@ -546,6 +547,7 @@ load_special(rdfowl,File):-
         forall(rdf_has(Ont,owl:imports,URI),
                debug(ontol_imports,'LOADED: ~w. States: ~w imports ~w',[File,Ont,URI])),
 	register_namespaces(NSList).
+*/
 load_special(rdf,File):-
         !,
         ensure_loaded(library('semweb/rdf_db')),
@@ -563,15 +565,6 @@ load_special(turtle,File):-
         ensure_loaded(bio(ontol_bridge_from_owl)),
         %rdf_process_turtle(File,assert_triples,[]).
         rdf_load(File).
-load_special(owlfull_fma3,File):-
-        !,
-        ensure_loaded(library('semweb/rdf_db')),
-        ensure_loaded(library('semweb/rdf_http_plugin')),
-        debug(load,'rdf_load(~w)',[File]),
-        rdf_load(File,[namespaces(NSList)]),
-        ensure_loaded(bio(ontol_bridge_from_owlfull_fma3)),
-        ontol_bridge_from_owlfull_fma3:assertall,
-	register_namespaces(NSList).
 load_special('owl-with-imports',File):-
         !,
         ensure_loaded(library('semweb/rdf_db')),
@@ -588,12 +581,6 @@ load_special('owl-with-imports',File):-
 	register_namespaces(NSList).
 				%forall((member(NS=Full,NSList),NS\=[]),
 				%               catch(rdf_register_ns(NS,Full),_E,true)).
-load_special(owl_nobridge,File):-
-        !,
-        ensure_loaded(library('semweb/rdf_db')),
-        ensure_loaded(library('semweb/rdf_http_plugin')),
-        rdf_load(File,[namespaces(NSList)]),
-	register_namespaces(NSList).
 load_special(owlpl,File):-
         !,
         ensure_loaded(library('thea2/owl2_io')),
@@ -603,10 +590,36 @@ load_special(thea2_owl,File):-
         load_special(owl,File).
 load_special(owl,File):-
         !,
-        ensure_loaded(library('thea2/owl2_from_rdf')),
-        owl_parse_rdf(File).
+        debug(load,'Using rdf_direct mapping from Thea to parse ~w',[File]),
+        catch(ensure_loaded(library('thea2/owl2_rdf')),
+              E,
+              print_message(error,error('Please install Thea:',E))),
+        load_special(rdf,File).
+load_special(obo,File):-
+        % if this goal fails, defaults to using file_to_prolog_cmd/2
+        %
+        % note that you can set vars on the command line; e.g.
+        %  blip-findall -set use_obo_java=true -r caro "owl2_model:subClassOf(A,B)"
+        nb_current(use_obo_java,_),
+        !,
+        load_special(oboj,File).
+load_special(oboj,File):-
+        % obo via java (still in testing, but this will be the default
+        % method in future, bypassing the current perl conversion)
+        !,
+        ensure_loaded(bio(obo_new_namespaces)), % USE THIS NOW
+        ensure_loaded(bio(ontol_bridge_from_owl2)),
+        ensure_loaded(library(thea/owl2_io)),
+        ensure_loaded(library(thea/owl2_util)),
+        load_axioms(File,obo).
+load_special(ncboowl2obo,File):-
+        !,
+        ensure_loaded(bio(obo_namespaces)),
+        ensure_loaded(bio(ontol_bridge_from_owl2)),
+        load_special(owl,File).
 load_special(owl2obo,File):-
         !,
+        ensure_loaded(bio(obo_new_namespaces)),
         ensure_loaded(bio(ontol_bridge_from_owl2)),
         load_special(owl,File).
 load_special(owl_i,File):-
@@ -910,6 +923,7 @@ file_to_prolog_cmd(tsv,'tbl2p -use_filename').
 file_to_prolog_cmd(txt,'tbl2p -use_filename').
 file_to_prolog_cmd(tab,'tbl2p -use_filename').
 file_to_prolog_cmd(tbl(P),X):- atom_concat('tbl2p -p ',P,X).
+file_to_prolog_cmd(tbl(P,Cols),X):- concat_atom(Cols,',',A),concat_atom(['tbl2p -s ',A,' -p ',P],X).
 file_to_prolog_cmd(idlist,'tbl2p -p id').
 file_to_prolog_cmd(inparanoid_tbl,'tbl2p -p inpara').
 file_to_prolog_cmd(homoltbl,'tbl2p -p homoltbl').
@@ -1004,6 +1018,7 @@ format_module(phenosyn,pheno_db).
 format_module(ocelot,ontol_db).
 format_module(sbml,sb_db).
 format_module(pathway_gaf,pathway_db).
+format_module(paint,phylo_db).
 format_module(nhx,phylo_db).
 format_module(nh,phylo_db).
 format_module(fasta,fasta_db).
@@ -1036,6 +1051,7 @@ format_parser(ocelot,parser_ocelot).
 format_parser(obo_native,parser_obo).
 format_parser(phenosyn,parser_phenosyn).
 %format_parser(obo,parser_obo).
+format_parser(paint,parser_paint).
 format_parser(nhx,parser_nhx).
 format_parser(nh,parser_nhx).
 format_parser(gff3,parser_gff3).

@@ -17,6 +17,7 @@ my $keylist2p;
 my $use_filename;
 my $no_quote;
 my $gzip;
+my $select;
 @ARGV = map {if (/^\-f(\d+)/) {("-f", $1)}else{$_}} @ARGV;
 GetOptions("fields|f=s"=>\$fields,
 	   "delimiter|d=s"=>\$delimiter,
@@ -31,6 +32,7 @@ GetOptions("fields|f=s"=>\$fields,
            "gzip"=>\$gzip,
            "ignore_hdr"=>\$ignore_hdr,
            "list2p|l"=>\$list2p,
+           "select|s=s"=>\$select,
            "keylist2p|k"=>\$keylist2p,
            "help|h"=>sub {print usage();exit(0)},
     );
@@ -60,6 +62,10 @@ if ($gzip) {
     @ARGV = map { /\.(gz|Z)$/ ? "gzip -dc < $_ |" : $_ } @ARGV;
 }
 
+if ($select) {
+    $select = [map {$_-1} split(/,/,$select)];
+}
+
 while(<>) {
     $line_no++;
     chomp;
@@ -80,6 +86,10 @@ while(<>) {
         while (scalar @fields < $cols) {
             push(@fields, undef);
         }
+    }
+    if ($select) {
+        my @nu = map {$fields[$_]} @$select;
+        @fields = @nu;
     }
     if (keys %$prefixcolh) {
         foreach my $k (keys %$prefixcolh) {

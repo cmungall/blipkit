@@ -149,7 +149,8 @@ edges_to_dot(Edges,Dot,IDs,Opts):-
         edges_to_dot_new(Edges,Dot,IDs,Opts).
 
 edges_to_dot(Edges,Dot,IDs,Opts):-
-        (   member(cluster_pred(Goal,X,Cluster),Opts)
+        (   member(cluster_pred(Goal,X,Cluster),Opts),
+            \+ \+ Goal
         ->  findall(X-Cluster,(member(X,IDs),Goal),XClusterPairs),
             solutions(Cluster,member(_-Cluster,XClusterPairs),Clusters),
             findall(nodeset(Cluster,Cluster,Terms),
