@@ -18,6 +18,7 @@ my $use_filename;
 my $no_quote;
 my $gzip;
 my $select;
+my $csv;
 @ARGV = map {if (/^\-f(\d+)/) {("-f", $1)}else{$_}} @ARGV;
 GetOptions("fields|f=s"=>\$fields,
 	   "delimiter|d=s"=>\$delimiter,
@@ -30,6 +31,7 @@ GetOptions("fields|f=s"=>\$fields,
            "pre=s@"=>\@pre,
            "use_hdr"=>\$use_hdr,
            "gzip"=>\$gzip,
+           "csv"=>\$csv,
            "ignore_hdr"=>\$ignore_hdr,
            "list2p|l"=>\$list2p,
            "select|s=s"=>\$select,
@@ -69,6 +71,11 @@ if ($select) {
 while(<>) {
     $line_no++;
     chomp;
+    if ($csv) {
+        $delimiter = '","';
+        s/^\"//;
+        s/\"$//;
+    }
     my @fields = split(/$delimiter/, $_, -1); # preserve trailing blank
     my $curr_pred = $pred ? $pred : shift @fields;
     unshift(@fields, @pre);

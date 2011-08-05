@@ -182,6 +182,7 @@ organism_pair_combined_score_value(F1,F2,S,0) :-
 
 %% phenotype_lcs_organism_pair(+P,F1,F2,SV)
 % which organism_pairs have P in their LCS
+% NOTE: WAY TOO SLOW!!
 phenotype_lcs_organism_pair(P,F1,F2,SV) :-
         organism_pair_score_value(F1,F2,minimal_LCS_simJ-avg_simJ,Pairs-_),
         member(SV,Pairs),

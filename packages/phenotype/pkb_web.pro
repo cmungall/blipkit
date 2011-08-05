@@ -57,8 +57,8 @@ foreach(Template, Goal, In, Rest) :-
 % todo: test if safe..
 %:- table_pred(owl2_basic_reasoner:entailed/1).
 %:- table_pred(owl2_reasoner:reasoner_ask/2).
-:- table_pred(owl2_graph_reasoner:class_descendant/2).
-:- table_pred(owl2_graph_reasoner:class_ancestor/2).
+%:- table_pred(owl2_graph_reasoner:class_descendant/2).
+%:- table_pred(owl2_graph_reasoner:class_ancestor/2).
 :- initialization(initialize_reasoner(graph_reasoner,_,[])).
 
 % ----------------------------------------
@@ -1790,7 +1790,7 @@ view_class(_Request,Class) :-
         solutions(Org,member(Org-P,OrgPs),Orgs),
         length(OrgPs,NumOrgPs),
         debug(phenotype,'num org-pheno pairs ~w',[NumOrgPs]),
-        (   NumOrgPs>10         % set LOW for now
+        (   NumOrgPs>12         % set LOW for now
         ->  Matches=[]
         ;   debug(phenotype,'Finding matches (NumOrgPs=~w)',[NumOrgPs]),
             % TODO: cache this

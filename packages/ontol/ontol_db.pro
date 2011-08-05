@@ -1363,7 +1363,8 @@ cdef_label(cdef(G,Diffs),Label):-
                     sformat(DiffN,'~w ~w',[RN,ToN])),
                 DiffNs),
         concat_atom(DiffNs,' and ',DiffAtom),
-        sformat(Label,'~w that ~w',[GN,DiffAtom]).
+        sformat(Chars,'~w that ~w',[GN,DiffAtom]),
+        atom_chars(Label,Chars).
 
 % ----------------------------------------
 % UTIL

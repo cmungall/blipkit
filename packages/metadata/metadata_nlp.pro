@@ -32,6 +32,7 @@
            entity_pair_label_intermatch/5,
            entity_pair_label_best_intermatch/3,
            entity_pair_label_reciprocal_best_intermatch/3,
+           term_entity_matches/2,
 	   atom_search/5,
 	   corpus_search/6,
            entity_label_token_list_stemmed/4,
@@ -458,6 +459,26 @@ scope_better_than_or_eq(X,Y) :-
         (X=label;X=exact),
         \+((Y=label;Y=exact)).
 
+%% term_entity_matches(+Term,?Matches:list)
+term_entity_matches(Term,Matches) :-
+        term_nlabel_stemmed(Term,NLabel,true),
+        findall( match(E,Label,NLabel,Scope),
+                 (   entity_nlabel_scope_stemmed(E,NLabel,Scope,true),
+                     entity_label(E,Label)),
+                 Matches_1),
+        !,
+        findall(Match,
+                (   select(Match, Matches_1, Matches_2),
+                    Match=match(E,_,_,S1),
+                    \+ ((member( match(E,_,_,S2), Matches_2),
+                         S1\=S2,
+                         scope_better_than_or_eq(S2,S1)))),
+                Matches).
+
+
+% ----------------------------------------
+% BRIDGE TO SIMMATRIX
+% ----------------------------------------
 
 simindex_labels(Stemmed) :-
 	debug(nlp,'indexing [stemmed:~w]',[Stemmed]),
