@@ -105,6 +105,16 @@ write_header(obo):-
                         format('subsetdef: ~w "~w"~n',[SubSet,Label])),
         forall_distinct(synonym_type_desc(S,T,D),
                         format('synonymtypedef: ~w "~w" ~w~n',[S,D,T])),
+        forall_distinct(treat_xrefs_as_equivalent(X),
+                        format('treat-xrefs-as-equivalent: ~w~n',[X])),
+        forall_distinct(treat_xrefs_as_subclass(X),
+                        format('treat-xrefs-as-subclass: ~w~n',[X])),
+        forall_distinct(treat_xrefs_as_has_subclass(X),
+                        format('treat-xrefs-as-has-subclass: ~w~n',[X])),
+        forall_distinct(treat_xrefs_as_genus_differentia(X,R,Y),
+                        format('treat-xrefs-as-genus-differentia: ~w ~w ~w~n',[X,R,Y])),
+        forall_distinct(treat_xrefs_as_reverse_genus_differentia(X,R,Y),
+                        format('treat-xrefs-as-reverse-genus-differentia: ~w ~w ~w~n',[X,R,Y])),
        % hack to unify part_of etc
 %        solutions(RN-R,(   (   restriction(_,RN,_)
 %                           ;   differentium(_,RN,_)),
@@ -333,7 +343,7 @@ qualifiers([]) => ''.
 qualifiers(L) => ' {',qualifiers1(L),'}'.
 qualifiers1([X]) => qualifier(X).
 qualifiers1([X|L]) => qualifier(X),',',qualifiers1(L).
-qualifier(X=Y) => [X,'=',Y].
+qualifier(X=Y) => [X,'="',Y,'"'].
 qualifier(X) => [X].
 
 
@@ -378,6 +388,22 @@ logicalformula(_ID,Formula,Lang)=>
   ' ',Lang,
   xrefs([]),
   newline.
+
+gci_subclass(_ID,Y,GR,GZ)=>
+ tag(is_a),
+ identifier(Y),
+ qualifiers([gci_relation=GR,gci_filler=GZ]),
+ id_info_as_comment(Y),
+ newline.
+gci_restriction(_ID,R,Y,GR,GZ)=>
+ tag(relationship),
+ identifier(R),
+ ' ',
+ identifier(Y),
+ qualifiers([gci_relation=GR,gci_filler=GZ]),
+ id_info_as_comment(Y),
+ newline.
+ 
 
 relationship_tag(Tag,ID,card(Rel,Min-Max),X)=>
   relationship_tag(Tag,ID,card(Rel,Min,Max),X).
@@ -465,10 +491,12 @@ stanza(ID,StanzaType) =>
    synonym(ID,X) forall_unfiltered entity_synonym(ID,X),
    tvpairnl(xref,X) forall_unfiltered entity_xref(ID,X),
    tagnodenl(subclass(ID,X),is_a,X) forall_unfiltered subclass(ID,X),
+   gci_subclass(ID,X,GR,GY) forall_unfiltered gci_subclass(ID,X,GR,GY),
    tagnodenl(equivalent_to(ID,X),equivalent_to,X) forall_unfiltered equivalent_class(ID,X),
    relationship_tag(relationship,ID,T,X) forall_unfiltered restriction(ID,T,X),
-   relationship_tag(relationship,ID,T,X,A3) forall_unfiltered restriction(ID,T,X,A3),
-   relationship_tag(relationship,ID,T,X,A3,A4) forall_unfiltered restriction(ID,T,X,A3,A4),
+   %relationship_tag(relationship,ID,T,X,A3) forall_unfiltered restriction(ID,T,X,A3),
+   %relationship_tag(relationship,ID,T,X,A3,A4) forall_unfiltered restriction(ID,T,X,A3,A4),
+   gci_restriction(ID,R,X,GR,GY) forall_unfiltered gci_restriction(ID,R,X,GR,GY),
    tagnodenl(true,R,X) forall_unfiltered property_relationship(ID,R,X), % ontol_db reifies the relation
    tagnodenl(true,intersection_of,X) forall_unfiltered genus(ID,X),
    relationship_tag(intersection_of,ID,T,X) forall_unfiltered differentium(ID,T,X),

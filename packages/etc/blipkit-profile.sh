@@ -163,6 +163,8 @@ alias brenda="ov -r brenda"
 alias qbrenda="oq -r brenda"
 alias vao="ov -r vao"
 alias qvao="oq -r vao"
+alias snomed="ov -r snomed_anatomy"
+alias qsnomed="oq -r snomed_anatomy"
 
 alias sao="ov -r sao -u ontol_manifest_metadata_from_sao"
 alias qsao="oq -r sao -u ontol_manifest_metadata_from_sao"

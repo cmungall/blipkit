@@ -48,6 +48,7 @@
            entity_pair_is_non_univocal/3,
            entity_query/2,
            synonym_type_desc/3,
+           fact_tag_value/3,
 
            current_time_iso_full/1
           ]).
@@ -249,6 +250,8 @@ entity_localname(E,N):-
         (   T=[]
         ->  N=E
         ;   concat_atom(T,':',N)).
+
+:- extensional(fact_tag_value/3).
 
 
 % --------------------

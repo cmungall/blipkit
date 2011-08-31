@@ -134,6 +134,7 @@ user:bioresource(paintgaf(N),Path,go_assoc):- nonvar(N),concat_atom(['/users/cjm
 
 % EXPR
 user:bioresource(ugx(N),Path,tbl):- nonvar(N),concat_atom(['/users/cjm/cvs/uberon/kb/ugx',N,'.txt'],Path).
+user:bioresource(ubb(N),Path,obo):- nonvar(N),concat_atom(['/users/cjm/cvs/uberon/mod/uberon-bridge-to-',N,'.obo'],Path).
 
 
 % NEW

@@ -384,6 +384,12 @@ qobol([go,bp,import],
       true,
       true).
 
+qobol([go,bp,involved],
+      [P,involved,in,W],
+      P and part_of some W,
+      true,
+      true).
+
 qobol([go,bp,generic,Type],
       [C,P],
       PClass and R some C,

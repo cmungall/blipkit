@@ -641,7 +641,6 @@ restriction(X,R,Y) <- differentium(X,R,Y) :: differentium/given.
 equivalent_class(X,Y) <- equivalent_class(Y,X) :: equiv_class/equiv_sym.
 equivalent_class(X,Y) <- subclass(X,Y),subclass(Y,X),Y\=X :: equiv_class/given.
 subclass(X,Y) <- equivalent_class(X,Y), Y\=X :: equiv_class_inv/given.
-equivalent_class(X,Y) <- is_functional(R),restriction(A,R,X),restriction(A,R,Y) :: functional/given.
 
 
 restriction(X,R,Z) <- restriction(X,R1,Z),subclass(R1,R),R1\=R :: subrelations/given.
@@ -672,6 +671,7 @@ inst_rel(I,R,I2) <- is_transitive(R),inst_rel(I,R,Ix),inst_rel(Ix,R,I2) :: insta
 inst_rel(I,R,I2) <- inverse_of(R,R2),inst_rel(I2,R2,I) :: instance_level_inverse/given.
 inst_rel(I,R,I2) <- is_symmetric(R),inst_rel(I2,R,I) :: instance_level_symmetry/given.
 inst_rel(I,R,I2) <- inst_rel(I,R2,I2),subclass(R2,R) :: instrel_subrelation/given.
+%equivalent_instance(X,Y) <- is_functional(R),inst_rel(A,R,X),inst_rel(A,R,Y) :: functional/given.
 class_level_inverse_of(X,Y) <- class_level_inverse_of(Y,X) :: inverse_symmetry/given.
 inverse_of_on_instance_level(X,Y) <- inverse_of_on_instance_level(Y,X) :: inst_inverse_symmetry/given.
 inverse_of(X,Y) <- inverse_of(Y,X) :: inverse_symmetry/given.

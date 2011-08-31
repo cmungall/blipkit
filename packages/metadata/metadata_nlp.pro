@@ -274,12 +274,13 @@ synset(['C',cervical]).
 
 % eliminate prepositions. assumes we flatten without spaces
 synset(['',P]) :- prep(P).
-synset(['',a]).
+%%%synset(['',a]).
 synset(['',an]).
 synset(['',the]).
 synset(['','-']).
 synset(['','/']).
 synset(['',':']).
+
 
 
 :- multifile synset_hook/1.

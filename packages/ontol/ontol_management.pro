@@ -65,7 +65,12 @@ merge_class(Src,Tgt) :-
 			     
 
 %% merge_class(+Src,+Tgt,+Opts) is det
-% does not redirect existing axioms
+%
+% merges Src into Tgt.
+%
+% def of Src becomes def of Tgt, unless Tgt has def
+% 
+% does not redirect existing axioms.
 merge_class(Src,Tgt,Opts) :-
 	debug(merge,'merging ~w -> ~w',[Src,Tgt]),
         
@@ -168,6 +173,7 @@ remove_simple_redundant_facts.
 
 remove_dangling_facts :-
 	dangling_fact(F),
+        debug(dangling,'removing ~w',[F]),
 	retractall(F),
 	fail.
 remove_dangling_facts.

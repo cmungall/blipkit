@@ -12,6 +12,8 @@
            restriction/3,
            restriction/4,
            restriction/5,
+           gci_subclass/4,
+           gci_restriction/5,
            cardinality_restriction/4,
            min_cardinality_restriction/4,
            max_cardinality_restriction/4,
@@ -100,6 +102,11 @@
            entailed_by/2,
            entailed_by/3,
            logicalformula/3,
+           treat_xrefs_as_equivalent/1,
+           treat_xrefs_as_subclass/1,
+           treat_xrefs_as_has_subclass/1,
+           treat_xrefs_as_genus_differentia/3,
+           treat_xrefs_as_reverse_genus_differentia/3,
 	   
            % intensional predicates
            class/2,
@@ -254,6 +261,12 @@ ontology(ID,ID):-
         not(var(ID)),
         not(ontology(ID,_,_)).
 
+:- extensional(treat_xrefs_as_equivalent/1).
+:- extensional(treat_xrefs_as_subclass/1).
+:- extensional(treat_xrefs_as_has_subclass/1).
+:- extensional(treat_xrefs_as_genus_differentia/3).
+:- extensional(treat_xrefs_as_reverse_genus_differentia/3).
+
 :- extensional(import_directive/1).
 :- dynamic ontol_db:import_directive/1.
 :- dynamic already_imported/1.
@@ -347,7 +360,12 @@ expand_equivset([],_,Ancs,Ancs).
 :- extensional(restriction/4).
 %%  restriction(?Class,?Relation,?ToClass,?Arg3,?Arg4) is nondet.
 % quaternary relations
+% @Deprecated
 :- extensional(restriction/5).
+
+:- extensional(gci_subclass/4).
+:- extensional(gci_restriction/5).
+
 
 %%  cardinality_restriction(?Class,?Relation,?Card,?ToClass) is nondet.
 %  A relationship between two classes such that all instances of ?Class stand in ?Relation to ?Card instance(s) of ?ToClass

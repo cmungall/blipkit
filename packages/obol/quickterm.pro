@@ -206,7 +206,7 @@ template(protein_binding(X),
          [
           description= 'binding to a protein',
           ontology= 'GO',
-          obo_namespace= biological_process,
+          obo_namespace= molecular_function,
           externals= ['PRO'],
           requires= ['http://www.geneontology.org/scratch/xps/molecular_function_xp_protein.obo'],
           arguments= [target='PRO'],
@@ -216,6 +216,32 @@ template(protein_binding(X),
           def= ['Interacting selectively and non-covalently with ',name(X),'.']
          ]).
 
+template(chemical_transport(X),
+         [
+          description= 'transport of a chemical entity',
+          ontology= 'GO',
+          obo_namespace= biological_process,
+          externals= ['GOCHE'],
+          requires= ['http://www.geneontology.org/ontology/editors/go_xp_chebi.obo'],
+          arguments= [target='CHEBI'],
+          cdef= cdef('GO:0006810',['OBO_REL:results_in_transport_of'=X]),
+          name= [name(X),' transport'],
+          def= ['The chemical reactions and pathways involving ',refname(X),'.']
+         ]).
+template(binding(X),
+         [
+          access= [admin],
+          description= 'binding to a chemical entity',
+          ontology= 'GO',
+          externals= ['GOCHE'],
+          requires= ['http://www.geneontology.org/ontology/editors/go_xp_chebi.obo'],
+          obo_namespace= molecular_function,
+          arguments= [target='CHEBI'],
+          cdef= cdef('GO:0005488',['OBO_REL:has_input'=X]),
+          name= [name(X),' binding'],
+          synonyms= [[synonym(X),' binding']],
+          def= ['Interacting selectively and non-covalently with ',name(X),'.']
+         ]).
 template(metabolism_catabolism_biosynthesis(X),
          [
           access= [admin],
