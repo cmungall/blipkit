@@ -215,7 +215,6 @@ template(protein_binding(X),
           synonyms= [[synonym(X),' binding']],
           def= ['Interacting selectively and non-covalently with ',name(X),'.']
          ]).
-
 template(chemical_transport(X),
          [
           description= 'transport of a chemical entity',
@@ -224,11 +223,11 @@ template(chemical_transport(X),
           externals= ['GOCHE'],
           requires= ['http://www.geneontology.org/ontology/editors/go_xp_chebi.obo'],
           arguments= [target='CHEBI'],
-          cdef= cdef('GO:0006810',['OBO_REL:results_in_transport_of'=X]),
+          cdef= cdef('GO:0006810',['OBO_REL:results_in_transport_of'=X]), % foo('0')
           name= [name(X),' transport'],
-          def= ['The chemical reactions and pathways involving ',refname(X),'.']
+          def= ['The directed movement of ',refname(X),'acetate into, out of or within a cell, or between cells, by means of some agent such as a transporter or pore.']
          ]).
-template(binding(X),
+template(chemical_binding(X),
          [
           access= [admin],
           description= 'binding to a chemical entity',
