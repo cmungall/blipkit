@@ -266,6 +266,7 @@ age_exceeds_threshold(_):-
 age_exceeds_threshold(Age):-
         debug(load,'Testing if age: ~w exceeds threshold',[Age]),
         user:max_cached_file_age_seconds(MaxAge),
+        debug(load,'  User-defined threshold',[MaxAge]),
         Age > MaxAge,
         debug(load,'Age: ~w exceeds threshold: ~w',[Age,MaxAge]),
         !.
@@ -344,8 +345,11 @@ load_biofile(InputFileIn):- % special case - e.g. mygenome-genome_db.pro
 	sub_atom(X,_,_,E,'-'),
 	sub_atom(X,_,E,0,Mod),
 	\+ sub_atom(Mod,_,_,_,'-'),
-        !,
-	load_biofile(Mod:pro,InputFile).
+        \+ \+ format_module(_,Mod),
+	catch(load_biofile(Mod:pro,InputFile),
+              _,
+              fail),
+        !.
 load_biofile(InputFileIn):- % special case - gzip
         expand_bioresource_search_path(InputFileIn,InputFile),
         file_name_extension(F2, gz, InputFile),

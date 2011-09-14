@@ -1530,13 +1530,16 @@ blipkit:example('blip-ddb -debug load -r obo_meta ontol-refresh-cache -set_data_
                 'refresh contents of cache used by ontol_restful').
 :- blip('ontol-refresh-cache',
         'refresh contents of blip data_cache using ontology metadata',
-        [number(age_threshold,MaxAge,3600)],
+        [atoms([extra],Extras),
+         number(age_threshold,MaxAge,3600)],
         _,
         (   solutions(Ont,
                       (   inst_sv(X,namespace,Ont,_),
                           \+ inst_sv(X,is_obsolete,_,_)),
                       Onts),
             assert(user:max_cached_file_age_seconds(MaxAge)),
+            forall(member(Extra,Extras),
+                   refresh_ont(Extra)),
             forall(member(Ont,Onts),
                    refresh_ont(Ont)))).
 

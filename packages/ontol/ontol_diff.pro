@@ -5,6 +5,7 @@
            src_subclass/3,
            src_subclassRT/3,
            src_subclassT/3,
+	   diff_subclass/3,
 	   uniq_subclass/3,
 	   uniq_subclass/5,
            uniq_subclass_with_defs/5,
@@ -24,6 +25,9 @@ optimize_diff :-
 class_in(X,S) :-
         fact_clausesource(class(X),S).
 
+%% src_subclass(S,X,Y)
+%
+% X isa Y in source S
 src_subclass(S,X,Y) :-
         subclass(X,Y),
         fact_clausesource(subclass(X,Y),S).
@@ -108,6 +112,19 @@ uniq_subclass_r(X,Y,S) :-
 
   */
 
+% ----------------------------------------
+% new... testing
+% ----------------------------------------
+diff_subclass(S,X,Y) :-
+        src_subclass(S,X,Y),
+        class_in(X,S),
+        class_in(X,S2),
+        class_in(Y,S),
+        class_in(Y,S2),
+        S\=S2,
+        \+ src_subclass(S2,X,Y),
+        \+ src_subclassT(S2,X,Y).
+  
 % ----------------------------------------
 % NON-PRE-REASONED: REASONING WITHIN SOURCE
 % ----------------------------------------

@@ -80,7 +80,7 @@ qobol_prep_ont('GO','UBERON') :-
 qobol_prep_ont('GO','CHEBI') :-
         load_bioresource(go),
         load_bioresource(goche),
-        %load_bioresource(goxp(biological_process_xp_chebi)),
+        load_bioresource(go_xp_chebi),
         load_bioresource(goxp(relations_process_xp)),
         !.
 
@@ -393,6 +393,12 @@ qobol([go,bp,involved],
 qobol([go,bp,generic,Type],
       [C,P],
       PClass and R some C,
+      true,
+      in(C,Ont)) :- bp_generic(P,PClass,R,Ont,Type).
+
+qobol([go,bp,generic,from,Type],
+      [C,P,from,C2],
+      PClass and (R some C) and (has_input some C2),
       true,
       in(C,Ont)) :- bp_generic(P,PClass,R,Ont,Type).
 

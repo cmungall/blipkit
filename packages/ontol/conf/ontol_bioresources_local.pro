@@ -63,6 +63,7 @@ user:file_search_path(obolrel, local('obo-relations')).
 
 % --OBO Ontologies--
 user:bioresource(goche,go('ontology/editors/goche.obo'),obo).
+user:bioresource(go_xp_chebi,go('ontology/editors/goche.obo'),obo).
 
 user:bioresource(caro,obo_local('anatomy/caro/caro.obo'),obo).
 user:bioresource(aeo,obo_local('anatomy/caro/aeo.obo'),obo).
@@ -158,7 +159,6 @@ user:bioresource(mammalian_phenotype_xp_nif,obo_local('phenotype/mammalian_pheno
 user:bioresource(mammalian_phenotype_xp_uberon,obo_local('phenotype/mammalian_phenotype_xp/mammalian_phenotype_xp_uberon.obo'),obo).
 user:bioresource(mp_xp_all,obo_local('phenotype/mammalian_phenotype_xp/mammalian_phenotype_xp-merged.obo'),obo).
 user:bioresource(worm_phenotype_xp,obo_local('phenotype/worm_phenotype_xp.obo'),obo).
-%user:bioresource(go_xp_chebi,obo_local('cross_products/go_chebi_xp/GO_to_ChEBI.obo'),obo).
 %user:bioresource(ro_ucdhsc,obo_local('cross_products/go_chebi_xp/ro_ucdhsc.obo'),obo).
 
 % UBERPHENO
@@ -243,6 +243,7 @@ user:bioresource(galen,uberon('galen.obo'),obo).
 user:bioresource(mesh,uberon('mesh.obo'),obo).
 user:bioresource(vao,home('cvs/phenoscape/vocab/skeletal/obo/vertebrate_anatomy_edit.obo'),obo).
 user:bioresource(snomed_anatomy,home('cvs/snomed/snomed-anat.obo'),obo).
+user:bioresource(snomed_tidy,home('cvs/snomed/snomed-tidy.obo'),obo).
 
 
 user:bioresource(worm_anatomy,obo_local('anatomy/gross_anatomy/animal_gross_anatomy/worm/worm_anatomy/WBbt.obo'),obo).
@@ -267,8 +268,8 @@ user:bioresource(birnlex_anatomy,url('http://birnlex.nbirn.net/ontology/BIRNLex-
 user:bioresource(birnlex_anatomy_obo,uberon('birnlex_anatomy.obo'),obo).
 user:bioresource(birnlex,url('http://purl.org/nbirn/birnlex'),owl).
 
-user:bioresource(nif_anatomy,url('http://nif.nbirn.net/ontology/NIF-Anatomy.owl'),owl).
-user:bioresource(nif_anatomy_obo,uberon('nif_anatomy.obo'),obo).
+user:bioresource(nif_anatomy_owl,url('http://nif.nbirn.net/ontology/NIF-Anatomy.owl'),owl).
+user:bioresource(nif_anatomy,uberon('nif_anatomy.obo'),obo).
 user:bioresource(aba,uberon('ABA.obo'),obo).
 user:bioresource(bm,uberon('BM.obo'),obo).
 user:bioresource(bams,uberon('bams.obo'),obo).
