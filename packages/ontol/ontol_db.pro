@@ -1518,8 +1518,12 @@ disjoint_over_violation(DR,X,Y,A):-
         (   restriction(X,DR,Y)
         ;   restriction(Y,DR,X)),
         debug(ontol,'testing disjoint_over ~w :: ~w ~w ~w',[R,X,DR,Y]),
-        parentRT(A,R,X),
-        parentRT(A,R,Y).
+        parentRT_or_self(A,R,X),
+        parentRT_or_self(A,R,Y).
+
+parentRT_or_self(A,R,X) :- parentRT(A,R,X).
+parentRT_or_self(A,R,A) :- property(R).
+
 
 
 % -----------------------------------

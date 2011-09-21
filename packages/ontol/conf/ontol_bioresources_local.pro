@@ -63,7 +63,7 @@ user:file_search_path(obolrel, local('obo-relations')).
 
 % --OBO Ontologies--
 user:bioresource(goche,go('ontology/editors/goche.obo'),obo).
-user:bioresource(go_xp_chebi,go('ontology/editors/goche.obo'),obo).
+user:bioresource(go_xp_chebi,go('ontology/editors/go_xp_chebi.obo'),obo).
 
 user:bioresource(caro,obo_local('anatomy/caro/caro.obo'),obo).
 user:bioresource(aeo,obo_local('anatomy/caro/aeo.obo'),obo).
@@ -192,8 +192,8 @@ user:bioresource(fma_stemmed,local('FMA/fma_obo_stemmed.obo'),obo).
 user:bioresource(efo,uberon('efo.obo'),obo).
 user:bioresource(efo_anat,uberon('efo_anat.obo'),obo).
 user:bioresource(coriell,'http://efo.svn.sourceforge.net/viewvc/efo/trunk/src/coriellinowl/coriell_release.owl',owl).
-user:bioresource(hao,local('obo-svn/ontologies/HAO/hao.obo'),obo).
-user:bioresource('HAO',local('obo-svn/ontologies/HAO/hao.obo'),obo).
+user:bioresource(hao,local('obo-svn/ontologies/trunk/HAO/hao.obo'),obo).
+user:bioresource('HAO',local('obo-svn/ontologies/trunk/HAO/hao.obo'),obo).
 user:bioresource(vhog,uberon('vHOG.obo'),obo).
 user:bioresource(vhog_assoc,uberon('organ_association_vHOG.txt'),tbl(assoc)).
 user:bioresource(hog,url('http://bgee.unil.ch/bgee/download/HOG.obo'),obo).

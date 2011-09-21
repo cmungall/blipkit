@@ -174,6 +174,7 @@ download_url(InURL,Px):-
 %% download_url2(+URL,+Px) is det
 download_url2(_,Px):-
         path_lock(Px,Lock),
+        remove_stale_lock(Lock),
         debug(load,'Testing lockfile: ~w',[Lock]),
         exists_file(Lock), % locked: someone else downloading latest version
         !,

@@ -2,10 +2,12 @@
 	  [
            optimize_diff/0,
            class_in/2,
+           class_label_source/3,
            src_subclass/3,
            src_subclassRT/3,
            src_subclassT/3,
 	   diff_subclass/3,
+	   diff_subclass/8,
 	   uniq_subclass/3,
 	   uniq_subclass/5,
            uniq_subclass_with_defs/5,
@@ -116,6 +118,8 @@ uniq_subclass_r(X,Y,S) :-
 % new... testing
 % ----------------------------------------
 diff_subclass(S,X,Y) :-
+        diff_subclass(S,_,X,Y).
+diff_subclass(S,S2,X,Y) :-
         src_subclass(S,X,Y),
         class_in(X,S),
         class_in(X,S2),
@@ -124,7 +128,14 @@ diff_subclass(S,X,Y) :-
         S\=S2,
         \+ src_subclass(S2,X,Y),
         \+ src_subclassT(S2,X,Y).
-  
+
+diff_subclass(S1,S2,X,Y,XN1,YN1,XN2,YN2) :-
+        diff_subclass(S1,S2,X,Y),
+        class_label_source(X,XN1,S1),
+        class_label_source(X,XN2,S2),
+        class_label_source(Y,YN1,S1),
+        class_label_source(Y,YN2,S2).
+
 % ----------------------------------------
 % NON-PRE-REASONED: REASONING WITHIN SOURCE
 % ----------------------------------------
@@ -179,6 +190,11 @@ uniq_subclass_with_defs(X,Y,S,DX,DY) :-
         ;   DY='n/a').
 
 
+class_label_source(X,N,S) :-
+        entity_label(X,N),
+        fact_clausesource(entity_label(X,N),S).
+
+        
 diff_label(X,L1,L2,S1,S2) :-
         entity_label(X,L1),
         fact_clausesource(entity_label(X,L1),S1),
