@@ -1835,7 +1835,7 @@ else
 fi
 
 
-ac_config_files="$ac_config_files Makefile bin/bpr-test"
+ac_config_files="$ac_config_files Makefile"
 
 
 
@@ -2408,7 +2408,6 @@ for ac_config_target in $ac_config_targets
 do
   case $ac_config_target in
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
-    "bin/bpr-test") CONFIG_FILES="$CONFIG_FILES bin/bpr-test" ;;
 
   *) { { echo "$as_me:$LINENO: error: invalid argument: $ac_config_target" >&5
 echo "$as_me: error: invalid argument: $ac_config_target" >&2;}

@@ -30,7 +30,7 @@ t2fasta\
 serval\
 tbl2p
 
-all: scripts biorc
+all: scripts
 	@echo "now run 'make install'"
 
 Modules-Makefile: module-info.list

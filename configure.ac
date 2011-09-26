@@ -36,8 +36,7 @@ AC_ARG_WITH(pllibdir,
 	[  --with-pllibdir=DIR     installation directory for prolog modules ],
 	[ PLLIBDIR="$withval"], [PLLIBDIR="$PLBASE/library"])
 
-AC_CONFIG_FILES([ Makefile
-                  bin/bpr-test ])
+AC_CONFIG_FILES([ Makefile ])
 
 
 AC_OUTPUT

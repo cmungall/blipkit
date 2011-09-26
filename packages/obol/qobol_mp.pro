@@ -77,6 +77,19 @@ qobol_prep_ont('GO','UBERON') :-
         load_bioresource(goxp(biological_process_xp_uber_anatomy)),
         load_bioresource(goxp(relations_process_xp)),
         !.
+qobol_prep_ont('GO','CL') :-
+        load_bioresource(go),
+        load_bioresource('CL'),
+        load_bioresource(goxp(biological_process_xp_cell)),
+        load_bioresource(goxp(relations_process_xp)),
+        !.
+qobol_prep_ont('GO','PO') :-
+        load_bioresource(go),
+        load_bioresource(plant_anatomy),
+        load_bioresource(goxp(biological_process_xp_plant_anatomy)),
+        load_bioresource(goxp(relations_process_xp)),
+        !.
+
 qobol_prep_ont('GO','CHEBI') :-
         load_bioresource(go),
         load_bioresource(goche),
@@ -396,6 +409,12 @@ qobol([go,bp,generic,Type],
       true,
       in(C,Ont)) :- bp_generic(P,PClass,R,Ont,Type).
 
+qobol([go,bp,generic,Type],
+      [P,of,C],
+      PClass and R some C,
+      true,
+      in(C,Ont)) :- bp_generic(P,PClass,R,Ont,Type).
+
 qobol([go,bp,generic,from,Type],
       [C,P,from,C2],
       PClass and (R some C) and (has_input some C2),
@@ -436,11 +455,21 @@ qobol([go,bp,cc,generic,occurs],
           belongs(PID,biological_process),
           belongs(CID,cellular_component))).
 
+% with generic tag, avoid ambiguous parses
 qobol([go,bp,generic,occurs],
       [C,P],
       P and occurs_in some C,
       true,
       in(C,['UBERON'])) :- \+ bp_generic(P,_,_,_,_).
+
+% no generic tag, force occurs. E.g. paraxial mesoderm cell differentiation
+%  NOTE: this fails because 'mesoderm cell differentiation' is found by greedy match
+%qobol([go,bp,occurs,weak],
+%      [C,P],
+%      P and occurs_in some C,
+%      true,
+%      in(C,['UBERON'])).
+
 
 % e.g. regulation of transcription by galactose
 qobol([go,bp,by,has_input,chemical],
@@ -489,11 +518,13 @@ bp_generic(proliferation,'cell proliferation',acts_on_population_of,'CL',cell).
 bp_generic(activation,'cell activation',acts_on_population_of,'CL',cell).
 bp_generic('cell migration','cell migration',acts_on_population_of,'CL',cell).
 
-bp_generic(development,'anatomical structure development',results_in_development_of,['CL','UBERON'],anatomy).
-bp_generic(formation,'anatomical structure formation involved in morphogenesis',results_in_formation_of,['CL','UBERON'],anatomy).
-bp_generic(morphogenesis,'anatomical structure morphogenesis',results_in_morphogenesis_of,['CL','UBERON'],anatomy).
-bp_generic(growth,'developmental growth',occurs_in,['CL','UBERON'],anatomy).
-bp_generic(maturation,'anatomical structure maturation',results_in_developmental_progression_of,['CL','UBERON'],anatomy).
+bp_generic(development,'anatomical structure development',results_in_development_of,['CL','UBERON','PO'],anatomy).
+bp_generic('structural arrangement','anatomical structure arrangement',results_in_arrangement_of,['CL','UBERON','PO'],anatomy).
+bp_generic(formation,'anatomical structure formation involved in morphogenesis',results_in_formation_of,['CL','UBERON','PO'],anatomy).
+bp_generic(morphogenesis,'anatomical structure morphogenesis',results_in_morphogenesis_of,['CL','UBERON','PO'],anatomy).
+bp_generic(growth,'developmental growth',occurs_in,['CL','UBERON','PO'],anatomy).
+bp_generic(maturation,'anatomical structure maturation',results_in_developmental_progression_of,['CL','UBERON','PO'],anatomy).
+bp_generic(induction,'developmental induction',induces,['CL','UBERON','PO'],anatomy).
 
 bp_generic(metabolism,'metabolic process',has_participant,['CHEBI','PRO'],chemical).
 bp_generic('metabolic process','metabolic process',has_participant,['CHEBI','PRO'],chemical).
@@ -529,6 +560,7 @@ qobol([anatomy,generic,part],
       P and (part_of some W),
       true,
       true).
+
 
 qobol([cell,generic,part],
       [W,P],

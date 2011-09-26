@@ -783,6 +783,15 @@ class_from_bp(N,AN) :-
 class_from_bp(N,AN) :-
 	atom_concat(AN,' induction',N).
 
+cl_class_from_bp(N,AN) :-
+	atom_concat(AN,' development',N).
+cl_class_from_bp(N,AN) :-
+	atom_concat(AN,' differentiation',N).
+cl_class_from_bp(N,AN) :-
+	atom_concat(AN,' cell fate commitment',N).
+cl_class_from_bp(N,AN) :-
+	atom_concat(AN,' cell fate specification',N).
+
 
 %% use MP and MP-XP
 uberon_mpxp_write :-
@@ -879,6 +888,15 @@ write_goxp_parents(A) :-
 	;   XN = '?'),
 	format('relationship: part_of ~w ! ~w~n',[X,XN]),
 	fail.
+write_goxp_parents(A) :-
+	parent(A,B),
+	differentium(B,_,X),
+	id_idspace(X,'CL'),
+	(   class(X,XN)
+	->  true
+	;   XN = '?'),
+	format('is_a: ~w ! ~w~n',[X,XN]),
+	fail.
 write_goxp_parents(_) :- !.
 
 
@@ -910,7 +928,29 @@ uberon_goxp_write :-
 	nl,
 	fail.
 uberon_goxp_write :- !.
-	
+
+cl_goxp_write :-
+	setof(GO-N,(class(GO,N),belongs(GO,biological_process),
+		    subclassT(GO,'GO:0048468')), % cell development
+	GONs),
+	member(GO-N,GONs),
+	\+ genus(GO,_), % undefined
+	cl_class_from_bp(N,AN),
+	\+ ((entity_label_or_synonym(A,AN),
+	     (	 belongs(A,cl)
+	     ;	 belongs(A,cell)))),
+        writeln('[Term]'),
+        format('id: NEW_~w~n',[GO]),
+        format('name: ~w~n',[AN]),
+	goxp_def(GO,Def),
+        format('def: "~w" [~w]~n',[Def,GO]),
+	writeln('is_a: CL:0000000 ! cell'),
+	write_goxp_parents(GO),
+	write_xrefs_for_name(AN),
+	nl,
+	fail.
+cl_goxp_write :- !.
+
 uberon_dv(XD,X,UX,YD,Y,UY) :-
 	disjoint_from_violation(UX,UY,XD), % e.g. acellular, cellular, ZF:otolith
 	entity_xref(UX,X),
