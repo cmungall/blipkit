@@ -198,7 +198,7 @@ alias viz-vert-hmz='blip-vizualize-uberon -r fma_simple -r mouse_anatomy -r zebr
 alias viz-vert-zx='blip-vizualize-uberon  -r zebrafish_anatomy -r xenopus_anatomy -rel subclass -rel part_of -to display'
 alias viz-vert='blip-vizualize-uberon -r fma_simple -r mouse_anatomy -r zebrafish_anatomy -r xenopus_anatomy -rel subclass -rel part_of -to display'
 
-export GO_XP_CHEBI_ARGS=' -r chebi -r goxp/biological_process_xp_chebi  -r goxp/molecular_function_xp_chebi'
+export GO_XP_CHEBI_ARGS=' -r chebi -r go_xp_chebi  -r goxp/molecular_function_xp_chebi'
 export GO_XP_CL_ARGS=' -r cell -r goxp/biological_process_xp_cell'
 export GO_XP_PRO_ARGS=' -r protein -r goxp/biological_process_xp_protein -r goxp/molecular_function_xp_protein'
 export GO_XP_MA_ARGS=' -r mouse_anatomy -r goxp/biological_process_xp_mouse_anatomy'

@@ -1049,6 +1049,202 @@ show_ontol_subset_by_tree(pro,Tree,_Opts):-
 show_ontol_subset_by_tree(owl,_,_Opts):-
         throw(error(not_implemented)).
 
+
+blipkit:trusted_command('ontol-subgraph').
+user:opt_insecure(query).
+:- blip('ontol-subgraph',
+        'writes a subgraph of an ontology. Uses ontol_subgraph/4',
+        [atoms([id],QueryIDsIn),
+         atom([ids,idlist],QueryIDsAtom),
+         atom([idfile],QueryIDsFile),
+         atoms([name,n],QueryNames),
+         atom([to,t],OutFmt,formatted),
+         atom([tabchar],TabChar,' '),
+         number(down,MaxDown,0),
+         number(up,MaxUp),
+         bool([sib,sibs,siblings],Sibs),
+         atom(query,OntolQueryAtom),
+         %atom(collapse_pred,_CollapsePred,fail),
+         atom([showannots,showannot],ShowAnnot,no),
+         bool([stem],Stem),
+         bool(reverse,_IsReverse), % todo
+         bool(inverse,IsInverse),
+         bool(showsyns,WithSynonyms),
+         bool([instances,showinstances],WithInstances),
+         bool(showcomments,WithComments),
+         bool(showdefs,ShowDefs),
+         %bool(cluster_by_ontology,IsClusterByOntology),
+         atoms([cr,containment_relation],ContainmentRelations),
+         bool(showxp,ShowXP),
+         bool(showxrefs,ShowXrefs),
+         bool(showinvxrefs,ShowInvXrefs),
+         bool(showsubsets,ShowSubset),
+         atom(rankdir,RankDir,'BT'), % for dot/graphviz: TB LR BT RL
+         atoms(subset,Subsets),
+         atoms(constraint,Constraints),
+         atoms([relation,rel],Rels),
+         atoms([exclude_relation,xrel],ExcRels),
+         atoms([showrel],ShowRels)
+        ],
+        FileL,
+        (   load_factfiles(FileL),
+            ensure_nonvar(WithSynonyms,0 ),
+            ensure_nonvar(WithComments,0 ),
+            ensure_nonvar(ShowDefs,0 ),
+            ensure_nonvar(ShowXP,0 ),
+            ensure_nonvar(ShowSubset,0 ),
+            ensure_nonvar(IsInverse,0 ),
+            ensure_nonvar(WithInstances,0 ),
+            Opts1=[stem(Stem),
+                   maxdown(MaxDown),
+                   maxup(MaxUp),
+                   tabchar(TabChar),
+                   siblings(Sibs),
+                   relations(Rels),
+                   exclude_relations(ExcRels),
+		   rankdir(RankDir),
+                   cluster_pred(belongs(X,Ontol),X,Ontol),
+                   containment_relations(ContainmentRelations),
+                   with_synonyms(WithSynonyms),
+                   showcomments(WithComments),
+                   showinstances(WithInstances),
+                   showdefs(ShowDefs),
+                   showxp(ShowXP),
+                   showxrefs(ShowXrefs),
+		   showinvxrefs(ShowInvXrefs),
+                   showsubsets(ShowSubset),
+                   subsets(Subsets),
+                   showannots(ShowAnnot),
+                   showrels(ShowRels)],
+            (   Constraints=[]
+            ->  true
+            ;   ensure_loaded(bio(ontol_vizlayout)),
+                forall(member(ConstraintF,Constraints),
+                       load_viz_constraints(bio(ConstraintF)))),
+
+            (   nonvar(QueryIDsAtom)
+            ->  concat_atom(QueryIDs,' ',QueryIDsAtom)
+            ;   nonvar(QueryIDsFile)
+            ->  read_file_to_tokens(QueryIDsFile,QueryIDs)
+            ;   QueryIDs=QueryIDsIn),
+
+            % find all classes matching search criterion
+            solutions(QueryID,(   (   nonvar(OntolQueryAtom)
+                                  ->  atom_to_term(OntolQueryAtom,OntolQuery,Bindings),
+                                      member('ID'=QueryID,Bindings),
+                                      OntolQuery
+                                  ;   member(QueryID,QueryIDs)
+                                  ;   member(QueryName,QueryNames),
+                                      matching_class(QueryID,QueryName,Opts1))),
+                      MatchIDs),
+
+            solutions(ID-N,(member(ID,MatchIDs),entity_label(ID,N)),IDNs),
+            format(user_error,'::Result ~w ~w {over ~w}~n',[MatchIDs,IDNs,Rels]),
+            Opts=[focus(MatchIDs)|Opts1], % TODO
+            % all of the above is cut and pasted from ontol-subset. TODO - DRY
+            ontol_subgraph(MatchIDs,Rels,G,Roots,Opts),
+            debug(blipkit,'F=~w',[G]),
+            show_subgraph(OutFmt,Roots,G,[TabChar],Opts)
+        )).
+
+show_subgraph(display,_Roots,G,_,Opts) :-
+        !,
+        ensure_loaded(bio(ontol_writer_dot)),
+        findall(edge(C,P,s),member(C-P,G),Edges),
+        edges_to_display(Edges,Opts).
+show_subgraph(text,Roots,G,_,Opts) :-
+        forall(member(R,Roots),
+               shownode(-root,R,Opts)),
+        forall(member(C-P,G),
+               (   shownode(-child,C,Opts),
+                   shownode(-parent,P,Opts),
+                   nl)).
+show_subgraph(formatted,Roots,G,Tabs,Opts) :-
+        is_list(Roots),
+        !,
+        forall(member(R,Roots),
+               show_subgraph(formatted,R,G,Tabs,Opts)).
+show_subgraph(formatted,ID,G,[Tab|Tabs],Opts) :-
+        maplist(write,Tabs),
+        shownode('',ID,Opts),
+        forall(member(C-ID,G),
+               show_subgraph(formatted,C,G,[Tab,Tab|Tabs],Opts)).
+
+:- blip('ontol-solr',
+        'Requires plsolr',
+        [atom(url,URL,'http://localhost:8984/solr'),
+         atoms([attval],AttVals),
+         atom([facet],Facet),
+         atoms([relation,rel],Rels),
+         atoms([showrel],ShowRels),
+         atom([to,t],OutFmt,formatted),
+         atom([tabchar],TabChar,' '),
+         number(down,MaxDown,0),
+         number(up,MaxUp),
+         bool([sib,sibs,siblings],Sibs),
+         %atom(collapse_pred,_CollapsePred,fail),
+         atom([showannots,showannot],ShowAnnot,no),
+         bool([stem],Stem),
+         bool(reverse,_IsReverse), % todo
+         bool(inverse,IsInverse),
+         bool(showsyns,WithSynonyms),
+         bool([instances,showinstances],WithInstances),
+         bool(showcomments,WithComments),
+         bool(showdefs,ShowDefs),
+         %bool(cluster_by_ontology,IsClusterByOntology),
+         atoms([cr,containment_relation],ContainmentRelations),
+         bool(showxp,ShowXP),
+         bool(showxrefs,ShowXrefs),
+         bool(showinvxrefs,ShowInvXrefs),
+         bool(showsubsets,ShowSubset),
+         atom(rankdir,RankDir,'BT'), % for dot/graphviz: TB LR BT RL
+         atoms(subset,Subsets)
+        ],
+        FileL,
+        (   load_factfiles(FileL),
+            ensure_nonvar(WithSynonyms,0 ),
+            ensure_nonvar(WithComments,0 ),
+            ensure_nonvar(ShowDefs,0 ),
+            ensure_nonvar(ShowXP,0 ),
+            ensure_nonvar(ShowSubset,0 ),
+            ensure_nonvar(IsInverse,0 ),
+            ensure_nonvar(WithInstances,0 ),
+            Opts=[stem(Stem),
+                  maxdown(MaxDown),
+                   maxup(MaxUp),
+                   tabchar(TabChar),
+                   siblings(Sibs),
+                   relations(Rels),
+		   rankdir(RankDir),
+                   cluster_pred(belongs(X,Ontol),X,Ontol),
+                   containment_relations(ContainmentRelations),
+                   with_synonyms(WithSynonyms),
+                   showcomments(WithComments),
+                   showinstances(WithInstances),
+                   showdefs(ShowDefs),
+                   showxp(ShowXP),
+                   showxrefs(ShowXrefs),
+		   showinvxrefs(ShowInvXrefs),
+                   showsubsets(ShowSubset),
+                   subsets(Subsets),
+                   showannots(ShowAnnot),
+                   showrels(ShowRels)],
+            ensure_loaded(library(plsolr/solr)),
+            findall(Q=QuotedV,
+                 (   member(QA,AttVals),
+                     atomic_list_concat([Q,V],'=',QA),
+                     atomic_list_concat(['"',V,'"'],QuotedV)
+                     ),
+                 QVs),
+            solr_query(URL,QVs/facets([Facet]),Results,Opts),
+            Results=results(_Num,_Pos,_RL,FL),
+            forall(member(_=KVs,FL),
+                   (   ontol_subgraph(KVs,Rels,G,Roots,Opts),
+                       show_subgraph(OutFmt,Roots,G,[TabChar],[counts(KVs)|Opts]))))).
+
+
+        
+
 :- blip('mireot-by-annotations',
         'extracts mireoted subset based on annotations',
         [atoms([gaf],GAFs),

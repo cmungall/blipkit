@@ -163,6 +163,8 @@
            subclass_cycle/2,
            parent_cycle/2,
 
+           ontol_subgraph/5,
+           
            redundant_subclass/3,
            redundant_parent/5,
            subclass_underlap/3,
@@ -1384,6 +1386,116 @@ cdef_label(cdef(G,Diffs),Label):-
         sformat(Chars,'~w that ~w',[GN,DiffAtom]),
         atom_chars(Label,Chars).
 
+% ----------------------------------------
+% SUBGRAPHS
+% ----------------------------------------
+ontol_subgraph(Cs,Rels,G,Roots,Opts) :-
+        member(C,Cs),
+        C\=_-_,
+        !,
+        expand_subgraph_seeds(Cs,Cs2,Rels,Opts),
+        findall(1-C2,member(C2,Cs2),SCPs),
+        % note that the compact option only makes sense with counts
+        ontol_subgraph(SCPs,Rels,G,Roots,[compact(false)|Opts]).
+ontol_subgraph(SCPs,[],G,Roots,Opts) :-
+        !,
+        % match all relations
+        ontol_subgraph(SCPs,[_],G,Roots,Opts).
+ontol_subgraph(SCPs,Rels,G,Roots,Opts) :-
+        ontol_subgraph_closure(SCPs,Rels,G1,Cs,Opts),
+        debug(subgraph,'closure: ~w // seedset: ~w',[G1,Cs]),
+        remove_cycles(G1,G2,Opts),
+        reduce_graph(G2,G3,Opts),
+        debug(subgraph,'reduced [transitive reduction]: ~w',[G3]),
+        compact_graph(G3,G,SCPs,Cs,Cs2,Opts),
+        graph_roots(G,Cs2,Roots).
+
+expand_subgraph_seeds(Cs,Cs2,Rels,Opts) :-
+        option(expand_seeds(true),Opts),
+        !,
+        solutions(C2,(member(C,Cs),parentRT(C,R,C2),member(R,Rels)),Cs2).
+expand_subgraph_seeds(Cs,Cs,_,_).
+
+compact_graph(G,G,_,Cs,Cs,Opts) :-
+        option(compact(false),Opts),
+        !.
+compact_graph(G,G2,SCPs,InCs,OutCs,_Opts) :-
+        findall(C,(member(Num-C,SCPs),
+                   % has at least one child
+                   \+ \+ member(_-C,G),
+                   % counts for all children are identical
+                   forall(member(D-C,G),
+                          member(Num-D,SCPs))),
+                Cs),
+        findall(C,(member(C,InCs),\+member(C,Cs)),OutCs),
+        remove_nodes(Cs,G,G2).
+
+remove_nodes([],G,G_new) :-
+        sort(G,G_s),
+        % compacting may re-introduce redundancies
+        reduce_graph(G_s,G_new,[]).
+remove_nodes([C|Cs],G,G_new) :-
+        debug(subgraph,'Node ~w is not compact',[C]),
+        solutions(X-Y,(member(X-C,G),
+                       member(C-Y,G)),
+                  NewLinks),
+        findall(X-Y,(member(X-Y,G),
+                     X\=C,
+                     Y\=C),
+                FilteredLinks),
+        append(NewLinks,FilteredLinks,G2),
+        remove_nodes(Cs,G2,G_new).
+        
+        
+
+
+
+
+ontol_subgraph_closure(SCPs,Rels,G,Cs,_Opts) :-
+        setof(C,S^(member(S-C,SCPs),
+                   S\=0 ),Cs),
+        setof(C-P,Num^R^(member(C,Cs),
+                         parentT(C,R,P),
+                         member(Num-P,SCPs),
+                         member(R,Rels)),
+              G).
+
+reduce_graph(G,G2,_Opts) :-
+        findall(C-P,(member(C-P,G),
+                     \+ ((member(C-Z,G),
+                          member(Z-P,G)))),
+                G2).
+
+% note that the graph may have singletons
+graph_roots(G,Cs,Roots) :-
+        findall(C,(member(C,Cs),
+                   \+member(C-_,G)),
+                Roots).
+
+
+remove_cycles(G,G2,Opts) :-
+        option(cycles(equiv),Opts),
+        !,
+        findall(C-P,(member(C-P,G),
+                     \+member(P-C,G)),
+                Gx),
+        findall(C=P,(member(C-P,G),
+                     \+member(C-P,Gx)),
+                Gy),
+        append(Gx,Gy,G2).
+remove_cycles(G,G,Opts) :-
+        option(cycles(error),Opts),
+        !,
+        member(C-P,G),
+        member(P-C,G),
+        throw(error(cycle(C-P,in(G)))).
+remove_cycles(G,G2,_Opts) :-
+        findall(C-P,(member(C-P,G),
+                     \+member(P-C,G)),
+                G2).
+
+
+        
 % ----------------------------------------
 % UTIL
 % ----------------------------------------

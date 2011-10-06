@@ -516,7 +516,7 @@ bp_generic('fate specification','cell fate specification',results_in_specificati
 bp_generic('fate determination','cell fate determination',results_in_specification_of,'CL',cell).
 bp_generic(proliferation,'cell proliferation',acts_on_population_of,'CL',cell).
 bp_generic(activation,'cell activation',acts_on_population_of,'CL',cell).
-bp_generic('cell migration','cell migration',acts_on_population_of,'CL',cell).
+bp_generic(migration,'cell migration',acts_on_population_of,'CL',cell).
 
 bp_generic(development,'anatomical structure development',results_in_development_of,['CL','UBERON','PO'],anatomy).
 bp_generic('structural arrangement','anatomical structure arrangement',results_in_arrangement_of,['CL','UBERON','PO'],anatomy).
@@ -525,6 +525,8 @@ bp_generic(morphogenesis,'anatomical structure morphogenesis',results_in_morphog
 bp_generic(growth,'developmental growth',occurs_in,['CL','UBERON','PO'],anatomy).
 bp_generic(maturation,'anatomical structure maturation',results_in_developmental_progression_of,['CL','UBERON','PO'],anatomy).
 bp_generic(induction,'developmental induction',induces,['CL','UBERON','PO'],anatomy).
+bp_generic(migration,'tissue migration',results_in_movement_of,['UBERON','PO'],anatomy).
+bp_generic(regression,'anatomical structure regression',directly_involves,['UBERON','PO'],anatomy).
 
 bp_generic(metabolism,'metabolic process',has_participant,['CHEBI','PRO'],chemical).
 bp_generic('metabolic process','metabolic process',has_participant,['CHEBI','PRO'],chemical).
@@ -813,6 +815,9 @@ parse_entity(E,Label,X_Repl,Msg,Opts) :-
         entity_label_scope(E,Label_1,Sc),
         %label_lexical_variant(Label_1,Label),
         downcase_atom(Label_1,Label),
+        % hack for speed:
+        \+ nb_current(Label,_),
+        nb_setval(Label,true),
         debug(qobol,'  Label: ~w',[Label]),
         opts_allowed_scope(Sc,Opts),
         label_template_match(Label,Toks),

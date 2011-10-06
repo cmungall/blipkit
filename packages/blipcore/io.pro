@@ -928,6 +928,7 @@ file_to_prolog_cmd(tsv,'tbl2p -use_filename').
 file_to_prolog_cmd(txt,'tbl2p -use_filename').
 file_to_prolog_cmd(tab,'tbl2p -use_filename').
 file_to_prolog_cmd(csv,'tbl2p -csv -p filedata').
+file_to_prolog_cmd(map,'tbl2p -p idmap').
 file_to_prolog_cmd(tbl(P),X):- atom_concat('tbl2p -p ',P,X).
 file_to_prolog_cmd(tbl(P,Cols),X):- concat_atom(Cols,',',A),concat_atom(['tbl2p -s ',A,' -p ',P],X).
 file_to_prolog_cmd(idlist,'tbl2p -p id').

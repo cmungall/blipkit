@@ -164,8 +164,8 @@ main:-
                (   concat_atom([IncludeType,IncludeID],'//',Include),
                    add_to_include_list(IncludeID,IncludeType))),
 
-        forall(member(File,ConsultFileL),
-              ensure_loaded(File)),
+        %forall(member(File,ConsultFileL),
+        %      ensure_loaded(File)),
 
         % bind SQL after all mapping modules are loaded
         (   SQLBinds=[]

@@ -151,6 +151,10 @@ user:bioresource(zebrafish_mouse_orthos,phenotype_commons('ZFIN/mouse_orthos.txt
 
 user:bioresource(omim2gene,biowarehouse('omim/disorder2ncbigene.txt'),txt).
 
+% --ID Mapping--
+user:bioresource(idmapping,url('ftp://ftp.pir.georgetown.edu/databases/idmapping/idmapping.tb.gz'),gzip(tbl(idmapping))).
+%user:bioresource(idmapping,url('ftp://ftp.pir.georgetown.edu/databases/idmapping/idmapping.tb.gz'),gzip(idmap)).
+
 
 % --NCBI--
 user:bioresource(taxnames,home('Data/ncbitax/names.dmp'),ncbitaxname).

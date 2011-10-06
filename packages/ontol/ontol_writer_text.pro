@@ -136,6 +136,10 @@ ontol_writer:write_class(text,ID,Opts):-
 		       ;   GN=''),
 		       format(' [ann: ~w "~w"]',[G,GN])))
         ;   true),
+	(   member(counts(NCPairs),Opts),
+            member(Num-ID,NCPairs)
+        ->  format(' [~w]',[Num])
+        ;   true),
 	(   member(showxp(1),Opts),
             class_label_by_xp(ID,XPLabel)
         ->  format(' [XP: ~w]',[XPLabel])

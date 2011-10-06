@@ -92,7 +92,7 @@ user:bioresource(nbo,local('behavior-ontology-read-only/behavior.obo'),obo).
 % --Disease--
 user:bioresource(disease_dn,local('diseaseontology/HumanDO_downcase.obo'),obo).
 user:bioresource(disease,local('diseaseontology/HumanDO.obo'),obo).
-user:bioresource(disease_xp,local('diseaseontology/DO_logical_def.obo'),obo).
+user:bioresource(disease_xp,local('diseaseontology/HumanDO_xp.obo'),obo).
 user:bioresource('DOID',local('diseaseontology/DO_logical_def.obo'),obo).
 user:bioresource(disease_stemmed,local('disease/DO_stemmed.pro'),pro,ontol_db).
 user:bioresource(disease2gene,url('http://django.nubic.northwestern.edu/fundo/media/data/do_lite.txt'),txt).
@@ -287,6 +287,7 @@ user:bioresource('AAO',home('cvs/aao/AAO_v2_edit.obo'),obo).
 %user:bioresource('AAO',X,obo):- bioresource(obo(amphibian_anatomy),X,obo).
 user:bioresource(uberon,uberon('uberon_edit.obo'),obo).
 user:bioresource(uberonp,uberon('uberon.obo'),obo).
+user:bioresource(uberon_merged,uberon('merged.obo'),obo).
 user:bioresource(uberons,uberon('uberon-simple.obo'),obo).
 user:bioresource(uber_anatomy,uberon('uberon.obo'),obo).
 user:bioresource(uberon_with_isa,uberon('uberon_edit-with-isa.obo'),obo).
@@ -375,7 +376,6 @@ user:bioresource(gramene_pa,poc('associations/maize_ga.pro',pro,ontol_db)).
 user:bioresource(worm_pa,'/users/cjm/obd/data/phenotype_annotation/WB/test_data/phenotype_association.WS186.wb',go_assoc).
 user:bioresource(worm_ga,'/users/cjm/cvs/go/gene-associations/gene_association.wb.gz',gzip(go_assoc)).
 
-user:bioresource(idmapping,'ftp://ftp.pir.georgetown.edu/databases/idmapping/idmapping.tb.gz',gzip(idmap)).
 
 % ----------------------------------------
 % OBO METADATA
