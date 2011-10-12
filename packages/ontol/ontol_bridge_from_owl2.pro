@@ -128,7 +128,7 @@ ontol_db:property_range(R,X) :- uri_oboid(UR,R),uri_oboid(UX,X),owl2_model:prope
 % ----------------------------------------
 % CLASS AXIOMS
 % ----------------------------------------
-%ontol_db:subclass(X,Y) :- uri_oboid(UX,X),uri_oboid(UY,Y),owl2_model:subClassOf(UX,UY),class(UX),class(UY),\+suppress_entity(UY).
+ontol_db:subclass(X,Y) :- uri_oboid(UX,X),uri_oboid(UY,Y),owl2_model:subClassOf(UX,UY),class(UX),class(UY),\+suppress_entity(UY).
 ontol_db:subclass(X,Y) :- uri_oboid(UX,X),uri_oboid(UY,Y),owl2_model:subClassOf(UX,UY),referenceable(UX),referenceable(UY),classExpression(UX),classExpression(UY),\+suppress_entity(UY).
 ontol_db:restriction(X,R,Y) :- uri_oboid(UX,X),owl2_model:subClassOf(UX,Restr),owlrestriction_to_oborelationship(Restr,R=Y).
 ontol_db:min_cardinality_restriction(X,R,Card,Y) :- uri_oboid(UX,X),owl2_model:subClassOf(UX,Restr),owlrestriction_to_oborelationship(Restr,c(min,Card,R,Y)).

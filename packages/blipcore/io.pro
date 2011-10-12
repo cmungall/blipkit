@@ -627,6 +627,11 @@ load_special(owl2obo,File):-
         ensure_loaded(bio(obo_new_namespaces)),
         ensure_loaded(bio(ontol_bridge_from_owl2)),
         load_special(owl,File).
+load_special(iao2obo,File):-
+        !,
+        ensure_loaded(bio(obo_new_namespaces)),
+        ensure_loaded(bio(ontol_manifest_metadata_from_iao)),
+        load_special(owl,File).
 load_special(owl_i,File):-
         !,
         ensure_loaded(library('thea2/owl2_from_rdf')),

@@ -1416,10 +1416,27 @@ expand_subgraph_seeds(Cs,Cs2,Rels,Opts) :-
         solutions(C2,(member(C,Cs),parentRT(C,R,C2),member(R,Rels)),Cs2).
 expand_subgraph_seeds(Cs,Cs,_,_).
 
+% transitive reduction
+%  input: transitive closure edges
+%  output: minimal graph
+reduce_graph(G,G2,_Opts) :-
+        findall(C-P,(member(C-P,G),
+                     \+ ((member(C-Z,G),
+                          member(Z-P,G)))),
+                G2).
+
 compact_graph(G,G,_,Cs,Cs,Opts) :-
         option(compact(false),Opts),
         !.
-compact_graph(G,G2,SCPs,InCs,OutCs,_Opts) :-
+compact_graph(G,G2,SCPs,InCs,OutCs,Opts) :-
+        compact_graph_r(G,G_next,SCPs,InCs,NextCs,Opts),
+        (   length(G,GLen),
+            length(G_next,GLen)
+        ->  G2=G_next,
+            OutCs=NextCs
+        ;   compact_graph(G_next,G2,SCPs,NextCs,OutCs,Opts)).
+
+compact_graph_r(G,G2,SCPs,InCs,OutCs,_Opts) :-
         findall(C,(member(Num-C,SCPs),
                    % has at least one child
                    \+ \+ member(_-C,G),
@@ -1431,9 +1448,9 @@ compact_graph(G,G2,SCPs,InCs,OutCs,_Opts) :-
         remove_nodes(Cs,G,G2).
 
 remove_nodes([],G,G_new) :-
-        sort(G,G_s),
         % compacting may re-introduce redundancies
-        reduce_graph(G_s,G_new,[]).
+        reduce_graph(G,G_r,[]),
+        sort(G_r,G_new).
 remove_nodes([C|Cs],G,G_new) :-
         debug(subgraph,'Node ~w is not compact',[C]),
         solutions(X-Y,(member(X-C,G),
@@ -1460,11 +1477,6 @@ ontol_subgraph_closure(SCPs,Rels,G,Cs,_Opts) :-
                          member(R,Rels)),
               G).
 
-reduce_graph(G,G2,_Opts) :-
-        findall(C-P,(member(C-P,G),
-                     \+ ((member(C-Z,G),
-                          member(Z-P,G)))),
-                G2).
 
 % note that the graph may have singletons
 graph_roots(G,Cs,Roots) :-

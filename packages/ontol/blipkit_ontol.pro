@@ -1150,7 +1150,9 @@ user:opt_insecure(query).
 show_subgraph(display,_Roots,G,_,Opts) :-
         !,
         ensure_loaded(bio(ontol_writer_dot)),
-        findall(edge(C,P,s),member(C-P,G),Edges),
+        findall(edge(C,P,R),(member(C-P,G),
+                             parentT(C,R,P)),
+                Edges),
         edges_to_display(Edges,Opts).
 show_subgraph(text,Roots,G,_,Opts) :-
         forall(member(R,Roots),
@@ -1237,11 +1239,12 @@ show_subgraph(formatted,ID,G,[Tab|Tabs],Opts) :-
                      ),
                  QVs),
             solr_query(URL,QVs/facets([Facet]),Results,Opts),
-            Results=results(_Num,_Pos,_RL,FL),
+            Results=results(_Num,_Pos,RL,FL),
             forall(member(_=KVs,FL),
                    (   ontol_subgraph(KVs,Rels,G,Roots,Opts),
-                       show_subgraph(OutFmt,Roots,G,[TabChar],[counts(KVs)|Opts]))))).
-
+                       show_subgraph(OutFmt,Roots,G,[TabChar],[counts(KVs)|Opts]))),
+            forall(member(R,RL),
+                   format(' R: ~w~n',[R])))).
 
         
 

@@ -242,6 +242,7 @@ user:bioresource(full_galen,url('http://www.co-ode.org/galen/full-galen.owl'),ow
 user:bioresource(galen,uberon('galen.obo'),obo).
 user:bioresource(mesh,uberon('mesh.obo'),obo).
 user:bioresource(vao,home('cvs/phenoscape/vocab/skeletal/obo/vertebrate_anatomy_edit.obo'),obo).
+user:bioresource(amniote,home('cvs/phenoscape/vocab/amniote_draft.obo'),obo).
 user:bioresource(snomed_anatomy,home('cvs/snomed/snomed-anat.obo'),obo).
 user:bioresource(snomed_tidy,home('cvs/snomed/snomed-tidy.obo'),obo).
 

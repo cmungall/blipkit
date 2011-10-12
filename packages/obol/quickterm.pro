@@ -296,18 +296,18 @@ template(biosynthesis(X),
           def= ['The chemical reactions and pathways resulting in the formation of ',refname(X),'.']
          ]).
 
-template(biosynthesis_from(X),
+template(biosynthesis_from(X,Y),
          [
           description= 'biosynthetic process',
           ontology= 'GO',
           obo_namespace= biological_process,
           externals= ['GOCHE'],
           requires= ['http://www.geneontology.org/ontology/editors/go_xp_chebi.obo'],
-          arguments= [target='CHEBI'],
-          cdef= cdef('GO:0009058',['OBO_REL:has_output'=X]),
-          name= [name(X),' biosynthetic process'],
-          synonyms= [[synonym(X),' biosynthesis'], [synonym(X),' biosynthetic process']],
-          def= ['The chemical reactions and pathways resulting in the formation of ',refname(X),'.']
+          arguments= [input='CHEBI', target='CHEBI'],
+          cdef= cdef('GO:0009058',['OBO_REL:has_output'=X, 'OBO_REL:has_output'=Y]),
+          name= [name(Y),' biosynthetic process from ',name(X)],
+          synonyms= [[synonym(Y),' biosynthesis from ',synonym(Y)]],
+          def= ['The chemical reactions and pathways resulting in the formation of ',refname(Y),' from ',refname(X),'.']
          ]).
 
 
