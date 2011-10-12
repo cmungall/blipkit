@@ -304,7 +304,7 @@ template(biosynthesis_from(X,Y),
           externals= ['GOCHE'],
           requires= ['http://www.geneontology.org/ontology/editors/go_xp_chebi.obo'],
           arguments= [input='CHEBI', target='CHEBI'],
-          cdef= cdef('GO:0009058',['OBO_REL:has_output'=X, 'OBO_REL:has_output'=Y]),
+          cdef= cdef('GO:0009058',['OBO_REL:has_input'=X, 'OBO_REL:has_output'=Y]),
           name= [name(Y),' biosynthetic process from ',name(X)],
           synonyms= [[synonym(Y),' biosynthesis from ',synonym(Y)]],
           def= ['The chemical reactions and pathways resulting in the formation of ',refname(Y),' from ',refname(X),'.']
