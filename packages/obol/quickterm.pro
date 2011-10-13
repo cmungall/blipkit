@@ -306,7 +306,7 @@ template(biosynthesis_from(X,Y),
           arguments= [input='CHEBI', target='CHEBI'],
           cdef= cdef('GO:0009058',['OBO_REL:has_input'=X, 'OBO_REL:has_output'=Y]),
           name= [name(Y),' biosynthetic process from ',name(X)],
-          synonyms= [[synonym(Y),' biosynthesis from ',synonym(Y)]],
+          synonyms= [[synonym(Y),' biosynthesis from ',synonym(X)]],
           def= ['The chemical reactions and pathways resulting in the formation of ',refname(Y),' from ',refname(X),'.']
          ]).
 
