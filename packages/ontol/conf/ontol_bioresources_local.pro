@@ -347,6 +347,8 @@ user:bioresource(evoc,ontdir('evoc.pro'),pro,ontol_db).
 %user:bioresource(cco,ontdir('cco.owl'),owl).
 user:bioresource(cco,url('http://www.cellcycleontology.org/ontology/cco.obo'),obo).
 user:bioresource(cco_scer,url('http://www.semantic-systems-biology.org/ontology/obo/cco_S_cerevisiae.obo'),obo).
+user:bioresource(f,home('f.obo'),obo).
+
 
 %user:bioresource(acgt,url('http://www.ifomis.org/acgt/1.0' ),owl). % 1.0
 

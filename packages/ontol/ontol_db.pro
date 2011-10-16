@@ -1389,6 +1389,11 @@ cdef_label(cdef(G,Diffs),Label):-
 % ----------------------------------------
 % SUBGRAPHS
 % ----------------------------------------
+
+%% ontol_subgraph(+Input, +Rels:list, ?G, ?Roots:list, +Opts:list)
+%
+% Input = ClassList | KVList
+% G = [ChildParentPair1, ....]
 ontol_subgraph(Cs,Rels,G,Roots,Opts) :-
         member(C,Cs),
         C\=_-_,
