@@ -238,7 +238,7 @@ template(chemical_binding(X),
           arguments= [target='CHEBI'],
           cdef= cdef('GO:0005488',['OBO_REL:has_input'=X]),
           name= [name(X),' binding'],
-          synonyms= [[synonym(X),' binding']],
+          synonyms= [synonym(X),' binding'],
           def= ['Interacting selectively and non-covalently with ',name(X),'.']
          ]).
 template(metabolism_catabolism_biosynthesis(X),
@@ -279,7 +279,7 @@ template(catabolism(X),
           arguments= [target='CHEBI'],
           cdef= cdef('GO:0009056',['OBO_REL:has_input'=X]),
           name= [name(X),' catabolic process'],
-          synonyms= [[synonym(X),' catabolism'], [synonym(X),' catabolic process']],
+          synonyms= [[synonym(X),' breakdown'],[synonym(X),' degradation'],[synonym(X),' catabolism'], [synonym(X),' catabolic process']],
           def= ['The chemical reactions and pathways resulting in the breakdown of ',refname(X),'.']
          ]).
 template(biosynthesis(X),
@@ -598,7 +598,11 @@ generate_facts(Template,New,[metadata_db:entity_synonym(New,Syn),
                              metadata_db:entity_synonym_scope(New,Syn,Scope),
                              metadata_db:entity_synonym_xref(New,Syn,'GOC:obol')
                              ],Opts) :-
-        template_lookup(Template,synonyms,SynsT),
+        template_lookup(Template,synonyms,SynsT_1),
+        (   member(SynsT,SynsT_1),
+            is_list(SynsT)
+        *->  true
+        ;   SynsT=SynsT_1),
         generate_text(SynsT,Syn,Scope,Opts),
         \+ ((template_lookup(Template,name,NameT),
              generate_text(NameT,Syn,Opts))).
