@@ -7560,7 +7560,6 @@ adj('frontal', 'anatomy').
 adj('common', 'anatomy').
 adj('contralateral', 'anatomy').
 adj('bilateral', 'anatomy').
-adj('aortic', 'anatomy').
 adj('abdominal', 'anatomy').
 adj('degenerate', 'anatomy').
 adj('vascular', 'anatomy').
@@ -7736,6 +7735,9 @@ noun('syncytium', 'anatomy').
 noun('muscle', 'anatomy').
 noun('vessel', 'anatomy').
 noun('zygote', 'anatomy').
+relational_adj_ra('striatal', 'striatum', 'anatomy').
+relational_adj_ra('septal', 'septum', 'anatomy').
+relational_adj_ra('ulnar', 'ulna', 'anatomy').
 relational_adj_ra('metanephric', 'metanephros', 'anatomy').
 relational_adj_ra('mesonephric', 'mesonephros', 'anatomy').
 relational_adj_ra('pronephric', 'pronephros', 'anatomy').
@@ -7794,6 +7796,7 @@ relational_adj_ra('physiological', 'physiology', 'anatomy').
 relational_adj_ra('embryonic', 'embryo', 'anatomy').
 relational_adj_ra('epidermal', 'epidermis', 'anatomy').
 relational_adj_ra('epithelial', 'epithelium', 'anatomy').
+relational_adj_ra('epididymal', 'epididymis', 'anatomy').
 relational_adj_ra('glandular', 'gland', 'anatomy').
 relational_adj_ra('duodenal', 'duodenum', 'anatomy').
 relational_adj_ra('glial', 'glia', 'anatomy').
@@ -7801,6 +7804,8 @@ relational_adj_ra('neurectodermal', 'neurectoderm', 'anatomy').
 relational_adj_ra('hepatic', 'liver', 'anatomy').
 relational_adj_ra('laryngeal', 'larynx', 'anatomy').
 relational_adj_ra('pharyngeal', 'pharynx', 'anatomy').
+relational_adj_ra('oropharyngeal', 'oropharynx', 'anatomy').
+relational_adj_ra('nasopharyngeal', 'nasropharynx', 'anatomy').
 relational_adj_ra('syncytial', 'syncytium', 'anatomy').
 relational_adj_ra('retinal', 'retina', 'anatomy').
 relational_adj_ra('pancreatic', 'pancreas', 'anatomy').
@@ -7823,9 +7828,20 @@ relational_adj_ra('skeletal', 'skeleton', 'anatomy').
 relational_adj_ra('hyphal', 'hypha', 'anatomy').
 relational_adj_ra('intestinal', 'intestine', 'anatomy').
 relational_adj_ra('pupal', 'pupa', 'anatomy').
+relational_adj_ra('pulmonary', 'lung', 'anatomy').
 relational_adj_ra('axonemal', 'axoneme', 'anatomy').
 relational_adj_ra('synaptic', 'synapse', 'anatomy').
 relational_adj_ra('nervous', 'nerve', 'anatomy').
+relational_adj_ra('mesangial', 'mesangium', 'anatomy').
+relational_adj_ra('medullary', 'medulla', 'anatomy').
+relational_adj_ra('chondrogenic', 'cartilage', 'anatomy').
+relational_adj_ra('cartilaginous', 'cartilage', 'anatomy').
+relational_adj_ra('cartilagenous', 'cartilage', 'anatomy').
+relational_adj_ra('trabecular', 'trabecula', 'anatomy').
+relational_adj_ra('carpal', 'carpus', 'anatomy').
+relational_adj_ra('metacarpal', 'metacarpus', 'anatomy').
+relational_adj_ra('tarsal', 'tarsus', 'anatomy').
+relational_adj_ra('metatarsal', 'metatarsus', 'anatomy').
 relational_adj_ra('neuromuscular', 'neuromuscle', 'anatomy').
 relational_adj_ra('spinal', 'spine', 'anatomy').
 relational_adj_ra('fetal', 'fetus', 'anatomy').
@@ -7844,6 +7860,8 @@ relational_adj_ra('ovarian', 'ovary', 'anatomy').
 relational_adj_ra('respiratory', 'respiration', 'anatomy').
 relational_adj_ra('salivary', 'saliva', 'anatomy').
 relational_adj_ra('visceral', 'pharynx', 'anatomy').
+relational_adj_ra('branchial', 'pharynx', 'anatomy').
+relational_adj_ra('splenic', 'spleen', 'anatomy').
 adj('smooth', 'muscle_type').
 adj('striated', 'muscle_type').
 type_token('L1', 'plant_anatomy').

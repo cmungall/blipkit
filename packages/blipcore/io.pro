@@ -927,6 +927,7 @@ file_to_prolog_cmd(blast,'search2p -f blast').
 file_to_prolog_cmd(tagval,'tagval2p -reify -m user').
 file_to_prolog_cmd(tagval(NS),X):- atom_concat('tagval2p -m ',NS,X).
 file_to_prolog_cmd(tbl,'tbl2p').
+file_to_prolog_cmd(terms,'tbl2p -p t').
 file_to_prolog_cmd(ptbl,'tbl2p').
 file_to_prolog_cmd(rpt,'tbl2p -use_filename').
 file_to_prolog_cmd(tsv,'tbl2p -use_filename').

@@ -23,6 +23,10 @@ user:bioresource(obolr(N),Path,obo):-
 user:bioresource(go_assoc_local(N),go_gene_associations(Path),gzip(go_assoc)):- nonvar(N),concat_atom(['gene_association.',N,'.gz'],Path).
 user:bioresource(go_assoc_submit(N),go_gene_associations(Path),gzip(go_assoc)):- nonvar(N),concat_atom(['submission/gene_association.',N,'.gz'],Path).
 user:bioresource(go_assoc(N),url(URL),gzip(go_assoc)):- nonvar(N),concat_atom(['http://www.geneontology.org/gene-associations/gene_association.',N,'.gz'],URL).
+user:bioresource(go_assoc_hist(N),url(URL),gzip(go_assoc)):-
+        nonvar(N),
+        concat_atom([B,Num],'-',N), % e.g. 1.216
+        concat_atom(['http://cvsweb.geneontology.org/cgi-bin/cvsweb.cgi/~checkout~/go/gene-associations/gene_association.',B,'.gz?rev=',Num],URL).
 user:bioresource(go_assoc_version(N,V),url(URL),gzip(go_assoc)):-
         nonvar(N),
         concat_atom(['http://cvsweb.geneontology.org/cgi-bin/cvsweb.cgi/~checkout~/go/gene-associations/gene_association.',N,'.gz?rev=',V,';content-type=application%2Fx-gzip.'],URL).

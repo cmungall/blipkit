@@ -92,6 +92,7 @@ user:bioresource(nbo,local('behavior-ontology-read-only/behavior.obo'),obo).
 % --Disease--
 user:bioresource(disease_dn,local('diseaseontology/HumanDO_downcase.obo'),obo).
 user:bioresource(disease,local('diseaseontology/HumanDO.obo'),obo).
+user:bioresource('DO',local('diseaseontology/HumanDO.obo'),obo).
 user:bioresource(disease_xp,local('diseaseontology/HumanDO_xp.obo'),obo).
 user:bioresource('DOID',local('diseaseontology/DO_logical_def.obo'),obo).
 user:bioresource(disease_stemmed,local('disease/DO_stemmed.pro'),pro,ontol_db).
@@ -103,6 +104,7 @@ user:bioresource(ido,obo_cvs('phenotype/infectious_disease.obo'),obo).
 user:bioresource(mgip,'/users/cjm/obd/data/phenotype_annotation/MGI/source_files/gene_mp-curation_db.pro',curation_db:pro).
 user:bioresource(mgi_gene,'/users/cjm/obd/data/phenotype_annotation/MGI/source_files/gene.obo',obo).
 user:bioresource(ogms,local('ogms-read-only/src/ontology/ogms.obo'),obo).
+user:bioresource(icd9,home('cvs/icd9/icd9.obo'),obo).
 
 
 user:bioresource(cell,obo_local('anatomy/cell_type/cell.edit.obo'),obo).
@@ -129,6 +131,7 @@ user:bioresource(plant_trait_xp,obo_local('phenotype/plant_traits/plant_trait_xp
 user:bioresource('MP',obo_local('phenotype/mammalian_phenotype.obo'),obo).
 user:bioresource(mammalian_phenotype,obo_local('phenotype/mammalian_phenotype.obo'),obo).
 user:bioresource(ascomycete_phenotype,obo_local('phenotype/ascomycete_phenotype.obo'),obo).
+user:bioresource('APO',obo_local('phenotype/ascomycete_phenotype.obo'),obo).
 user:bioresource('HP','/Users/cjm/cvs/hpo/src/ontology/human-phenotype-ontology.obo',obo).
 user:bioresource(human_phenotype,'/Users/cjm/cvs/hpo/src/ontology/human-phenotype-ontology.obo',obo).
 user:bioresource(human_phenotype_xp,'/Users/cjm/cvs/hpo/src/ontology/human-phenotype-ontology_xp.obo',obo).
@@ -150,6 +153,7 @@ user:bioresource(gene(Tax),obo_local(Path),obo) :- sformat(Path,'genomic-proteom
 user:bioresource(gotax,'/users/cjm/cvs/go/quality_control/annotation_checks/taxon_checks/taxon_go_triggers.obo',obo).
 user:bioresource(taxslim,'/users/cjm/cvs/go/quality_control/annotation_checks/taxon_checks/ncbi_taxon_slim.obo',obo).
 user:bioresource(taxunion,'/users/cjm/cvs/go/quality_control/annotation_checks/taxon_checks/taxon_union_terms.obo',obo).
+user:bioresource(taxunionm,'/users/cjm/cvs/go/quality_control/annotation_checks/taxon_checks/taxon_union_materialized.obo',obo).
 
 
 % XP
@@ -244,6 +248,7 @@ user:bioresource(mesh,uberon('mesh.obo'),obo).
 user:bioresource(vao,home('cvs/phenoscape/vocab/skeletal/obo/vertebrate_anatomy_edit.obo'),obo).
 user:bioresource(amniote,home('cvs/phenoscape/vocab/amniote_draft.obo'),obo).
 user:bioresource(snomed_anatomy,home('cvs/snomed/snomed-anat.obo'),obo).
+user:bioresource(snomed_disorder,home('cvs/snomed/snomed-disorder.obo'),obo).
 user:bioresource(snomed_tidy,home('cvs/snomed/snomed-tidy.obo'),obo).
 
 
@@ -297,6 +302,9 @@ user:bioresource(uberonp_v,uberon('uberon-with-isa-for-FMA-MA-ZFA.obo'),obo).
 user:bioresource(fma_xp,uberon('fma_xp.obo'),obo).
 user:bioresource(wpanat,uberon('dbpedia_ontol.obo'),obo).
 user:bioresource(mesh_anatomy,uberon('mesh_anatomy.obo'),obo).
+user:bioresource(ascidian_anatomy,uberon('ciona/ascidian.obo'),obo).
+user:bioresource('ANISEED',uberon('ciona/ascidian.obo'),obo).
+user:bioresource(geisha,uberon('kb/geisha.obo'),obo).
 
 user:bioresource(gemina_anatomy,url('http://gemina.svn.sourceforge.net/viewvc/gemina/trunk/Gemina/ontologies/gemina_anatomy.obo'),obo).
 

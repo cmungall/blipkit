@@ -292,6 +292,8 @@ hepatic, liver
 
 laryngeal, larynx
 pharyngeal, pharynx
+oropharyngeal, oropharynx
+nasopharyngeal, nasropharynx
 
 syncytial, syncytium
 retinal, retina
@@ -329,6 +331,10 @@ chondrogenic, cartilage
 cartilaginous, cartilage
 cartilagenous, cartilage
 trabecular, trabecula
+carpal, carpus
+metacarpal, metacarpus
+tarsal, tarsus
+metatarsal, metatarsus
 
 neuromuscular, neuromuscle
 spinal, spine

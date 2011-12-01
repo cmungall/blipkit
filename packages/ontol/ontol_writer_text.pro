@@ -109,7 +109,7 @@ ontol_writer:write_class(text,ID,Opts):-
                                    format(' [inv(~w): "~w"]',[R,PN]))
             ;   true),
             (   member(all,ShowRels)
-            ->  forall_distinct(   (parent(ID,R,PID),class(PID,PN)),
+            ->  forall_distinct(   (parent(ID,R,PID),(class(PID,PN);PN=PID)),
                                format(' [~w: "~w"]',[R,PN]))
             ;   true),
             forall_distinct(   (parent(ID,R,PID),member(R,ShowRels),class(PID,PN)),

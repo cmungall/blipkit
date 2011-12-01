@@ -132,6 +132,9 @@ user:bioresource(pthr(N),url(Path),nhx):- nonvar(N),concat_atom(['http://amigo.b
 user:bioresource(paint(N),Path,paint):- nonvar(N),concat_atom(['/users/cjm/cvs/go/gene-associations/submission/paint/PTHR',N,'/PTHR',N,'.tree'],Path).
 user:bioresource(paintgaf(N),Path,go_assoc):- nonvar(N),concat_atom(['/users/cjm/cvs/go/gene-associations/submission/paint/PTHR',N,'/PTHR',N,'.gaf'],Path).
 
+user:bioresource(pthr_orthologs,url('ftp://ftp.pantherdb.org/ortholog/current/RefGenomeOrthologs.tar.gz'),gzip(tbl(refg_ortho))).
+user:bioresource(refg_ortho_family,datadir('refg_ortho_family.txt'),tbl(refg_ortho_family)).
+
 % EXPR
 user:bioresource(ugx(N),Path,tbl):- nonvar(N),concat_atom(['/users/cjm/cvs/uberon/kb/ugx',N,'.txt'],Path).
 user:bioresource(ubb(N),Path,obo):- nonvar(N),concat_atom(['/users/cjm/cvs/uberon/mod/uberon-bridge-to-',N,'.obo'],Path).
@@ -179,6 +182,10 @@ user:bioresource(omim2gene,biowarehouse('omim/disorder2ncbigene.txt'),txt).
 % --ID Mapping--
 user:bioresource(idmapping,url('ftp://ftp.pir.georgetown.edu/databases/idmapping/idmapping.tb.gz'),gzip(tbl(idmapping))).
 %user:bioresource(idmapping,url('ftp://ftp.pir.georgetown.edu/databases/idmapping/idmapping.tb.gz'),gzip(idmap)).
+
+% 3 columns
+% e.g. Q8CFS6  MGI     MGI:2670981
+user:bioresource(uniprot_idmapping,url('ftp://ftp.ebi.ac.uk/pub/databases/uniprot/current_release/knowledgebase/idmapping/idmapping.dat.gz'),gzip(tbl(idmapping))).
 
 
 % --NCBI--

@@ -234,7 +234,7 @@ structural_comparison_table(IDs,Ont) =>
 	    multirow('ParentID',data(ID),true,ID,IDs), % TODO - color this
 	    multirow('Parent',hlink(ID),true,ID,IDs), % TODO - top pairs in X
             multirow(hlink(ChildX),
-                     if(member(mapping(ChildX,Child,ID,R1),Mappings),
+                     if(member(mapping(ChildX,Child,ID,_R1),Mappings),
                         then: [hlink(Child),
                                html:font(size='-2',hlink(R)) forall_unique member(mapping(ChildX,Child,ID,R),Mappings)
                               ],

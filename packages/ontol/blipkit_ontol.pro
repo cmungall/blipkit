@@ -833,7 +833,7 @@ user:opt_insecure(query).
                    relations(Rels),
                    exclude_relations(ExcRels),
 		   rankdir(RankDir),
-                   cluster_pred(belongs(X,Ontol),X,Ontol),
+                   cluster_pred((belongs(X,Ontol)->true;Ontol=''),X,Ontol),
                    containment_relations(ContainmentRelations),
                    with_synonyms(WithSynonyms),
                    showcomments(WithComments),
@@ -1172,6 +1172,8 @@ show_subgraph(formatted,ID,G,[Tab|Tabs],Opts) :-
         forall(member(C-ID,G),
                show_subgraph(formatted,C,G,[Tab,Tab|Tabs],Opts)).
 
+blipkit:example('blip ontol-solr -r go -url http://localhost:8984/solr -attval foo=bar -facet isa_partof_closure ',
+                'As ontol-subset, but include counts for facets from a SOLR query').
 :- blip('ontol-solr',
         'Requires plsolr',
         [atom(url,URL,'http://localhost:8984/solr'),
@@ -1244,7 +1246,7 @@ show_subgraph(formatted,ID,G,[Tab|Tabs],Opts) :-
                    (   ontol_subgraph(KVs,Rels,G,Roots,Opts),
                        show_subgraph(OutFmt,Roots,G,[TabChar],[counts(KVs)|Opts]))),
             forall(member(R,RL),
-                   format(' R: ~w~n',[R])))).
+                   debug(solr,' R: ~w~n',[R])))).
 
         
 

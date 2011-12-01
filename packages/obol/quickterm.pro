@@ -176,6 +176,127 @@ template(involved_in(P,W),
           def= ['Any ',name(P),' that is involved in ',name(W),'.']
          ]).
 
+% REG BY REG
+% 1st 3
+template(regulation_by_regulation(P1,P2),
+         [
+          access= [admin],
+          description= 'regulation of P1 by regulation of P2',
+          ontology= 'GO',
+          obo_namespace= biological_process,
+          arguments= [p1=biological_process,p2=biological_process],
+          cdef= cdef('GO:0065007',[regulates=P1, regulates=P2]),
+          name= ['regulation of ',name(P1),' by regulation of ',name(P2)],
+          synonyms= ['regulation of ',synonym(P1),' by regulation of ',synonym(P2)],
+          def= ['Any process that modulates the rate or extent of ',name(P1),' via regulation of the frequency, rate or extent of ',name(P2),'.']
+         ]).
+
+template(negative_regulation_by_regulation(P1,P2),
+         [
+          access= [admin],
+          description= 'negative regulation of P1 by regulation of P2',
+          ontology= 'GO',
+          obo_namespace= biological_process,
+          arguments= [p1=biological_process,p2=biological_process],
+          cdef= cdef('GO:0065007',[negatively_regulates=P1, regulates=P2]),
+          name= ['negative regulation of ',name(P1),' by regulation of ',name(P2)],
+          synonyms= ['negative regulation of ',synonym(P1),' by regulation of ',synonym(P2)],
+          def= ['Any process that negatively modulates the rate or extent of ',name(P1),' via regulation of the frequency, rate or extent of ',name(P2),'.']
+         ]).
+
+template(positive_regulation_by_regulation(P1,P2),
+         [
+          access= [admin],
+          description= 'positive regulation of P1 by regulation of P2',
+          ontology= 'GO',
+          obo_namespace= biological_process,
+          arguments= [p1=biological_process,p2=biological_process],
+          cdef= cdef('GO:0065007',[positively_regulates=P1, regulates=P2]),
+          name= ['positive regulation of ',name(P1),' by regulation of ',name(P2)],
+          synonyms= ['positive regulation of ',synonym(P1),' by regulation of ',synonym(P2)],
+          def= ['Any process that positively modulates the rate or extent of ',name(P1),' via regulation of the frequency, rate or extent of ',name(P2),'.']
+         ]).
+% 2st 3
+template(regulation_by_negative_regulation(P1,P2),
+         [
+          access= [admin],
+          description= 'regulation of P1 by negative regulation of P2',
+          ontology= 'GO',
+          obo_namespace= biological_process,
+          arguments= [p1=biological_process,p2=biological_process],
+          cdef= cdef('GO:0065007',[regulates=P1, negatively_regulates=P2]),
+          name= ['regulation of ',name(P1),' by negative regulation of ',name(P2)],
+          synonyms= ['regulation of ',synonym(P1),' by negative regulation of ',synonym(P2)],
+          def= ['Any process that modulates the rate or extent of ',name(P1),' via negative regulation of the frequency, rate or extent of ',name(P2),'.']
+         ]).
+
+template(negative_regulation_by_negative_regulation(P1,P2),
+         [
+          access= [admin],
+          description= 'negative regulation of P1 by negative regulation of P2',
+          ontology= 'GO',
+          obo_namespace= biological_process,
+          arguments= [p1=biological_process,p2=biological_process],
+          cdef= cdef('GO:0065007',[negatively_regulates=P1, negatively_regulates=P2]),
+          name= ['negative regulation of ',name(P1),' by negative regulation of ',name(P2)],
+          synonyms= ['negative regulation of ',synonym(P1),' by negative regulation of ',synonym(P2)],
+          def= ['Any process that negatively modulates the rate or extent of ',name(P1),' via negative regulation of the frequency, rate or extent of ',name(P2),'.']
+         ]).
+
+template(positive_regulation_by_negative_regulation(P1,P2),
+         [
+          access= [admin],
+          description= 'positive regulation of P1 by negative regulation of P2',
+          ontology= 'GO',
+          obo_namespace= biological_process,
+          arguments= [p1=biological_process,p2=biological_process],
+          cdef= cdef('GO:0065007',[positively_regulates=P1, negatively_regulates=P2]),
+          name= ['positive regulation of ',name(P1),' by negative regulation of ',name(P2)],
+          synonyms= ['positive regulation of ',synonym(P1),' by negative regulation of ',synonym(P2)],
+          def= ['Any process that positively modulates the rate or extent of ',name(P1),' via negative regulation of the frequency, rate or extent of ',name(P2),'.']
+         ]).
+% 3rd 3
+template(regulation_by_positive_regulation(P1,P2),
+         [
+          access= [admin],
+          description= 'regulation of P1 by positive regulation of P2',
+          ontology= 'GO',
+          obo_namespace= biological_process,
+          arguments= [p1=biological_process,p2=biological_process],
+          cdef= cdef('GO:0065007',[regulates=P1, positively_regulates=P2]),
+          name= ['regulation of ',name(P1),' by positive regulation of ',name(P2)],
+          synonyms= ['regulation of ',synonym(P1),' by positive regulation of ',synonym(P2)],
+          def= ['Any process that modulates the rate or extent of ',name(P1),' via positive regulation of the frequency, rate or extent of ',name(P2),'.']
+         ]).
+
+template(negative_regulation_by_positive_regulation(P1,P2),
+         [
+          access= [admin],
+          description= 'negative regulation of P1 by positive regulation of P2',
+          ontology= 'GO',
+          obo_namespace= biological_process,
+          arguments= [p1=biological_process,p2=biological_process],
+          cdef= cdef('GO:0065007',[negatively_regulates=P1, positively_regulates=P2]),
+          name= ['negative regulation of ',name(P1),' by positive regulation of ',name(P2)],
+          synonyms= ['negative regulation of ',synonym(P1),' by positive regulation of ',synonym(P2)],
+          def= ['Any process that negatively modulates the rate or extent of ',name(P1),' via positive regulation of the frequency, rate or extent of ',name(P2),'.']
+         ]).
+
+template(positive_regulation_by_positive_regulation(P1,P2),
+         [
+          access= [admin],
+          description= 'positive regulation of P1 by positive regulation of P2',
+          ontology= 'GO',
+          obo_namespace= biological_process,
+          arguments= [p1=biological_process,p2=biological_process],
+          cdef= cdef('GO:0065007',[positively_regulates=P1, positively_regulates=P2]),
+          name= ['positive regulation of ',name(P1),' by positive regulation of ',name(P2)],
+          synonyms= ['positive regulation of ',synonym(P1),' by positive regulation of ',synonym(P2)],
+          def= ['Any process that positively modulates the rate or extent of ',name(P1),' via positive regulation of the frequency, rate or extent of ',name(P2),'.']
+         ]).
+
+% END OF R by R
+
 template(takes_place_in(P,C),
          [
           access= [admin],

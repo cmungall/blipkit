@@ -1473,14 +1473,17 @@ remove_nodes([C|Cs],G,G_new) :-
 
 
 
+%% ontol_subgraph_closure(+SCPs:list, +Rels:list, ?Graph, ?Classes, +Opts:list)
+%
+% SCPs = [Count1-Class1, Count2-Class2, ...]
 ontol_subgraph_closure(SCPs,Rels,G,Cs,_Opts) :-
         setof(C,S^(member(S-C,SCPs),
                    S\=0 ),Cs),
-        setof(C-P,Num^R^(member(C,Cs),
-                         parentT(C,R,P),
-                         member(Num-P,SCPs),
-                         member(R,Rels)),
-              G).
+        solutions(C-P,(member(C,Cs),
+                       parentT(C,R,P),
+                       member(_Num-P,SCPs),
+                       member(R,Rels)),
+                  G).
 
 
 % note that the graph may have singletons

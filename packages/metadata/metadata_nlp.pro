@@ -96,7 +96,8 @@ term_token_stemmed(A,T,true) :-
 	term_token(A,T1),
 	custom_porter_stem(T1,T).
 term_token_stemmed(A,T,false) :-
-	term_token(A,T).
+        downcase_atom(A,A2),
+	term_token(A2,T).
 
 custom_porter_stem(T,S) :-
         atom_concat(X,eous,T),
@@ -181,9 +182,6 @@ combine_scope(_,_,related).
 :- multifile parent_entity_hook/2.
 
 
-
-
-
 % HOOK
 :- multifile exclude_entity/1.
 
@@ -194,7 +192,7 @@ combine_scope(_,_,related).
 % this is used for exact matching, but is not useful for finding labels
 % nested inside larger labels or blocks of text.
 %
-% canonical ordering  fails in certain cases: e.g. 'chordo neural hinge' vs 'chordo neural hinge',
+% canonical ordering  fails in certain cases: e.g. 'chordo neural hinge' vs 'chordoneural hinge',
 % so we also provide the same ordering too
 term_nlabel_stemmed(Term,NLabel,St) :-
         term_tokenset_stemmed(Term,Toks,St),
@@ -208,6 +206,7 @@ term_nlabel_stemmed(Term,NLabel,St) :-
         % both with replacements ( if different) and without
 	(   maplist(token_syn_refl,Toks_1,Toks_2),
             Toks_1\=Toks_2,
+            debug(nlp,'    toks[syn]:~w ==> ~w',[Toks_1,Toks_2]),
             concat_atom(Toks_2,'',NLabel)
         ;   concat_atom(Toks_1,'',NLabel)).
 
@@ -258,6 +257,8 @@ synset(['12','12th',twelfth,'XII']).
 synset(['13','13th',thirteenth,'XIII']).
 synset(['20','20th',twentyth,'XX']).
 
+synset([cavity,lumen]).
+
 synset([caudal,posterior]).
 synset([rostral,anterior]).
 synset([dorsal,superior]).
@@ -301,7 +302,7 @@ token_syn(T,S) :- relational_adj(S,T,_,_).
 
 % DET
 token_syn(T,S) :- relational_adj(T,S,_,_),!.   % ensure noun-form is used preferentially
-token_syn(T,S) :- synset([S|L]),member(T,L).
+token_syn(T,S) :- synset([S|L]),member(T,L). % normalize to 1st member of synset
 
 % reflexive
 token_syn_refl(T,S) :- token_syn(T,S),!.
@@ -381,16 +382,17 @@ index_entity_pair_label_match :-
 entity_pair_label_match(A,B) :-
 	entity_pair_label_match(A,B,true).
 entity_pair_label_match(A,B,Stemmed) :-
-	entity_nlabel_scope_stemmed(A,N,_ScA,Stemmed),
-	entity_nlabel_scope_stemmed(B,N,_ScB,Stemmed),
-        A\=B,
-        \+ entity_obsolete(A,_),
-        \+ entity_obsolete(B,_).
+        entity_pair_label_match(A,B,Stemmed,_,_,_).
 entity_pair_label_match(A,B,Stemmed,ScA,ScB) :-
         entity_pair_label_match(A,B,Stemmed,ScA,ScB,_).
 entity_pair_label_match(A,B,Stemmed,ScA,ScB,N) :-
-	entity_nlabel_scope_stemmed(A,N,ScA,Stemmed),
-	entity_nlabel_scope_stemmed(B,N,ScB,Stemmed),
+	entity_nlabel_scope_stemmed(A,N,ScA,Stemmed1),
+	entity_nlabel_scope_stemmed(B,N,ScB,Stemmed2),
+        % we allow matches even between a stemmed and a non-stemmed. Treat as OR
+        (   \+Stemmed1,
+            \+Stemmed2
+        ->  Stemmed=false
+        ;   Stemmed=true),
         A\=B,
         \+ entity_obsolete(A,_),
         \+ entity_obsolete(B,_).

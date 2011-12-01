@@ -1,6 +1,7 @@
 
 :- use_module(bio(ontol_db)).
 :- use_module(bio(metadata_db)).
+:- use_module(bio(metadata_nlp)).
 
 :- use_module(bio(ontol_reasoner)).
 :- use_module(bio(ontol_management)).

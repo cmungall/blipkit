@@ -291,7 +291,8 @@ fact_clausesource(Fact,Source):-
         reverse(Parts1,[Base1|_]),
         concat_atom(Parts,'/',Base1),
         reverse(Parts,[Base|_]),
-        concat_atom([Source|_],'.',Base).
+        Source=Base.
+        %concat_atom([Source|_],'.',Base).
 
 
 

@@ -19,6 +19,7 @@ my $no_quote;
 my $gzip;
 my $select;
 my $csv;
+my $mf;
 @ARGV = map {if (/^\-f(\d+)/) {("-f", $1)}else{$_}} @ARGV;
 GetOptions("fields|f=s"=>\$fields,
 	   "delimiter|d=s"=>\$delimiter,
@@ -32,6 +33,7 @@ GetOptions("fields|f=s"=>\$fields,
            "use_hdr"=>\$use_hdr,
            "gzip"=>\$gzip,
            "csv"=>\$csv,
+           "mf"=>\$mf,
            "ignore_hdr"=>\$ignore_hdr,
            "list2p|l"=>\$list2p,
            "select|s=s"=>\$select,
@@ -39,6 +41,7 @@ GetOptions("fields|f=s"=>\$fields,
            "help|h"=>sub {print usage();exit(0)},
     );
 
+my %printed_directive = ();
 $list2p = 1 if $keylist2p;
 
 if ($newline) {
@@ -104,6 +107,13 @@ while(<>) {
             foreach my $pcol (split(/\,\s*/,$k)) {
                 $fields[$pcol-1] = $prefix."$fields[$pcol-1]";
             }
+        }
+    }
+    if ($mf) {
+        my $pa = $curr_pred."/".scalar(@fields);
+        if (!$printed_directive{$pa}) {
+            print ":- multifile $pa.\n";
+            $printed_directive{$pa} = 1;
         }
     }
     printf "$curr_pred(%s).\n",
