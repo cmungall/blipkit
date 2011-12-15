@@ -853,6 +853,7 @@ suggest_term_d(E,Label,X_Repl,NewTerm,Opts) :-
 
 
 
+%% compare_parse(+Class, ?Label, ?CDef, ?Msg, +Opts:list)
 compare_parse(E,_,_,pass(no_existing),_) :-
         \+ genus(E,_),
         !.
@@ -864,14 +865,26 @@ compare_parse(E,Label,X_Repl,Msg,Opts) :-
 compare_parse(E,_,_,fail(no_parse(E)),_).
 
 match_cdef(E,CDef,X,Msg) :-
-        owl2cdef(X,cdef(G,DL)),
+        owl2cdef(X,cdef(G,DL2)),
         !,
-        sort(DL,DL_Sorted),
-        CDef2=cdef(G,DL_Sorted), % parsed
-        (   CDef=CDef2
+        CDef=cdef(G,DL), 
+        CDef2=cdef(G,DL2),
+        (   CDef=CDef2,
+            match_diffs(DL,DL2)
         ->  Msg=pass(matches)
         ;   Msg=fail(mismatch(E,CDef\=CDef2))).
 match_cdef(_,_,_,fail(owl2cdef)).
+
+match_diffs([],[]).
+match_diffs([D|DL_Rest],DL2) :-
+        select(D2,DL2,DL2_Rest),
+        match_diff(D,D2),
+        !,
+        match_diffs(DL_Rest,DL2_Rest).
+
+match_diff(D,D).
+match_diff(A,B) :-        entity_xref(A,B).
+match_diff(A,B) :-        entity_xref(B,A).
 
 
 

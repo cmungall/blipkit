@@ -1457,7 +1457,7 @@ remove_nodes([],G,G_new) :-
         reduce_graph(G,G_r,[]),
         sort(G_r,G_new).
 remove_nodes([C|Cs],G,G_new) :-
-        debug(subgraph,'Node ~w is not compact',[C]),
+        debug(subgraph,'Removing node ~w, because it is not compact (counts match)',[C]),
         solutions(X-Y,(member(X-C,G),
                        member(C-Y,G)),
                   NewLinks),

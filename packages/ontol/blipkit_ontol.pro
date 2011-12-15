@@ -1242,8 +1242,10 @@ blipkit:example('blip ontol-solr -r go -url http://localhost:8984/solr -attval f
                  QVs),
             solr_query(URL,QVs/facets([Facet]),Results,Opts),
             Results=results(_Num,_Pos,RL,FL),
+            debug(solr,'Facet_Fields: ~w',[FL]),
             forall(member(_=KVs,FL),
-                   (   ontol_subgraph(KVs,Rels,G,Roots,Opts),
+                   (   %trace,
+                       ontol_subgraph(KVs,Rels,G,Roots,Opts),
                        show_subgraph(OutFmt,Roots,G,[TabChar],[counts(KVs)|Opts]))),
             forall(member(R,RL),
                    debug(solr,' R: ~w~n',[R])))).

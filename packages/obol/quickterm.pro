@@ -61,7 +61,7 @@ template_users_file(Template,File,Opts) :-
 
 template(all_regulation(X),
          [
-          access= [admin],
+          %access= [admin],
           description= 'Select all three subtemplates to generate
            terms for regulation, negative regulations and positive
            regulation (for biological processes). Names, synonyms and definitions are all
@@ -113,7 +113,7 @@ template(positive_regulation(X),
 % this is pretty dumb .. just cloned the RoBP list. we could make the domain a union, ...
 template(all_regulation_of_mf(X),
          [
-          access= [admin],
+          %access= [admin],
           description= 'Select all three subtemplates to generate
            terms for regulation, negative regulations and positive
            regulation (for molecular functions). Names, synonyms and definitions are all
@@ -164,7 +164,7 @@ template(positive_regulation_of_mf(X),
 
 template(involved_in(P,W),
          [
-          access= [admin],
+          %access= [admin],
           description= 'processes involved in other processes',
           ontology= 'GO',
           obo_namespace= biological_process,
@@ -299,7 +299,7 @@ template(positive_regulation_by_positive_regulation(P1,P2),
 
 template(takes_place_in(P,C),
          [
-          access= [admin],
+          %access= [admin],
           description= 'processes occurring in parts of the cell',
           ontology= 'GO',
           obo_namespace= biological_process,

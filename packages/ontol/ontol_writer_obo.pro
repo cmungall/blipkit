@@ -101,7 +101,10 @@ write_header(obo):-
         ;   true),
         forall_distinct(idspace(Local,Global),
                         format('idspace: ~w ~w ""~n',[Local,Global])),
-        forall_distinct((partition(SubSet),entity_label(SubSet,Label)),
+        forall_distinct((partition(SubSet),
+                         (   entity_label(SubSet,Label)
+                         ->  true
+                         ;   Label=SubSet)),
                         format('subsetdef: ~w "~w"~n',[SubSet,Label])),
         forall_distinct(synonym_type_desc(S,T,D),
                         format('synonymtypedef: ~w "~w" ~w~n',[S,D,T])),
