@@ -1,10 +1,11 @@
 :- module(curation_summary_tree,
 	  [
-	   write_xlinks_for/1
+	   write_xgraph_for/1
 	   ]).
 
 :- use_module(curation_db).
 :- use_module(bio(ontol_db)).
+:- use_module(bio(metadata_db)).
 
 /*
 
@@ -19,68 +20,98 @@
           x
         has_out [s/-/reg]
           y
+
+  E.g. blip -r go_assoc_local/mgi -debug xlinks -r go -u curation_summary_tree -goal "write_xgraph_for('Egfr'),halt"
+
   
 */
 
-class_xlink(C,EList) :-
+class_genus_differentium(C,Genus,Prop,Filler) :-
         genus(C,Genus),
-        differentium(C,Prop,Filler),
+        differentium(C,Prop,Filler).
+
+%% class_x(+Class,?GraphTerm,+RootClass) is nondet
+class_x(G,E,_) :-
+        curation_statement(_,G,_,C),
+        class_x(C,E,C).
+
+class_x(C,node(C),_) :-                 genus(C,_).
+class_x(C,label(C,Genus),_) :-          genus(C,Genus).
+class_x(C,label(C/Prop,Prop),_) :-      differentium(C,Prop,_Filler).
+class_x(C,edge(Filler,C/Prop),_) :-     differentium(C,Prop,Filler).
+class_x(C,edge(C/Prop,C),_) :-          differentium(C,Prop,_Filler).
+class_x(C,in_path(C,Root),Root).
+class_x(C,E,Root) :-
+        % todo - expand G
+        % todo - no genus
+        differentium(C,_Prop,Filler),
+        class_x(Filler,E,Root).
+class_x(C,E,Root) :-
+        \+ differentium(C,_,_),
+        (   parent(C,P),
+            differentium(P,_,_)),
         !,
-        L1=[
-            node(C),
-            node(C/Prop),
-            label(C/Prop, Prop),
-            node(Filler,Filler),
-            label(C,Genus),
-            edge(Filler,C/Prop),
-            edge(C/Prop,C)],
-        findall(L2,class_xlink(Filler,L2),LoLs),
-        flatten([L1,LoLs],EList).
+        class_x(P,E,Root).
+class_x(C,E,Root) :-
+        \+ differentium(C,_,_),
+        parent(C,P),
+        class_x(P,E,Root),
+        !.
 
-class_xlink(C,[node(C)]) :- !.
+class_xgraph(C,L) :- setof(X,class_x(C,X,C),L).
 
-/*
-class_xlink(C,EList) :-
-        \+ genus(C,_),
-        parent(C,_R,P),
-        class_xlink(P,EList).
-*/
-
-write_xlinks_for(C) :-
-        class_xlink(C,L),
-        write_xlinks(L).
+write_xgraph_for(Sym) :-
+        entity_label(G,Sym),
+        write_xgraph_for(G).
+write_xgraph_for(C) :-
+        class_xgraph(C,L),
+        write_xgraph(L).
 
 
-write_xlinks(L_u) :-
+write_xgraph(L_u) :-
         sort(L_u,L),
-        debug(xlinks,' L=~w',[L]),
+        debug(xgraph,' L=~w',[L]),
         findall(N,member(node(N),L),Nodes),
-        debug(xlinks,' Nodes=~w',[Nodes]),
+        debug(xgraph,' Nodes=~w',[Nodes]),
         findall(N,(member(N,Nodes),
                    \+ member(edge(N,_),L)),
                 Roots),
-        debug(xlinks,'Roots=~w',[Roots]),
+        debug(xgraph,'Roots=~w',[Roots]),
         forall(member(Root,Roots),
-               write_xlinks(Root,[' '],L)).
+               write_xgraph(Root,[' '],L)).
 
-write_xlinks(N,D,L) :-
+write_xgraph(N,D,L) :-
         writetabs(D),
         writenode(N,L),
+        write(' // '),
+        write_class(N,L),
         nl,
-        forall(member(edge(Ch,N),L),
-               write_xlinks(Ch,[' '|D],L)).
+        findall(Ch,member(edge(Ch,N),L),Chs),
+        (   Chs=[]
+        ->  forall(member(in_path(N,Leaf),L),
+                   write_xgraph_leaf(Leaf,D,L))
+        ;   forall(member(Ch,Chs),
+                   write_xgraph(Ch,[' '|D],L))).
+
+write_xgraph_leaf(N,D,L) :-
+        writetabs([' '|D]),
+        write('+-- '),
+        write_class(N,L),
+        nl.
 
 writetabs(D) :- maplist(write,D).
 
 writenode(N,EL) :-
         member(label(N,N2),EL),
         !,
-        writenode(N2,EL).
-writenode(N,_) :-
+        write_class(N2,EL).
+writenode(N,EL) :-
+        write_class(N,EL).
+write_class(N,_) :-
         class(N,Label),
         !,
         write(Label).
-writenode(N,_) :-
+write_class(N,_) :-
         write(N).
 
                 
