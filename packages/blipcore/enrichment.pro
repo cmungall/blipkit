@@ -1,6 +1,8 @@
 :- module(enrichment,
           [index_goal/2,
            index_goal/3,
+           load_item_attribute_table/1,
+           load_sub_attribute_of_table/1,
            itemset_attribute_enrichment/2,
            itemset_attribute_enrichment/3
           ]).
@@ -18,6 +20,23 @@
 :- multifile attribute_item/2.
 :- multifile sub_attribute_of/2.
 
+load_item_attribute_table(File) :-
+        load_biofile(tbl('enrichment:item_attribute'),File),
+        forall(item_attribute(I,A),
+               assert(attribute_item(A,I))),
+        setof(I,A^item_attribute(I,A),Is),
+        forall(member(I,Is),
+               assert(item(I))).
+load_sub_attribute_of_table(File) :-
+        load_biofile(tbl('enrichment:sub_attribute_of'),File),
+
+        
+
+
+%% index_goal(+TypeGoal-?Inst-?Class, +SubClassGoal-?Class-?SubClass)
+%
+% builds the item_attribute and sub_attribute_of tables.
+% note that item_attribute should be pre-reasoned
 index_goal(G, SG) :-
         index_goal(G,SG,'').
 

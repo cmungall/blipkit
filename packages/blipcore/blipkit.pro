@@ -17,6 +17,7 @@
 :- use_module(bio(dbmeta)).
 :- use_module(bio(blipkit_shell_dcg)).
 :- use_module(bio(tabling)).
+:- use_module(library(xpath)).
 %%%:- use_module(library(http/http_error)).
 
 :- module_transparent blip/5.
@@ -154,7 +155,7 @@ main:-
                (   concat_atom([LocalFormat,LocalFile],'^',FF),
 		   load_biofile(LocalFormat,LocalFile))),
         forall(member(File,ConsultFileL),
-               ensure_loaded(File)),
+               user:ensure_loaded(File)),
         forall(member(Term,AssertTerms),
                user:assert(Term)),
         forall(member(SpyPoint,SpyPoints),
@@ -1023,6 +1024,19 @@ iterate_over_file(F,P):-
                    (   atom_codes(Item,Codes),
                        http_post(URL,codes(Type,Codes),Reply,Opts),
                        writeln(reply=Reply))))).
+
+:- blip('xpath',
+        'wrapper for xpath.l',
+        [atom(path,PathAtom)],
+        Files,
+        (   ensure_loaded(library(sgml)),
+            ensure_loaded(library(xpath)),
+            xpath:atom_to_term(PathAtom,Path,[]),
+            format('PATH: ~q~n',[Path]),
+            forall(member(File,Files),
+                   (   load_structure(File,Dom,[]),
+                       xpath(Dom,Path,Result),
+                       writeln(Result))))).
 
 
 % TODO: move to separate module - otherwise conflicts with pldoc_web

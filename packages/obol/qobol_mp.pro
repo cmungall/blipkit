@@ -86,7 +86,12 @@ qobol_prep_ont('GO','CL') :-
 qobol_prep_ont('GO','PO') :-
         load_bioresource(go),
         load_bioresource(plant_anatomy),
-        load_bioresource(goxp(biological_process_xp_plant_anatomy)),
+        %load_bioresource(goxp(biological_process_xp_plant_anatomy)),
+        load_bioresource(goxp(relations_process_xp)),
+        !.
+qobol_prep_ont('GO','PR') :-
+        load_bioresource(go),
+        load_bioresource(protein),
         load_bioresource(goxp(relations_process_xp)),
         !.
 
@@ -390,6 +395,23 @@ dmap('carcinoma in situ','in situ carcinoma').
 % GO
 % ----------------------------------------
 
+qobol([go,bp,regulation,by],
+      [Reg1,by,Reg2],
+      Reg2 and (results_in some Reg1),
+      true,
+      subclassT(Reg1,'GO:0065007')). % biological regulation
+
+qobol([mf,binding,protein],
+      [P,binding],
+      binding and (has_input some P),
+      true,
+      in(P,'PR')).
+qobol([mf,receptor_activity,protein],
+      [P,activity],
+      'receptor activity' and (has_active_participant some P),
+      true,
+      in(P,'PR')).
+
 %snRNA import into Cajal body
 qobol([go,bp,import],
       [M,import,into,C],
@@ -518,15 +540,15 @@ bp_generic(proliferation,'cell proliferation',acts_on_population_of,'CL',cell).
 bp_generic(activation,'cell activation',acts_on_population_of,'CL',cell).
 bp_generic(migration,'cell migration',acts_on_population_of,'CL',cell).
 
-bp_generic(development,'anatomical structure development',results_in_development_of,['CL','UBERON','PO'],anatomy).
+bp_generic(morphogenesis,'anatomical structure morphogenesis',results_in_morphogenesis_of,['CL','UBERON','PO'],anatomy).
 bp_generic('structural arrangement','anatomical structure arrangement',results_in_arrangement_of,['CL','UBERON','PO'],anatomy).
 bp_generic(formation,'anatomical structure formation involved in morphogenesis',results_in_formation_of,['CL','UBERON','PO'],anatomy).
-bp_generic(morphogenesis,'anatomical structure morphogenesis',results_in_morphogenesis_of,['CL','UBERON','PO'],anatomy).
 bp_generic(growth,'developmental growth',occurs_in,['CL','UBERON','PO'],anatomy).
 bp_generic(maturation,'anatomical structure maturation',results_in_developmental_progression_of,['CL','UBERON','PO'],anatomy).
 bp_generic(induction,'developmental induction',induces,['CL','UBERON','PO'],anatomy).
 bp_generic(migration,'tissue migration',results_in_movement_of,['UBERON','PO'],anatomy).
 bp_generic(regression,'anatomical structure regression',directly_involves,['UBERON','PO'],anatomy).
+bp_generic(development,'anatomical structure development',results_in_development_of,['CL','UBERON','PO'],anatomy).
 
 bp_generic(metabolism,'metabolic process',has_participant,['CHEBI','PRO'],chemical).
 bp_generic('metabolic process','metabolic process',has_participant,['CHEBI','PRO'],chemical).
@@ -556,6 +578,13 @@ test_bp_generic(AX,BX,X) :-
 % ----------------------------------------
 % ANATOMY
 % ----------------------------------------
+
+qobol([anatomy,future],
+      [future,X],
+      Parent and (develops_into some X),
+      true,
+      (   in(X,_Ont,XC),
+          subclass(XC,Parent))).
 
 qobol([anatomy,generic,part],
       [W,P],
@@ -812,12 +841,13 @@ parse_entity(E,Label,X_Repl,Msg,Opts) :-
         debug(qobol,'Parsing: ~w',[E]),
         qobol(CatTags,Toks,X,MatchGoal,ValidGoal),
         category_match(CatTags,Opts),
+        debug(qobol,'  Using: ~w',[qobol(CatTags,Toks,X,MatchGoal,ValidGoal)]),
         entity_label_scope(E,Label_1,Sc),
         %label_lexical_variant(Label_1,Label),
         downcase_atom(Label_1,Label),
-        % hack for speed:
-        \+ nb_current(Label,_),
-        nb_setval(Label,true),
+        % hack for speed [CANT REMEMBER WHY THIS IS HERE]
+        %\+ nb_current(Label,_),
+        %nb_setval(Label,true),
         debug(qobol,'  Label: ~w',[Label]),
         opts_allowed_scope(Sc,Opts),
         label_template_match(Label,Toks),

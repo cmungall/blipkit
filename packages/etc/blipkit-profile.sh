@@ -182,11 +182,13 @@ alias ptx="ov -r plant_trait -r plant_trait_xp -r plant_anatomy -r go -r pato -s
 alias qptx="oq -r plant_trait -r plant_trait_xp -r plant_anatomy -r go -r pato -showxp"
 alias diseasex='ov -r disease_xp -showxp'
 alias qdiseasex='oq -r disease_xp -showxp'
+alias fypo='ov -r obo/fypo'
+alias qfypo='oq -r obo/fypo'
 PHENO_ARGS='-r mammalian_phenotype -r human_phenotype'
 alias pheno='ov $PHENO_ARGS'
 alias qpheno='oq $PHENO_ARGS'
 
-export MULTIANAT_R='-r xenopus_anatomy -r mosquito_anatomy -r tick_anatomy -r spider_anatomy -r hao -r mouse_anatomy -r gemina_anatomy -r amphibian_anatomy -r cell -r fly_anatomy -r zebrafish_anatomy -r fma_downcase -r brenda -r bila -r miaa -r nif_downcase -r emapaa -r ehdaa -r ehdaa2 -r hog -r wpanat -r mesh -r obo/evoc'
+export MULTIANAT_R='-r xenopus_anatomy -r mosquito_anatomy -r tick_anatomy -r spider_anatomy -r hao -r mouse_anatomy -r gemina_anatomy -r amphibian_anatomy -r cell -r fly_anatomy -r zebrafish_anatomy -r fma_downcase -r brenda -r bila -r miaa -r nif_downcase -r emapaa -r ehdaa -r ehdaa2 -r vhog -r wpanat -r mesh -r obo/evoc'
 alias multianat="blip ontol-query $MULTIANAT_R -showxrefs -showsyns -showdefs"
 
 alias uberalles='blip -r uberon_with_isa -r xenopus_anatomy -r mouse_anatomy -r gemina_anatomy -r amphibian_anatomy -r cell -r fly_anatomy -r zebrafish_anatomy -r fma_downcase -r bila -r miaa'
@@ -202,7 +204,7 @@ export GO_XP_CHEBI_ARGS=' -r chebi -r go_xp_chebi  -r goxp/molecular_function_xp
 export GO_XP_CL_ARGS=' -r cell -r goxp/biological_process_xp_cell'
 export GO_XP_PRO_ARGS=' -r protein -r goxp/biological_process_xp_protein -r goxp/molecular_function_xp_protein'
 export GO_XP_MA_ARGS=' -r mouse_anatomy -r goxp/biological_process_xp_mouse_anatomy'
-export GO_XP_SELF_ARGS=' -r goxp/biological_process_xp_self -r goxp/biological_process_xp_cellular_component -r goxp/biological_process_xp_multi_organism_process -r goxp/cellular_component_xp_self -r goxp/cellular_component_xp_go -r goxp/cellular_component_xp_cell -r goxp/molecular_function_xp_cellular_component -r goxp/molecular_function_xp_regulators -r goxp/molecular_function_xp_biological_process -r goxp/biological_process_xp_molecular_function -r obolr/biological_process_xp_regulation'
+export GO_XP_SELF_ARGS=' -r goxp/biological_process_xp_self -r goxp/biological_process_xp_cellular_component -r goxp/biological_process_xp_multi_organism_process -r goxp/cellular_component_xp_self -r goxp/cellular_component_xp_go -r goxp/cellular_component_xp_cell -r goxp/molecular_function_xp_cellular_component -r goxp/molecular_function_xp_regulators -r goxp/molecular_function_xp_biological_process -r goxp/biological_process_xp_molecular_function'
 export GO_XP_FMA_ARGS=' -r fma -r goxp/biological_process_xp_human_anatomy'
 export GO_XP_UBER_ARGS=' -r fma -r goxp/biological_process_xp_uber_anatomy -r uberon'
 export GO_XP_PO_ARGS=' -r fma -r goxp/biological_process_xp_plant_anatomy'

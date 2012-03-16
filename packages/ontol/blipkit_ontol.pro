@@ -1414,7 +1414,39 @@ go:go_rule(A1,A) :-
             forall((member(P-C-Stat,Stats),
                     P<MaxP),
                    show_factrow([isLabel(1)],hit(P,C,Stat))))).
-        
+
+:- blip('enrichment-basic',
+        'performs class enrichment',
+        [atom(idfile,IDFile),
+         atom(iafile,IAFile),
+         atoms(safile,SAFiles),
+         number([num_genes,num_entities],NumGenes),
+         number(max_p,MaxP,0.01)],
+        InIDs,
+        (   
+            ensure_loaded(bio(enrichment)),
+            ensure_loaded(bio(curation_db)),
+            ensure_loaded(bio(tabling)),
+            load_item_attribute_table(IAFile),
+            maplist(load_sub_attribute_of_table,SAFiles),
+            (   nonvar(IDFile)
+            ->  load_biofile(tbl(id),IDFile),
+                setof(ID,id(ID),IDs)
+            ;   IDs=InIDs),
+            lookup_features(IDs,Xs,NotFoundL),
+            (   NotFoundL=[]
+            ->  writeln('# all input ids found')
+            ;   format('# not found: ~w~n',[NotFoundL])),
+            length(Xs,NumXs),
+            format('# number found: ~w~n',[NumXs]),
+            forall(member(X,Xs),
+                   format('#    input: ~w~n',[X])),
+            itemset_attribute_enrichment(Xs,Stats,NumGenes),
+            format('# max P: ~w~n',[MaxP]),
+            forall((member(P-C-Stat,Stats),
+                    P<MaxP),
+                   show_factrow([isLabel(1)],hit(P,C,Stat))))).
+
 
 
 :- blip('curation-fmatch-simj',

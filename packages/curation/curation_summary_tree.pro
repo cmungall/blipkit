@@ -30,6 +30,10 @@ class_genus_differentium(C,Genus,Prop,Filler) :-
         genus(C,Genus),
         differentium(C,Prop,Filler).
 
+class_node(C,G) :- genus(C,G),!.
+class_node(C,node(C)).
+
+
 %% class_x(+Class,?GraphTerm,+RootClass) is nondet
 class_x(G,E,_) :-
         curation_statement(_,G,_,C),
@@ -59,6 +63,21 @@ class_x(C,E,Root) :-
         !.
 
 class_xgraph(C,L) :- setof(X,class_x(C,X,C),L).
+
+merge_nodes(L,L2) :-
+        findall(E2,
+                (   member(E,L),
+                    merge_node(E,E2,L)),
+                L2).
+
+/*
+merge_node(node(N),node(N2),L) :- node_relabel(N,N2), !.
+merge_node(node(N),node(N2),L) :- member(label(N,N2),L),!.
+
+node_relabel(N,N2,L) :- member(label(N,N2),L),!.
+node_relabel(N,N,_).
+*/
+               
 
 write_xgraph_for(Sym) :-
         entity_label(G,Sym),

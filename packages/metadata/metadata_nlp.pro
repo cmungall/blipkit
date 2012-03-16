@@ -282,6 +282,10 @@ synset(['','-']).
 synset(['','/']).
 synset(['',':']).
 
+% eliminate filler-words
+synset(['',region]).
+synset(['',structure]).
+
 
 
 :- multifile synset_hook/1.

@@ -163,6 +163,135 @@ ontol_writer:write_class(text,ID,Opts):-
         rcode_info(Via,Info),
         write(Info).
 
+wtab :- format('\t').
+
+% TOD: DRY
+ontol_writer:write_class(tabular,ID,Opts):-
+        (   member(prefix(T),Opts)
+        ->  true
+        ;   T=''),
+        (   entity_label(ID,N)
+        ->  true
+        ;   N='?'),
+        rcode(T,Code,Via),
+        (   member(hideid(1),Opts)
+        ->  format('~w ~w',[Code,N])
+        ;   format('~w ~w\t~w',[Code,ID,N])),
+        (   entity_obsolete(ID,_),!, format(' **OBSOLETE** ') ; true),
+        (   member(focus(FocusIDs),Opts),
+            member(ID,FocusIDs)->  write(' *** ')
+        ;   true),
+        (   member(with_synonyms(1),Opts)
+        ->  wtab,
+            forall(entity_synonym_scope(ID,Syn,SynType),
+                   format('"~w" (~w); ',[Syn,SynType]))
+        ;   true),
+        (   member(showsubsets(1),Opts)
+        ->  wtab,
+            forall(entity_partition(ID,Subset),
+                   format('~w; ',[Subset]))
+        ;   true),
+        (   member(ontolmap(OntolMap),Opts)
+        ->  wtab,
+            forall((entity_resource(ID,Ont),member(Ont-OntCode,OntolMap),!),
+                   format(' [~w]',[OntCode]))
+        ;   true),
+        (   member(subsets(Subsets),Opts)
+        ->  wtab,
+            forall((member(Subset,Subsets),entity_partition(ID,Subset)),
+                   format('~w; ',[Subset]))
+        ;   true),
+        (   member(showxrefs(1),Opts)
+        ->  wtab,
+            forall(entity_xref(ID,X),
+                   (   class(X,XN)
+                   ->  format(' ~w "~w"; ',[X,XN])
+                   ;   format(' ~w; ',[X])))
+        ;   true),
+        (   member(showinvxrefs(1),Opts)
+        ->  wtab,
+            forall(entity_xref(X,ID),
+                   (   class(X,XN)
+                   ->  format(' [invxref: ~w "~w"]',[X,XN])
+                   ;   format(' [invxref: ~w]',[X])))
+        ;   true),
+        (   member(showisa(1),Opts),
+            wtab,
+            forall(   (subclass(ID,PID),class(PID,PN)),
+                      format('"~w"; ',PN))
+        ;   true),
+
+        (   member(showrels(ShowRels),Opts)
+        ->  (   member(inverses,ShowRels)
+            ->  wtab,
+                forall_distinct(   (parent(PID,R,ID),class(PID,PN)),
+                                   format(' [inv(~w): "~w"]',[R,PN]))
+            ;   true),
+            (   member(all,ShowRels)
+            ->  wtab,
+                forall_distinct(   (parent(ID,R,PID),(class(PID,PN);PN=PID)),
+                                   format(' [~w: "~w"]',[R,PN]))
+            ;   true),
+            wtab,
+            forall_distinct(   (parent(ID,R,PID),member(R,ShowRels),class(PID,PN)),
+                               format(' [~w: "~w"]',[R,PN]))
+        ;   true),
+
+        % annotation counts (all)
+        (   member(showannots(count),Opts)
+	->  wtab,
+            ensure_loaded(bio(curation_db)),
+	    class_annotated_entity_count(ID,Num),
+	    format(' [AEC: ~w]',[Num])
+        ;   true),
+        % list annotations (focus)
+        (   member(showannots(focus),Opts),
+	    member(focus(FocusIDs),Opts),
+	    member(ID,FocusIDs)
+	;   member(showannots(all),Opts)
+	->  ensure_loaded(bio(curation_db)),
+                %solutions(G,curation_statementT(_,G,has_role,ID),Gs),  % required for mapping to sql?
+	    solutions(G,curation_statementTI(_,G,_,ID),Gs),
+	    forall(member(G,Gs),
+		   (   (   entity_label(G,GN)
+		       ->  true
+		       ;   GN=''),
+		       format(' [ann: ~w "~w"]',[G,GN])))
+        ;   true),
+	(   member(counts(NCPairs),Opts),
+            member(Num-ID,NCPairs)
+        ->  format(' [~w]',[Num])
+        ;   true),
+	(   member(showxp(1),Opts),
+            class_label_by_xp(ID,XPLabel)
+        ->  wtab,
+            format(' [XP: ~w]',[XPLabel])
+        ;   true),
+        (   member(showxprev(1),Opts) % reverse
+        ->  wtab,
+            forall(class_label_by_xp_ref(ID,XPLabel),
+                   format(' [XP: ~w]',[XPLabel]))
+        ;   true),
+        (   member(showdefs(1),Opts)
+        ->  wtab,
+            (   def(ID,Def)
+            ->  format('~w',Def)
+            ;   write('-'))
+        ;   true),
+        wtab,
+        (   member(showcomments(1),Opts),
+            class_comment(ID,Cmt)
+        ->  format(' [Cmt: "~w"]',Cmt)
+        ;   true),
+        (   member(showinstances(1),Opts)
+        ->  forall(inst_of(Inst,ID),
+                   show_instance(Inst,Opts))
+        ;   true),
+        rcode_info(Via,Info),
+        write(Info),
+        nl.
+
+
 show_class(C):-
         class(C,N),
         !,

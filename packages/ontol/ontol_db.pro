@@ -9,6 +9,7 @@
            class/1,
            subclass/2,
            equivalent_class/2,
+           equivalent_class_symm/2,
            restriction/3,
            restriction/4,
            restriction/5,
@@ -178,6 +179,7 @@
 
 % metadata on the data predicates used in this module
 :- use_module(bio(dbmeta)).
+
 :- use_module(bio(metadata_db)).
 :- use_module(bio(bioprolog_util)).  % required for statistics
 :- use_module(bio(macros_transitive)).
@@ -330,6 +332,10 @@ class_id_or_label(ID,N):- (class(ID,N)-> true ; N=ID).
 %%  equivalent_class(?Class1,?Class2) is nondet.
 %    corresponds to owl:equivalentClass
 :- extensional(equivalent_class/2).
+
+equivalent_class_symm(X,Y) :- equivalent_class(X,Y).
+equivalent_class_symm(X,Y) :- equivalent_class(Y,X).
+
 
 /*
 %% class_equivalence_set(?Class,?ClassSet)

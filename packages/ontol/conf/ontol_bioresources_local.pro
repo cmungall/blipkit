@@ -107,8 +107,8 @@ user:bioresource(ogms,local('ogms-read-only/src/ontology/ogms.obo'),obo).
 user:bioresource(icd9,home('cvs/icd9/icd9.obo'),obo).
 
 
-user:bioresource(cell,obo_local('anatomy/cell_type/cell.edit.obo'),obo).
-user:bioresource('CL',obo_local('anatomy/cell_type/cell.obo'),obo).
+user:bioresource(cell,home('cvs/cell-ontology/src/ontology/cl-edit.obo'),obo).
+user:bioresource('CL',home('cvs/cell-ontology/src/ontology/cl.obo'),obo).
 user:bioresource(hemo_CL,obo_local('anatomy/cell_type/hemo_CL.obo'),obo).
 user:bioresource(cdo,obo_local('anatomy/cell_type/cdo.obo'),obo).
 user:bioresource(cell2,obo_local('anatomy/cell_type/cell_cjm.obo'),obo).
@@ -120,23 +120,21 @@ user:bioresource(plant_anatomy_xp,poc('ontology/OBO_format/po_anatomy_xp.obo'),o
 user:bioresource(plant_development,poc('ontology/OBO_format/po_temporal.obo'),obo).
 %user:bioresource(plant_environment,obo_download('plant_environment/plant_environment.obo'),obo).
 user:bioresource(plant_environment,obo_local('phenotype/environment/environment_ontology.obo'),obo).
-user:bioresource(plant_trait,obo_local('phenotype/plant_traits/plant_trait.obo'),obo).
-user:bioresource(pato,obo_local('phenotype/quality.obo'),obo).
-user:bioresource(pato2,obo_local('phenotype/quality-revised.obo'),obo).
+user:bioresource(plant_trait,poc('ontology/collaborators_ontology/gramene/traits/trait.obo'),obo).
+user:bioresource(plant_trait_xp,poc('ontology/collaborators_ontology/gramene/traits/trait_xp.obo'),obo).
+user:bioresource(pato,home('cvs/pato/quality.obo'),obo).
 user:bioresource(miro,obo_local('phenotype/mosquito_insecticide_resistance.obo'),obo).
 user:bioresource(unit,obo_local('phenotype/unit.obo'),obo).
 user:bioresource('MPATH',obo_local('phenotype/mouse_pathology/mouse_pathology.obo'),obo).
 user:bioresource(mpath,obo_local('phenotype/mouse_pathology/mouse_pathology.obo'),obo).
-user:bioresource(plant_trait_xp,obo_local('phenotype/plant_traits/plant_trait_xp.obo'),obo).
 user:bioresource('MP',obo_local('phenotype/mammalian_phenotype.obo'),obo).
 user:bioresource(mammalian_phenotype,obo_local('phenotype/mammalian_phenotype.obo'),obo).
 user:bioresource(ascomycete_phenotype,obo_local('phenotype/ascomycete_phenotype.obo'),obo).
 user:bioresource('APO',obo_local('phenotype/ascomycete_phenotype.obo'),obo).
-user:bioresource('HP','/Users/cjm/cvs/hpo/src/ontology/human-phenotype-ontology.obo',obo).
-user:bioresource(human_phenotype,'/Users/cjm/cvs/hpo/src/ontology/human-phenotype-ontology.obo',obo).
-user:bioresource(human_phenotype_xp,'/Users/cjm/cvs/hpo/src/ontology/human-phenotype-ontology_xp.obo',obo).
-user:bioresource(human_phenotype_xp_nif,obo_local('phenotype/human_phenotype_xp/human_phenotype_xp_nif.obo'),obo).
-user:bioresource(human_phenotype_xp_uberon,obo_local('phenotype/human_phenotype_xp/human-phenotype-ontology_xp_uberon.obo'),obo).
+user:bioresource(human_phenotype,home('cvs/phenotype-ontologies/src/ontology/hp.obo'),obo).
+user:bioresource('HP',home('cvs/phenotype-ontologies/src/ontology/hp.obo'),obo).
+%user:bioresource('HP','/Users/cjm/cvs/hpo/src/ontology/human-phenotype-ontology.obo',obo).
+%user:bioresource(human_phenotype_xp,'/Users/cjm/cvs/hpo/src/ontology/human-phenotype-ontology_xp.obo',obo).
 user:bioresource(hp_xp_all,obo_local('phenotype/human_phenotype_xp/human-phenotype-ontology_xp-merged.obo'),obo).
 user:bioresource(genetic_context,obo_local('phenotype/genetic_context.obo'),obo).
 user:bioresource(rkc,obo_local('phenotype/phenotype_xp/rkc.obo'),obo).
@@ -144,11 +142,12 @@ user:bioresource(yeast_phenotype,obo_local('phenotype/yeast_phenotype.obo'),obo)
 user:bioresource(evidence_code,obo_local('evidence_code.obo'),obo).
 %user:bioresource(obi,url('http://purl.obofoundry.org/obo/obi.owl'),owl).
 %user:bioresource(obi,obo(obi),obo).
-user:bioresource(brenda,url('http://purl.obofoundry.org/obo/obo-all/brenda/brenda.obo'),obo).
+user:bioresource(brenda,url('http://purl.obolibrary.org/obo/bto.obo'),obo).
 
 user:bioresource(iao_om,url('http://purl.obolibrary.org/obo/iao/dev/ontology-metadata.owl'),owl).
 
 user:bioresource(gene(Tax),obo_local(Path),obo) :- sformat(Path,'genomic-proteomic/gene/genes-~w.obo',[Tax]).
+user:bioresource(mod(Sp),home(Path),obo) :- sformat(Path,'cvs/owlgenes/~w-MOD.obo',[Sp]).
 
 user:bioresource(gotax,'/users/cjm/cvs/go/quality_control/annotation_checks/taxon_checks/taxon_go_triggers.obo',obo).
 user:bioresource(taxslim,'/users/cjm/cvs/go/quality_control/annotation_checks/taxon_checks/ncbi_taxon_slim.obo',obo).
@@ -292,8 +291,9 @@ user:bioresource(amphibian_anatomy,home('cvs/aao/AAO_v2_edit.obo'),obo).
 user:bioresource('AAO',home('cvs/aao/AAO_v2_edit.obo'),obo).
 %user:bioresource('AAO',X,obo):- bioresource(obo(amphibian_anatomy),X,obo).
 user:bioresource(uberon,uberon('uberon_edit.obo'),obo).
-user:bioresource(uberonp,uberon('uberon.obo'),obo).
-user:bioresource(uberon_merged,uberon('merged.obo'),obo).
+user:bioresource(uberonp,uberon('uberon.obo'),obo).  % now merged
+user:bioresource(uberonm,uberon('uberon-merged.obo'),obo).
+user:bioresource(uberon_merged,uberon('merged.obo'),obo). % DEPRECATED
 user:bioresource(uberons,uberon('uberon-simple.obo'),obo).
 user:bioresource(uber_anatomy,uberon('uberon.obo'),obo).
 user:bioresource(uberon_with_isa,uberon('uberon_edit-with-isa.obo'),obo).
@@ -329,8 +329,8 @@ user:bioresource(gaz2,obo_local('environmental/gaz2.obo'),obo).
 user:bioresource(ubo,obo_local('upper_bio_ontology/ubo.obo'),obo).
 %user:bioresource(bfo,obo_cvs('upper_bio_ontology/bfo.obo'),obo).
 user:bioresource(bfo,[obo(bfo)]).
-user:bioresource(bfo2_obo,home('cvs/bfo/src/ontology/bfo2-classes.obo'),obo).
-user:bioresource(bfo2_owl,home('cvs/bfo/src/ontology/bfo2-classes.owl'),owl).
+user:bioresource(bfo2_obo,home('cvs/bfo/src/ontology/owl-ruttenberg/bfo2-classes.obo'),obo).
+user:bioresource(bfo2_owl,home('cvs/bfo/src/ontology/owl-ruttenberg/bfo2-classes.owl'),owl).
 user:bioresource(bfo2_rel_obo,home('cvs/bfo/src/ontology/bfo2-relations.obo'),obo).
 user:bioresource(bfo2_rel_owl,home('cvs/bfo/src/ontology/bfo2-relations.owl'),owl).
 user:bioresource(dolcelite,ontdir('upper/DolceLite/DOLCE-Lite_397.owl'),owl).
@@ -348,6 +348,7 @@ user:bioresource(koala,ontdir('koala.owl'),owl).
 % --Other Bio-Ontologies--
 user:bioresource(rex,obo_download('rex/rex.obo'),obo).
 user:bioresource(ncit,obo_download('ncithesaurus/ncithesaurus.pro'),ontol_db:pro).
+user:bioresource('NCITA',home('cvs/ncit/ncit_anatomy.obo'),obo).
 %user:bioresource(ncit_dn,obo_download('ncithesaurus/ncithesaurus.pro'),pro).
 user:bioresource(pir,pir('PIRSF_ontology-02082005.dag'),dag).
 user:bioresource(pir_uniprot,pir('PIRSF_UniProt_ontology-02082005.dag'),dag).
