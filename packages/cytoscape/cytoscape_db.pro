@@ -8,6 +8,8 @@
            edge_attribute/1,
            ]).
 
+:- multifile node/1.
+
 %% edge(Source,Relation,Target).
 :- multifile edge/3.
 
