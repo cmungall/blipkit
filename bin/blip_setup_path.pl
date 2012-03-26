@@ -37,6 +37,7 @@ user:file_search_path(bio, blipkit(structure)).
 user:file_search_path(bio, blipkit(variation)).
 user:file_search_path(bio, blipkit(web)).
 user:file_search_path(bio, blipkit(xml)).
+user:file_search_path(bio, blipkit(cytoscape)).
 user:file_search_path(etc, blipkit(etc)).
 user:file_search_path(bio, blipkit(obol)).
 

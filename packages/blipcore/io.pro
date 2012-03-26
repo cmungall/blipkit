@@ -371,6 +371,12 @@ load_biofile(Fmt,InputFile):-
         var(Fmt),
         !,
         load_biofile(InputFile).
+load_biofile(mart,InputFile):-
+        atom_concat(Base,'.mart',InputFile),
+        atomic_list_concat([_,A,B],-,Base),
+        !,
+        atomic_list_concat([A,B],'2',Pred),
+        load_biofile(tbl(Pred),InputFile).
 load_biofile(Fmt,InputFile):-
         atom(InputFile),
         sub_atom(InputFile,0,_,_,'http:'),
@@ -1121,6 +1127,7 @@ format_writer(sb_chadoxml,sb_writer_chadoxml).
 format_writer(sb_dot,sb_writer_dot).
 format_writer(sb_dot2,sb_writer_dot).
 format_writer(pathway_gaf,pathway_writer_gaf).
+format_writer(xgmml,xgmml_writer).
 format_writer(phylo_chadoxml,phylo_writer_chadoxml).
 
 %% consult_bioconf

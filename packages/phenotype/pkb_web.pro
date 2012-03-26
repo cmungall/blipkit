@@ -1007,6 +1007,9 @@ organism_phenotype_match_header -->
                  th('Phenotype B')
                  ])).
 
+% TODO: dump in cytoscape format
+% e.g.
+% Class='http://ontology.neuinfo.org/NIF/BiomaterialEntities/NIF-Cell.owl#sao862606388',phenotype_lcs_organism_pair(Class,Org1,Org2,S-lcs(A,B,C)),format('~q.\n',[m(Org1,Org2,S,A,B,C)])
 organism_phenotype_match_row(match(Org1,Org2,Match)) -->
         {debug(phenotype,'match=~w',[Match])},
         {Match= Score-lcs(LCS,S1s,S2s)},

@@ -131,7 +131,7 @@ user:bioresource('MP',obo_local('phenotype/mammalian_phenotype.obo'),obo).
 user:bioresource(mammalian_phenotype,obo_local('phenotype/mammalian_phenotype.obo'),obo).
 user:bioresource(ascomycete_phenotype,obo_local('phenotype/ascomycete_phenotype.obo'),obo).
 user:bioresource('APO',obo_local('phenotype/ascomycete_phenotype.obo'),obo).
-user:bioresource(human_phenotype,home('cvs/phenotype-ontologies/src/ontology/hp.obo'),obo).
+user:bioresource(human_phenotype,home('cvs/hpo/src/ontology/human-phenotype-ontology.obo'),obo).
 user:bioresource('HP',home('cvs/phenotype-ontologies/src/ontology/hp.obo'),obo).
 %user:bioresource('HP','/Users/cjm/cvs/hpo/src/ontology/human-phenotype-ontology.obo',obo).
 %user:bioresource(human_phenotype_xp,'/Users/cjm/cvs/hpo/src/ontology/human-phenotype-ontology_xp.obo',obo).
@@ -147,7 +147,9 @@ user:bioresource(brenda,url('http://purl.obolibrary.org/obo/bto.obo'),obo).
 user:bioresource(iao_om,url('http://purl.obolibrary.org/obo/iao/dev/ontology-metadata.owl'),owl).
 
 user:bioresource(gene(Tax),obo_local(Path),obo) :- sformat(Path,'genomic-proteomic/gene/genes-~w.obo',[Tax]).
-user:bioresource(mod(Sp),home(Path),obo) :- sformat(Path,'cvs/owlgenes/~w-MOD.obo',[Sp]).
+user:bioresource(mod(Sp),home(Path),obo) :- sformat(Path,'cvs/omeo/build/~w-MOD.obo',[Sp]).
+user:bioresource(omeo(Sp),home(Path),obo) :- sformat(Path,'cvs/omeo/build/~w-MOD.obo',[Sp]).
+user:bioresource(mart(M),home(Path),obo) :- sformat(Path,'cvs/omeo/build/~w.mart',[M]).
 
 user:bioresource(gotax,'/users/cjm/cvs/go/quality_control/annotation_checks/taxon_checks/taxon_go_triggers.obo',obo).
 user:bioresource(taxslim,'/users/cjm/cvs/go/quality_control/annotation_checks/taxon_checks/ncbi_taxon_slim.obo',obo).
@@ -291,6 +293,7 @@ user:bioresource(amphibian_anatomy,home('cvs/aao/AAO_v2_edit.obo'),obo).
 user:bioresource('AAO',home('cvs/aao/AAO_v2_edit.obo'),obo).
 %user:bioresource('AAO',X,obo):- bioresource(obo(amphibian_anatomy),X,obo).
 user:bioresource(uberon,uberon('uberon_edit.obo'),obo).
+user:bioresource(uberon_closure,uberon('uberon_closure-ontol_db.pro'),ontol_db:pro).
 user:bioresource(uberonp,uberon('uberon.obo'),obo).  % now merged
 user:bioresource(uberonm,uberon('uberon-merged.obo'),obo).
 user:bioresource(uberon_merged,uberon('merged.obo'),obo). % DEPRECATED
