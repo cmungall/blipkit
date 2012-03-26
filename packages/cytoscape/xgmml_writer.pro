@@ -4,20 +4,26 @@
 
 :- use_module(cytoscape_db).
 
-io:write_all(xgmml,_,_):-
+io:write_all(xgmml,F,_):-
         write_xgmml_file(F,[]).
 
 write_xgmml_file(F,_Opts) :-
         open(F,write,IO,[]),
         doc( Doc ),
-        xml_write(IO,[Doc],[nsmap([])]),
+        xml_write(IO,[Doc],
+                  [nsmap([xsi='http://www.w3.org/2001/XMLSchema-instance',
+                          ns1='http://www.w3.org/1999/xlink',
+                          dc='http://purl.org/dc/elements/1.1/',
+                          rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#',
+                          base='http://www.cs.rpi.edu/XGMML'])]
+                         ),
         close(IO).
 
 elt( element('http://www.cs.rpi.edu/XGMML':node,
              [id=ID,
               label=Label],
              Atts) ) :-
-        node(ID),
+        inferred_node(ID),
         (   node_attribute_value(ID,label,Label)
         ->  true
         ;   Label=ID),

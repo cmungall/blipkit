@@ -1,23 +1,35 @@
-:- module(cytoscape_model,
+:- module(cytoscape_db,
           [edge/3,
            node/1,
+           inferred_node/1,
            node_attribute_value/3,
            edge_attribute_value/3,
            edge_attribute_value/5,
            node_attribute/1,
-           edge_attribute/1,
+           edge_attribute/1
            ]).
 
-:- multifile node/1.
+:- use_module(bio(dbmeta)).
+
+:- extensional( node/1 ).
+
+inferred_node(N) :-
+        setof(N,
+              A^V^(   node(N)
+                  ;   node_attribute_value(N,A,V)),
+              Ns),
+        member(N,Ns).
+
 
 %% edge(Source,Relation,Target).
-:- multifile edge/3.
+:- extensional( edge/3 ).
 
 %% node_attribute_value(N,A,V).
-:- multifile node_attribute_value/3.
+:- extensional( node_attribute_value/3 ).
 
 %% edge_attribute_value(E,A,V), E=edge(S,R,T)
-:- multifile edge_attribute_value/3.
+:- extensional( edge_attribute_value/3 ).
+
 edge_attribute_value(S,R,T,A,V) :- edge_attribute_value(edge(S,R,T),A,V).
 
 node_attribute(A) :-
