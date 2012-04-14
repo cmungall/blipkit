@@ -131,15 +131,16 @@ user:bioresource('MP',obo_local('phenotype/mammalian_phenotype.obo'),obo).
 user:bioresource(mammalian_phenotype,obo_local('phenotype/mammalian_phenotype.obo'),obo).
 user:bioresource(ascomycete_phenotype,obo_local('phenotype/ascomycete_phenotype.obo'),obo).
 user:bioresource('APO',obo_local('phenotype/ascomycete_phenotype.obo'),obo).
+user:bioresource(symp,url('http://purl.obolibrary.org/obo/symp.obo'),obo).
 user:bioresource(human_phenotype,home('cvs/hpo/src/ontology/human-phenotype-ontology.obo'),obo).
 user:bioresource('HP',home('cvs/phenotype-ontologies/src/ontology/hp.obo'),obo).
 %user:bioresource('HP','/Users/cjm/cvs/hpo/src/ontology/human-phenotype-ontology.obo',obo).
-%user:bioresource(human_phenotype_xp,'/Users/cjm/cvs/hpo/src/ontology/human-phenotype-ontology_xp.obo',obo).
-user:bioresource(hp_xp_all,obo_local('phenotype/human_phenotype_xp/human-phenotype-ontology_xp-merged.obo'),obo).
+user:bioresource(human_phenotype_xp,'/Users/cjm/cvs/hpo/src/ontology/human-phenotype-ontology_xp.obo',obo).
+%user:bioresource(hp_xp_all,obo_local('phenotype/human_phenotype_xp/human-phenotype-ontology_xp-merged.obo'),obo).
 user:bioresource(genetic_context,obo_local('phenotype/genetic_context.obo'),obo).
 user:bioresource(rkc,obo_local('phenotype/phenotype_xp/rkc.obo'),obo).
 user:bioresource(yeast_phenotype,obo_local('phenotype/yeast_phenotype.obo'),obo).
-user:bioresource(evidence_code,obo_local('evidence_code.obo'),obo).
+user:bioresource(evidence_code,home('cvs/evidenceontology/eco.obo'),obo).
 %user:bioresource(obi,url('http://purl.obofoundry.org/obo/obi.owl'),owl).
 %user:bioresource(obi,obo(obi),obo).
 user:bioresource(brenda,url('http://purl.obolibrary.org/obo/bto.obo'),obo).
@@ -160,8 +161,8 @@ user:bioresource(taxunionm,'/users/cjm/cvs/go/quality_control/annotation_checks/
 % XP
 user:bioresource(pheno_align,pheno('hp-mp/mp_hp-align-equiv.obo'),obo).
 user:bioresource(mammalian_phenotype_xp,pheno('mp/mp-equivalence-axioms.obo'),obo).
-user:bioresource(mammalian_phenotype_xp_nif,obo_local('phenotype/mammalian_phenotype_xp/mammalian_phenotype_xp_nif.obo'),obo).
-user:bioresource(mammalian_phenotype_xp_uberon,obo_local('phenotype/mammalian_phenotype_xp/mammalian_phenotype_xp_uberon.obo'),obo).
+%user:bioresource(mammalian_phenotype_xp_nif,obo_local('phenotype/mammalian_phenotype_xp/mammalian_phenotype_xp_nif.obo'),obo).
+%user:bioresource(mammalian_phenotype_xp_uberon,obo_local('phenotype/mammalian_phenotype_xp/mammalian_phenotype_xp_uberon.obo'),obo).
 user:bioresource(mp_xp_all,obo_local('phenotype/mammalian_phenotype_xp/mammalian_phenotype_xp-merged.obo'),obo).
 user:bioresource(worm_phenotype_xp,obo_local('phenotype/worm_phenotype_xp.obo'),obo).
 %user:bioresource(ro_ucdhsc,obo_local('cross_products/go_chebi_xp/ro_ucdhsc.obo'),obo).
