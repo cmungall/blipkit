@@ -12,8 +12,6 @@
            op(1200,xfy,(::))
           ]).
 
-:- use_module(bio(mode)). % CJM: TODO use type_check instead?
-
 :- multifile relation/2,relation/3,attribute/4,unique/2,schema/1.
 :- discontiguous relation/2,relation/3,attribute/4,unique/2,schema/1.
 :- discontiguous view/2,view/3,sql_expand/1.
@@ -1808,7 +1806,6 @@ pp_prologterm(Tabs,Term) :-
 	maplist(pp_prologterm([' '|Tabs]),Args).
 
 	
-
 /** <module> Mapping of prolog terms to SQL
 
   ---+ Description
@@ -1834,13 +1831,17 @@ pp_prologterm(Tabs,Term) :-
   problem with existentials being in the projection
 
   works:
-  
-  blip-sql -debug sql_compiler  -u seqfeature_sqlmap_chado_exposed_ids -u genome_bridge_from_seqfeature -r rdb/flybase prolog-to-sql -proj T "feature(G),seqfeature_db:feature_relationship(G,T,Type,Rank)"
 
+  ==
+  blip-sql -debug sql_compiler  -u seqfeature_sqlmap_chado_exposed_ids -u genome_bridge_from_seqfeature -r rdb/flybase prolog-to-sql -proj T "feature(G),seqfeature_db:feature_relationship(G,T,Type,Rank)"
+  ==
+  
   misses join:
 
+  ==
   blip-sql -debug sql_compiler  -u seqfeature_sqlmap_chado_exposed_ids -u genome_bridge_from_seqfeature -r rdb/flybase prolog-to-sql  "feature(G),seqfeature_db:feature_relationship(G,T,Type,Rank)"
-
+   ==
+  
   ---++ Recursive SQL
 
   PostgreSQL8.4 allows WITH RECURSIVE; e.g.
@@ -1863,30 +1864,10 @@ SELECT t.* FROM tree t, struct s WHERE t.id = s.parent_id
 SELECT * FROM struct;
 ==
   
-  
+  ---+ Author
 
-
-
-             
-
-
-  ---+ Copyright
-  
- This Prolog to SQL compiler may be distributed free of charge provided that it is
- not used in commercial applications without written consent of the author, and
- that the copyright notice remains unchanged.
-
-                    (C) Copyright by Christoph Draxler, Munich
-                        Version 1.1 of Dec. 21st 1992
-
- I would like to keep in my hands the further development and distribution of the
- compiler. This does not mean that I don't want other people to suggest or even
- implement improvements - quite on the contrary: I greatly appreciate contributions 
- and if they make sense to me I will incorporate them into the compiler (with due
- credits given!). 
- 
- For further development of the compiler, address your requests, comments and
- criticism to the author:
+ This modules is an extension of version 1.1 (Dec 21st 1992) of the
+ Prolog to SQL compiler written by Christoph Draxler of the Univeristy of Munich.
 
                     Christoph Draxler
                     CIS Centre for Information and Speech Processing
@@ -1897,11 +1878,17 @@ SELECT * FROM struct;
                     Fax : ++49 / +89 / 211 06 74
                     Mail: draxler@cis.uni-muenchen.de
 
+ It was modified by Chris Mungall to be compatible with SWI-Prolog and
+ extended to support:
 
- A report describing the implementation is available upon request from the
- author. 
+ * MySQL specific column types
+ * SELECT DISTINCT
+ * query rewriting for optimization
+ * additional comparison operators
 
-
+ Permission has been granted by the original author to distribute this
+ software using the same license as SWI-Prolog.
+ 
  RELEASE INFORMATION
  Current version is v. 1.1 of Dec. 21st 1992.
  Version 1.0 Sept. 3 1992
