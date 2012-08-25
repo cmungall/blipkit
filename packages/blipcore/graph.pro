@@ -114,7 +114,7 @@ closure_to_edgelist(R,NodeOrNodeList,Edges):-
 closure_to_edgelist1(R,[X|Xs],Edges,InNodes):-
         debug(graph,'Extending: ~w',[[X|Xs]]),
         (   setof(R-Y,call(R,X,Y),RYs) % extend by 1 to all neighbours (including those already reached)
-        ->  solutions(Y,R^(member(R-Y,RYs),\+member(Y,InNodes)),Ys), % exclude visisted
+        ->  solutions(Y,(member(R-Y,RYs),\+member(Y,InNodes)),Ys), % exclude visisted
             merge_set(Xs,Ys,Zs), % extend - add to list
             setof(edge(X,Y,R),member(R-Y,RYs),Edges1),
             closure_to_edgelist1(R,Zs,Edges2,[X|InNodes]), % extend by one more

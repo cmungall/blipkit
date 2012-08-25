@@ -348,16 +348,16 @@ rcode_info(parent(R,ID),S):-
         sformat(S,' {via ~w ~w}',[R,N]).
 rcode_info(_,'').
 
-show_dagtree(PID,node(R,ID,L),D,Opts):-
+show_dagtree(_PID,node(R,ID,L),D,Opts):-
         D2 is D+1,
         (   member(tabchar(Char),Opts)
         ->  writetab(D2,Char)
         ;   writetab(D2)),
         write_class(text,ID,[prefix(R)|Opts]),
-        forall((member(showrels(RL),Opts),member(R2,RL),parent(ID,R2,P2),\+P2=PID),
-               (write(' ['),write_class(text,P2,[prefix(R2)|Opts]),write(']'))),
-        forall((member(showrels(RL),Opts),member(R2,RL),inst_rel(ID,R2,P2),\+P2=PID),
-               (write(' ['),write_class(text,P2,[prefix(R2)|Opts]),write(']'))),
+        %forall((member(showrels(RL),Opts),member(R2,RL),parent(ID,R2,P2),\+P2=PID),
+        %       (write(' ['),write_class(text,P2,[prefix(R2)|Opts]),write(']'))),
+        %forall((member(showrels(RL),Opts),member(R2,RL),inst_rel(ID,R2,P2),\+P2=PID),
+        %       (write(' ['),write_class(text,P2,[prefix(R2)|Opts]),write(']'))),
         nl,
         forall(member(Node,L),
                show_dagtree(ID,Node,D2,Opts)).

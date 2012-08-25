@@ -37,6 +37,8 @@ sentence_tbv(Sentence,V,ToksOrdered) :-
 %% sentence_annotate(+Sentence:atom,?Ann:term)
 %
 % given a setence atom, annotate it
+%
+% Ann = m(IDs,Label,Word)
 sentence_annotate(Sentence,Ann2) :-
         sentence_tbv(Sentence,QV,SToks),
 	debug(annotator,'   building minspanset for: ~w',[Sentence]),

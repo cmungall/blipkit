@@ -63,7 +63,7 @@
            number_list_items/2,
            number_list_items/3,
            setof_count/3,
-%           count_distinct/3,
+           count_distinct/3,
            group_by/3,
            group_by/4,
            count_by/3,
@@ -787,9 +787,10 @@ setof_count(Var,Goal,Count):-
         ;   Vars=[]),
         length(Vars,Count).
 
-:- module_transparent user:count_distinct/2.
-:- arithmetic_function(user:count_distinct/2).
-user:count_distinct(Var,Goal,Count):-
+%:- module_transparent user:count_distinct/2.
+%:- arithmetic_function(user:count_distinct/2).
+%user:count_distinct(Var,Goal,Count):-
+count_distinct(Var,Goal,Count):-
         (   setof(Var,Goal^Goal,Vars)
         ->  true
         ;   Vars=[]),

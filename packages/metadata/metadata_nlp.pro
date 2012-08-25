@@ -4,6 +4,7 @@
 	   term_token_stemmed/3,
 	   term_nth_token/3,
 	   term_nth_token_stemmed/4,
+           term_nlabel_stemmed/3,
 	   entity_label_token/2,
 	   entity_label_token/3,
 	   entity_label_token_stemmed/4,
@@ -144,7 +145,7 @@ entity_label_token_stemmed(E,A,T,false) :-
 	entity_label_or_synonym(E,A),
 	term_token(A,T).
 
-%% entity_nlabel_scope_stemmed(?Entity,?Token,?Type,?Stemmed:boolean)
+%% entity_nlabel_scope_stemmed(?Entity,?NormalizedLabel,?Type,?Stemmed:boolean)
 % performs normalization on labels
 %  * dehyphenate/2
 %  * uses synset/1 (which also uses obol relational adjectives)
@@ -166,7 +167,8 @@ entity_label_scope_ext(E,L,Scope) :-
 	entity_label_scope(E,L,Scope).
 entity_label_scope_ext(E,L,mixed-Scope) :-
 	entity_label_scope(E,L1,Scope1),
-        parent_entity_hook(E,E2),
+        setof(E2,parent_entity_hook(E,E2),E2s),
+        member(E2,E2s),
 	entity_label_scope(E2,L2,Scope2),
         combine_scope(Scope1,Scope2,Scope),
         debug(nlp_detail,'~w SYN: ~w + ~w',[E,L1,L2]),

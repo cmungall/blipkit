@@ -205,6 +205,14 @@ dangling_fact(F) :-
 	     is_nondangling(R),
 	     is_nondangling(B))).
 dangling_fact(F) :-
+	F=gci_restriction(A,R,B,GR,Y),
+	F,
+	\+ ((is_nondangling(GR),
+             is_nondangling(Y),
+             is_nondangling(A),
+	     is_nondangling(R),
+	     is_nondangling(B))).
+dangling_fact(F) :-
 	class_cdef(C,cdef(G,DL)),
 	\+ ((is_nondangling(G),
 	     forall(member(R=X,DL),

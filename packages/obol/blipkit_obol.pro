@@ -959,7 +959,7 @@ synonym_match(ID,MatchingID,Label,Label2):-
         class_by_name_or_synonym(Label2,MatchingID),
         Label\=Label2.
 
-blipkit:example('obol qobol -ontology MP -tag morphology -tag mp -undefined_only true -export obo',
+blipkit:example('obol qobol -ontology MP -tag morphology -tag mp -undefined_only true -export obo -scope all',
                 'parses MP using morphology/mp templates, only writing new xps, in obo').
 :- blip('qobol',
         'quick obol',

@@ -74,7 +74,6 @@ user:prolog_exception_hook(_,
         backtrace(99),
         fail.
 
-
 main_x:-
         debug,
         catch(main_2,
@@ -884,6 +883,7 @@ show_factrow(Opts,T):-          % write prolog syntax facts
         ;   nl).
 show_factrow(Opts,T):-
         member(isNoPred(1),Opts),
+        !,
         T=..[_|L],
         show_terms(Opts,L),
         nl.

@@ -135,6 +135,8 @@ dbpedia_query_links(A,Row,Limit,Opts) :-
 % can use owl:sameAs, dbpedia:redirect etc to perform extra queries
 % - may be better to do this directly in SPARQL..?
 % - ideally entailment on the server would cover this, but its not how most work
+
+%% sparql_query_links(+URL, ?Row, +Limit, +Opts:list) is nondet
 sparql_query_links(A,row(A2,P,O),Limit,Opts) :-
         member(sameAs(EqP),Opts),
         % redirect source

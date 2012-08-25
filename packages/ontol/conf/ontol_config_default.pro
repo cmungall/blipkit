@@ -13,6 +13,8 @@
 user:graphviz_ontol_param(edge(_,_,is_a,_),arrowhead=empty).
 user:graphviz_ontol_param(edge(_,_,is_a,_),color=green).
 user:graphviz_ontol_param(edge(_,_,po,_),color=blue).
+user:graphviz_ontol_param(edge(_,_,'part_of',_),color=blue).
+user:graphviz_ontol_param(edge(_,_,'part_of',_),label='PO').
 user:graphviz_ontol_param(edge(_,_,'OBO_REL:part_of',_),color=blue).
 user:graphviz_ontol_param(edge(_,_,'OBO_REL:part_of',_),label='PO').
 user:graphviz_ontol_param(edge(_,_,'OBO_REL:inheres_in',_),color=blue).

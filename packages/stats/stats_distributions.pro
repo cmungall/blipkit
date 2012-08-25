@@ -22,8 +22,8 @@ log_factorial(N,R):-
         R is Rx+LogN,
         !.
 
-:- table_pred(log_factorial/2).
 :- arithmetic_function(log_factorial/1).
+:- table_pred(log_factorial/2).
 
 %% logNCr(+N,+R,?Result)
 % @throws if N<R

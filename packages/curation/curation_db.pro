@@ -260,12 +260,14 @@ class_not_coannotated_with(A,B,G) :-
 class_coannotated_with_summary(A,B,Num) :-
         class(A),
         class(B),
-        Num is count_distinct(G,(curation_statementT(_,G,has_role,A,_),
-                                 curation_statementT(_,G,has_role,B,_))).
+        count_distinct(G,(curation_statementT(_,G,has_role,A,_),
+                          curation_statementT(_,G,has_role,B,_)),
+                       Num).
 class_coannotated_with_summary(A,B,G,Num) :-
         curation_statementT(_,G,has_role,A,_),
         class(B),
-        Num is count_distinct(G,curation_statementT(_,G,has_role,B,_)).
+        count_distinct(G,curation_statementT(_,G,has_role,B,_),
+                       Num).
 
 %% class_conditional_prob(A,B,ProbAGivenB)
 % ProbAGivenB = p(A|B)
@@ -282,19 +284,21 @@ class_conditional_prob(A,B,ProbAGivenB):-
 class_conditional_prob(A,B,CountAandB,CountB,ProbAGivenB):-
         class(A),
         class(B),
-        CountAandB is count_distinct(G,(
-                                        curation_statementT(_,G,has_role,B,_),
-                                        curation_statementT(_,G,has_role,A,_))),
-        CountB is count_distinct(G,(
-                                    curation_statementT(_,G,has_role,B,_))),
+        count_distinct(G,(
+                          curation_statementT(_,G,has_role,B,_),
+                          curation_statementT(_,G,has_role,A,_)),
+                       CountAandB),
+        count_distinct(G,(
+                          curation_statementT(_,G,has_role,B,_)),
+                       CountB),
         ProbAGivenB is CountAandB/CountB.
 
 
 
 %% class_prob(?Class,?Prob)
 class_prob(C,P):-
-	NumC is count_distinct(G,curation_statementT(_,G,_,C,_)),
-	NumAll is count_distinct(G,curation_statementT(_,G,_,_,_)),
+	count_distinct(G,curation_statementT(_,G,_,C,_),NumC),
+	count_distinct(G,curation_statementT(_,G,_,_,_),NumAll),
 	P is NumC/NumAll.
 
 %% class_infocontent(?Class,?InformationContent)

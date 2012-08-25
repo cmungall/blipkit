@@ -426,7 +426,8 @@ parent(ID,subclass,IDp):-
 parent(ID,T,IDp):-
 	restriction(ID,T,IDp).
 parent(ID,T,IDp):-
-	inst_rel(ID,T,IDp).
+	inst_rel(ID,T,IDp),
+        \+ class(ID).
 parent(ID,instance_of,IDp):-
 	inst_of(ID,IDp).
 % treat genus/diff as normal links [depr: use entailment_basic instead]

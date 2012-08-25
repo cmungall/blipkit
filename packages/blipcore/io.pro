@@ -876,6 +876,13 @@ write_biofile(rdf,F,_):-
         !,
         ensure_loaded(library('semweb/rdf_db')),
         rdf_save(F).
+write_biofile(ttl,F,_):-
+        !,
+        ensure_loaded(bio(ontol_bridge_to_simple_rdf)),
+        rdf_assertall,
+        ensure_loaded(library('semweb/rdf_db')),
+        ensure_loaded(library('semweb/rdf_turtle_write')),
+        rdf_save_turtle(F,[align_prefixes(true),subject_white_lines(0),single_line_bnodes(true)]).
 write_biofile(tbl,F,_):-
         !,
         ensure_loaded(bio(dbmeta)),

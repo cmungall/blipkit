@@ -97,7 +97,7 @@ qobol_prep_ont('GO','PR') :-
 
 qobol_prep_ont('GO','CHEBI') :-
         load_bioresource(go),
-        load_bioresource(goche),
+        load_bioresource(chebi),
         load_bioresource(go_xp_chebi),
         load_bioresource(goxp(relations_process_xp)),
         !.
@@ -419,25 +419,32 @@ qobol([go,bp,import],
       true,
       true).
 
+% protein localization to X
+qobol([go,localization,to],
+      [protein,localization,to,C],
+      'protein localization' and results_in_localization_to some C,
+      true,
+      true).
+
 qobol([go,bp,involved],
       [P,involved,in,W],
       P and part_of some W,
       true,
       true).
 
-qobol([go,bp,generic,Type],
+qobol([go,bp,generic,P,Type],
       [C,P],
       PClass and R some C,
       true,
       in(C,Ont)) :- bp_generic(P,PClass,R,Ont,Type).
 
-qobol([go,bp,generic,Type],
+qobol([go,bp,generic,P,Type],
       [P,of,C],
       PClass and R some C,
       true,
       in(C,Ont)) :- bp_generic(P,PClass,R,Ont,Type).
 
-qobol([go,bp,generic,from,Type],
+qobol([go,bp,generic,from,P,Type],
       [C,P,from,C2],
       PClass and (R some C) and (has_input some C2),
       true,
@@ -518,12 +525,12 @@ qobol([go,bp,stimulus,response,chemical],
       [response,to,C,stimulus],
       'response to stimulus' and has_input some C,
       true,
-      in(C,'PRO')).
+      in(C,['CHEBI','PRO'])).
 qobol([go,bp,stimulus,response,chemical],
       [response,to,C],
-      'response to chemical stimulus' and has_input some C,
+      'response to stimulus' and has_input some C,
       true,
-      in(C,'CHEBI')).
+      in(C,['CHEBI','PRO'])).
 
 qobol([go,bp,homeostasis,chemical],
       [C,homeostasis],
@@ -557,10 +564,10 @@ bp_generic('catabolic process','catabolic process',has_input,['CHEBI','PRO'],che
 bp_generic(biosynthesis,'biosynthetic process',has_output,['CHEBI','PRO'],chemical).
 bp_generic('biosynthetic process','biosynthetic process',has_output,['CHEBI','PRO'],chemical).
 
-bp_generic(transport,transport,results_in_transport_of,['CHEBI','PRO'],chemical).
-bp_generic(transporter,transporter,results_in_transport_of,['CHEBI','PRO'],chemical).
-bp_generic(binding,binding,has_input,['CHEBI','PRO'],chemical).
-bp_generic(secretion,secretion,results_in_transport_of,['CHEBI','PRO'],chemical).
+bp_generic(transport,transport,results_in_transport_of,['CHEBI','PRO','GO'],chemical).
+bp_generic(transporter,transporter,results_in_transport_of,['CHEBI','PRO','GO'],chemical).
+bp_generic(binding,binding,has_input,['CHEBI','PRO','GO'],chemical).
+bp_generic(secretion,secretion,results_in_transport_of,['CHEBI','PRO','GO'],chemical).
 
 test_bp_generic(AX,BX,X) :-
         bp_generic(_,A,_,_,_),
@@ -703,6 +710,9 @@ opts_included_class(E,Opts) :-
         \+ opts_excluded_class(E,Opts).
 
 opts_allowed_scope(label,_) :- !.
+opts_allowed_scope(_,Opts) :-
+        member(scope(all),Opts),
+        !.
 opts_allowed_scope(exact,Opts) :-
         \+ member(scope(no_exact),Opts),
         !.
@@ -930,13 +940,13 @@ label_partition(L,S) :- in(L,_,E),entity_partition(E,S).
 in(L,Ont) :- in(L,Ont,_).
 %in(L,Ont,E) :- label_lexical_variant(L,LV),entity_label_scope(E,LV,_),check_id_ont(E,Ont),\+entity_obsolete(E,_).
 %in(L,Ont,E) :- nb_getval(qobol_opts,Opts),repl_label(L,E,Opts),E\='?'(_),check_id_ont(E,Ont),\+entity_obsolete(E,_),!. % USE GLOBALS FOR NOW
-in(L,Ont,E) :- repl_label(L,E,[]),E\='?'(_),check_id_ont(E,Ont),\+entity_obsolete(E,_),!.
+in(L,Ont,E) :- nb_getval(qobol_opts,Opts),repl_label(L,E,Opts),E\='?'(_),check_id_ont(E,Ont),\+entity_obsolete(E,_),!.
 
 check_id_ont(ID,Ont) :- id_idspace_wrap(ID,Ont),!.
 check_id_ont(ID,Onts) :- member(Ont,Onts),id_idspace_wrap(ID,Ont),!.
 
 id_idspace_wrap(ID,Ont) :- id_idspace(ID,Ont),!.
-id_idspace_wrap(ID,'CHEBI') :- id_idspace(ID,'GOCHE'),!. % temp hack!
+%id_idspace_wrap(ID,'CHEBI') :- id_idspace(ID,'GOCHE'),!. % temp hack!
 
 
 repl_label(L,X,Opts):-
@@ -994,6 +1004,7 @@ owl2cdef(R some Y,cdef(_,[R=Y])) :- named_term(Y).
   examples:
 
   blip-findall  -u qobol_mp -goal prep_mp_all "entity_parsed_expression(E,L,X,fail(in(X,_)),[undefined_only(true),ontology('MP')])" -select "x(E,L,X)" -no_pred  > z
+
   
 */
 

@@ -117,6 +117,8 @@ alias pt="ov -r plant_trait"
 alias qpt="oq -r plant_trait"
 alias ncit="ov -r ncit"
 alias qncit="oq -r ncit"
+alias ncita="ov -r NCITA"
+alias qncita="oq -r NCITA"
 alias galen="ov -r galen"
 alias qgalen="oq -r galen"
 alias caro="ov -r caro"
@@ -163,6 +165,8 @@ alias brenda="ov -r brenda"
 alias qbrenda="oq -r brenda"
 alias vao="ov -r vao"
 alias qvao="oq -r vao"
+alias vsao="ov -r vsao"
+alias qvsao="oq -r vsao"
 alias snomed="ov -r snomed_anatomy"
 alias qsnomed="oq -r snomed_anatomy"
 
@@ -174,7 +178,10 @@ alias qhgene="oq -r gene/9606"
 alias mgi="ov -r gene/10090"
 alias qmgi="oq -r gene/10090"
 
-alias mpx="ov -r mammalian_phenotype -r mammalian_phenotype_xp -r mammalian_phenotype_xp_nif -r mammalian_phenotype_xp_uberon -r mouse_anatomy -r go -r pato -showxp"
+alias omeo-mm="ov -r omeo/Mus_musculus"
+alias qomeoa-mm="oq -r omeo/Mus_musculus"
+
+alias mpx="ov -r mammalian_phenotype -r mammalian_phenotype_xp  -r mouse_anatomy -r go -r pato -showxp"
 alias qmpx="oq -r mammalian_phenotype -r mammalian_phenotype_xp -r mouse_anatomy -r go -r pato -showxp"
 alias hpx="ov -r human_phenotype -r human_phenotype_xp -r fma2 -r go -r pato -showxp"
 alias qhpx="oq -r human_phenotype -r human_phenotype_xp -r fma2 -r go -r pato -showxp"
@@ -188,7 +195,7 @@ PHENO_ARGS='-r mammalian_phenotype -r human_phenotype'
 alias pheno='ov $PHENO_ARGS'
 alias qpheno='oq $PHENO_ARGS'
 
-export MULTIANAT_R='-r xenopus_anatomy -r mosquito_anatomy -r tick_anatomy -r spider_anatomy -r hao -r mouse_anatomy -r gemina_anatomy -r amphibian_anatomy -r cell -r fly_anatomy -r zebrafish_anatomy -r fma_downcase -r brenda -r bila -r miaa -r nif_downcase -r emapaa -r ehdaa -r ehdaa2 -r vhog -r wpanat -r mesh -r obo/evoc'
+export MULTIANAT_R='-r xenopus_anatomy -r mosquito_anatomy -r tick_anatomy -r spider_anatomy -r hao -r mouse_anatomy -r gemina_anatomy -r amphibian_anatomy -r cell -r fly_anatomy -r teleost_anatomy -r zebrafish_anatomy -r fma_downcase -r brenda -r bila -r miaa -r nif_downcase -r emapaa -r ehdaa -r ehdaa2 -r vhog -r wpanat -r mesh -r obo/evoc -r NCITA -r snomed_anatomy -r vsao -r murdoch'
 alias multianat="blip ontol-query $MULTIANAT_R -showxrefs -showsyns -showdefs"
 
 alias uberalles='blip -r uberon_with_isa -r xenopus_anatomy -r mouse_anatomy -r gemina_anatomy -r amphibian_anatomy -r cell -r fly_anatomy -r zebrafish_anatomy -r fma_downcase -r bila -r miaa'
