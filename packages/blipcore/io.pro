@@ -346,7 +346,7 @@ load_biofile(InputFileIn):- % special case - e.g. mygenome-genome_db.pro
 	sub_atom(X,_,_,E,'-'),
 	sub_atom(X,_,E,0,Mod),
 	\+ sub_atom(Mod,_,_,_,'-'),
-        \+ \+ format_module(_,Mod),
+        \+ \+ format_module(_,Mod), % type must be declared
 	catch(load_biofile(Mod:pro,InputFile),
               _,
               fail),
@@ -569,6 +569,9 @@ load_special(rdf,File):-
 load_special(ttl,File):-
         !,
         load_special(turtle,File).
+load_special(nt,File):-
+        !,
+        load_special(turtle,File).
 load_special(turtle,File):-
         !,
         ensure_loaded(library('semweb/rdf_db')),
@@ -623,11 +626,6 @@ load_special(oboj,File):-
         ensure_loaded(library(thea/owl2_io)),
         ensure_loaded(library(thea/owl2_util)),
         load_axioms(File,obo).
-load_special(ncboowl2obo,File):-
-        !,
-        ensure_loaded(bio(obo_namespaces)),
-        ensure_loaded(bio(ontol_bridge_from_owl2)),
-        load_special(owl,File).
 load_special(owl2obo,File):-
         !,
         ensure_loaded(bio(obo_new_namespaces)),
@@ -652,6 +650,12 @@ load_special(biopax_level2,File):-
         load_bioresource(biopax2),
         load_special(owl,File),
         ensure_loaded(bio(sb_bridge_from_biopax_level2)).
+load_special(csv,File):-
+        !,
+        ensure_loaded(library(csv)),
+        csv_read_file(File, Rows),
+        maplist(writeln, Rows),
+        user:maplist(assert, Rows).
 
 transform_and_load_xml(Fmt,Mod,File):-
 	statistics(cputime, CpuOld),
@@ -861,6 +865,7 @@ write_biofile(Mod:pro,F,_Filter):- % TODO - append
                write_biofile(Dep:pro,append(F1))),
         told.
 write_biofile(Fmt,F,Filter):-
+        atom(Fmt),
         concat_atom([Mod,pro],':',Fmt),
         !, 
         write_biofile(Mod:pro,F,Filter).
@@ -872,6 +877,10 @@ write_biofile(rdfcache,F,_):-
         !,
         ensure_loaded(library('semweb/rdf_db')),
         rdf_save_db(F).
+write_biofile(thea(Fmt),F,_):-
+        !,
+        ensure_loaded(library('thea/owl2_io')),
+        save_axioms(F,Fmt).
 write_biofile(rdf,F,_):-
         !,
         ensure_loaded(library('semweb/rdf_db')),
@@ -910,6 +919,7 @@ schema_dependency(curation_db,seqfeature_db).
 schema_dependency(genome_db,metadata_db).
 schema_dependency(phylo_db,metadata_db).
 schema_dependency(pathway_db,metadata_db).
+schema_dependency(lego_db,metadata_db).
 schema_dependency(pkb_db,genome_db).
 schema_dependency(kegg_db,metadata_db).
 
@@ -1053,6 +1063,7 @@ format_module(ncbitaxname,taxon_db).
 format_module(ncbitaxnode,taxon_db).
 format_module(gene_rif,gene_db).
 format_module(gene_info,gene_db).
+format_module(lego,lego_db).
 
 format_synonym(phenoxml,'pheno-xml').
 

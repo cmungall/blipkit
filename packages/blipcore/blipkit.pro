@@ -821,7 +821,7 @@ show_findall(Opts,WhereAtom,SelectAtom,PredAtom):-
         ensure_loaded(bio(dbmeta)),
         sformat(Atom,'all((~w),(~w),(~w))',[WhereAtom,SelectAtom,PredAtom]),
         atom_to_term(Atom,all(Where,Select1,Pred1),_Bindings),
-        (   Pred1=_/_
+        (   Pred1= (_ / _)
         ->  pred_to_unground_term(Pred1,Pred)
         ;   Pred=Pred1),
         (   nonvar(Select1),
@@ -948,7 +948,9 @@ show_term(Opts,T):-             % Label+atom, not tabular or pl
         entity_label(T,Label),
         Label\=T,
         !,
-        write(T-Label).
+        write(T),
+        write(' ! '),
+        write(Label).
 show_term(Opts,L):-             % show a list in pl-like syntax
         member(isLabel(1),Opts),
         is_list(L),

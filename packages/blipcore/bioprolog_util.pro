@@ -209,8 +209,12 @@ trust_current_user:-
 %first, and "-conf" will be the argument
 %
 %  IMPLEMENTATION MAY CHANGE!!!!!
+
+%%%:- current_prolog_flag(os_argv, Argv),
+%%%        set_prolog_flag(argv, Argv).
+
 getopt(OptL,RemL):-
-        current_prolog_flag(argv, ArgvIn),
+        current_prolog_flag(argv, ArgvIn),   %% <-- change to os_argv after 6.5.2, or use above flag
         append(_,[--|ArgL],ArgvIn),
         getopt_args(OptL,RemL,ArgL).
 

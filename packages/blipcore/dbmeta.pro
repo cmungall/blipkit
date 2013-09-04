@@ -547,6 +547,7 @@ write_db_fact_chain(Fmt,F,Fact) :-
 %% write_db_fact_chain(+Fmt,+Fact)
 % as write_db_fact_chain/3
 write_db_fact_chain(Fmt,Fact) :-
+        debug(dbmeta,'chaining facts from ~w~n',[Fact]),
 	write_db_fact(Fmt,Fact),
 	forall((fact_chain(Fact,ChainedFacts),
 		member(ChainedFact,ChainedFacts),
