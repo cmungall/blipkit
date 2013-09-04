@@ -92,6 +92,10 @@ ontol_writer:write_class(text,ID,Opts):-
                    ->  format(' [xref: ~w "~w"]',[X,XN])
                    ;   format(' [xref: ~w]',[X])))
         ;   true),
+        (   member(showaltids(1),Opts)
+        ->  forall(entity_alternate_identifier(ID,X),
+                   format(' [alt_id: ~w]',[X]))
+        ;   true),
         (   member(showinvxrefs(1),Opts)
         ->  forall(entity_xref(X,ID),
                    (   class(X,XN)

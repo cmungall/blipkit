@@ -8,8 +8,12 @@
 :- use_module(bio(metadata_db)).
 
 dbpedia(Page) :-
-	setof(Page,T^(user:rdf(Page,'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',T)),Pages),
+	setof(Page,T^(user:rdf(Page,'http://xmlns.com/foaf/0.1/isPrimaryTopicOf',T)),Pages),
 	member(Page,Pages).
+
+%dbpedia(Page) :-
+%	setof(Page,T^(user:rdf(Page,'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',T)),Pages),
+%	member(Page,Pages).
 
 wpxref_url(X,URL) :-
 	var(URL),!,
@@ -26,6 +30,15 @@ ontol_db:def(X,D) :-
 	wpxref_url(X,U).
 ontol_db:def_xref(C,C) :-
 	class(C).
+
+
+ontol_db:subclass(Sub,Sup) :-
+	user:rdf(SubU,'http://purl.org/dc/terms/subject',SupU),
+        atom_concat('http://dbpedia.org/resource/Category:',Cat,SupU),
+        atom_concat('WikipediaCategory:',Cat,Sup),
+        %wpxref_url(Sup,SupU),
+        wpxref_url(Sub,SubU).
+
 
 % e.g. anterior spinal to vertebral
 ontol_db:restriction(Post,branch_of,Pre) :-
@@ -58,15 +71,31 @@ ontol_db:restriction(Post,develops_from,Pre) :-
         user:rdf(PostX,Rel,PreX),
         wpxref_url(Post,PostX),
         wpxref_url(Pre,PreX).
-         
+
+ontol_db:restriction(P,part_of,W) :-
+	user:rdf(PX,'http://dbpedia.org/property/ispartof',WX),
+	wpxref_url(P,PX),
+	wpxref_url(W,WX).
+
 metadata_db:entity_label(C,S) :-
 	dbpedia(U),
 	wpxref_url(C,U),
 	wpurl_label(U,S).
 
+% todo - use depiction property
+metadata_db:entity_xref(C,X) :-
+	user:rdf(U,'http://xmlns.com/foaf/0.1/depiction',X),
+	wpxref_url(C,U).
+
 metadata_db:entity_resource(C,dbpedia) :-
 	dbpedia(U),
 	wpxref_url(C,U).
+
+metadata_db:entity_partition(C,Cat) :-
+	user:rdf(U,'http://purl.org/dc/terms/subject',CatURL),
+        atom_concat('http://dbpedia.org/resource/Category:',Cat,CatURL),
+        atom_concat(_,'_anatomy',Cat),
+        wpxref_url(C,U).
 
 synprop('http://dbpedia.org/property/redirect').
 synprop('http://dbpedia.org/property/wikiPageRedirects').
@@ -75,6 +104,24 @@ metadata_db:entity_synonym(C,S) :-
 	user:rdf(SynURL,SynProp,Canonical),
 	wpxref_url(C,Canonical),
 	wpurl_label(SynURL,S).
+
+% e.g. club (anatomy)
+metadata_db:entity_synonym(C,S) :-
+        metadata_db:entity_label(C,Label),
+        atomic_list_concat([S,_],' (',Label).
+
+
+latin(X,N) :-
+	user:rdf(U,'http://dbpedia.org/property/latin',literal(lang(en,N))),
+	wpxref_url(X,U).
+
+metadata_db:entity_synonym(X,S) :-
+        latin(X,S).
+metadata_db:entity_synonym_type(X,S,'LATIN') :-
+        latin(X,S).
+metadata_db:entity_synonym_scope(X,S,'EXACT') :-
+        latin(X,S).
+
 
 wpurl_label(U,N) :-
 	atom_concat('http://dbpedia.org/resource/',Page,U),

@@ -12,15 +12,32 @@
 
 maketerm(URI,Args,Term):-
         maketerm(URI,Args,Term,_,_,[]).
-maketerm(URI,Args,Term,NS,Functor,Opts):-
-    rdf_global_id(NS:Functor,URI),
-    property_to_predicate(Functor,FunctorSafe,Opts),
-    T1=..[FunctorSafe|Args],
-    Term=..[':',NS,T1].
+maketerm(URI,Args,Term,Opts):-
+        maketerm(URI,Args,Term,_,_,Opts).
 
-inf_clause( _NS, (Head:-Body), _Opts):-
+%% maketerm(+URI,+Args,?Term,?NS,?Functor,+Opts)
+maketerm(URI,Args,Term,_NS,Functor,Opts):-
+        member(use_labels(1),Opts),
+        ont_label(URI,Label),
+        member(module(M),Opts),
+        !,
+        downcase_atom(Label,R1),
+        concat_atom(L,'-',R1),
+        concat_atom(L,'_',Pred),
+        debug(schema,' pred= ~w ',[Pred]),
+        T=..[Pred|Args],
+        Term=..[':',M,T].
+        
+maketerm(URI,Args,Term,NS,Functor,Opts):-
+        rdf_global_id(NS:Functor,URI),
+        debug(schema,' P2P ~w ',[Functor]),
+        property_to_predicate(Functor,FunctorSafe,Opts),
+        T1=..[FunctorSafe|Args],
+        Term=..[':',NS,T1].
+
+inf_clause( _NS, (Head:-Body), Opts):-
     rdfs_individual_of(C,owl:'Class'),
-    maketerm(C,[I],Head),
+    maketerm(C,[I],Head,Opts),
     Body=rdfs_individual_of(I,C).
 
 
@@ -43,6 +60,16 @@ property_to_predicate(R,Pred,Opts):-
         property_to_predicate1(R,Pred0,Opts),
         safe_predicate(Pred0,Pred,Opts).
 
+% used?
+property_to_predicate1(R,Pred,Opts):-
+        member(use_labels(1),Opts),
+        !,
+        debug(schema,'FETCHING ~w ',[R]),
+        ont_label(R,Label),
+        debug(schema,'~w ==> ~w',[R,Label]),
+        downcase_atom(Label,R1),
+        concat_atom(L,'-',R1),
+        concat_atom(L,'_',Pred).
 property_to_predicate1(R,Pred,Opts):-
         member(prolog_properties(1),Opts),
         !,
@@ -59,7 +86,10 @@ safe_predicate(P1,P2,Opts):-
         ->  concat_atom([M,P1],'_',P2)
         ;   atom_concat(P1,'_',P2)).
 safe_predicate(P,P,_).
-                  
+
+ont_label(X,Label) :- rdfs_label(X,Label),!.
+ont_label(X,Label) :- rdf(X,rdfs:label,S),S=literal(type(_,Label)).
+
 
 %inf_clause(X):- inf_clauses(Xs),member(X,Xs).
 
@@ -89,6 +119,7 @@ assert_clauses(M):-
         forall(inf_clause(M,X),
                M:assert(X)).
 
+%% E.g. write_schema(bp2,'http://www.biopax.org/release/biopax-level2.owl#')
 write_schema(Local,Global):-
         write_schema(Local,Global,[]).
 write_schema(Local,Global,Opts):-

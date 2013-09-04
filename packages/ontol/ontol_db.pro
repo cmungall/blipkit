@@ -10,6 +10,8 @@
            subclass/2,
            equivalent_class/2,
            equivalent_class_symm/2,
+           class_quad_flip/4,
+           class_quad_flipT/4,
            restriction/3,
            restriction/4,
            restriction/5,
@@ -76,6 +78,7 @@
            obsolete/3,
            obsolete_class/2,
            class_or_obsolete_class/1,
+           class_idspace/2,
            idspace/2,
            inst_of/2,
            inst_rel/3,
@@ -479,7 +482,6 @@ parentT1(ID,[T|TL],IDp,Via):-
         ;   parent(ID,T,IDz,Via),
             parentT1(IDz,TL,IDp,Via)).
 
-
 % parentRT/4
 parentRT(ID,[],ID,_).
 parentRT(ID,TL,IDp,Via):- parentT(ID,TL,IDp,Via).
@@ -794,6 +796,10 @@ all_some(Rel):-                 % all_some by default
         \+ disjoint_over(Rel,_),
         \+ is_metadata_tag(Rel),
         \+ complement_of(Rel,_).
+all_some(Rel):-                 % all_some by default for undeclared
+        \+ var(Rel),
+        \+ property(Rel).
+
 
 all_some_relationship(C,R,P) :-
         parent(C,R,P),
@@ -966,6 +972,9 @@ referenced_id(ID,RefID):-     genus(ID,RefID).
 % INTER-ONTOLOGY REFERENCES AND MIREOT
 % ----------------------------------------
 
+class_idspace(C,S) :- class(C),id_idspace(C,S).
+
+
 %% idspace_references(?S,?Ref)
 % true if Ref is in the parentRT/2 closure of a class
 % in idspace S.
@@ -1033,6 +1042,16 @@ bf_parentRT(ID,PID) :-
 	member(PID,L).
 bf_parentRT(ID,ID) :-
 	class(ID).
+bf_parentRT(L,PID) :-
+        nonvar(L),
+        is_list(L),
+	ids_ancestors(L,[],[],AL),
+        append(AL,L,AL_2),
+        sort(AL_2,AL_3),
+        member(PID,AL_3).
+
+        
+        
 
 ids_ancestors([ID|IDs],DoneIDs,Ancs,AncsFinal) :-
 	setof(XID,R^all_some_or_subclass_relationship(ID,R,XID),Parents),
@@ -1239,6 +1258,21 @@ entity_inverse_relations_closure([Class-_Conns|ScheduledCCPairs],Visited,ResultC
 	entity_inverse_relations_closure(ScheduledCCPairs,[Class|Visited],ResultCCPairs,FinalCCPairs).
 entity_inverse_relations_closure([],_,ResultCCPairs,ResultCCPairs).
 
+% -----------------------------------
+% SIMPLE RULES
+% -----------------------------------
+class_quad_flip(C1,P1,C2,P2) :-
+        equivalent_class(C1,C2),
+        subclassT(C1,P1),
+        equivalent_class(P1,P2),
+        subclassT(P2,C2).
+class_quad_flipT(C1,P1,C2,P2) :-
+        equivalent_class(C1,C2),
+        subclassT(C1,P1),
+        equivalent_class(P1,P2),
+        subclassRT(P2,C2).
+
+        
 
 
 % -----------------------------------

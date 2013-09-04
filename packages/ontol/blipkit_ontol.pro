@@ -807,6 +807,7 @@ user:opt_insecure(query).
          atoms([cr,containment_relation],ContainmentRelations),
          bool(showxp,ShowXP),
          bool(showxrefs,ShowXrefs),
+         bool(showaltids,ShowAltIds),
          bool(showinvxrefs,ShowInvXrefs),
          bool(showsubsets,ShowSubset),
          atom(rankdir,RankDir,'BT'), % for dot/graphviz: TB LR BT RL
@@ -841,6 +842,7 @@ user:opt_insecure(query).
                    showdefs(ShowDefs),
                    showxp(ShowXP),
                    showxrefs(ShowXrefs),
+                   showaltids(ShowAltIds),
 		   showinvxrefs(ShowInvXrefs),
                    showsubsets(ShowSubset),
                    subsets(Subsets),
@@ -1172,11 +1174,11 @@ show_subgraph(formatted,ID,G,[Tab|Tabs],Opts) :-
         forall(member(C-ID,G),
                show_subgraph(formatted,C,G,[Tab,Tab|Tabs],Opts)).
 
-blipkit:example('blip ontol-solr -r go -url http://localhost:8984/solr -attval foo=bar -facet isa_partof_closure ',
+blipkit:example('blip ontol-solr -r go -url http://localhost:8984/solr -attval isa_partof_closure=GO:0022008 -facet isa_partof_closure ',
                 'As ontol-subset, but include counts for facets from a SOLR query').
 :- blip('ontol-solr',
         'Requires plsolr',
-        [atom(url,URL,'http://localhost:8984/solr'),
+        [atom(url,URL,'http://golr.berkeleybop.org'),
          atoms([attval],AttVals),
          atom([facet],Facet),
          atoms([relation,rel],Rels),
@@ -1529,17 +1531,17 @@ compare_feature_pair(X,Y,Scores) :-
 
 show_score_cols(maxIC(MaxIC,L)) :-
         !,
-        format('\tmaxIC\t\~w\t',[MaxIC]),
+        format('\tmaxIC\t~w\t',[MaxIC]),
         maplist(labelify,L,L2),
         write(L2).
 show_score_cols(maxICnr(MaxIC,L)) :-
         !,
-        format('\tmaxICnr\t\~w\t',[MaxIC]),
+        format('\tmaxICnr\t~w\t',[MaxIC]),
         maplist(labelify,L,L2),
         write(L2).
 show_score_cols(avgICCSnr(MaxIC,L)) :-
         !,
-        format('\tavgICCSnr\t\~w\t',[MaxIC]),
+        format('\tavgICCSnr\t~w\t',[MaxIC]),
         findall(S2,
                 (   member(S,L),
                     maplist(labelify,S,S2)),
@@ -1601,12 +1603,13 @@ blipkit:example('blip -i ~/ontologies/biopax-level2.owl ontol-schema  -local bio
         [atom(ns,NS),
          atom(local,Local),
          atom(prefix,Prefix,Local),
+         bool(labels,UseLabels),
          bool(prolog_properties,FixProps)],
         _,
         (   nonvar(NS),
             nonvar(Local),
             ensure_loaded(bio(ontol_bridge_to_schema)),
-            write_schema(Local,NS,[prefix(Prefix),prolog_properties(FixProps)]))).
+            write_schema(Local,NS,[prefix(Prefix),use_labels(UseLabels),prolog_properties(FixProps)]))).
 
 :- blip('ontol-serql-server',
         'starts serql server',

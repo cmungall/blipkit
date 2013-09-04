@@ -121,13 +121,15 @@ neurocommons_query_links(A,Row,Limit,Opts) :-
 % ----------------------------------------
 
 %% dbpedia_query_links(+A,?Row,+Limit,+Opts) is nondet
+% Opts = [sameAs(P),...]
 dbpedia_query_links(A,Row,Limit,Opts) :-
 	(   atom_concat('http://',_,A)
 	->  URL=A
 	;   atom_concat('http://dbpedia.org/resource/',A,URL)),
 	debug(dbpedia,'focus: ~w',[A]),
 	sparql_set_server([host('dbpedia.org'),port(80),path('/sparql/')]),
-	sparql_query_links(URL,Row,Limit,[sameAs('http://dbpedia.org/property/redirect')|Opts]).
+	sparql_query_links(URL,Row,Limit,Opts).
+%	sparql_query_links(URL,Row,Limit,[sameAs('http://dbpedia.org/property/redirect')|Opts]).
 
 % ----------------------------------------
 % QUERY+REDIRECTS

@@ -107,7 +107,9 @@ write_header(obo):-
                          ;   Label=SubSet)),
                         format('subsetdef: ~w "~w"~n',[SubSet,Label])),
         forall_distinct(synonym_type_desc(S,T,D),
-                        format('synonymtypedef: ~w "~w" ~w~n',[S,D,T])),
+                        (   T=''
+                        ->  format('synonymtypedef: ~w "~w"~n',[S,D,T])
+                        ;   format('synonymtypedef: ~w "~w" ~w~n',[S,D,T]))),
         forall_distinct(treat_xrefs_as_equivalent(X),
                         format('treat-xrefs-as-equivalent: ~w~n',[X])),
         forall_distinct(treat_xrefs_as_subclass(X),
