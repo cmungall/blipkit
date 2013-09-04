@@ -24,10 +24,18 @@ user:graphviz_ontol_param(edge(X,_,_,_),penwidth=3) :- id_idspace(X,'UBERON').
 user:graphviz_ontol_param(edge(X,_,_,_),weight=50) :- id_idspace(X,'UBERON').
 user:graphviz_ontol_param(node(_),style=filled).
 user:graphviz_ontol_param(node(X),fillcolor=C):- id_idspace(X,O),ont_col(O,C).
+user:graphviz_ontol_param(edge(_,_,develops_from,_),color=green).
 
 user:graphviz_ontol_param(key(X),fillcolor=Col) :- xont_col(X,Col).
 user:graphviz_ontol_param(key(X),label=X) :- xont_col(X,_).
 user:graphviz_ontol_param(key(X),style=filled) :- xont_col(X,_).
 user:graphviz_ontol_param(key(key),label=key).
+
+:- multifile ontol_db:restriction/3.
+ontol_db:restriction(X,skeletal_part_of,Y) :-
+        class(S,'subdivision of skeleton'),
+        parent(X,part_of,Y),
+        subclassT(X,S),
+        subclassT(Y,S).
 
 

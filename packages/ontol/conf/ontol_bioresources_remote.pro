@@ -56,7 +56,8 @@ user:file_search_path(obo_local, OBO) :-
 % --AUTOMATIC EXPANSION--
 
 user:bioresource(obo_download(N),obo_download(Path),obo):- nonvar(N),concat_atom([N,'/',N,'.obo'],Path).
-user:bioresource(obo(N),url(Path),obo):- nonvar(N),concat_atom(['http://purl.org/obo/obo-all/',N,'/',N,'.obo'],Path).
+user:bioresource(obo(N),url(Path),obo):- nonvar(N),concat_atom(['http://purl.obolibrary.org/obo/',N,'.obo'],Path).
+user:bioresource(obo_old(N),url(Path),obo):- nonvar(N),concat_atom(['http://purl.org/obo/obo-all/',N,'/',N,'.obo'],Path).
 user:bioresource(obo2(N),url(Path),obo):- nonvar(N),concat_atom(['http://purl.org/obo/obo/',N,'.obo'],Path).
 user:bioresource(obop(N),url(Path),ontol_db:pro):- nonvar(N),concat_atom(['http://purl.org/obo/obo-all/',N,'/',N,'.pro'],Path).
 
