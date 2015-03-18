@@ -672,6 +672,7 @@ user:opt_insecure(query).
          bool([stem],Stem),
          atom([queryfile,qf],TokensFile),
          atom(query,OntolQueryAtom),
+         atom(subclassof,SubClassOf),
          atom(mireot,Mireot),
          atom(mireot_ext,MireotExt),
          atom([to,t],OutFmt,textnl),
@@ -691,6 +692,14 @@ user:opt_insecure(query).
          bool(showdefs,ShowDefs)],
         FileL,
         (   
+            (   nonvar(SubClassOf)
+            ->  (   class(SubClassOf)
+                ->  SubClassOfID = SubClassOf
+                ;   class(SubClassOfID,SubClassOf)),
+                sformat(OntolQueryAtom,
+                       'subclass(ID,~q)',
+                       [SubClassOfID])
+            ;   true),
             (   (   var(QueryNames),var(TokensFile),var(OntolQueryAtom),IDs=[])
             ->  QueryNames=FileL
             ;   load_factfiles(FileL)),
@@ -1556,6 +1565,10 @@ labelify(X,A) :-
         entity_label(X,N),
         !,
         sformat(A,'~w "~w"',[X,N]).
+labelify(N,A) :-
+        entity_label(ID,N),
+        !,
+        sformat(A,'~w "~w"',[ID,N]).
 labelify(X,X).
 
 :- blip('ontol-q',

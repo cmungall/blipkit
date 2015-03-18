@@ -55,33 +55,33 @@ qobol_prep(Opts) :-
         member(ontology(Ontology),Opts),
         !,
         qobol_prep_ont(Ontology).
-qobol_prep(_) :-
-        qobol_prep_ont(_).
+qobol_prep(_Opts) :- true.
 
+
+qobol_prep_ont('TO') :- prep_plant_trait,!.
 qobol_prep_ont(mp) :- prep_mp_all,!.
 qobol_prep_ont('MP') :- prep_mp_all,!.
 qobol_prep_ont(hp) :- prep_hp_all,!.
 qobol_prep_ont('HP') :- prep_hp_all,!.
 qobol_prep_ont('ZFA') :- load_bioresource('ZFA'), !.
+qobol_prep_ont('BBQ') :- load_bioresource(bbq),load_bioresource(uberonp),load_bioresource(go),load_bioresource(pato),load_bioresource('CL'), !.
 qobol_prep_ont('MA') :- load_bioresource('MA'),load_bioresource(uberonp), !.
 qobol_prep_ont('UBERON') :- load_bioresource(uberonp), !.
 qobol_prep_ont('GO') :- load_bioresource(go),load_bioresource(goxp(relations_process_xp)),!.
 qobol_prep_ont('CL') :- load_bioresource(cell),!.
 qobol_prep_ont('DOID') :- load_bioresource(disease_xp),load_bioresource(fma),load_bioresource(cell).
-qobol_prep_ont(Ont) :- load_bioresource(Ont),!.
+qobol_prep_ont('VT') :- load_bioresource(vt),load_bioresource(vt_xp),load_bioresource(go),load_bioresource(protein),load_bioresource(chebi),load_bioresource(pato),load_bioresource('CL'),load_bioresource(uberonp), !.
+qobol_prep_ont(Ont) :- atom(Ont),load_bioresource(Ont),!.
+qobol_prep_ont(_).
 %qobol_prep_ont(_) :- prep_mp_all,!.
 
 qobol_prep_ont('GO','UBERON') :-
         load_bioresource(go),
         load_bioresource(uberonp),
-        load_bioresource(goxp(biological_process_xp_uber_anatomy)),
-        load_bioresource(goxp(relations_process_xp)),
         !.
 qobol_prep_ont('GO','CL') :-
         load_bioresource(go),
         load_bioresource('CL'),
-        load_bioresource(goxp(biological_process_xp_cell)),
-        load_bioresource(goxp(relations_process_xp)),
         !.
 qobol_prep_ont('GO','PO') :-
         load_bioresource(go),
@@ -98,13 +98,22 @@ qobol_prep_ont('GO','PR') :-
 qobol_prep_ont('GO','CHEBI') :-
         load_bioresource(go),
         load_bioresource(chebi),
-        load_bioresource(go_xp_chebi),
+        load_bioresource(ions),
         load_bioresource(goxp(relations_process_xp)),
         !.
 
 
 prep :-
         load_bioresource(obol_av).
+
+prep_plant_trait :-
+        prep,
+        load_bioresource(pato),
+        load_bioresource(chebi),
+        load_bioresource(go),
+        load_bioresource('PO'),
+        load_bioresource(plant_trait),
+        load_bioresource(plant_trait_xp).
 
 prep_mp :-
         prep,
@@ -118,6 +127,8 @@ prep_mp_all :-
         load_bioresource(protein),
         load_bioresource(chebi),
         load_bioresource(cell),
+        load_bioresource(mpath),
+        load_bioresource(disease),
         load_bioresource(uberonp),
         load_bioresource(mouse_anatomy).
 
@@ -137,9 +148,90 @@ prep_hp_all :-
         load_bioresource(fma_downcase).
 
 
+molecular(C) :- in(C,'CHEBI',E),class(Atom,atom),debug(qobol,'?is_molecular: ~w // ~w',[C,E]),\+subclassT(E,Atom).
+molecular(C) :- in(C,'PR').
+molecular(C) :- in(C,'GO',E),subclassT(E,'GO:0032991'). % MM complex
+
+
 
 %% qobol(?Categories:list, ?MatchTemplate:list, ?OWLExpression, ?MatchGoal, ?ValidGoal)
 :- discontiguous qobol/5.
+
+% ----------------------------------------
+% TRAIT
+% ----------------------------------------
+
+% e.g. X sensitivivity
+qobol([plant,trait,chemical],
+      [C,Q],
+      Q and (inheres_in some 'whole plant') and (towards some C),
+      in(Q,'PATO'),
+      in(C,'CHEBI')).
+qobol([plant,trait,anatomy],
+      [E,Q],
+      Q and (inheres_in some E),
+      in(Q,'PATO'),
+      in(E,'PO')).
+qobol([bbq,trait,anatomy],
+      [E,Q],
+      Q and (inheres_in some E),
+      true,
+      %in(Q,'PATO'),
+      true).
+
+% ----------------------------------------
+% TRAITS
+% ----------------------------------------
+
+qobol([vt,generic,anatomy],
+      [A,trait],
+      'biological attribute' and occurs_in some A,
+      true,
+      in(A,'UBERON')).
+
+qobol([vt,generic,process],
+      [A,trait],
+      'biological attribute' and attribute_of some A,
+      true,
+      in(A,'GO')).
+
+qobol([vt,eq],
+      [E,Q],
+      'biological attribute' and affects_quality some Q and attribute_of some E,
+      in(Q,'PATO'),
+      in(E,['CHEBI','PR','UBERON','CL','GO'])).
+
+qobol([vt,eq,form2],
+      [E,Q,trait],
+      'biological attribute' and affects_quality some Q and attribute_of some E,
+      in(Q,'PATO'),
+      in(E,['CHEBI','PR','UBERON','CL','GO'])).
+
+% blood aldosterone amount
+qobol([vt,amount],
+      [Tissue,Substance,amount],
+      'biological attribute' and affects_quality some amount and attribute_of some Substance and occurs_in some Tissue,
+      true,
+      in(Tissue,['UBERON'])).
+
+qobol([vt,quantity],
+      [A,quantity],
+      'biological attribute' and affects_quality some amount and attribute_of some A,
+      true,
+      true).
+
+
+% 
+qobol([vt,physiology],
+      [A,physiology,trait],
+      'biological attribute' and affects_quality some 'phsyiological state' and attribute_of some A,
+      true,
+      true).
+
+
+
+
+
 
 % ----------------------------------------
 % METABOLISM
@@ -220,9 +312,11 @@ qobol([mp,process,abnormal],
       true).
 */
 
+
 % ----------------------------------------
 % MORPHOLOGY
 % ----------------------------------------
+
 
 qobol([mp,morphology,abnormal],
       [abnormal,C,morphology],
@@ -248,6 +342,7 @@ qobol([mp,eav,abnormal],
       entity_partition(A,attribute_slim),
       in(A,'PATO')).
 
+
 qobol([mp,magnitude,changed],
       [Mag,C,A],
       Q and (inheres_in some C),
@@ -255,6 +350,61 @@ qobol([mp,magnitude,changed],
       atomic_list_concat([Mag,A],' ',Q)
      ) :- magdiff(Mag).
 
+qobol([mp,rate,processual],
+      [increased,E],
+      'increased rate' and (inheres_in some E),
+      true,
+      in(E,'GO')).
+qobol([mp,rate,processual],
+      [decreased,E],
+      'decreased rate' and (inheres_in some E),
+      true,
+      in(E,'GO')).
+
+qobol([mp,impaired,processual],
+      [impaired,E],
+      'disrupted' and (inheres_in some E),
+      true,
+      in(E,'GO')).
+
+qobol([mp,branching,involved,processual],
+      [Q,branching,involved,in,E],
+      Q and (inheres_in some 'morphogenesis of a branching structure') and (inheres_in_part_of some E),
+      true,
+      in(E,'GO')).
+
+qobol([mp,physiology],
+      [abnormal,E,physiology],
+      functionality and (inheres_in some E) and (qualifier some abnormal),                         
+      true,
+      true).
+
+/*
+qobol([mp,development,processual],
+      [Q,E,development],
+      Q and (inheres_in some 'morphogenesis of a branching structure') and (inheres_in_part_of some E),
+      true,
+      in(E,'GO')).
+*/
+
+qobol([mp,eq,process,quality],
+      [E,P],
+      Q and (inheres_in some E),
+      true,
+      true) :-
+        process_quality(P,Q).
+
+% increased DO incidence
+qobol([mp,incidence,inc,disease,quality],
+      [increased,D,incidence],
+      'increased rate' and (towards some D),
+      true,
+      true).
+qobol([mp,incidence,dec,disease,quality],
+      [decreased,D,incidence],
+      'decreased rate' and (towards some D),
+      true,
+      true).
 
 % e.g. X atrophied
 qobol([mp,eq,processual],
@@ -319,6 +469,30 @@ qobol([hp,eav,simple,singular,abnormal],
       label_partition(A,attribute_slim),
       true).
 
+qobol([hp,sclerosis,abnormal],
+      ['Sclerosis',of,the,E],
+      'increased mass density' and (qualifier some pathological) and (inheres_in some E),
+      true,
+      true).
+qobol([hp,symphalangism,abnormal],
+      [symphalangism,affecting,the,E],
+      'fused with' and (towards some phalanx) and (inheres_in some E),
+      true,
+      true).
+qobol([hp,symphalangism,abnormal],
+      [symphalangism,of,the,E],
+      'fused with' and (towards some phalanx) and (inheres_in some E),
+      true,
+      true).
+
+/*
+qobol([hp,generic,abnormal],
+      [P,of,the,E],
+      PClass and (inheres_in some E),
+      true,
+      subclassT(E,Parent)) :- hp_generic(P,PClass,Parent).
+*/
+
 qobol([hp,quality,part,plural,abnormal],
       [abnormality,involving/of,opt(the),opt_plural(P),of,the,opt_plural(W)],
       quality and (qualifier some abnormal) and (inheres_in_part_of some W) and (inheres_in some P),
@@ -348,12 +522,12 @@ qobol([hp,eav,part,plural,abnormal],
 qobol([disease,anatomical,basic],
       [disease,of,E],
       disease and located_in some EX,
-      in(E,'FMA',EX),
+      in(E,['FMA','UBERON'],EX),
       true).
 qobol([disease,anatomical,basic],
       [E,disease],
       disease and located_in some EX,
-      in(E,'FMA',EX),
+      in(E,['FMA','UBERON'],EX),
       true).
 
 qobol([disease,cell,basic],
@@ -367,27 +541,22 @@ qobol([disease,cell,basic],
       in(E,'CL',EX),
       true).
 
-qobol([disease,anatomical,generic],
-      [E,D],
-      DX and located_in some EX,
-      (   in(E,'FMA',EX),
-          in(D,'DOID',DX)),
-      true).
 
 qobol([disease,anatomical,generic],
       [E,D],
       DX and located_in some EX,
-      (   in(E,'FMA',EX),
+      (   in(E,['FMA','UBERON'],EX),
           dmap(D,DX)),
       true).
 qobol([disease,anatomical,generic],
       [D,of,E],
       DX and located_in some EX,
-      (   in(E,'FMA',EX),
+      (   in(E,['FMA','UBERON'],EX),
           dmap(D,DX)),
       true).
 
 dmap('carcinoma in situ','in situ carcinoma').
+dmap(D,D).
 
 
 
@@ -395,11 +564,24 @@ dmap('carcinoma in situ','in situ carcinoma').
 % GO
 % ----------------------------------------
 
+% RoBQ
+qobol([go,bp,regulation,quality],
+      [regulation,of,Q],
+      'biological regulation' and regulates some Q,
+      true,
+      true). % GO:0065008 ! regulation of biological quality
+
 qobol([go,bp,regulation,by],
       [Reg1,by,Reg2],
       Reg2 and (results_in some Reg1),
       true,
       subclassT(Reg1,'GO:0065007')). % biological regulation
+
+qobol([mf,binding,domain],
+      [P,binding],
+      binding and (has_input some P),
+      true,
+      true).
 
 qobol([mf,binding,protein],
       [P,binding],
@@ -407,30 +589,186 @@ qobol([mf,binding,protein],
       true,
       in(P,'PR')).
 qobol([mf,receptor_activity,protein],
-      [P,activity],
+      [P,'receptor activity'],
       'receptor activity' and (has_active_participant some P),
       true,
       in(P,'PR')).
+qobol([mf,receptor_activity,chemical],
+      [P,'receptor activity'],
+      'receptor activity' and (has_input some P),
+      true,
+      in(P,'CHEBI')).
 
+qobol([go,bp,transport,from,to],
+      [S,to,E,transport],
+      'transport' and has_target_start_location some S and has_target_end_location some E,
+      true,
+      true).
+
+qobol([go,bp,transport,import_export,mol],
+      [C,export],
+      'transport' and exports some C,
+      true,
+      molecular(C)).
+qobol([go,bp,transport,import_export,mol],
+      [C,import],
+      'transport' and imports some C,
+      true,
+      molecular(C)).
+
+% check - e.g. dopamine uptake
+qobol([go,bp,transport,uptake,mol],
+      [C,uptake],
+      'transport' and imports some C,
+      true,
+      molecular(C)).
+
+/*
+qobol([go,bp,transport,import_export,chemical,transmembrane],
+      [C,transmembrane, transport],
+      'transmembrane transport' and exports some C,
+      true,
+      in(C,'CHEBI')).
+qobol([go,bp,transport,import_export,chemical,transmembrane],
+      [C,import],
+      'transmembrane transport' and imports some C,
+      true,
+      in(C,'CHEBI')).
+*/
+
+qobol([go,bp,transport,import_export,mol,transmembrane],
+      [C,transmembrane,import,into,E],
+      'transmembrane transport' and imports some C and has_target_end_location some E,
+      true,
+      molecular(C)).
+qobol([go,bp,transport,import_export,mol,transmembrane],
+      [C,transmembrane,export,from,E],
+      'transmembrane transport' and exports some C and has_target_start_location some E,
+      true,
+      molecular(C)).
+
+
+
+% foo('0').
 %snRNA import into Cajal body
-qobol([go,bp,import],
+%qobol([go,bp,import],
+%      [M,import,into,C],
+%      transport and (transports_or_maintains_localization_of some M) and (results_in_transport_to some C),
+%      true,
+%      true).
+qobol([go,bp,transport,import,into],
       [M,import,into,C],
-      transport and (results_in_transport_of some M) and (results_in_transport_to some C),
+      transport and (imports some M) and (has_target_end_location some C),
+      true,
+      molecular(M)).
+qobol([go,bp,transport,export,from],
+      [M,export,from,C],
+      transport and (exports some M) and (has_target_start_location some C),
+      true,
+      molecular(M)).
+% e.g. Golgi calcium ion export
+qobol([go,bp,transport,export,implicit],
+      [C,M,export],
+      transport and (exports some M) and (has_target_start_location some C),
+      true,
+      molecular(M)).
+
+% e.g. plasma membrane acetate transport - TODO - check it's a membrane
+%qobol([go,bp,transport,implicit],
+%      [C,M,transport],
+%      transport and (transports_or_maintains_localization_of some M) and (results_in_transport_across some C),
+%      true,
+%      molecular(M)).
+
+% e.g. ER to Golgi ceramide transport
+qobol([go,bp,transport,path,mol],
+      [S,to,E,M,transport],
+      transport and (transports_or_maintains_localization_of some M) and (has_target_start_location some S) and (has_target_end_location some E),
+      true,
+      (molecular(M), in(S,'GO'), in(E,'GO'))).
+
+
+qobol([go,bp,transport,transepithelial],
+      [transepithelial,M,transport],
+      'transepithelial transport' and (transports_or_maintains_localization_of some M),
+      true,
+      molecular(M)).
+
+% TODO: patterns for portein targeting etc
+qobol([go,bp,generic_transport,generic],
+      [G,to,C],
+      G and (has_target_end_location some C),
       true,
       true).
 
-% protein localization to X
-qobol([go,localization,to],
-      [protein,localization,to,C],
-      'protein localization' and results_in_localization_to some C,
+qobol([go,bp,generic_transport,import_export,into],
+      [P,into,C],
+      P and has_target_end_location some C,
       true,
-      true).
+      subclassT(P,'GO:0006810')).
+% foo('0').
+
+
+qobol([go,mf,transport,antiporter],
+      [M1,':',M2,antiporter,activity],
+      'antiporter activity' and (imports some M1) and (exports some M2),
+      true,
+      (   molecular(M1),molecular(M2))
+      ).
+qobol([go,mf,transport,symporter],
+      [M1,':',M2,symporter,activity],
+      'symporter activity' and (exports some M1) and (imports some M2),
+      true,
+      (   molecular(M1),molecular(M2))
+      ).
+
+
+qobol([go,mf,transport,channel],
+      [M,channel,activity],
+      'channel activity' and transports_or_maintains_localization_of some M,
+      true,
+      molecular(M)).
+
+qobol([go,mf,transport],
+      [M,transporter,activity],
+      'transporter activity' and transports_or_maintains_localization_of some M,
+      true,
+      molecular(M)).
+qobol([go,mf,transport],
+      [M,transmembrane,transporter,activity],
+      'transmembrane transporter activity' and transports_or_maintains_localization_of some M,
+      true,
+      molecular(M)).
+
+
+
+% TODO
+%qobol([go,transport,localization,establishment],
+%      [protein,localization,to,C],
+%      'protein localization' and has_target_end_location some C,
+%      true,
+%      true).
 
 qobol([go,bp,involved],
       [P,involved,in,W],
       P and part_of some W,
       true,
       true).
+
+qobol([go,bp,apoptosis],
+      [C,P],
+      P and occurs_in some C,
+      true,
+      in(C,'CL')) :-
+        member(P,['cell death','programmed cell death','apoptotic process']).
+
+
+
+qobol([go,bp,generic,P,anatomy],
+      [embryomic,C,P],
+      PClass and (R some C) and (part_of some 'embryo development'),
+      true,
+      in(C,Ont)) :- bp_generic(P,PClass,R,Ont,anatomy).
 
 qobol([go,bp,generic,P,Type],
       [C,P],
@@ -464,32 +802,49 @@ reladj(cytoplasmic,cytoplasm).
 reladj(cytosolic,cytosol).
 reladj(intracellular,intracellular).
 reladj(vacuolar,vacuole).
+reladj(pancreatic,pancreas).
+
+qobol([go,cc,lumen],
+      [W,lumen],
+      'membrane-enclosed lumen' and (part_of some W),
+      true,
+      (   in(W,'GO',WID),
+          belongs(WID,cellular_component))).
+
+qobol([go,cc,membrane,p1],
+      [W,P],
+      P and (bounding_layer_of some W),
+      true,
+      (   in(P,'GO',PID),
+          in(W,'CL'),
+          belongs(PID,cellular_component))).
+
+
+qobol([go,cc,part_of,cell],
+      [W,P],
+      P and (part_of some W),
+      true,
+      (   in(P,'GO',PID),
+          in(W,'CL'),
+          belongs(PID,cellular_component))).
+
 
 qobol([go,bp,cc,in,occurs],
-      [P,C],
-      P and occurs_in some C,
-      true,
-      (   in(P,'GO',PID),
-          in(C,'GO',CID),
-          belongs(PID,biological_process),
-          belongs(CID,cellular_component))).
-
-
-qobol([go,bp,cc,generic,occurs],
-      [P,C],
-      P and occurs_in some C,
-      true,
-      (   in(P,'GO',PID),
-          in(C,'GO',CID),
-          belongs(PID,biological_process),
-          belongs(CID,cellular_component))).
-
-% with generic tag, avoid ambiguous parses
-qobol([go,bp,generic,occurs],
       [C,P],
       P and occurs_in some C,
       true,
-      in(C,['UBERON'])) :- \+ bp_generic(P,_,_,_,_).
+      (   in(P,'GO',PID),
+          in(C,'GO',CID),
+          belongs(PID,biological_process),
+          belongs(CID,cellular_component))).
+
+
+% with generic tag, avoid ambiguous parses
+qobol([go,bp,anat,generic,occurs],
+      [C,P],
+      P and occurs_in some C,
+      true,
+      in(C,['UBERON','CL'])) :- \+ bp_generic(P,_,_,_,_).
 
 % no generic tag, force occurs. E.g. paraxial mesoderm cell differentiation
 %  NOTE: this fails because 'mesoderm cell differentiation' is found by greedy match
@@ -505,69 +860,146 @@ qobol([go,bp,by,has_input,chemical],
       [P,by,C],
       P and has_input some C,   % TODO - check
       true,
-      in(C,['CHEBI','PRO'])).
+      in(C,['CHEBI','PR'])).
 
 % methionine catabolic process to 3-methylthiopropanoate
 qobol([go,bp,to,has_output,has_input,chemical],
       [In,P,to,Out],
       P and has_input some In and has_output some Out,
       true,
-      in(In,['CHEBI','PRO'])).
+      in(In,['CHEBI','PR'])).
 
 % glutamate catabolic process via 2-oxoglutarate
 qobol([go,bp,via,has_output,has_input,chemical],
       [In,P,via,Via],
       P and has_input some In and has_intermediate some Via, % TODO
       true,
-      in(In,['CHEBI','PRO'])).
+      in(In,['CHEBI','PR'])).
+
+% phosphatidylcholine biosynthesis from choline
+qobol([go,bp,from,has_output,has_input,chemical],
+      [Out,biosynthesis,from,In],
+      'biosynthetic process' and has_input some In and has_output some Out,
+      true,
+      in(In,['CHEBI','PR'])).
 
 qobol([go,bp,stimulus,response,chemical],
       [response,to,C,stimulus],
       'response to stimulus' and has_input some C,
       true,
-      in(C,['CHEBI','PRO'])).
+      in(C,['CHEBI','PR'])).
+
 qobol([go,bp,stimulus,response,chemical],
       [response,to,C],
       'response to stimulus' and has_input some C,
       true,
-      in(C,['CHEBI','PRO'])).
+      in(C,['CHEBI','PR'])).
 
-qobol([go,bp,homeostasis,chemical],
-      [C,homeostasis],
-      'chemical homeostasis' and has_input some C,
+qobol([cellular,go,bp,stimulus,response,chemical],
+      [cellular,response,to,C,stimulus],
+      'cellular response to chemical stimulus' and has_input some C,
+      true,
+      in(C,'CHEBI')).
+qobol([cellular,go,bp,stimulus,response,chemical],
+      [cellular,response,to,C],
+      'cellular response to chemical stimulus' and has_input some C,
       true,
       in(C,'CHEBI')).
 
+
+% WARNING: use this only with -subclass GO:0019725  ! cellular homeostasis 
+qobol([go,bp,homeostasis,occurs,cell],
+      [C,homeostasis],
+      'cellular homeostasis' and occurs_in some C,
+      true,
+      in(C,'CL')).
+
+% WARNING: use this only with -subclass GO:0048872 ! homeostasis of number of cells 
+qobol([go,bp,homeostasis,levels,cell],
+      [C,homeostasis],
+      'homeostasis of number of cells' and regulates_level_of some C,
+      true,
+      in(C,'CL')).
+
+% WARNING: use this only with -subclass GO:0048872 ! homeostasis of number of cells 
+%qobol([go,bp,homeostasis,occurs,levels,cell],
+%      [C,homeostasis],
+%      %'homeostasis of number of cells' and regulates_level_of some C,
+%      'homeostasic process' and regulates_level_of some C,
+%      true,
+%      true).
+
+
+
+qobol([go,bp,homeostasis,chemical],
+      [C,homeostasis],
+      'chemical homeostasis' and regulates_level_of some C,
+      true,
+      in(C,'CHEBI')).
+
+qobol([go,bp,cellular,homeostasis,chemical],
+      [cellular,C,homeostasis],
+      'cellular chemical homeostasis' and regulates_level_of some C,
+      true,
+      in(C,'CHEBI')).
+
+% FF
+
+qobol([ff],
+      [cellular,C,homeostasis],
+      'cellular chemical homeostasis' and regulates_level_of some C,
+      true,
+      in(C,'CHEBI')).
+
+
+% HP generic
+% Symphalangism affecting the phalanges of the hallux
+%hp_generic('Symphalangism affecting',PClass,Parent).
+
 % notes: activation has overlap with differentiation and proliferation
 % notes: called bp_generic but also used for mf
-bp_generic(differentiation,'cell differentiation',results_in_acquisition_of_features_of,'CL',cell).
-bp_generic('fate specification','cell fate specification',results_in_specification_of,'CL',cell).
-bp_generic('fate determination','cell fate determination',results_in_specification_of,'CL',cell).
-bp_generic(proliferation,'cell proliferation',acts_on_population_of,'CL',cell).
-bp_generic(activation,'cell activation',acts_on_population_of,'CL',cell).
-bp_generic(migration,'cell migration',acts_on_population_of,'CL',cell).
+bp_generic(differentiation,'cell differentiation',results_in_acquisition_of_features_of,['CL','PO'],cell).
+bp_generic('fate specification','cell fate specification',results_in_specification_of,['CL','PO'],cell).
+bp_generic('fate determination','cell fate determination',results_in_determination_of,['CL','PO'],cell).
+bp_generic(proliferation,'cell proliferation',acts_on_population_of,['CL','PO'],cell).
+bp_generic(activation,'cell activation',has_input,['CL','PO'],cell).
+bp_generic(migration,'cell migration',has_input,['CL','PO'],cell).
+bp_generic(development,'cell development',results_in_development_of,['CL','PO'],cell).
+bp_generic(growth,'growth',results_in_growth_of,['CL','PO'],cell).
+bp_generic(maturation,'developmental maturation',results_in_maturation_of,['CL','PO'],cell).
+bp_generic('cell death','developmental maturation',results_in_ending_of,['CL','PO','UBERON'],cell).
 
 bp_generic(morphogenesis,'anatomical structure morphogenesis',results_in_morphogenesis_of,['CL','UBERON','PO'],anatomy).
 bp_generic('structural arrangement','anatomical structure arrangement',results_in_arrangement_of,['CL','UBERON','PO'],anatomy).
 bp_generic(formation,'anatomical structure formation involved in morphogenesis',results_in_formation_of,['CL','UBERON','PO'],anatomy).
-bp_generic(growth,'developmental growth',occurs_in,['CL','UBERON','PO'],anatomy).
-bp_generic(maturation,'anatomical structure maturation',results_in_developmental_progression_of,['CL','UBERON','PO'],anatomy).
+bp_generic(growth,'developmental growth',results_in_growth_of,['CL','UBERON','PO'],anatomy).
+bp_generic(maturation,'anatomical structure maturation',results_in_maturation_of,['UBERON','PO'],anatomy).
 bp_generic(induction,'developmental induction',induces,['CL','UBERON','PO'],anatomy).
-bp_generic(migration,'tissue migration',results_in_movement_of,['UBERON','PO'],anatomy).
+bp_generic(migration,'tissue migration',has_input,['UBERON','PO'],anatomy).
 bp_generic(regression,'anatomical structure regression',directly_involves,['UBERON','PO'],anatomy).
+bp_generic(senescence,'organ senescence',results_in_ending_of,['PO','UBERON'],cell).
 bp_generic(development,'anatomical structure development',results_in_development_of,['CL','UBERON','PO'],anatomy).
 
-bp_generic(metabolism,'metabolic process',has_participant,['CHEBI','PRO'],chemical).
-bp_generic('metabolic process','metabolic process',has_participant,['CHEBI','PRO'],chemical).
-bp_generic(catabolism,'catabolic process',has_input,['CHEBI','PRO'],chemical).
-bp_generic('catabolic process','catabolic process',has_input,['CHEBI','PRO'],chemical).
-bp_generic(biosynthesis,'biosynthetic process',has_output,['CHEBI','PRO'],chemical).
-bp_generic('biosynthetic process','biosynthetic process',has_output,['CHEBI','PRO'],chemical).
+bp_generic(fusion,'organelle fusion',results_in_fusion_of,['GO'],cell_component).
+bp_generic(assembly,'cellular component assembly',results_in_assembly_of,['GO'],cell_component).
+bp_generic(disassembly,'cellular component disassembly',results_in_disassembly_of,['GO'],cell_component).
 
-bp_generic(transport,transport,results_in_transport_of,['CHEBI','PRO','GO'],chemical).
-bp_generic(transporter,transporter,results_in_transport_of,['CHEBI','PRO','GO'],chemical).
-bp_generic(binding,binding,has_input,['CHEBI','PRO','GO'],chemical).
-bp_generic(secretion,secretion,results_in_transport_of,['CHEBI','PRO','GO'],chemical).
+bp_generic(organization,'cellular component organization',results_in_organization_of,['GO'],cell_component).
+
+bp_generic(metabolism,'metabolic process',has_participant,['CHEBI','PR'],chemical).
+bp_generic('metabolic process','metabolic process',has_participant,['CHEBI','PR'],chemical).
+bp_generic(catabolism,'catabolic process',has_input,['CHEBI','PR'],chemical).
+bp_generic('catabolic process','catabolic process',has_input,['CHEBI','PR'],chemical).
+bp_generic(biosynthesis,'biosynthetic process',has_output,['CHEBI','PR'],chemical).
+bp_generic('biosynthetic process','biosynthetic process',has_output,['CHEBI','PR'],chemical).
+
+bp_generic('transmembrane transport','transmembrane transport',transports_or_maintains_localization_of,['CHEBI','PR','GO'],chemical).
+bp_generic(transport,transport,transports_or_maintains_localization_of,['CHEBI','PR','GO'],chemical).
+bp_generic(transporter,transporter,transports_or_maintains_localization_of,['CHEBI','PR','GO'],chemical).
+bp_generic(binding,binding,has_input,['CHEBI','PR','GO'],chemical).
+bp_generic(export,transport,exports,['CHEBI','PR','GO'],chemical).
+bp_generic(import,transport,imports,['CHEBI','PR','GO'],chemical).
+bp_generic(secretion,secretion,transports_or_maintains_localization_of,['CHEBI','PR','GO'],chemical).
 
 test_bp_generic(AX,BX,X) :-
         bp_generic(_,A,_,_,_),
@@ -615,6 +1047,12 @@ qobol([cell,generic,part],
       (   in(P,'CL'),
           in(W,'UBERON'))
       ).
+
+qobol([anatomy,nif,regional,part],
+      [regional,part,of,X],
+      'anatomical structure' and (part_of some X),
+      true,
+      in(X,'UBERON')).
 
 
 % requires secreted_by - can get from uberon. e.g.
@@ -677,6 +1115,10 @@ pato(number,abnormal,'altered number of').
 
 process_quality(degeneration,degenerate).
 process_quality(atrophy,atrophied).
+process_quality(fusion,fused).
+process_quality(persistence,persistent).
+process_quality(hyperplasia,hyperplastic).
+process_quality(hypoplasia,hypoplastic).
 
 
 class_category(C,mp) :- id_idspace(C,'MP').
@@ -690,7 +1132,14 @@ opts_excluded_class(E,Opts) :-
         member(id(X),Opts),
         X\=E.
 opts_excluded_class(E,Opts) :-
+        member(satisfies(A),Opts),
+        atom_to_term(A,E-Goal),
+        \+ Goal.
+opts_excluded_class(E,Opts) :-
         member(ontology(Ont),Opts),
+        \+ id_idspace(E,Ont).
+opts_excluded_class(E,Opts) :-
+        member(idspace(Ont),Opts),
         \+ id_idspace(E,Ont).
 opts_excluded_class(E,Opts) :-
         member(undefined_only(true),Opts),
@@ -699,6 +1148,13 @@ opts_excluded_class(E,Opts) :-
 opts_excluded_class(E,Opts) :-
         member(subclass(X),Opts),
         \+ subclassRT(E,X).
+opts_excluded_class(E,Opts) :-
+        setof(C,member(union(C),Opts),Cs),
+        \+ ((member(C,Cs),
+             subclassRT(E,C))).
+opts_excluded_class(E,Opts) :-
+        member(part_of(X),Opts),
+        \+ parentRT(E,part_of,X).
 opts_excluded_class(E,Opts) :-
         member(not_subclass(X),Opts),
         \+ \+ subclassRT(E,X).
@@ -735,9 +1191,16 @@ category_match(CatTags,Opts) :-
         forall(member(Tag,InTags),member(Tag,CatTags)),
         \+ category_exclude(CatTags,Opts).
 category_match(CatTags,Opts) :-
+        % ALL tags must match, if tags are specified
         setof(Tag,member(tag(Tag),Opts),InTags),
         !,
         forall(member(Tag,InTags),member(Tag,CatTags)),
+        \+ category_exclude(CatTags,Opts).
+category_match(CatTags,Opts) :-
+        setof(Tag,member(oneof(Tag),Opts),InTags),
+        !,        
+        member(Tag,InTags),
+        member(Tag,CatTags),
         \+ category_exclude(CatTags,Opts).
 category_match(CatTags,Opts) :-
         \+ category_exclude(CatTags,Opts).
@@ -821,6 +1284,7 @@ show_class_parse_mismatch(E,Opts) :-
 
 suggest_term(E,Label,X_Repl,NewTerm,Opts) :-
         uniq_class(E),
+        \+ genus(E,_),
         opts_included_class(E,Opts),
         suggest_term_d(E,Label,X_Repl,NewTerm,Opts),
         \+ entity_label_scope(_,NewTerm,_).
@@ -844,6 +1308,7 @@ parse_entity(E,Label,X_Repl,Msg,Opts) :-
 parse_entity(E,_,_,_,Opts) :-
         member(undefined_only(true),Opts),
         genus(E,_),
+        debug(qobol,'has def: ~w',[E]),
         !,
         print_message(informational,xp_exists_for(E)),
         fail.
@@ -860,6 +1325,9 @@ parse_entity(E,Label,X_Repl,Msg,Opts) :-
         %nb_setval(Label,true),
         debug(qobol,'  Label: ~w',[Label]),
         opts_allowed_scope(Sc,Opts),
+        % hack for antiporters
+        %atomic_list_concat(Toks_tmp,':',Label),
+        %atomic_list_concat(Toks_tmp,' : ',Label2),
         label_template_match(Label,Toks),
         debug(qobol,'  Match: ~w // Testing: ~w',[Toks,MatchGoal]),
         MatchGoal,
@@ -931,6 +1399,8 @@ match_diff(A,B) :-        entity_xref(B,A).
 % ----------------------------------------
 % EXPRESSION PROCESSING
 % ----------------------------------------
+
+
 
 label_partition(L,S) :- in(L,_,E),entity_partition(E,S).
 
@@ -1008,6 +1478,9 @@ owl2cdef(R some Y,cdef(_,[R=Y])) :- named_term(Y).
   
 */
 
-
-
+:- multifile prolog:message//1.
+prolog:message(no_parse(X)) -->
+        {class(X,N)},
+        !,
+        ['% No parse: ',X,' "',N,'"'].
 

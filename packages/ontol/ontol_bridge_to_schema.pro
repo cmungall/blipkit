@@ -10,12 +10,19 @@
 :- use_module(semweb(rdf_db)).
 :- use_module(semweb(rdfs)).
 
+%% maketerm(+URI,+Args,?Term)
 maketerm(URI,Args,Term):-
         maketerm(URI,Args,Term,_,_,[]).
 maketerm(URI,Args,Term,Opts):-
         maketerm(URI,Args,Term,_,_,Opts).
 
 %% maketerm(+URI,+Args,?Term,?NS,?Functor,+Opts)
+%
+% creates a term Pred(Args) such that Pred is
+% a prolog-safe variant of URI (or optionally, the
+% label for URI)
+%
+% note: NS not used
 maketerm(URI,Args,Term,_NS,Functor,Opts):-
         member(use_labels(1),Opts),
         ont_label(URI,Label),
@@ -34,6 +41,19 @@ maketerm(URI,Args,Term,NS,Functor,Opts):-
         property_to_predicate(Functor,FunctorSafe,Opts),
         T1=..[FunctorSafe|Args],
         Term=..[':',NS,T1].
+
+
+inf_clause( _NS, (:- rdf_meta Term), Opts):-
+    rdfs_individual_of(C,owl:'Class'),
+    maketerm(C,[r],Term,Opts).
+
+inf_clause( _NS, (:- rdf_meta Term), Opts):-
+    rdfs_individual_of(R,owl:'ObjectProperty'),
+    maketerm(C,[r,r],Term,Opts).
+
+inf_clause( _NS, (:- rdf_meta Term), Opts):-
+    rdfs_individual_of(R,owl:'DatatypeProperty'),
+    maketerm(C,[r,-],Term,Opts).
 
 inf_clause( _NS, (Head:-Body), Opts):-
     rdfs_individual_of(C,owl:'Class'),

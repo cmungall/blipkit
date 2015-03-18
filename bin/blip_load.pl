@@ -35,6 +35,6 @@
 :- use_module(bio(blipkit_sb)).
 :- use_module(bio(blipkit_pathway)).
 :- use_module(bio(blipkit_web)).
-:- use_module(bio(blipkit_sql)).
+%%:- use_module(bio(blipkit_sql)).
 :- use_module(bio(cytoscape_db)).
 

@@ -30,7 +30,8 @@
 % both continuants and events are 'entity's in the metadata_db sense, and thus can have xrefs (via the xref property),
 % but we follow the xref property to make the OBO-style ID
 metadata_db:entity_label(E,L):- biopax_name(E, L).
-metadata_db:entity_xref(E,XA):- xref(E,X),db(X,DB),id(X,ID),db_fix(DB,DB2),concat_atom([DB2,ID],':',XA).
+metadata_db:entity_xref(E,XA):- xref(E,X),id(X,XA),concat_atom([_,_],':',XA).  % new style
+metadata_db:entity_xref(E,XA):- xref(E,X),db(X,DB),id(X,ID),\+concat_atom([_,_],':',ID),db_fix(DB,DB2),concat_atom([DB2,ID],':',XA).
 metadata_db:entity_comment(E,X):- biopax_comment(E, X).
 pathway_db:entity_db_id(Ref,DB,ID) :- xref(Ref,X),db(X,DB),id(X,ID).
 

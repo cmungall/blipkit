@@ -190,6 +190,7 @@ main:-
         maplist(materialize_view,MaterializePreds),
 
         % tabling
+        % recommended: set the module prefix, e.g. ontol_db:subclass/2
 	(   var(TableFile)
         ->  maplist(table_pred,TablePreds)
 	;   forall(member(TablePred,TablePreds),
@@ -369,6 +370,9 @@ opt_description(rulefile,'As -rule, but load from a file').
 
 labelify(X,X2) :- entity_label(X,L),!,concat_atom([X,L],'-',X2).
 labelify(X,X2) :- entity_xref(U,X),entity_label(U,L),!,concat_atom([X,L],'-',X2).
+labelify(X,X2) :- entity_label(E,X),!,concat_atom([E,X],'-',X2).
+labelify(X,X2) :- entity_synonym_scope(E,X,exact),!,concat_atom([E,X],'-',X2).
+labelify(X,X2) :- entity_synonym_scope(E,X,_),!,concat_atom([E,X],'-~',X2).
 labelify(X,X).
 
 :- blip('io-extract',

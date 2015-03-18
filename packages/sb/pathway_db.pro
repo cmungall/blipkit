@@ -669,7 +669,7 @@ reaction_inputs_outputs(P,IL,OL) :-
         setof(O,event_output(P,O),OL).
 
 
-is_phosphate_group('http://www.reactome.org/biopax#phosphate_group'). % DEPRECARED - use CHEBI
+is_phosphate_group('http://www.reactome.org/biopax#phosphate_group'). % DEPRECATED - use CHEBI
 is_phosphate_group('CHEBI:32958'). % phosphate group
 is_phosphate_group('CHEBI:35780'). % phosphate ion - BUG IN REACTOME
 
@@ -699,8 +699,13 @@ dbmeta:fact_chain_hook(event_output(_,P,_),
 			metadata_db:entity_label(P,_),
 			located_in(P,_),
 			has_part(P,_,_)]).
+dbmeta:fact_chain_hook(snapshot_continuant(_,C),
+		       [metadata_db:entity_xref(C,_),
+			metadata_db:entity_label(C,_)]).
 dbmeta:fact_chain_hook(subpathway_of(X,_),
 		       [event(X)]).
+%dbmeta:fact_chain_hook(has_part(X,_),
+%		       [event(X)]).
 
 
 /** <module> represents biological pathways

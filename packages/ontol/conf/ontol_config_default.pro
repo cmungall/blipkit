@@ -42,3 +42,6 @@ user:graphviz_ontol_param(edge(_,_,'OBO_REL:homologous_to',_),label='H').
 user:graphviz_ontol_param(node(X),style=filled) :- focus_node(X).
 user:graphviz_ontol_param(node(X),fillcolor=yellow) :- focus_node(X).
 
+user:graphviz_ontol_param(edge(_,_,'BFO:0000050',_),override(label='PO')).
+user:graphviz_ontol_param(edge(_,_,'BFO:0000050',_),color=blue).
+

@@ -3,6 +3,7 @@
 :- use_module(bio(sb_writer_chadoxml)).
 :- use_module(bio(sb_xmlmap_sbml)).
 :- use_module(bio(pathway_db)).
+:- use_module(bio(lego_db)).
 %:- use_module(bio(biopax_db)).
 %:- use_module(bio(biopax2_db)).
 :- use_module(bio(biopax3_db)).

@@ -6,6 +6,7 @@
 :- use_module(bio(blipkit)).
 :- use_module(bio(sb_db)).
 :- use_module(bio(pathway_db)).
+:- use_module(bio(lego_db)).
 :- use_module(bio(ontol_db)).
 
 opt_description(distance,'Maximum distance to search').

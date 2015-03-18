@@ -1,5 +1,13 @@
 ---+ Quickstart guide for pathways
 
+Translating biopax into pathway_db format:
+
+==
+blip -i t/data/biopax-example-ecocyc-glycolysis.owl -u biopax1_bridge_to_pathway io-convert -to pathway_db:pro -o glyclolysis-pathway_db.pro
+==
+
+choose bp1, 2 or 3.
+
 Load Reactome into a database:
 
 ==
@@ -21,4 +29,9 @@ blip -r go -u blipkit_pathway -r reactome/Homo_sapiens pathway-viz -id GO:005079
 
 ---++ Queries
 
+---++ Extracting a subset
 
+
+==
+blip -u pathway_db -i /Users/cjm/repos/biowarehouse/reactome-bp3/Homo_sapiens-pathway_db.pro io-extract -to pro -select "event(E)" -query "E='http://www.reactome.org/biopax#Glycolysis'" 
+==

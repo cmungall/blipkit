@@ -773,6 +773,8 @@ oneof(X):- call(X),!.
 %   calls Goal once, throws exception if Goal does not succeed
 call_det(X):- call(X) -> true ; throw(det_pred_failed(X)).
 
+%% call_unique(:Goal)
+%   non-deterministic call of Goal, but never unify on the same solution twice
 :- module_transparent call_unique/1.
 call_unique(X) :- setof(X,X,Xs),member(X,Xs).
 

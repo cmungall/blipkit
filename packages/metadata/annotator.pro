@@ -236,7 +236,7 @@ expand_minspanset(_IV,_QV,_E,_HV) :- !.
 replace_minspanset([],_,_,[]).
 replace_minspanset([X-XV|InSpanL],E,EV,OutSpanL) :-
         UV is XV \/ EV,
-        debug(annotator,'  rmms ~w :: ~w /\ ~w = ~w',[E,XV,EV,UV]),
+        debug(annotator,'  rmms ~w :: ~w AND ~w = ~w',[E,XV,EV,UV]),
         (   UV=XV                        % candidate adds nothing new, subsumed or equal to X
         ->  !,
             fail

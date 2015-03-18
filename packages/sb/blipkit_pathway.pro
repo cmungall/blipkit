@@ -5,6 +5,7 @@
 :- use_module(bio(bioprolog_util)).
 :- use_module(bio(metadata_db)).
 :- use_module(bio(dotwriter)).
+:- use_module(bio(lego_db)).
 :- use_module(bio(pathway_db)).
 :- use_module(bio(pathway_lookup)).
 :- use_module(bio(pathway_writer_dot)).

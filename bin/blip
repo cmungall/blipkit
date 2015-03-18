@@ -4,10 +4,10 @@ if [ -z "$BLIP_PATH" ]; then
    BLIP_PATH=$PATH_TO_ME/..;
 fi
 
-SWIPL=swipl
+SWIPL=swipl6
 if [ -z `which swipl` ]; then
   # default location on OS X
-  SWIPL=/opt/local/bin/swipl;
+  SWIPL=/opt/local/bin/swipl6;
 fi
 
 $SWIPL -L0 -G0 -T0 -q -p blipkit=$BLIP_PATH/packages -p library=$BLIP_PATH/packages -g "main,halt" -t halt -s $BLIP_PATH/bin/blip_load.pl -- "$@"

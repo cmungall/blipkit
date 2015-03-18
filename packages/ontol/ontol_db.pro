@@ -12,6 +12,8 @@
            equivalent_class_symm/2,
            class_quad_flip/4,
            class_quad_flipT/4,
+           class_quad_flip/5,
+           class_quad_flipT/5,
            restriction/3,
            restriction/4,
            restriction/5,
@@ -1262,15 +1264,25 @@ entity_inverse_relations_closure([],_,ResultCCPairs,ResultCCPairs).
 % SIMPLE RULES
 % -----------------------------------
 class_quad_flip(C1,P1,C2,P2) :-
-        equivalent_class(C1,C2),
+        class_quad_flip(C1,P1,C2,P2,_).
+class_quad_flip(C1,P1,C2,P2,S) :-
+        equiv_or_xref(C1,C2,S),
         subclassT(C1,P1),
-        equivalent_class(P1,P2),
+        equiv_or_xref(P1,P2,S),
         subclassT(P2,C2).
 class_quad_flipT(C1,P1,C2,P2) :-
-        equivalent_class(C1,C2),
+        class_quad_flipT(C1,P1,C2,P2,_).
+class_quad_flipT(C1,P1,C2,P2,S) :-
+        equiv_or_xref(C1,C2,S),
         subclassT(C1,P1),
-        equivalent_class(P1,P2),
+        equiv_or_xref(P1,P2,S),
         subclassRT(P2,C2).
+
+equiv_or_xref(X,Y,S) :- equiv_or_xref_1(X,Y,S).
+equiv_or_xref(X,Y,S) :- equiv_or_xref_1(Y,X,S).
+equiv_or_xref_1(X,Y,_) :- equivalent_class(X,Y).
+equiv_or_xref_1(X,Y,S) :- entity_xref_idspace(X,Y,S).
+
 
         
 
@@ -1287,6 +1299,7 @@ class_quad_flipT(C1,P1,C2,P2) :-
 %
 % see also: parentT/3
 subclassT(X,Y):- subclass(X,Y).
+subclassT(X,Y):- genus(X,Y).
 subclassT(X,Y):- subclass(X,Z),subclassT(Z,Y).
 
 %%  subclassRT(?Class,?SuperClass) is nondet

@@ -15,6 +15,7 @@
 :- dynamic item_attribute/2.
 :- dynamic attribute_item/2.
 :- dynamic sub_attribute_of/2.
+
 :- multifile item/1.
 :- multifile item_attribute/2.
 :- multifile attribute_item/2.
@@ -27,9 +28,9 @@ load_item_attribute_table(File) :-
         setof(I,A^item_attribute(I,A),Is),
         forall(member(I,Is),
                assert(item(I))).
-load_sub_attribute_of_table(File) :-
-        load_biofile(tbl('enrichment:sub_attribute_of'),File),
 
+load_sub_attribute_of_table(File):-
+        load_biofile(tbl('enrichment:sub_attribute_of'),File).
         
 
 

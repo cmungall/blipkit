@@ -11,6 +11,8 @@
 	   curation_statement_nr/4,
            curation_lca/4,
 	   curation_subject_property_value/4,
+           entity_role_relation_target/4,
+           target_triple/7,
            curation_isoform/2,
            negative_curation_statement/4,
            curation_qualifier/3,
@@ -73,9 +75,18 @@ curation_statement(C,S,Ob) :-
 :- extensional(curation_qualifier/3).
 
 %% curation_subject_property_value(?Curation,?SubjectClass,?Property,?Value)
-% col16 in GAF
+% col16 / annotation extension in GAF
 :- extensional(curation_subject_property_value/4).
 
+entity_role_relation_target(E,P,R,T) :-
+        curation_statement(Ann,E,_,P),
+        curation_subject_property_value(Ann,P,R,T).
+
+target_triple(E,P,R,E2,P2,R2,E3) :-
+        entity_role_relation_target(E,P,R,E2),
+        entity_role_relation_target(E2,P2,R2,E3).
+
+        
 :- extensional(curation_isoform/2).
 
 
@@ -134,6 +145,7 @@ curation_statementT(C,S,R,Ob,ObDirect):-
         % seq scan through annotations first..
         curation_statement(C,S,R,ObDirect),
         %debug(curation_db,'checking ~w',[curation_statement(C,S,R,ObDirect)]),
+        %%%parentRT(ObDirect,Ob).
         bf_parentRT(ObDirect,Ob).
 %%subclassRT(ObDirect,Ob).
 

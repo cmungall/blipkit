@@ -87,6 +87,12 @@ metadata_db:entity_xref(C,X) :-
 	user:rdf(U,'http://xmlns.com/foaf/0.1/depiction',X),
 	wpxref_url(C,U).
 
+metadata_db:entity_xref(C,X) :-
+	user:rdf(U,'http://www.w3.org/2002/07/owl#sameAs',WD),
+        atom_concat('http://wikidata.org/entity/',Base,WD),
+        atom_concat('Wikidata:',Base,X),
+	wpxref_url(C,U).
+
 metadata_db:entity_resource(C,dbpedia) :-
 	dbpedia(U),
 	wpxref_url(C,U).

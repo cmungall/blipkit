@@ -192,8 +192,6 @@ user:bioresource(uniprot_idmapping,url('ftp://ftp.ebi.ac.uk/pub/databases/unipro
 user:bioresource(taxnames,home('Data/ncbitax/names.dmp'),ncbitaxname).
 user:bioresource(taxnodes,home('Data/ncbitax/nodes.dmp'),ncbitaxnode).
 %user:bioresource(taxonomy,ontdir('NCBITaxonomy.pro'),pro,ontol_db).
-user:bioresource(taxonomy,obo_download('ncbi_taxonomy/ncbi_taxonomy.pro'),pro,ontol_db).
-user:bioresource(taxonomy_stemmed,ontdir('ncbi_taxonomy_stemmed.obo'),obo).
 %user:bioresource(gotax,'/users/cjm/cvs/go/scratch/go-taxon/TaxonGOLinksFile.obo',obo).
 %user:bioresource(taxslim,'/users/cjm/cvs/go/scratch/go-taxon/ncbitax-slim.obo',obo).
 

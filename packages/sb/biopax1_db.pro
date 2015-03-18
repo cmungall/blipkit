@@ -8,8 +8,8 @@
 :-use_module(semweb(rdf_db)).
 :-use_module(semweb(rdfs)).
 
-:- initialization(rdf_load('http://www.biopax.org/release/biopax-level1.owl'),
-		  after_load).
+%:- initialization(rdf_load('http://www.biopax.org/release/biopax-level1.owl'),
+%		  after_load).
 
 
 :-op(300, xfy, physical_entity).

@@ -83,6 +83,8 @@ table_pred(P,M):-
 % PredSpec can be Module:Pred/Arity or just Pred/Arity. In the latter
 % case, the context module is assumed.
 % 
+% (NOTE: for safety always specify Module)
+% 
 % note that currently if you cache M1:P/A and M2:P/A then the results
 % will be combined. This may not be desirable, may change in future
 % releases.

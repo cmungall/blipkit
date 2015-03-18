@@ -4,7 +4,8 @@
 	   merge_equivalent_classes/0,
 	   merge_class/2,
 	   merge_class/3,
-	   
+	   merge_class_axiom/3,
+           
            is_nondangling/1,
            remove_dangling_facts/0,
            remove_redundant_facts/0,
@@ -110,7 +111,9 @@ merge_class(Src,Tgt,Opts) :-
 	merge_class_axiom(entity_xref(Src,X),entity_xref(Tgt,X),Opts),
 	retractall(class(Src)),
 	%assert(entity_obsolete(Src,class)),
-	assert(metadata_db:entity_alternate_identifier(Tgt,Src)),
+        (   memberchk(use_xrefs(true),Opts)
+        ->  assert(metadata_db:entity_xref(Tgt,Src))
+        ;   assert(metadata_db:entity_alternate_identifier(Tgt,Src))),
         
 	% merging axioms REFERENCING Src
 	merge_class_axiom(subclass(X,Src),subclass(X,Tgt),Opts),

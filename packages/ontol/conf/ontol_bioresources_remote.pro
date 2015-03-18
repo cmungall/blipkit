@@ -37,8 +37,9 @@ user:bioresource(go_assoc_version(N,V),url(URL),gzip(go_assoc)):-
         concat_atom(['http://cvsweb.geneontology.org/cgi-bin/cvsweb.cgi/~checkout~/go/gene-associations/gene_association.',N,'.gz?rev=',V,';content-type=application%2Fx-gzip.'],URL).
 
 % ONTOLOGIES
-user:bioresource(go,go('ontology/editors/gene_ontology_write.obo'),obo).
+user:bioresource(go,go('ontology/editors/validated.obo'),obo).
 user:bioresource(go_public,go('ontology/gene_ontology_edit.obo'),obo).
+user:bioresource(go_basic,go('ontology/go-basic.obo'),obo).
 
 
 % ----------------------------------------

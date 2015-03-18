@@ -131,18 +131,22 @@ entity_label_token(E,T) :-
 % each entity has multiple labels, and each label has multiple tokens
 entity_label_token(E,A,T) :-
 	entity_label_or_synonym(E,A),
+        \+ entity_synonym_type(E,A,'ABBREVIATION'),
 	term_token(A,T).
 
 %% entity_label_token_stemmed(?Entity,?Token,?Stemmed:boolean)
 entity_label_token_stemmed(E,T,Stemmed) :-
 	entity_label_token_stemmed(E,_,T,Stemmed).
 
+
 %% entity_label_token_stemmed(?Entity,?LabelOrSyn,?Token,?Stemmed:boolean)
 entity_label_token_stemmed(E,A,T,true) :-
 	entity_label_or_synonym(E,A),
+        \+ entity_synonym_type(E,A,'ABBREVIATION'),
 	term_token_stemmed(A,T,true).
 entity_label_token_stemmed(E,A,T,false) :-
 	entity_label_or_synonym(E,A),
+        \+ entity_synonym_type(E,A,'ABBREVIATION'),
 	term_token(A,T).
 
 %% entity_nlabel_scope_stemmed(?Entity,?NormalizedLabel,?Type,?Stemmed:boolean)
@@ -773,7 +777,7 @@ label_template_match(T,[Tok|Toks],Del) :-
         (   NumRest > 0
         ->  Pos2 is Pos+LenB,
             sub_atom(T,Pos2,_,0,Rest_1),
-            atom_concat(' ',Rest,Rest_1),
+            atom_concat(' ',Rest,Rest_1), % HARDCODE - tok is space
             label_template_match(Rest,Toks,Del)
         ;   Toks=[]). % last token
 label_template_match(T,[Tok|Toks],Del) :-

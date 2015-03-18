@@ -28,6 +28,8 @@
            entity_description/2,
            entity_description_type/3,
            entity_xref/2,
+           entity_xref_idspace/3,
+           one_to_one_xref/3,
            one_to_many_xref/3,
            one_to_many_xref_list/3,
            many_to_one_xref/3,
@@ -42,6 +44,7 @@
            entity_synonym_scope/3,
            entity_synonym_type/3,
            entity_synonym_xref/3,
+           entity_synonym_scope_type_xrefs/5,
            entity_authority/2,
            entity_localname/2,
            entity_pair_is_non_univocal/2,
@@ -68,7 +71,6 @@ id_idspace(ID,IDSpace) :- concat_atom([IDSpace|_],':',ID).
 % true if ID is suffixed with IDSpace
 id_localid(ID,Local) :- concat_atom([_|L],':',ID),concat_atom(L,':',Local).
 
-        
 %% idspace_uri(?IDSpace,?URI)
 % maps IDspaces (aka namespaces) such as GO to URI prefixes -- such as http://purl.org/obo/owl/GO#
 :- extensional(idspace_uri/2).
@@ -149,6 +151,17 @@ entity_xref_idspace(E,X,S) :-
         id_idspace(X,S),
         \+ entity_obsolete(E,_).
 
+%% one_to_one_xref(?E,X?,?S) is nondet
+one_to_one_xref(E,X,S) :-
+        entity_xref_idspace(E,X,S),
+        \+ ((entity_xref_idspace(E,X2,S),
+             X2\=X)),
+        \+ ((entity_xref_idspace(E2,X,S),
+             E2\=E)).
+
+
+
+
 %% one_to_many_xref(?E,X?,?S) is nondet
 % true if E-X and there is some X2 such that E-X2, and X and X2 are in the same idspace
 one_to_many_xref(E,X,S) :-
@@ -201,6 +214,15 @@ entity_label_or_synonym(E,L):- entity_label(E,L).
 entity_label_or_exact_synonym(E,L):- entity_synonym_scope(E,L,exact).
 entity_label_or_exact_synonym(E,L):- entity_label(E,L).
 
+entity_synonym_scope_type_xrefs(E,Syn,Scope,Type,Xrefs) :-
+        entity_synonym_scope(E,Syn,Scope),
+        entity_synonym_scope(E,Syn,Scope),
+        findall(X,entity_synonym_xref(E,Syn,X),Xrefs),
+        (   entity_synonym_type(E,Syn,Type)
+        *-> true
+        ;   Type='').
+
+        
 
 
 %% same_label_as(?X,?Y)
