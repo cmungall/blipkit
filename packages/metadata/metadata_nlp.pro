@@ -149,7 +149,8 @@ entity_label_token_stemmed(E,A,T,false) :-
         \+ entity_synonym_type(E,A,'ABBREVIATION'),
 	term_token(A,T).
 
-%% entity_nlabel_scope_stemmed(?Entity,?NormalizedLabel,?Type,?Stemmed:boolean)
+%% entity_nlabel_scope_stemmed(?Entity,?NormalizedLabel,?Scope,?Stemmed:boolean)
+%
 % performs normalization on labels
 %  * dehyphenate/2
 %  * uses synset/1 (which also uses obol relational adjectives)

@@ -14,8 +14,26 @@
 :- use_module(bio(ontol_writer_obo)).
 :- use_module(bio(graph)).
 :- use_module(bio(io)).
+:- use_module(bio(annotator)).
 
-blipkit:example('blip -r obo_meta -r obo_meta_xp  $GO_XP_ARGS -r go -u blipkit_ontol_metadata ontol-xp-metadata -ont biological_process -ont cellular_component -ont molecular_function -ont cell -ont chebi -ont uberon -ont quality'
+:- blip('annotate',
+        'NER annotation',
+        [atom([to],Fmt),
+         atoms([x,exclude],Excludes)],
+        Files,
+        (   forall(member(File,Files),
+                   annotate_file(File,[to(Fmt),excludes(Excludes)])
+                  ))).
+
+:- blip('ontol-annotate',
+        'NER annotation on ontology classes',
+        [atom([to],Fmt)],
+        _,
+        (   annotate_ontology([to(Fmt)]))).
+
+
+
+blipkit:example('blip -r obo_meta -r obo_meta_xp  $GO_XP_ARGS -r go -u blipkit_ontol_metadata ontol-xp-metadata -ont biological_process -ont cellular_component -ont molecular_function -ont cell -ont chebi -ont uberon -ont quality',
 	       'draws a wikitable summarizing XPs for specified ontologies').
 :- blip('ontol-xp-metadata',
         'draws metadata table',
@@ -56,7 +74,7 @@ mktable(Table,Opts):-
         Table=table(Cells,[]).
 
 showtable(Table):-
-        Table=table(Cells,Opts),
+        Table=table(Cells,[]),
         solutions(Row,member(cell(Row,_,_),Cells),Rows),
         solutions(Col,member(cell(_,Col,_),Cells),Cols),
         rhierarchy(Rows,RowRanks,OrderedRows),
@@ -124,7 +142,7 @@ table(Rows,Cols,Cells,Opts) -->
         rows(Rows,Cols,Cells),
         ['|}'].
 
-colranks(Cols,Opts) --> {member(colranks(ColRanks),Opts)},!,colranks(ColRanks).
+colranks(_Cols,Opts) --> {member(colranks(ColRanks),Opts)},!,colranks(ColRanks).
 colranks(_,_) --> [].
 
 colranks([]) --> [].

@@ -3,8 +3,10 @@
            test_annotator/1,
            initialize_annotator/0,
            sentence_annotate/2,
+           annotate_ontology/1,
            annotate_file/1,
-           annotate_file2/1
+           annotate_file/2,
+           annotate_file_test/1
            ]).
 
 :- use_module(metadata_db).
@@ -40,11 +42,13 @@ sentence_tbv(Sentence,V,ToksOrdered) :-
 %
 % Ann = m(IDs,Label,Word)
 sentence_annotate(Sentence,Ann2) :-
+        sentence_annotate(Sentence,Ann2,[]).
+sentence_annotate(Sentence,Ann2,Opts) :-
         sentence_tbv(Sentence,QV,SToks),
 	debug(annotator,'   building minspanset for: ~w',[Sentence]),
         nb_setval(minspanset,[]),
         % note: become much slower?
-        forall(feature_vector(E,HV),
+        forall((feature_vector(E,HV),\+exclude_label(E,Opts)),
                expand_minspanset(QV,E,HV)),
         nb_getval(minspanset,MinSpanSet),
 	debug(annotator,'   built minspanset: ~w',[MinSpanSet]),
@@ -52,6 +56,15 @@ sentence_annotate(Sentence,Ann2) :-
         sentence_align_hits(SToks,Hits,Ann),
         add_ids(Ann,Ann2).
         %minspanset_stoks_anns(MinSpanSet,SToks,Ann).
+
+exclude_label(Label,Opts) :-
+	debug(annotator,'     Checking for exlusion of: ~w',[Label]),
+        member(excludes(Xs),Opts),
+        member(Label,Xs),
+        debug(annotator,'     ***EXCLUDING: ~w',[Label]),
+        !.
+
+        
 
 % given a list of matches [m(_,_),...], add ids
 % to yield a list [m(IDs,_,_),....]
@@ -201,7 +214,7 @@ sentence_align_hit(gap(Hit,HToks),[STok|SToks],Hit,[gap(Hit,STok)|Path]) :-
 
 %% expand_minspanset(+QV:integer, +Entity:atom, +HV:integer) is det
 %
-% side effect: modifies minspanset nb variable incremenrally
+% side effect: modifies minspanset nb variable incrementally
 %
 % QV: query (sentence) token bitvector
 % HV: hit (candidate match, e.g. term) token bitvector
@@ -261,8 +274,11 @@ test_annotator(Ann) :-
 % ----------------------------------------
 
 % Example:
-%  obol -u annotator -r go -r cell -goal "annotate_file('foo.txt')"
+%  blip findall -u annotator -r go -r cell -goal "annotate_file('foo.txt')"
 annotate_file(File) :-
+        annotate_file(File,[]).
+
+annotate_file(File,Opts) :-
         initialize_annotator,
         open(File,read,IO,[]),
         repeat,
@@ -273,12 +289,137 @@ annotate_file(File) :-
             atom_codes(Line,Codes),
             atomic_list_concat(Sentences,'.',Line),
             member(S,Sentences),
-            sentence_annotate(S,Ann),
-            format('~q - ~q.~n',[S,Ann]),
+            show_sentence_annotate(S,Opts),
             fail
         ).
 
-annotate_file2(File) :-
+annotate_ontology(Opts) :-
+        initialize_annotator,
+        forall(class(C),
+               annotate_class(C,Opts)),
+        debug(t,'Writing triples..',[]),
+        write_triples.
+
+annotate_class(C,OptsIn):-
+        class(C,CN),
+        Opts=[excludes([CN])|OptsIn],
+        sentence_annotate(CN,Matches,Opts),
+        !,
+        debug(t,'MATCHES: ~w ~w == ~w',[C,CN,Matches]),
+        forall(member(M,Matches),
+               show_match(C,CN,M,Opts)).
+annotate_class(C,_) :-
+        format(user_error,'Did not annotate: ~w~n',[C]).
+
+
+show_match(_,_,gap(_,_),_) :- !.
+show_match(C,S,L,_Opts) :-
+        is_list(L),
+        !,
+        % weird
+        format(user_error,'ERR: ~w ~w ~w~n',[C,S,L]).
+                                %forall(member(M,L),
+                                %show_match(C,S,M,Opts)).
+show_match(C,_S,m(Cs,Tok,_),_Opts) :-
+        !,
+        safe_tok(Tok,Tok2),
+        add_has_word(C,Tok2),
+        forall(member(CX,Cs),
+               t(Tok2,a,CX)).
+show_match(_,_,Tok,_) :-
+        atom_length(Tok,Len),
+        Len =< 1,
+        !.
+show_match(C,_S,Tok,_Opts) :-
+        !,
+        safe_tok(Tok,Tok2),
+        add_has_word(C,Tok2),
+        % punny!
+        t(Tok2,'a',Tok2).
+
+safe_tok(X,X2) :-
+        debug(t,'SAFEING: ~w',[X]),
+        atom_chars(X,Cs),
+        maplist(safe_char,Cs,Cs2),
+        atom_chars(X2,Cs2).
+
+add_has_word(C,W) :-
+        t(C,a,C), % pun!
+        t(C,has_word,W),
+        t(has_word,a,'owl:ObjectProperty').
+
+
+
+
+:- dynamic triple/3.
+:- dynamic prefix/2.
+
+% simple triple generator
+t(S,P,O) :-
+        mkr(S,S2),
+        mkr(P,P2),
+        mkr(O,O2),
+        debug(t,'~w',triple(S2,P2,O2)),
+        assert_nr(triple(S2,P2,O2)).
+
+assert_nr(F) :-
+        \+ F,
+        assert(F),
+        !.
+assert_nr(_).
+
+
+make_prefix(rdf) :- !.
+make_prefix(owl) :- !.
+make_prefix(S) :-
+        concat_atom(['http://purl.obolibrary.org/obo/',S,'_'],URL),
+        assert(prefix(S,URL)).
+
+
+        
+mkr(a,a) :- !.
+mkr(NS:Id,X2) :-
+        !,
+        make_prefix(NS),
+        concat_atom([NS,Id],':',X2).
+mkr(X,X2) :-
+        atom_concat('http',_,X),
+        !,
+        concat_atom(['<',X,'>'],X2).
+mkr(X,X2) :-
+        concat_atom([NS,Id],':',X),
+        !,
+        mkr(NS:Id,X2).
+mkr(X,X2) :-
+        mkr(foo:X,X2),
+        !.
+mkr(_,_) :-
+        format(user_error,'UH OH~n',[]).
+
+write_triples :-
+        format('## Hi~n'),
+        forall_distinct(prefix(P,URL),
+                        format('@prefix ~w: <~w> .~n',[P,URL])),
+        nl,
+        forall_distinct(triple(S,P,O),
+                        format('~w ~w ~w .~n',[S,P,O])).
+
+        
+        
+
+
+show_sentence_annotate(S,Opts) :-
+        sentence_annotate(S,Ann,Opts),
+        show_ann(Ann,S,Opts).
+
+show_ann(Ann,S,Opts) :-
+        member(to(ttl), Opts),
+        !,
+        format(':: ~q - ~q.~n',[S,Ann]).
+show_ann(Ann,S,_Opts) :-
+        format('~q - ~q.~n',[S,Ann]).
+
+annotate_file_test(File) :-
         initialize_annotator,
         open(File,read,IO,[]),
         repeat,
@@ -295,3 +436,7 @@ annotate_file2(File) :-
 
 
        
+
+safe_char(X,X) :- X @>= 'a', X @=< 'z',!.
+safe_char(X,X) :- X @>= '0', X @=< '9',!.
+safe_char(_,'_').

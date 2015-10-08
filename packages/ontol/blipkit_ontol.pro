@@ -835,12 +835,15 @@ user:opt_insecure(query).
             ensure_nonvar(ShowSubset,0 ),
             ensure_nonvar(IsInverse,0 ),
             ensure_nonvar(WithInstances,0 ),
+            (   nonvar(Rels)
+            ->  solutions(RelT,(member(Rel,Rels),subclassRT(RelT,Rel)),RelsT)
+            ;   RelsT=Rels),
             Opts1=[stem(Stem),
                    maxdown(MaxDown),
                    maxup(MaxUp),
                    tabchar(TabChar),
                    siblings(Sibs),
-                   relations(Rels),
+                   relations(RelsT),
                    exclude_relations(ExcRels),
 		   rankdir(RankDir),
                    cluster_pred((belongs(X,Ontol)->true;Ontol=''),X,Ontol),
@@ -882,6 +885,8 @@ user:opt_insecure(query).
             solutions(ID-N,(member(ID,MatchIDs),entity_label(ID,N)),IDNs),
             format(user_error,'::Result ~w ~w {over ~w}~n',[MatchIDs,IDNs,Rels]),
             Opts=[focus(MatchIDs)|Opts1], % TODO
+            forall(member(NodeID,MatchIDs),
+                   assert(user:focus_node(NodeID))),
             ontology_segment(MatchIDs,Edges,OutNodes,[collapse_predicate(CollapsePred)|Opts]),
             debug(blipkit,'Edges=~w',[Edges]),
             debug(blipkit,'Nodes=~w',[OutNodes]),
@@ -1060,6 +1065,8 @@ show_ontol_subset_by_tree(pro,Tree,_Opts):-
 show_ontol_subset_by_tree(owl,_,_Opts):-
         throw(error(not_implemented)).
 
+:- multifile user:focus_node/1.
+:- dynamic user:focus_node/1.
 
 blipkit:trusted_command('ontol-subgraph').
 user:opt_insecure(query).
@@ -1155,8 +1162,11 @@ user:opt_insecure(query).
             % all of the above is cut and pasted from ontol-subset. TODO - DRY
             ontol_subgraph(MatchIDs,Rels,G,Roots,Opts),
             debug(blipkit,'F=~w',[G]),
-            show_subgraph(OutFmt,Roots,G,[TabChar],Opts)
+            
+            show_subgraph(OutFmt,Roots,G,[TabChar],[focus_nodes=MatchIDs|Opts])
         )).
+
+
 
 show_subgraph(display,_Roots,G,_,Opts) :-
         !,

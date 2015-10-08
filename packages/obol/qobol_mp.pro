@@ -25,6 +25,7 @@
 qobol_index(Opts) :-
         \+ member(noindex(true),Opts),
         !,
+        debug(qobol,'Indexing...',[]),
         materialize_index(metadata_db:entity_label_scope(1,1,-)),
         materialize_index(metadata_db:entity_label_scope_dn(1,1,-)).
 
@@ -69,7 +70,7 @@ qobol_prep_ont('MA') :- load_bioresource('MA'),load_bioresource(uberonp), !.
 qobol_prep_ont('UBERON') :- load_bioresource(uberonp), !.
 qobol_prep_ont('GO') :- load_bioresource(go),load_bioresource(goxp(relations_process_xp)),!.
 qobol_prep_ont('CL') :- load_bioresource(cell),!.
-qobol_prep_ont('DOID') :- load_bioresource(disease_xp),load_bioresource(fma),load_bioresource(cell).
+%qobol_prep_ont('DOID') :- load_bioresource(disease_xp),load_bioresource(fma),load_bioresource(cell).
 qobol_prep_ont('VT') :- load_bioresource(vt),load_bioresource(vt_xp),load_bioresource(go),load_bioresource(protein),load_bioresource(chebi),load_bioresource(pato),load_bioresource('CL'),load_bioresource(uberonp), !.
 qobol_prep_ont(Ont) :- atom(Ont),load_bioresource(Ont),!.
 qobol_prep_ont(_).
@@ -178,6 +179,23 @@ qobol([bbq,trait,anatomy],
       true,
       %in(Q,'PATO'),
       true).
+
+% ----------------------------------------
+% SUPER-GENERIC
+% ----------------------------------------
+
+qobol([gemet,generic,no_constraint],
+      [A,B],
+      A and related_to some B,
+      true,
+      true).
+qobol([gemet,generic,no_constraint],
+      [A,to,B],
+      A and related_to some B,
+      true,
+      true).
+
+
 
 % ----------------------------------------
 % TRAITS
@@ -532,27 +550,42 @@ qobol([disease,anatomical,basic],
 
 qobol([disease,cell,basic],
       [disease,of,E],
-      disease and derives_from some EX,
+      disease and located_in some EX,
       in(E,'CL',EX),
       true).
 qobol([disease,cell,basic],
       [E,disease],
-      disease and derives_from some EX,
+      disease and located_in some EX,
       in(E,'CL',EX),
+      true).
+
+qobol([disease,go,basic],
+      [disease,of,E],
+      disease and located_in some EX,
+      in(E,'GO',EX),
+      true).
+qobol([disease,go,basic],
+      [E,disease],
+      disease and located_in some EX,
+      in(E,'GO',EX),
       true).
 
 
 qobol([disease,anatomical,generic],
       [E,D],
       DX and located_in some EX,
-      (   in(E,['FMA','UBERON'],EX),
-          dmap(D,DX)),
+      (   in(E,['FMA','UBERON','CL'],EX),
+          dmap(D,DX),
+          in(DX,['DOID'])
+      ),
       true).
 qobol([disease,anatomical,generic],
       [D,of,E],
       DX and located_in some EX,
       (   in(E,['FMA','UBERON'],EX),
-          dmap(D,DX)),
+          dmap(D,DX),
+          in(DX,['DOID'])
+      ),
       true).
 
 dmap('carcinoma in situ','in situ carcinoma').

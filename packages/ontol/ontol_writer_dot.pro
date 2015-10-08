@@ -13,7 +13,6 @@
 :- use_module(bio(graphviz)).
 :- use_module(bio(bioprolog_util)).
 
-
 :- dynamic user:graphviz_color_node/2.
 
 :- multifile user:image_display_exec/1.

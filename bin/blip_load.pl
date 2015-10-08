@@ -30,6 +30,7 @@
 
 :- use_module(bio(blipkit)).
 :- use_module(bio(blipkit_ontol)).
+:- use_module(bio(blipkit_ontol_metadata)).
 :- use_module(bio(blipkit_phylo)).
 :- use_module(bio(blipkit_fasta)).
 :- use_module(bio(blipkit_sb)).
