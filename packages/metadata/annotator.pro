@@ -2,6 +2,7 @@
           [
            test_annotator/1,
            initialize_annotator/0,
+           sentence_annotate/3,
            sentence_annotate/2,
            annotate_ontology/1,
            annotate_file/1,
