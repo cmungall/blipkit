@@ -35,6 +35,9 @@
            many_to_one_xref/3,
            many_to_one_xref_list/3,
            many_to_many_xref/3,
+           non_one_to_one/4,
+           non_one_to_one/3,
+           id_or_xref/1,
            entity_date/2,
            entity_obsolete/2,
            entity_consider/2,
@@ -159,7 +162,12 @@ one_to_one_xref(E,X,S) :-
         \+ ((entity_xref_idspace(E2,X,S),
              E2\=E)).
 
+id_or_xref_dup(X) :- entity_label(X,_).
+id_or_xref_dup(X) :- entity_xref(X,_).
+id_or_xref_dup(X) :- entity_xref(_,X).
+id_or_xref(X) :- setof(X,id_or_xref_dup(X),Xs),member(X,Xs).
 
+        
 
 
 %% one_to_many_xref(?E,X?,?S) is nondet
@@ -188,6 +196,16 @@ many_to_many_xref(E,X,S) :-
         many_to_one_xref(E2,X,S),
         E2\=E.
 
+non_one_to_one(E,X,S) :-
+        non_one_to_one(E,X,S,_).
+non_one_to_one(E,X,S,one_to_many) :-
+        one_to_many_xref(E,X,S).
+non_one_to_one(E,X,S,many_to_one) :-
+        many_to_one_xref(E,X,S).
+non_one_to_one(E,X,S,many_to_many) :-
+        many_to_many_xref(E,X,S).
+
+
 
 
 :- extensional(entity_date/2). % todo: 3-ary event-date?
@@ -211,8 +229,8 @@ entity_consider_or_replaced_by(E,X):- entity_replaced_by(E,X).
 entity_label_or_synonym(E,L):- entity_synonym(E,L).
 entity_label_or_synonym(E,L):- entity_label(E,L).
 
-entity_label_or_exact_synonym(E,L):- entity_synonym_scope(E,L,exact).
-entity_label_or_exact_synonym(E,L):- entity_label(E,L).
+entity_label_or_exact_synonym(E,L):- entity_synonym_scope(E,L,exact),\+ entity_obsolete(E,_).
+entity_label_or_exact_synonym(E,L):- entity_label(E,L),\+ entity_obsolete(E,_).
 
 entity_synonym_scope_type_xrefs(E,Syn,Scope,Type,Xrefs) :-
         entity_synonym_scope(E,Syn,Scope),

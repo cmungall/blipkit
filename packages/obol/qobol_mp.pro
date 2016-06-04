@@ -113,8 +113,8 @@ prep_plant_trait :-
         load_bioresource(chebi),
         load_bioresource(go),
         load_bioresource('PO'),
-        load_bioresource(plant_trait),
-        load_bioresource(plant_trait_xp).
+        load_bioresource(plant_trait).
+
 
 prep_mp :-
         prep,
@@ -178,6 +178,11 @@ qobol([bbq,trait,anatomy],
       Q and (inheres_in some E),
       true,
       %in(Q,'PATO'),
+      true).
+qobol([to,trait,anatomy,morphology,pseudo],
+      [E,morphology,trait],
+      'physical object quality' and (inheres_in some E),
+      true,
       true).
 
 % ----------------------------------------
@@ -438,6 +443,11 @@ qobol([mp,eq,generic],
       Q and inheres_in some E,
       in(Q,'PATO'),
       true).
+qobol([to,eq,generic],
+      [E,Q],
+      Q and inheres_in some E,
+      in(Q,'PATO'),
+      true).
 
 % eg coloboma of the iris
 qobol([mp,coloboma],
@@ -532,6 +542,27 @@ qobol([hp,eav,part,plural,abnormal],
       A and (qualifier some abnormal) and (inheres_in_part_of some W) and (inheres_in some P),
       label_partition(A,attribute_slim),
       true).
+
+% ----------------------------------------
+% ORDO
+% ----------------------------------------
+qobol([orphanet,disease,rare,doid],
+      [rare,D],
+      D and (has_part some 'PATO:0000381'),
+      in(D,['DOID']),
+      true).
+qobol([orphanet,disease,genetic,doid],
+      [genetic,D],
+      D and (has_part some 'DOID:630'),
+      in(D,['DOID']),
+      true).
+qobol([orphanet,disease,rare,genetic,doid],
+      [rare,genetic,D],
+      D and (has_part some 'PATO:0000381' and has_part some 'DOID:630'),
+      in(D,['DOID']),
+      true).
+foo('0').
+
 
 % ----------------------------------------
 % DISEASE
@@ -1381,6 +1412,7 @@ suggest_term_d(E,Label,X_Repl,NewTerm,Opts) :-
         (   nb_current(use_lexical_variants,true)
         ->  label_lexical_variant(Label_1,Label)
         ;   Label=Label_1),
+        trace,
         debug(qobol,'  Label: ~w',[Label]),
         opts_allowed_scope(Sc,Opts),
         label_template_match(Label,Toks,' '),

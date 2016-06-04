@@ -602,7 +602,7 @@ load_special(owlpl,File):-
         load_axioms(File,owlpl).
 load_special(thea2_owl,File):-
         load_special(owl,File).
-load_special(owl,File):-
+load_special(owl_via_thea,File):-
         !,
         debug(load,'Using rdf_direct mapping from Thea to parse ~w',[File]),
         catch(ensure_loaded(library('thea2/owl2_rdf')),
@@ -933,8 +933,10 @@ schema_dependency(kegg_db,metadata_db).
 %  ==
 %  io:file_to_prolog_cmd(myfmt,'myfmt2prolog.sh').
 %  ==
-file_to_prolog_cmd(go_assoc,'go2prolog -p go_assoc').
-file_to_prolog_cmd(assoc,'go2prolog -p go_assoc'). % synonym
+file_to_prolog_cmd(go_assoc,'gaf2pro.pl').
+file_to_prolog_cmd(assoc,'gaf2pro.pl').
+%file_to_prolog_cmd(go_assoc,'go2prolog -p go_assoc').
+%file_to_prolog_cmd(assoc,'go2prolog -p go_assoc'). % synonym
 file_to_prolog_cmd(go_tagval,'go2prolog -p generic_tagval').
 file_to_prolog_cmd(generic_tagval,'go2prolog -p generic_tagval').
 file_to_prolog_cmd(dag,go2prolog).
@@ -942,6 +944,7 @@ file_to_prolog_cmd(obo,go2prolog). %
 file_to_prolog_cmd('annotation-obo',go2prolog). % 
 file_to_prolog_cmd(go,'go2prolog -p go_ont').
 file_to_prolog_cmd(obo_xml,go2prolog).
+file_to_prolog_cmd(owl,'owl2pro').
 file_to_prolog_cmd(go_xref,'go2prolog -p go_xref').
 file_to_prolog_cmd(pthr,'pthr2phylo_db.pl').
 %file_to_prolog_cmd(gff,gff2p).
@@ -1046,6 +1049,7 @@ format_module(obo,ontol_db).
 format_module('annotation-obo',curation_db).
 format_module(go,ontol_db).
 format_module(obo_xml,ontol_db).
+format_module(owl,ontol_db).
 %format_module(thea,owl_parser).
 format_module(go_xref,ontol_db).
 format_module(dag,ontol_db).

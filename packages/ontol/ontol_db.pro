@@ -10,9 +10,11 @@
            subclass/2,
            equivalent_class/2,
            equivalent_class_symm/2,
+           class_quad_diff/4,
+           class_quad_diff/5,
            class_quad_flip/4,
-           class_quad_flipT/4,
            class_quad_flip/5,
+           class_quad_flipT/4,
            class_quad_flipT/5,
            restriction/3,
            restriction/4,
@@ -69,6 +71,11 @@
            proper_form_of/2,
            cyclic_form_of/2,
            cyclic_over/2,
+           subclass_path/2,
+           subclass_path_length/2,
+           subclass_path_min_length/2,
+           subclass_path_max_length/2,
+           subclass_path_avg_length/2,
            reflexive_over/2,
            directed_simple_path_over/2,
            directed_path_over/2,
@@ -83,6 +90,8 @@
            class_idspace/2,
            idspace/2,
            inst_of/2,
+           shared_class/3,
+           shared_class_nr/3,
            inst_rel/3,
            inst_rel/4,
            inst_rel/5,
@@ -165,6 +174,8 @@
 	   strict_subclass/2,
 	   cdef_label/2,
            class_cdef/2,
+           class_cdef_skeleton/2,
+           cdef_skeleton/1,
            
            subclass_cycle/2,
            parent_cycle/2,
@@ -883,6 +894,18 @@ collapse_inst_chain([instance_of],subclass).
 collapse_inst_chain([instance_of,R],R).
 
 
+shared_class(I,J,C) :-
+        inst_of(I,A),
+        subclassRT(A,C),
+        inst_of(J,B),
+        subclassRT(B,C).
+
+shared_class_nr(I,J,C) :-
+        shared_class(I,J,C),
+        \+ ((subclassT(Z,C),
+             shared_class(I,J,Z)
+             )).
+
 
 %%  inst_rel(?Instance,?Relation,?ToInstance) is nondet.
 % true if Instance stands in Relation to ToInstance
@@ -1261,8 +1284,20 @@ entity_inverse_relations_closure([Class-_Conns|ScheduledCCPairs],Visited,ResultC
 entity_inverse_relations_closure([],_,ResultCCPairs,ResultCCPairs).
 
 % -----------------------------------
-% SIMPLE RULES
+% SIMPLE MAPPING EVAL
 % -----------------------------------
+
+class_quad_diff(C1,P1,C2,P2) :-
+        class_quad_diff(C1,P1,C2,P2,_).
+class_quad_diff(C1,P1,C2,P2,S) :-
+        equiv_or_xref(C1,C2,S),
+        class(C2),
+        subclassT(C1,P1),
+        equiv_or_xref(P1,P2,S),
+        class(P2),
+        \+ subclassT(C2,P2).
+
+
 class_quad_flip(C1,P1,C2,P2) :-
         class_quad_flip(C1,P1,C2,P2,_).
 class_quad_flip(C1,P1,C2,P2,S) :-
@@ -1270,6 +1305,7 @@ class_quad_flip(C1,P1,C2,P2,S) :-
         subclassT(C1,P1),
         equiv_or_xref(P1,P2,S),
         subclassT(P2,C2).
+
 class_quad_flipT(C1,P1,C2,P2) :-
         class_quad_flipT(C1,P1,C2,P2,_).
 class_quad_flipT(C1,P1,C2,P2,S) :-
@@ -1394,7 +1430,14 @@ subclassX_2(cdef(AG,_),B,_) :-
 	class(B),
 	subclassRT(AG,B).
 
-	
+
+class_cdef_skeleton(ID,Rs) :-
+        setof(R,Z^differentium(ID,R,Z),Rs).
+
+cdef_skeleton(Sk) :-
+        setof(Sk,ID^class_cdef_skeleton(ID,Sk),Sks),
+        member(Sk,Sks).
+
 
 %% class_cdef(?C,?CDef) is nondet.
 % true if CDef is asserted to be equivalent to C
@@ -1798,6 +1841,24 @@ subclass_cycle(ID,PathWithCycle,P):-
 	(   member(SuperID,P)
         ->  PathWithCycle=[SuperID|P]
         ;   subclass_cycle(SuperID,PathWithCycle,[SuperID|P])).
+
+subclass_path(C,[C]) :-
+        \+ subclass(C,_).
+subclass_path(C,[C|Path]) :-
+        subclass(C,D),
+        subclass_path(D,Path).
+
+subclass_path_length(C,Len) :-
+        subclass_path(C,Path),
+        length(Path,Len).
+subclass_path_min_length(C,AggLen) :-
+        aggregate(min(Len),Len,subclass_path_length(C,Len),AggLen).
+subclass_path_max_length(C,AggLen) :-
+        aggregate(max(Len),Len,subclass_path_length(C,Len),AggLen).
+subclass_path_avg_length(C,AggLen) :-
+        aggregate(avg(Len),Len,subclass_path_length(C,Len),AggLen).
+
+
 
 %% parent_cycle(+ID,?Path) is nondet.
 %  check for cyclical paths, going up from ID

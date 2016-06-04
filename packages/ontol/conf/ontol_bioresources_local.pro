@@ -72,7 +72,7 @@ user:bioresource(go_xp_dev,home('repos/go/ontology/extensions/go-plus-dev-Equiva
 user:bioresource(go_uxp,home('repos/go/ontology/editors/uberon-ecas-to-add.obo'),obo).
 user:bioresource(go_mg,home('repos/go/ontology/extensions/go-plus-dev-mingraph.obo'),obo).
 user:bioresource(oba,home('repos/bio-attribute-ontology/oba.obo'),obo).
-user:bioresource(batto,home('repos/go/ontology/extensions/bio-attributes.obo'),obo).
+user:bioresource(vt,home('repos/bio-attribute-ontology/src/ontology/modules/vt.obo'),obo).
 user:bioresource(go_transport,home('repos/go/ontology/extensions/x-transport-and-localization.obo'),obo).
 user:bioresource(interpro2go,home('repos/go/external2go/interpro2go'),go_xref).
 
@@ -88,6 +88,7 @@ user:bioresource(ro2_owl,oborel('src/ontology/ro.owl'),owl).
 user:bioresource(ro,oborel('src/ontology/ro.obo'),obo).
 user:bioresource(biological_role,obolr('biological_role.obo'),obo).
 user:bioresource(chebi,home('repos/go/ontology/extensions/chebi.obo'),obo).
+user:bioresource(so,url('http://purl.obolibrary.org/obo/so.obo'),obo).
 user:bioresource(so,song('so-xp.obo'),obo).
 user:bioresource(sequence,song('so.obo'),obo). % synonym for SO
 user:bioresource(soxp,song('so-xp.obo'),obo).
@@ -101,19 +102,20 @@ user:bioresource(go_synonyms,obol2('conf/go_synonyms.obo'),obo).
 user:bioresource(chebi_slim,go('scratch/xps/chebi_relslim.obo'),obo).
 user:bioresource(chebi_with_formula,go('scratch/obol_results/chebi_with_formula.obo'),obo).
 user:bioresource(chego,go('scratch/obol_results/chego.obo'),obo).
-user:bioresource(nbo,url('http://purl.obolibrary.org/obo/nbo.obo'),obo).
+user:bioresource(nbo,home('repos/behavior-ontology/nbo.obo'),obo).
 %user:bioresource(nbo,local('behavior-ontology-read-only/behavior.obo'),obo).
 
 user:bioresource(monarch,home('repos/monarch-ontology/monarch-merged-nd-reasoned.obo'),obo).
 
 % --Disease--
-user:bioresource(disease,home('repos/human-disease-ontology/src/ontology/doid.obo'),obo).
-user:bioresource('DO',home('repos/human-disease-ontology/src/ontology/doid.obo'),obo).
+user:bioresource(omia,home('repos/monarch-disease-ontology/src/omia/omia.obo'),obo).
 user:bioresource(omim,home('repos/monarch-disease-ontology/src/omim/omim.obo'),obo).
 user:bioresource(dmesh,home('repos/monarch-disease-ontology/src/mondo/mesh.obo'),obo).
 user:bioresource(mondo,home('repos/monarch-disease-ontology/src/mondo/mondo.obo'),obo).
 user:bioresource(mondoe,home('repos/monarch-disease-ontology/src/mondo/mondoe.obo'),obo).
-user:bioresource(ordo,home('repos/human-disease-ontology/src/experimental/ordo.obo'),obo).
+user:bioresource(ordo,home('repos/monarch-disease-ontology/src/orphanet/orphanet-obostyle.obo'),obo).
+user:bioresource(disease,home('repos/monarch-disease-ontology/src/doid/doid.obo'),obo).
+user:bioresource('DOID',home('repos/monarch-disease-ontology/src/doid/doid.obo'),obo).
 
 user:bioresource(pw,local('disease-miner/pw.obo'),obo).
 user:bioresource(do_bridge,local('disease-miner/all-do-bridge.obo'),obo).
@@ -124,12 +126,9 @@ user:bioresource(do_rif,url('http://projects.bioinformatics.northwestern.edu/do_
 user:bioresource(domim,home('repos/human-disease-ontology/src/ontology/doid-plus-omim.obo'),obo).
 user:bioresource(generif,'/users/cjm/cvs/obo-database/build/build-ncbi-gene/generifs_basic.gz',gzip(gene_rif)).
 user:bioresource(ido,obo_cvs('phenotype/infectious_disease.obo'),obo).
-user:bioresource(mgip,'/users/cjm/obd/data/phenotype_annotation/MGI/source_files/gene_mp-curation_db.pro',curation_db:pro).
-user:bioresource(mgi_gene,'/users/cjm/obd/data/phenotype_annotation/MGI/source_files/gene.obo',obo).
-user:bioresource(ogms,local('ogms-read-only/src/ontology/ogms.obo'),obo).
 user:bioresource(icd9,home('repos/icd9/icd9.obo'),obo).
 user:bioresource(medic,url('http://ctdbase.org/reports/CTD_diseases.obo.gz'),gzip(obo)).
-user:bioresource(mgi_g2p,local('phenotype-ontologies/data/Mus_musculus/Mm-gene-to-phenotype-BF.txt'),tbl(g2p)).
+user:bioresource(mgi_g2p,local('monarch-owlsim-data/data/Mus_musculus/Mm-gene-to-phenotype-BF.txt'),tbl(g2p)).
 
 user:bioresource(ceph,home('repos/cephalopod-ontology/src/ontology/ceph.obo'),obo).
 user:bioresource(spatial,home('repos/biological-spatial-ontology/src/ontology/bspo.obo'),obo).
@@ -151,7 +150,6 @@ user:bioresource(plant_development,poc('ontology/OBO_format/po_temporal.obo'),ob
 %user:bioresource(plant_environment,obo_download('plant_environment/plant_environment.obo'),obo).
 user:bioresource(plant_environment,poc('ontology/collaborators_ontology/plant_environment/environment_ontology.obo'),obo).
 %user:bioresource(eo,poc('ontology/collaborators_ontology/plant_environment/environment_ontology.obo'),obo).
-%user:bioresource(plant_trait,poc('ontology/collaborators_ontology/gramene/traits/trait.obo'),obo).
 user:bioresource(po,planteome('plant-ontology/plant-ontology.obo'),obo).
 user:bioresource(pdo,planteome('plant-stress-ontology/plant-disease-ontology.obo'),obo).
 user:bioresource(plant,planteome('plant-ontology/plant-ontology.obo'),obo).
@@ -195,8 +193,8 @@ user:bioresource(fypo,url('http://purl.obolibrary.org/obo/fypo.obo'),obo).
 
 user:bioresource(iao_om,url('http://purl.obolibrary.org/obo/iao/dev/ontology-metadata.owl'),owl).
 
-% @deprecated
-user:bioresource(gene(Tax),obo_local(Path),obo) :- sformat(Path,'genomic-proteomic/gene/genes-~w.obo',[Tax]).
+user:bioresource(gene(Tax),home(Path),obo) :- sformat(Path,'repos/neo/neo-~w.obo',[Tax]).
+user:bioresource(neo,home('repos/neo/neo.obo'),obo).
 
 user:bioresource(mod(wb),Path,obo) :- user:bioresource(mod('Caenorhabditis_elegans'),Path,obo),!.
 
@@ -206,21 +204,22 @@ user:bioresource(omeoc(Sp),home(Path),obo) :- sformat(Path,'repos/omeo/build/~w.
 user:bioresource(mart(M),home(Path),obo) :- sformat(Path,'repos/omeo/build/~w.mart',[M]).
 user:bioresource(hsap(X),home(Path),obo) :- sformat(Path,'repos/omeo/build/Homo_sapiens-~w.obo',[X]).
 
+user:bioresource(ibp(X),home(Path),obo) :- sformat(Path,'repos/Planteome/ibp-~w-traits/~w-trait-ontology.obo',[X,X]).
+
 %user:bioresource(gotax,'/users/cjm/cvs/go/quality_control/annotation_checks/taxon_checks/taxon_go_triggers.obo',obo).
-user:bioresource(taxslim,'/users/cjm/cvs/go/quality_control/annotation_checks/taxon_checks/ncbi_taxon_slim.obo',obo).
 %user:bioresource(taxunion,'/users/cjm/cvs/go/quality_control/annotation_checks/taxon_checks/taxon_union_terms.obo',obo).
 %user:bioresource(taxunionm,'/users/cjm/cvs/go/quality_control/annotation_checks/taxon_checks/taxon_union_materialized.obo',obo).
 
-user:bioresource(taxonomy,home('repos/ncbitaxon/src/ontology/ncbitaxon.obo'),obo).
-user:bioresource(ncbitaxon,home('repos/ncbitaxon/src/ontology/ncbitaxon.obo'),obo).
+user:bioresource(taxonomy,home('repos/ncbitaxon/ncbitaxon.obo'),obo).
+user:bioresource(ncbitaxon,home('repos/ncbitaxon/ncbitaxon.obo'),obo).
+user:bioresource(taxslim,home('repos/ncbitaxon/subsets/taxslim.obo'),obo).
+user:bioresource(eolmap,home('repos/ncbitaxon/mappings/ncbitaxon-to-eol.obo'),obo).
 %user:bioresource(taxonomy_stemmed,ontdir('ncbi_taxonomy_stemmed.obo'),obo).
 
 % XP
 user:bioresource(pheno_align,pheno('hp-mp/mp_hp-align-equiv.obo'),obo).
 %user:bioresource(mammalian_phenotype_xp,pheno('mp/mp-equivalence-axioms.obo'),obo).
 %user:bioresource(mpx,pheno('mp/mp-edit-mn.obo'),obo).
-user:bioresource(vt,pheno('vt/vt.obo'),obo).
-user:bioresource(vt_xp,pheno('vt/vt-equivalence-axioms.obo'),obo).
 %user:bioresource(mammalian_phenotype_xp_nif,obo_local('phenotype/mammalian_phenotype_xp/mammalian_phenotype_xp_nif.obo'),obo).
 %user:bioresource(mammalian_phenotype_xp_uberon,obo_local('phenotype/mammalian_phenotype_xp/mammalian_phenotype_xp_uberon.obo'),obo).
 user:bioresource(mp_xp_all,obo_local('phenotype/mammalian_phenotype_xp/mammalian_phenotype_xp-merged.obo'),obo).
@@ -246,23 +245,24 @@ user:bioresource(cfg,url('http://ontology.dumontierlab.com/cfg'),owl).
 
 % --Anatomical Ontologies--
 %user:bioresource(fma,local('FMA/fma_obo.obo'),obo).
-user:bioresource(fma_with_has_part,local('fma-conversion/fma_obo.obo'),obo).
-user:bioresource(fma,local('fma-conversion/fma2.obo'),obo).
-user:bioresource(fma_simple,local('fma-conversion/fma2-simple.obo'),obo).
+%user:bioresource(fma_with_has_part,local('fma-conversion/fma_obo.obo'),obo).
+%user:bioresource(fma,local('fma-conversion/fma2.obo'),obo).
+%user:bioresource(fma_simple,local('fma-conversion/fma2-simple.obo'),obo).
 %user:bioresource('FMA',local('fma-conversion/fma2-simple.obo'),obo).
 user:bioresource('FMA',uberon('source-ontologies/fma-official.obo'),obo).
-user:bioresource(fma2,local('fma-conversion/fma2.obo'),obo). % NOW DEFAULT
-user:bioresource(fma3,local('fma-conversion/fma3.obo'),obo).
-user:bioresource(fma3h,local('fma-conversion/bioonto.de/fma1_obo-ontol_db.pro'),ontol_db:pro).
-user:bioresource(fma1,local('fma-conversion/fma-part-slim.obo'),obo).
+%user:bioresource(fma2,local('fma-conversion/fma2.obo'),obo). % NOW DEFAULT
+%user:bioresource(fma3,local('fma-conversion/fma3.obo'),obo).
+%user:bioresource(fma3h,local('fma-conversion/bioonto.de/fma1_obo-ontol_db.pro'),ontol_db:pro).
+%user:bioresource(fma1,local('fma-conversion/fma-part-slim.obo'),obo).
 %user:bioresource(fma,local('obo-database/conf/fma-part-slim.obo'),obo).
 %user:bioresource(fma_downcase,local('fma-conversion/fma_downcase.obo'),obo).
 user:bioresource(fma_downcase,uberon('source-ontologies/fma-official.obo'),obo).
-user:bioresource(fma_stemmed,local('FMA/fma_obo_stemmed.obo'),obo).
+%user:bioresource(fma_stemmed,local('FMA/fma_obo_stemmed.obo'),obo).
 user:bioresource(rad1,uberon('rad.obo'),obo).
 user:bioresource(rad,uberon('Chick_Merge_2013-01-29.obo'),obo).
 user:bioresource(bgee_stages,uberon('stages.obo'),obo).
-user:bioresource(efo,uberon('efo.obo'),obo).
+%user:bioresource(efo,url('http://sourceforge.net/p/efo/code/HEAD/tree/trunk/src/efoinobo/efo.obo'),obo).
+user:bioresource(efo,uberon('source-ontologies/efo.obo'),obo).
 user:bioresource(efo_anat,uberon('efo_anat.obo'),obo).
 user:bioresource(coriell,'http://efo.svn.sourceforge.net/viewvc/efo/trunk/src/coriellinowl/coriell_release.owl',owl).
 user:bioresource(hao,local('obo-svn/ontologies/trunk/HAO/hao.obo'),obo).
@@ -305,6 +305,7 @@ user:bioresource('EMAPA',home('repos/mouse-anatomy-ontology/src/ontology/emapa-e
 %user:bioresource(emapaa_remainder,uberon('emapaa-remainder.obo'),obo).
 %user:bioresource(emapaa,uberon('emapaa.obo'),obo).
 %user:bioresource(ehdaaa,uberon('ehdaaa.obo'),obo).
+user:bioresource(cmetazoan,uberon('composite-metazoan.obo'),obo).
 user:bioresource(neuronames,uberon('source-ontologies/NeuroNames.obo'),obo).
 user:bioresource(spider_anatomy,url('http://purl.obolibrary.org/obo/spd.obo'),obo).
 user:bioresource('SPD',obo_local('anatomy/gross_anatomy/animal_gross_anatomy/spider/spider_comparative_biology.obo'),obo).
@@ -411,7 +412,6 @@ user:bioresource(uber_anatomy,uberon('uberon.obo'),obo).
 user:bioresource(uberon_with_isa,uberon('uberon_edit-with-isa.obo'),obo).
 user:bioresource(uberonp_with_isa,uberon('uberon-with-isa.obo'),obo).
 user:bioresource(uberonp_v,uberon('uberon-with-isa-for-FMA-MA-ZFA.obo'),obo).
-user:bioresource(fma_xp,uberon('fma_xp.obo'),obo).
 user:bioresource(wpanat,uberon('dbpedia/dbpedia_ontol.obo'),obo).
 user:bioresource(ta,uberon('source-ontologies/ta.obo'),obo).
 user:bioresource(mesh_anatomy,uberon('source-ontologies/mesh_anatomy.obo'),obo).
@@ -436,13 +436,21 @@ user:bioresource(unipro,home('repos/omeo/build/unipro.obo'),obo).
 
 
 % --Env--
-user:bioresource(envo,home('repos/envo/envo.obo'),obo).
+user:bioresource(envo,home('repos/envo/src/envo/envo.obo'),obo).
 user:bioresource(gaz,home('repos/envo/src/gaz/gaz.obo'),obo).
 %user:bioresource(gaz,obo_local('environmental/gaz.obo'),obo).
 %user:bioresource(gaz2,obo_local('environmental/gaz2.obo'),obo).
 
+user:bioresource(gemet,home('repos/sdgio/scratch/gemet-full.obo'),obo).
+user:bioresource(agrovoc,home('repos/agrovoc-obo/agrovoc.obo'),obo).
+
 user:bioresource(realm,home('repos/envo/src/envo/sources/realm.obo'),obo).
 user:bioresource(earth,home('repos/envo/src/envo/sources/earth.obo'),obo).
+
+user:bioresource(npo,home('repos/npo/npo.obo'),obo).
+user:bioresource(exposure,home('repos/exposure-ontology/Exposure.obo'),obo).
+user:bioresource(mre,home('repos/exposure-ontology/Exposure.obo'),obo).
+user:bioresource(ecto,home('repos/environmental-conditions-and-exposures/src/ontology/ecto.obo'),obo).
 
 % --Upper Ontologies--
 user:bioresource(ubo,obo_local('upper_bio_ontology/ubo.obo'),obo).
@@ -466,7 +474,10 @@ user:bioresource(koala,ontdir('koala.owl'),owl).
 
 % --Other Bio-Ontologies--
 user:bioresource(rex,obo_download('rex/rex.obo'),obo).
+user:bioresource(neoplasm,url('http://build.berkeleybop.org/job/ncit-obo/lastStableBuild/artifact/build/subsets/neoplasm.obo'),obo).
 user:bioresource(ncit,home('repos/ncit/Thesaurus.obo'),obo).
+user:bioresource(ncit2,home('repos/ontodev/ncit-obo/build/ncit-obo.obo'),obo).
+user:bioresource(neoplasm,home('repos/ontodev/ncit-obo/build/subsets/neoplasm.obo'),obo).
 user:bioresource('NCITA',home('repos/ncit/ncit_anatomy.obo'),obo).
 %user:bioresource(ncit_dn,obo_download('ncithesaurus/ncithesaurus.pro'),pro).
 user:bioresource(pir,pir('PIRSF_ontology-02082005.dag'),dag).

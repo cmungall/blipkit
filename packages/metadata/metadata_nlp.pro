@@ -1,5 +1,6 @@
 :- module(metadata_nlp,
 	  [
+           tokenize_atom_wrap/2,
 	   term_token/2,
 	   term_token_stemmed/3,
 	   term_nth_token/3,
@@ -24,6 +25,9 @@
            entity_pair_simple_label_match/3,
            index_entity_pair_label_match/0,
            nlp_index_all/0,
+           entity_nomatch/1,
+           entity_nomatch_to/2,
+           entity_pair_mprobs/6,
 	   entity_pair_label_match/2,
 	   entity_pair_label_match/3,
 	   entity_pair_label_match/5,
@@ -31,6 +35,7 @@
            entity_pair_label_best_match/3,
            entity_pair_label_reciprocal_best_match/3,
            entity_pair_label_intermatch/5,
+           entity_pair_label_reciprocal_best_intermatch/2,
            entity_pair_label_best_intermatch/3,
            entity_pair_label_reciprocal_best_intermatch/3,
            term_entity_matches/2,
@@ -391,7 +396,7 @@ index_entity_pair_label_match :-
 %
 % true if A and B share labels/synonyms, and neither are obsolete
 entity_pair_label_match(A,B) :-
-	entity_pair_label_match(A,B,true).
+	entity_pair_label_match(A,B,_).
 entity_pair_label_match(A,B,Stemmed) :-
         entity_pair_label_match(A,B,Stemmed,_,_,_).
 entity_pair_label_match(A,B,Stemmed,ScA,ScB) :-
@@ -449,6 +454,15 @@ entity_pair_label_best_intermatch(A,B,Stemmed) :-
              B2\=B,
              scope_pair_better_than(ScA2,ScB2,ScA,ScB))).
 
+entity_pair_label_reciprocal_best_intermatch(A,B) :-
+        entity_pair_label_reciprocal_best_intermatch(A,B,false).
+entity_pair_label_reciprocal_best_intermatch(A,B) :-
+        entity_pair_label_reciprocal_best_intermatch(A,B,true),
+        \+ ((entity_pair_label_reciprocal_best_intermatch(A,Z,false),Z\=B)),
+        \+ ((entity_pair_label_reciprocal_best_intermatch(B,Z,false),Z\=A)).
+
+
+
 %% entity_pair_label_reciprocal_best_intermatch(A,B,Stemmed)
 %
 % as entity_pair_label_best_intermatch/3, (i.e. A and B
@@ -488,6 +502,68 @@ term_entity_matches(Term,Matches) :-
                          S1\=S2,
                          scope_better_than_or_eq(S2,S1)))),
                 Matches).
+
+entity_nomatch(A) :-
+        setof(A,Z^entity_label(A,Z),As),
+        member(A,As),
+        id_idspace(A,XA),
+        \+ ((entity_pair_label_match(A,Z),
+             id_idspace(Z,ZX),
+             ZX\=XA)).
+
+entity_nomatch_to(A,S) :-
+        setof(A,Z^entity_label(A,Z),As),
+        member(A,As),
+        \+ id_idspace(A,S),
+        \+ ((entity_pair_label_match(A,Z),
+             id_idspace(Z,S))).
+
+
+
+% for kboom
+entity_pair_mprobs(A,B,P1,P2,P3,P0) :-
+        setof(A-B,entity_pair_label_match(A,B),Pairs),
+        member(A-B,Pairs),
+        A@<B,
+        id_idspace(A,SA),
+        id_idspace(B,SB),
+        SA\=SB,
+        pair_mprobs_det(A,B,P1,P2,P3,P0).
+
+pair_mprobs_det(A,B,P1,P2,P3,P0) :-
+        pair_mprobs(A,B,P1,P2,P3,P0),
+        !.
+pair_mprobs_det(A,B,_,_,_,_) :-
+        format(user_error,'P ~w ~w',[A,B]).
+
+
+pair_mprobs(A,B,0.05,0.05,0.85,0.05) :-
+        entity_pair_label_match(A,B,_IsStemmed,label,label),!.
+pair_mprobs(A,B,0.1,0.1,0.7,0.1) :-
+        entity_pair_label_match(A,B,_IsStemmed,S1,S2),
+        (   S1=label;S1=exact),
+        (   S2=label;S2=exact),
+        !.
+pair_mprobs(A,B,0.05,0.25,0.55,0.15) :-
+        entity_pair_label_match(A,B,_IsStemmed,_,broad),
+        !.
+pair_mprobs(A,B,0.25,0.05,0.55,0.15) :-
+        entity_pair_label_match(A,B,_IsStemmed,_,narrow),
+        !.
+pair_mprobs(A,B,0.05,0.25,0.55,0.15) :-
+        entity_pair_label_match(A,B,_IsStemmed,narrow,_),
+        !.
+pair_mprobs(A,B,0.25,0.05,0.55,0.15) :-
+        entity_pair_label_match(A,B,_IsStemmed,broad,_),
+        !.
+pair_mprobs(A,B,0.15,0.15,0.55,0.15) :-
+        entity_pair_label_match(A,B,_IsStemmed,_,_),
+        !.
+
+
+
+
+
 
 
 % ----------------------------------------

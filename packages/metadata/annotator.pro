@@ -12,6 +12,7 @@
 
 :- use_module(metadata_db).
 :- use_module(metadata_nlp).
+:- use_module(bio(bioprolog_util)).
 :- use_module(bio(simmatrix)).
 :- use_module(bio(index_util)).
 :- use_module(bio(ontol_db)). % consider moving the one dependency on this
@@ -417,6 +418,14 @@ show_ann(Ann,S,Opts) :-
         member(to(ttl), Opts),
         !,
         format(':: ~q - ~q.~n',[S,Ann]).
+show_ann(Ann,S,Opts) :-
+        member(to(obo), Opts),
+        !,
+        format('!! ~w~n',[S]),
+        solutions(IDs,member(m(IDs,_,_),Ann),IDsSet),
+        forall_distinct(member(IDs,IDsSet),
+                        forall_distinct((member(ID,IDs),class(ID,CN)),
+                                        format('~w ! ~w~n',[ID,CN]))).
 show_ann(Ann,S,_Opts) :-
         format('~q - ~q.~n',[S,Ann]).
 

@@ -144,6 +144,8 @@ alias protein="ov -r protein -r pro2uniprot"
 alias qprotein="oq -r protein -r pro2uniprot"
 alias envo="ov -r envo"
 alias qenvo="oq -r envo"
+alias gemet="ov -r gemet"
+alias qgemet="oq -r gemet"
 alias gaz="ov -r gaz"
 alias qgaz="oq -r gaz"
 alias obi="ov -r obi"
@@ -208,8 +210,9 @@ PHENO_ARGS='-r mammalian_phenotype -r human_phenotype'
 alias pheno='ov $PHENO_ARGS'
 alias qpheno='oq $PHENO_ARGS'
 
-export MULTIANAT_R='-r xenopus_anatomy -r mosquito_anatomy -r tick_anatomy -r spider_anatomy -r hao -r mouse_anatomy -r amphibian_anatomy -r cell -r fly_anatomy -r teleost_anatomy -r zebrafish_anatomy -r fma_downcase -r brenda -r bila  -r NIFGA -r EMAPA -r ehdaa2 -r vhog -r wpanat -r mesh  -r NCITA -r feed -r snomed_anatomy -r vsao -r neuronames -r murdoch -r pext  -r caloha -r worm_anatomy -r pba -r aba -r dmba -r dhba -r hba -r nlxa -r caro2'
+export MULTIANAT_R='-r xenopus_anatomy -r mosquito_anatomy -r tick_anatomy -r spider_anatomy -r mouse_anatomy -r amphibian_anatomy -r cell -r fly_anatomy -r teleost_anatomy -r zebrafish_anatomy -r fma_downcase -r brenda -r bila  -r NIFGA -r EMAPA -r ehdaa2 -r vhog -r wpanat -r mesh  -r NCITA -r feed -r snomed_anatomy -r vsao -r neuronames -r murdoch -r pext  -r caloha -r worm_anatomy -r pba -r aba -r dmba -r dhba -r hba -r nlxa -r caro2'
 alias multianat="blip ontol-query $MULTIANAT_R -showxrefs -showsyns -showdefs"
+alias dmulti="blip ontol-query -r omim -r omia -r dmesh -r disease -r ordo"
 
 alias uberalles='blip -r uberon_with_isa -r xenopus_anatomy -r mouse_anatomy -r gemina_anatomy -r amphibian_anatomy -r cell -r fly_anatomy -r zebrafish_anatomy -r fma_downcase -r bila -r miaa'
 

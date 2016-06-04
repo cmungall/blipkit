@@ -15,6 +15,7 @@
 :- use_module(bio(graph)).
 :- use_module(bio(io)).
 :- use_module(bio(annotator)).
+:- use_module(bio(ontominer)).
 
 :- blip('annotate',
         'NER annotation',
@@ -30,6 +31,13 @@
         [atom([to],Fmt)],
         _,
         (   annotate_ontology([to(Fmt)]))).
+
+:- blip('ontol-mine',
+        'Mine an axiomatized ontology from a hierarchical thesaurus style one',
+        [atom([to],Fmt)],
+        _,
+        (   init_ontominer,
+            annotate_ontology([to(Fmt)]))).
 
 
 
